@@ -23,8 +23,8 @@
 					<title>EnabledProcessor</title>
 					
 					<para>
-						Processor to call <function>JComponent.setEnabled</function> on all child components to match the parent
- 						Metawidget's <function>setEnabled</function> state.
+						Processor to call <function>JComponent.setEnabled(false)</function> on all child components if the parent
+ 						Metawidget has <function>setEnabled(false)</function>.					
 					</para>
 				</section>
 								

@@ -24,8 +24,8 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * Processor to call <code>JComponent.setEnabled</code> on all child components to match the parent
- * Metawidget's <code>setEnabled</code> state.
+ * Processor to call <code>JComponent.setEnabled(false)</code> on all child components if the parent
+ * Metawidget has <code>setEnabled(false)</code>.
  *
  * @author Richard Kennard
  */
@@ -39,7 +39,13 @@ public class EnabledProcessor
 
 	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
-		component.setEnabled( metawidget.isEnabled() );
+		// Never setEnabled( true ), because this will override JButtons who have explicitly
+		// setEnabled( false )
+
+		if ( !metawidget.isEnabled() ) {
+			component.setEnabled( false );
+		}
+
 		return component;
 	}
 }
