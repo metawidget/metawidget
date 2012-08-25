@@ -43,6 +43,7 @@
 		<widgetProcessors>
 			<array>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>
+				<enabledProcessor xmlns="java:org.metawidget.swing.widgetprocessor"/>
 			</array>
 		</widgetProcessors>
 		

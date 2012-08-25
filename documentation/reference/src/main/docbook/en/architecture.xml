@@ -2357,6 +2357,7 @@ void onEndBuild( M metawidget );</programlisting>
 							<td>Swing</td>
 							<td><programlisting language="xml">&lt;array&gt;
 	&lt;reflectionBindingProcessor /&gt;
+	&lt;enabledProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>

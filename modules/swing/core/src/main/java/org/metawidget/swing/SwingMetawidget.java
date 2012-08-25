@@ -55,7 +55,7 @@ import org.w3c.dom.Element;
 
 /**
  * Metawidget for Swing environments.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -163,7 +163,7 @@ public class SwingMetawidget
 	 * Gets the Object being inspected.
 	 * <p>
 	 * Exposed for binding implementations.
-	 * 
+	 *
 	 * @return the object. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>Person p = getToInspect()</code>)
 	 */
@@ -532,7 +532,7 @@ public class SwingMetawidget
 	 * need some conversion before being reapplied to the object being inspected. This obviously
 	 * requires knowledge of which Component SwingMetawidget created, which is not ideal, so clients
 	 * may prefer to use a binding WidgetProcessor instead.
-	 * 
+	 *
 	 * @return the value. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -1089,7 +1089,7 @@ public class SwingMetawidget
 
 	/**
 	 * Simple immutable structure to store a component and its value property.
-	 * 
+	 *
 	 * @author Richard Kennard
 	 */
 

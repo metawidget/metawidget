@@ -19,6 +19,15 @@
 			<section id="section-widgetprocessors-desktop-swing">
 				<title>Swing WidgetProcessors</title>
 				
+				<section id="section-widgetprocessors-desktop-swing-enabledprocessor">
+					<title>EnabledProcessor</title>
+					
+					<para>
+						Processor to call <function>JComponent.setEnabled</function> on all child components to match the parent
+ 						Metawidget's <function>setEnabled</function> state.
+					</para>
+				</section>
+								
 				<section id="section-widgetprocessors-desktop-swing-propertybinding">
 					<title>Property Binding</title>
 					
