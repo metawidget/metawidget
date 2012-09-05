@@ -76,7 +76,7 @@ public class HtmlDivLayoutRendererTest
 
 		assertEquals( "<div id=\"j_id2\"><div><div><htmlOutputLabel id=\"foo-label\" for=\"foo\" value=\"Bar:\"></htmlOutputLabel></div><div><htmlInputText id=\"foo\"></htmlInputText><htmlMessage id=\"j_idmw0\" for=\"foo\"></htmlMessage></div></div></div>", mContext.getResponseWriter().toString() );
 
-		// Stub
+		// Stub with 1 child
 
 		mContext = new MockFacesContext();
 		metawidget = new HtmlMetawidget();
@@ -89,7 +89,17 @@ public class HtmlDivLayoutRendererTest
 		renderer.encodeChildren( mContext, metawidget );
 		renderer.encodeEnd( mContext, metawidget );
 
-		assertEquals( "<div id=\"j_id2\"><div><div><htmlOutputLabel value=\"Bar:\"></htmlOutputLabel></div><div><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText></UIStub></div></div></div>", mContext.getResponseWriter().toString() );
+		assertEquals( "<div id=\"j_id2\"><div><div><htmlOutputLabel id=\"foo-label\" for=\"foo\" value=\"Bar:\"></htmlOutputLabel></div><div><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText></UIStub></div></div></div>", mContext.getResponseWriter().toString() );
+
+		// Stub with multiple children
+
+		mContext = new MockFacesContext();
+		stub.getChildren().add( new HtmlInputText() );
+		renderer.encodeBegin( mContext, metawidget );
+		renderer.encodeChildren( mContext, metawidget );
+		renderer.encodeEnd( mContext, metawidget );
+
+		assertEquals( "<div id=\"j_id2\"><div><div><htmlOutputLabel value=\"Bar:\"></htmlOutputLabel></div><div><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText><htmlInputText></htmlInputText></UIStub></div></div></div>", mContext.getResponseWriter().toString() );
 	}
 
 	//

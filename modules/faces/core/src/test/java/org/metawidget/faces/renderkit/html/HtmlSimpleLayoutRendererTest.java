@@ -76,7 +76,7 @@ public class HtmlSimpleLayoutRendererTest
 
 		assertEquals( "<span id=\"j_id2\"><htmlInputText id=\"foo\"></htmlInputText></span>", mContext.getResponseWriter().toString() );
 
-		// Stub
+		// Stub with 1 child
 
 		mContext = new MockFacesContext();
 		metawidget = new HtmlMetawidget();
@@ -88,6 +88,18 @@ public class HtmlSimpleLayoutRendererTest
 		renderer.encodeBegin( mContext, metawidget );
 		renderer.encodeChildren( mContext, metawidget );
 		renderer.encodeEnd( mContext, metawidget );
+
+		assertEquals( "<span id=\"j_id2\"><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText></UIStub></span>", mContext.getResponseWriter().toString() );
+
+		// Stub with multiple children
+
+		mContext = new MockFacesContext();
+		stub.getChildren().add( new HtmlInputText() );
+		renderer.encodeBegin( mContext, metawidget );
+		renderer.encodeChildren( mContext, metawidget );
+		renderer.encodeEnd( mContext, metawidget );
+
+		assertEquals( "<span id=\"j_id2\"><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText><htmlInputText></htmlInputText></UIStub></span>", mContext.getResponseWriter().toString() );
 	}
 
 	//

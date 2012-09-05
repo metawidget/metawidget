@@ -170,10 +170,19 @@ public abstract class HtmlLayoutRenderer
 
 		HtmlOutputLabel componentLabel = (HtmlOutputLabel) context.getApplication().createComponent( HtmlOutputLabel.COMPONENT_TYPE );
 
-		if ( componentNeedingLabel instanceof UIStub || componentNeedingLabel.getId() == null ) {
-			// Not setFor on UIStub, because stubs never render id
-		} else {
+		if ( componentNeedingLabel instanceof UIStub ) {
+
+			// Not setFor on UIStub, because stubs never render id. However we can take a guess if
+			// there's only one child component
+
+			if ( componentNeedingLabel.getChildren().size() == 1 ) {
+				componentLabel.setFor( componentNeedingLabel.getChildren().get( 0 ).getId() );
+			}
+		} else if ( componentNeedingLabel.getId() != null ) {
 			componentLabel.setFor( componentNeedingLabel.getId() );
+		}
+
+		if ( componentLabel.getFor() != null ) {
 			componentLabel.setId( componentLabel.getFor() + LABEL_ID_SUFFIX );
 		}
 

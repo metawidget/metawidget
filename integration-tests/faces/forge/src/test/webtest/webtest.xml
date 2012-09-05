@@ -40,15 +40,15 @@
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/th/label/@for" text="search:personBeanSearchEmail" />
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/td[2]" text="" />
 				<verifyXPath xpath="count(/html/body/div/div[2]/form/table[1]/tbody/tr)" text="4" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/input[1]/@name" text="search:personBeanCreate" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/input[2]/@name" text="search:personBeanSearch" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/thead/tr/th[1]" text="Title" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/thead/tr/th[2]" text="Firstname" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/thead/tr/th[3]" text="Surname" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/thead/tr/th[4]" text="" />
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/thead/tr/th)" text="4" />
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr)" text="1" />
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td)" text="1" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/span/input[1]/@name" text="search:personBeanCreate" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/span/input[2]/@name" text="search:personBeanSearch" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/thead/tr/th[1]" text="Title" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/thead/tr/th[2]" text="Firstname" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/thead/tr/th[3]" text="Surname" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/thead/tr/th[4]" text="" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/thead/tr/th)" text="4" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr)" text="1" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td)" text="1" />
 
 				<clickButton label="Create" />
 
@@ -105,11 +105,11 @@
 
 				<!-- Search -->
 
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr)" text="1" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td[1]" text="Dr" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td[2]" text="Alfred" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td[3]" text="Test" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td[4]/a" text="View" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr)" text="1" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td[1]" text="Dr" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td[2]" text="Alfred" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td[3]" text="Test" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td[4]/a" text="View" />
 
 				<clickLink label="View" />
 
@@ -221,12 +221,12 @@
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/th/label/@for" text="search:petBeanSearchDeceased" />
 				<verifyXPath xpath="/html/body/div/div[2]/form/table/tbody/tr[4]/td[2]" text="" />
 				<verifyXPath xpath="count(/html/body/div/div[2]/form/table[1]/tbody/tr)" text="4" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/input[1]/@name" text="search:petBeanCreate" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/input[2]/@name" text="search:petBeanSearch" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/thead/tr/th[1]" text="Name" />
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/thead/tr/th)" text="2" />
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr)" text="1" />
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td)" text="1" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/span/input[1]/@name" text="search:petBeanCreate" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table/tfoot/tr/td/span/input[2]/@name" text="search:petBeanSearch" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/thead/tr/th[1]" text="Name" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/thead/tr/th)" text="2" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr)" text="1" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td)" text="1" />
 
 				<clickButton label="Create" />
 
@@ -272,9 +272,9 @@
 
 				<!-- Search -->
 
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr)" text="1" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td[1]" text="Alfred's Dog" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td[2]/a" text="View" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr)" text="1" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td[1]" text="Alfred's Dog" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td[2]/a" text="View" />
 
 				<clickLink label="View" />
 
@@ -332,17 +332,17 @@
 
 				<clickLink label="Pet" />
 
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr)" text="1" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td[1]" text="Alfred's Dog" />
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td[2]/a" text="View" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr)" text="1" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td[1]" text="Alfred's Dog" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td[2]/a" text="View" />
 
 				<clickLink label="View" />
 				<clickLink label="Edit" />
 				<clickLink label="Delete" />
 					
-				<verifyXPath xpath="/html/body/div[2]/div[2]/form/table[2]/thead/tr/th[5]" text="" />
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr)" text="1" />
-				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/table[2]/tbody/tr[1]/td)" text="1" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/span/table/thead/tr/th[5]" text="" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr)" text="1" />
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/span/table/tbody/tr[1]/td)" text="1" />
 
 				<!-- Person (Pet should be gone) -->
 
