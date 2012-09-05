@@ -879,10 +879,10 @@
 				</section>
 
 				<section id="section-layouts-web-faces-simple">
-					<title>SimpleLayout</title>
+					<title>HtmlSimpleLayout</title>
 					
 					<para>
-						<classname>SimpleLayout</classname> is the default JSF <classname>Layout</classname>. It simply adds
+						<classname>HtmlSimpleLayout</classname> is the default JSF <classname>Layout</classname>. It simply adds
 						the widget as a child of the Metawidget, leaving everything up to the <classname>Renderer</classname>.
 					</para>
 				</section>

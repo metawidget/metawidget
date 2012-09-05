@@ -35,7 +35,7 @@
 		<renderer>
 			<component-family>org.metawidget</component-family>
 			<renderer-type>simple</renderer-type>
-			<renderer-class>org.metawidget.faces.renderkit.SimpleLayoutRenderer</renderer-class>
+			<renderer-class>org.metawidget.faces.renderkit.html.HtmlSimpleLayoutRenderer</renderer-class>
 		</renderer>
 
 		<renderer>

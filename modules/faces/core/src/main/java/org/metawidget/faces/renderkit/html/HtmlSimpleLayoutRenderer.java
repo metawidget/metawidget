@@ -14,12 +14,13 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.renderkit;
+package org.metawidget.faces.renderkit.html;
 
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
 import org.metawidget.faces.FacesUtils;
@@ -38,7 +39,7 @@ import org.metawidget.faces.FacesUtils;
  * @author Richard Kennard
  */
 
-public class SimpleLayoutRenderer
+public class HtmlSimpleLayoutRenderer
 	extends Renderer {
 
 	//
@@ -52,9 +53,24 @@ public class SimpleLayoutRenderer
 	//
 
 	@Override
+	public void encodeBegin( FacesContext context, UIComponent component )
+		throws IOException {
+
+		ResponseWriter writer = context.getResponseWriter();
+		writer.startElement( "span", component );
+		writer.writeAttribute( "id", component.getClientId( context ), "id" );
+
+		super.encodeBegin( context, component );
+	}
+
+	@Override
 	public void encodeEnd( FacesContext context, UIComponent component )
 		throws IOException {
 
+		super.encodeEnd( context, component );
 		FacesUtils.render( context, component.getFacet( AFTER_FACET ) );
+
+		ResponseWriter writer = context.getResponseWriter();
+		writer.endElement( "span" );
 	}
 }
