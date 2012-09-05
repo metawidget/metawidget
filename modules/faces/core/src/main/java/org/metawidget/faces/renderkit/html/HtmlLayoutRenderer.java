@@ -182,13 +182,14 @@ public abstract class HtmlLayoutRenderer
 			componentLabel.setFor( componentNeedingLabel.getId() );
 		}
 
+		// Call .setParent before .setId to avoid 'unable to find component with id' warning and/or
+		// 'duplicate component' error (depending on the JSF implementation)
+
 		if ( componentLabel.getFor() != null ) {
+			componentLabel.setParent( componentNeedingLabel.getParent() );
 			componentLabel.setId( componentLabel.getFor() + LABEL_ID_SUFFIX );
 		}
 
-		// Avoid 'unable to find component with id' warning
-
-		componentLabel.setParent( componentNeedingLabel.getParent() );
 		return componentLabel;
 	}
 
