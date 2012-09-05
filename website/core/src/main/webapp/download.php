@@ -51,17 +51,8 @@
 		<h2 class="h2-underneath">Maven</h2>
 
 		<p>
-			Alternatively, Metawidget binaries are deployed at <a href="http://repository.jboss.org/nexus/content/groups/public-jboss" target="_blank">http://repository.jboss.org/nexus/content/groups/public-jboss</a>.
-			Add the following repository definition to your <tt>pom.xml</tt>...
-		</p>
-		
-		<div class="code"><tt>&lt;repository&gt;<br/>
-		&nbsp;&nbsp;&nbsp;&lt;id&gt;<strong>jboss-public-repository-group</strong>&lt;/id&gt;<br/>
-		&nbsp;&nbsp;&nbsp;&lt;url&gt;<strong>http://repository.jboss.org/nexus/content/groups/public-jboss</strong>&lt;/url&gt;<br/>
-		&lt;/repository&gt;</tt></div>
-
-		<p>
-			...and add the dependency configuration as:
+			Alternatively, Metawidget binaries are deployed at <a href="http://search.maven.org/#search|ga|1|metawidget" target="_blank">Maven Central</a>.
+			Add the following dependency to your <tt>pom.xml</tt>...
 		</p>
 		
 		<div class="code"><tt>&lt;dependency&gt;<br/>
@@ -70,10 +61,6 @@
 		&nbsp;&nbsp;&nbsp;&lt;version&gt;<strong>${project.version}</strong>&lt;/version&gt;<br/>
 		&lt;/dependency&gt;</tt></div>
 		
-		<p> 
-			Thanks to <a href="http://jboss.org" target="_blank">JBoss</a> for hosting.
-		</p>
-			
 		<h2 class="h2-underneath">Fine-grained Dependencies</h2>
 
 		<p>
@@ -95,15 +82,15 @@
 			Maven will automatically drag in related dependencies for you, such as <tt>org.metawidget.modules:metawidget-core</tt>.
 		</p>
 		<p>
-			To browse all available fine-grained dependencies visit
-			<a href="http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules">http://repository.jboss.org/nexus/content/groups/public-jboss/org/metawidget/modules</a>. 
+			To browse all available fine-grained dependencies
+			<a href="http://search.maven.org/#search|ga|1|g%3A%22org.metawidget.modules%22" target="_blank">search under metawidget-modules</a>. 
 		</p>
 		
 		<h2 class="h2-underneath">Nightly Builds</h2>
 		
 		<p>
 			Snapshot releases are deployed regularly to <a href="http://repository.jboss.org/nexus/content/repositories/snapshots" target="_blank">http://repository.jboss.org/nexus/content/repositories/snapshots</a>.
-			These nightly releases are not stable, and should not be used in production environments.
+			These nightly releases are not stable, and should not be used in production environments. Thanks to <a href="http://jboss.org">JBoss</a> for hosting.
 		</p>
 
 		<!-- Google Code for Download Conversion Page -->

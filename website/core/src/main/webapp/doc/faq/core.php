@@ -87,8 +87,10 @@
 		<h3><a name="usage">Who uses Metawidget?</a></h3>
 
 		<p>
-			GWT Metawidget, Java Server Faces Metawidget, Spring Metawidget, Struts Metawidget and Swing Metawidget are
-			all deployed in production systems.
+			The GWT, HTML 5, Java Server Faces, Spring, Struts and Swing Metawidgets are all deployed
+			in production systems. Large clients include <a href="http://redhat.com">Red Hat</a> and
+			<a href="http://telefonica.com">Telefonica</a>. For more information on organizations deploying
+			Metawidget, see <a href="http://metawidget.org/documentation.php">our white papers</a>.
 		</p>
 
 		<h3><a name="web">Is Metawidget (yet) another Web application framework?</a></h3>
@@ -112,7 +114,8 @@
 		<h3><a name="oim">Is an OIM like an ORM?</a></h3>
 
 		<p>
-			Object Relational Mapping (ORM) technologies, such as Hibernate, are concerned with the back-end: mapping an Object (the <em>O</em> in
+			Object Relational Mapping (ORM) technologies, such as <a href="http://hibernate.org">Hibernate</a>, are concerned with the
+			back-end: mapping an Object (the <em>O</em> in
 			ORM) to a Relational Database (the <em>R</em> in ORM). Object Interface Mapping (OIM) technologies, such as Metawidget, are concerned
 			with the front-end: mapping an Object (the <em>O</em> in OIM) to a User Interface framework (the <em>I</em> in OIM).
 		</p>

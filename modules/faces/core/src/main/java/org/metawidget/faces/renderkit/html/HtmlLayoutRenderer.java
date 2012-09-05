@@ -36,6 +36,7 @@ import javax.faces.render.Renderer;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
@@ -168,12 +169,17 @@ public abstract class HtmlLayoutRenderer
 	protected UIOutput createLabel( FacesContext context, UIComponent componentNeedingLabel ) {
 
 		HtmlOutputLabel componentLabel = (HtmlOutputLabel) context.getApplication().createComponent( HtmlOutputLabel.COMPONENT_TYPE );
-		componentLabel.setFor( componentNeedingLabel.getId() );
+
+		if ( componentNeedingLabel instanceof UIStub || componentNeedingLabel.getId() == null ) {
+			// Not setFor on UIStub, because stubs never render id
+		} else {
+			componentLabel.setFor( componentNeedingLabel.getId() );
+			componentLabel.setId( componentLabel.getFor() + LABEL_ID_SUFFIX );
+		}
 
 		// Avoid 'unable to find component with id' warning
 
 		componentLabel.setParent( componentNeedingLabel.getParent() );
-		componentLabel.setId( componentLabel.getFor() + LABEL_ID_SUFFIX );
 		return componentLabel;
 	}
 

@@ -18,6 +18,10 @@ package org.metawidget.faces;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
@@ -58,6 +62,8 @@ import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
+import javax.faces.component.html.HtmlMessage;
+import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.component.html.HtmlSelectManyCheckbox;
@@ -76,7 +82,10 @@ import javax.faces.el.ReferenceSyntaxException;
 import javax.faces.el.ValueBinding;
 import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
+import javax.faces.event.SystemEvent;
 import javax.faces.render.RenderKit;
+import javax.faces.render.Renderer;
+import javax.faces.render.ResponseStateManager;
 import javax.faces.validator.BeanValidator;
 import javax.faces.validator.DoubleRangeValidator;
 import javax.faces.validator.LengthValidator;
@@ -95,6 +104,7 @@ import javax.servlet.jsp.el.ExpressionEvaluator;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
@@ -301,6 +311,8 @@ public class FacesMetawidgetTests {
 		// Private members
 		//
 
+		private ResponseWriter			mResponseWriter;
+
 		private ExternalContext			mExternalContext;
 
 		//
@@ -380,6 +392,18 @@ public class FacesMetawidgetTests {
 					}
 
 					throw new UnsupportedOperationException( "Unknown validator '" + validatorName + "'" );
+				}
+
+				@Override
+				public void publishEvent( FacesContext context, Class<? extends SystemEvent> systemEventClass, Object source ) {
+
+					// Do nothing
+				}
+
+				@Override
+				public void publishEvent( FacesContext context, Class<? extends SystemEvent> systemEventClass, Class<?> sourceBaseType, Object source ) {
+
+					// Do nothing
 				}
 
 				//
@@ -944,6 +968,63 @@ public class FacesMetawidgetTests {
 		}
 
 		@Override
+		public RenderKit getRenderKit() {
+
+			return new RenderKit() {
+
+				@Override
+				public void addRenderer( String family, String rendererType, Renderer renderer ) {
+
+					// Do nothing
+				}
+
+				@Override
+				public Renderer getRenderer( String family, String rendererType ) {
+
+					return new MockRenderer();
+				}
+
+				@Override
+				public ResponseStateManager getResponseStateManager() {
+
+					return null;
+				}
+
+				@Override
+				public ResponseWriter createResponseWriter( Writer writer, String contentTypeList, String characterEncoding ) {
+
+					return null;
+				}
+
+				@Override
+				public ResponseStream createResponseStream( OutputStream out ) {
+
+					return null;
+				}
+			};
+		}
+
+		@Override
+		public ResponseWriter getResponseWriter() {
+
+			if ( mResponseWriter == null ) {
+				mResponseWriter = new MockResponseWriter();
+			}
+
+			return mResponseWriter;
+		}
+
+		@Override
+		public void release() {
+
+			FacesContext.setCurrentInstance( null );
+		}
+
+		//
+		// Unsupported public methods
+		//
+
+		@Override
 		public Severity getMaximumSeverity() {
 
 			throw new UnsupportedOperationException();
@@ -957,12 +1038,6 @@ public class FacesMetawidgetTests {
 
 		@Override
 		public Iterator<FacesMessage> getMessages( String s ) {
-
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public RenderKit getRenderKit() {
 
 			throw new UnsupportedOperationException();
 		}
@@ -983,18 +1058,6 @@ public class FacesMetawidgetTests {
 		public ResponseStream getResponseStream() {
 
 			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public ResponseWriter getResponseWriter() {
-
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public void release() {
-
-			FacesContext.setCurrentInstance( null );
 		}
 
 		@Override
@@ -1079,6 +1142,14 @@ public class FacesMetawidgetTests {
 
 			if ( HtmlColumn.COMPONENT_TYPE.equals( componentName ) ) {
 				return new HtmlColumn();
+			}
+
+			if ( HtmlMessage.COMPONENT_TYPE.equals( componentName ) ) {
+				return new HtmlMessage();
+			}
+
+			if ( HtmlOutputLabel.COMPONENT_TYPE.equals( componentName ) ) {
+				return new HtmlOutputLabel();
 			}
 
 			if ( UISelectItems.COMPONENT_TYPE.equals( componentName ) ) {
@@ -1291,6 +1362,262 @@ public class FacesMetawidgetTests {
 			return mConverterId;
 		}
 	};
+
+	public static class MockResponseWriter
+		extends ResponseWriter {
+
+		//
+		// Private members
+		//
+
+		private StringWriter		mWriter						= new StringWriter();
+
+		private String				mPendingElementName;
+
+		private Map<String, Object>	mPendingElementAttributes	= CollectionUtils.newLinkedHashMap();
+
+		//
+		// Public methods
+		//
+
+		@Override
+		public void startDocument()
+			throws IOException {
+
+			// Do nothing
+		}
+
+		@Override
+		public void endDocument()
+			throws IOException {
+
+			writePendingElement();
+		}
+
+		@Override
+		public void startElement( String name, UIComponent component )
+			throws IOException {
+
+			writePendingElement();
+			mPendingElementName = name;
+		}
+
+		@Override
+		public void endElement( String name )
+			throws IOException {
+
+			writePendingElement();
+
+			mWriter.write( "</" );
+			mWriter.write( name );
+			mWriter.write( ">" );
+		}
+
+		@Override
+		public void writeAttribute( String name, Object value, String property )
+			throws IOException {
+
+			mPendingElementAttributes.put( name, value );
+		}
+
+		@Override
+		public void writeText( Object text, String property )
+			throws IOException {
+
+			writePendingElement();
+			mWriter.write( String.valueOf( text ) );
+		}
+
+		@Override
+		public void writeText( char[] text, int off, int len )
+			throws IOException {
+
+			writePendingElement();
+			mWriter.write( text, off, len );
+		}
+
+		@Override
+		public void write( char[] cbuf, int off, int len )
+			throws IOException {
+
+			writePendingElement();
+			mWriter.write( cbuf, off, len );
+		}
+
+		@Override
+		public void flush()
+			throws IOException {
+
+			writePendingElement();
+			mWriter.flush();
+		}
+
+		@Override
+		public void close()
+			throws IOException {
+
+			writePendingElement();
+			mWriter.close();
+		}
+
+		public String toString() {
+
+			return mWriter.toString();
+		}
+
+		//
+		// Unsupported public methods
+		//
+
+		@Override
+		public String getContentType() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getCharacterEncoding() {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void writeURIAttribute( String name, Object value, String property )
+			throws IOException {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void writeComment( Object comment )
+			throws IOException {
+
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ResponseWriter cloneWithWriter( Writer writer ) {
+
+			throw new UnsupportedOperationException();
+		}
+
+		//
+		// Private methods
+		//
+
+		private void writePendingElement() {
+
+			if ( mPendingElementName == null ) {
+				return;
+			}
+
+			mWriter.write( '<' );
+			mWriter.write( mPendingElementName );
+
+			for ( Map.Entry<String, Object> entry : mPendingElementAttributes.entrySet() ) {
+
+				if ( entry.getValue() == null ) {
+					continue;
+				}
+
+				mWriter.write( ' ' );
+				mWriter.write( entry.getKey() );
+				mWriter.write( "=\"" );
+				mWriter.write( String.valueOf( entry.getValue() ) );
+				mWriter.write( '\"' );
+			}
+
+			mWriter.write( '>' );
+
+			mPendingElementName = null;
+			mPendingElementAttributes.clear();
+		}
+	}
+
+	public static class MockRenderer
+		extends Renderer {
+
+		@Override
+		public void encodeBegin( FacesContext context, UIComponent component )
+			throws IOException {
+
+			try {
+
+				// Start the tag
+
+				ResponseWriter writer = context.getResponseWriter();
+				writer.write( '<' );
+				writer.write( StringUtils.decapitalize( component.getClass().getSimpleName() ) );
+
+				if ( component.getId() != null ) {
+					writer.write( " id=\"" );
+					writer.write( component.getId() );
+					writer.write( "\"" );
+				}
+
+				// Write out significant attributes
+
+				Field stateHelperField = UIComponent.class.getDeclaredField( "stateHelper" );
+				stateHelperField.setAccessible( true );
+				Object stateHelper = stateHelperField.get( component );
+				Field defaultMapField = stateHelper.getClass().getDeclaredField( "defaultMap" );
+				defaultMapField.setAccessible( true );
+
+				// (sorted for unit tests)
+
+				Map<Object, Object> defaultMap = (Map<Object, Object>) defaultMapField.get( stateHelper );
+				Map<String, String> simpleMap = CollectionUtils.newTreeMap();
+
+				for ( Map.Entry<Object, Object> entry : defaultMap.entrySet() ) {
+
+					String key = String.valueOf( entry.getKey() );
+
+					if ( "rendererType".equals( key ) ) {
+						continue;
+					}
+
+					Object value = entry.getValue();
+
+					if ( value == null ) {
+						continue;
+					}
+
+					if ( !( value instanceof String ) && !( value instanceof Number ) ) {
+						continue;
+					}
+
+					simpleMap.put( key, String.valueOf( value ) );
+				}
+
+				for ( Map.Entry<String, String> entry : simpleMap.entrySet() ) {
+
+					writer.write( ' ' );
+					writer.write( entry.getKey() );
+					writer.write( "=\"" );
+					writer.write( entry.getValue() );
+					writer.write( '\"' );
+				}
+
+				writer.write( '>' );
+
+				super.encodeBegin( context, component );
+			} catch ( Exception e ) {
+				throw new RuntimeException( e );
+			}
+		}
+
+		@Override
+		public void encodeEnd( FacesContext context, UIComponent component )
+			throws IOException {
+
+			super.encodeEnd( context, component );
+
+			ResponseWriter writer = context.getResponseWriter();
+			writer.write( "</" );
+			writer.write( StringUtils.decapitalize( component.getClass().getSimpleName() ) );
+			writer.write( '>' );
+		}
+	}
 
 	//
 	// Private constructor
