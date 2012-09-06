@@ -19,15 +19,6 @@
 			<section id="section-widgetprocessors-desktop-swing">
 				<title>Swing WidgetProcessors</title>
 				
-				<section id="section-widgetprocessors-desktop-swing-enabledprocessor">
-					<title>EnabledProcessor</title>
-					
-					<para>
-						Processor to call <function>JComponent.setEnabled(false)</function> on all child components if the parent
- 						Metawidget has <function>setEnabled(false)</function>.					
-					</para>
-				</section>
-								
 				<section id="section-widgetprocessors-desktop-swing-propertybinding">
 					<title>Property Binding</title>
 					
