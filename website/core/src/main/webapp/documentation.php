@@ -55,6 +55,7 @@
 		<ul>
 			<li><a href="media/whitepaper/MetawidgetWhitePaper-WhatGoodIsAnOIM.pdf">What Good is an OIM?</a></li>
 			<li><a href="media/whitepaper/MetawidgetWhitePaper-TelefonicaHealthPortal.pdf">Case Study: Telef&oacute;nica Health Portal</a></li>
+			<li><a href="media/whitepaper/MetawidgetWhitePaper-JBossForge.pdf">Case Study: JBoss Forge</a></li>
 			<li><a href="media/whitepaper/MetawidgetWhitePaper-AdoptionStudies.pdf">Adoption Studies</a></li>
 			<li><a href="media/whitepaper/MetawidgetWhitePaper-DuplicationInUserInterfaces.pdf">Duplication in User Interfaces</a></li>
 		</ul>
