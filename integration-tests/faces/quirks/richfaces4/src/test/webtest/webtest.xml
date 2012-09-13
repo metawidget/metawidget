@@ -4,7 +4,9 @@
 
 	<target name="all">
 		<webtest name="test-quirks">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
+				<option name="ThrowExceptionOnScriptError" value="false"/>
+			</config>
 			<steps>
 				<invoke url="/" />
 				
@@ -30,11 +32,18 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/span/input/@name" text="form:richFacesQuirksDateInputDate"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/span/input/@type" text="text"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr/td/span/table/@class, 'rf-cal-popup')"/>
-
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/th/label" text="Suggestion:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]/span/@id" text="form:richFacesQuirksSuggestion"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]/span/span/input/@name" text="form:richFacesQuirksSuggestionInput"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]/span/span/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]/span/div/@id" text="form:richFacesQuirksSuggestionList"/>
+				<verifyXPath xpath="count(//*[@id='form:richFacesQuirksSuggestionItems']/div)" text="0"/>
+				
 				<setInputField name="form:richFacesQuirksName" value="Foo"/>
 				<setInputField name="form:richFacesQuirksSpinner" value="1"/>
 				<setInputField name="form:richFacesQuirksSlider" value="2"/>
 				<setInputField name="form:richFacesQuirksDateInputDate" value="Apr 9, 1975"/>
+				<setInputField name="form:richFacesQuirksSuggestionInput" value="ab"/>
 				
 				<clickButton label="Save"/>
 				
@@ -53,6 +62,8 @@
 				</not>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/th/label" text="Date:"/>				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]" text="(08/04|09/04|04/08|04/09)/1975" regex="true"/>				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/th/label" text="Suggestion:"/>				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]" text="ab"/>				
 
 				<clickButton label="Edit"/>
 				
@@ -76,6 +87,10 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/th/label" text="Date:"/>				
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/span/input/@value, 'Apr ')"/>
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]/span/span/input/@value, ', 1975')"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/th/label" text="Suggestion:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]/span/span/input/@name" text="form:richFacesQuirksSuggestionInput"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]/span/span/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]/span/span/input/@value" text="ab"/>
 			</steps>
 		</webtest>
 	</target>

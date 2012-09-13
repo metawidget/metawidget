@@ -19,6 +19,7 @@ package org.metawidget.integrationtest.faces.quirks.model.richfaces4;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -27,6 +28,8 @@ import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiAttributes;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.inspector.faces.UiFacesSuggest;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Models an entity that tests some RichFaces 4.x specific quirks.
@@ -49,6 +52,8 @@ public class RichFaces4Quirks {
 	private int		mSlider;
 
 	private Date	mDate;
+
+	private String	mSuggestion;
 
 	//
 	// Public methods
@@ -88,6 +93,10 @@ public class RichFaces4Quirks {
 		mSlider = slider;
 	}
 
+	/**
+	 * Deliberately defined on the setter.
+	 */
+
 	@UiSection( "Section #2" )
 	@UiComesAfter( "slider" )
 	public void setDate( Date date ) {
@@ -98,6 +107,23 @@ public class RichFaces4Quirks {
 	public Date getDate() {
 
 		return mDate;
+	}
+
+	@UiComesAfter( "date" )
+	@UiFacesSuggest( "#{richFacesQuirks.suggestions}" )
+	public void setSuggestion( String suggestion ) {
+
+		mSuggestion = suggestion;
+	}
+
+	public String getSuggestion() {
+
+		return mSuggestion;
+	}
+
+	public List<String> suggestions( String prefix ) {
+
+		return CollectionUtils.newArrayList( prefix + "foo", prefix + "bar", prefix + "baz" );
 	}
 
 	public String save() {

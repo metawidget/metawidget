@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.el.ELContext;
 import javax.faces.application.Application;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
@@ -42,6 +43,8 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.richfaces.component.AutocompleteMode;
+import org.richfaces.component.UIAutocomplete;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UISuggestionBox;
 import org.richfaces.component.html.HtmlCalendar;
@@ -403,6 +406,36 @@ public class RichFacesWidgetBuilder
 		//
 
 		public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget ) {
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			Application application = context.getApplication();
+			Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
+
+			if ( clazz == null ) {
+				return null;
+			}
+
+			// Autocomplete box
+
+			if ( String.class.equals( clazz ) ) {
+				String facesSuggest = attributes.get( FACES_SUGGEST );
+
+				if ( facesSuggest != null ) {
+					UIAutocomplete autoComplete = (UIAutocomplete) application.createComponent( UIAutocomplete.COMPONENT_TYPE );
+
+					// new Class[] { ELContext.class, UIComponent.class, String.class } is what
+					// AutocompleteRendererBase.getItems is looking for
+
+					autoComplete.setAutocompleteMethod( application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { ELContext.class, UIComponent.class, String.class } ) );
+
+					// Some reasonable defaults
+
+					autoComplete.setMinChars( 2 );
+					autoComplete.setMode( AutocompleteMode.cachedAjax );
+
+					return autoComplete;
+				}
+			}
 
 			return null;
 		}
