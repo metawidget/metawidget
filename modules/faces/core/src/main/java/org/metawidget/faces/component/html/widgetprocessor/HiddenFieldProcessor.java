@@ -36,7 +36,11 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * read-only values, so that they POST back.
  * <p>
  * Note: passing values via hidden tags is a potential security risk: they can be modified by
- * malicious clients before being returned to the server.
+ * malicious clients before being returned to the server. Where possible, prefer session-scoped or
+ * conversation-scoped beans instead.
+ * <p>
+ * Note: because this processor relies on StandardBindingProcessor to configure the hidden field's
+ * binding, it must come <em>before</em> StandardBindingProcessor in the list of WidgetProcessors.
  *
  * @author Richard Kennard
  */

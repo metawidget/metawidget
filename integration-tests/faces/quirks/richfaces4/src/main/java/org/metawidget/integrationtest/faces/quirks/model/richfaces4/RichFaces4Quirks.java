@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiAttributes;
@@ -33,12 +33,15 @@ import org.metawidget.util.CollectionUtils;
 
 /**
  * Models an entity that tests some RichFaces 4.x specific quirks.
+ * <p>
+ * Note: this bean is <em>RequestScoped</em>, to test some tricky scenarios about maintaining values
+ * upon POST-back.
  *
  * @author Richard Kennard
  */
 
 @ManagedBean( name = "richFacesQuirks" )
-@SessionScoped
+@RequestScoped
 public class RichFaces4Quirks {
 
 	//
