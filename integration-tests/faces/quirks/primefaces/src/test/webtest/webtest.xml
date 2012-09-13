@@ -4,9 +4,7 @@
 
 	<target name="all">
 		<webtest name="test-quirks">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
-				<option name="ThrowExceptionOnScriptError" value="false"/>
-			</config>
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
 				<invoke url="/" />
 				
