@@ -4,9 +4,7 @@
 
 	<target name="all">
 		<webtest name="test-quirks">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
-				<option name="ThrowExceptionOnScriptError" value="false"/>
-			</config>
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
 				<invoke url="/" />
 				
@@ -45,6 +43,8 @@
 				<setInputField name="form:richFacesQuirksDateInputDate" value="Apr 9, 1975"/>
 				<setInputField name="form:richFacesQuirksSuggestionInput" value="ab"/>
 				
+				<!-- Would be nice: <verifyXPath xpath="count(//*[@id='form:richFacesQuirksSuggestionItems']/div)" text="3"/>-->
+
 				<clickButton label="Save"/>
 				
 				<verifyText text="Quirks (RichFaces 4 Test) Saved" />

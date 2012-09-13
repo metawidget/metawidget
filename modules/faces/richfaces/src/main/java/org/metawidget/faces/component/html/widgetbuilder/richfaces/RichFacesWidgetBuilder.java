@@ -421,7 +421,7 @@ public class RichFacesWidgetBuilder
 				String facesSuggest = attributes.get( FACES_SUGGEST );
 
 				if ( facesSuggest != null ) {
-					UIAutocomplete autoComplete = (UIAutocomplete) application.createComponent( UIAutocomplete.COMPONENT_TYPE );
+					UIAutocomplete autoComplete = FacesUtils.createComponent( UIAutocomplete.COMPONENT_TYPE, "org.richfaces.AutocompleteRenderer" );
 
 					// new Class[] { ELContext.class, UIComponent.class, String.class } is what
 					// AutocompleteRendererBase.getItems is looking for
@@ -444,14 +444,14 @@ public class RichFacesWidgetBuilder
 
 			// RichFaces 4 uses uppercase 'I', uppercase 'I' for renderer
 
-			return FacesUtils.createComponent( "org.richfaces.InputNumberSlider", "org.richfaces.InputNumberSliderRenderer" );
+			return FacesUtils.createComponent( HtmlInputNumberSlider.COMPONENT_TYPE, "org.richfaces.InputNumberSliderRenderer" );
 		}
 
 		public HtmlInputNumberSpinner createInputNumberSpinner() {
 
 			// RichFaces 4 uses uppercase 'I' for component, uppercase 'I' for renderer
 
-			return FacesUtils.createComponent( "org.richfaces.InputNumberSpinner", "org.richfaces.InputNumberSpinnerRenderer" );
+			return FacesUtils.createComponent( HtmlInputNumberSpinner.COMPONENT_TYPE, "org.richfaces.InputNumberSpinnerRenderer" );
 		}
 	}
 }
