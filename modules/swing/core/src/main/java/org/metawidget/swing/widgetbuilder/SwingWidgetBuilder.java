@@ -129,6 +129,7 @@ public class SwingWidgetBuilder
 			}
 
 			List<String> values = CollectionUtils.fromString( lookup );
+			List<Object> convertedValues = CollectionUtils.newArrayList();
 			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );
 
 			for ( String value : values ) {
@@ -143,6 +144,7 @@ public class SwingWidgetBuilder
 				}
 
 				comboBox.addItem( convertedValue );
+				convertedValues.add( convertedValue );
 			}
 
 			// May have alternate labels
@@ -150,7 +152,7 @@ public class SwingWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
-				Map<String, String> labelsMap = CollectionUtils.newHashMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
+				Map<Object, String> labelsMap = CollectionUtils.newHashMap( convertedValues, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
 				comboBox.setEditor( new LookupComboBoxEditor( labelsMap ) );
 				comboBox.setRenderer( new LookupComboBoxRenderer( labelsMap ) );
 			}
@@ -349,13 +351,13 @@ public class SwingWidgetBuilder
 		// Private members
 		//
 
-		private Map<String, String>	mLookups;
+		private Map<Object, String>	mLookups;
 
 		//
 		// Constructor
 		//
 
-		public LookupComboBoxEditor( Map<String, String> lookups ) {
+		public LookupComboBoxEditor( Map<Object, String> lookups ) {
 
 			if ( lookups == null ) {
 				throw new NullPointerException( "lookups" );
@@ -386,13 +388,13 @@ public class SwingWidgetBuilder
 		// Private members
 		//
 
-		private Map<String, String>	mLookups;
+		private Map<Object, String>	mLookups;
 
 		//
 		// Constructor
 		//
 
-		public LookupComboBoxRenderer( Map<String, String> lookups ) {
+		public LookupComboBoxRenderer( Map<Object, String> lookups ) {
 
 			if ( lookups == null ) {
 				throw new NullPointerException( "lookups" );

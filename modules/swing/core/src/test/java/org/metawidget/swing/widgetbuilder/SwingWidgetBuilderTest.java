@@ -20,15 +20,24 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
+import javax.swing.plaf.basic.BasicComboPopup;
 
 import junit.framework.TestCase;
 
+import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -79,7 +88,91 @@ public class SwingWidgetBuilderTest
 		assertEquals( true, textarea.isEditable() );
 		assertEquals( 2, textarea.getRows() );
 
+		// JComboBox
+
+		attributes.remove( LARGE );
+		attributes.put( LOOKUP, "FOO, BAR, BAZ" );
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		JComboBox comboBox = (JComboBox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( null, comboBox.getItemAt( 0 ) );
+		assertEquals( "FOO", comboBox.getItemAt( 1 ) );
+		assertEquals( "BAR", comboBox.getItemAt( 2 ) );
+		assertEquals( "BAZ", comboBox.getItemAt( 3 ) );
+		assertEquals( 4, comboBox.getItemCount() );
+		assertTrue( !comboBox.getEditor().getClass().getName().contains( "LookupComboBoxEditor" ) );
+		assertTrue( !comboBox.getRenderer().getClass().getName().contains( "LookupComboBoxRenderer" ) );
+
+		// JComboBox with a Converter
+
+		MockBinding mockBinding = new MockBinding();
+		metawidget.addWidgetProcessor( mockBinding );
+		comboBox = (JComboBox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( null, comboBox.getItemAt( 0 ) );
+		assertEquals( MockEnum.FOO, comboBox.getItemAt( 1 ) );
+		assertEquals( MockEnum.BAR, comboBox.getItemAt( 2 ) );
+		assertEquals( MockEnum.BAZ, comboBox.getItemAt( 3 ) );
+		assertEquals( 4, comboBox.getItemCount() );
+		assertTrue( !comboBox.getEditor().getClass().getName().contains( "LookupComboBoxEditor" ) );
+		assertTrue( !comboBox.getRenderer().getClass().getName().contains( "LookupComboBoxRenderer" ) );
+
+		// JComboBox with a Converter and labels
+
+		attributes.put( LOOKUP_LABELS, "Foo Label, Bar Label, Baz Label" );
+		comboBox = (JComboBox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertTrue( comboBox.getEditor().getClass().getName().contains( "LookupComboBoxEditor" ) );
+		assertTrue( comboBox.getRenderer().getClass().getName().contains( "LookupComboBoxRenderer" ) );
+
+		JList popupList = ( (BasicComboPopup) comboBox.getUI().getAccessibleChild( comboBox, 0 ) ).getList();
+		assertEquals( "", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, null, 0, false, false ) ).getText() );
+		assertEquals( "FOO", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, "FOO", 1, false, false ) ).getText() );
+		assertEquals( "Foo Label", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, MockEnum.FOO, 1, false, false ) ).getText() );
+		assertEquals( "Bar Label", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, MockEnum.BAR, 2, false, false ) ).getText() );
+		assertEquals( "Baz Label", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, MockEnum.BAZ, 3, false, false ) ).getText() );
+
+		BasicComboBoxEditor editor = (BasicComboBoxEditor) comboBox.getEditor();
+		editor.setItem( null );
+		assertEquals( "", editor.getItem() );
+		editor.setItem( "FOO" );
+		assertEquals( "", editor.getItem() );
+		editor.setItem( MockEnum.FOO );
+		assertEquals( "Foo Label", editor.getItem() );
+		editor.setItem( MockEnum.BAR );
+		assertEquals( "Bar Label", editor.getItem() );
+		editor.setItem( MockEnum.BAZ );
+		assertEquals( "Baz Label", editor.getItem() );
+
+		// JComboBox with no Converter but labels
+
+		metawidget.removeWidgetProcessor( mockBinding );
+
+		attributes.put( LOOKUP_LABELS, "Foo Label, Bar Label, Baz Label" );
+		comboBox = (JComboBox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertTrue( comboBox.getEditor().getClass().getName().contains( "LookupComboBoxEditor" ) );
+		assertTrue( comboBox.getRenderer().getClass().getName().contains( "LookupComboBoxRenderer" ) );
+
+		popupList = ( (BasicComboPopup) comboBox.getUI().getAccessibleChild( comboBox, 0 ) ).getList();
+		assertEquals( "", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, null, 0, false, false ) ).getText() );
+		assertEquals( "FOO", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, MockEnum.FOO, 1, false, false ) ).getText() );
+		assertEquals( "Foo Label", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, "FOO", 1, false, false ) ).getText() );
+		assertEquals( "Bar Label", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, "BAR", 2, false, false ) ).getText() );
+		assertEquals( "Baz Label", ( (JLabel) comboBox.getRenderer().getListCellRendererComponent( popupList, "BAZ", 3, false, false ) ).getText() );
+
+		editor = (BasicComboBoxEditor) comboBox.getEditor();
+		editor.setItem( null );
+		assertEquals( "", editor.getItem() );
+		editor.setItem( MockEnum.FOO  );
+		assertEquals( "", editor.getItem() );
+		editor.setItem( "FOO" );
+		assertEquals( "Foo Label", editor.getItem() );
+		editor.setItem( "BAR" );
+		assertEquals( "Bar Label", editor.getItem() );
+		editor.setItem( "BAZ" );
+		assertEquals( "Baz Label", editor.getItem() );
+
 		// JSpinner
+
+		attributes.remove( LOOKUP );
 
 		// bytes
 
@@ -194,5 +287,30 @@ public class SwingWidgetBuilderTest
 		attributes.put( MINIMUM_INTEGER_DIGITS, "4" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 4, ( (JSpinner.NumberEditor) spinner.getEditor() ).getFormat().getMinimumIntegerDigits() );
+	}
+
+	//
+	// Inner class
+	//
+
+	/* package private */enum MockEnum {
+
+		FOO,
+		BAR,
+		BAZ
+	}
+
+	/* package private */class MockBinding
+		implements BindingConverter, WidgetProcessor<JComponent, SwingMetawidget> {
+
+		public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
+			return widget;
+		}
+
+		public Object convertFromString( String value, Class<?> expectedType ) {
+
+			return MockEnum.valueOf( value );
+		}
 	}
 }
