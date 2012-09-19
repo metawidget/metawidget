@@ -80,15 +80,20 @@ public class AjaxProcessor
 
 			// Sanity check
 
-			Collection<String> eventNames = clientBehaviorHolder.getEventNames();
+			if ( "".equals( ajaxEvent )) {
+				ajaxEvent = clientBehaviorHolder.getDefaultEventName();
+			} else {
+				Collection<String> eventNames = clientBehaviorHolder.getEventNames();
 
-			if ( eventNames == null || !eventNames.contains( ajaxEvent ) ) {
-				throw WidgetProcessorException.newException( "'" + ajaxEvent + "' not a valid event for " + component.getClass() + ". Must be one of " + CollectionUtils.toString( eventNames ) );
+				if ( eventNames == null || !eventNames.contains( ajaxEvent ) ) {
+					throw WidgetProcessorException.newException( "'" + ajaxEvent + "' not a valid event for " + component.getClass() + ". Must be one of " + CollectionUtils.toString( eventNames ) );
+				}
 			}
 
 			// Add behaviour
 
-			AjaxBehavior ajaxBehaviour = new AjaxBehavior();
+			FacesContext context = FacesContext.getCurrentInstance();
+			AjaxBehavior ajaxBehaviour = (AjaxBehavior) context.getApplication().createBehavior( AjaxBehavior.BEHAVIOR_ID );
 			clientBehaviorHolder.addClientBehavior( ajaxEvent, ajaxBehaviour );
 
 			// Set render to the parent Metawidget level. This is not perfect, as there may be cases
@@ -97,6 +102,8 @@ public class AjaxProcessor
 			// the 'render' id, because in most cases that id will be dynamically generated (may
 			// even be randomly generated). They can always use a custom WidgetProcessor in that
 			// case
+			//
+			// Note: execute will default to '@this'
 
 			ajaxBehaviour.setExecute( CollectionUtils.newArrayList( metawidget.getId() ) );
 			ajaxBehaviour.setRender( ajaxBehaviour.getExecute() );

@@ -36,9 +36,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>webtest-maven-plugin</artifactId>
 				<configuration>
-					<sourcedirectory>../mojarra1-jsp/src/test/webtest</sourcedirectory>
-					<sourcefile>webtest-no-richfaces.xml</sourcefile>
-					<target>all-no-richfaces</target>
+					<sourcedirectory>../mojarra2-facelets/src/test/webtest</sourcedirectory>
 				</configuration>
 			</plugin>
 		</plugins>

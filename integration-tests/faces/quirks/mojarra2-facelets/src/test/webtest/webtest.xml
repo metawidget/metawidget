@@ -12,11 +12,11 @@
 				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
 						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
 				</groovy>			
-				<invoke url="/ajax.jsf" />
+				<!-- TODO: <invoke url="/ajax.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
 				<verifySelectField name="form:ajaxQuirksSelect" value=""/>
-				<verifyXPath xpath="starts-with(/html/body/form/table[1]/tbody/tr[1]/td/select/@onchange,'jsf.ajax.request(')"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td/select/@onchange"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>				
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="2"/>
 
@@ -30,7 +30,19 @@
 
 				<setCheckbox name="form:ajaxQuirksCheckbox" checked="true"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Label:"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td)" text="clicked"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td)" text="clicked"/>-->
+			</steps>
+		</webtest>		
+
+		<webtest name="test-ajax-rerender">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<groovy>
+				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+				</groovy>			
+				<invoke url="/ajax-rerender.jsf" />
+
 			</steps>
 		</webtest>		
 	</target>

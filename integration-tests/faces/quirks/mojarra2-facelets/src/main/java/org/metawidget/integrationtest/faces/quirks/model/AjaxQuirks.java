@@ -18,6 +18,7 @@ package org.metawidget.integrationtest.faces.quirks.model;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import javax.faces.bean.ManagedBean;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.metawidget.inspector.annotation.UiAttribute;
@@ -32,6 +33,7 @@ import org.metawidget.inspector.faces.UiFacesAjax;
  * @author Richard Kennard
  */
 
+@ManagedBean
 public class AjaxQuirks {
 
 	//
@@ -49,7 +51,7 @@ public class AjaxQuirks {
 	//
 
 	@UiLookup( { "Hide", "Show" } )
-	@UiFacesAjax( event = "change" )
+	@UiFacesAjax
 	public String getSelect() {
 
 		return mSelect;
@@ -61,7 +63,7 @@ public class AjaxQuirks {
 	}
 
 	@UiAttribute( name = HIDDEN, value = "#{ajaxQuirks.select != 'Show'}" )
-	@UiFacesAjax( event = "click", action = "#{ajaxQuirks.updateLabel}" )
+	@UiFacesAjax( action = "#{ajaxQuirks.updateLabel}" )
 	@UiComesAfter( "select" )
 	public boolean isCheckbox() {
 

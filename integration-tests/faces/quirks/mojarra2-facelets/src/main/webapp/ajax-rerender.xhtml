@@ -9,12 +9,19 @@
 	
     <h:body>
 
-		<h1>JSF2 AJAX Quirks</h1>
+		<h1>JSF2 AJAX ReRender Quirks</h1>
 
 		<h:messages/>
 		
 		<h:form id="form">
-			<m:metawidget value="#{ajaxQuirks}" config="metawidget-jsf2.xml"/>
+			<m:metawidget value="#{ajaxReRenderQuirks}" config="metawidget-jsf2.xml">
+				<h:selectOneMenu value="#{ajaxReRenderQuirks.select}">
+					<f:selectItem itemValue=""/>
+					<f:selectItem itemValue="Foo"/>
+					<f:selectItem itemValue="Bar"/>
+					<f:ajax render="@form"/>
+				</h:selectOneMenu>
+			</m:metawidget>
 		</h:form>
 		
 	</h:body>	    

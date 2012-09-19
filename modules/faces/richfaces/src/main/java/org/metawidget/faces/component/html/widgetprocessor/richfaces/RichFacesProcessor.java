@@ -29,6 +29,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * WidgetProcessor for RichFaces environments.
@@ -65,6 +66,13 @@ public class RichFacesProcessor
 
 			HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) application.createComponent( HtmlAjaxSupport.COMPONENT_TYPE );
 			ajaxSupport.setId( FacesUtils.createUniqueId() );
+
+			// Sanity check
+
+			if ( "".equals( ajaxEvent )) {
+				throw WidgetProcessorException.newException( "Must specify an event for " + component.getClass() );
+			}
+
 			ajaxSupport.setEvent( ajaxEvent );
 
 			// Set reRender to the parent Metawidget level. This is not perfect, as there may be

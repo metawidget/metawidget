@@ -54,6 +54,8 @@ import javax.faces.component.UIParameter;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.UIViewRoot;
+import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.component.behavior.Behavior;
 import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
@@ -351,6 +353,17 @@ public class FacesMetawidgetTests {
 				//
 				// Supported public methods
 				//
+
+				@Override
+				public Behavior createBehavior( String behaviorId )
+					throws FacesException {
+
+					if ( AjaxBehavior.BEHAVIOR_ID.equals( behaviorId ) ) {
+						return new AjaxBehavior();
+					}
+
+					throw new UnsupportedOperationException( "Unknown behavior '" + behaviorId + "'" );
+				}
 
 				@Override
 				public UIComponent createComponent( String componentType )

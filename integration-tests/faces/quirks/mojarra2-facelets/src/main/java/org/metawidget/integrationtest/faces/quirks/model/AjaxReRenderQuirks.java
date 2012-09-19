@@ -14,34 +14,57 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.faces;
+package org.metawidget.integrationtest.faces.quirks.model;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.faces.bean.ManagedBean;
+
+import org.metawidget.inspector.annotation.UiComesAfter;
 
 /**
- * Annotates the widget for this field should use AJAX in response to the given event.
+ * Models an entity that tests some JSF2-AJAX-specific quirks.
  *
  * @author Richard Kennard
  */
 
-@Retention( RetentionPolicy.RUNTIME )
-@Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesAjax {
+@ManagedBean
+public class AjaxReRenderQuirks {
 
-	/**
-	 * Name of the event that triggers the AJAX call. Will default to whatever is 'sensible' for the
-	 * control
-	 */
+	//
+	// Private members
+	//
 
-	String event() default "";
+	private String	mName;
 
-	/**
-	 * An EL expression for the action (sometimes referred to as the 'listener') of the format
-	 * <code>#{...}</code>.
-	 */
+	private String	mSelect;
 
-	String action() default "";
+	//
+	// Public methods
+	//
+
+	public String getName() {
+
+		return mName;
+	}
+
+	public void setName( String name ) {
+
+		mName = name;
+	}
+
+	@UiComesAfter( "name" )
+	public String getSelect() {
+
+		return mSelect;
+	}
+
+	public void setSelect( String select ) {
+
+		mSelect = select;
+	}
+
+	@UiComesAfter( "select" )
+	public String getSelected() {
+
+		return mSelect;
+	}
 }
