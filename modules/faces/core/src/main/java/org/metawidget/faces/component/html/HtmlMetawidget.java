@@ -74,7 +74,7 @@ public class HtmlMetawidget
 	@Override
 	public String getComponentType() {
 
-		return "org.metawidget.HtmlMetawidget";
+		return COMPONENT_TYPE;
 	}
 
 	@Override

@@ -15,6 +15,12 @@
 		
 		<h:form id="form">
 			<m:metawidget value="#{ajaxQuirks}" config="metawidget-jsf2.xml"/>
+			
+			<!-- TODO: Workaround for https://issues.apache.org/jira/browse/MYFACES-3610 -->
+			
+			<h:inputText style="display: none">
+				<f:ajax/>
+			</h:inputText>
 		</h:form>
 		
 	</h:body>	    

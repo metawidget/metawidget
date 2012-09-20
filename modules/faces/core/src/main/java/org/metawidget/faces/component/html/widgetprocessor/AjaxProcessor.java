@@ -80,7 +80,7 @@ public class AjaxProcessor
 
 			// Sanity check
 
-			if ( "".equals( ajaxEvent )) {
+			if ( "".equals( ajaxEvent ) ) {
 				ajaxEvent = clientBehaviorHolder.getDefaultEventName();
 			} else {
 				Collection<String> eventNames = clientBehaviorHolder.getEventNames();
@@ -99,13 +99,11 @@ public class AjaxProcessor
 			// Set render to the parent Metawidget level. This is not perfect, as there may be cases
 			// where we want the AJAX event to, say, update a different Metawidget - but it should
 			// work in the majority of cases. It is very problematic to ask the developer to specify
-			// the 'render' id, because in most cases that id will be dynamically generated (may
-			// even be randomly generated). They can always use a custom WidgetProcessor in that
-			// case
-			//
-			// Note: execute will default to '@this'
+			// the 'render id' in the annotation, because in most cases that id will be dynamically
+			// generated (may even be randomly generated). They can always use a custom
+			// WidgetProcessor in that case
 
-			ajaxBehaviour.setExecute( CollectionUtils.newArrayList( metawidget.getId() ) );
+			ajaxBehaviour.setExecute( CollectionUtils.newArrayList( metawidget.getClientId() ) );
 			ajaxBehaviour.setRender( ajaxBehaviour.getExecute() );
 
 			// Listener

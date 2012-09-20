@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.context.PartialViewContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.PreRenderViewEvent;
@@ -87,7 +89,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * However by extending <code>UIInput</code>, we enable this useful capability.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -139,6 +141,13 @@ public abstract class UIMetawidget
 
 	public static final String				COMPONENT_ATTRIBUTE_SECTION_DECORATOR	= "metawidget-section-decorator";
 
+	/**
+	 * The standard component family for this component.
+	 */
+
+	@SuppressWarnings( "hiding" )
+	public static final String				COMPONENT_FAMILY						= "org.metawidget";
+
 	//
 	// Private statics
 	//
@@ -166,6 +175,8 @@ public abstract class UIMetawidget
 
 	/* package private */boolean			mExplicitRendererType;
 
+	/* package private */boolean			mBuildWidgetsOnAjaxRequest;
+
 	private boolean							mInspectFromParent;
 
 	private boolean							mReadOnly;
@@ -189,7 +200,7 @@ public abstract class UIMetawidget
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 
-		String configFile = externalContext.getInitParameter( "org.metawidget.faces.component.CONFIG_FILE" );
+		String configFile = externalContext.getInitParameter( COMPONENT_FAMILY + ".faces.component.CONFIG_FILE" );
 
 		if ( configFile == null ) {
 			setConfig( DEFAULT_USER_CONFIG );
@@ -223,7 +234,7 @@ public abstract class UIMetawidget
 	@Override
 	public String getFamily() {
 
-		return "org.metawidget";
+		return COMPONENT_FAMILY;
 	}
 
 	public boolean isReadOnly() {
@@ -355,6 +366,37 @@ public abstract class UIMetawidget
 	public void setInspectFromParent( boolean inspectFromParent ) {
 
 		mInspectFromParent = inspectFromParent;
+	}
+
+	/**
+	 * By default, <code>UIMetawidget</code> does not rebuild widgets upon an AJAX request unless
+	 * the Metawidget's <code>Id</code> is explicitly included in the list of <code>execute</code>
+	 * Ids. There are several reasons for this:
+	 * <p>
+	 * <ol>
+	 * <li>Suppose a Metawidget X has children A, B and C. If B is executed by an AJAX request, this
+	 * will trigger X with a <code>PreRenderViewEvent</code> (because it is the parent). But if X
+	 * rebuilds A and C, and they <em>weren't</em> part of the execute request, their values will be
+	 * lost. This is similar to how <code>UIMetawidget</code> doesn't rebuild upon a validation
+	 * error</li>
+	 * <li>Similarly, if the Metawidget's backing bean is request-scoped, rebuilding A and C will
+	 * mean they fetch their values from a new (likely empty) backing bean instance. There will be
+	 * no opportunity for A and C to postback their values first (because they are not executed)</li>
+	 * <li>Some components (such as RichFaces' <code>UIAutocomplete</code>) do not allow fine-grained
+	 * control over what is executed and rendered. They just execute and render themselves</li>
+	 * <li>AJAX is about performance, so typically clients are not wanting to rebuild large sections
+	 * of the component tree</li>
+	 * </ol>
+	 * <p>
+	 * Although this default behaviour is safer it does, however, result in less dynamic UIs.
+	 * Clients can use <code>setBuildWidgetsOnAjaxRequest</code> to override the default behaviour
+	 * and instruct <code>UIMetawidget</code> to always rebuild widgets upon an AJAX request.
+	 * Mechanisms such as conversation-scoped backing beans can be used to avoid losing values.
+	 */
+
+	public void setBuildWidgetsOnAjaxRequest( boolean buildWidgetsOnAjaxRequest ) {
+
+		mBuildWidgetsOnAjaxRequest = buildWidgetsOnAjaxRequest;
 	}
 
 	/**
@@ -689,12 +731,13 @@ public abstract class UIMetawidget
 	@Override
 	public Object saveState( FacesContext context ) {
 
-		Object values[] = new Object[5];
+		Object values[] = new Object[6];
 		values[0] = super.saveState( context );
 		values[1] = mExplicitRendererType;
 		values[2] = mReadOnly;
 		values[3] = mPipeline.getConfig();
 		values[4] = mInspectFromParent;
+		values[5] = mBuildWidgetsOnAjaxRequest;
 
 		return values;
 	}
@@ -709,6 +752,7 @@ public abstract class UIMetawidget
 		mReadOnly = (Boolean) values[2];
 		mPipeline.setConfig( values[3] );
 		mInspectFromParent = (Boolean) values[4];
+		mBuildWidgetsOnAjaxRequest = (Boolean) values[5];
 	}
 
 	//
@@ -754,7 +798,7 @@ public abstract class UIMetawidget
 			String contextImplementationTitle = contextPackage.getImplementationTitle();
 			String contextImplementationVersion = contextPackage.getImplementationVersion();
 
-			if ( TRUE.equals( externalContext.getInitParameter( "org.metawidget.faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
+			if ( TRUE.equals( externalContext.getInitParameter( COMPONENT_FAMILY + ".faces.component.DONT_USE_PRERENDER_VIEW_EVENT" ) ) ) {
 
 				if ( isBadMojarra2( contextImplementationTitle, contextImplementationVersion ) && !FacesUtils.isPartialStateSavingDisabled() ) {
 
@@ -998,7 +1042,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 * 
+	 *
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 
@@ -1524,6 +1568,20 @@ public abstract class UIMetawidget
 
 			if ( getMetawidget().getParent() == null ) {
 				return;
+			}
+
+			// PartialViewContext (JSF 2-specific)
+
+			if ( !getMetawidget().mBuildWidgetsOnAjaxRequest ) {
+				PartialViewContext partialViewContext = FacesContext.getCurrentInstance().getPartialViewContext();
+
+				if ( partialViewContext.isAjaxRequest() ) {
+
+					Collection<String> executeIds = partialViewContext.getExecuteIds();
+					if ( !executeIds.contains( getMetawidget().getClientId() ) ) {
+						return;
+					}
+				}
 			}
 
 			try {

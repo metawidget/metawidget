@@ -42,6 +42,10 @@ public class HtmlLookupOutputText
 	// Public statics
 	//
 
+	/**
+	 * Not referenced in code, but in <code>faces-config.xml</code>.
+	 */
+
 	@SuppressWarnings( "hiding" )
 	public static final String	COMPONENT_TYPE	= "org.metawidget.HtmlLookupOutputText";
 

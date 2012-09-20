@@ -14,12 +14,47 @@
 		<h:messages/>
 		
 		<h:form id="form">
-			<m:metawidget value="#{ajaxReRenderQuirks}" config="metawidget-jsf2.xml">
-				<h:selectOneMenu value="#{ajaxReRenderQuirks.select}">
+		
+			<p>
+				Test execute @this and render a sibling component
+			</p>
+			
+			<m:metawidget id="metawidget1" value="#{ajaxReRenderQuirks}" config="metawidget-jsf2.xml">
+				<h:selectOneMenu id="ajaxReRenderQuirksSelect" value="#{ajaxReRenderQuirks.select}">
 					<f:selectItem itemValue=""/>
 					<f:selectItem itemValue="Foo"/>
 					<f:selectItem itemValue="Bar"/>
-					<f:ajax render="@form"/>
+					<f:ajax render="ajaxReRenderQuirksSelected"/>
+				</h:selectOneMenu>
+			</m:metawidget>
+
+			<hr/>
+			
+			<p>
+				Test execute/render whole Metawidget
+			</p>
+
+			<m:metawidget id="metawidget2" value="#{ajaxReRenderQuirks}" config="metawidget-jsf2.xml">
+				<h:selectOneMenu id="ajaxReRenderQuirksSelect_2" value="#{ajaxReRenderQuirks.select}">
+					<f:selectItem itemValue=""/>
+					<f:selectItem itemValue="Foo"/>
+					<f:selectItem itemValue="Bar"/>
+					<f:ajax execute="metawidget2" render="metawidget2"/>
+				</h:selectOneMenu>
+			</m:metawidget>
+
+			<hr/>
+			
+			<p>
+				Test execute @this but render whole Metawidget
+			</p>
+
+			<m:metawidget id="metawidget3" value="#{ajaxReRenderQuirks}" buildWidgetsOnAjaxRequest="true" config="metawidget-jsf2.xml">
+				<h:selectOneMenu id="ajaxReRenderQuirksSelect_3" value="#{ajaxReRenderQuirks.select}">
+					<f:selectItem itemValue=""/>
+					<f:selectItem itemValue="Foo"/>
+					<f:selectItem itemValue="Bar"/>
+					<f:ajax render="metawidget3"/>
 				</h:selectOneMenu>
 			</m:metawidget>
 		</h:form>

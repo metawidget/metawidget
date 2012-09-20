@@ -6,13 +6,16 @@
 
 	<target name="all" depends="all-no-richfaces">
 		<webtest name="test-ajax">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
+				<!-- Avoid 'innerHTML is read-only for tag table' JS error -->
+				<header name="User-Agent" value="Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0"/>
+			</config>
 			<steps>
 				<groovy>
 				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
 						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
 				</groovy>			
-				<!-- TODO: <invoke url="/ajax.jsf" />
+				<invoke url="/ajax.jsf" />
 
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Select:"/>
 				<verifySelectField name="form:ajaxQuirksSelect" value=""/>
@@ -26,11 +29,16 @@
 				<setSelectField name="form:ajaxQuirksSelect" value="Show"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Checkbox:"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Label:"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td)" text=""/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/span/@id)" text="form:ajaxQuirksLabel"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/span)" text=""/>
 
 				<setCheckbox name="form:ajaxQuirksCheckbox" checked="true"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Label:"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td)" text="clicked"/>-->
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/span)" text="clicked"/>
+
+				<setSelectField name="form:ajaxQuirksSelect" value="Hide"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/td/span)" text=""/>
 			</steps>
 		</webtest>		
 
@@ -42,6 +50,63 @@
 						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
 				</groovy>			
 				<invoke url="/ajax-rerender.jsf" />
+
+				<!-- Test execute @this and render a sibling component -->
+				
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th)" text="Name:"/>
+				<verifyInputField name="form:ajaxReRenderQuirksName" value=""/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Select:"/>
+				<verifySelectField name="form:ajaxReRenderQuirksSelect" value=""/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td/select/@onchange"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th)" text="Selected:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/span/@id" text="form:ajaxReRenderQuirksSelected"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/span)" text=""/>
+				
+				<setInputField name="form:ajaxReRenderQuirksName" value="Don't Vanish"/>
+				<setSelectField name="form:ajaxReRenderQuirksSelect" value="Foo"/>
+				
+				<verifyInputField name="form:ajaxReRenderQuirksName" value="Don't Vanish"/>
+				<verifySelectField name="form:ajaxReRenderQuirksSelect" value="Foo"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/td/span)" text="Foo"/>
+				
+				<!-- Test execute/render whole Metawidget -->
+				
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[1]/th)" text="Name:"/>
+				<verifyInputField name="form:ajaxReRenderQuirksName_2" value=""/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[2]/th)" text="Select:"/>
+				<verifySelectField name="form:ajaxReRenderQuirksSelect_2" value=""/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td/select/@onchange"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[3]/th)" text="Selected:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[3]/td/span)" text=""/>
+				
+				<setInputField name="form:ajaxReRenderQuirksName_2" value="Don't Vanish!"/>
+				<setSelectField name="form:ajaxReRenderQuirksSelect_2" value="Bar"/>
+				
+				<verifyInputField name="form:ajaxReRenderQuirksName_2" value="Don't Vanish!"/>
+				<verifySelectField name="form:ajaxReRenderQuirksSelect_2" value="Bar"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[2]/tbody/tr[3]/td/span)" text="Bar"/>
+				
+				<verifyInputField name="form:ajaxReRenderQuirksName" value="Don't Vanish"/>
+				
+				<!-- Test execute @this but render whole Metawidget -->
+
+				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr[1]/th)" text="Name:"/>
+				<verifyInputField name="form:ajaxReRenderQuirksName_3" value=""/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr[2]/th)" text="Select:"/>
+				<verifySelectField name="form:ajaxReRenderQuirksSelect_3" value=""/>
+				<verifyXPath xpath="/html/body/form/table[3]/tbody/tr[2]/td/select/@onchange"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr[3]/th)" text="Selected:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr[3]/td/span)" text=""/>
+				
+				<setInputField name="form:ajaxReRenderQuirksName_3" value="Vanish"/>
+				<setSelectField name="form:ajaxReRenderQuirksSelect_3" value="Foo"/>
+				
+				<verifyInputField name="form:ajaxReRenderQuirksName_3" value=""/>
+				<verifySelectField name="form:ajaxReRenderQuirksSelect_3" value="Foo"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[3]/tbody/tr[3]/td/span)" text="Foo"/>
+				
+				<verifyInputField name="form:ajaxReRenderQuirksName" value="Don't Vanish"/>
+				<verifyInputField name="form:ajaxReRenderQuirksName_2" value="Don't Vanish!"/>
 
 			</steps>
 		</webtest>		

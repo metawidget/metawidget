@@ -82,11 +82,6 @@ public class AjaxQuirks {
 		return mLabel;
 	}
 
-	public void setLabel( String label ) {
-
-		mLabel = label;
-	}
-
 	/**
 	 * @param event	not used, but required by the spec
 	 */

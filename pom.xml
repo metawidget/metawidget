@@ -916,6 +916,8 @@
 								<port>8180</port>
 								<basepath>${project.artifactId}</basepath>
 								<resultpath>target/webtest-results</resultpath>
+								<haltonerror>true</haltonerror>
+								<haltonfailure>true</haltonfailure>
 							</configuration>
 						</execution>
 					</executions>
