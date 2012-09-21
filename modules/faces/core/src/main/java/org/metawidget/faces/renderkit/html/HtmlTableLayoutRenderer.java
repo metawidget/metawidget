@@ -116,10 +116,10 @@ public class HtmlTableLayoutRenderer
 		// siblings. It is very important the clientId is written on to a 'root' node, else
 		// AJAX will not correctly re-render the whole block
 
-		if ( hasHiddenChildren( metawidget ) ) {
+		if ( hasHtmlInputHiddenChildren( metawidget ) ) {
 			writer.startElement( "div", metawidget );
 			writer.writeAttribute( "id", metawidget.getClientId( context ), "id" );
-			layoutHiddenChildren( context, metawidget );
+			layoutHtmlInputHiddenChildren( context, metawidget );
 			writer.startElement( "table", metawidget );
 		} else {
 			writer.startElement( "table", metawidget );
@@ -216,7 +216,14 @@ public class HtmlTableLayoutRenderer
 		writer.startElement( "tbody", metawidget );
 	}
 
-	protected boolean hasHiddenChildren( UIComponent metawidget ) {
+	/**
+	 * Determines if the Metawidget has children which are instances of
+	 * <code>javax.faces.component.html.HtmlInputHidden</code>. If so, the hidden fields will be
+	 * written as siblings of the &lt;table&gt; and the whole thing wrapped in an outer
+	 * &lt;div&gt;.
+	 */
+
+	protected boolean hasHtmlInputHiddenChildren( UIComponent metawidget ) {
 
 		for ( UIComponent componentChild : metawidget.getChildren() ) {
 			if ( componentChild instanceof HtmlInputHidden ) {
@@ -228,10 +235,11 @@ public class HtmlTableLayoutRenderer
 	}
 
 	/**
-	 * Layout any hidden child components first, before the table.
+	 * Layout any <code>javax.faces.component.html.HtmlInputHidden</code> children first, before the
+	 * &lt;table&gt;.
 	 */
 
-	protected void layoutHiddenChildren( FacesContext context, UIComponent metawidget )
+	protected void layoutHtmlInputHiddenChildren( FacesContext context, UIComponent metawidget )
 		throws IOException {
 
 		for ( UIComponent componentChild : metawidget.getChildren() ) {
@@ -320,7 +328,7 @@ public class HtmlTableLayoutRenderer
 
 		// End div around the whole table
 
-		if ( hasHiddenChildren( metawidget ) ) {
+		if ( hasHtmlInputHiddenChildren( metawidget ) ) {
 			writer.endElement( "div" );
 		}
 	}

@@ -84,7 +84,7 @@ public class HiddenFieldProcessor
 			return component;
 		}
 
-		return wrapWithHiddenField( component, attributes );
+		return wrapWithHiddenField( component, attributes, metawidget );
 	}
 
 	//
@@ -94,9 +94,12 @@ public class HiddenFieldProcessor
 	/**
 	 * @param attributes
 	 *            attributes of the widget. Never null
+	 * @param metawidget
+	 *            the parent Metawidget. May be useful because the component hasn't been added to
+	 *            its parent yet
 	 */
 
-	protected UIComponent wrapWithHiddenField( UIComponent component, Map<String, String> attributes ) {
+	protected UIComponent wrapWithHiddenField( UIComponent component, Map<String, String> attributes, UIMetawidget metawidget ) {
 
 		Application application = FacesContext.getCurrentInstance().getApplication();
 
