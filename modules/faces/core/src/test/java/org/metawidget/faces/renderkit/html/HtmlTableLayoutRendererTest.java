@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 
@@ -100,6 +101,24 @@ public class HtmlTableLayoutRendererTest
 		renderer.encodeEnd( mContext, metawidget );
 
 		assertEquals( "<table id=\"j_id2\"><tbody><tr><th><htmlOutputLabel value=\"Bar:\"></htmlOutputLabel></th><td><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText><htmlInputText></htmlInputText></UIStub></td><td><div></div></td></tr></tbody></table>", mContext.getResponseWriter().toString() );
+
+		// Component and a hidden field
+
+		mContext = new MockFacesContext();
+		metawidget = new HtmlMetawidget();
+		inputText = new HtmlInputText();
+		inputText.setId( "foo" );
+		attributes = CollectionUtils.newHashMap();
+		inputText.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, attributes );
+		attributes.put( NAME, "Bar" );
+		attributes.put( REQUIRED, TRUE );
+		metawidget.getChildren().add( inputText );
+		metawidget.getChildren().add( new HtmlInputHidden() );
+		renderer.encodeBegin( mContext, metawidget );
+		renderer.encodeChildren( mContext, metawidget );
+		renderer.encodeEnd( mContext, metawidget );
+
+		assertEquals( "<div id=\"j_id2\"><htmlInputHidden></htmlInputHidden><table><tbody><tr><th><htmlOutputLabel id=\"foo-label\" for=\"foo\" value=\"Bar:\"></htmlOutputLabel></th><td><htmlInputText id=\"foo\"></htmlInputText><htmlMessage id=\"j_idmw0\" for=\"foo\"></htmlMessage></td><td>*</td></tr></tbody></table></div>", mContext.getResponseWriter().toString() );
 	}
 
 	//

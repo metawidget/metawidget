@@ -81,6 +81,19 @@
 					</para>
 				</section>
 				
+				<section id="section-metawidgets-desktop-swing-under-the-hood">
+					<title>Under The Hood</title>
+					
+					<para>
+						<classname>SwingMetawidget</classname> inspects objects and populates child widgets automatically in
+						response to the standard <function>JComponent.paintComponent</function> event. There is no need to
+						explicitly trigger population.
+						<classname>SwingMetwidget</classname> also populates itself just-in-time if clients interrogate it
+						through standard methods such as <function>JComponent.getComponentCount</function> or
+						<function>JComponent.getBounds</function>.
+					</para>
+				</section>
+
 			</section>
 
 			<section id="section-metawidgets-desktop-swt">

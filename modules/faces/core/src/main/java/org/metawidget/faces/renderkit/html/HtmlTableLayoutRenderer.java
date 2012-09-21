@@ -112,12 +112,19 @@ public class HtmlTableLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		layoutHiddenChildren( context, metawidget );
+		// Start table or, if there are hidden fields, a div around the table/hidden field
+		// siblings. It is very important the clientId is written on to a 'root' node, else
+		// AJAX will not correctly re-render the whole block
 
-		// Start table
-
-		writer.startElement( "table", metawidget );
-		writer.writeAttribute( "id", metawidget.getClientId( context ), "id" );
+		if ( hasHiddenChildren( metawidget ) ) {
+			writer.startElement( "div", metawidget );
+			writer.writeAttribute( "id", metawidget.getClientId( context ), "id" );
+			layoutHiddenChildren( context, metawidget );
+			writer.startElement( "table", metawidget );
+		} else {
+			writer.startElement( "table", metawidget );
+			writer.writeAttribute( "id", metawidget.getClientId( context ), "id" );
+		}
 
 		// Styles
 
@@ -209,16 +216,25 @@ public class HtmlTableLayoutRenderer
 		writer.startElement( "tbody", metawidget );
 	}
 
+	protected boolean hasHiddenChildren( UIComponent metawidget ) {
+
+		for ( UIComponent componentChild : metawidget.getChildren() ) {
+			if ( componentChild instanceof HtmlInputHidden ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
-	 * layout any hidden child components first, before the table.
+	 * Layout any hidden child components first, before the table.
 	 */
 
 	protected void layoutHiddenChildren( FacesContext context, UIComponent metawidget )
 		throws IOException {
 
-		List<UIComponent> children = metawidget.getChildren();
-
-		for ( UIComponent componentChild : children ) {
+		for ( UIComponent componentChild : metawidget.getChildren() ) {
 			if ( !( componentChild instanceof HtmlInputHidden ) ) {
 				continue;
 			}
@@ -301,6 +317,12 @@ public class HtmlTableLayoutRenderer
 		ResponseWriter writer = context.getResponseWriter();
 		writer.endElement( "tbody" );
 		writer.endElement( "table" );
+
+		// End div around the whole table
+
+		if ( hasHiddenChildren( metawidget ) ) {
+			writer.endElement( "div" );
+		}
 	}
 
 	//
