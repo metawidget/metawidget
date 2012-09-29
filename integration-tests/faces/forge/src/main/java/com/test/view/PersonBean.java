@@ -96,8 +96,6 @@ public class PersonBean
 	@UiAction
 	public String create() {
 
-		// TODO: /faces/faces?
-
 		mConversation.begin();
 		return "create?faces-redirect=true";
 	}
