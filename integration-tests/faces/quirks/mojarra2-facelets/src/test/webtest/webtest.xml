@@ -38,7 +38,7 @@
 
 				<setSelectField name="form:ajaxQuirksSelect" value="Hide"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th)" text="Label:"/>
-				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/td/span)" text=""/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/td/div)" text=""/>
 			</steps>
 		</webtest>		
 

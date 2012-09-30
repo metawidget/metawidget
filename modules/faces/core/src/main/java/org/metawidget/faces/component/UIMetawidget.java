@@ -141,13 +141,6 @@ public abstract class UIMetawidget
 
 	public static final String				COMPONENT_ATTRIBUTE_SECTION_DECORATOR	= "metawidget-section-decorator";
 
-	/**
-	 * The standard component family for this component.
-	 */
-
-	@SuppressWarnings( "hiding" )
-	public static final String				COMPONENT_FAMILY						= "org.metawidget";
-
 	//
 	// Private statics
 	//
@@ -168,6 +161,13 @@ public abstract class UIMetawidget
 	/* package private */static boolean		LOGGED_MISSING_CONFIG;
 
 	private static Boolean					USE_PRERENDER_VIEW_EVENT;
+
+	/**
+	 * The standard component family for this component.
+	 */
+
+	@SuppressWarnings( "hiding" )
+	private static final String				COMPONENT_FAMILY						= "org.metawidget";
 
 	//
 	// Private members

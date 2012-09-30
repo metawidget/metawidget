@@ -106,7 +106,7 @@
 				<!-- Test rendering nested Metawidgets with required fields -->
 				
 				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="1"/>
-				<verifyXPath xpath="/html/body/table[2]/tbody/tr/td[1]/span/textarea"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr/td[1]/div/textarea"/>
 				<verifyXPath xpath="/html/body/table[2]/tbody/tr/td[2]" text="*"/>
 
 				<!-- Test inline Actions -->

@@ -18,6 +18,7 @@
 				<include>**/gwt/clientside/war/index.html</include>
 				<include>**/src/**</include>
 				<include>**/pom.xml</include>
+				<include>readme.txt</include>
 			</includes>
 			<excludes>
 				<exclude>.*</exclude>

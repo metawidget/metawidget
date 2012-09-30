@@ -57,8 +57,16 @@ public class HtmlSimpleLayoutRenderer
 		throws IOException {
 
 		ResponseWriter writer = context.getResponseWriter();
-		writer.startElement( "span", component );
+
+		// Important to wrap output in something with an id, so that 'label for' can refer to it
+
+		writer.startElement( "div", component );
 		writer.writeAttribute( "id", component.getClientId( context ), "id" );
+
+		// Display as 'inline' so as not to affect formatting. However don't use a 'span' because
+		// we're not allowed to put some tags (i.e. 'table') inside a 'span'
+
+		writer.writeAttribute( "style", "display: inline", "style" );
 
 		super.encodeBegin( context, component );
 	}
@@ -71,6 +79,6 @@ public class HtmlSimpleLayoutRenderer
 		FacesUtils.render( context, component.getFacet( AFTER_FACET ) );
 
 		ResponseWriter writer = context.getResponseWriter();
-		writer.endElement( "span" );
+		writer.endElement( "div" );
 	}
 }

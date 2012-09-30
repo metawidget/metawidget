@@ -79,8 +79,8 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[10]/th[@class='table-label-column']/label" text="Notes:" />
 				<not>
 					<verifyText text="owner" />
-					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[1]/span/select" />
-					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[2]/span/input" />
+					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[1]/div/select" />
+					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[2]/div/input" />
 					<verifyXPath xpath="//*[@name = 'form:communications:communicationCurrentType']" />
 					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr[1]/td[@class='buttons']/table" />
 				</not>
@@ -102,8 +102,8 @@
 
 				<clickButton label="Add" />
 				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/form/ul/li)" text="Communication type is required" />
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[1]/span/select" />
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[2]/span/input" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[1]/div/select" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tfoot/tr/td[2]/div/input" />
 				<setSelectField name="form:communications:communicationCurrentType" value="Fax" />
 				<setInputField name="form:communications:communicationCurrentValue" value="(939) 555-0114" />
 				<clickButton label="Add" />
@@ -164,8 +164,8 @@
 				<clickButton label="Add Personal Contact" />
 				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']/select/option)" text="5" />
 				<verifyInputField name="form:contactCurrentDateOfBirth" value="" />
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td/span/input[1]/@value" text="Save" />
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td/span/input[2]/@value" text="Cancel" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td/div/input[1]/@value" text="Save" />
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td/div/input[2]/@value" text="Cancel" />
 				<clickButton label="Cancel" />
 
 				<clickButton label="Add Business Contact" />

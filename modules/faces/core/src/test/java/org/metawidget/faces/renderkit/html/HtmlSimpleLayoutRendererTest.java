@@ -59,7 +59,7 @@ public class HtmlSimpleLayoutRendererTest
 		renderer.encodeChildren( mContext, metawidget );
 		renderer.encodeEnd( mContext, metawidget );
 
-		assertEquals( "<span id=\"j_id2\"></span>", mContext.getResponseWriter().toString() );
+		assertEquals( "<div id=\"j_id2\" style=\"display: inline\"></div>", mContext.getResponseWriter().toString() );
 
 		// Single component
 
@@ -74,7 +74,7 @@ public class HtmlSimpleLayoutRendererTest
 		renderer.encodeChildren( mContext, metawidget );
 		renderer.encodeEnd( mContext, metawidget );
 
-		assertEquals( "<span id=\"j_id2\"><htmlInputText id=\"foo\"></htmlInputText></span>", mContext.getResponseWriter().toString() );
+		assertEquals( "<div id=\"j_id2\" style=\"display: inline\"><htmlInputText id=\"foo\"></htmlInputText></div>", mContext.getResponseWriter().toString() );
 
 		// Stub with 1 child
 
@@ -89,7 +89,7 @@ public class HtmlSimpleLayoutRendererTest
 		renderer.encodeChildren( mContext, metawidget );
 		renderer.encodeEnd( mContext, metawidget );
 
-		assertEquals( "<span id=\"j_id2\"><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText></UIStub></span>", mContext.getResponseWriter().toString() );
+		assertEquals( "<div id=\"j_id2\" style=\"display: inline\"><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText></UIStub></div>", mContext.getResponseWriter().toString() );
 
 		// Stub with multiple children
 
@@ -99,7 +99,7 @@ public class HtmlSimpleLayoutRendererTest
 		renderer.encodeChildren( mContext, metawidget );
 		renderer.encodeEnd( mContext, metawidget );
 
-		assertEquals( "<span id=\"j_id2\"><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText><htmlInputText></htmlInputText></UIStub></span>", mContext.getResponseWriter().toString() );
+		assertEquals( "<div id=\"j_id2\" style=\"display: inline\"><UIStub id=\"foo\"><htmlInputText id=\"foo\"></htmlInputText><htmlInputText></htmlInputText></UIStub></div>", mContext.getResponseWriter().toString() );
 	}
 
 	//
