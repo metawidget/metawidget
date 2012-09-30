@@ -44,12 +44,12 @@
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[1]/th/label)" text="Foo:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[2]/th/label)" text="Bar:"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/span/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/div/input/@type" text="text"/>
 				<not>
-					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/span/input/@style" text="background-color: red"/>
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/div/input/@style" text="background-color: red"/>
 				</not>
 				<verifyXPath xpath="normalize-space(/html/body/form/table[1]/tbody/tr[3]/th/label)" text="Baz:"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/span/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/div/input/@type" text="text"/>
 
 				<clickButton label="Save"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]" text=""/>
