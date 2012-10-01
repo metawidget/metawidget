@@ -64,9 +64,9 @@ public class HtmlSimpleLayoutRenderer
 		writer.writeAttribute( "id", component.getClientId( context ), "id" );
 
 		// Display as 'inline' so as not to affect formatting. However don't use a 'span' because
-		// we're not allowed to put some tags (i.e. 'table') inside a 'span'
+		// we're not allowed to put some tags (i.e. 'div', 'table') inside a 'span'
 
-		writer.writeAttribute( "style", "display: inline", "style" );
+		writer.writeAttribute( "style", "display: inline", null );
 
 		super.encodeBegin( context, component );
 	}

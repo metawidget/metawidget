@@ -207,7 +207,7 @@
 		</tr></table>
 		
 		<p>
-			The full talk will be available on <a href="http://www.parleys.com/#st=4&id=102979">Parleys</a>. A <a href="http://blog.kennardconsulting.com/2011/12/metawidget-javaone-2011-jboss-booth.html">JBoss booth video</a> is also available.
+			The full talk will be available on <a href="http://www.parleys.com/#st=4&amp;id=102979">Parleys</a>. A <a href="http://blog.kennardconsulting.com/2011/12/metawidget-javaone-2011-jboss-booth.html">JBoss booth video</a> is also available.
 		</p>
 				
 		<hr/>
@@ -251,10 +251,10 @@
 		<p>
 			This <a href="http://metawidget.org/media/whitepaper/MetawidgetWhitePaper-TelefonicaHealthPortal.pdf">white paper</a>
 			presents a case study of using Metawidget to provide automatic UI generation for the
-			Telef&oacutenica Health Portal system. The Health Portal is a Web-based application designed around a Service
+			Telef&oacute;nica Health Portal system. The Health Portal is a Web-based application designed around a Service
 			Oriented Architecture and built using Google Web Toolkit. It serves the Spanish National Health System and
 			is deployed to some 3,000 hospitals and health clinics across Spain. The integration of Metawidget allowed
-			Telef&oacutenica to reduce development and ongoing maintenance costs. It further allowed the Health Portal to
+			Telef&oacute;nica to reduce development and ongoing maintenance costs. It further allowed the Health Portal to
 			offer a level of flexibility and functionality not possible in previous products.
 		</p>
 		
