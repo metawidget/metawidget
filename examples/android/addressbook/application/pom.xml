@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.examples.android</groupId>
 		<artifactId>addressbook-android-parent</artifactId>
-		<version>2.5-SNAPSHOT</version>
+		<version>2.5</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
