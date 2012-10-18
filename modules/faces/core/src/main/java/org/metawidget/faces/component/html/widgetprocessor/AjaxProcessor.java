@@ -45,7 +45,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * Note that <code>f:ajax</code> is only supported under Facelets, as per section 10.4.1 of the JSF
  * 2 specification: "The following additional tags [f:ajax] apply to the Facelet Core Tag Library
  * <em>only</em>".
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -102,6 +102,9 @@ public class AjaxProcessor
 			// the 'render id' in the annotation, because in most cases that id will be dynamically
 			// generated (may even be randomly generated). They can always use a custom
 			// WidgetProcessor in that case
+			//
+			// If using a persistent scope (such as conversation scope or view scope) it may be more
+			// optimal to use setExecute( "@this" ) instead
 
 			ajaxBehaviour.setExecute( CollectionUtils.newArrayList( metawidget.getClientId() ) );
 			ajaxBehaviour.setRender( ajaxBehaviour.getExecute() );

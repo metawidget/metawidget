@@ -27,8 +27,9 @@ package org.metawidget.iface;
  * <li>mark all fields final and private</li>
  * </ul>
  * <p>
- * Note: this interface is not an annotation because we want it to be automatically inherited. Even
- * the <code>Inherited</code> annotation does not propagate from interfaces.
+ * Note: this interface is not an annotation because we want it to be automatically inherited when
+ * placed on interfaces (such as <code>Inspector</code>). Even the <code>Inherited</code> annotation
+ * does not propagate from interfaces.
  * <p>
  * <strong>This is an internal API and is subject to change. Clients should use one of its
  * subinterfaces (ie. <code>Inspector</code>, <code>Layout</code> etc) instead.</strong>
