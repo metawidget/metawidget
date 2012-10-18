@@ -4,6 +4,29 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v2.5 Released!</h3>
+		<h4>19th October 2012</h4>
+		
+		<p>
+			Metawidget v2.5 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Improved JSF support: better AJAX; XHTML compliance</li>
+			<li>Improved support for RichFaces 4: CollapsiblePanel; UIAutocomplete</li>
+			<li>Move Metawidget to Maven Central</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget v2.4 Released!</h3>
 		<h4>12th August 2012</h4>
 		

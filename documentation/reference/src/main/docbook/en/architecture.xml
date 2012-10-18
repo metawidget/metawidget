@@ -106,7 +106,7 @@
 		<tip>
 			<title>Research</title>
 			The five stage pipeline is the result of many years of developer interviews, case studies and research. For complete details
-			of the theoretical foundations underpinning Metawidget, please see
+			on the theoretical foundations underpinning Metawidget, please see
 			<ulink url="http://metawidget.org/media/downloads/Derivation%20of%20a%20General%20Purpose%20Architecture%20for%20Automatic%20User%20Interface%20Generation.pdf">this PhD thesis</ulink>.			
 		</tip>
 
