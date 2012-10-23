@@ -28,7 +28,7 @@ import javax.faces.context.FacesContext;
 
 /**
  * Utilities for working with Java Server Faces.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -44,7 +44,7 @@ public final class FacesUtils {
 	 * <p>
 	 * This method is a mirror of the one in <code>UIComponentTag.isValueReference</code>, but that
 	 * one is deprecated so may be removed in the future.
-	 * 
+	 *
 	 * @param value
 	 *            The value to evaluate
 	 * @throws NullPointerException
@@ -180,7 +180,7 @@ public final class FacesUtils {
 
 			if ( existingStyle == null || "".equals( existingStyle ) ) {
 				attributes.put( "style", style );
-			} else {
+			} else if ( !existingStyle.contains( style )){
 				attributes.put( "style", existingStyle + " " + style );
 			}
 		}
@@ -190,7 +190,7 @@ public final class FacesUtils {
 
 			if ( existingStyleClass == null || "".equals( existingStyleClass ) ) {
 				attributes.put( "styleClass", styleClass );
-			} else {
+			} else if ( !existingStyleClass.contains( styleClass )){
 				attributes.put( "styleClass", existingStyleClass + " " + styleClass );
 			}
 		}

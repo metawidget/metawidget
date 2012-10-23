@@ -82,7 +82,7 @@
 		</p>
 		
 		<ul>
-			<li>Vaadin Metawidget</li>
+			<li><a href="http://blog.kennardconsulting.com/2012/05/metawidget-adds-vaadin-support.html">Vaadin Metawidget</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

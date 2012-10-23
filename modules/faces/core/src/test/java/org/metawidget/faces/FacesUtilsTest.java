@@ -16,6 +16,8 @@
 
 package org.metawidget.faces;
 
+import javax.faces.component.html.HtmlInputText;
+
 import junit.framework.TestCase;
 
 /**
@@ -46,5 +48,26 @@ public class FacesUtilsTest
 		assertEquals( "#{#{foo}", FacesUtils.wrapExpression( "#{foo" ) );
 		assertEquals( "#{{foo}}", FacesUtils.wrapExpression( "{foo}" ) );
 		assertEquals( "#{foo}}", FacesUtils.wrapExpression( "foo}" ) );
+	}
+
+	public void testSetStyleAndStyleClass()
+		throws Exception {
+
+		HtmlInputText component = new HtmlInputText();
+		FacesUtils.setStyleAndStyleClass( component, "style1", "styleClass1" );
+		assertEquals( "style1", component.getStyle() );
+		assertEquals( "styleClass1", component.getStyleClass() );
+
+		FacesUtils.setStyleAndStyleClass( component, "style2", "styleClass2" );
+		assertEquals( "style1 style2", component.getStyle() );
+		assertEquals( "styleClass1 styleClass2", component.getStyleClass() );
+
+		FacesUtils.setStyleAndStyleClass( component, "style3", "styleClass3" );
+		assertEquals( "style1 style2 style3", component.getStyle() );
+		assertEquals( "styleClass1 styleClass2 styleClass3", component.getStyleClass() );
+
+		FacesUtils.setStyleAndStyleClass( component, "style2", "styleClass2" );
+		assertEquals( "style1 style2 style3", component.getStyle() );
+		assertEquals( "styleClass1 styleClass2 styleClass3", component.getStyleClass() );
 	}
 }
