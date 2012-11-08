@@ -121,7 +121,7 @@ public class XmlSchemaGeneratorTaskTest
 			assertTrue( filename, !contents.contains( "name=\"pageContext\"" ) );
 
 			// ConfigReader isn't configurable
-			
+
 			assertTrue( filename, !contents.contains( "ConfigReader" ) );
 		}
 	}
@@ -227,7 +227,7 @@ public class XmlSchemaGeneratorTaskTest
 		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ) );
 		assertTrue( schema.contains( "\t\t\t<xs:sequence>\r\n" ) );
 
-		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"parameter\" minOccurs=\"0\" maxOccurs=\"unbounded\">" ) );
+		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"parameter\" minOccurs=\"0\" <!--maxOccurs=\"unbounded\"-->>" ) );
 		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>" ) );
 		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>" ) );
 		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:element name=\"string\" type=\"xs:string\"/>" ) );
@@ -235,6 +235,11 @@ public class XmlSchemaGeneratorTaskTest
 		assertTrue( schema.contains( "\t\t\t\t\t\t</xs:sequence>" ) );
 		assertTrue( schema.contains( "\t\t\t\t\t</xs:complexType>" ) );
 		assertTrue( schema.contains( "\t\t\t\t</xs:element>" ) );
+
+		// widgetProcessors should be an array
+
+		assertTrue( schema.contains( "<xs:element name=\"array\">" ) );
+		assertTrue( !schema.contains( "<xs:element name=\"list\">" ) );
 
 		assertTrue( schema.contains( "\t\t\t</xs:sequence>\r\n" ) );
 		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ) );

@@ -826,7 +826,7 @@
 						<classname>UIMetawidget</classname> supports JSF 2.0. It automatically detects whether JSF 2.0
 						classes are available (specifically <classname>javax.faces.event.PreRenderViewEvent</classname>) and switches
 						to using them. However not all JSF 2.0 implementations properly support <classname>PreRenderViewEvent</classname>. You
-						need at least Mojarra 2.2
+						need at least Mojarra 2.1.7
 						(specifically a version that <ulink url="http://java.net/jira/browse/JAVASERVERFACES-1826">includes this fix</ulink>)
 						or MyFaces 2.0.3
 						(specifically a version that <ulink url="https://issues.apache.org/jira/browse/MYFACES-2935">includes this fix</ulink>). If you need
@@ -857,6 +857,54 @@
 					
 				</section>
 				
+				<section id="section-metawidgets-web-faces-2-ajax">
+				
+					<para>
+						By default, <classname>UIMetawidget</classname> does not rebuild widgets upon an AJAX request unless
+						the Metawidget's <parameter>Id</parameter> is explicitly included in the list of <parameter>execute</parameter>
+						Ids. There are several reasons for this:
+					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								Suppose a Metawidget X has children A, B and C. If B is executed by an AJAX request, this
+								will trigger X with a <classname>PreRenderViewEvent</classname> (because it is the parent). But if X
+								rebuilds A and C, and they <emphasis>weren't</emphasis> part of the execute request, their values will be
+								lost. This is similar to how <classname>UIMetawidget</classname> doesn't rebuild upon a validation
+								error
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Similarly, if the Metawidget's backing bean is request-scoped, rebuilding A and C will
+								mean they fetch their values from a new (likely empty) backing bean instance. There will be
+								no opportunity for A and C to postback their values first (because they are not executed)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Some components (such as RichFaces' <classname>UIAutocomplete</classname>) do not allow fine-grained
+								control over what is executed and rendered. They just execute and render themselves							
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								AJAX is about performance, so typically clients are not wanting to rebuild large sections
+								of the component tree
+							</para>
+						</listitem>
+					</itemizedlist>
+
+					<para>
+						Although this default behaviour is safer it does, however, result in less dynamic UIs.
+						Clients can use <parameter>setBuildWidgetsOnAjaxRequest</parameter> to override the default behaviour
+						and instruct <classname>UIMetawidget</classname> to always rebuild widgets upon an AJAX request.
+						Mechanisms such as conversation-scoped backing beans can be used to avoid losing values.
+					</para>
+					
+				</section>			
+	
 			</section>
 			
 			<section id="section-metawidgets-web-spring">

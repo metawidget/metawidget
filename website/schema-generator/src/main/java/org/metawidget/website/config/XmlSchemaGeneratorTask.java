@@ -43,9 +43,9 @@ import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.iface.Immutable;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle.JavaBeanProperty;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.IOUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -123,7 +123,7 @@ public class XmlSchemaGeneratorTask
 
 			FileWriter indexWriter = new FileWriter( new File( destDir, "index.php" ) );
 			indexWriter.write( "<?php $title = 'XML Schemas'; require_once '../include/page-start.php'; ?>\r\n\r\n" );
-			indexWriter.write( "\t<?php $floater='xml.png'; require_once '../include/body-start.php'; ?>\r\n\r\n" ); 
+			indexWriter.write( "\t<?php $floater='xml.png'; require_once '../include/body-start.php'; ?>\r\n\r\n" );
 			indexWriter.write( "\t\t<h2>XML Schemas</h2>\r\n" );
 			indexWriter.write( "\t\t<h3>Inspection Results</h3>\r\n" );
 			indexWriter.write( "\t\t<p>This schema is used for inspection results returned by <a href=\"http://metawidget.org/doc/api/org/metawidget/inspector/iface/Inspector.html\">Inspectors</a>:</p>\r\n" );
@@ -265,7 +265,7 @@ public class XmlSchemaGeneratorTask
 			// End index.html
 
 			indexWriter.write( "\t\t</ul>\r\n\r\n" );
-			indexWriter.write( "\t<?php require_once '../include/body-end.php'; ?>\r\n\r\n" ); 
+			indexWriter.write( "\t<?php require_once '../include/body-end.php'; ?>\r\n\r\n" );
 			indexWriter.write( "<?php require_once '../include/page-end.php'; ?>" );
 			indexWriter.close();
 		} catch ( Exception e ) {
@@ -309,8 +309,8 @@ public class XmlSchemaGeneratorTask
 		}
 
 		// ConfigReader isn't configurable
-		
-		if ( ConfigReader.class.isAssignableFrom( clazz )) {
+
+		if ( ConfigReader.class.isAssignableFrom( clazz ) ) {
 			return null;
 		}
 
@@ -387,15 +387,16 @@ public class XmlSchemaGeneratorTask
 			// Okay to fail
 		}
 
-		if ( supportSetParameter ) {
-			// A limitation of XML Schema is that if you want to support multiples of
-			// an element (ie. xs:sequence, maxOccurs='unbounded') then you can't also
-			// support arbitrary order (ie. xs:all). You can't mix the two :(
+		builder.append( "\t\t\t<xs:all>\r\n" );
 
-			builder.append( "\t\t\t<xs:sequence>\r\n" );
-			builder.append( generatePropertyBlock( "parameter", true, String.class, Object.class ) );
-		} else {
-			builder.append( "\t\t\t<xs:all>\r\n" );
+		// A limitation of XML Schema is that if you want to support multiples of
+		// an element (ie. xs:sequence, maxOccurs='unbounded') then you can't also
+		// support arbitrary order (ie. xs:all). You can't mix the two :(
+
+		if ( supportSetParameter ) {
+			String parameterPropertyBlock = generatePropertyBlock( "parameter", true, String.class, Object.class );
+			parameterPropertyBlock = parameterPropertyBlock.replace( "maxOccurs=\"unbounded\"", "<!--maxOccurs=\"unbounded\"-->" );
+			builder.append( parameterPropertyBlock );
 		}
 
 		boolean foundProperty = false;
@@ -414,7 +415,12 @@ public class XmlSchemaGeneratorTask
 				continue;
 			}
 
-			String propertyBlock = generatePropertyBlock( property.getName(), false, ClassUtils.niceForName( property.getType() ));
+			// Get the *setter* type, not the getter type. The latter is the default, but the former
+			// is more 'proper' because the XML is setting. This makes a subtle difference for
+			// setWidgetProcessors
+
+			Class<?> parameterType = ( (JavaBeanProperty) property ).getWriteMethod().getParameterTypes()[0];
+			String propertyBlock = generatePropertyBlock( property.getName(), false, parameterType );
 
 			if ( propertyBlock == null ) {
 				continue;
@@ -428,11 +434,7 @@ public class XmlSchemaGeneratorTask
 			return null;
 		}
 
-		if ( supportSetParameter ) {
-			builder.append( "\t\t\t</xs:sequence>\r\n" );
-		} else {
-			builder.append( "\t\t\t</xs:all>\r\n" );
-		}
+		builder.append( "\t\t\t</xs:all>\r\n" );
 
 		return builder.toString();
 	}

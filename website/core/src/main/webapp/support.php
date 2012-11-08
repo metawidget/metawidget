@@ -42,7 +42,7 @@
 		<h2 class="h2-underneath">Community Internet Relay Chat (IRC)</h2>
 		
 		<p>
-			Metawidget community members can be found in the <strong>#metawidget</strong> IRC channel on <strong>irc.freenode.net</strong>. You will
+			Metawidget community members can be found in the <strong>#metawidget</strong> IRC channel on <strong>chat.freenode.net</strong>. You will
 			need an <a href="http://en.wikipedia.org/wiki/Internet_Relay_Chat_client#Clients">IRC client</a> or
 			try <a href="http://webchat.freenode.net">http://webchat.freenode.net</a>.
 		</p> 

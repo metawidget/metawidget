@@ -368,8 +368,6 @@ public abstract class UIMetawidget
 		mInspectFromParent = inspectFromParent;
 	}
 
-	// TODO: move this doco into metawidgets.xml
-	
 	/**
 	 * By default, <code>UIMetawidget</code> does not rebuild widgets upon an AJAX request unless
 	 * the Metawidget's <code>Id</code> is explicitly included in the list of <code>execute</code>
