@@ -49,7 +49,7 @@ public class ReadOnlyWidgetBuilderTest
 
 		attributes.put( MASKED, TRUE );
 		StaticXmlWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "<stub><output></output></stub>", widget.toString() );
+		assertEquals( "<output></output>", widget.toString() );
 		attributes.remove( MASKED );
 
 		// Date

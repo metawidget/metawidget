@@ -95,7 +95,7 @@ public class HtmlWidgetBuilderTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, Set.class.getName() );
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "<stub/>", widget.toString() );
+		assertEquals( "", widget.toString() );
 
 		// Most basic
 
