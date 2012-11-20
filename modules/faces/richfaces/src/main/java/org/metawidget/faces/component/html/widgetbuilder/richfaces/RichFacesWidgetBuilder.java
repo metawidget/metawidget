@@ -433,6 +433,8 @@ public class RichFacesWidgetBuilder
 					autoComplete.setMinChars( 2 );
 					autoComplete.setMode( AutocompleteMode.cachedAjax );
 
+					// RichFaces 4 UIAutocomplete doesn't appear to have support setMaxLength?
+
 					return autoComplete;
 				}
 			}

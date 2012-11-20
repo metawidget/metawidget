@@ -145,7 +145,9 @@ public abstract class BaseStaticXmlWidget
 			// Non-indented text content
 
 			if ( !isSelfClosing() ) {
-				writer.append( ">" );
+				if ( mTagName != null ) {
+					writer.append( ">" );
+				}
 				if ( mTextContent != null ) {
 					writer.append( mTextContent );
 				}
@@ -154,14 +156,18 @@ public abstract class BaseStaticXmlWidget
 				}
 				writeEndTag( writer );
 			} else {
-				writer.append( "/>" );
+				if ( mTagName != null ) {
+					writer.append( "/>" );
+				}
 				if ( writer instanceof IndentedWriter ) {
 					writer.append( "\r\n" );
 				}
 			}
 		} else {
 			writeStartTag( writer );
-			writer.append( ">" );
+			if ( mTagName != null ) {
+				writer.append( ">" );
+			}
 			if ( writer instanceof IndentedWriter ) {
 				writer.append( "\r\n" );
 				( (IndentedWriter) writer ).indent();
@@ -227,6 +233,10 @@ public abstract class BaseStaticXmlWidget
 	private void writeStartTag( Writer writer )
 		throws IOException {
 
+		if ( mTagName == null ) {
+			return;
+		}
+
 		writer.append( '<' );
 
 		if ( mPrefix != null ) {
@@ -247,6 +257,10 @@ public abstract class BaseStaticXmlWidget
 
 	private void writeEndTag( Writer writer )
 		throws IOException {
+
+		if ( mTagName == null ) {
+			return;
+		}
 
 		if ( writer instanceof IndentedWriter ) {
 			( (IndentedWriter) writer ).outdent();

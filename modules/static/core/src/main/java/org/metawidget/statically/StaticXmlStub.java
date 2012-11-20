@@ -31,6 +31,6 @@ public class StaticXmlStub
 
 		// Null prefix/namespace: stubs should never be output (kind of the point of being static)
 
-		super( null, "stub", null );
+		super( null, null, null );
 	}
 }

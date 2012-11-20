@@ -22,6 +22,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.widgetbuilder.HtmlDiv;
 import org.metawidget.statically.html.widgetbuilder.HtmlInput;
@@ -60,6 +61,44 @@ public class HtmlTableLayoutTest
 		builder.append( "<th class=\"labelColumnStyleClass\"><label for=\"foo-bar\">Foo:</label></th>" );
 		builder.append( "<td class=\"componentColumnStyleClass\"><input id=\"foo-bar\"/></td>" );
 		builder.append( "<td class=\"requiredColumnStyleClass\"/>" );
+		builder.append( "</tr></tbody></table></div>" );
+		assertEquals( builder.toString(), container.toString() );
+	}
+
+	public void testStubs()
+		throws Exception {
+
+		HtmlTableLayout layout = new HtmlTableLayout();
+		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( NAME, "foo" );
+
+		// Empty stub
+
+		StaticXmlStub stub = new StaticXmlStub();
+		HtmlDiv container = new HtmlDiv();
+		layout.startContainerLayout( container, metawidget );
+		layout.layoutWidget( stub, PROPERTY, attributes, container, metawidget );
+		layout.endContainerLayout( container, metawidget );
+
+		assertEquals( "<div><table><tbody/></table></div>", container.toString() );
+
+		// Stub with children
+
+		HtmlInput htmlInput = new HtmlInput();
+		htmlInput.putAttribute( "id", "foo-bar" );
+		stub.getChildren().add( htmlInput );
+
+		container = new HtmlDiv();
+		layout.startContainerLayout( container, metawidget );
+		layout.layoutWidget( stub, PROPERTY, attributes, container, metawidget );
+		layout.endContainerLayout( container, metawidget );
+
+		StringBuilder builder = new StringBuilder();
+		builder.append( "<div><table><tbody><tr>" );
+		builder.append( "<th><label for=\"foo-bar\">Foo:</label></th>" );
+		builder.append( "<td><input id=\"foo-bar\"/></td>" );
+		builder.append( "<td/>" );
 		builder.append( "</tr></tbody></table></div>" );
 		assertEquals( builder.toString(), container.toString() );
 	}

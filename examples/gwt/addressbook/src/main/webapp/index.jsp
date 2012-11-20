@@ -18,7 +18,7 @@
 
 	<div id="content">
 	
-		<div id="metawidget"></div>		
+		<div id="metawidget"></div>
 		<div id="contacts"></div>
 		
 	</div>

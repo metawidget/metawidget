@@ -56,18 +56,22 @@ public class QueryByExampleMetawidgetTest
 		metawidget.setPath( Foo.class.getName() );
 		metawidget.setWidgetBuilder( new QueryByExampleWidgetBuilder() );
 
-		String result = "String abc = this.search.getAbc();\r\n" +
+		String result = "@SuppressWarnings( \"unchecked\" )\r\n" +
+				"String abc = this.search.getAbc();\r\n" +
 				"if (abc != null && !\"\".equals(abc)) {\r\n" +
 				"\tpredicatesList.add(builder.equal(root.get(\"abc\"),abc));\r\n" +
 				"}\r\n" +
+				"// Search baz\r\n" +
 				"Baz baz = this.search.getBaz();\r\n" +
 				"if (baz != null) {\r\n" +
 				"\tpredicatesList.add(builder.equal(root.get(\"baz\"),baz));\r\n" +
 				"}\r\n" +
+				"@SuppressWarnings( \"unchecked\" )\r\n" +
 				"String def = this.search.getDef();\r\n" +
 				"if (def != null && !\"\".equals(def)) {\r\n" +
 				"\tpredicatesList.add(builder.equal(root.get(\"def\"),def));\r\n" +
 				"}\r\n" +
+				"@SuppressWarnings( \"unchecked\" )\r\n" +
 				"String ghi = this.search.getGhi();\r\n" +
 				"if (ghi != null && !\"\".equals(ghi)) {\r\n" +
 				"\tpredicatesList.add(builder.equal(root.get(\"ghi\"),ghi));\r\n" +
@@ -117,6 +121,7 @@ public class QueryByExampleMetawidgetTest
 
 			if ( String.class.equals( clazz ) ) {
 				StaticJavaWidget toReturn = new StaticJavaStub();
+				toReturn.getChildren().add( new JavaLiteral( "@SuppressWarnings( \"unchecked\" )\r\n" ));
 				toReturn.getChildren().add( new JavaStatement( "String " + name + " = this.search.get" + StringUtils.capitalize( name ) + "()" ) );
 				JavaStatement ifNotEmpty = new JavaStatement( "if (" + name + " != null && !\"\".equals(" + name + "))" );
 				ifNotEmpty.getChildren().add( new JavaStatement( "predicatesList.add(builder.equal(root.get(\"" + name + "\")," + name + "))" ) );
@@ -128,6 +133,7 @@ public class QueryByExampleMetawidgetTest
 
 			if ( Baz.class.equals( clazz ) ) {
 				StaticJavaWidget toReturn = new StaticJavaStub();
+				toReturn.getChildren().add( new JavaLiteral( "// Search " + name + "\r\n" ));
 				JavaStatement getValue = new JavaStatement( clazz.getSimpleName() + " " + name + " = this.search.get" + StringUtils.capitalize( name ) + "()" );
 				getValue.putImport( clazz.getName().toString() );
 				toReturn.getChildren().add( getValue );

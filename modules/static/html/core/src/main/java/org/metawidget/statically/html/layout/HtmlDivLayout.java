@@ -42,7 +42,7 @@ public class HtmlDivLayout
 		try {
 			// Ignore stubs
 
-			if ( widget instanceof StaticXmlStub ) {
+			if ( widget instanceof StaticXmlStub && widget.getChildren().isEmpty() ) {
 				return;
 			}
 

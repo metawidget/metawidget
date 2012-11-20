@@ -58,6 +58,8 @@ public class HtmlDivLayoutTest
 
 		HtmlDivLayout layout = new HtmlDivLayout();
 
+		// Empty stub
+
 		StaticHtmlMetawidget metawidget = new StaticHtmlMetawidget();
 		HtmlDiv container = new HtmlDiv();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
@@ -65,6 +67,15 @@ public class HtmlDivLayoutTest
 		layout.layoutWidget( new StaticXmlStub(), PROPERTY, attributes, container, metawidget );
 		layout.layoutWidget( new HtmlInput(), PROPERTY, attributes, container, metawidget );
 		layout.layoutWidget( new StaticXmlStub(), PROPERTY, attributes, container, metawidget );
+
+		assertEquals( "<div><div><label>Foo:</label><input/></div></div>", container.toString() );
+
+		// Stub with children
+
+		container = new HtmlDiv();
+		StaticXmlStub stub = new StaticXmlStub();
+		stub.getChildren().add( new HtmlInput() );
+		layout.layoutWidget( stub, PROPERTY, attributes, container, metawidget );
 
 		assertEquals( "<div><div><label>Foo:</label><input/></div></div>", container.toString() );
 	}

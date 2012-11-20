@@ -16,9 +16,11 @@
 
 package org.metawidget.statically.javacode;
 
-
 /**
- * @author Richard Kennard
+ * Represents a Java statement.
+ * <p>
+ * Statements will always be terminated by a semicolon. Their children will always be indented and
+ * wrapped in braces.
  */
 
 public class JavaStatement

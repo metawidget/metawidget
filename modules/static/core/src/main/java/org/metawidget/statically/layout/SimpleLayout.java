@@ -21,6 +21,7 @@ import java.util.Map;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.statically.StaticMetawidget;
 import org.metawidget.statically.StaticWidget;
+import org.metawidget.statically.StaticXmlStub;
 
 /**
  * @author Richard Kennard
@@ -33,8 +34,14 @@ public class SimpleLayout
 	// Public methods
 	//
 
-	public void layoutWidget( StaticWidget component, String elementName, Map<String, String> attributes, StaticWidget container, StaticMetawidget metawidget ) {
+	public void layoutWidget( StaticWidget widget, String elementName, Map<String, String> attributes, StaticWidget container, StaticMetawidget metawidget ) {
 
-		container.getChildren().add( component );
+		// Ignore stubs
+
+		if ( widget instanceof StaticXmlStub && widget.getChildren().isEmpty() ) {
+			return;
+		}
+
+		container.getChildren().add( widget );
 	}
 }

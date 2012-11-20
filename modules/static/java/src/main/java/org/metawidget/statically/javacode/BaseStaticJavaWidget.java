@@ -109,4 +109,13 @@ public abstract class BaseStaticJavaWidget
 			writer.append( "\r\n" );
 		}
 	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getTextContent() {
+
+		return mTextContent;
+	}
 }
