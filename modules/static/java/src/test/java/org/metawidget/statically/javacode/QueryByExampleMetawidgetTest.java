@@ -46,7 +46,7 @@ public class QueryByExampleMetawidgetTest
 		StaticWidget widget = widgetBuilder.buildWidget( PROPERTY, attributes, new StaticJavaMetawidget() );
 
 		assertEquals(
-					"String abc = this.search.getAbc();if (abc != null && !\"\".equals(abc)) { predicatesList.add(builder.equal(root.get(\"abc\"),abc)); }",
+					"@SuppressWarnings( \"unchecked\" )\r\nString abc = this.search.getAbc();if (abc != null && !\"\".equals(abc)) { predicatesList.add(builder.equal(root.get(\"abc\"),abc)); }",
 					widget.toString() );
 	}
 
