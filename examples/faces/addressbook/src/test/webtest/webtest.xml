@@ -2,8 +2,6 @@
 
 	<taskdef resource="webtestTaskdefs.properties" />
 
-	<!-- Test Search Screen -->
-
 	<target name="all">
 		<webtest name="test-search">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>

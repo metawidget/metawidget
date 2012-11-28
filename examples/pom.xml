@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>android/addressbook</module>
+		<module>angularjs/addressbook</module>
 		<module>faces/addressbook</module>
 		<module>faces/addressbook2</module>
 		<module>faces/penguincolony</module>

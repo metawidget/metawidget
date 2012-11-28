@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="addressBook">
+	<head>
+		<meta charset="utf-8">
+		<title>Address Book (Metawidget AngularJS Example)</title>
+		<link rel="stylesheet" type="text/css" href="css/addressbook.css" media="all"/>
+		<script src="lib/angular/angular.js"></script>
+		<script src="lib/angular/angular-resource.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/controllers.js"></script>
+		<script src="js/services.js"></script>
+	</head>
+	<body>
+
+	<div id="page-image">
+		<img src="media/addressbook.gif" alt=""/>
+	</div>
+
+	<div id="content" ng-controller="ContactsController">
+
+		<div>
+			<label for="firstname">Firstname:</label>
+			<input id="firstname" type="search" ng-model="firstname"/>
+		</div>
+		<div>
+			<label for="surname">Surname:</label>
+			<input id="surname" type="search" ng-model="surname"/>
+		</div>
+		<div>
+			<label for="type">Type:</label>
+			<select id="type" ng-model="type">
+				<option></option>
+				<option value="personal">Personal</option>
+				<option value="business">Business</option>
+			</select>
+		</div>
+
+		<div class="buttons">
+			<button ng-click="runSearch()">Search</button>
+			<button ng-click="createPersonal()">Create Personal</button>
+			<button ng-click="createBusiness()">Create Business</button>
+		</div>
+
+		<table class="data-table">
+			<thead>
+				<tr>
+					<th class="column-half">Name</th>
+					<th class="column-half">Contact</th>
+					<th class="column-tiny">&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr ng-repeat="contact in contacts | filter:filter">
+					<td class="column-half">
+						<a href="#/contact/{{contact.id}}">
+							{{contact.firstname}} {{contact.surname}}
+						</a>
+					</td>
+					<td class="column-half">
+						{{contact.communications}}
+					</td>
+					<td class="column-tiny">
+						<img src="media/personal-small.gif" alt="Personal Contact" ng-show="contact.type == 'personal'"/>
+						<img src="media/business-small.gif" alt="Business Contact" ng-show="contact.type == 'business'"/>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+
+	</div>
+
+	<div style="height: 50px"></div>
+
+	<div ng-view></div>
+
+	</body>
+</html>
