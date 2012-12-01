@@ -5,19 +5,24 @@
 function ContactsController($scope, $location, contacts) {
 	
 	$scope.contacts = contacts;
+	$scope.search = {
+			firstname: '',
+			surname: '',
+			type: ''
+	};
 
   	// Copy search criteria into Angular filter
   	
  	$scope.runSearch = function() {
 		$scope.filter = {};
-		if ($scope.firstname) {
-			$scope.filter.firstname = $scope.firstname;
+		if ($scope.search.firstname) {
+			$scope.filter.firstname = $scope.search.firstname;
 		}
-		if ($scope.surname) {
-			$scope.filter.surname = $scope.surname;
+		if ($scope.search.surname) {
+			$scope.filter.surname = $scope.search.surname;
 		}		
-		if ($scope.type) {
-			$scope.filter.type = $scope.type;
+		if ($scope.search.type) {
+			$scope.filter.type = $scope.search.type;
 		}
 	};
 	
@@ -27,7 +32,7 @@ function ContactsController($scope, $location, contacts) {
 
 	$scope.createBusiness = function() {
 		$location.path( '/contact/business' );
-	}
+	};
 }
 
 function ContactController($scope, $routeParams, $location, contacts) {

@@ -18,22 +18,7 @@
 
 	<div id="content" ng-controller="ContactsController">
 
-		<div>
-			<label for="firstname">Firstname:</label>
-			<input id="firstname" type="search" ng-model="firstname"/>
-		</div>
-		<div>
-			<label for="surname">Surname:</label>
-			<input id="surname" type="search" ng-model="surname"/>
-		</div>
-		<div>
-			<label for="type">Type:</label>
-			<select id="type" ng-model="type">
-				<option></option>
-				<option value="personal">Personal</option>
-				<option value="business">Business</option>
-			</select>
-		</div>
+		<metawidget to-inspect="search"></metawidget>
 
 		<div class="buttons">
 			<button ng-click="runSearch()">Search</button>
