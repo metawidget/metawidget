@@ -17,6 +17,7 @@
 'use strict';
 
 /**
+<<<<<<< HEAD
  * Metawidget for pure JavaScript environments.
  */
 
