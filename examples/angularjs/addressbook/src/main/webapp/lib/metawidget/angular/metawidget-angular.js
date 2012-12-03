@@ -26,9 +26,9 @@ angular.module( 'metawidget.directives', [] )
 	  
 	  // Set up an Angular-specific Metawidget
 	  
-	  var metawidget = new Metawidget();
+	  var mw = new metawidget.Metawidget();
 	  
-	  metawidget.widgetProcessors.push( function( widget, attributes ) {
+	  mw.widgetProcessors.push( function( widget, attributes ) {
 		  
 		  if ( widget.tagName == 'SPAN' ) {
 			  widget.innerHTML = '{{toInspect.' + attributes.name + '}}';
@@ -79,9 +79,9 @@ angular.module( 'metawidget.directives', [] )
 			  
 			  function _buildWidgets( scope, element, attrs ) {
 				  
-				  metawidget.toInspect = scope.$eval( 'toInspect' );
-				  metawidget.readOnly = attrs.readOnly;
-				  element.html( metawidget.buildWidgets().innerHTML );
+				  mw.toInspect = scope.$eval( 'toInspect' );
+				  mw.readOnly = attrs.readOnly;
+				  element.html( mw.buildWidgets().innerHTML );
 				  $compile( element.contents() )( scope );
 			  }
 		  }

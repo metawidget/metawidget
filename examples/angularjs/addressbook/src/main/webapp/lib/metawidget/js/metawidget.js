@@ -20,131 +20,212 @@
  * Metawidget for pure JavaScript environments.
  */
 
-function Metawidget() {
+var metawidget = {
 
-	this.toInspect = {};
-	this.readOnly = false;
+	/**
+	 * Metawidget
+	 */
 
-	// Defaults
-	
-	this.inspector = PropertyInspector;
-	this.inspectionResultProcessors = [ HideIdInspectionResultProcessor ];
-	this.widgetBuilder = HtmlWidgetBuilder;
-	this.widgetProcessors = [ IdWidgetProcessor ];
-	this.layout = DivLayout; 
+	Metawidget : function() {
 
-	this.buildWidgets = function() {
+		this.toInspect = {};
+		this.readOnly = false;
 
-		// Inspector
+		// Defaults
 
-		var inspectionResult = this.inspector();
+		this.inspector = metawidget.PropertyInspector;
+		this.inspectionResultProcessors = [ metawidget.HideIdInspectionResultProcessor ];
+		this.widgetBuilder = metawidget.HtmlWidgetBuilder;
+		this.widgetProcessors = [ metawidget.IdWidgetProcessor ];
+		this.layout = metawidget.TableLayout;
 
-		// InspectionResultProcessors
+		this.buildWidgets = function() {
 
-		for ( var irp = 0, irpLength = this.inspectionResultProcessors.length; irp < irpLength; irp++ ) {
-			this.inspectionResultProcessors[irp]( inspectionResult );
-		}
+			// Inspector
 
-		console.log( inspectionResult );
-		var element = document.createElement( 'metawidget' );
+			var inspectionResult;
 
-		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
-
-			var attributes = inspectionResult[loop];
-
-			// WidgetBuilder
-
-			var widget = this.widgetBuilder( attributes, this );
-
-			// WidgetProcessors
-
-			for ( var wp = 0, wpLength = this.widgetProcessors.length; wp < wpLength; wp++ ) {
-				this.widgetProcessors[wp]( widget, attributes );
+			if ( this.inspector.inspect ) {
+				inspectionResult = this.inspector.inspect( this.toInspect );
+			} else {
+				inspectionResult = this.inspector( this.toInspect );
 			}
 
-			// Layout
+			// InspectionResultProcessors
 
-			this.layout( widget, attributes, element );
+			for ( var irp = 0, irpLength = this.inspectionResultProcessors.length; irp < irpLength; irp++ ) {
+
+				var inspectionResultProcessor = this.inspectionResultProcessors[irp];
+
+				if ( inspectionResultProcessor.processInspectionResult ) {
+					inspectionResultProcessor.processInspectionResult( inspectionResult );
+				} else {
+					inspectionResultProcessor( inspectionResult );
+				}
+			}
+
+			console.log( inspectionResult );
+			var element = document.createElement( 'metawidget' );
+
+			if ( this.layout.startContainerLayout ) {
+				this.layout.startContainerLayout( element );
+			}
+			
+			for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+
+				var attributes = inspectionResult[loop];
+
+				// WidgetBuilder
+
+				var widget;
+
+				if ( this.widgetBuilder.buildWidget ) {
+					widget = this.widgetBuilder.buildWidget( attributes, this );
+				} else {
+					widget = this.widgetBuilder( attributes, this );
+				}
+
+				// WidgetProcessors
+
+				for ( var wp = 0, wpLength = this.widgetProcessors.length; wp < wpLength; wp++ ) {
+
+					var widgetProcessor = this.widgetProcessors[wp];
+
+					if ( widgetProcessor.processWidget ) {
+						widgetProcessor = widgetProcessor.processWidget( widget, attributes );
+					} else {
+						widgetProcessor = widgetProcessor( widget, attributes );
+					}
+				}
+
+				// Layout
+
+				if ( this.layout.layoutWidget ) {
+					this.layout.layoutWidget( widget, attributes, element );
+				} else {
+					this.layout( widget, attributes, element );
+				}
+			}
+
+			return element;
 		}
-
-		return element;
 	}
-};
+}
 
 /**
  * Inspectors.
  */
 
-var PropertyInspector = function() {
-	
-	var inspectionResult = [];
-	
-	for ( var property in this.toInspect ) {
-	
-		var inspectedProperty = {};
-		inspectedProperty.name = property;
-		inspectedProperty.label = property.toUpperCase();
-		inspectedProperty.type = ( typeof property );
-	
-		inspectionResult.push( inspectedProperty );
+metawidget.PropertyInspector = {
+
+	inspect : function( toInspect ) {
+
+		var inspectionResult = [];
+
+		for ( var property in toInspect ) {
+
+			var inspectedProperty = {};
+			inspectedProperty.name = property;
+			inspectedProperty.label = property.toUpperCase();
+			inspectedProperty.type = ( typeof property );
+
+			inspectionResult.push( inspectedProperty );
+		}
+
+		return inspectionResult;
 	}
-	
-	return inspectionResult;
-}
+};
 
 /**
  * InspectionResultProcessors.
  */
 
-var HideIdInspectionResultProcessor = function( inspectionResult ) {
+metawidget.HideIdInspectionResultProcessor = {
 
-	for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+	processInspectionResult : function( inspectionResult ) {
 
-		var attributes = inspectionResult[loop];
+		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
 
-		if ( attributes.name == 'id' ) {
-			attributes.readOnly = true;
+			var attributes = inspectionResult[loop];
+
+			if ( attributes.name == 'id' ) {
+				attributes.readOnly = true;
+			}
 		}
 	}
-}
+};
 
 /**
  * WidgetBuilders.
  */
 
-var HtmlWidgetBuilder = function( attributes, metawidget ) {
+metawidget.HtmlWidgetBuilder = {
 
-	if ( metawidget.readOnly == 'true' || attributes.readOnly ) {
-		return document.createElement( 'span' );
+	buildWidget : function( attributes, metawidget ) {
+
+		if ( metawidget.readOnly == 'true' || attributes.readOnly ) {
+			return document.createElement( 'span' );
+		}
+
+		var widget = document.createElement( 'input' );
+		widget.setAttribute( 'type', 'text' );
+		return widget;
 	}
-
-	var widget = document.createElement( 'input' );
-	widget.setAttribute( 'type', 'text' );
-	return widget;
-}
+};
 
 /**
  * WidgetProcessors.
  */
 
-var IdWidgetProcessor = function( widget, attributes ) {
+metawidget.IdWidgetProcessor = {
 
-	widget.setAttribute( 'id', attributes.name );
-}
+	processWidget : function( widget, attributes ) {
+
+		widget.setAttribute( 'id', attributes.name );
+	}
+};
 
 /**
  * Layouts.
  */
 
-var DivLayout = function( widget, attributes, container ) {
+metawidget.DivLayout = {
 
-	var label = document.createElement( 'label' );
-	label.setAttribute( 'for', attributes.name );
-	label.innerHTML = attributes.label + ':';
+	layoutWidget : function( widget, attributes, container ) {
 
-	var div = document.createElement( 'div' );
-	div.appendChild( label );
-	div.appendChild( widget );
+		var label = document.createElement( 'label' );
+		label.setAttribute( 'for', attributes.name );
+		label.innerHTML = attributes.label + ':';
 
-	container.appendChild( div );
-}
+		var div = document.createElement( 'div' );
+		div.appendChild( label );
+		div.appendChild( widget );
+
+		container.appendChild( div );
+	}
+};
+
+metawidget.TableLayout = {
+
+	startContainerLayout : function( container ) {
+		container.appendChild( document.createElement( 'table' ) );
+	},
+
+	layoutWidget : function( widget, attributes, container ) {
+
+		var th = document.createElement( 'th' );
+		var label = document.createElement( 'label' );
+		label.setAttribute( 'for', attributes.name );
+		label.innerHTML = attributes.label + ':';
+		th.appendChild( label );
+
+		var td = document.createElement( 'td' );
+		td.appendChild( widget );
+
+		var tr = document.createElement( 'tr' );
+		tr.appendChild( th );
+		tr.appendChild( td );
+
+		container.firstChild.appendChild( tr );
+	}
+};
