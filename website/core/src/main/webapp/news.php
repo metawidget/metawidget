@@ -4,6 +4,23 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget Nominated For PhD Thesis Of The Year</h3>
+		<h4>1st December 2012</h4>
+		
+		<p>
+			The PhD thesis <a href="http://hdl.handle.net/2100/1305">Derivation of a General
+			Purpose Architecture for Automatic User Interface Generation</a> details the research
+			that underpins Metawidget. It has been nominated for the most
+			Distinguished Australasian Doctoral Dissertation Award (formerly known as the Best PhD Thesis Award).
+		</p>
+		<p>
+			The award is presented annually to the best PhD thesis in Australasia. Each University may
+			select only one candidate to be put forward. The winner will be announced in January 2013. Previous winners
+			can be <a href="http://core.edu.au/index.php/page/award-rec">found here</a>.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget v2.5 Released!</h3>
 		<h4>19th October 2012</h4>
 		
