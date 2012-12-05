@@ -24,33 +24,20 @@ angular.module( 'metawidget.directives', [] )
   
   .directive( 'metawidget', function( $compile ) {
 	  
-	  // Set up an Angular-specific Metawidget
-	  
-	  var mw = new metawidget.Metawidget();
-	  
-	  mw.widgetProcessors.push( function( widget, attributes ) {
-		  
-		  if ( widget.tagName == 'SPAN' ) {
-			  widget.innerHTML = '{{toInspect.' + attributes.name + '}}';
-		  } else {
-			  widget.setAttribute( 'ng-model', 'toInspect.' + attributes.name );
-		  }		  
-	  } );
-	  
 	  // Returns the Metawidget
 	  
 	  return {
 
 		  /**
-		   * Metawidget is (E)lement level, and has parameters 'toInspect' (2-way)
-		   * and 'readOnly' (1-way).
+		   * Metawidget is (E)lement level.
 		   */
 		  
 		  restrict: 'E',
 		  transclude: true,
 		  scope: {
 			  toInspect: '=',
-			  readOnly: '@'
+			  readOnly: '@',
+			  config: '='			
 		  },
 		  
 		  /**
@@ -59,6 +46,19 @@ angular.module( 'metawidget.directives', [] )
 		  
 		  link: function( scope, element, attrs ) {
 
+			  // Set up an Angular-specific Metawidget
+			  
+			  var mw = new metawidget.Metawidget( scope.$eval( 'config' ));
+			  
+			  mw.widgetProcessors.push( function( widget, attributes ) {
+				  
+				  if ( widget.tagName == 'SPAN' ) {
+					  widget.innerHTML = '{{toInspect.' + attributes.name + '}}';
+				  } else {
+					  widget.setAttribute( 'ng-model', 'toInspect.' + attributes.name );
+				  }		  
+			  } );				  
+			  
 			  // Observe
 			  
 			  var readOnly = false;
@@ -78,8 +78,9 @@ angular.module( 'metawidget.directives', [] )
 			  // Build
 			  
 			  function _buildWidgets( scope, element, attrs ) {
-				  
+				  				  
 				  mw.toInspect = scope.$eval( 'toInspect' );
+				  mw.path = attrs.toInspect;
 				  mw.readOnly = attrs.readOnly;
 				  element.html( mw.buildWidgets().innerHTML );
 				  $compile( element.contents() )( scope );

@@ -26,16 +26,26 @@ var metawidget = {
 	 * Metawidget
 	 */
 
-	Metawidget : function() {
+	Metawidget : function( config ) {
 
 		this.toInspect = {};
+		this.path = '';
 		this.readOnly = false;
 
-		// Defaults
+		// Configure
 
-		this.inspector = metawidget.PropertyInspector;
-		this.inspectionResultProcessors = [ metawidget.HideIdInspectionResultProcessor ];
-		this.widgetBuilder = metawidget.HtmlWidgetBuilder;
+		if ( config && config.inspector != null ) {
+			this.inspector = config.inspector;
+		} else {
+			this.inspector = metawidget.PropertyInspector;
+		}
+		if ( config && config.inspectionResultProcessors ) {
+			this.inspectionResultProcessors = config.inspectionResultProcessors;
+		} else {
+			this.inspectionResultProcessors = [];
+		}
+		this.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ metawidget.ReadOnlyWidgetBuilder,
+		                                                              metawidget.HtmlWidgetBuilder ] );
 		this.widgetProcessors = [ metawidget.IdWidgetProcessor ];
 		this.layout = metawidget.TableLayout;
 
@@ -46,9 +56,9 @@ var metawidget = {
 			var inspectionResult;
 
 			if ( this.inspector.inspect ) {
-				inspectionResult = this.inspector.inspect( this.toInspect );
+				inspectionResult = this.inspector.inspect( this.toInspect, this.path );
 			} else {
-				inspectionResult = this.inspector( this.toInspect );
+				inspectionResult = this.inspector( this.toInspect, this.path );
 			}
 
 			// InspectionResultProcessors
@@ -108,17 +118,77 @@ var metawidget = {
 			}
 
 			return element;
-		}
+		};
 	}
-}
+};
 
 /**
  * Inspectors.
  */
 
+metawidget.CompositeInspector = function( inspectors ) {
+
+	this.inspect = function( toInspect, type ) {
+
+		var compositeInspectionResult = [];
+
+		outer: for ( var ins = 0, insLength = inspectors.length; ins < insLength; ins++ ) {
+
+			var inspectionResult;
+			var inspector = inspectors[ins];
+			
+			if ( inspector.inspect ) {
+				inspectionResult = inspector.inspect( toInspect, type );
+			} else {
+				inspectionResult = inspector( toInspect, type );
+			}			
+
+			// Inspector may return null
+			
+			if ( !inspectionResult ) {
+				continue;
+			}
+			
+			// If this is the first result...
+			
+			if ( compositeInspectionResult.length == 0 ) {
+				
+				// ...use it
+				
+				compositeInspectionResult = inspectionResult;
+			} else {
+				
+				// ...otherwise merge it
+				
+				for ( var loop1 = 0, length1 = inspectionResult.length; loop1 < length1; loop1++ ) {
+					
+					var newAttributes = inspectionResult[loop1];
+					
+					for ( var loop2 = 0, length2 = compositeInspectionResult.length; loop2 < length2; loop2++ ) {
+						var existingAttributes = compositeInspectionResult[loop2];
+						
+						if ( existingAttributes.name == newAttributes.name ) {
+							
+							for( var attribute in newAttributes ) {
+								existingAttributes[attribute] = newAttributes[attribute];
+							}
+							
+							continue outer;
+						}
+					}
+					
+					compositeInspectionResult.push( newAttributes );
+				}
+			}
+		}
+
+		return compositeInspectionResult;
+	};
+};
+
 metawidget.PropertyInspector = {
 
-	inspect : function( toInspect ) {
+	inspect : function( toInspect, type ) {
 
 		var inspectionResult = [];
 
@@ -140,36 +210,59 @@ metawidget.PropertyInspector = {
  * InspectionResultProcessors.
  */
 
-metawidget.HideIdInspectionResultProcessor = {
-
-	processInspectionResult : function( inspectionResult ) {
-
-		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
-
-			var attributes = inspectionResult[loop];
-
-			if ( attributes.name == 'id' ) {
-				attributes.readOnly = true;
-			}
-		}
-	}
-};
-
 /**
  * WidgetBuilders.
  */
+
+metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
+
+	this.buildWidget = function( attributes, metawidget ) {
+
+		for ( var wb = 0, wbLength = widgetBuilders.length; wb < wbLength; wb++ ) {
+
+			var widget = widgetBuilders[wb].buildWidget( attributes, metawidget );
+			
+			if ( widget ) {
+				return widget;
+			}
+		}
+	};
+};
+
+metawidget.ReadOnlyWidgetBuilder = {
+
+	buildWidget : function( attributes, metawidget ) {
+
+		if ( attributes.hidden == 'true' ) {
+			return document.createElement( 'stub' );
+		}
+		
+		if ( metawidget.readOnly == 'true' || attributes.readOnly ) {
+			return document.createElement( 'span' );
+		}
+	}
+};
 
 metawidget.HtmlWidgetBuilder = {
 
 	buildWidget : function( attributes, metawidget ) {
 
-		if ( metawidget.readOnly == 'true' || attributes.readOnly ) {
-			return document.createElement( 'span' );
+		if ( attributes.lookup ) {
+			var select = document.createElement( 'select' );
+			select.appendChild( document.createElement( 'option' ));
+			var lookupSplit = attributes.lookup.split( ',' );
+			
+			for( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
+				var option = document.createElement( 'option' );
+				option.innerHTML = lookupSplit[loop];
+				select.appendChild( option );
+			}
+			return select;			
 		}
-
-		var widget = document.createElement( 'input' );
-		widget.setAttribute( 'type', 'text' );
-		return widget;
+		
+		var text = document.createElement( 'input' );
+		text.setAttribute( 'type', 'text' );
+		return text;
 	}
 };
 
@@ -213,6 +306,10 @@ metawidget.TableLayout = {
 
 	layoutWidget : function( widget, attributes, container ) {
 
+		if ( widget.tagName == 'STUB' ) {
+			return;
+		}
+		
 		var th = document.createElement( 'th' );
 		var label = document.createElement( 'label' );
 		label.setAttribute( 'for', attributes.name );

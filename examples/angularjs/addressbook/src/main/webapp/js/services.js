@@ -2,8 +2,8 @@
 
 /* Services */
 
-angular.module('addressBookServices', []).
-	factory('contacts', function() {
+angular.module('addressBookServices', [])
+	.factory('contacts', function() {
 		var _all = [
 		            	{
 		            	 "id": 1,
@@ -29,4 +29,21 @@ angular.module('addressBookServices', []).
 					];
 	
 		return _all;
+	})
+	.factory('metawidgetConfig', function() {
+		return {
+			inspector: new metawidget.CompositeInspector( [
+        		    metawidget.PropertyInspector,
+        		    function( toInspect, type ) {
+        		    	
+        		    	switch( type ) {
+        		    		case 'search':
+        		    			return [ { "name": "type", "lookup": "personal,business" } ];
+        		    			
+        		    		case 'current':
+        		    			return [ { "name": "id", "hidden": "true" } ];        		    		
+        		    	}
+        		    }
+        	] )
+		};
 	});

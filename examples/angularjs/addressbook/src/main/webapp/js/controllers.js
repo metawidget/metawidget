@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-function ContactsController( $scope, $location, contacts ) {
+function ContactsController( $scope, $location, contacts, metawidgetConfig ) {
 
 	$scope.contacts = contacts;
 	$scope.search = {
@@ -10,6 +10,10 @@ function ContactsController( $scope, $location, contacts ) {
 		surname : '',
 		type : ''
 	};
+	
+	// Custom config
+	
+	$scope.searchMetawidgetConfig = metawidgetConfig;
 
 	// Copy search criteria into Angular filter
 
@@ -38,28 +42,32 @@ function ContactsController( $scope, $location, contacts ) {
 	};
 }
 
-function ContactController( $scope, $routeParams, $location, contacts ) {
+function ContactController( $scope, $routeParams, $location, contacts, metawidgetConfig ) {
 
 	// Constructor
 
 	switch ( $routeParams.contactId ) {
-	case 'personal':
-	case 'business':
-		$scope.readOnly = false;
-		$scope.current = {};
-		$scope.current.type = $routeParams.contactId;
-		break;
-
-	default:
-		$scope.readOnly = true;
-		for ( var loop = 0, length = contacts.length; loop < length; loop++ ) {
-			if ( contacts[loop].id == $routeParams.contactId ) {
-				$scope.current = angular.fromJson( angular.toJson( contacts[loop] ) );
-				break;
+		case 'personal':
+		case 'business':
+			$scope.readOnly = false;
+			$scope.current = {};
+			$scope.current.type = $routeParams.contactId;
+			break;
+	
+		default:
+			$scope.readOnly = true;
+			for ( var loop = 0, length = contacts.length; loop < length; loop++ ) {
+				if ( contacts[loop].id == $routeParams.contactId ) {
+					$scope.current = angular.fromJson( angular.toJson( contacts[loop] ) );
+					break;
+				}
 			}
-		}
 	}
 
+	// Custom config
+	
+	$scope.metawidgetConfig = metawidgetConfig;
+	
 	// CRUD operations
 
 	$scope.editContact = function() {
