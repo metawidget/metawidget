@@ -44,10 +44,14 @@ var metawidget = {
 		} else {
 			this.inspectionResultProcessors = [];
 		}
-		this.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ metawidget.ReadOnlyWidgetBuilder,
-		                                                              metawidget.HtmlWidgetBuilder ] );
+		this.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ metawidget.ReadOnlyWidgetBuilder, metawidget.HtmlWidgetBuilder ] );
 		this.widgetProcessors = [ metawidget.IdWidgetProcessor ];
-		this.layout = metawidget.TableLayout;
+
+		if ( config && config.layout != null ) {
+			this.layout = config.layout;
+		} else {
+			this.layout = metawidget.TableLayout;
+		}
 
 		this.buildWidgets = function() {
 
@@ -80,7 +84,7 @@ var metawidget = {
 			if ( this.layout.startContainerLayout ) {
 				this.layout.startContainerLayout( element );
 			}
-			
+
 			for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
 
 				var attributes = inspectionResult[loop];
@@ -132,51 +136,51 @@ metawidget.CompositeInspector = function( inspectors ) {
 
 		var compositeInspectionResult = [];
 
-		outer: for ( var ins = 0, insLength = inspectors.length; ins < insLength; ins++ ) {
+		for ( var ins = 0, insLength = inspectors.length; ins < insLength; ins++ ) {
 
 			var inspectionResult;
 			var inspector = inspectors[ins];
-			
+
 			if ( inspector.inspect ) {
 				inspectionResult = inspector.inspect( toInspect, type );
 			} else {
 				inspectionResult = inspector( toInspect, type );
-			}			
+			}
 
 			// Inspector may return null
-			
+
 			if ( !inspectionResult ) {
 				continue;
 			}
-			
+
 			// If this is the first result...
-			
+
 			if ( compositeInspectionResult.length == 0 ) {
-				
+
 				// ...use it
-				
+
 				compositeInspectionResult = inspectionResult;
 			} else {
-				
+
 				// ...otherwise merge it
-				
-				for ( var loop1 = 0, length1 = inspectionResult.length; loop1 < length1; loop1++ ) {
-					
+
+				outer: for ( var loop1 = 0, length1 = inspectionResult.length; loop1 < length1; loop1++ ) {
+
 					var newAttributes = inspectionResult[loop1];
-					
+
 					for ( var loop2 = 0, length2 = compositeInspectionResult.length; loop2 < length2; loop2++ ) {
 						var existingAttributes = compositeInspectionResult[loop2];
-						
+
 						if ( existingAttributes.name == newAttributes.name ) {
-							
-							for( var attribute in newAttributes ) {
+
+							for ( var attribute in newAttributes ) {
 								existingAttributes[attribute] = newAttributes[attribute];
 							}
-							
+
 							continue outer;
 						}
 					}
-					
+
 					compositeInspectionResult.push( newAttributes );
 				}
 			}
@@ -196,10 +200,15 @@ metawidget.PropertyInspector = {
 
 			var inspectedProperty = {};
 			inspectedProperty.name = property;
-			inspectedProperty.label = property.toUpperCase();
-			inspectedProperty.type = ( typeof property );
-
+			inspectedProperty.type = typeof ( toInspect[property] );
 			inspectionResult.push( inspectedProperty );
+
+			// Uncamel-cased label
+			
+			inspectedProperty.label = property.charAt( 0 ).toUpperCase() + property.slice( 1 ).replace( /([A-Z])/g, function( $1 ) {
+
+				return " " + $1;
+			} )
 		}
 
 		return inspectionResult;
@@ -221,7 +230,7 @@ metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
 		for ( var wb = 0, wbLength = widgetBuilders.length; wb < wbLength; wb++ ) {
 
 			var widget = widgetBuilders[wb].buildWidget( attributes, metawidget );
-			
+
 			if ( widget ) {
 				return widget;
 			}
@@ -233,13 +242,19 @@ metawidget.ReadOnlyWidgetBuilder = {
 
 	buildWidget : function( attributes, metawidget ) {
 
+		// Not read-only?
+
+		if ( metawidget.readOnly != 'true' && !attributes.readOnly ) {
+			return null;
+		}
+
+		// Hidden
+
 		if ( attributes.hidden == 'true' ) {
 			return document.createElement( 'stub' );
 		}
-		
-		if ( metawidget.readOnly == 'true' || attributes.readOnly ) {
-			return document.createElement( 'span' );
-		}
+
+		return document.createElement( 'output' );
 	}
 };
 
@@ -247,19 +262,37 @@ metawidget.HtmlWidgetBuilder = {
 
 	buildWidget : function( attributes, metawidget ) {
 
+		// Hidden
+
+		if ( attributes.hidden == 'true' ) {
+			return document.createElement( 'stub' );
+		}
+
+		// Select box
+
 		if ( attributes.lookup ) {
 			var select = document.createElement( 'select' );
-			select.appendChild( document.createElement( 'option' ));
+			select.appendChild( document.createElement( 'option' ) );
 			var lookupSplit = attributes.lookup.split( ',' );
-			
-			for( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
+
+			for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
 				var option = document.createElement( 'option' );
 				option.innerHTML = lookupSplit[loop];
 				select.appendChild( option );
 			}
-			return select;			
+			return select;
 		}
-		
+
+		// Action
+
+		if ( attributes.type == 'function' ) {
+			var button = document.createElement( 'button' );
+			button.innerHTML = attributes.label;
+			return button;
+		}
+
+		// Everything else gets a text box
+
 		var text = document.createElement( 'input' );
 		text.setAttribute( 'type', 'text' );
 		return text;
@@ -282,6 +315,14 @@ metawidget.IdWidgetProcessor = {
  * Layouts.
  */
 
+metawidget.SimpleLayout = {
+
+	layoutWidget : function( widget, attributes, container ) {
+
+		container.appendChild( widget );
+	}
+};
+
 metawidget.DivLayout = {
 
 	layoutWidget : function( widget, attributes, container ) {
@@ -301,6 +342,7 @@ metawidget.DivLayout = {
 metawidget.TableLayout = {
 
 	startContainerLayout : function( container ) {
+
 		container.appendChild( document.createElement( 'table' ) );
 	},
 
@@ -309,7 +351,7 @@ metawidget.TableLayout = {
 		if ( widget.tagName == 'STUB' ) {
 			return;
 		}
-		
+
 		var th = document.createElement( 'th' );
 		var label = document.createElement( 'label' );
 		label.setAttribute( 'for', attributes.name );

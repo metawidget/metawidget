@@ -19,12 +19,9 @@
 
 	<div id="content" ng-controller="ContactsController">
 
-		<metawidget id="searchMetawidget" to-inspect="search" config="searchMetawidgetConfig"></metawidget>
-
+		<metawidget to-inspect="search" config="metawidgetConfig.search"></metawidget>
 		<div class="buttons">
-			<button ng-click="runSearch()">Search</button>
-			<button ng-click="createPersonal()">Create Personal</button>
-			<button ng-click="createBusiness()">Create Business</button>
+			<metawidget to-inspect="searchActions" config="metawidgetConfig.buttons"></metawidget>
 		</div>
 
 		<table class="data-table">

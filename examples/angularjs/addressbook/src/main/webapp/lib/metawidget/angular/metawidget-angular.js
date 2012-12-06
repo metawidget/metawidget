@@ -27,10 +27,10 @@ angular.module( 'metawidget.directives', [] )
 	  // Returns the Metawidget
 	  
 	  return {
-
+		  
 		  /**
-		   * Metawidget is (E)lement level.
-		   */
+			 * Metawidget is (E)lement level.
+			 */
 		  
 		  restrict: 'E',
 		  transclude: true,
@@ -41,8 +41,8 @@ angular.module( 'metawidget.directives', [] )
 		  },
 		  
 		  /**
-		   * Delegate to Metawidget.
-		   */
+			 * Delegate to Metawidget.
+			 */
 		  
 		  link: function( scope, element, attrs ) {
 
@@ -50,34 +50,67 @@ angular.module( 'metawidget.directives', [] )
 			  
 			  var mw = new metawidget.Metawidget( scope.$eval( 'config' ));
 			  
+			  // InspectionResultProcessor to evaluate Angular expressions
+			  
+			  mw.inspectionResultProcessors.push( function( inspectionResult, metawidget ) {
+				  
+				  for( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+					  
+					  // For each attribute in the inspection result...
+
+					  var attributes = inspectionResult[loop];
+
+					  for( var attribute in attributes ) {
+						  
+						  // ...that looks like an expression...
+						  
+						  var expression = attributes[attribute];
+						  
+						  if ( expression.length < 4 || expression.slice( 0, 2 ) != '{{' || expression.slice( expression.length - 2, expression.length ) != '}}' ) {
+							  continue;
+						  }
+						  
+						  // ...evaluate it...
+						  
+						  expression = expression.slice( 2, expression.length - 2 );
+						  attributes[attribute] = scope.$parent.$eval( expression ) + '';
+						  
+						  // ...and watch it for future changes
+						  
+						  scope.$parent.$watch( expression, function( newValue, oldValue ) {
+							  if ( newValue != oldValue ) {
+								  _buildWidgets();
+							  }
+						  });
+					  }
+				  }
+			  } );
+
+			  // WidgetProcessor to add Angular bindings
+
 			  mw.widgetProcessors.push( function( widget, attributes ) {
 				  
-				  if ( widget.tagName == 'SPAN' ) {
+				  if ( widget.tagName == 'OUTPUT' ) {
 					  widget.innerHTML = '{{toInspect.' + attributes.name + '}}';
+				  } else if ( widget.tagName == 'BUTTON' ){
+					  widget.setAttribute( 'ng-click', 'toInspect.' + attributes.name + '()' );
 				  } else {
 					  widget.setAttribute( 'ng-model', 'toInspect.' + attributes.name );
-				  }		  
-			  } );				  
+				  }
+			  } );
 			  
 			  // Observe
 			  
-			  var readOnly = false;
-			  
-			  attrs.$observe( 'readOnly', function( value ) {
-				  
-				  if ( value == readOnly ) {
-					  return;
-				  }
-				  readOnly = value;
-				  _buildWidgets( scope, element, attrs );
+			  scope.$watch( 'toInspect', function( newValue, oldValue ) {
+				  _buildWidgets();
 			  });
-			  attrs.$observe( 'toInspect', function( value ) {
-				  _buildWidgets( scope, element, attrs );
+			  scope.$watch( 'readOnly', function( newValue, oldValue ) {
+				  _buildWidgets();
 			  });
 			  
 			  // Build
 			  
-			  function _buildWidgets( scope, element, attrs ) {
+			  function _buildWidgets() {
 				  				  
 				  mw.toInspect = scope.$eval( 'toInspect' );
 				  mw.path = attrs.toInspect;

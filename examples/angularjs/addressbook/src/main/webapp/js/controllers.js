@@ -4,41 +4,49 @@
 
 function ContactsController( $scope, $location, contacts, metawidgetConfig ) {
 
-	$scope.contacts = contacts;
+	// Load all contacts
+
+	contacts.then( function( result ) {
+
+		$scope.contacts = result.data;
+	} );
+
+	// Prepare search boxes
+
+	$scope.metawidgetConfig = metawidgetConfig;
 	$scope.search = {
-		firstname : '',
-		surname : '',
-		type : ''
-	};
-	
-	// Custom config
-	
-	$scope.searchMetawidgetConfig = metawidgetConfig;
-
-	// Copy search criteria into Angular filter
-
-	$scope.runSearch = function() {
-
-		$scope.filter = {};
-		if ( $scope.search.firstname ) {
-			$scope.filter.firstname = $scope.search.firstname;
-		}
-		if ( $scope.search.surname ) {
-			$scope.filter.surname = $scope.search.surname;
-		}
-		if ( $scope.search.type ) {
-			$scope.filter.type = $scope.search.type;
-		}
+		firstname: '',
+		surname: '',
+		type: ''
 	};
 
-	$scope.createPersonal = function() {
+	$scope.searchActions = {
 
-		$location.path( '/contact/personal' );
-	};
+		// Copy search criteria into Angular filter
 
-	$scope.createBusiness = function() {
+		search: function() {
 
-		$location.path( '/contact/business' );
+			$scope.filter = {};
+			if ( $scope.search.firstname ) {
+				$scope.filter.firstname = $scope.search.firstname;
+			}
+			if ( $scope.search.surname ) {
+				$scope.filter.surname = $scope.search.surname;
+			}
+			if ( $scope.search.type ) {
+				$scope.filter.type = $scope.search.type;
+			}
+		},
+
+		createPersonal: function() {
+
+			$location.path( '/contact/personal' );
+		},
+
+		createBusiness: function() {
+
+			$location.path( '/contact/business' );
+		}
 	};
 }
 
@@ -50,72 +58,87 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 		case 'personal':
 		case 'business':
 			$scope.readOnly = false;
-			$scope.current = {};
-			$scope.current.type = $routeParams.contactId;
+			$scope.current = {
+				"firstname": "",
+				"surname": "",
+				"communications": "",
+			}, $scope.current.type = $routeParams.contactId;
 			break;
-	
+
 		default:
 			$scope.readOnly = true;
-			for ( var loop = 0, length = contacts.length; loop < length; loop++ ) {
-				if ( contacts[loop].id == $routeParams.contactId ) {
-					$scope.current = angular.fromJson( angular.toJson( contacts[loop] ) );
-					break;
+			contacts.then( function( result ) {
+
+				for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
+					if ( result.data[loop].id == $routeParams.contactId ) {
+						// Return a copy of the entry, in case the user hits
+						// cancel
+						$scope.current = angular.fromJson( angular.toJson( result.data[loop] ) );
+						break;
+					}
 				}
-			}
+			} )
 	}
 
-	// Custom config
-	
 	$scope.metawidgetConfig = metawidgetConfig;
-	
+
 	// CRUD operations
 
-	$scope.editContact = function() {
+	$scope.crudActions = {
 
-		$scope.readOnly = false;
-	};
+		edit: function() {
 
-	$scope.saveContact = function() {
+			$scope.readOnly = false;
+		},
 
-		if ( $scope.current.id == null ) {
+		save: function() {
 
-			// Save new
+			contacts.then( function( result ) {
 
-			var nextId = 0;
-			for ( var loop = 0, length = contacts.length; loop < length; loop++ ) {
-				if ( contacts[loop].id > nextId ) {
-					nextId = contacts[loop].id;
+				if ( $scope.current.id == null ) {
+
+					// Save new
+
+					var nextId = 0;
+					for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
+						if ( result.data[loop].id > nextId ) {
+							nextId = result.data[loop].id;
+						}
+					}
+					$scope.current.id = nextId + 1;
+					result.data.push( $scope.current );
+				} else {
+
+					// Update existing
+
+					for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
+						if ( result.data[loop].id == $scope.current.id ) {
+							result.data.splice( loop, 1, $scope.current );
+							break;
+						}
+					}
 				}
-			}
-			$scope.current.id = nextId + 1;
-			contacts.push( $scope.current );
-		} else {
+				$location.path( '' );
+			} );
+		},
 
-			// Update existing
+		"delete": function() {
 
-			for ( var loop = 0, length = contacts.length; loop < length; loop++ ) {
-				if ( contacts[loop].id == $scope.current.id ) {
-					contacts.splice( loop, 1, $scope.current );
-					break;
+			contacts.then( function( result ) {
+
+				for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
+					if ( result.data[loop].id == $scope.current.id ) {
+						result.data.splice( loop, 1 );
+						break;
+					}
 				}
-			}
+				$location.path( '' );
+			} );
+		},
+
+		cancel: function() {
+
+			$location.path( '' );
 		}
-		$location.path( '' );
-	};
-
-	$scope.deleteContact = function() {
-
-		for ( var loop = 0, length = contacts.length; loop < length; loop++ ) {
-			if ( contacts[loop].id == $scope.current.id ) {
-				contacts.splice( loop, 1 );
-				break;
-			}
-		}
-		$location.path( '' );
-	};
-
-	$scope.cancelContact = function() {
-
-		$location.path( '' );
-	};
+	}
 }
