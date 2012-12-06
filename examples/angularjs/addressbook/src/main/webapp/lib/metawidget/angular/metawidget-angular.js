@@ -36,7 +36,7 @@ angular.module( 'metawidget.directives', [] )
 		  transclude: true,
 		  scope: {
 			  toInspect: '=',
-			  readOnly: '@',
+			  readOnly: '=',
 			  config: '='			
 		  },
 		  
@@ -114,7 +114,7 @@ angular.module( 'metawidget.directives', [] )
 				  				  
 				  mw.toInspect = scope.$eval( 'toInspect' );
 				  mw.path = attrs.toInspect;
-				  mw.readOnly = attrs.readOnly;
+				  mw.readOnly = scope.$eval( 'readOnly' );
 				  element.html( mw.buildWidgets().innerHTML );
 				  $compile( element.contents() )( scope );
 			  }

@@ -22,7 +22,10 @@ angular.module( 'addressBookServices', [] )
 .factory( 'metawidgetConfig', function() {
 
 	return {
-		search: {
+		
+		// For the body of the form
+		
+		form: {
 			inspector: new metawidget.CompositeInspector( [
 				    metawidget.PropertyInspector,
 				    function( toInspect, type ) {
@@ -38,6 +41,8 @@ angular.module( 'addressBookServices', [] )
 			] )
 		},
 
+		// For the button bar
+		
 		buttons: {
 			inspector: new metawidget.CompositeInspector( [
    				    metawidget.PropertyInspector,

@@ -244,7 +244,7 @@ metawidget.ReadOnlyWidgetBuilder = {
 
 		// Not read-only?
 
-		if ( metawidget.readOnly != 'true' && !attributes.readOnly ) {
+		if ( !metawidget.readOnly && !attributes.readOnly ) {
 			return null;
 		}
 
