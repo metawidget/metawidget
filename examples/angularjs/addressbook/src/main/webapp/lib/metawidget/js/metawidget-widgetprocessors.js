@@ -27,5 +27,6 @@ metawidget.idWidgetProcessor = {
 	processWidget : function( widget, attributes ) {
 
 		widget.setAttribute( 'id', attributes.name );
+		return widget;
 	}
 };

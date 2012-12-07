@@ -3,7 +3,6 @@
 	 "id": 1,
 	 "firstname": "Homer",
 	 "surname": "Simpson",
-	 "communications": [ { "type": "Telephone", "value": "(939) 555-0113" } ],
 	 "dateOfBirth": "12/5/1956",
 	 "address": {
 	 	"street": "742 Evergreen Terrace",
@@ -11,6 +10,7 @@
 	 	"state": "Anytown",
 	 	"postcode": "90701"
 	 },
+	 "communications": [ { "type": "Telephone", "value": "(939) 555-0113" } ],
 	 "type": "personal"
 	},
 	{

@@ -106,12 +106,12 @@ metawidget.Metawidget = function( config ) {
 				var widgetProcessor = this.widgetProcessors[wp];
 
 				if ( widgetProcessor.processWidget ) {
-					widgetProcessor = widgetProcessor.processWidget( widget, attributes );
+					widget = widgetProcessor.processWidget( widget, attributes );
 				} else {
-					widgetProcessor = widgetProcessor( widget, attributes );
+					widget = widgetProcessor( widget, attributes );
 				}
 			}
-
+			
 			// Layout
 
 			if ( this.layout.layoutWidget ) {
