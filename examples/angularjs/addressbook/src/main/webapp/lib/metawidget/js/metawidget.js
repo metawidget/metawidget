@@ -20,351 +20,107 @@
  * Metawidget for pure JavaScript environments.
  */
 
-var metawidget = {
+var metawidget = metawidget || {};
 
-	/**
-	 * Metawidget
-	 */
+metawidget.Metawidget = function( config ) {
 
-	Metawidget : function( config ) {
+	this.toInspect = {};
+	this.path = '';
+	this.readOnly = false;
 
-		this.toInspect = {};
-		this.path = '';
-		this.readOnly = false;
+	// Configure
 
-		// Configure
-
-		if ( config && config.inspector != null ) {
-			this.inspector = config.inspector;
-		} else {
-			this.inspector = metawidget.PropertyInspector;
-		}
-		if ( config && config.inspectionResultProcessors ) {
-			this.inspectionResultProcessors = config.inspectionResultProcessors;
-		} else {
-			this.inspectionResultProcessors = [];
-		}
-		this.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ metawidget.ReadOnlyWidgetBuilder, metawidget.HtmlWidgetBuilder ] );
-		this.widgetProcessors = [ metawidget.IdWidgetProcessor ];
-
-		if ( config && config.layout != null ) {
-			this.layout = config.layout;
-		} else {
-			this.layout = metawidget.TableLayout;
-		}
-
-		this.buildWidgets = function() {
-
-			// Inspector
-
-			var inspectionResult;
-
-			if ( this.inspector.inspect ) {
-				inspectionResult = this.inspector.inspect( this.toInspect, this.path );
-			} else {
-				inspectionResult = this.inspector( this.toInspect, this.path );
-			}
-
-			// InspectionResultProcessors
-
-			for ( var irp = 0, irpLength = this.inspectionResultProcessors.length; irp < irpLength; irp++ ) {
-
-				var inspectionResultProcessor = this.inspectionResultProcessors[irp];
-
-				if ( inspectionResultProcessor.processInspectionResult ) {
-					inspectionResultProcessor.processInspectionResult( inspectionResult );
-				} else {
-					inspectionResultProcessor( inspectionResult );
-				}
-			}
-
-			console.log( inspectionResult );
-			var element = document.createElement( 'metawidget' );
-
-			if ( this.layout.startContainerLayout ) {
-				this.layout.startContainerLayout( element );
-			}
-
-			for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
-
-				var attributes = inspectionResult[loop];
-
-				// WidgetBuilder
-
-				var widget;
-
-				if ( this.widgetBuilder.buildWidget ) {
-					widget = this.widgetBuilder.buildWidget( attributes, this );
-				} else {
-					widget = this.widgetBuilder( attributes, this );
-				}
-
-				// WidgetProcessors
-
-				for ( var wp = 0, wpLength = this.widgetProcessors.length; wp < wpLength; wp++ ) {
-
-					var widgetProcessor = this.widgetProcessors[wp];
-
-					if ( widgetProcessor.processWidget ) {
-						widgetProcessor = widgetProcessor.processWidget( widget, attributes );
-					} else {
-						widgetProcessor = widgetProcessor( widget, attributes );
-					}
-				}
-
-				// Layout
-
-				if ( this.layout.layoutWidget ) {
-					this.layout.layoutWidget( widget, attributes, element );
-				} else {
-					this.layout( widget, attributes, element );
-				}
-			}
-
-			return element;
-		};
+	if ( config && config.inspector != null ) {
+		this.inspector = config.inspector;
+	} else {
+		this.inspector = metawidget.propertyInspector;
 	}
-};
+	if ( config && config.inspectionResultProcessors ) {
+		this.inspectionResultProcessors = config.inspectionResultProcessors;
+	} else {
+		this.inspectionResultProcessors = [];
+	}
+	this.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ metawidget.readOnlyWidgetBuilder, metawidget.htmlWidgetBuilder ] );
+	this.widgetProcessors = [ metawidget.idWidgetProcessor ];
 
-/**
- * Inspectors.
- */
+	if ( config && config.layout != null ) {
+		this.layout = config.layout;
+	} else {
+		this.layout = metawidget.tableLayout;
+	}
 
-metawidget.CompositeInspector = function( inspectors ) {
+	this.buildWidgets = function() {
 
-	this.inspect = function( toInspect, type ) {
+		// Inspector
 
-		var compositeInspectionResult = [];
+		var inspectionResult;
 
-		for ( var ins = 0, insLength = inspectors.length; ins < insLength; ins++ ) {
+		if ( this.inspector.inspect ) {
+			inspectionResult = this.inspector.inspect( this.toInspect, this.path );
+		} else {
+			inspectionResult = this.inspector( this.toInspect, this.path );
+		}
 
-			var inspectionResult;
-			var inspector = inspectors[ins];
+		// InspectionResultProcessors
 
-			if ( inspector.inspect ) {
-				inspectionResult = inspector.inspect( toInspect, type );
+		for ( var irp = 0, irpLength = this.inspectionResultProcessors.length; irp < irpLength; irp++ ) {
+
+			var inspectionResultProcessor = this.inspectionResultProcessors[irp];
+
+			if ( inspectionResultProcessor.processInspectionResult ) {
+				inspectionResultProcessor.processInspectionResult( inspectionResult );
 			} else {
-				inspectionResult = inspector( toInspect, type );
-			}
-
-			// Inspector may return null
-
-			if ( !inspectionResult ) {
-				continue;
-			}
-
-			// If this is the first result...
-
-			if ( compositeInspectionResult.length == 0 ) {
-
-				// ...use it
-
-				compositeInspectionResult = inspectionResult;
-			} else {
-
-				// ...otherwise merge it
-
-				outer: for ( var loop1 = 0, length1 = inspectionResult.length; loop1 < length1; loop1++ ) {
-
-					var newAttributes = inspectionResult[loop1];
-
-					for ( var loop2 = 0, length2 = compositeInspectionResult.length; loop2 < length2; loop2++ ) {
-						var existingAttributes = compositeInspectionResult[loop2];
-
-						if ( existingAttributes.name == newAttributes.name ) {
-
-							for ( var attribute in newAttributes ) {
-								existingAttributes[attribute] = newAttributes[attribute];
-							}
-
-							continue outer;
-						}
-					}
-
-					compositeInspectionResult.push( newAttributes );
-				}
+				inspectionResultProcessor( inspectionResult );
 			}
 		}
 
-		return compositeInspectionResult;
-	};
-};
+		console.log( inspectionResult );
+		var element = document.createElement( 'metawidget' );
 
-metawidget.PropertyInspector = {
+		if ( this.layout.startContainerLayout ) {
+			this.layout.startContainerLayout( element );
+		}
 
-	inspect : function( toInspect, type ) {
+		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
 
-		var inspectionResult = [];
+			var attributes = inspectionResult[loop];
 
-		for ( var property in toInspect ) {
+			// WidgetBuilder
 
-			var inspectedProperty = {};
-			inspectedProperty.name = property;
-			inspectedProperty.type = typeof ( toInspect[property] );
-			inspectionResult.push( inspectedProperty );
+			var widget;
 
-			// Uncamel-cased label
+			if ( this.widgetBuilder.buildWidget ) {
+				widget = this.widgetBuilder.buildWidget( attributes, this );
+			} else {
+				widget = this.widgetBuilder( attributes, this );
+			}
 			
-			inspectedProperty.label = property.charAt( 0 ).toUpperCase() + property.slice( 1 ).replace( /([A-Z])/g, function( $1 ) {
+			if ( widget == null ) {
+				widget = this.buildNestedMetawidget( attributes );
+			}
 
-				return " " + $1;
-			} )
-		}
+			// WidgetProcessors
 
-		return inspectionResult;
-	}
-};
+			for ( var wp = 0, wpLength = this.widgetProcessors.length; wp < wpLength; wp++ ) {
 
-/**
- * InspectionResultProcessors.
- */
+				var widgetProcessor = this.widgetProcessors[wp];
 
-/**
- * WidgetBuilders.
- */
+				if ( widgetProcessor.processWidget ) {
+					widgetProcessor = widgetProcessor.processWidget( widget, attributes );
+				} else {
+					widgetProcessor = widgetProcessor( widget, attributes );
+				}
+			}
 
-metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
+			// Layout
 
-	this.buildWidget = function( attributes, metawidget ) {
-
-		for ( var wb = 0, wbLength = widgetBuilders.length; wb < wbLength; wb++ ) {
-
-			var widget = widgetBuilders[wb].buildWidget( attributes, metawidget );
-
-			if ( widget ) {
-				return widget;
+			if ( this.layout.layoutWidget ) {
+				this.layout.layoutWidget( widget, attributes, element );
+			} else {
+				this.layout( widget, attributes, element );
 			}
 		}
+
+		return element;
 	};
-};
-
-metawidget.ReadOnlyWidgetBuilder = {
-
-	buildWidget : function( attributes, metawidget ) {
-
-		// Not read-only?
-
-		if ( !metawidget.readOnly && !attributes.readOnly ) {
-			return null;
-		}
-
-		// Hidden
-
-		if ( attributes.hidden == 'true' ) {
-			return document.createElement( 'stub' );
-		}
-
-		return document.createElement( 'output' );
-	}
-};
-
-metawidget.HtmlWidgetBuilder = {
-
-	buildWidget : function( attributes, metawidget ) {
-
-		// Hidden
-
-		if ( attributes.hidden == 'true' ) {
-			return document.createElement( 'stub' );
-		}
-
-		// Select box
-
-		if ( attributes.lookup ) {
-			var select = document.createElement( 'select' );
-			select.appendChild( document.createElement( 'option' ) );
-			var lookupSplit = attributes.lookup.split( ',' );
-
-			for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
-				var option = document.createElement( 'option' );
-				option.innerHTML = lookupSplit[loop];
-				select.appendChild( option );
-			}
-			return select;
-		}
-
-		// Action
-
-		if ( attributes.type == 'function' ) {
-			var button = document.createElement( 'button' );
-			button.innerHTML = attributes.label;
-			return button;
-		}
-
-		// Everything else gets a text box
-
-		var text = document.createElement( 'input' );
-		text.setAttribute( 'type', 'text' );
-		return text;
-	}
-};
-
-/**
- * WidgetProcessors.
- */
-
-metawidget.IdWidgetProcessor = {
-
-	processWidget : function( widget, attributes ) {
-
-		widget.setAttribute( 'id', attributes.name );
-	}
-};
-
-/**
- * Layouts.
- */
-
-metawidget.SimpleLayout = {
-
-	layoutWidget : function( widget, attributes, container ) {
-
-		container.appendChild( widget );
-	}
-};
-
-metawidget.DivLayout = {
-
-	layoutWidget : function( widget, attributes, container ) {
-
-		var label = document.createElement( 'label' );
-		label.setAttribute( 'for', attributes.name );
-		label.innerHTML = attributes.label + ':';
-
-		var div = document.createElement( 'div' );
-		div.appendChild( label );
-		div.appendChild( widget );
-
-		container.appendChild( div );
-	}
-};
-
-metawidget.TableLayout = {
-
-	startContainerLayout : function( container ) {
-
-		container.appendChild( document.createElement( 'table' ) );
-	},
-
-	layoutWidget : function( widget, attributes, container ) {
-
-		if ( widget.tagName == 'STUB' ) {
-			return;
-		}
-
-		var th = document.createElement( 'th' );
-		var label = document.createElement( 'label' );
-		label.setAttribute( 'for', attributes.name );
-		label.innerHTML = attributes.label + ':';
-		th.appendChild( label );
-
-		var td = document.createElement( 'td' );
-		td.appendChild( widget );
-
-		var tr = document.createElement( 'tr' );
-		tr.appendChild( th );
-		tr.appendChild( td );
-
-		container.firstChild.appendChild( tr );
-	}
 };

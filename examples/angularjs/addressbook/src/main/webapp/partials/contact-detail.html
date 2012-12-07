@@ -1,6 +1,21 @@
 <div style="border: 2px solid black; padding: 10px; width: 400px; margin: auto; background-color: white">
 
-	<metawidget to-inspect="current" read-only="readOnly" config="metawidgetConfig.form"></metawidget>
+	<metawidget to-inspect="current" read-only="readOnly" config="metawidgetConfig.form">
+		<table id="communications">
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="communication in current.communications">
+					<td>{{communication.type}}</td>
+					<td>{{communication.value}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</metawidget>
 
 	<div class="buttons">
 		<metawidget to-inspect="crudActions" config="metawidgetConfig.buttons"></metawidget>
