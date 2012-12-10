@@ -22,151 +22,180 @@
 
 angular.module( 'metawidget.directives', [] )
 
-.directive( 'metawidget', function( $compile ) {
+.directive(
+		'metawidget',
+		function( $compile ) {
 
-	// Returns the Metawidget
+			// Returns the Metawidget
 
-	return {
+			return {
 
-		/**
-		 * Metawidget is (E)lement level.
-		 */
+				/**
+				 * Metawidget is (E)lement level.
+				 */
 
-		restrict: 'E',
-		transclude: true,
-		scope: {
-			toInspect: '=',
-			readOnly: '=',
-			config: '='
-		},
+				restrict: 'E',
+				transclude: true,
+				scope: {
+					toInspect: '=',
+					readOnly: '=',
+					config: '='
+				},
 
-		compile: function compile( element, attrs, transclude ) {
+				compile: function compile( element, attrs, transclude ) {
 
-			return function( scope, element, attrs ) {
+					return function( scope, element, attrs ) {
 
-				// Capture transcluded children for WidgetBuilder later
+						// Set up an Angular-specific Metawidget
 
-				var transcluded = transclude( scope.$parent, function( transcluded ) {
+						var mw = new metawidget.Metawidget( scope.$eval( 'config' ) );
+						mw.buildNestedMetawidget = function( attributes ) {
 
-					return transcluded;
-				} );
+							var nestedMetawidget = document.createElement( 'metawidget' );
+							nestedMetawidget.setAttribute( 'to-inspect', 'toInspect.' + attributes.name );
+							nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
+							nestedMetawidget.setAttribute( 'config', attrs.config );
+							return nestedMetawidget;
+						};
 
-				// Set up an Angular-specific Metawidget
+						mw.inspectionResultProcessors.push( new metawidget.angular.AngularInspectionResultProcessor( scope ) );
+						mw.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ new metawidget.angular.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.ReadOnlyWidgetBuilder(),
+								new metawidget.HtmlWidgetBuilder() ] );
+						mw.widgetProcessors.push( new metawidget.angular.AngularWidgetProcessor( $compile, scope ) );
 
-				var mw = new metawidget.Metawidget( scope.$eval( 'config' ) );
-				mw.buildNestedMetawidget = function( attributes ) {
+						// Observe
 
-					var nestedMetawidget = document.createElement( 'metawidget' );
-					nestedMetawidget.setAttribute( 'to-inspect', 'toInspect.' + attributes.name );
-					nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
-					nestedMetawidget.setAttribute( 'config', attrs.config );
-					return nestedMetawidget;
-				};
+						scope.$watch( 'toInspect', function( newValue, oldValue ) {
 
-				// InspectionResultProcessor to evaluate Angular expressions
+							_buildWidgets();
+						} );
+						scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
-				mw.inspectionResultProcessors.push( function( inspectionResult, metawidget ) {
+							_buildWidgets();
+						} );
 
-					for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+						// Build
 
-						// For each attribute in the inspection result...
+						function _buildWidgets() {
 
-						var attributes = inspectionResult[loop];
-
-						for ( var attribute in attributes ) {
-
-							// ...that looks like an expression...
-
-							var expression = attributes[attribute];
-
-							if ( expression.length < 4 || expression.slice( 0, 2 ) != '{{' || expression.slice( expression.length - 2, expression.length ) != '}}' ) {
-								continue;
-							}
-
-							// ...evaluate it...
-
-							expression = expression.slice( 2, expression.length - 2 );
-							attributes[attribute] = scope.$parent.$eval( expression ) + '';
-
-							// ...and watch it for future changes
-
-							scope.$parent.$watch( expression, function( newValue, oldValue ) {
-
-								if ( newValue != oldValue ) {
-									_buildWidgets();
-								}
-							} );
+							mw.toInspect = scope.$eval( 'toInspect' );
+							mw.path = attrs.toInspect;
+							mw.readOnly = scope.$eval( 'readOnly' );
+							element.children().remove();
+							element.append( mw.buildWidgets() );
 						}
-					}
-				} );
-
-				// WidgetBuilder to override based on the original children in
-				// the template (what Angular calls 'transcluded' children)
-
-				mw.widgetBuilder = new metawidget.CompositeWidgetBuilder( [
-
-				function( attributes, metawidget ) {
-
-					for ( var loop = 0, length = transcluded.length; loop < length; loop++ ) {
-
-						var child = transcluded[loop];
-						if ( child.id == attributes.name ) {
-							child.wasTranscluded = function() {
-
-								return true;
-							}
-							return child;
-						}
-					}
-				}, metawidget.readOnlyWidgetBuilder, metawidget.htmlWidgetBuilder ] );
-
-				// WidgetProcessor to add Angular bindings, and compile the
-				// widget
-
-				mw.widgetProcessors.push( function( widget, attributes ) {
-
-					// Don't compile transcluded widgets, as they will be
-					// a) compiled already; b) using scope.$parent
-
-					if ( widget.wasTranscluded ) {
-						return widget;
-					}
-
-					if ( widget.tagName == 'OUTPUT' ) {
-						widget.innerHTML = '{{toInspect.' + attributes.name + '}}';
-					} else if ( widget.tagName == 'BUTTON' ) {
-						widget.setAttribute( 'ng-click', 'toInspect.' + attributes.name + '()' );
-					} else {
-						widget.setAttribute( 'ng-model', 'toInspect.' + attributes.name );
-					}
-
-					$compile( widget )( scope );
-
-					return widget;
-				} );
-
-				// Observe
-
-				scope.$watch( 'toInspect', function( newValue, oldValue ) {
-
-					_buildWidgets();
-				} );
-				scope.$watch( 'readOnly', function( newValue, oldValue ) {
-
-					_buildWidgets();
-				} );
-
-				// Build
-
-				function _buildWidgets() {
-
-					mw.toInspect = scope.$eval( 'toInspect' );
-					mw.path = attrs.toInspect;
-					mw.readOnly = scope.$eval( 'readOnly' );
-					element.children().remove();
-					element.append( mw.buildWidgets() );
+					};
 				}
 			};
+		} );
+
+metawidget.angular = metawidget.angular || {};
+
+/**
+ * InspectionResultProcessor to evaluate Angular expressions.
+ * 
+ * @param scope
+ *            scope of the Metawidget directive
+ * @returns {metawidget.angular.AngularInspectionResultProcessor}
+ */
+
+metawidget.angular.AngularInspectionResultProcessor = function( scope ) {
+
+	this.processInspectionResult = function( inspectionResult, metawidget ) {
+
+		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+
+			// For each attribute in the inspection result...
+
+			var attributes = inspectionResult[loop];
+
+			for ( var attribute in attributes ) {
+
+				// ...that looks like an expression...
+
+				var expression = attributes[attribute];
+
+				if ( expression.length < 4 || expression.slice( 0, 2 ) != '{{' || expression.slice( expression.length - 2, expression.length ) != '}}' ) {
+					continue;
+				}
+
+				// ...evaluate it...
+
+				expression = expression.slice( 2, expression.length - 2 );
+				attributes[attribute] = scope.$parent.$eval( expression ) + '';
+
+				// ...and watch it for future changes
+
+				scope.$parent.$watch( expression, function( newValue, oldValue ) {
+
+					if ( newValue != oldValue ) {
+						_buildWidgets();
+					}
+				} );
+			}
 		}
-	};
-} );
+	}
+}
+
+/**
+ * WidgetBuilder to override widgets based on the original children in the
+ * template (what Angular calls 'transcluded' children).
+ * 
+ * @param transclude
+ *            the transclude function, as given to directive.compile
+ * @returns {metawidget.angular.AngularOverriddenWidgetBuilder}
+ */
+
+metawidget.angular.AngularOverriddenWidgetBuilder = function( transclude, scope ) {
+
+	var transcluded = transclude( scope.$parent, function( transcluded ) {
+
+		return transcluded;
+	} );
+
+	this.buildWidget = function( attributes, metawidget ) {
+
+		for ( var loop = 0, length = transcluded.length; loop < length; loop++ ) {
+
+			var child = transcluded[loop];
+			if ( child.id == attributes.name ) {
+				child.wasTranscluded = function() {
+
+					return true;
+				}
+				return child;
+			}
+		}
+	}
+}
+
+/**
+ * WidgetProcessor to add Angular bindings, and compile the widget.
+ * 
+ * @returns {metawidget.angular.AngularWidgetProcessor}
+ */
+
+metawidget.angular.AngularWidgetProcessor = function( $compile, scope ) {
+
+	this.processWidget = function( widget, attributes ) {
+
+		// Don't compile transcluded widgets, as they will be a) compiled
+		// already; b) using scope.$parent
+
+		if ( widget.wasTranscluded ) {
+			return widget;
+		}
+
+		if ( widget.tagName == 'OUTPUT' ) {
+			widget.innerHTML = '{{toInspect.' + attributes.name + '}}';
+		} else if ( widget.tagName == 'BUTTON' ) {
+			widget.setAttribute( 'ng-click', 'toInspect.' + attributes.name + '()' );
+		} else {
+			widget.setAttribute( 'ng-model', 'toInspect.' + attributes.name );
+		}
+
+		$compile( widget )( scope );
+
+		return widget;
+	}
+}

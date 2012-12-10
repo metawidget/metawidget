@@ -44,9 +44,9 @@ metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
 	};
 };
 
-metawidget.readOnlyWidgetBuilder = {
+metawidget.ReadOnlyWidgetBuilder = function() {
 
-	buildWidget : function( attributes, metawidget ) {
+	this.buildWidget = function( attributes, metawidget ) {
 
 		// Not read-only?
 
@@ -65,12 +65,12 @@ metawidget.readOnlyWidgetBuilder = {
 		}
 		
 		return null;
-	}
+	};
 };
 
-metawidget.htmlWidgetBuilder = {
+metawidget.HtmlWidgetBuilder = function() {
 
-	buildWidget : function( attributes, metawidget ) {
+	this.buildWidget = function( attributes, metawidget ) {
 
 		// Hidden
 
@@ -110,5 +110,5 @@ metawidget.htmlWidgetBuilder = {
 		}
 		
 		return null;
-	}
+	};
 };

@@ -82,9 +82,9 @@ metawidget.CompositeInspector = function( inspectors ) {
 	};
 };
 
-metawidget.propertyInspector = {
+metawidget.PropertyInspector = function() {
 
-	inspect : function( toInspect, type ) {
+	this.inspect = function( toInspect, type ) {
 
 		var inspectionResult = [];
 

@@ -27,7 +27,7 @@ angular.module( 'addressBookServices', [] )
 		
 		form: {
 			inspector: new metawidget.CompositeInspector( [
-				    metawidget.propertyInspector,
+				    new metawidget.PropertyInspector(),
 				    function( toInspect, type ) {
 				    	
 				    	switch( type ) {
@@ -45,14 +45,14 @@ angular.module( 'addressBookServices', [] )
 		
 		buttons: {
 			inspector: new metawidget.CompositeInspector( [
-   				    metawidget.propertyInspector,
+   				    new metawidget.PropertyInspector(),
    				    function( toInspect, type ) {
    				    	if ( type == 'crudActions' ) {
    				    		return [ { "name": "edit", "hidden": "{{!readOnly}}" }, { "name": "save", "hidden": "{{readOnly}}" }, { "name": "delete", "hidden": "{{readOnly || current.id == null}}" } ];
    				    	}
    				    }
    			] ),
-			layout: metawidget.simpleLayout
+			layout: new metawidget.SimpleLayout()
 		}
 	};
 } );

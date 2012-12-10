@@ -22,38 +22,38 @@
 
 var metawidget = metawidget || {};
 
-metawidget.simpleLayout = {
-
-	layoutWidget : function( widget, attributes, container ) {
+metawidget.SimpleLayout = function() {
+	
+	this.layoutWidget = function( widget, attributes, container ) {
 
 		container.appendChild( widget );
-	}
+	};
 };
 
-metawidget.divLayout = {
-
-	layoutWidget : function( widget, attributes, container ) {
+metawidget.DivLayout = function() {
+	
+	this.layoutWidget = function( widget, attributes, container ) {
 
 		var label = document.createElement( 'label' );
 		label.setAttribute( 'for', attributes.name );
 		label.innerHTML = attributes.label + ':';
-
+	
 		var div = document.createElement( 'div' );
 		div.appendChild( label );
 		div.appendChild( widget );
-
+	
 		container.appendChild( div );
-	}
+	};
 };
 
-metawidget.tableLayout = {
+metawidget.TableLayout = function() {
 
-	startContainerLayout : function( container ) {
+	this.startContainerLayout = function( container ) {
 
 		container.appendChild( document.createElement( 'table' ) );
 	},
 
-	layoutWidget : function( widget, attributes, container ) {
+	this.layoutWidget = function( widget, attributes, container ) {
 
 		if ( widget.tagName == 'STUB' ) {
 			return;

@@ -22,11 +22,11 @@
 
 var metawidget = metawidget || {};
 
-metawidget.idWidgetProcessor = {
+metawidget.IdWidgetProcessor = function() {
 
-	processWidget : function( widget, attributes ) {
+	this.processWidget = function( widget, attributes ) {
 
 		widget.setAttribute( 'id', attributes.name );
 		return widget;
-	}
+	};
 };

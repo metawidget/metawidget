@@ -33,20 +33,20 @@ metawidget.Metawidget = function( config ) {
 	if ( config && config.inspector != null ) {
 		this.inspector = config.inspector;
 	} else {
-		this.inspector = metawidget.propertyInspector;
+		this.inspector = new metawidget.PropertyInspector();
 	}
 	if ( config && config.inspectionResultProcessors ) {
 		this.inspectionResultProcessors = config.inspectionResultProcessors;
 	} else {
 		this.inspectionResultProcessors = [];
 	}
-	this.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ metawidget.readOnlyWidgetBuilder, metawidget.htmlWidgetBuilder ] );
-	this.widgetProcessors = [ metawidget.idWidgetProcessor ];
+	this.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ new metawidget.ReadOnlyWidgetBuilder(), new metawidget.HtmlWidgetBuilder() ] );
+	this.widgetProcessors = [ new metawidget.IdWidgetProcessor() ];
 
 	if ( config && config.layout != null ) {
 		this.layout = config.layout;
 	} else {
-		this.layout = metawidget.tableLayout;
+		this.layout = new metawidget.TableLayout();
 	}
 
 	this.buildWidgets = function() {
