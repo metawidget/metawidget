@@ -49,9 +49,20 @@ metawidget.CompositeInspector = function( inspectors ) {
 
 			if ( compositeInspectionResult.length == 0 ) {
 
-				// ...use it
+				// ...copy it
 
-				compositeInspectionResult = inspectionResult;
+				for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+
+					var newAttributes = inspectionResult[loop];
+					var existingAttributes = {};
+
+					for ( var attribute in newAttributes ) {
+						existingAttributes[attribute] = newAttributes[attribute];
+					}
+					
+					compositeInspectionResult.push( existingAttributes );
+				}
+				
 			} else {
 
 				// ...otherwise merge it
@@ -73,7 +84,15 @@ metawidget.CompositeInspector = function( inspectors ) {
 						}
 					}
 
-					compositeInspectionResult.push( newAttributes );
+					// If no existing attributes matched, push a new one
+
+					var existingAttributes = {};
+
+					for ( var attribute in newAttributes ) {
+						existingAttributes[attribute] = newAttributes[attribute];
+					}
+					
+					compositeInspectionResult.push( existingAttributes );
 				}
 			}
 		}
@@ -86,23 +105,16 @@ metawidget.PropertyInspector = function() {
 
 	this.inspect = function( toInspect, type ) {
 
-		var inspectionResult = [];
-
+		var inspectionResult = [ { "name": "$root", "type": typeof( toInspect ) } ];
+		
 		for ( var property in toInspect ) {
 
 			var inspectedProperty = {};
 			inspectedProperty.name = property;
 			inspectedProperty.type = typeof ( toInspect[property] );
 			inspectionResult.push( inspectedProperty );
-
-			// Uncamel-cased label
-			
-			inspectedProperty.label = property.charAt( 0 ).toUpperCase() + property.slice( 1 ).replace( /([A-Z])/g, function( $1 ) {
-
-				return " " + $1;
-			} );
 		}
 
 		return inspectionResult;
-	}
+	};
 };

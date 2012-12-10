@@ -1,0 +1,40 @@
+.ng-invalid {
+	border: 1px solid red;
+}
+
+#dialog-position {
+	position: fixed;
+	top: 100px;
+	width: 100%;
+	text-align: center;
+}
+
+#dialog {
+	border: 2px solid #444444;
+	box-shadow: 5px 5px 5px #ccc;
+	width: 650px;
+	margin: auto;
+}
+
+#dialog-heading {
+	background: url("../media/background-button.gif") repeat-x scroll left center white;
+	border-bottom: 2px solid #444444;
+	font-weight: bold;
+	padding: 5px;
+	text-align: left;
+}
+
+#dialog-content {
+	background: white url( ../media/background.jpg ) no-repeat;
+	padding-left: 150px;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	position: relative;
+}
+
+#dialog-image {
+	position: absolute;
+	top: 15px;
+	left: 20px;
+}

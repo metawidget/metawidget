@@ -86,6 +86,7 @@ h1, .section-heading
 	text-align: left;
 	vertical-align: top;
 	white-space: nowrap;
+	font-weight: normal;
 }
 
 .table-component-column

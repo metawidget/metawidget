@@ -1,6 +1,7 @@
 [
 	{
 	 "id": 1,
+	 "title": "Mr",
 	 "firstname": "Homer",
 	 "surname": "Simpson",
 	 "dateOfBirth": "12/5/1956",
@@ -15,12 +16,14 @@
 	},
 	{
 	 "id": 2,
+	 "title": "Mrs",
 	 "firstname": "Marge",
 	 "surname": "Simpson",
 	 "type": "personal"
 	},
 	{
 	 "id": 3,
+	 "title": "Mr",
 	 "firstname": "Montgomery",
 	 "surname": "Burns",
 	 "type": "business"

@@ -1,24 +1,44 @@
-<div style="border: 2px solid black; padding: 10px; width: 400px; margin: auto; background-color: white">
+<div id="dialog-position">
 
-	<metawidget to-inspect="current" read-only="readOnly" config="metawidgetConfig.form">
-		<table id="communications">
-			<thead>
-				<tr>
-					<th>Type</th>
-					<th>Value</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="communication in current.communications">
-					<td>{{communication.type}}</td>
-					<td>{{communication.value}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</metawidget>
+	<div id="dialog">
 
-	<div class="buttons">
-		<metawidget to-inspect="crudActions" config="metawidgetConfig.buttons"></metawidget>
+		<div id="dialog-heading">
+			{{dialogTitle}}
+		</div>
+
+		<div id="dialog-content">
+
+			<img id="dialog-image" src="media/{{current.type}}.gif"/>
+
+			<metawidget to-inspect="current" read-only="readOnly" config="metawidgetConfig.form">
+				<table id="communications" class="data-table">
+					<thead>
+						<tr>
+							<th>Type</th>
+							<th>Value</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tfoot ng-show="!readOnly">
+						<tr>
+							<td><metawidget to-inspect="communication.type" config="metawidgetConfig.simple"></metawidget></td>
+							<td><metawidget to-inspect="communication.value" config="metawidgetConfig.simple"></metawidget></td>
+							<td class="column tiny, table-buttons"><button ng-click="addCommunication()">Add</button></td>
+						</tr>
+					</tfoot>
+					<tbody>
+						<tr ng-repeat="communication in current.communications">
+							<td class="column-half">{{communication.type}}</td>
+							<td class="column-half">{{communication.value}}</td>
+							<td class="column tiny, table-buttons" ng-show="!readOnly"><button ng-click="removeCommunication($index)">Delete</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</metawidget>
+
+			<div class="buttons">
+				<metawidget to-inspect="crudActions" config="metawidgetConfig.buttons"></metawidget>
+			</div>
+		</div>
 	</div>
-
 </div>

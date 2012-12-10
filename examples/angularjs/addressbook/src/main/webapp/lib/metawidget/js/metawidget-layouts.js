@@ -24,54 +24,84 @@ var metawidget = metawidget || {};
 
 metawidget.SimpleLayout = function() {
 	
-	this.layoutWidget = function( widget, attributes, container ) {
+	this.layoutWidget = function( widget, attributes, container, mw ) {
 
 		container.appendChild( widget );
 	};
 };
 
-metawidget.DivLayout = function() {
-	
-	this.layoutWidget = function( widget, attributes, container ) {
-
-		var label = document.createElement( 'label' );
-		label.setAttribute( 'for', attributes.name );
-		label.innerHTML = attributes.label + ':';
-	
-		var div = document.createElement( 'div' );
-		div.appendChild( label );
-		div.appendChild( widget );
-	
-		container.appendChild( div );
-	};
-};
-
-metawidget.TableLayout = function() {
+metawidget.TableLayout = function( options ) {
+		
+	var tableStyleClass = options ? options.tableStyleClass : null;
+	var columnStyleClasses = options ? options.columnStyleClasses : null;
 
 	this.startContainerLayout = function( container ) {
 
-		container.appendChild( document.createElement( 'table' ) );
+		var table = document.createElement( 'table' );
+		
+		if ( tableStyleClass ) {
+			table.setAttribute( 'class', tableStyleClass );
+		}
+		
+		container.appendChild( table );
+		
+		table.appendChild( document.createElement( 'tbody' ));
 	},
 
-	this.layoutWidget = function( widget, attributes, container ) {
+	this.layoutWidget = function( widget, attributes, container, mw ) {
 
 		if ( widget.tagName == 'STUB' ) {
 			return;
 		}
 
+		var tr = document.createElement( 'tr' );
+		
+		tr.setAttribute( 'id', 'table' + mw.path + attributes.name + '-row' );
+		
+		// Label
+		
 		var th = document.createElement( 'th' );
+		
+		if ( columnStyleClasses ) {
+			th.setAttribute( 'class', columnStyleClasses.split( ',' )[0] );
+		}
+		
 		var label = document.createElement( 'label' );
 		label.setAttribute( 'for', attributes.name );
-		label.innerHTML = attributes.label + ':';
+		
+		if ( attributes.label ) {
+			label.innerHTML = attributes.label + ':';
+		} else {
+			label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
+		}
 		th.appendChild( label );
-
-		var td = document.createElement( 'td' );
-		td.appendChild( widget );
-
-		var tr = document.createElement( 'tr' );
 		tr.appendChild( th );
+
+		// Widget
+		
+		var td = document.createElement( 'td' );
+
+		if ( columnStyleClasses ) {
+			td.setAttribute( 'class', columnStyleClasses.split( ',' )[1] );
+		}
+
+		td.appendChild( widget );
 		tr.appendChild( td );
 
-		container.firstChild.appendChild( tr );
-	}
+		// Error
+		
+		td = document.createElement( 'td' );
+
+		if ( columnStyleClasses ) {
+			td.setAttribute( 'class', columnStyleClasses.split( ',' )[2] );
+		}
+
+		if ( !metawidget.util.isReadOnly( attributes, mw ) && attributes.required == 'true' ) {
+			td.innerHTML = '*';
+		}
+
+		tr.appendChild( td );
+
+		container.firstChild.firstChild.appendChild( tr );
+	};
 };

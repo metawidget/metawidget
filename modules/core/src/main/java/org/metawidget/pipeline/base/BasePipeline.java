@@ -507,6 +507,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 			// Metawidget as a whole may have had setReadOnly( true )
 
+			// TODO: why don't we do this in WidgetBuilderUtils.isReadOnly?
+			
 			boolean forcedReadOnly = false;
 
 			if ( !TRUE.equals( attributes.get( READ_ONLY ) ) && isReadOnly() ) {

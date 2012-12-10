@@ -30,7 +30,7 @@ metawidget.Metawidget = function( config ) {
 
 	// Configure
 
-	if ( config && config.inspector != null ) {
+	if ( config && config.inspector ) {
 		this.inspector = config.inspector;
 	} else {
 		this.inspector = new metawidget.PropertyInspector();
@@ -43,7 +43,7 @@ metawidget.Metawidget = function( config ) {
 	this.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ new metawidget.ReadOnlyWidgetBuilder(), new metawidget.HtmlWidgetBuilder() ] );
 	this.widgetProcessors = [ new metawidget.IdWidgetProcessor() ];
 
-	if ( config && config.layout != null ) {
+	if ( config && config.layout ) {
 		this.layout = config.layout;
 	} else {
 		this.layout = new metawidget.TableLayout();
@@ -61,6 +61,12 @@ metawidget.Metawidget = function( config ) {
 			inspectionResult = this.inspector( this.toInspect, this.path );
 		}
 
+		// Inspector may return null
+
+		if ( !inspectionResult ) {
+			return;
+		}
+		
 		// InspectionResultProcessors
 
 		for ( var irp = 0, irpLength = this.inspectionResultProcessors.length; irp < irpLength; irp++ ) {
@@ -75,52 +81,108 @@ metawidget.Metawidget = function( config ) {
 		}
 
 		console.log( inspectionResult );
-		var element = document.createElement( 'metawidget' );
+		var container = document.createElement( 'metawidget' );
+
+		// onStartBuild
+		
+		if ( this.widgetBuilder.onStartBuild ) {
+			this.widgetBuilder.onStartBuild();
+		}
 
 		if ( this.layout.startContainerLayout ) {
-			this.layout.startContainerLayout( element );
+			this.layout.startContainerLayout( container );
 		}
+
+		// Build top-level widget...
+		
+		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+			
+			var attributes = inspectionResult[loop];
+			
+			if ( attributes.name != '$root' ) {
+				continue;
+			}
+			
+			var widget = buildWidget( attributes, this );
+			
+			if ( widget ) {
+				widget = processWidget( widget, attributes, this );
+				
+				if ( widget ) {
+					layoutWidget( widget, attributes, container, this );
+					return container;
+				}
+			}
+				
+			break;
+		}
+				
+		// ...or try compound widget
 
 		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
 
 			var attributes = inspectionResult[loop];
 
-			// WidgetBuilder
-
-			var widget;
-
-			if ( this.widgetBuilder.buildWidget ) {
-				widget = this.widgetBuilder.buildWidget( attributes, this );
-			} else {
-				widget = this.widgetBuilder( attributes, this );
+			if ( attributes.name == '$root' ) {
+				continue;
 			}
 			
-			if ( widget == null ) {
+			var widget = buildWidget( attributes, this );
+
+			if ( !widget ) {
 				widget = this.buildNestedMetawidget( attributes );
 			}
 
-			// WidgetProcessors
-
-			for ( var wp = 0, wpLength = this.widgetProcessors.length; wp < wpLength; wp++ ) {
-
-				var widgetProcessor = this.widgetProcessors[wp];
-
-				if ( widgetProcessor.processWidget ) {
-					widget = widgetProcessor.processWidget( widget, attributes );
-				} else {
-					widget = widgetProcessor( widget, attributes );
-				}
-			}
+			widget = processWidget( widget, attributes, this );
 			
-			// Layout
-
-			if ( this.layout.layoutWidget ) {
-				this.layout.layoutWidget( widget, attributes, element );
-			} else {
-				this.layout( widget, attributes, element );
+			if ( widget ) {
+				layoutWidget( widget, attributes, container, this );
 			}
 		}
 
-		return element;
+		return container;
+		
+		//
+		// Private methods
+		//
+		
+		function buildWidget( attributes, mw ) {
+			
+			if ( mw.widgetBuilder.buildWidget ) {
+				return mw.widgetBuilder.buildWidget( attributes, mw );
+			}
+			
+			return mw.widgetBuilder( attributes, mw );
+		}
+
+		function processWidget( widget, attributes, mw ) {
+
+			for ( var wp = 0, wpLength = mw.widgetProcessors.length; wp < wpLength; wp++ ) {
+
+				var widgetProcessor = mw.widgetProcessors[wp];
+				
+				if ( widgetProcessor.processWidget ) {
+					widget = widgetProcessor.processWidget( widget, attributes, mw );
+				} else {
+					widget = widgetProcessor( widget, attributes, mw );
+				}
+				
+				if ( !widget ) {
+					return;
+				}
+			}
+			
+			return widget;			
+		}
+
+		function layoutWidget( widget, attributes, container, mw ) {
+
+			if ( mw.layout.layoutWidget ) {
+				mw.layout.layoutWidget( widget, attributes, container, mw );
+				return;
+			}
+			
+			mw.layout( widget, attributes, container, mw );
+		}
 	};
 };
