@@ -7,7 +7,7 @@
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/> 
 			<steps>
 				<invoke url="/" />
-				<verifyTitle text="Address Book (Metawidget AngularJS Example)" />
+				<verifyTitle text="All Widgets (Metawidget AngularJS Test)" />
 			</steps>
 		</webtest>
 	</target>

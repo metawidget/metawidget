@@ -84,7 +84,6 @@ metawidget.Metawidget = function( config ) {
 			}
 		}
 
-		console.log( inspectionResult );
 		var container = document.createElement( 'metawidget' );
 
 		// onStartBuild

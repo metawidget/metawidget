@@ -12,6 +12,7 @@
 
 	<modules>
 		<module>angularjs/allwidgets</module>
+		<module>corejs/allwidgets</module>
 	</modules>
 
 </project>

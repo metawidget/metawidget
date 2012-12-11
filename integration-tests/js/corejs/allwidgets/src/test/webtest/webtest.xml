@@ -1,0 +1,21 @@
+<project name="jsp-addressbook-test">
+
+	<taskdef resource="webtestTaskdefs.properties"/>
+
+	<target name="all">
+		<webtest name="test-search">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/> 
+			<steps>
+				<invoke url="/" />
+				<verifyTitle text="All Widgets (Metawidget CoreJS Test)" />
+				
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/@id" text="table-textbox-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label" text="Textbox:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label/@for" text="textbox"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@id" text="textbox"/>
+			</steps>
+		</webtest>
+	</target>
+
+</project>
