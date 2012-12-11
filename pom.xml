@@ -643,6 +643,10 @@
 			<id>codehaus</id>
 			<url>http://snapshots.repository.codehaus.org</url>
 		</pluginRepository>
+		<pluginRepository>
+			<id>webtest</id>
+			<url>http://webtest.canoo.com/webtest/m2-repo-snapshots</url>
+		</pluginRepository>
 	</pluginRepositories>
 
 	<build>
@@ -856,9 +860,9 @@
 					</configuration>
 					<!-- These executions are profile dependent -->
 				</plugin>
-				
+
 				<!-- Need jboss-maven-plugin until https://issues.jboss.org/browse/ARQ-556 -->
-				
+
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>jboss-maven-plugin</artifactId>
@@ -902,6 +906,14 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>webtest-maven-plugin</artifactId>
 					<version>1.0.0</version>
+					<dependencies>
+						<!-- Upgrade to latest version -->
+						<dependency>
+							<groupId>com.canoo.webtest</groupId>
+							<artifactId>webtest</artifactId>
+							<version>3.1-SNAPSHOT</version>
+						</dependency>
+					</dependencies>
 					<executions>
 						<execution>
 							<id>jetty-integration-test</id>

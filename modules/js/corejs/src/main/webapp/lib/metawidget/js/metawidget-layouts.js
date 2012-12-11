@@ -34,14 +34,14 @@ metawidget.SimpleLayout = function() {
 	};
 };
 
-metawidget.TableLayout = function( options ) {
+metawidget.TableLayout = function( config ) {
 		
 	if ( !( this instanceof metawidget.TableLayout )) {
 		throw new Error( "Constructor called as a function" );
 	}
 
-	var tableStyleClass = options ? options.tableStyleClass : null;
-	var columnStyleClasses = options ? options.columnStyleClasses : null;
+	var tableStyleClass = config ? config.tableStyleClass : null;
+	var columnStyleClasses = config ? config.columnStyleClasses : null;
 
 	this.startContainerLayout = function( container ) {
 

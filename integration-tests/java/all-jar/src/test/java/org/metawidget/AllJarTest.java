@@ -46,7 +46,7 @@ public class AllJarTest
 	public void testAllJar()
 		throws Exception {
 
-		JarFile jar = new JarFile( "../../modules/all/target/" + METAWIDGET_ALL_JAR );
+		JarFile jar = new JarFile( "../../../modules/java/all/target/" + METAWIDGET_ALL_JAR );
 
 		boolean hadManifest = false;
 		int hadTlds = 0;
