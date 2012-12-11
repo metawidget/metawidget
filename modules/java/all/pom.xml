@@ -2,7 +2,7 @@
 	<!-- Not modules-java-parent until http://jira.codehaus.org/browse/MNG-2805 can suppress maven-source-plugin -->
 	<parent>
 		<groupId>org.metawidget.modules</groupId>
-		<artifactId>metawidget-parent</artifactId>
+		<artifactId>modules-parent</artifactId>
 		<version>2.6-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
