@@ -3,17 +3,17 @@
 		<groupId>org.metawidget</groupId>
 		<artifactId>metawidget-parent</artifactId>
 		<version>2.6-SNAPSHOT</version>
-		<relativePath>../</relativePath>
+		<relativePath>../../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.metawidget.integration-tests</groupId>
-	<artifactId>integration-tests-parent</artifactId>
+	<groupId>org.metawidget.modules.js</groupId>
+	<artifactId>js-parent</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>java</module>
-		<module>js</module>
+		<module>angularjs</module>
+		<module>corejs</module>
 	</modules>
-	
+
 </project>

@@ -1,0 +1,125 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.metawidget.modules</groupId>
+		<artifactId>modules-parent</artifactId>
+		<version>2.6-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>modules-java-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<!-- Not 'all' until http://jira.codehaus.org/browse/MNG-2805 can suppress maven-source-plugin -->
+		<module>android</module>
+		<module>annotation</module>
+		<module>beanvalidation</module>
+		<module>commons</module>
+		<module>core</module>
+		<module>faces</module>
+		<module>groovy</module>
+		<module>gwt</module>
+		<module>hibernate</module>
+		<module>javassist</module>
+		<module>jbpm</module>
+		<module>jpa</module>
+		<module>jsp</module>
+		<module>miglayout</module>
+		<module>oval</module>
+		<module>scala</module>
+		<module>seam</module>
+		<module>spring</module>
+		<module>static</module>
+		<module>struts</module>
+		<module>swing</module>
+		<module>swt</module>
+		<module>vaadin</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.metawidget.modules</groupId>
+				<artifactId>metawidget-core</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<aggregate>true</aggregate>
+					<author>true</author>
+					<version>true</version>
+					<use>true</use>
+					<doctitle>Metawidget ${project.version} API Documentation</doctitle>
+					<overview>src/main/resources/overview.html</overview>
+					<!-- Designed for consistent diffs -->
+					<windowtitle>Metawidget API Documentation</windowtitle>
+					<notimestamp>true</notimestamp>
+				</configuration>
+				<!-- mvn javadoc:aggregate must be manually run at *this* level (not parent POM) for JavaDoc generation to work. See MJAVADOC-311 -->
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/tld-sources</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}</directory>
+									<includes>
+										<include>**/src/main/resources/META-INF/*.tld</include>
+									</includes>
+									<excludes>
+										<exclude>target/**</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>net.sourceforge.maven-taglib</groupId>
+				<artifactId>maven-taglib-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<taglib.src.dir>target/tld-sources</taglib.src.dir>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>taglibdoc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

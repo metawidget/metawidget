@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.metawidget.examples</groupId>
+		<artifactId>examples-parent</artifactId>
+		<version>2.6-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>examples-java-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>android/addressbook</module>
+		<module>faces/addressbook</module>
+		<module>faces/addressbook2</module>
+		<module>faces/penguincolony</module>
+		<module>gwt/addressbook</module>
+		<module>gwt/clientside</module>
+		<module>jsp/addressbook</module>
+		<module>spring/addressbook</module>
+		<module>struts/addressbook</module>
+		<module>swing/addressbook</module>
+		<module>swing/addressbook-applet</module>
+		<module>swing/animalraces</module>
+		<module>swing/appframework</module>
+		<module>swt/addressbook</module>
+		<module>vaadin/addressbook</module>
+	</modules>
+
+	<repositories>
+		<!-- For building examples 'standalone' against snapshot releases -->
+		<repository>
+			<id>jboss-snapshots-repository</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>		
+		</repository>
+	</repositories>
+
+</project>

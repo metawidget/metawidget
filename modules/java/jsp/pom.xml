@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.metawidget.modules</groupId>
+		<artifactId>modules-java-parent</artifactId>
+		<version>2.6-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.metawidget.modules.jsp</groupId>
+	<artifactId>jsp-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>annotation</module>
+		<module>core</module>
+		<module>displaytag</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.metawidget.modules.jsp</groupId>
+				<artifactId>metawidget-jsp</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>

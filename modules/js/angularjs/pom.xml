@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.metawidget.modules.js</groupId>
+		<artifactId>js-parent</artifactId>
+		<version>2.6-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>metawidget-angularjs</artifactId>
+	<packaging>war</packaging>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<overlays>
+						<overlay>
+							<groupId>org.metawidget.modules.js</groupId>
+							<artifactId>metawidget-corejs</artifactId>
+						</overlay>
+					</overlays>					
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.metawidget.modules.js</groupId>
+			<artifactId>metawidget-corejs</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+	
+</project>
