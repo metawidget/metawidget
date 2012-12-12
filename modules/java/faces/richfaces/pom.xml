@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-faces</artifactId>
-			<version>${project.version}</version>
+			<version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<!-- 4.x -->
 		<dependency>

@@ -7,7 +7,6 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.metawidget.modules.swing</groupId>
 	<artifactId>metawidget-swingx</artifactId>
 	<packaging>jar</packaging>
 

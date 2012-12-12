@@ -7,7 +7,6 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.metawidget.modules</groupId>
 	<artifactId>metawidget-jpa</artifactId>
 	<packaging>jar</packaging>
 
@@ -15,7 +14,7 @@
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-core</artifactId>
-			<version>${project.version}</version>
+			<version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec</groupId>

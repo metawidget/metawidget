@@ -146,7 +146,6 @@ public class MetawidgetActionStyleTest
 		@UiAction
 		protected abstract void shouldntFindMe();
 
-		@SuppressWarnings( "unused" )
 		@UiAction
 		private void shouldntFindMeEither() {
 

@@ -72,7 +72,7 @@ public final class MetawidgetTestUtils {
 		}
 	}
 
-	public static <T, S extends T> void testEqualsAndHashcode( T object1, T object2, S subclass, String... exclude ) {
+	public static <T, S extends T> void testObjectEqualsAndHashcode( T object1, T object2, S subclass, String... exclude ) {
 
 		testEqualsAndHashcode( object1, object2, subclass, (Map<?,?>) null, exclude );
 	}

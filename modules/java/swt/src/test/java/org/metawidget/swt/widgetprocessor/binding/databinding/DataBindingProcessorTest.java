@@ -53,7 +53,7 @@ public class DataBindingProcessorTest
 		MetawidgetTestUtils.testEqualsAndHashcode( DataBindingProcessorConfig.class, new DataBindingProcessorConfig() {
 			// subclass
 		} );
-		MetawidgetTestUtils.testEqualsAndHashcode( new ConvertFromTo( Integer.class, String.class ), new ConvertFromTo( Integer.class, String.class ), null );
+		MetawidgetTestUtils.testObjectEqualsAndHashcode( new ConvertFromTo( Integer.class, String.class ), new ConvertFromTo( Integer.class, String.class ), null );
 	}
 
 	public void testConvertFromString() {

@@ -418,7 +418,7 @@ public class BeansBindingProcessorTest
 		MetawidgetTestUtils.testEqualsAndHashcode( BeansBindingProcessorConfig.class, new BeansBindingProcessorConfig() {
 			// Subclass
 		}, "converters" );
-		MetawidgetTestUtils.testEqualsAndHashcode( new ConvertFromTo<Integer, String>( Integer.class, String.class ), new ConvertFromTo<Integer, String>( Integer.class, String.class ), null );
+		MetawidgetTestUtils.testObjectEqualsAndHashcode( new ConvertFromTo<Integer, String>( Integer.class, String.class ), new ConvertFromTo<Integer, String>( Integer.class, String.class ), null );
 	}
 
 	public void testNumberConverter() {

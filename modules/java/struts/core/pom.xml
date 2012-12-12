@@ -7,7 +7,6 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.metawidget.modules.struts</groupId>
 	<artifactId>metawidget-struts</artifactId>
 	<packaging>jar</packaging>
 

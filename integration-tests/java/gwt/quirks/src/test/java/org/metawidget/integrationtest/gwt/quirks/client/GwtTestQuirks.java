@@ -306,8 +306,8 @@ public class GwtTestQuirks
 		assertTrue( 2 == (Short) converter.convertFromWidget( null, "2", short.class ) );
 		assertTrue( 3 == (Integer) converter.convertFromWidget( null, "3", int.class ) );
 		assertTrue( 4l == (Long) converter.convertFromWidget( null, "4", long.class ) );
-		assertEquals( 5f, (Float) converter.convertFromWidget( null, "5", float.class ) );
-		assertEquals( 6d, (Double) converter.convertFromWidget( null, "6", double.class ) );
+		assertEquals( 5f, converter.convertFromWidget( null, "5", float.class ) );
+		assertEquals( 6d, converter.convertFromWidget( null, "6", double.class ) );
 		assertTrue( true == (Boolean) converter.convertFromWidget( null, "true", boolean.class ) );
 		assertTrue( 'a' == (Character) converter.convertFromWidget( null, "a", char.class ) );
 

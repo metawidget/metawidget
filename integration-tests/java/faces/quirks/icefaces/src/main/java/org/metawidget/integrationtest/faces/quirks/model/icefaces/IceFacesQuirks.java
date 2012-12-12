@@ -16,8 +16,6 @@
 
 package org.metawidget.integrationtest.faces.quirks.model.icefaces;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import java.util.Date;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
