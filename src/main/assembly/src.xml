@@ -18,12 +18,15 @@
 				<include>**/gwt/clientside/war/index.html</include>
 				<include>**/src/**</include>
 				<include>**/pom.xml</include>
-				<include>readme.txt</include>
 			</includes>
 			<excludes>
 				<exclude>.*</exclude>
 				<exclude>**/target/**</exclude>
 			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>/src/main/resources/for-src</directory>
+			<outputDirectory>/src</outputDirectory>
 		</fileSet>
 	</fileSets>
 	<files>

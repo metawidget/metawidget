@@ -67,6 +67,10 @@
 		</fileSet>
 		<fileSet>
 			<directory>/examples/js/angularjs/addressbook/target/addressbook-angularjs</directory>
+			<excludes>
+				<exclude>META-INF/**</exclude>
+				<exclude>WEB-INF/**</exclude>
+			</excludes>
 			<outputDirectory>/examples/js/angular/addressbook</outputDirectory>
 		</fileSet>
 	</fileSets>

@@ -1,3 +1,6 @@
+Metawidget for Java
+===================
+
 The file metawidget-all.jar contains all of Metawidget bundled into one JAR for easy deployment. To get started, we strongly recommend the Metawidget tutorial: http://metawidget.org/doc/reference/en/html/ch01.html#section-introduction-part1
 
 If you need more control over how Metawidget is included in your application, fine-grained JARs are also available. For example you can:

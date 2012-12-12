@@ -1,5 +1,5 @@
-Metawidget Examples (Source Code)
-=================================
+Metawidget Source Code
+======================
 
 This folder contains full source code (including tests) for Metawidget. To build, change to the /src folder and type:
 
@@ -21,5 +21,5 @@ Steps that can be run after the build include:
 			- build modules in debug mode			
 	mvn -X -f modules/java/all/pom.xml -Dmaven.test.skip=true deploy
 			- build metawidget-all.jar in debug mode
-	-X -N deploy
+	mvn -X -N deploy
 			- release to Maven repository

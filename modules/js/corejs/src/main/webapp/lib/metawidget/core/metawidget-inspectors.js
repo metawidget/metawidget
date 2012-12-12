@@ -107,7 +107,7 @@ metawidget.CompositeInspector = function( inspectors ) {
 
 metawidget.PropertyInspector = function() {
 
-	if ( !( this instanceof arguments.callee )) {
+	if ( !( this instanceof metawidget.PropertyInspector )) {
 		throw new Error( "Constructor called as a function" );
 	}
 

@@ -254,20 +254,18 @@ metawidget.angular.AngularWidgetProcessor = function( $compile, scope ) {
 
 		// Binding
 
-		if ( mw.toInspect ) {
-			var binding = 'toInspect';
-	
-			if ( attributes.name != '$root' ) {
-				binding += '.' + attributes.name;
-			}
-	
-			if ( widget.tagName == 'OUTPUT' ) {
-				widget.innerHTML = '{{' + binding + '}}';
-			} else if ( widget.tagName == 'BUTTON' ) {
-				widget.setAttribute( 'ng-click', binding + '()' );
-			} else {
-				widget.setAttribute( 'ng-model', binding );
-			}
+		var binding = 'toInspect';
+
+		if ( attributes.name != '$root' ) {
+			binding += '.' + attributes.name;
+		}
+
+		if ( widget.tagName == 'OUTPUT' ) {
+			widget.innerHTML = '{{' + binding + '}}';
+		} else if ( widget.tagName == 'BUTTON' ) {
+			widget.setAttribute( 'ng-click', binding + '()' );
+		} else {
+			widget.setAttribute( 'ng-model', binding );
 		}
 
 		// Validation

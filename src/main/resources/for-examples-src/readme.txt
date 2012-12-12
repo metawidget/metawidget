@@ -1,5 +1,5 @@
-Metawidget Examples (Source Code)
-=================================
+Metawidget Examples Source Code
+===============================
 
 This folder contains full source code (including tests) for all Metawidget examples. To build them all, change to the /src/examples folder and type:
 
