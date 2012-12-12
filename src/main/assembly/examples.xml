@@ -42,7 +42,7 @@
 			<outputDirectory>/examples</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/src/main/resources/for-src</directory>
+			<directory>/src/main/resources/for-examples-src</directory>
 			<outputDirectory>/src</outputDirectory>
 		</fileSet>
 		<!-- Source code -->
@@ -69,62 +69,66 @@
 	<files>
 		<file>
 			<source>/examples/android/addressbook/application/target/addressbook-android.apk</source>
-			<outputDirectory>/examples/android</outputDirectory>
+			<outputDirectory>/examples/java/android</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/faces/addressbook/target/addressbook-faces.war</source>
-			<outputDirectory>/examples/faces</outputDirectory>
+			<outputDirectory>/examples/java/faces</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/faces/addressbook2/target/addressbook-faces2.war</source>
-			<outputDirectory>/examples/faces</outputDirectory>
+			<outputDirectory>/examples/java/faces</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/faces/penguincolony/target/penguincolony-faces.war</source>
-			<outputDirectory>/examples/faces</outputDirectory>
+			<outputDirectory>/examples/java/faces</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/faces/penguincolony/target/penguincolony-faces.war</source>
-			<outputDirectory>/examples/faces</outputDirectory>
+			<outputDirectory>/examples/java/faces</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/gwt/addressbook/target/addressbook-gwt.war</source>
-			<outputDirectory>/examples/gwt</outputDirectory>
+			<outputDirectory>/examples/java/gwt</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/jsp/addressbook/target/addressbook-jsp.war</source>
-			<outputDirectory>/examples/jsp</outputDirectory>
+			<outputDirectory>/examples/java/jsp</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/spring/addressbook/target/addressbook-spring.war</source>
-			<outputDirectory>/examples/spring</outputDirectory>
+			<outputDirectory>/examples/java/spring</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/struts/addressbook/target/addressbook-struts.war</source>
-			<outputDirectory>/examples/struts</outputDirectory>
+			<outputDirectory>/examples/java/struts</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/swing/addressbook/target/addressbook-swing.jar</source>
-			<outputDirectory>/examples/swing</outputDirectory>
+			<outputDirectory>/examples/java/swing</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/swing/appframework/target/appframework-swing.jar</source>
-			<outputDirectory>/examples/swing</outputDirectory>
+			<outputDirectory>/examples/java/swing</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/swing/animalraces/target/animalraces-swing.jar</source>
-			<outputDirectory>/examples/swing</outputDirectory>
+			<outputDirectory>/examples/java/swing</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/swt/addressbook/target/addressbook-swt.jar</source>
-			<outputDirectory>/examples/swt</outputDirectory>
+			<outputDirectory>/examples/java/swt</outputDirectory>
 		</file>
 		<file>
 			<source>/examples/vaadin/addressbook/target/addressbook-vaadin.war</source>
-			<outputDirectory>/examples/vaadin</outputDirectory>
+			<outputDirectory>/examples/java/vaadin</outputDirectory>
 		</file>
 		<file>
 			<source>/src/main/resources/for-bin/lgpl.txt</source>
+			<outputDirectory>/</outputDirectory>
+		</file>
+		<file>
+			<source>/readme.txt</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
 		<!-- Source code -->

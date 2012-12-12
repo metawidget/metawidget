@@ -31,5 +31,9 @@
 			<source>/src/main/resources/for-bin/lgpl.txt</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
+		<file>
+			<source>/readme.txt</source>
+			<outputDirectory>/</outputDirectory>
+		</file>		
 	</files>
 </assembly>

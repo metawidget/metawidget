@@ -30,11 +30,11 @@
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/angularjs/target/metawidget-angularjs/lib</directory>
+			<directory>/modules/js/angularjs/target/metawidget-angularjs</directory>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/corejs/target/metawidget-corejs/lib</directory>
+			<directory>/modules/js/corejs/target/metawidget-corejs</directory>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 	</fileSets>
