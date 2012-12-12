@@ -142,13 +142,32 @@ metawidget.HtmlWidgetBuilder = function() {
 			return button;
 		}
 
+		// Number
+		
+		if ( attributes.type == 'number' ) {
+			
+			if ( attributes.minimumValue && attributes.maximumValue ) {
+				var range = document.createElement( 'input' );
+				range.setAttribute( 'type', 'range' );
+				range.setAttribute( 'min', attributes.minimumValue );
+				range.setAttribute( 'max', attributes.maximumValue );
+				return range;
+			}
+			
+			var number = document.createElement( 'input' );
+			number.setAttribute( 'type', 'number' );
+			return number;
+		}
+
 		// Boolean
 		
 		if ( attributes.type == 'boolean' ) {
-			var text = document.createElement( 'input' );
-			text.setAttribute( 'type', 'checkbox' );
-			return text;
+			var checkbox = document.createElement( 'input' );
+			checkbox.setAttribute( 'type', 'checkbox' );
+			return checkbox;
 		}
+		
+	    // date, datetime, datetime-local
 		
 		// String
 

@@ -14,6 +14,42 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label/@for" text="textbox"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@id" text="textbox"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[3]/@id" text="table-textarea-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th/label" text="Textarea:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th/label/@for" text="textarea"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td/textarea/@id" text="textarea"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[4]/@id" text="table-password-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[4]/th/label" text="Password:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[4]/th/label/@for" text="password"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[4]/td/input/@type" text="password"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[4]/td/input/@id" text="password"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[5]/@id" text="table-number-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[5]/th/label" text="Number:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[5]/th/label/@for" text="number"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[5]/td/input/@type" text="number"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[5]/td/input/@id" text="number"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[6]/@id" text="table-rangedNumber-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[6]/th/label" text="Ranged Number:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[6]/th/label/@for" text="rangedNumber"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@type" text="range"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@id" text="rangedNumber"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@min" text="1"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@max" text="100"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[7]/@id" text="table-boolean-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[7]/th/label" text="Boolean:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[7]/th/label/@for" text="boolean"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[7]/td/input/@type" text="checkbox"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[7]/td/input/@id" text="boolean"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/@id" text="table-dropdown-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th/label" text="Dropdown:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th/label/@for" text="dropdown"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/@id" text="dropdown"/>
 			</steps>
 		</webtest>
 	</target>
