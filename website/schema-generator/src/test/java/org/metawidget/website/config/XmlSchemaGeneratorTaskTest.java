@@ -46,7 +46,7 @@ public class XmlSchemaGeneratorTaskTest
 
 		// Run the task
 
-		String jar = "../../modules/all/target/metawidget-all.jar";
+		String jar = "../../modules/java/all/target/metawidget-all.jar";
 		String destDir = "target/xsd-test";
 
 		mXmlSchemaGeneratorTask.setJar( jar );

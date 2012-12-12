@@ -122,152 +122,159 @@ public class XmlSchemaGeneratorTask
 			// Start index.html
 
 			FileWriter indexWriter = new FileWriter( new File( destDir, "index.php" ) );
-			indexWriter.write( "<?php $title = 'XML Schemas'; require_once '../include/page-start.php'; ?>\r\n\r\n" );
-			indexWriter.write( "\t<?php $floater='xml.png'; require_once '../include/body-start.php'; ?>\r\n\r\n" );
-			indexWriter.write( "\t\t<h2>XML Schemas</h2>\r\n" );
-			indexWriter.write( "\t\t<h3>Inspection Results</h3>\r\n" );
-			indexWriter.write( "\t\t<p>This schema is used for inspection results returned by <a href=\"http://metawidget.org/doc/api/org/metawidget/inspector/iface/Inspector.html\">Inspectors</a>:</p>\r\n" );
-			indexWriter.write( "\t\t<ul>\r\n" );
-			indexWriter.write( "\t\t\t<li><a href=\"inspection-result-1.0.xsd\">inspection-result-1.0.xsd</a></li>\r\n" );
-			indexWriter.write( "\t\t</ul>\r\n" );
-			indexWriter.write( "\t\t<h3>External Configuration</h3>\r\n" );
-			indexWriter.write( "\t\t<p>These schemas are (optionally) used when externally configuring Metawidget via <tt>metawidget.xml</tt>. For example</p>\r\n" );
-			indexWriter.write( "<div class=\"code\"><tt>&lt;metawidget xmlns=\"<strong>http://metawidget.org</strong>\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"<br/>" );
-			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xsi:schemaLocation=\"<strong>http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd<br/>" );
-			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java:org.metawidget.jsp.tagext.html.spring http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.spring-1.0.xsd</strong>\"<br/>" );
-			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;version=\"1.0\"&gt;<br/>" );
-			indexWriter.write( "&nbsp;&nbsp;&nbsp;&lt;springMetawidgetTag xmlns=\"<strong>java:org.metawidget.jsp.tagext.html.spring</strong>\"/&gt;<br/>" );
-			indexWriter.write( "&lt;/metawidget&gt;</tt></div>\r\n" );
-			indexWriter.write( "\t\t<ul>\r\n" );
-			indexWriter.write( "\t\t\t<li><a href=\"metawidget-1.0.xsd\">metawidget-1.0.xsd</a></li>\r\n" );
 
-			// For each entry in the JAR file...
+			try {
+				indexWriter.write( "<?php $title = 'XML Schemas'; require_once '../include/page-start.php'; ?>\r\n\r\n" );
+				indexWriter.write( "\t<?php $floater='xml.png'; require_once '../include/body-start.php'; ?>\r\n\r\n" );
+				indexWriter.write( "\t\t<h2>XML Schemas</h2>\r\n" );
+				indexWriter.write( "\t\t<h3>Inspection Results</h3>\r\n" );
+				indexWriter.write( "\t\t<p>This schema is used for inspection results returned by <a href=\"http://metawidget.org/doc/api/org/metawidget/inspector/iface/Inspector.html\">Inspectors</a>:</p>\r\n" );
+				indexWriter.write( "\t\t<ul>\r\n" );
+				indexWriter.write( "\t\t\t<li><a href=\"inspection-result-1.0.xsd\">inspection-result-1.0.xsd</a></li>\r\n" );
+				indexWriter.write( "\t\t</ul>\r\n" );
+				indexWriter.write( "\t\t<h3>External Configuration</h3>\r\n" );
+				indexWriter.write( "\t\t<p>These schemas are (optionally) used when externally configuring Metawidget via <tt>metawidget.xml</tt>. For example</p>\r\n" );
+				indexWriter.write( "<div class=\"code\"><tt>&lt;metawidget xmlns=\"<strong>http://metawidget.org</strong>\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"<br/>" );
+				indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xsi:schemaLocation=\"<strong>http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd<br/>" );
+				indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java:org.metawidget.jsp.tagext.html.spring http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.spring-1.0.xsd</strong>\"<br/>" );
+				indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;version=\"1.0\"&gt;<br/>" );
+				indexWriter.write( "&nbsp;&nbsp;&nbsp;&lt;springMetawidgetTag xmlns=\"<strong>java:org.metawidget.jsp.tagext.html.spring</strong>\"/&gt;<br/>" );
+				indexWriter.write( "&lt;/metawidget&gt;</tt></div>\r\n" );
+				indexWriter.write( "\t\t<ul>\r\n" );
+				indexWriter.write( "\t\t\t<li><a href=\"metawidget-1.0.xsd\">metawidget-1.0.xsd</a></li>\r\n" );
 
-			File file;
+				// For each entry in the JAR file...
 
-			if ( getProject() != null ) {
-				file = new File( getProject().getBaseDir(), mJar );
-			} else {
-				file = new File( mJar );
+				File file;
+
+				if ( getProject() != null ) {
+					file = new File( getProject().getBaseDir(), mJar );
+				} else {
+					file = new File( mJar );
+				}
+
+				if ( !file.exists() ) {
+					throw new FileNotFoundException( file.getAbsolutePath() );
+				}
+
+				JarFile jarFile = new JarFile( file );
+				log( "Writing " + jarFile.getName() + " to " + destDir.getAbsolutePath(), Project.MSG_INFO );
+
+				String lastXsdFilename = null;
+
+				for ( Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements(); ) {
+					JarEntry jarEntry = e.nextElement();
+
+					// ...that is a Java class...
+
+					if ( jarEntry.isDirectory() ) {
+						continue;
+					}
+
+					String name = jarEntry.getName();
+
+					if ( !name.endsWith( CLASS_SUFFIX ) ) {
+						continue;
+					}
+
+					// ...determine the package name...
+
+					String qualifiedClassName = name.replace( StringUtils.SEPARATOR_FORWARD_SLASH, StringUtils.SEPARATOR_DOT ).substring( 0, name.length() - CLASS_SUFFIX.length() );
+
+					int lastIndexOf = qualifiedClassName.lastIndexOf( StringUtils.SEPARATOR_DOT );
+
+					if ( lastIndexOf == -1 ) {
+						continue;
+					}
+
+					String className = qualifiedClassName.substring( lastIndexOf + 1 );
+
+					// ...ignore inner classes...
+
+					if ( className.contains( "$" ) ) {
+						continue;
+					}
+
+					String packageName = qualifiedClassName.substring( 0, lastIndexOf );
+					log( "\t" + qualifiedClassName, Project.MSG_INFO );
+
+					// ...find the XSD file...
+
+					File xsdFile = new File( destDir, packageName + XSD_SUFFIX );
+
+					// ...load it if it already exists...
+
+					StringBuilder xsdBuilder = new StringBuilder();
+
+					if ( xsdFile.exists() ) {
+						ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
+						IOUtils.streamBetween( new FileInputStream( xsdFile ), streamOut );
+						xsdBuilder.append( streamOut.toString() );
+					}
+
+					// ...or create it if it doesn't...
+
+					else {
+						xsdBuilder.append( "<?xml version=\"1.0\" ?>\r\n" );
+						xsdBuilder.append( "<xs:schema targetNamespace=\"java:" );
+						xsdBuilder.append( packageName );
+						xsdBuilder.append( "\" xmlns=\"java:" );
+						xsdBuilder.append( packageName );
+						xsdBuilder.append( "\"" );
+						xsdBuilder.append( " xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" version=\"1.0\">\r\n" );
+						xsdBuilder.append( SCHEMA_END );
+
+						// Note: as determined in this thread...
+						//
+						// http://old.nabble.com/Possible-to-restrict-top-level-xs%3Aelement-names--ts26227610.html
+						//
+						// ..."The [XML Schema] spec doesn't provide a mechanism by which a schema
+						// can
+						// constrain the document element of schema-valid documents". So we can't
+						// flag
+						// an error if someone tries to declare <siwngMetawidget> (ie.
+						// siwng instead of swing). This is unfortunate.
+					}
+
+					// ...add our element block...
+
+					int indexOf = xsdBuilder.indexOf( SCHEMA_END );
+
+					if ( indexOf == -1 ) {
+						continue;
+					}
+
+					String elementBlock = generateClassBlock( packageName, className );
+
+					if ( elementBlock == null ) {
+						continue;
+					}
+
+					xsdBuilder.insert( indexOf, elementBlock );
+
+					// ...and write it out
+
+					IOUtils.streamBetween( new ByteArrayInputStream( xsdBuilder.toString().getBytes() ), new FileOutputStream( xsdFile ) );
+
+					String xsdFilename = xsdFile.getName();
+
+					if ( !xsdFilename.equals( lastXsdFilename ) ) {
+						indexWriter.write( "\t\t\t<li><a href=\"" + xsdFilename + "\">" + xsdFilename + "</a></li>\r\n" );
+						lastXsdFilename = xsdFilename;
+					}
+				}
+
+				jarFile.close();
+
+				// End index.html
+
+				indexWriter.write( "\t\t</ul>\r\n\r\n" );
+				indexWriter.write( "\t<?php require_once '../include/body-end.php'; ?>\r\n\r\n" );
+				indexWriter.write( "<?php require_once '../include/page-end.php'; ?>" );
+			} finally {
+				indexWriter.close();
 			}
 
-			if ( !file.exists() ) {
-				throw new FileNotFoundException( file.getAbsolutePath() );
-			}
-
-			JarFile jarFile = new JarFile( file );
-			log( "Writing " + jarFile.getName() + " to " + destDir.getAbsolutePath(), Project.MSG_INFO );
-
-			String lastXsdFilename = null;
-
-			for ( Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements(); ) {
-				JarEntry jarEntry = e.nextElement();
-
-				// ...that is a Java class...
-
-				if ( jarEntry.isDirectory() ) {
-					continue;
-				}
-
-				String name = jarEntry.getName();
-
-				if ( !name.endsWith( CLASS_SUFFIX ) ) {
-					continue;
-				}
-
-				// ...determine the package name...
-
-				String qualifiedClassName = name.replace( StringUtils.SEPARATOR_FORWARD_SLASH, StringUtils.SEPARATOR_DOT ).substring( 0, name.length() - CLASS_SUFFIX.length() );
-
-				int lastIndexOf = qualifiedClassName.lastIndexOf( StringUtils.SEPARATOR_DOT );
-
-				if ( lastIndexOf == -1 ) {
-					continue;
-				}
-
-				String className = qualifiedClassName.substring( lastIndexOf + 1 );
-
-				// ...ignore inner classes...
-
-				if ( className.contains( "$" ) ) {
-					continue;
-				}
-
-				String packageName = qualifiedClassName.substring( 0, lastIndexOf );
-				log( "\t" + qualifiedClassName, Project.MSG_INFO );
-
-				// ...find the XSD file...
-
-				File xsdFile = new File( destDir, packageName + XSD_SUFFIX );
-
-				// ...load it if it already exists...
-
-				StringBuilder xsdBuilder = new StringBuilder();
-
-				if ( xsdFile.exists() ) {
-					ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-					IOUtils.streamBetween( new FileInputStream( xsdFile ), streamOut );
-					xsdBuilder.append( streamOut.toString() );
-				}
-
-				// ...or create it if it doesn't...
-
-				else {
-					xsdBuilder.append( "<?xml version=\"1.0\" ?>\r\n" );
-					xsdBuilder.append( "<xs:schema targetNamespace=\"java:" );
-					xsdBuilder.append( packageName );
-					xsdBuilder.append( "\" xmlns=\"java:" );
-					xsdBuilder.append( packageName );
-					xsdBuilder.append( "\"" );
-					xsdBuilder.append( " xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" version=\"1.0\">\r\n" );
-					xsdBuilder.append( SCHEMA_END );
-
-					// Note: as determined in this thread...
-					//
-					// http://old.nabble.com/Possible-to-restrict-top-level-xs%3Aelement-names--ts26227610.html
-					//
-					// ..."The [XML Schema] spec doesn't provide a mechanism by which a schema can
-					// constrain the document element of schema-valid documents". So we can't flag
-					// an error if someone tries to declare <siwngMetawidget> (ie.
-					// siwng instead of swing). This is unfortunate.
-				}
-
-				// ...add our element block...
-
-				int indexOf = xsdBuilder.indexOf( SCHEMA_END );
-
-				if ( indexOf == -1 ) {
-					continue;
-				}
-
-				String elementBlock = generateClassBlock( packageName, className );
-
-				if ( elementBlock == null ) {
-					continue;
-				}
-
-				xsdBuilder.insert( indexOf, elementBlock );
-
-				// ...and write it out
-
-				IOUtils.streamBetween( new ByteArrayInputStream( xsdBuilder.toString().getBytes() ), new FileOutputStream( xsdFile ) );
-
-				String xsdFilename = xsdFile.getName();
-
-				if ( !xsdFilename.equals( lastXsdFilename ) ) {
-					indexWriter.write( "\t\t\t<li><a href=\"" + xsdFilename + "\">" + xsdFilename + "</a></li>\r\n" );
-					lastXsdFilename = xsdFilename;
-				}
-			}
-
-			jarFile.close();
-
-			// End index.html
-
-			indexWriter.write( "\t\t</ul>\r\n\r\n" );
-			indexWriter.write( "\t<?php require_once '../include/body-end.php'; ?>\r\n\r\n" );
-			indexWriter.write( "<?php require_once '../include/page-end.php'; ?>" );
-			indexWriter.close();
 		} catch ( Exception e ) {
 			throw new BuildException( e );
 		}
