@@ -65,6 +65,10 @@
 				<exclude>**/target/**</exclude>
 			</excludes>
 		</fileSet>
+		<fileSet>
+			<directory>/examples/js/angularjs/addressbook/target/addressbook-angularjs</directory>
+			<outputDirectory>/examples/js/angular/addressbook</outputDirectory>
+		</fileSet>
 	</fileSets>
 	<files>
 		<file>
@@ -122,10 +126,6 @@
 		<file>
 			<source>/examples/java/vaadin/addressbook/target/addressbook-vaadin.war</source>
 			<outputDirectory>/examples/java/vaadin</outputDirectory>
-		</file>
-		<file>
-			<source>/examples/js/angularjs/addressbook/target/addressbook-angularjs</source>
-			<outputDirectory>/examples/js/angular/addressbook</outputDirectory>
 		</file>
 		<file>
 			<source>/src/main/resources/for-bin/lgpl.txt</source>
