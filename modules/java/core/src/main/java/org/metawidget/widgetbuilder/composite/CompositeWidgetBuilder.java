@@ -18,6 +18,7 @@ package org.metawidget.widgetbuilder.composite;
 
 import java.util.Map;
 
+import org.metawidget.widgetbuilder.iface.AdvancedWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
@@ -34,7 +35,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 public class CompositeWidgetBuilder<W, M extends W>
-	implements WidgetBuilder<W, M> {
+	implements AdvancedWidgetBuilder<W, M> {
 
 	//
 	// Private members
@@ -78,6 +79,16 @@ public class CompositeWidgetBuilder<W, M extends W>
 	// Public methods
 	//
 
+	public void onStartBuild( M metawidget ) {
+
+		for ( WidgetBuilder<W, M> widgetBuilder : mWidgetBuilders ) {
+
+			if ( widgetBuilder instanceof AdvancedWidgetBuilder<?, ?> ) {
+				((AdvancedWidgetBuilder<W, M>) widgetBuilder).onStartBuild( metawidget );
+			}
+		}
+	}
+
 	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget ) {
 
 		for ( WidgetBuilder<W, M> widgetBuilder : mWidgetBuilders ) {
@@ -89,6 +100,16 @@ public class CompositeWidgetBuilder<W, M extends W>
 		}
 
 		return null;
+	}
+
+	public void onEndBuild( M metawidget ) {
+
+		for ( WidgetBuilder<W, M> widgetBuilder : mWidgetBuilders ) {
+
+			if ( widgetBuilder instanceof AdvancedWidgetBuilder<?, ?> ) {
+				((AdvancedWidgetBuilder<W, M>) widgetBuilder).onEndBuild( metawidget );
+			}
+		}
 	}
 
 	/**

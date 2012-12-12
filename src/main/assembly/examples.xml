@@ -6,36 +6,36 @@
 	<baseDirectory>metawidget-${project.version}</baseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>/examples/gwt/clientside/war</directory>
+			<directory>/examples/java/gwt/clientside/war</directory>
 			<excludes>
 				<exclude>META-INF/**</exclude>
 				<exclude>WEB-INF/**</exclude>
 			</excludes>
-			<outputDirectory>/examples/gwt/clientside</outputDirectory>
+			<outputDirectory>/examples/java/gwt/clientside</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/examples/swing/addressbook/target/lib</directory>
-			<outputDirectory>/examples/swing/lib</outputDirectory>
+			<directory>/examples/java/swing/addressbook/target/lib</directory>
+			<outputDirectory>/examples/java/swing/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/examples/swing/addressbook-applet/target/addressbook-swing-applet</directory>
-			<outputDirectory>/examples/swing/applet</outputDirectory>
+			<directory>/examples/java/swing/addressbook-applet/target/addressbook-swing-applet</directory>
+			<outputDirectory>/examples/java/swing/applet</outputDirectory>
 			<excludes>
 				<exclude>META-INF/**</exclude>
 				<exclude>WEB-INF/**</exclude>
 			</excludes>
 		</fileSet>
 		<fileSet>
-			<directory>/examples/swing/appframework/target/lib</directory>
-			<outputDirectory>/examples/swing/lib</outputDirectory>
+			<directory>/examples/java/swing/appframework/target/lib</directory>
+			<outputDirectory>/examples/java/swing/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/examples/swing/animalraces/target/lib</directory>
-			<outputDirectory>/examples/swing/lib</outputDirectory>
+			<directory>/examples/java/swing/animalraces/target/lib</directory>
+			<outputDirectory>/examples/java/swing/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/examples/swt/addressbook/target/lib</directory>
-			<outputDirectory>/examples/swt/lib</outputDirectory>
+			<directory>/examples/java/swt/addressbook/target/lib</directory>
+			<outputDirectory>/examples/java/swt/lib</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>/src/main/resources/for-examples</directory>

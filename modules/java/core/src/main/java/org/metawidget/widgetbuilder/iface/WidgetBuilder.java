@@ -36,8 +36,6 @@ import org.metawidget.iface.Immutable;
  * @author Richard Kennard
  */
 
-// TODO: angular-js needed an AdvancedWidgetBuilder
-
 public interface WidgetBuilder<W, M extends W>
 	extends Immutable {
 

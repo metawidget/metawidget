@@ -19,9 +19,11 @@ package org.metawidget.pipeline.base;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import junit.framework.TestCase;
 
@@ -29,11 +31,14 @@ import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.config.impl.BaseConfigReader;
 import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.widgetbuilder.iface.AdvancedWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Document;
 
@@ -183,6 +188,92 @@ public class BasePipelineTest
 		assertEquals( 99, nestedPipeline.getMaximumInspectionDepth() );
 	}
 
+	public void testAdvancedStartEndBuild()
+		throws Exception {
+
+		final List<String> events = CollectionUtils.newArrayList();
+		W3CPipeline<JComponent, JComponent, JComponent> pipeline = new MockPipeline();
+
+		pipeline.setWidgetBuilder( new AdvancedWidgetBuilder<JComponent, JComponent>() {
+
+			public void onStartBuild( JComponent metawidget ) {
+
+				events.add( "WidgetBuilder::onStartBuild" );
+			}
+
+			public JComponent buildWidget( String elementName, Map<String, String> attributes, JComponent metawidget ) {
+
+				events.add( "WidgetBuilder::buildWidget" );
+				return new JPanel();
+			}
+
+			public void onEndBuild( JComponent metawidget ) {
+
+				events.add( "WidgetBuilder::onEndBuild" );
+			}
+		} );
+		pipeline.addWidgetProcessor( new AdvancedWidgetProcessor<JComponent, JComponent>() {
+
+			public void onStartBuild( JComponent metawidget ) {
+
+				events.add( "WidgetProcessor::onStartBuild" );
+			}
+
+			public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, JComponent metawidget ) {
+
+				events.add( "WidgetProcessor::processWidget" );
+				return widget;
+			}
+
+			public void onEndBuild( JComponent metawidget ) {
+
+				events.add( "WidgetProcessor::onEndBuild" );
+			}
+		} );
+		pipeline.setLayout( new AdvancedLayout<JComponent, JComponent, JComponent>() {
+
+			public void onStartBuild( JComponent metawidget ) {
+
+				events.add( "Layout::onStartBuild" );
+			}
+
+			public void startContainerLayout( JComponent container, JComponent metawidget ) {
+
+				events.add( "Layout::startContainerLayout" );
+			}
+
+			public void layoutWidget( JComponent widget, String elementName, Map<String, String> attributes, JComponent container, JComponent metawidget ) {
+
+				events.add( "Layout::layoutWidget" );
+			}
+
+			public void endContainerLayout( JComponent container, JComponent metawidget ) {
+
+				events.add( "Layout::endContainerLayout" );
+			}
+
+			public void onEndBuild( JComponent metawidget ) {
+
+				events.add( "Layout::onEndBuild" );
+			}
+		} );
+
+		pipeline.buildWidgets( XmlUtils.documentFromString( "<inspection-result><entity/></inspection-result>" ).getDocumentElement() );
+
+		assertEquals( "WidgetBuilder::onStartBuild", events.get( 0 ) );
+		assertEquals( "WidgetProcessor::onStartBuild", events.get( 1 ) );
+		assertEquals( "Layout::onStartBuild", events.get( 2 ) );
+		assertEquals( "Layout::startContainerLayout", events.get( 3 ) );
+		assertEquals( "WidgetBuilder::buildWidget", events.get( 4 ) );
+		assertEquals( "WidgetProcessor::processWidget", events.get( 5 ) );
+		assertEquals( "Layout::layoutWidget", events.get( 6 ) );
+		assertEquals( "Layout::endContainerLayout", events.get( 7 ) );
+		assertEquals( "Layout::onEndBuild", events.get( 8 ) );
+		assertEquals( "WidgetProcessor::onEndBuild", events.get( 9 ) );
+		assertEquals( "WidgetBuilder::onEndBuild", events.get( 10 ) );
+		assertEquals( 11, events.size() );
+	}
+
 	//
 	// Inner class
 	//
@@ -204,7 +295,7 @@ public class BasePipelineTest
 
 		@Override
 		protected JComponent buildNestedMetawidget( Map<String, String> attributes )
-				throws Exception {
+			throws Exception {
 
 			return null;
 		}

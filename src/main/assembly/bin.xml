@@ -29,15 +29,23 @@
 			<directory>src/main/resources/for-bin</directory>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
+		<fileSet>
+			<directory>/modules/js/angularjs/target/metawidget-angularjs/lib</directory>
+			<outputDirectory>/js</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>/modules/js/corejs/target/metawidget-corejs/lib</directory>
+			<outputDirectory>/js</outputDirectory>
+		</fileSet>
 	</fileSets>
 	<files>
 		<file>
-			<source>/modules/all/target/metawidget-all-sources.jar</source>
-			<outputDirectory>/additional/gwt</outputDirectory>
+			<source>/modules/java/all/target/metawidget-all-sources.jar</source>
+			<outputDirectory>/java/gwt</outputDirectory>
 		</file>
 		<file>
-			<source>/modules/all/target/metawidget-all.jar</source>
-			<outputDirectory>/</outputDirectory>
+			<source>/modules/java/all/target/metawidget-all.jar</source>
+			<outputDirectory>/java</outputDirectory>
 		</file>
 		<file>
 			<source>/readme.txt</source>

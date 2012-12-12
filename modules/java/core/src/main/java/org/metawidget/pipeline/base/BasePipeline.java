@@ -30,6 +30,7 @@ import org.metawidget.inspector.iface.DomInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.widgetbuilder.iface.AdvancedWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -508,7 +509,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			// Metawidget as a whole may have had setReadOnly( true )
 
 			// TODO: why don't we do this in WidgetBuilderUtils.isReadOnly?
-			
+
 			boolean forcedReadOnly = false;
 
 			if ( !TRUE.equals( attributes.get( READ_ONLY ) ) && isReadOnly() ) {
@@ -583,6 +584,10 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	protected void startBuild() {
 
 		M pipelineOwner = getPipelineOwner();
+
+		if ( mWidgetBuilder instanceof AdvancedWidgetBuilder<?, ?> ) {
+			((AdvancedWidgetBuilder<W, M>) mWidgetBuilder).onStartBuild( pipelineOwner );
+		}
 
 		if ( mWidgetProcessors != null ) {
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors ) {
@@ -716,6 +721,15 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 		M pipelineOwner = getPipelineOwner();
 
+		// (layout can be null if no path, in an IDE visual builder)
+
+		if ( mLayout instanceof AdvancedLayout<?, ?, ?> ) {
+			AdvancedLayout<W, C, M> advancedLayout = (AdvancedLayout<W, C, M>) mLayout;
+
+			advancedLayout.endContainerLayout( pipelineOwner, pipelineOwner );
+			advancedLayout.onEndBuild( pipelineOwner );
+		}
+
 		if ( mWidgetProcessors != null ) {
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors ) {
 				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?, ?> ) {
@@ -724,13 +738,8 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			}
 		}
 
-		// (layout can be null if no path, in an IDE visual builder)
-
-		if ( mLayout instanceof AdvancedLayout<?, ?, ?> ) {
-			AdvancedLayout<W, C, M> advancedLayout = (AdvancedLayout<W, C, M>) mLayout;
-
-			advancedLayout.endContainerLayout( pipelineOwner, pipelineOwner );
-			advancedLayout.onEndBuild( pipelineOwner );
+		if ( mWidgetBuilder instanceof AdvancedWidgetBuilder<?, ?> ) {
+			((AdvancedWidgetBuilder<W, M>) mWidgetBuilder).onEndBuild( pipelineOwner );
 		}
 	}
 }
