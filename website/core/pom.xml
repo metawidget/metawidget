@@ -163,24 +163,24 @@
 						
 						<taskdef name="xmlSchemaGenerator" classname="org.metawidget.website.config.XmlSchemaGeneratorTask" />
 						<xmlSchemaGenerator jar="target/ROOT/WEB-INF/lib/metawidget-all.jar" destdir="target/ROOT/xsd" />
-						<copy file="../../modules/core/src/main/resources/org/metawidget/config/metawidget-1.0.xsd" todir="target/ROOT/xsd"/>
-						<copy file="../../modules/core/src/main/resources/org/metawidget/inspector/inspection-result-1.0.xsd" todir="target/ROOT/xsd"/>
+						<copy file="../../modules/java/core/src/main/resources/org/metawidget/config/metawidget-1.0.xsd" todir="target/ROOT/xsd"/>
+						<copy file="../../modules/java/core/src/main/resources/org/metawidget/inspector/inspection-result-1.0.xsd" todir="target/ROOT/xsd"/>
 						
 						<!-- Try to have something at TLD URIs -->
 
-						<copy file="../../modules/faces/core/src/main/resources/META-INF/metawidget-faces.tld" tofile="target/ROOT/faces/index.html"/>
-						<copy file="../../modules/faces/core/src/main/resources/META-INF/metawidget-faces.tld" todir="target/ROOT/faces"/>
-						<copy file="../../modules/jsp/core/src/main/resources/META-INF/metawidget-html.tld" tofile="target/ROOT/html/index.html"/>
-						<copy file="../../modules/jsp/core/src/main/resources/META-INF/metawidget-html.tld" todir="target/ROOT/html"/>
-						<copy file="../../modules/spring/core/src/main/resources/META-INF/metawidget-spring.tld" tofile="target/ROOT/spring/index.html"/>
-						<copy file="../../modules/spring/core/src/main/resources/META-INF/metawidget-spring.tld" todir="target/ROOT/spring"/>
-						<copy file="../../modules/struts/core/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
-						<copy file="../../modules/struts/core/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
+						<copy file="../../modules/java/faces/core/src/main/resources/META-INF/metawidget-faces.tld" tofile="target/ROOT/faces/index.html"/>
+						<copy file="../../modules/java/faces/core/src/main/resources/META-INF/metawidget-faces.tld" todir="target/ROOT/faces"/>
+						<copy file="../../modules/java/jsp/core/src/main/resources/META-INF/metawidget-html.tld" tofile="target/ROOT/html/index.html"/>
+						<copy file="../../modules/java/jsp/core/src/main/resources/META-INF/metawidget-html.tld" todir="target/ROOT/html"/>
+						<copy file="../../modules/java/spring/core/src/main/resources/META-INF/metawidget-spring.tld" tofile="target/ROOT/spring/index.html"/>
+						<copy file="../../modules/java/spring/core/src/main/resources/META-INF/metawidget-spring.tld" todir="target/ROOT/spring"/>
+						<copy file="../../modules/java/struts/core/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
+						<copy file="../../modules/java/struts/core/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
 						
 						<!-- Easy Android install -->
 						
-						<copy file="../../examples/android/addressbook/application/target/addressbook-android.apk" todir="target/ROOT/examples/android"/>
-						<copy file="../../integration-tests/android/allwidgets/application/target/allwidgets-android.apk" todir="target/ROOT/integration-tests/android"/>
+						<copy file="../../examples/java/android/addressbook/application/target/addressbook-android.apk" todir="target/ROOT/examples/android"/>
+						<copy file="../../integration-tests/java/android/allwidgets/application/target/allwidgets-android.apk" todir="target/ROOT/integration-tests/android"/>
 						
 						<!-- (SourceForge runs on UNIX, and we want to keep file sizes the same for easy diffs) -->
 				
