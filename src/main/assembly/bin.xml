@@ -31,10 +31,18 @@
 		</fileSet>
 		<fileSet>
 			<directory>/modules/js/angularjs/target/metawidget-angularjs</directory>
+			<excludes>
+				<exclude>META-INF/**</exclude>
+				<exclude>WEB-INF/**</exclude>
+			</excludes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>/modules/js/corejs/target/metawidget-corejs</directory>
+			<excludes>
+				<exclude>META-INF/**</exclude>
+				<exclude>WEB-INF/**</exclude>
+			</excludes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 	</fileSets>
