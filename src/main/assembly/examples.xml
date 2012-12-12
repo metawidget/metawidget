@@ -124,7 +124,7 @@
 			<outputDirectory>/examples/java/vaadin</outputDirectory>
 		</file>
 		<file>
-			<source>/examples/js/addressbook/target/addressbook-angularjs</source>
+			<source>/examples/js/angularjs/addressbook/target/addressbook-angularjs</source>
 			<outputDirectory>/examples/js/angular/addressbook</outputDirectory>
 		</file>
 		<file>

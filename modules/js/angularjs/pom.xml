@@ -22,12 +22,12 @@
 							<groupId>org.metawidget.modules.js</groupId>
 							<artifactId>metawidget-corejs</artifactId>
 						</overlay>
-					</overlays>					
+					</overlays>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.metawidget.modules.js</groupId>
@@ -35,6 +35,16 @@
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>rhino</groupId>
+			<artifactId>js</artifactId>
+			<version>1.7R2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-	
+
 </project>
