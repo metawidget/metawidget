@@ -1,70 +1,70 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html ng-app="allWidgets">
-<head>
-<meta charset="utf-8">
-	<title>All Widgets (Metawidget CoreJS Test)</title>
-	<script src="lib/metawidget/core/metawidget.js"></script>
-	<script src="lib/metawidget/core/metawidget-inspectors.js"></script>
-	<script src="lib/metawidget/core/metawidget-widgetbuilders.js"></script>
-	<script src="lib/metawidget/core/metawidget-widgetprocessors.js"></script>
-	<script src="lib/metawidget/core/metawidget-layouts.js"></script>
-	<script src="lib/metawidget/core/metawidget-utils.js"></script>
-</head>
-<body>
-
-	<script type="text/javascript">
-		var mw = new metawidget.Metawidget( {
-
-			inspector: new metawidget.CompositeInspector( [ function( toInspect, type ) {
-
-				return [ {
-					"name": "textbox",
-					"type": "string"
-				}, {
-					"name": "limitedTextbox",
-					"type": "string",
-					"maximumLength": "30"
-				}, {
-					"name": "textarea",
-					"type": "string",
-					"large": "true"
-				}, {
-					"name": "password",
-					"type": "string",
-					"masked": "true"
-				}, {
-					"name": "number",
-					"type": "number"
-				}, {
-					"name": "rangedNumber",
-					"type": "number",
-					"minimumValue": "1",
-					"maximumValue": "100",
-				}, {
-					"name": "boolean",
-					"type": "boolean"
-				}, {
-					"name": "dropdown",
-					"lookup": "foo1,dropdown1,bar1"
-				}, {
-					"name": "dropdownWithLabels",
-					"lookup": "foo2,dropdown2,bar2,baz2",
-					"lookupLabels": "Foo #2,Dropdown #2,Bar #2,Baz #2"
-				}, {
-					"name": "notNullDropdown",
-					"lookup": "-1,0,1",
-					"required": "true"
-				}, /*{
-										"name" : "nestedWidgets"
-									},*/{
-					"name": "hidden",
-					"hidden": "true"
-				} ];
-			} ] )
-		} );
-
-		document.write( mw.buildWidgets().innerHTML );
-	</script>
-
-</body>
+	<head>
+		<meta charset="utf-8"/>
+		<title>All Widgets (Metawidget CoreJS Test)</title>
+		<script src="lib/metawidget/core/metawidget.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-inspectors.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-widgetbuilders.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-widgetprocessors.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-layouts.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-utils.js" type="text/javascript"></script>
+	</head>
+	<body>
+	
+		<script type="text/javascript">
+			var mw = new metawidget.Metawidget( {
+	
+				inspector: new metawidget.CompositeInspector( [ function( toInspect, type ) {
+	
+					return [ {
+						"name": "textbox",
+						"type": "string"
+					}, {
+						"name": "limitedTextbox",
+						"type": "string",
+						"maximumLength": "30"
+					}, {
+						"name": "textarea",
+						"type": "string",
+						"large": "true"
+					}, {
+						"name": "password",
+						"type": "string",
+						"masked": "true"
+					}, {
+						"name": "number",
+						"type": "number"
+					}, {
+						"name": "rangedNumber",
+						"type": "number",
+						"minimumValue": "1",
+						"maximumValue": "100",
+					}, {
+						"name": "boolean",
+						"type": "boolean"
+					}, {
+						"name": "dropdown",
+						"lookup": "foo1,dropdown1,bar1"
+					}, {
+						"name": "dropdownWithLabels",
+						"lookup": "foo2,dropdown2,bar2,baz2",
+						"lookupLabels": "Foo #2,Dropdown #2,Bar #2,Baz #2"
+					}, {
+						"name": "notNullDropdown",
+						"lookup": "-1,0,1",
+						"required": "true"
+					}, /*{
+											"name" : "nestedWidgets"
+										},*/{
+						"name": "hidden",
+						"hidden": "true"
+					} ];
+				} ] )
+			} );
+	
+			document.write( mw.buildWidgets().innerHTML );
+		</script>
+	
+	</body>
 </html>

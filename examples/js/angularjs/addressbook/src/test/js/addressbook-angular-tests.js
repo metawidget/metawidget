@@ -17,13 +17,12 @@
 'use strict';
 
 /**
- * Metawidget tests for pure JavaScript environments.
+ * Angular AddressBook tests.
  */
 
 var tests = {
 
-	testCreateMetawidget: function() {
-
-		new metawidget.Metawidget();
-	},
+	testAngularInspectionResultProcessor: function() {
+		
+	}
 }

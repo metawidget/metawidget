@@ -113,7 +113,7 @@ metawidget.PropertyInspector = function() {
 
 	this.inspect = function( toInspect, type ) {
 
-		var inspectionResult = [ { "name": "$root", "type": "" + typeof( toInspect ) } ];
+		var inspectionResult = [ { "name": "$root", "type": typeof( toInspect ) } ];
 		
 		for ( var property in toInspect ) {
 

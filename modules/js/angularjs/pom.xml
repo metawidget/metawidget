@@ -24,6 +24,14 @@
 						</overlay>
 					</overlays>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -32,8 +40,13 @@
 		<dependency>
 			<groupId>org.metawidget.modules.js</groupId>
 			<artifactId>metawidget-corejs</artifactId>
-			<version>${project.version}</version>
+			<version>${project.version}</version><!--$NO-MVN-MAN-VER$ -->
 			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.js</groupId>
+			<artifactId>metawidget-corejs</artifactId>
+			<type>test-jar</type>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -42,8 +55,6 @@
 		<dependency>
 			<groupId>rhino</groupId>
 			<artifactId>js</artifactId>
-			<version>1.7R2</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

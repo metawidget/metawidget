@@ -10,6 +10,17 @@
 	<artifactId>metawidget-corejs</artifactId>
 	<packaging>war</packaging>
 
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>rhino</groupId>
+			<artifactId>js</artifactId>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -19,6 +30,23 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>js/**</include>
+						<include>org/metawidget/util/**</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
 </project>
