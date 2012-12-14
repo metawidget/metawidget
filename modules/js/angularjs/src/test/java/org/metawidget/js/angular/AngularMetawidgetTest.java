@@ -1,9 +1,9 @@
 package org.metawidget.js.angular;
 
-import org.metawidget.util.JavascriptTestCase;
+import org.metawidget.util.JavaScriptTestCase;
 
 public class AngularMetawidgetTest
-	extends JavascriptTestCase {
+	extends JavaScriptTestCase {
 
 	//
 	// Public methods
@@ -24,12 +24,12 @@ public class AngularMetawidgetTest
 
 		super.setUp();
 
-		evaluateFile( "src/test/js/angular.min.js" );
-		evaluateFile( "target/metawidget-angularjs/lib/metawidget/core/metawidget-inspectors.js" );
-		evaluateFile( "target/metawidget-angularjs/lib/metawidget/core/metawidget-widgetbuilders.js" );
-		evaluateFile( "target/metawidget-angularjs/lib/metawidget/core/metawidget-widgetprocessors.js" );
-		evaluateFile( "target/metawidget-angularjs/lib/metawidget/core/metawidget-layouts.js" );
-		evaluateFile( "target/metawidget-angularjs/lib/metawidget/core/metawidget-utils.js" );
-		evaluateFile( "target/metawidget-angularjs/lib/metawidget/angular/metawidget-angular.js" );
+		evaluateJavaScript( "src/test/js/angular.min.js" );
+		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-inspectors.js" );
+		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-widgetbuilders.js" );
+		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-widgetprocessors.js" );
+		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-layouts.js" );
+		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-utils.js" );
+		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/angular/metawidget-angular.js" );
 	}
 }

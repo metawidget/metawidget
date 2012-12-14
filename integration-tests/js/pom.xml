@@ -15,4 +15,24 @@
 		<module>corejs/allwidgets</module>
 	</modules>
 
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<!-- Configure maven-war-plugin to run early, so that our          -->
+					<!-- JavascriptTestCases can load dependent resources from /target -->
+					<executions>
+						<execution>
+							<phase>test-compile</phase>
+							<goals>
+								<goal>war</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
 </project>

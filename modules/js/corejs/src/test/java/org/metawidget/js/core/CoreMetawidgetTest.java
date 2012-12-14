@@ -1,9 +1,9 @@
 package org.metawidget.js.core;
 
-import org.metawidget.util.JavascriptTestCase;
+import org.metawidget.util.JavaScriptTestCase;
 
 public class CoreMetawidgetTest
-	extends JavascriptTestCase {
+	extends JavaScriptTestCase {
 
 	//
 	// Public methods
@@ -24,11 +24,11 @@ public class CoreMetawidgetTest
 
 		super.setUp();
 
-		evaluateFile( "target/metawidget-corejs/lib/metawidget/core/metawidget.js" );
-		evaluateFile( "target/metawidget-corejs/lib/metawidget/core/metawidget-inspectors.js" );
-		evaluateFile( "target/metawidget-corejs/lib/metawidget/core/metawidget-widgetbuilders.js" );
-		evaluateFile( "target/metawidget-corejs/lib/metawidget/core/metawidget-widgetprocessors.js" );
-		evaluateFile( "target/metawidget-corejs/lib/metawidget/core/metawidget-layouts.js" );
-		evaluateFile( "target/metawidget-corejs/lib/metawidget/core/metawidget-utils.js" );
+		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget.js" );
+		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-inspectors.js" );
+		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-widgetbuilders.js" );
+		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-widgetprocessors.js" );
+		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-layouts.js" );
+		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-utils.js" );
 	}
 }

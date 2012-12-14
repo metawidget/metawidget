@@ -63,8 +63,16 @@ metawidget.TableLayout = function( config ) {
 		}
 
 		var tr = document.createElement( 'tr' );
+
+		var id = 'table-';
 		
-		tr.setAttribute( 'id', 'table-' + mw.path + attributes.name + '-row' );
+		if ( mw.path ) {
+			id += mw.path;
+		}
+		
+		id += attributes.name + '-row';
+		
+		tr.setAttribute( 'id', id );
 		
 		// Label
 		

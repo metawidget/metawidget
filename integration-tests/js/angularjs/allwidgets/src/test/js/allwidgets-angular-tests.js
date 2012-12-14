@@ -24,7 +24,7 @@ var tests = {
 
 	testAllWidgets: function() {
 		
-		angular.bootstrap( document, [ 'addressBook' ] );
+		angular.bootstrap( document, [ 'allWidgets' ] );
 		console.log( document.innerHTML );
 	}
 };

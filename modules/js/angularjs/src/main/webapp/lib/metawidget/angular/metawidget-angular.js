@@ -72,13 +72,20 @@ angular.module( 'metawidget.directives', [] )
 						mw.buildNestedMetawidget = function( attributes ) {
 
 							var nested = document.createElement( 'metawidget' );
-
-							// Attributes are scoped to the directive, not
-							// scope.$parent
-
-							nested.setAttribute( 'to-inspect', 'toInspect.' + attributes.name );
-							nested.setAttribute( 'read-only', 'readOnly' );
-							nested.setAttribute( 'config', 'config' );
+							nested.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
+							if ( attrs.readOnly ) {
+								nested.setAttribute( 'read-only', attrs.readOnly );
+							}
+							if ( attrs.config ) {
+								nested.setAttribute( 'config', attrs.config );
+							}
+							
+							// Scope the nested Metawidget to the parent, not the directive, so that the
+							// paths look more natural
+							
+							$compile( nested )( scope.$parent );
+							nested.wasTranscluded = true;
+							
 							return nested;
 						};
 
@@ -109,7 +116,7 @@ angular.module( 'metawidget.directives', [] )
 
 							// Invoke Metawidget
 
-							mw.toInspect = scope.$eval( 'toInspect' );
+							mw.toInspect = scope.$eval( 'toInspect' );							
 							mw.path = attrs.toInspect;
 							mw.readOnly = scope.$eval( 'readOnly' );
 							var builtWidgets = mw.buildWidgets();
@@ -254,18 +261,20 @@ metawidget.angular.AngularWidgetProcessor = function( $compile, scope ) {
 
 		// Binding
 
-		var binding = 'toInspect';
-
-		if ( attributes.name != '$root' ) {
-			binding += '.' + attributes.name;
-		}
-
-		if ( widget.tagName == 'OUTPUT' ) {
-			widget.innerHTML = '{{' + binding + '}}';
-		} else if ( widget.tagName == 'BUTTON' ) {
-			widget.setAttribute( 'ng-click', binding + '()' );
-		} else {
-			widget.setAttribute( 'ng-model', binding );
+		if ( mw.toInspect != null ) {
+			var binding = 'toInspect';
+	
+			if ( attributes.name != '$root' ) {
+				binding += '.' + attributes.name;
+			}
+	
+			if ( widget.tagName == 'OUTPUT' ) {
+				widget.innerHTML = '{{' + binding + '}}';
+			} else if ( widget.tagName == 'BUTTON' ) {
+				widget.setAttribute( 'ng-click', binding + '()' );
+			} else {
+				widget.setAttribute( 'ng-model', binding );
+			}
 		}
 
 		// Validation

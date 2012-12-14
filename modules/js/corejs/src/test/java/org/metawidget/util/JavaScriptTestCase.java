@@ -1,5 +1,6 @@
 package org.metawidget.util;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 
@@ -15,7 +16,7 @@ import org.mozilla.javascript.tools.shell.Main;
  * Utility class to load Rhino and Env.js, and run a JavaScript test case.
  */
 
-public abstract class JavascriptTestCase
+public abstract class JavaScriptTestCase
 	extends TestCase {
 
 	//
@@ -39,7 +40,7 @@ public abstract class JavascriptTestCase
 
 	protected void run( String filename ) {
 
-		evaluateFile( filename );
+		evaluateJavaScript( filename );
 		NativeObject tests = evaluateString( "tests" );
 
 		for ( Object function : tests.getAllIds() ) {
@@ -80,19 +81,32 @@ public abstract class JavascriptTestCase
 	}
 
 	/**
-	 * Evaluate the given file.
+	 * Evaluate the given Javascript file.
 	 *
 	 * @param filename
 	 *            the filename. File path is relative to the project root
 	 */
 
-	protected void evaluateFile( String filename ) {
+	protected void evaluateJavaScript( String filename ) {
 
 		try {
 			mContext.evaluateReader( mScope, new FileReader( filename ), filename, 0, null );
 		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
+	}
+
+	/**
+	 * Evaluate the given HTML file.
+	 *
+	 * @param filename
+	 *            the filename. File path is relative to the project root
+	 */
+
+	protected void evaluateHtml( String filename ) {
+
+		String absolutePath = "file:///" + new File( filename ).getAbsolutePath().replace( '\\', '/' );
+		evaluateString( "window.location = '" + absolutePath + "'" );
 	}
 
 	//
