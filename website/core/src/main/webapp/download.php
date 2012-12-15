@@ -83,7 +83,7 @@
 		</p>
 		<p>
 			To browse all available fine-grained dependencies
-			<a href="http://search.maven.org/#search|ga|1|g%3A%22org.metawidget.modules%22" target="_blank">search under metawidget-modules</a>. 
+			<a href="http://search.maven.org/#browse|5459107" target="_blank">search under metawidget-modules</a>. 
 		</p>
 		
 		<h2 class="h2-underneath">Nightly Builds</h2>

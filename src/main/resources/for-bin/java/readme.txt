@@ -16,4 +16,4 @@ To use fine-grained JARs, use Maven to specify dependencies on a per-technology 
 
 Maven will automatically drag in related dependencies for you, such as org.metawidget.modules:metawidget-core.
 
-To browse all available fine-grained dependencies search under: http://search.maven.org/#search|ga|1|g%3A%22org.metawidget.modules%22
+To browse all available fine-grained dependencies search under: http://search.maven.org/#browse|5459107
