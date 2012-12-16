@@ -16,24 +16,44 @@
 
 'use strict';
 
-/**
- * Metawidget tests for pure JavaScript environments.
- */
+describe( "The uncamelCase function", function() {
 
-var tests = {
+	it( "uncamel cases strings", function() {
 
-	testUncamelCase: function() {
+		expect( metawidget.util.uncamelCase( 'foo' ) ).toBe( 'Foo' );
+		expect( metawidget.util.uncamelCase( 'fooBar' ) ).toBe( 'Foo Bar' );
+		expect( metawidget.util.uncamelCase( 'FooBar' ) ).toBe( 'Foo Bar' );
+	} );
 
-		assertEquals( 'Foo', metawidget.util.uncamelCase( 'foo' ));
-		assertEquals( 'Foo Bar', metawidget.util.uncamelCase( 'fooBar' ));
-		assertEquals( 'Foo Bar', metawidget.util.uncamelCase( 'FooBar' ));
-	},
+	it( "doesn't mangle strings that are already uncamel-cased", function() {
 
-	testIsReadOnly: function() {
+		expect( metawidget.util.uncamelCase( 'Foo Bar' ) ).toBe( 'Foo Bar' );
+		expect( metawidget.util.uncamelCase( 'Foo barBaz Abc' ) ).toBe( 'Foo bar Baz Abc' );
+	} );
+} );
 
-		assertEquals( false, metawidget.util.isReadOnly( {}, { readOnly: false } ));
-		assertEquals( true, metawidget.util.isReadOnly( { readOnly: "true" } ));
-		assertEquals( true, metawidget.util.isReadOnly( { readOnly: "false" }, { readOnly: true } ));
-		assertEquals( false, metawidget.util.isReadOnly( { readOnly: "false" }, { readOnly: false } ));
-	}
-}
+describe( "The testIsReadOnly function", function() {
+
+	it( "tests if an attribute is read only", function() {
+
+		expect( metawidget.util.isReadOnly( {}, {
+			readOnly: false
+		} ) ).toBe( false );
+
+		expect( metawidget.util.isReadOnly( {}, {
+			readOnly: "true"
+		} ) ).toBe( "true" );
+
+		expect( metawidget.util.isReadOnly( {
+			readOnly: "false"
+		}, {
+			readOnly: true
+		} ) ).toBe( true );
+
+		expect( metawidget.util.isReadOnly( {
+			readOnly: "false"
+		}, {
+			readOnly: false
+		} ) ).toBe( false );
+	} );
+} );

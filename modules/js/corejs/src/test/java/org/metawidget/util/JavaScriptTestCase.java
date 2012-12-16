@@ -8,12 +8,11 @@ import junit.framework.TestCase;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.tools.shell.Global;
 import org.mozilla.javascript.tools.shell.Main;
 
 /**
- * Utility class to load Rhino and Env.js, and run a JavaScript test case.
+ * Utility class to load Rhino, Envjs, JQuery and Jasmine, and run a Jasmine test case.
  */
 
 public abstract class JavaScriptTestCase
@@ -41,16 +40,7 @@ public abstract class JavaScriptTestCase
 	protected void run( String filename ) {
 
 		evaluateJavaScript( filename );
-		NativeObject tests = evaluateString( "tests" );
-
-		for ( Object function : tests.getAllIds() ) {
-
-			try {
-				evaluateString( "tests." + function + "()" );
-			} catch ( Exception e ) {
-				fail( function + ": " + e.getMessage() );
-			}
-		}
+		evaluateString( "runJasmine()" );
 	}
 
 	/**
@@ -64,10 +54,15 @@ public abstract class JavaScriptTestCase
 		mScope = Main.getGlobal();
 		mScope.init( mContext );
 		mContext.setOptimizationLevel( -1 );
-		mContext.setLanguageVersion( Context.VERSION_1_5 );
+		mContext.setLanguageVersion( Context.VERSION_1_7 );
 
 		evaluateResource( "/js/env.rhino.1.2.js" );
-		evaluateResource( "/js/metawidget-testutils.js" );
+		evaluateResource( "/js/jquery-1.8.3.min.js" );
+
+		// Jasmine patched for https://github.com/pivotal/jasmine/pull/136
+		evaluateResource( "/js/jasmine.1.3.1.patched.js" );
+
+		evaluateResource( "/js/jasmine-runner.js" );
 	}
 
 	/**
@@ -109,22 +104,22 @@ public abstract class JavaScriptTestCase
 		evaluateString( "window.location = '" + absolutePath + "'" );
 	}
 
-	//
-	// Private methods
-	//
-
 	/**
 	 * Evaluate the given resource.
 	 */
 
-	private void evaluateResource( String resource ) {
+	protected void evaluateResource( String resource ) {
 
 		try {
-			mContext.evaluateReader( mScope, new InputStreamReader( getClass().getResourceAsStream( resource ) ), resource, 0, null );
+			mContext.evaluateReader( mScope, new InputStreamReader( getClass().getResourceAsStream( resource ) ), resource, 1, null );
 		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}
 	}
+
+	//
+	// Private methods
+	//
 
 	@SuppressWarnings( "unchecked" )
 	private <T> T evaluateString( String toEvaluate ) {

@@ -64,15 +64,15 @@ metawidget.TableLayout = function( config ) {
 
 		var tr = document.createElement( 'tr' );
 
-		var id = 'table-';
+		var idPrefix = 'table-';
 		
 		if ( mw.path ) {
-			id += mw.path;
+			idPrefix += mw.path;
 		}
 		
-		id += attributes.name + '-row';
+		idPrefix += attributes.name;
 		
-		tr.setAttribute( 'id', id );
+		tr.setAttribute( 'id', idPrefix + '-row' );
 		
 		// Label
 		
@@ -84,12 +84,14 @@ metawidget.TableLayout = function( config ) {
 		
 		var label = document.createElement( 'label' );
 		label.setAttribute( 'for', attributes.name );
+		label.setAttribute( 'id', idPrefix + '-label' );
 		
 		if ( attributes.label ) {
 			label.innerHTML = attributes.label + ':';
 		} else {
 			label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
-		}
+		}		
+		
 		th.appendChild( label );
 		tr.appendChild( th );
 

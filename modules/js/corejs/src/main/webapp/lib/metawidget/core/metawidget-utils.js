@@ -25,9 +25,9 @@ metawidget.util = metawidget.util || {};
 
 metawidget.util.uncamelCase = function( name ) {
 	
-	return name.charAt( 0 ).toUpperCase() + name.slice( 1 ).replace( /([A-Z])/g, function( $1 ) {
+	return name.charAt( 0 ).toUpperCase() + name.slice( 1 ).replace( /([^ ])([A-Z])/g, function( $1, $2, $3 ) {
 
-		return " " + $1;
+		return $2 + ' ' + $3;
 	} );
 };
 

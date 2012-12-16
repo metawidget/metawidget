@@ -16,15 +16,13 @@
 
 'use strict';
 
-/**
- * AngularJS AllWidgets test.
- */
+describe( "AngularJS AddressBook", function() {
 
-var tests = {
+	it( "can search existing contacts", function() {
 
-	testAllWidgets: function() {
-		
 		angular.bootstrap( document, [ 'addressBook' ] );
 		console.log( document.innerHTML );
-	}
-};
+		
+		expect( $( '#content' ).attr( 'ng-controller' ) ).toBe( 'ContactsController' );		
+	} );
+} );

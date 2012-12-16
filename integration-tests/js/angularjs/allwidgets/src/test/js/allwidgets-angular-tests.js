@@ -16,15 +16,21 @@
 
 'use strict';
 
-/**
- * AngularJS AllWidgets test.
- */
+describe( "AngularJS AllWidgets", function() {
 
-var tests = {
+	it( "tests every sort of widget", function() {
 
-	testAllWidgets: function() {
-		
 		angular.bootstrap( document, [ 'allWidgets' ] );
-		console.log( document.innerHTML );
-	}
-};
+
+		expect( $( '#table-allWidgetstextbox-label' ).prop( 'for' ) ).toBe( 'textbox' );
+		expect( $( '#table-allWidgetstextbox-label' ).text() ).toBe( 'Textbox:' );
+		expect( $( '#textbox' )[0].tagName ).toBe( 'INPUT' );
+		expect( $( '#textbox' )[0].type ).toBe( 'text' );
+		expect( $( '#textbox' ).attr( 'ng-model' ) ).toBe( 'toInspect.textbox' );
+
+		expect( $( '#table-allWidgetstextarea-label' ).prop( 'for' ) ).toBe( 'textarea' );
+		expect( $( '#table-allWidgetstextarea-label' ).text() ).toBe( 'Textarea:' );
+		expect( $( '#textarea' )[0].tagName ).toBe( 'TEXTAREA' );
+		expect( $( '#textarea' ).attr( 'ng-model' ) ).toBe( 'toInspect.textarea' );
+	} );
+} );

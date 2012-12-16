@@ -32,7 +32,7 @@ public class AllWidgetsAngularTest
 		evaluateJavaScript( "target/allwidgets-angularjs/lib/metawidget/core/metawidget-layouts.js" );
 		evaluateJavaScript( "target/allwidgets-angularjs/lib/metawidget/core/metawidget-utils.js" );
 		evaluateJavaScript( "target/allwidgets-angularjs/lib/metawidget/angular/metawidget-angular.js" );
-		
+
 		evaluateHtml( "target/allwidgets-angularjs/index.html" );
 	}
 }

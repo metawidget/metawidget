@@ -24,11 +24,11 @@ public class CoreMetawidgetTest
 
 		super.setUp();
 
-		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget.js" );
-		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-inspectors.js" );
-		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-widgetbuilders.js" );
-		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-widgetprocessors.js" );
-		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-layouts.js" );
-		evaluateJavaScript( "target/metawidget-corejs/lib/metawidget/core/metawidget-utils.js" );
+		evaluateJavaScript( "src/main/webapp/lib/metawidget/core/metawidget.js" );
+		evaluateJavaScript( "src/main/webapp/lib/metawidget/core/metawidget-inspectors.js" );
+		evaluateJavaScript( "src/main/webapp/lib/metawidget/core/metawidget-widgetbuilders.js" );
+		evaluateJavaScript( "src/main/webapp/lib/metawidget/core/metawidget-widgetprocessors.js" );
+		evaluateJavaScript( "src/main/webapp/lib/metawidget/core/metawidget-layouts.js" );
+		evaluateJavaScript( "src/main/webapp/lib/metawidget/core/metawidget-utils.js" );
 	}
 }

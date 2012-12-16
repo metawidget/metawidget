@@ -16,14 +16,10 @@
 
 'use strict';
 
-/**
- * Metawidget tests for AngularJS environments.
- */
+describe( "The AngularInspectionResultProcessor", function() {
 
-var tests = {
+	it( "executes Angular expressions inside inspection results", function() {
 
-	testAngularInspectionResultProcessor: function() {
-		
 		var injector = angular.bootstrap();
 
 		injector.invoke( function( $rootScope ) {
@@ -36,8 +32,8 @@ var tests = {
 
 			processor.processInspectionResult( inspectionResult );
 			
-			assertEquals( "foo", inspectionResult[0].name );
-			assertEquals( "3", inspectionResult[0].value );
-		} );
-	}
-}
+			expect( inspectionResult[0].name ).toBe( 'foo' );
+			expect( inspectionResult[0].value ).toBe( '3' );
+		} );			
+	} );
+} );
