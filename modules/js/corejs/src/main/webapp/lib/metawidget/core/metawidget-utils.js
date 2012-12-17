@@ -31,6 +31,11 @@ metawidget.util.uncamelCase = function( name ) {
 	} );
 };
 
+metawidget.util.capitalize = function( name ) {
+	
+	return name.charAt( 0 ).toUpperCase() + name.slice( 1 );
+};
+
 metawidget.util.isReadOnly = function( attributes, mw ) {
 	
 	if ( attributes.readOnly == 'true' ) {

@@ -22,14 +22,14 @@ describe( "AngularJS AllWidgets", function() {
 
 		angular.bootstrap( document, [ 'allWidgets' ] );
 
-		expect( $( '#table-allWidgetstextbox-label' ).prop( 'for' ) ).toBe( 'textbox' );
-		expect( $( '#table-allWidgetstextbox-label' ).text() ).toBe( 'Textbox:' );
+		expect( $( '#table-allWidgetsTextbox-label' ).prop( 'for' ) ).toBe( 'textbox' );
+		expect( $( '#table-allWidgetsTextbox-label' ).text() ).toBe( 'Textbox:' );
 		expect( $( '#textbox' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#textbox' )[0].type ).toBe( 'text' );
 		expect( $( '#textbox' ).attr( 'ng-model' ) ).toBe( 'toInspect.textbox' );
 
-		expect( $( '#table-allWidgetstextarea-label' ).prop( 'for' ) ).toBe( 'textarea' );
-		expect( $( '#table-allWidgetstextarea-label' ).text() ).toBe( 'Textarea:' );
+		expect( $( '#table-allWidgetsTextarea-label' ).prop( 'for' ) ).toBe( 'textarea' );
+		expect( $( '#table-allWidgetsTextarea-label' ).text() ).toBe( 'Textarea:' );
 		expect( $( '#textarea' )[0].tagName ).toBe( 'TEXTAREA' );
 		expect( $( '#textarea' ).attr( 'ng-model' ) ).toBe( 'toInspect.textarea' );
 	} );

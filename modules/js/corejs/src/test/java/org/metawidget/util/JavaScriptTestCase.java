@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.tools.shell.Global;
 import org.mozilla.javascript.tools.shell.Main;
 
@@ -25,6 +26,8 @@ public abstract class JavaScriptTestCase
 	private Context	mContext;
 
 	private Global	mScope;
+
+	private boolean	mInitializedEnvJs	= false;
 
 	//
 	// Protected methods
@@ -55,9 +58,6 @@ public abstract class JavaScriptTestCase
 		mScope.init( mContext );
 		mContext.setOptimizationLevel( -1 );
 		mContext.setLanguageVersion( Context.VERSION_1_7 );
-
-		evaluateResource( "/js/env.rhino.1.2.js" );
-		evaluateResource( "/js/jquery-1.8.3.min.js" );
 
 		// Jasmine patched for https://github.com/pivotal/jasmine/pull/136
 		evaluateResource( "/js/jasmine.1.3.1.patched.js" );
@@ -100,6 +100,13 @@ public abstract class JavaScriptTestCase
 
 	protected void evaluateHtml( String filename ) {
 
+		// Use EnvJS/JQuery for HTML support
+
+		initializeEnvJs();
+
+		// Load the page relative to the project root. On Windows, we need to hardcode triple
+		// forward slash. Envjs defaults to a double forward slash for some reason
+
 		String absolutePath = "file:///" + new File( filename ).getAbsolutePath().replace( '\\', '/' );
 		evaluateString( "window.location = '" + absolutePath + "'" );
 	}
@@ -117,6 +124,22 @@ public abstract class JavaScriptTestCase
 		}
 	}
 
+	protected void initializeEnvJs() {
+
+		if ( mInitializedEnvJs ) {
+			return;
+		}
+
+		mInitializedEnvJs = true;
+
+		evaluateResource( "/js/env.rhino.1.2.js" );
+		evaluateResource( "/js/jquery-1.8.3.js" );
+
+		// Tell Envjs to load external scripts found in the page
+
+		evaluateString( "Envjs.scriptTypes['text/javascript'] = true" );
+	}
+
 	//
 	// Private methods
 	//
@@ -124,6 +147,10 @@ public abstract class JavaScriptTestCase
 	@SuppressWarnings( "unchecked" )
 	private <T> T evaluateString( String toEvaluate ) {
 
-		return (T) mContext.evaluateString( mScope, toEvaluate, toEvaluate, 1, null );
+		try {
+			return (T) mContext.evaluateString( mScope, toEvaluate, toEvaluate, 1, null );
+		} catch( JavaScriptException e ) {
+			throw new RuntimeException( e.getMessage(), e );
+		}
 	}
 }

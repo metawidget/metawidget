@@ -26,21 +26,21 @@ function runJasmine() {
 
 	reporter.reportSuiteStarting = function( suite ) {
 
-		console.log( suite.getFullName() );
+		reporter.log( suite.getFullName() );
 	}
 
 	reporter.reportSpecResults = function( spec ) {
 
 		var results = spec.results();
-			
-		console.log( '\t' + spec.description + ' (' + results.passedCount + '/' + results.totalCount + ' passed)');
-		
-		for( var loop = 0, length = results.getItems().length; loop < length; loop++ ) {
-			
+
+		reporter.log( '\t' + spec.description + ' (' + results.passedCount + '/' + results.totalCount + ' passed)' );
+
+		for ( var loop = 0, length = results.getItems().length; loop < length; loop++ ) {
+
 			var item = results.getItems()[loop];
 			if ( !item.passed() ) {
 				var toLog = item.matcherName + ': ' + item.message;
-				console.log( '\t\t' + toLog );
+				reporter.log( '\t\t' + toLog );
 				throw new Error( spec.description + ': ' + toLog );
 			}
 		}

@@ -68,9 +68,10 @@ metawidget.TableLayout = function( config ) {
 		
 		if ( mw.path ) {
 			idPrefix += mw.path;
+			idPrefix += metawidget.util.capitalize( attributes.name );
+		} else {		
+			idPrefix += attributes.name;
 		}
-		
-		idPrefix += attributes.name;
 		
 		tr.setAttribute( 'id', idPrefix + '-row' );
 		

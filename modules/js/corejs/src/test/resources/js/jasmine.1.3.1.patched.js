@@ -69,7 +69,7 @@ jasmine.getGlobal = function() {
  */
 jasmine.bindOriginal_ = function(base, name) {
   var original = base[name];
-  if (original.apply) {
+  if (original && original.apply) {
     return function() {
       return original.apply(base, arguments);
     };

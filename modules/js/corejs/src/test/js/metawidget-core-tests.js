@@ -32,6 +32,17 @@ describe( "The uncamelCase function", function() {
 	} );
 } );
 
+describe( "The capitalize function", function() {
+
+	it( "capitalizes strings", function() {
+
+		expect( metawidget.util.capitalize( 'fooBah' ) ).toBe( 'FooBah' );
+		expect( metawidget.util.capitalize( 'x' ) ).toBe( 'X' );
+		expect( metawidget.util.capitalize( 'URL' ) ).toBe( 'URL' );
+		expect( metawidget.util.capitalize( 'ID' ) ).toBe( 'ID' );
+	} );
+} );
+
 describe( "The testIsReadOnly function", function() {
 
 	it( "tests if an attribute is read only", function() {

@@ -20,9 +20,24 @@ describe( "AngularJS AddressBook", function() {
 
 	it( "can search existing contacts", function() {
 
-		angular.bootstrap( document, [ 'addressBook' ] );
-		console.log( document.innerHTML );
+		// TODO: not supported?
+		$( '.data-table' ).empty();
 		
-		expect( $( '#content' ).attr( 'ng-controller' ) ).toBe( 'ContactsController' );		
+		angular.bootstrap( document, [ 'addressBook' ] );
+
+		expect( $( '#content' ).attr( 'ng-controller' ) ).toBe( 'ContactsController' );
+		expect( $( '#table-searchFirstname-label' ).prop( 'for' ) ).toBe( 'firstname' );
+		expect( $( '#table-searchFirstname-label' ).text() ).toBe( 'Firstname:' );
+		expect( $( '#firstname' )[0].tagName ).toBe( 'INPUT' );
+		expect( $( '#firstname' )[0].type ).toBe( 'text' );
+		expect( $( '#firstname' ).attr( 'ng-model' ) ).toBe( 'toInspect.firstname' );		
+
+		expect( $( '#search' )[0].tagName ).toBe( 'BUTTON' );
+		expect( $( '#search' ).attr( 'ng-click' ) ).toBe( 'toInspect.search()' );		
+		expect( $( '#search' ).text() ).toBe( 'Search' );
+
+		expect( $( '#createPersonal' )[0].tagName ).toBe( 'BUTTON' );
+		expect( $( '#createPersonal' ).attr( 'ng-click' ) ).toBe( 'toInspect.createPersonal()' );		
+		expect( $( '#createPersonal' ).text() ).toBe( 'Create Personal' );
 	} );
 } );
