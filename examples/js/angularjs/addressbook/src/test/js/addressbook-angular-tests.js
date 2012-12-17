@@ -25,12 +25,26 @@ describe( "AngularJS AddressBook", function() {
 		
 		angular.bootstrap( document, [ 'addressBook' ] );
 
-		expect( $( '#content' ).attr( 'ng-controller' ) ).toBe( 'ContactsController' );
 		expect( $( '#table-searchFirstname-label' ).prop( 'for' ) ).toBe( 'firstname' );
 		expect( $( '#table-searchFirstname-label' ).text() ).toBe( 'Firstname:' );
 		expect( $( '#firstname' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#firstname' )[0].type ).toBe( 'text' );
 		expect( $( '#firstname' ).attr( 'ng-model' ) ).toBe( 'toInspect.firstname' );		
+		expect( $( '#table-searchSurname-label' ).prop( 'for' ) ).toBe( 'surname' );
+		expect( $( '#table-searchSurname-label' ).text() ).toBe( 'Surname:' );
+		expect( $( '#surname' )[0].tagName ).toBe( 'INPUT' );
+		expect( $( '#surname' )[0].type ).toBe( 'text' );
+		expect( $( '#surname' ).attr( 'ng-model' ) ).toBe( 'toInspect.surname' );		
+		expect( $( '#table-searchType-label' ).prop( 'for' ) ).toBe( 'type' );
+		expect( $( '#table-searchType-label' ).text() ).toBe( 'Type:' );
+		expect( $( '#type' )[0].tagName ).toBe( 'SELECT' );
+		expect( $( '#type' ).attr( 'ng-model' ) ).toBe( 'toInspect.type' );		
+		expect( $( '#type option' )[0].value ).toBe( '' );
+		expect( $( '#type option' )[1].value ).toBe( 'personal' );
+		expect( $( '#type option' )[1].text ).toBe( 'Personal' );
+		expect( $( '#type option' )[2].value ).toBe( 'business' );
+		expect( $( '#type option' )[2].text ).toBe( 'Business' );
+		expect( $( '.table-form tbody tr' ).length ).toBe( 3 );
 
 		expect( $( '#search' )[0].tagName ).toBe( 'BUTTON' );
 		expect( $( '#search' ).attr( 'ng-click' ) ).toBe( 'toInspect.search()' );		
@@ -39,5 +53,9 @@ describe( "AngularJS AddressBook", function() {
 		expect( $( '#createPersonal' )[0].tagName ).toBe( 'BUTTON' );
 		expect( $( '#createPersonal' ).attr( 'ng-click' ) ).toBe( 'toInspect.createPersonal()' );		
 		expect( $( '#createPersonal' ).text() ).toBe( 'Create Personal' );
+
+		expect( $( '#createBusiness' )[0].tagName ).toBe( 'BUTTON' );
+		expect( $( '#createBusiness' ).attr( 'ng-click' ) ).toBe( 'toInspect.createBusiness()' );		
+		expect( $( '#createBusiness' ).text() ).toBe( 'Create Business' );
 	} );
 } );
