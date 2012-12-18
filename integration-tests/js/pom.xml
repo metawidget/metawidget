@@ -7,6 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
+	<groupId>org.metawidget.integration-tests.js</groupId>
 	<artifactId>integration-tests-js-parent</artifactId>
 	<packaging>pom</packaging>
 
@@ -20,6 +21,10 @@
 			<plugins>
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
+					<!-- Configure as a pure JavaScript project -->
+					<configuration>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+					</configuration>					
 					<!-- Configure maven-war-plugin to run early, so that our          -->
 					<!-- JavascriptTestCases can load dependent resources from /target -->
 					<executions>

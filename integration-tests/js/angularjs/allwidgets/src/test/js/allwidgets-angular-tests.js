@@ -32,5 +32,25 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#table-allWidgetsTextarea-label' ).text() ).toBe( 'Textarea:' );
 		expect( $( '#textarea' )[0].tagName ).toBe( 'TEXTAREA' );
 		expect( $( '#textarea' ).attr( 'ng-model' ) ).toBe( 'toInspect.textarea' );
+
+		expect( $( '#table-allWidgetsPassword-label' ).prop( 'for' ) ).toBe( 'password' );
+		expect( $( '#table-allWidgetsPassword-label' ).text() ).toBe( 'Password:' );
+		expect( $( '#password' )[0].tagName ).toBe( 'INPUT' );
+		expect( $( '#password' )[0].type ).toBe( 'password' );
+		expect( $( '#password' ).attr( 'ng-model' ) ).toBe( 'toInspect.password' );
+
+		expect( $( '#table-allWidgetsNumber-label' ).prop( 'for' ) ).toBe( 'number' );
+		expect( $( '#table-allWidgetsNumber-label' ).text() ).toBe( 'Number:' );
+		expect( $( '#number' )[0].tagName ).toBe( 'INPUT' );
+		expect( $( '#number' )[0].type ).toBe( 'number' );
+		expect( $( '#number' ).attr( 'ng-model' ) ).toBe( 'toInspect.number' );
+
+		expect( $( '#table-allWidgetsRangedNumber-label' ).prop( 'for' ) ).toBe( 'rangedNumber' );
+		expect( $( '#table-allWidgetsRangedNumber-label' ).text() ).toBe( 'Ranged Number:' );
+		expect( $( '#rangedNumber' )[0].tagName ).toBe( 'INPUT' );
+		expect( $( '#rangedNumber' )[0].type ).toBe( 'range' );
+		expect( $( '#rangedNumber' ).attr( 'ng-model' ) ).toBe( 'toInspect.rangedNumber' );
+		expect( $( '#rangedNumber' ).attr( 'min' ) ).toBe( '1' );
+		expect( $( '#rangedNumber' ).attr( 'max' ) ).toBe( '100' );
 	} );
 } );

@@ -22,7 +22,6 @@
 		<module>gwt/quirks</module>
 		<module>jsp/allwidgets</module>
 		<module>jsp/quirks</module>
-		<module>shared/allwidgets/model</module>
 		<module>spring/allwidgets</module>
 		<module>spring/quirks</module>
 		<module>static/faces/allwidgets</module>

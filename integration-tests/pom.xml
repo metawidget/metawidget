@@ -14,6 +14,8 @@
 	<modules>
 		<module>java</module>
 		<module>js</module>
+		<module>shared/allwidgets/model</module>
+		<module>shared/allwidgets/webapp</module>		
 	</modules>
 	
 </project>

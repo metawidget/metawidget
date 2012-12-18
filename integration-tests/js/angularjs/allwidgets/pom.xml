@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
-		<groupId>org.metawidget.integration-tests</groupId>
+		<groupId>org.metawidget.integration-tests.js</groupId>
 		<artifactId>integration-tests-js-parent</artifactId>
 		<version>2.6-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.metawidget.integration-tests.angularjs</groupId>
+	<groupId>org.metawidget.integration-tests.js.angularjs</groupId>
 	<artifactId>allwidgets-angularjs</artifactId>
 	<packaging>war</packaging>
 
@@ -17,12 +17,15 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<overlays>
 						<overlay>
 							<groupId>org.metawidget.modules.js</groupId>
 							<artifactId>metawidget-angularjs</artifactId>
 						</overlay>
+						<overlay>
+							<groupId>org.metawidget.integration-tests.shared</groupId>
+							<artifactId>allwidgets-shared-webapp</artifactId>
+						</overlay>						
 					</overlays>
 				</configuration>
 			</plugin>
@@ -33,6 +36,12 @@
 		<dependency>
 			<groupId>org.metawidget.modules.js</groupId>
 			<artifactId>metawidget-angularjs</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.integration-tests.shared</groupId>
+			<artifactId>allwidgets-shared-webapp</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>

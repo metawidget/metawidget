@@ -16,7 +16,6 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<overlays>
 						<overlay>
 							<groupId>org.metawidget.modules.js</groupId>

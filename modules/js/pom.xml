@@ -33,6 +33,10 @@
 			<plugins>
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
+					<!-- Configure as a pure JavaScript project -->
+					<configuration>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+					</configuration>
 					<!-- Configure maven-war-plugin to run early, so that our          -->
 					<!-- JavascriptTestCases can load dependent resources from /target -->
 					<executions>
