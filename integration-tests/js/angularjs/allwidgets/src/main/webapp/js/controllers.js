@@ -2,29 +2,27 @@
 
 /* Controllers */
 
-function AllWidgetsController($scope) {
+function AllWidgetsController( $scope ) {
 
 	$scope.allWidgets = {
 		"nestedWidgets": {
-			"nestedTextbox1": "foo"			
+			"nestedTextbox1": "foo"
 		}
 	};
 	$scope.metawidgetConfig = {
 
-		inspector : new metawidget.CompositeInspector([function(toInspect,
-				type) {
+		inspector: new metawidget.CompositeInspector( [ function( toInspect, type ) {
 
-			switch( type ) {
+			switch ( type ) {
 				case 'allWidgets':
-						return metawidget.test.allWidgets;
+					return metawidget.test.allWidgets;
 				case 'allWidgets.nestedWidgets':
-						return [ {
-							"name": "nestedTextbox1"
-						}, {
-							"name": "nestedTextbox2"
-						} ];
+					return [ {
+						"name": "nestedTextbox1"
+					}, {
+						"name": "nestedTextbox2"
+					} ];
 			}
-		},
-        new metawidget.PropertyInspector() ])
+		}, new metawidget.PropertyInspector() ] )
 	};
 }

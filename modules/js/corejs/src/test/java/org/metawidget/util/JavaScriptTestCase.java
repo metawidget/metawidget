@@ -85,7 +85,7 @@ public abstract class JavaScriptTestCase
 	protected void evaluateJavaScript( String filename ) {
 
 		try {
-			mContext.evaluateReader( mScope, new FileReader( filename ), filename, 0, null );
+			mContext.evaluateReader( mScope, new FileReader( filename ), filename, 1, null );
 		} catch ( Exception e ) {
 			throw new RuntimeException( e );
 		}

@@ -24,13 +24,13 @@ var metawidget = metawidget || {};
 
 metawidget.IdWidgetProcessor = function() {
 
-	if ( !( this instanceof metawidget.IdWidgetProcessor )) {
+	if ( ! ( this instanceof metawidget.IdWidgetProcessor ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
-	
-	this.processWidget = function( widget, attributes ) {
+};
 
-		widget.setAttribute( 'id', attributes.name );
-		return widget;
-	};
+metawidget.IdWidgetProcessor.prototype.processWidget = function( widget, attributes ) {
+
+	widget.setAttribute( 'id', attributes.name );
+	return widget;
 };

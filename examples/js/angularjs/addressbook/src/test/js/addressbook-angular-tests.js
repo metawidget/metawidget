@@ -57,5 +57,7 @@ describe( "AngularJS AddressBook", function() {
 		expect( $( '#createBusiness' )[0].tagName ).toBe( 'BUTTON' );
 		expect( $( '#createBusiness' ).attr( 'ng-click' ) ).toBe( 'toInspect.createBusiness()' );		
 		expect( $( '#createBusiness' ).text() ).toBe( 'Create Business' );
+		
+		console.log( document.innerHTML );
 	} );
 } );

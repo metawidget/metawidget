@@ -43,6 +43,14 @@ metawidget.test.allWidgets = [ {
 }, {
 	"name" : "nestedWidgets"
 }, {
+	"name" : "date",
+	"type": "date"
+}, {
 	"name" : "hidden",
-	"hidden" : "true"
+	"hidden" : "true",
+	"type": "string"
+}, {
+	"name" : "readOnly",
+	"readOnly" : "true",
+	"type" : "string"
 } ];

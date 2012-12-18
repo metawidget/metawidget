@@ -24,15 +24,15 @@ var metawidget = metawidget || {};
 
 metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
 
-	if ( !( this instanceof metawidget.CompositeWidgetBuilder )) {
+	if ( ! ( this instanceof metawidget.CompositeWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
-	
+
 	this.onStartBuild = function() {
 
-		for ( var wb = 0, wbLength = widgetBuilders.length; wb < wbLength; wb++ ) {
+		for ( var loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
 
-			var widgetBuilder = widgetBuilders[wb];
+			var widgetBuilder = widgetBuilders[loop];
 
 			if ( widgetBuilder.onStartBuild ) {
 				widgetBuilder.onStartBuild();
@@ -42,10 +42,10 @@ metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
 
 	this.buildWidget = function( attributes, mw ) {
 
-		for ( var wb = 0, wbLength = widgetBuilders.length; wb < wbLength; wb++ ) {
+		for ( var loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
 
 			var widget;
-			var widgetBuilder = widgetBuilders[wb];
+			var widgetBuilder = widgetBuilders[loop];
 
 			if ( widgetBuilder.buildWidget ) {
 				widget = widgetBuilder.buildWidget( attributes, mw );
@@ -62,132 +62,134 @@ metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
 
 metawidget.ReadOnlyWidgetBuilder = function() {
 
-	if ( !( this instanceof metawidget.ReadOnlyWidgetBuilder )) {
+	if ( ! ( this instanceof metawidget.ReadOnlyWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
-	
-	this.buildWidget = function( attributes, mw ) {
+};
 
-		// Not read-only?
+metawidget.ReadOnlyWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
 
-		if ( !mw.readOnly && !attributes.readOnly ) {
-			return;
-		}
+	// Not read-only?
 
-		// Hidden
-
-		if ( attributes.hidden == 'true' ) {
-			return document.createElement( 'stub' );
-		}
-
-		if ( attributes.type == 'string' ) {
-			return document.createElement( 'output' );
-		}
-
+	if ( !metawidget.util.isReadOnly( attributes, mw ) ) {
 		return;
-	};
+	}
+
+	// Hidden
+
+	if ( attributes.hidden == 'true' ) {
+		return document.createElement( 'stub' );
+	}
+
+	if ( attributes.type == 'string' ) {
+		return document.createElement( 'output' );
+	}
 };
 
 metawidget.HtmlWidgetBuilder = function() {
 
-	if ( !( this instanceof metawidget.HtmlWidgetBuilder )) {
+	if ( ! ( this instanceof metawidget.HtmlWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
+};
 
-	this.buildWidget = function( attributes, mw ) {
+metawidget.HtmlWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
 
-		// Hidden
+	// Hidden
 
-		if ( attributes.hidden == 'true' ) {
-			return document.createElement( 'stub' );
+	if ( attributes.hidden == 'true' ) {
+		return document.createElement( 'stub' );
+	}
+
+	// Select box
+
+	if ( attributes.lookup ) {
+		var select = document.createElement( 'select' );
+
+		if ( !attributes.required || attributes.required == 'false' ) {
+			select.appendChild( document.createElement( 'option' ) );
 		}
 
-		// Select box
+		var lookupSplit = attributes.lookup.split( ',' );
 
-		if ( attributes.lookup ) {
-			var select = document.createElement( 'select' );
-			
-			if ( !attributes.required || attributes.required == 'false' ) {
-				select.appendChild( document.createElement( 'option' ) );
-			}
-			
-			var lookupSplit = attributes.lookup.split( ',' );
+		for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
+			var option = document.createElement( 'option' );
 
-			for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
-				var option = document.createElement( 'option' );
-				
-				if ( attributes.lookupLabels ) {
-					option.setAttribute( 'value', lookupSplit[loop] );
-					option.innerHTML = attributes.lookupLabels.split( ',' )[loop];
-				} else {
-					option.innerHTML = lookupSplit[loop];
-
-				}
-				
-				select.appendChild( option );
-			}
-			return select;
-		}
-
-		// Action
-
-		if ( attributes.type == 'function' ) {
-			var button = document.createElement( 'button' );
-			
-			if ( attributes.label ) {
-				button.innerHTML = attributes.label;
+			if ( attributes.lookupLabels ) {
+				option.setAttribute( 'value', lookupSplit[loop] );
+				option.innerHTML = attributes.lookupLabels.split( ',' )[loop];
 			} else {
-				button.innerHTML = metawidget.util.uncamelCase( attributes.name );
-			}
-			return button;
-		}
+				option.innerHTML = lookupSplit[loop];
 
-		// Number
-		
-		if ( attributes.type == 'number' ) {
-			
-			if ( attributes.minimumValue && attributes.maximumValue ) {
-				var range = document.createElement( 'input' );
-				range.setAttribute( 'type', 'range' );
-				range.setAttribute( 'min', attributes.minimumValue );
-				range.setAttribute( 'max', attributes.maximumValue );
-				return range;
-			}
-			
-			var number = document.createElement( 'input' );
-			number.setAttribute( 'type', 'number' );
-			return number;
-		}
-
-		// Boolean
-		
-		if ( attributes.type == 'boolean' ) {
-			var checkbox = document.createElement( 'input' );
-			checkbox.setAttribute( 'type', 'checkbox' );
-			return checkbox;
-		}
-		
-	    // date, datetime, datetime-local
-		
-		// String
-
-		if ( attributes.type == 'string' ) {
-			
-			if ( attributes.masked == 'true' ) {
-				var password = document.createElement( 'input' );
-				password.setAttribute( 'type', 'password' );
-				return password;
 			}
 
-			if ( attributes.large == 'true' ) {
-				return document.createElement( 'textarea' );
-			}
-			
-			var text = document.createElement( 'input' );
-			text.setAttribute( 'type', 'text' );
-			return text;
+			select.appendChild( option );
+		}
+		return select;
+	}
+
+	// Action
+
+	if ( attributes.type == 'function' ) {
+		var button = document.createElement( 'button' );
+
+		if ( attributes.label ) {
+			button.innerHTML = attributes.label;
+		} else {
+			button.innerHTML = metawidget.util.uncamelCase( attributes.name );
+		}
+		return button;
+	}
+
+	// Number
+
+	if ( attributes.type == 'number' ) {
+
+		if ( attributes.minimumValue && attributes.maximumValue ) {
+			var range = document.createElement( 'input' );
+			range.setAttribute( 'type', 'range' );
+			range.setAttribute( 'min', attributes.minimumValue );
+			range.setAttribute( 'max', attributes.maximumValue );
+			return range;
 		}
 
-		return;
-	};
+		var number = document.createElement( 'input' );
+		number.setAttribute( 'type', 'number' );
+		return number;
+	}
+
+	// Boolean
+
+	if ( attributes.type == 'boolean' ) {
+		var checkbox = document.createElement( 'input' );
+		checkbox.setAttribute( 'type', 'checkbox' );
+		return checkbox;
+	}
+
+	// Date
+	
+	if ( attributes.type == 'date' ) {
+		var date = document.createElement( 'input' );
+		date.setAttribute( 'type', 'date' );
+		return date;
+	}
+
+	// String
+
+	if ( attributes.type == 'string' ) {
+
+		if ( attributes.masked == 'true' ) {
+			var password = document.createElement( 'input' );
+			password.setAttribute( 'type', 'password' );
+			return password;
+		}
+
+		if ( attributes.large == 'true' ) {
+			return document.createElement( 'textarea' );
+		}
+
+		var text = document.createElement( 'input' );
+		text.setAttribute( 'type', 'text' );
+		return text;
+	}
 };
