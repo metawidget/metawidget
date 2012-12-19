@@ -68,31 +68,7 @@ angular.module( 'metawidget.directives', [] )
 
 						// Set up an Angular-specific Metawidget
 
-						var mw = new metawidget.Metawidget( scope.$eval( 'config' ) );
-						mw.buildNestedMetawidget = function( attributes ) {
-
-							var nested = document.createElement( 'metawidget' );
-							nested.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
-							if ( attrs.readOnly ) {
-								nested.setAttribute( 'read-only', attrs.readOnly );
-							}
-							if ( attrs.config ) {
-								nested.setAttribute( 'config', attrs.config );
-							}
-							
-							// Scope the nested Metawidget to the parent, not the directive, so that the
-							// paths look more natural
-							
-							$compile( nested )( scope.$parent );
-							nested.transcluded = true;
-							
-							return nested;
-						};
-
-						mw.inspectionResultProcessors.push( new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope, _buildWidgets ) );
-						mw.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
-								new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-						mw.widgetProcessors.push( new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) );
+						var mw = new metawidget.angular.AngularMetawidget( transclude, scope, attrs, $compile );
 
 						// Observe
 						//
@@ -136,10 +112,66 @@ angular.module( 'metawidget.directives', [] )
 		} );
 
 /**
- * Metawidget Angular namespace.
+ * Angular Metawidget.
  */
 
 metawidget.angular = metawidget.angular || {};
+
+metawidget.angular.AngularMetawidget = function( transclude, scope, attrs, $compile ) {
+
+	if ( ! ( this instanceof metawidget.angular.AngularMetawidget ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+
+	// toInspect, path and readOnly set by _buildWidgets()
+
+	var config = scope.$eval( 'config' );
+	var pipeline = new metawidget.Pipeline( config );
+
+	// Configure defaults
+
+	if ( !config || !config.inspector ) {
+		pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
+	}
+	if ( !config || !config.inspectorResultProcessor ) {	
+		pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope, this.buildWidgets ) ];
+	}	
+	if ( !config || !config.widgetBuilder ) {
+		pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+	}
+	if ( !config || !config.widgetBuilder ) {
+		pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdWidgetProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
+	}
+	if ( !config || !config.layout ) {
+		pipeline.layout = new metawidget.layout.TableLayout();
+	}
+
+	this.buildWidgets = function() {
+
+		return pipeline.buildWidgets( this );
+	};
+	
+	this.buildNestedMetawidget = function( attributes ) {
+
+		var nested = document.createElement( 'metawidget' );
+		nested.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
+		if ( attrs.readOnly ) {
+			nested.setAttribute( 'read-only', attrs.readOnly );
+		}
+		if ( attrs.config ) {
+			nested.setAttribute( 'config', attrs.config );
+		}
+		
+		// Scope the nested Metawidget to the parent, not the directive, so that the
+		// paths look more natural
+		
+		$compile( nested )( scope.$parent );
+		nested.transcluded = true;
+		
+		return nested;
+	};
+};
+
 metawidget.angular.inspectionresultprocessor = metawidget.angular.inspectionresultprocessor || {};
 metawidget.angular.widgetbuilder = metawidget.angular.widgetbuilder || {};
 metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};

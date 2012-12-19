@@ -9,30 +9,30 @@
 				<invoke url="/" />
 				<verifyTitle text="All Widgets (Metawidget CoreJS Test)" />
 				
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/@id" text="table-textbox-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/@id" text="table-allWidgetsTextbox-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label" text="Textbox:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label/@for" text="textbox"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@id" text="textbox"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[3]/@id" text="table-textarea-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[3]/@id" text="table-allWidgetsTextarea-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th/label" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th/label/@for" text="textarea"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td/textarea/@id" text="textarea"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[4]/@id" text="table-password-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[4]/@id" text="table-allWidgetsPassword-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[4]/th/label" text="Password:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[4]/th/label/@for" text="password"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[4]/td/input/@type" text="password"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[4]/td/input/@id" text="password"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[5]/@id" text="table-number-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[5]/@id" text="table-allWidgetsNumber-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[5]/th/label" text="Number:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[5]/th/label/@for" text="number"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[5]/td/input/@type" text="number"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[5]/td/input/@id" text="number"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/@id" text="table-rangedNumber-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[6]/@id" text="table-allWidgetsRangedNumber-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[6]/th/label" text="Ranged Number:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[6]/th/label/@for" text="rangedNumber"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@type" text="range"/>
@@ -40,16 +40,56 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@min" text="1"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@max" text="100"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[7]/@id" text="table-boolean-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[7]/@id" text="table-allWidgetsBoolean-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[7]/th/label" text="Boolean:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[7]/th/label/@for" text="boolean"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[7]/td/input/@type" text="checkbox"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[7]/td/input/@id" text="boolean"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/@id" text="table-dropdown-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/@id" text="table-allWidgetsDropdown-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th/label" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th/label/@for" text="dropdown"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/@id" text="dropdown"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/option[1]" text=""/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/option[2]" text="foo1"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/option[3]" text="dropdown1"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/option[4]" text="bar1"/>
+				<verifyXPath xpath="count(/html/body/table/tbody/tr[8]/td/select/option)" text="4"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/@id" text="table-allWidgetsDropdownWithLabels-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/th/label" text="Dropdown With Labels:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/th/label/@for" text="dropdownWithLabels"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/@id" text="dropdownWithLabels"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[1]" text=""/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[2]" text="Foo #2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[2]/@value" text="foo2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[3]" text="Dropdown #2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[3]/@value" text="dropdown2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[4]" text="Bar #2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[4]/@value" text="bar2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[5]" text="Baz #2"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[5]/@value" text="baz2"/>
+				<verifyXPath xpath="count(/html/body/table/tbody/tr[9]/td/select/option)" text="5"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[10]/@id" text="table-allWidgetsNotNullDropdown-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[10]/th/label" text="Not Null Dropdown:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[10]/th/label/@for" text="notNullDropdown"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/@id" text="notNullDropdown"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/option[1]" text="-1"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/option[2]" text="0"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/option[3]" text="1"/>
+				<verifyXPath xpath="count(/html/body/table/tbody/tr[10]/td/select/option)" text="3"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[11]/@id" text="table-allWidgetsDate-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[11]/th/label" text="Date:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[11]/th/label/@for" text="date"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/input/@type" text="date"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/input/@id" text="date"/>
+
+				<verifyXPath xpath="/html/body/table/tbody/tr[12]/@id" text="table-allWidgetsReadOnly-row"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[12]/th/label" text="Read Only:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[12]/th/label/@for" text="readOnly"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/output"/>
 			</steps>
 		</webtest>
 	</target>

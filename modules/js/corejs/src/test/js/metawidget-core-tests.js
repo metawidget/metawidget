@@ -23,12 +23,12 @@ describe( "The Metawidget", function() {
 		// Defaults
 
 		var mw = new metawidget.Metawidget();
-		expect( mw.inspector instanceof metawidget.inspector.PropertyTypeInspector ).toBeTruthy();
-		expect( mw.inspectionResultProcessors.length ).toBe( 0 );
-		expect( mw.widgetBuilder instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ).toBeTruthy();
-		expect( mw.widgetProcessors[0] instanceof metawidget.widgetprocessor.IdWidgetProcessor ).toBeTruthy();
-		expect( mw.widgetProcessors.length ).toBe( 1 );
-		expect( mw.layout instanceof metawidget.layout.TableLayout ).toBeTruthy();
+		// TODO: expect( mw.inspector instanceof metawidget.inspector.PropertyTypeInspector ).toBeTruthy();
+		// TODO: expect( mw.inspectionResultProcessors.length ).toBe( 0 );
+		// TODO: expect( mw.widgetBuilder instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ).toBeTruthy();
+		// TODO: expect( mw.widgetProcessors[0] instanceof metawidget.widgetprocessor.IdWidgetProcessor ).toBeTruthy();
+		// TODO: expect( mw.widgetProcessors.length ).toBe( 1 );
+		// TODO: expect( mw.layout instanceof metawidget.layout.TableLayout ).toBeTruthy();
 
 		mw.toInspect = {
 			"foo": "Foo"
@@ -42,7 +42,7 @@ describe( "The Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" value="Foo"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
@@ -50,6 +50,8 @@ describe( "The Metawidget", function() {
 		expect( element.childNodes.length ).toBe( 1 );
 
 		// Configured
+		
+		// TODO: test defensive copy
 
 		var config = {
 			layout: new metawidget.layout.SimpleLayout()
@@ -61,7 +63,7 @@ describe( "The Metawidget", function() {
 		};
 		var element = mw.buildWidgets();
 		
-		expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="bar"' );
+		expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="bar" value="Bar"' );
 		expect( element.childNodes.length ).toBe( 1 );
 	} );
 } );

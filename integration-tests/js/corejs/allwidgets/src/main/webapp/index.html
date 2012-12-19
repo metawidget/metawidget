@@ -14,14 +14,31 @@
 	<body>
 	
 		<script type="text/javascript">
+			var allWidgets = {
+				"nestedWidgets": {
+					"nestedTextbox1": "foo"
+				},
+				"readOnly": "Read Only Value"
+			};			
 			var mw = new metawidget.Metawidget( {
 	
 				inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
 	
-					return metawidget.test.allWidgets;
-				} ] )
+					switch ( type ) {
+						case 'allWidgets':
+							return metawidget.test.allWidgets;
+						case 'allWidgets.nestedWidgets':
+							return [ {
+								"name": "nestedTextbox1"
+							}, {
+								"name": "nestedTextbox2"
+							} ];
+					}					
+				}, new metawidget.inspector.PropertyTypeInspector() ] )
 			} );
 	
+			mw.toInspect = allWidgets;
+			mw.path = 'allWidgets';
 			document.write( mw.buildWidgets().innerHTML );
 		</script>
 	

@@ -34,8 +34,56 @@ metawidget.widgetprocessor.IdWidgetProcessor = function() {
 	}
 };
 
-metawidget.widgetprocessor.IdWidgetProcessor.prototype.processWidget = function( widget, attributes ) {
+metawidget.widgetprocessor.IdWidgetProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
 	widget.setAttribute( 'id', attributes.name );
+	return widget;
+};
+
+//
+// ValueWidgetProcessor
+//
+
+/**
+ * Simple data/action binding implementation. Frameworks that supply their own
+ * data-binding mechanisms should override this with their own WidgetProcessor.
+ */
+
+metawidget.widgetprocessor.SimpleBindingProcessor = function() {
+
+	if ( ! ( this instanceof metawidget.widgetprocessor.SimpleBindingProcessor ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+};
+
+metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+
+	if ( widget.tagName == 'BUTTON' ) {
+		var onClick = 'toInspect';
+
+		if ( attributes.name != '$root' ) {
+			onClick += '.' + attributes.name;
+		}
+
+		widget.setAttribute( 'onClick', onClick + '()' );
+	} else {
+
+		var value;
+
+		if ( attributes.name != '$root' ) {
+			value = mw.toInspect[attributes.name];
+		} else {
+			value = mw.toInspect;
+		}
+
+		if ( value ) {
+			if ( widget.tagName == 'OUTPUT' ) {
+				widget.innerHTML = value;
+			} else {
+				widget.setAttribute( 'value', value );
+			}
+		}
+	}
+
 	return widget;
 };
