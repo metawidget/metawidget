@@ -21,22 +21,31 @@
  */
 
 var metawidget = metawidget || {};
+metawidget.layout = metawidget.layout || {};
 
-metawidget.SimpleLayout = function() {
-	
-	if ( !( this instanceof metawidget.SimpleLayout )) {
+//
+// SimpleLayout
+//
+
+metawidget.layout.SimpleLayout = function() {
+
+	if ( ! ( this instanceof metawidget.layout.SimpleLayout ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
-	
-	this.layoutWidget = function( widget, attributes, container, mw ) {
-
-		container.appendChild( widget );
-	};
 };
 
-metawidget.TableLayout = function( config ) {
-		
-	if ( !( this instanceof metawidget.TableLayout )) {
+metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
+
+	container.appendChild( widget );
+};
+
+//
+// TableLayout
+//
+
+metawidget.layout.TableLayout = function( config ) {
+
+	if ( ! ( this instanceof metawidget.layout.TableLayout ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
@@ -46,14 +55,14 @@ metawidget.TableLayout = function( config ) {
 	this.startContainerLayout = function( container ) {
 
 		var table = document.createElement( 'table' );
-		
+
 		if ( tableStyleClass ) {
 			table.setAttribute( 'class', tableStyleClass );
 		}
-		
+
 		container.appendChild( table );
-		
-		table.appendChild( document.createElement( 'tbody' ));
+
+		table.appendChild( document.createElement( 'tbody' ) );
 	},
 
 	this.layoutWidget = function( widget, attributes, container, mw ) {
@@ -65,39 +74,39 @@ metawidget.TableLayout = function( config ) {
 		var tr = document.createElement( 'tr' );
 
 		var idPrefix = 'table-';
-		
+
 		if ( mw.path ) {
 			idPrefix += mw.path;
 			idPrefix += metawidget.util.capitalize( attributes.name );
-		} else {		
+		} else {
 			idPrefix += attributes.name;
 		}
-		
+
 		tr.setAttribute( 'id', idPrefix + '-row' );
-		
+
 		// Label
-		
+
 		var th = document.createElement( 'th' );
-		
+
 		if ( columnStyleClasses ) {
 			th.setAttribute( 'class', columnStyleClasses.split( ',' )[0] );
 		}
-		
+
 		var label = document.createElement( 'label' );
 		label.setAttribute( 'for', attributes.name );
 		label.setAttribute( 'id', idPrefix + '-label' );
-		
+
 		if ( attributes.label ) {
 			label.innerHTML = attributes.label + ':';
 		} else {
 			label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
-		}		
-		
+		}
+
 		th.appendChild( label );
 		tr.appendChild( th );
 
 		// Widget
-		
+
 		var td = document.createElement( 'td' );
 
 		if ( columnStyleClasses ) {
@@ -108,7 +117,7 @@ metawidget.TableLayout = function( config ) {
 		tr.appendChild( td );
 
 		// Error
-		
+
 		td = document.createElement( 'td' );
 
 		if ( columnStyleClasses ) {
@@ -121,6 +130,6 @@ metawidget.TableLayout = function( config ) {
 
 		tr.appendChild( td );
 
-		container.firstChild.firstChild.appendChild( tr );
+		container.children[0].children[0].appendChild( tr );
 	};
 };

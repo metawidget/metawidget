@@ -21,10 +21,15 @@
  */
 
 var metawidget = metawidget || {};
+metawidget.widgetbuilder = metawidget.widgetbuilder || {};
 
-metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
+//
+// CompositeWidgetBuilder
+//
 
-	if ( ! ( this instanceof metawidget.CompositeWidgetBuilder ) ) {
+metawidget.widgetbuilder.CompositeWidgetBuilder = function( widgetBuilders ) {
+
+	if ( ! ( this instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
@@ -58,16 +63,32 @@ metawidget.CompositeWidgetBuilder = function( widgetBuilders ) {
 			}
 		}
 	};
+
+	this.onEndBuild = function() {
+
+		for ( var loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
+
+			var widgetBuilder = widgetBuilders[loop];
+
+			if ( widgetBuilder.onEndBuild ) {
+				widgetBuilder.onEndBuild();
+			}
+		}
+	};
 };
 
-metawidget.ReadOnlyWidgetBuilder = function() {
+//
+// ReadOnlyWidgetBuilder
+//
 
-	if ( ! ( this instanceof metawidget.ReadOnlyWidgetBuilder ) ) {
+metawidget.widgetbuilder.ReadOnlyWidgetBuilder = function() {
+
+	if ( ! ( this instanceof metawidget.widgetbuilder.ReadOnlyWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 };
 
-metawidget.ReadOnlyWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
+metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
 
 	// Not read-only?
 
@@ -86,14 +107,18 @@ metawidget.ReadOnlyWidgetBuilder.prototype.buildWidget = function( attributes, m
 	}
 };
 
-metawidget.HtmlWidgetBuilder = function() {
+//
+// HtmlWidgetBuilder
+//
 
-	if ( ! ( this instanceof metawidget.HtmlWidgetBuilder ) ) {
+metawidget.widgetbuilder.HtmlWidgetBuilder = function() {
+
+	if ( ! ( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 };
 
-metawidget.HtmlWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
+metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
 
 	// Hidden
 

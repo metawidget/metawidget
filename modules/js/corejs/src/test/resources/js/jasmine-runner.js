@@ -20,35 +20,64 @@
  * Simple script to run Jasmine.
  */
 
-function runJasmine() {
+//
+// Default Jasmine initialization
+//
+var reporter = new jasmine.JsApiReporter();
+reporter.log = print;
 
-	var reporter = new jasmine.JsApiReporter();
+reporter.reportSuiteStarting = function( suite ) {
 
-	reporter.reportSuiteStarting = function( suite ) {
+	reporter.log( suite.getFullName() );
+}
 
-		reporter.log( suite.getFullName() );
-	}
+reporter.reportSpecResults = function( spec ) {
 
-	reporter.reportSpecResults = function( spec ) {
+	var results = spec.results();
 
-		var results = spec.results();
+	reporter.log( '\t' + spec.description + ' (' + results.passedCount + '/' + results.totalCount + ' passed)' );
 
-		reporter.log( '\t' + spec.description + ' (' + results.passedCount + '/' + results.totalCount + ' passed)' );
+	for ( var loop = 0, length = results.getItems().length; loop < length; loop++ ) {
 
-		for ( var loop = 0, length = results.getItems().length; loop < length; loop++ ) {
-
-			var item = results.getItems()[loop];
-			if ( !item.passed() ) {
-				var toLog = item.matcherName + ': ' + item.message;
-				reporter.log( '\t\t' + toLog );
-				throw new Error( spec.description + ': ' + toLog );
-			}
+		var item = results.getItems()[loop];
+		if ( !item.passed() ) {
+			var toLog = item.matcherName + ': ' + item.message;
+			reporter.log( '\t\t' + toLog );
+			throw new Error( spec.description + ': ' + toLog );
 		}
 	}
+}
 
-	var jasmineEnv = jasmine.getEnv();
-	jasmineEnv.updateInterval = 0;
-	jasmineEnv.addReporter( reporter );
+var jasmineEnv = jasmine.getEnv();
+jasmineEnv.updateInterval = 0;
+jasmineEnv.addReporter( reporter );
+
+function runJasmine() {
 
 	jasmineEnv.execute();
 }
+
+//
+// Simple document implementation (can be replaced by EnvJS)
+//
+
+document = {
+	"createElement": function( elementName ) {
+
+		return {
+			"setAttribute": function( name, value ) {
+
+				elementName += ' ' + name + '="' + value + '"';
+			},
+			"appendChild": function( child ) {
+
+				this.children = this.children || [];
+				this.children.push( child );
+			},
+			"toString": function() {
+
+				return elementName;
+			}
+		};
+	}
+};

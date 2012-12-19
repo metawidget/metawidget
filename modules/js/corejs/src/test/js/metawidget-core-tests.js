@@ -16,55 +16,52 @@
 
 'use strict';
 
-describe( "The uncamelCase function", function() {
+describe( "The Metawidget", function() {
 
-	it( "uncamel cases strings", function() {
+	it( "populates itself with widgets to match the properties of business objects", function() {
 
-		expect( metawidget.util.uncamelCase( 'foo' ) ).toBe( 'Foo' );
-		expect( metawidget.util.uncamelCase( 'fooBar' ) ).toBe( 'Foo Bar' );
-		expect( metawidget.util.uncamelCase( 'FooBar' ) ).toBe( 'Foo Bar' );
-	} );
+		// Defaults
 
-	it( "doesn't mangle strings that are already uncamel-cased", function() {
+		var mw = new metawidget.Metawidget();
+		expect( mw.inspector instanceof metawidget.inspector.PropertyTypeInspector ).toBeTruthy();
+		expect( mw.inspectionResultProcessors.length ).toBe( 0 );
+		expect( mw.widgetBuilder instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ).toBeTruthy();
+		expect( mw.widgetProcessors[0] instanceof metawidget.widgetprocessor.IdWidgetProcessor ).toBeTruthy();
+		expect( mw.widgetProcessors.length ).toBe( 1 );
+		expect( mw.layout instanceof metawidget.layout.TableLayout ).toBeTruthy();
 
-		expect( metawidget.util.uncamelCase( 'Foo Bar' ) ).toBe( 'Foo Bar' );
-		expect( metawidget.util.uncamelCase( 'Foo barBaz Abc' ) ).toBe( 'Foo bar Baz Abc' );
-	} );
-} );
+		mw.toInspect = {
+			"foo": "Foo"
+		};
+		var element = mw.buildWidgets();
+		
+		expect( element.children[0].toString() ).toBe( 'table' );
+		expect( element.children[0].children[0].toString() ).toBe( 'tbody' );
+		expect( element.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-foo-row"' );
+		expect( element.children[0].children[0].children[0].children[0].toString() ).toBe( 'th' );
+		expect( element.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
+		expect( element.children[0].children[0].children[0].children[0].children[0].innerHTML ).toBe( 'Foo:' );
+		expect( element.children[0].children[0].children[0].children[1].toString() ).toBe( 'td' );
+		expect( element.children[0].children[0].children[0].children[1].children[0].toString() ).toBe( 'input type="text" id="foo"' );
+		expect( element.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
+		expect( element.children[0].children[0].children[0].children.length ).toBe( 3 );
+		expect( element.children[0].children[0].children.length ).toBe( 1 );
+		expect( element.children[0].children.length ).toBe( 1 );
+		expect( element.children.length ).toBe( 1 );
 
-describe( "The capitalize function", function() {
+		// Configured
 
-	it( "capitalizes strings", function() {
+		var config = {
+			layout: new metawidget.layout.SimpleLayout()
+		}
+		mw = new metawidget.Metawidget( config );
 
-		expect( metawidget.util.capitalize( 'fooBah' ) ).toBe( 'FooBah' );
-		expect( metawidget.util.capitalize( 'x' ) ).toBe( 'X' );
-		expect( metawidget.util.capitalize( 'URL' ) ).toBe( 'URL' );
-		expect( metawidget.util.capitalize( 'ID' ) ).toBe( 'ID' );
-	} );
-} );
-
-describe( "The testIsReadOnly function", function() {
-
-	it( "tests if an attribute is read only", function() {
-
-		expect( metawidget.util.isReadOnly( {}, {
-			readOnly: false
-		} ) ).toBe( false );
-
-		expect( metawidget.util.isReadOnly( {}, {
-			readOnly: "true"
-		} ) ).toBe( "true" );
-
-		expect( metawidget.util.isReadOnly( {
-			readOnly: "false"
-		}, {
-			readOnly: true
-		} ) ).toBe( true );
-
-		expect( metawidget.util.isReadOnly( {
-			readOnly: "false"
-		}, {
-			readOnly: false
-		} ) ).toBe( false );
+		mw.toInspect = {
+			"bar": "Bar"
+		};
+		var element = mw.buildWidgets();
+		
+		expect( element.children[0].toString() ).toBe( 'input type="text" id="bar"' );
+		expect( element.children.length ).toBe( 1 );
 	} );
 } );

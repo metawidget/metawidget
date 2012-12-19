@@ -21,13 +21,18 @@
  */
 
 var metawidget = metawidget || {};
+metawidget.inspector = metawidget.inspector || {};
 
-metawidget.CompositeInspector = function( inspectors ) {
+//
+// CompositeInspector
+//
 
-	if ( !( this instanceof metawidget.CompositeInspector )) {
+metawidget.inspector.CompositeInspector = function( inspectors ) {
+
+	if ( ! ( this instanceof metawidget.inspector.CompositeInspector ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
-	
+
 	this.inspect = function( toInspect, type ) {
 
 		var compositeInspectionResult = [];
@@ -63,10 +68,10 @@ metawidget.CompositeInspector = function( inspectors ) {
 					for ( var attribute in newAttributes ) {
 						existingAttributes[attribute] = newAttributes[attribute];
 					}
-					
+
 					compositeInspectionResult.push( existingAttributes );
 				}
-				
+
 			} else {
 
 				// ...otherwise merge it
@@ -95,7 +100,7 @@ metawidget.CompositeInspector = function( inspectors ) {
 					for ( var attribute in newAttributes ) {
 						existingAttributes[attribute] = newAttributes[attribute];
 					}
-					
+
 					compositeInspectionResult.push( existingAttributes );
 				}
 			}
@@ -105,24 +110,31 @@ metawidget.CompositeInspector = function( inspectors ) {
 	};
 };
 
-metawidget.PropertyInspector = function() {
+//
+// PropertyTypeInspector
+//
 
-	if ( !( this instanceof metawidget.PropertyInspector )) {
+metawidget.inspector.PropertyTypeInspector = function() {
+
+	if ( ! ( this instanceof metawidget.inspector.PropertyTypeInspector ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
+};
 
-	this.inspect = function( toInspect, type ) {
+metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspect, type ) {
 
-		var inspectionResult = [ { "name": "$root", "type": typeof( toInspect ) } ];
-		
-		for ( var property in toInspect ) {
+	var inspectionResult = [ {
+		"name": "$root",
+		"type": typeof ( toInspect )
+	} ];
 
-			var inspectedProperty = {};
-			inspectedProperty.name = property;
-			inspectedProperty.type = typeof ( toInspect[property] );
-			inspectionResult.push( inspectedProperty );
-		}
+	for ( var property in toInspect ) {
 
-		return inspectionResult;
-	};
+		var inspectedProperty = {};
+		inspectedProperty.name = property;
+		inspectedProperty.type = typeof ( toInspect[property] );
+		inspectionResult.push( inspectedProperty );
+	}
+
+	return inspectionResult;
 };

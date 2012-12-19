@@ -16,26 +16,19 @@
 
 'use strict';
 
-/**
- * WidgetProcessors.
- */
+describe( "The IdWidgetProcessor", function() {
 
-var metawidget = metawidget || {};
-metawidget.widgetprocessor = metawidget.widgetprocessor || {};
+	it( "assigns ids to widgets", function() {
 
-//
-// IdWidgetProcessor
-//
+		var widgetProcessor = new metawidget.widgetprocessor.IdWidgetProcessor();
 
-metawidget.widgetprocessor.IdWidgetProcessor = function() {
+		var widget = {
+			"setAttribute": function( name, value ) {
+				this[name] = value;
+			}
+		};
+		widgetProcessor.processWidget( widget, { "name": "foo" } );
 
-	if ( ! ( this instanceof metawidget.widgetprocessor.IdWidgetProcessor ) ) {
-		throw new Error( "Constructor called as a function" );
-	}
-};
-
-metawidget.widgetprocessor.IdWidgetProcessor.prototype.processWidget = function( widget, attributes ) {
-
-	widget.setAttribute( 'id', attributes.name );
-	return widget;
-};
+		expect( widget.id ).toBe( 'foo' );
+	} );
+} );
