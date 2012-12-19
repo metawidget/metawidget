@@ -7,11 +7,12 @@ function AllWidgetsController( $scope ) {
 	$scope.allWidgets = {
 		"nestedWidgets": {
 			"nestedTextbox1": "foo"
-		}
+		},
+		"readOnly": "Read Only Value"
 	};
 	$scope.metawidgetConfig = {
 
-		inspector: new metawidget.CompositeInspector( [ function( toInspect, type ) {
+		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
 
 			switch ( type ) {
 				case 'allWidgets':
@@ -23,6 +24,6 @@ function AllWidgetsController( $scope ) {
 						"name": "nestedTextbox2"
 					} ];
 			}
-		}, new metawidget.PropertyInspector() ] )
+		}, new metawidget.inspector.PropertyTypeInspector() ] )
 	};
 }

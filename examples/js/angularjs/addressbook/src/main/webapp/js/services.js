@@ -26,7 +26,7 @@ angular.module( 'addressBookServices', [] )
 		// For the body of the form
 
 		form: {
-			inspector: new metawidget.CompositeInspector( [ new metawidget.PropertyInspector(), function( toInspect, type ) {
+			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type ) {
 
 				switch ( type ) {
 					case 'search':
@@ -56,7 +56,7 @@ angular.module( 'addressBookServices', [] )
 						} ];
 				}
 			} ] ),
-			layout: new metawidget.TableLayout( {
+			layout: new metawidget.layout.TableLayout( {
 				"tableStyleClass": "table-form",
 				"columnStyleClasses": "table-label-column,table-component-column,table-required-column"
 			} )
@@ -65,7 +65,7 @@ angular.module( 'addressBookServices', [] )
 		// For the button bar
 
 		buttons: {
-			inspector: new metawidget.CompositeInspector( [ new metawidget.PropertyInspector(), function( toInspect, type ) {
+			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type ) {
 
 				if ( type == 'crudActions' ) {
 					return [ {
@@ -80,11 +80,11 @@ angular.module( 'addressBookServices', [] )
 					} ];
 				}
 			} ] ),
-			layout: new metawidget.SimpleLayout()
+			layout: new metawidget.layout.SimpleLayout()
 		},
 		
 		simple: {
-			inspector: new metawidget.CompositeInspector( [ new metawidget.PropertyInspector(), function( toInspect, type ) {
+			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type ) {
 
 				if ( type == 'communication.type' ) {
 					return [ {
@@ -93,7 +93,7 @@ angular.module( 'addressBookServices', [] )
 					} ];
 				}
 			} ] ),
-			layout: new metawidget.SimpleLayout()
+			layout: new metawidget.layout.SimpleLayout()
 		}		
 	};
 } );

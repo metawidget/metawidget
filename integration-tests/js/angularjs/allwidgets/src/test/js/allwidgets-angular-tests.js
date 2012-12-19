@@ -106,5 +106,6 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#table-allWidgetsReadOnly-label' ).prop( 'for' ) ).toBe( 'readOnly' );
 		expect( $( '#table-allWidgetsReadOnly-label' ).text() ).toBe( 'Read Only:' );
 		expect( $( '#readOnly' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#readOnly' ).text() ).toBe( 'Read Only Value' );
 	} );
 } );

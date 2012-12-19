@@ -84,15 +84,15 @@ angular.module( 'metawidget.directives', [] )
 							// paths look more natural
 							
 							$compile( nested )( scope.$parent );
-							nested.wasTranscluded = true;
+							nested.transcluded = true;
 							
 							return nested;
 						};
 
-						mw.inspectionResultProcessors.push( new metawidget.angular.AngularInspectionResultProcessor( scope, _buildWidgets ) );
-						mw.widgetBuilder = new metawidget.CompositeWidgetBuilder( [ new metawidget.angular.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.ReadOnlyWidgetBuilder(),
-								new metawidget.HtmlWidgetBuilder() ] );
-						mw.widgetProcessors.push( new metawidget.angular.AngularWidgetProcessor( $compile, scope ) );
+						mw.inspectionResultProcessors.push( new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope, _buildWidgets ) );
+						mw.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+								new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+						mw.widgetProcessors.push( new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) );
 
 						// Observe
 						//
@@ -140,6 +140,9 @@ angular.module( 'metawidget.directives', [] )
  */
 
 metawidget.angular = metawidget.angular || {};
+metawidget.angular.inspectionresultprocessor = metawidget.angular.inspectionresultprocessor || {};
+metawidget.angular.widgetbuilder = metawidget.angular.widgetbuilder || {};
+metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
 
 /**
  * InspectionResultProcessor to evaluate Angular expressions.
@@ -151,9 +154,9 @@ metawidget.angular = metawidget.angular || {};
  * @returns {metawidget.angular.AngularInspectionResultProcessor}
  */
 
-metawidget.angular.AngularInspectionResultProcessor = function( scope, buildWidgets ) {
+metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( scope, buildWidgets ) {
 
-	if ( !( this instanceof metawidget.angular.AngularInspectionResultProcessor )) {
+	if ( !( this instanceof metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor )) {
 		throw new Error( "Constructor called as a function" );
 	}
 	
@@ -202,9 +205,9 @@ metawidget.angular.AngularInspectionResultProcessor = function( scope, buildWidg
  * @returns {metawidget.angular.AngularOverriddenWidgetBuilder}
  */
 
-metawidget.angular.AngularOverriddenWidgetBuilder = function( transclude, scope ) {
+metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder = function( transclude, scope ) {
 
-	if ( !( this instanceof metawidget.angular.AngularOverriddenWidgetBuilder )) {
+	if ( !( this instanceof metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder )) {
 		throw new Error( "Constructor called as a function" );
 	}
 	
@@ -231,7 +234,7 @@ metawidget.angular.AngularOverriddenWidgetBuilder = function( transclude, scope 
 
 			var child = transcluded[loop];
 			if ( child.id == attributes.name ) {
-				child.wasTranscluded = true;
+				child.transcluded = true;
 				return child;
 			}
 		}
@@ -244,9 +247,9 @@ metawidget.angular.AngularOverriddenWidgetBuilder = function( transclude, scope 
  * @returns {metawidget.angular.AngularWidgetProcessor}
  */
 
-metawidget.angular.AngularWidgetProcessor = function( $compile, scope ) {
+metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, scope ) {
 
-	if ( !( this instanceof metawidget.angular.AngularWidgetProcessor )) {
+	if ( !( this instanceof metawidget.angular.widgetprocessor.AngularWidgetProcessor )) {
 		throw new Error( "Constructor called as a function" );
 	}
 
@@ -255,7 +258,7 @@ metawidget.angular.AngularWidgetProcessor = function( $compile, scope ) {
 		// Don't compile transcluded widgets, as they will be a) compiled
 		// already; b) using scope.$parent
 
-		if ( widget.wasTranscluded ) {
+		if ( widget.transcluded ) {
 			return widget;
 		}
 
@@ -283,11 +286,11 @@ metawidget.angular.AngularWidgetProcessor = function( $compile, scope ) {
 			widget.setAttribute( 'ng-required', attributes.required );
 		}
 
-		if ( attributes.minimum - length ) {
+		if ( attributes.minimumLength ) {
 			widget.setAttribute( 'ng-minlength', attributes.minimumLength );
 		}
 
-		if ( attributes.maximum - length ) {
+		if ( attributes.maximumLength ) {
 			widget.setAttribute( 'ng-maxlength', attributes.maximumLength );
 		}
 

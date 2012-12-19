@@ -130,6 +130,6 @@ metawidget.layout.TableLayout = function( config ) {
 
 		tr.appendChild( td );
 
-		container.children[0].children[0].appendChild( tr );
+		container.childNodes[0].childNodes[0].appendChild( tr );
 	};
 };

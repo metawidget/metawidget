@@ -23,6 +23,7 @@
 //
 // Default Jasmine initialization
 //
+
 var reporter = new jasmine.JsApiReporter();
 reporter.log = print;
 
@@ -69,10 +70,10 @@ document = {
 
 				elementName += ' ' + name + '="' + value + '"';
 			},
-			"appendChild": function( child ) {
+			"appendChild": function( childNode ) {
 
-				this.children = this.children || [];
-				this.children.push( child );
+				this.childNodes = this.childNodes || [];
+				this.childNodes.push( childNode );
 			},
 			"toString": function() {
 

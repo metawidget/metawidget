@@ -160,9 +160,9 @@ metawidget.Metawidget = function( config ) {
 
 		function processWidget( widget, attributes, mw ) {
 
-			for ( var wp = 0, wpLength = mw.widgetProcessors.length; wp < wpLength; wp++ ) {
+			for ( var loop = 0, length = mw.widgetProcessors.length; loop < length; loop++ ) {
 
-				var widgetProcessor = mw.widgetProcessors[wp];
+				var widgetProcessor = mw.widgetProcessors[loop];
 
 				if ( widgetProcessor.processWidget ) {
 					widget = widgetProcessor.processWidget( widget, attributes, mw );
@@ -191,5 +191,6 @@ metawidget.Metawidget = function( config ) {
 
 	this.buildNestedMetawidget = function( attributes ) {
 
+		return document.createElement( 'stub' );
 	};
 };

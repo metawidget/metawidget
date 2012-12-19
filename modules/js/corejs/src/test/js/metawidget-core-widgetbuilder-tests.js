@@ -137,13 +137,13 @@ describe( "The HtmlWidgetBuilder", function() {
 		}, {} );
 		
 		expect( select.toString() ).toBe( 'select' );
-		expect( select.children[0].toString() ).toBe( 'option' );
-		expect( select.children[0].innerHTML ).toBe( 'foo' );
-		expect( select.children[1].toString() ).toBe( 'option' );
-		expect( select.children[1].innerHTML ).toBe( 'bar' );
-		expect( select.children[2].toString() ).toBe( 'option' );
-		expect( select.children[2].innerHTML ).toBe( 'baz' );
-		expect( select.children.length ).toBe( 3 );
+		expect( select.childNodes[0].toString() ).toBe( 'option' );
+		expect( select.childNodes[0].innerHTML ).toBe( 'foo' );
+		expect( select.childNodes[1].toString() ).toBe( 'option' );
+		expect( select.childNodes[1].innerHTML ).toBe( 'bar' );
+		expect( select.childNodes[2].toString() ).toBe( 'option' );
+		expect( select.childNodes[2].innerHTML ).toBe( 'baz' );
+		expect( select.childNodes.length ).toBe( 3 );
 
 		select = widgetBuilder.buildWidget( {
 			"lookup": "foo,bar,baz",
@@ -152,28 +152,28 @@ describe( "The HtmlWidgetBuilder", function() {
 		}, {} );
 		
 		expect( select.toString() ).toBe( 'select' );
-		expect( select.children[0].toString() ).toBe( 'option value="foo"' );
-		expect( select.children[0].innerHTML ).toBe( 'Foo' );
-		expect( select.children[1].toString() ).toBe( 'option value="bar"' );
-		expect( select.children[1].innerHTML ).toBe( 'Bar' );
-		expect( select.children[2].toString() ).toBe( 'option value="baz"' );
-		expect( select.children[2].innerHTML ).toBe( 'Baz' );
-		expect( select.children.length ).toBe( 3 );
+		expect( select.childNodes[0].toString() ).toBe( 'option value="foo"' );
+		expect( select.childNodes[0].innerHTML ).toBe( 'Foo' );
+		expect( select.childNodes[1].toString() ).toBe( 'option value="bar"' );
+		expect( select.childNodes[1].innerHTML ).toBe( 'Bar' );
+		expect( select.childNodes[2].toString() ).toBe( 'option value="baz"' );
+		expect( select.childNodes[2].innerHTML ).toBe( 'Baz' );
+		expect( select.childNodes.length ).toBe( 3 );
 
 		select = widgetBuilder.buildWidget( {
 			"lookup": "foo,bar,baz",
 		}, {} );
 		
 		expect( select.toString() ).toBe( 'select' );
-		expect( select.children[0].toString() ).toBe( 'option' );
-		expect( select.children[0].innerHTML ).toBeUndefined();
-		expect( select.children[1].toString() ).toBe( 'option' );
-		expect( select.children[1].innerHTML ).toBe( 'foo' );
-		expect( select.children[2].toString() ).toBe( 'option' );
-		expect( select.children[2].innerHTML ).toBe( 'bar' );
-		expect( select.children[3].toString() ).toBe( 'option' );
-		expect( select.children[3].innerHTML ).toBe( 'baz' );
-		expect( select.children.length ).toBe( 4 );
+		expect( select.childNodes[0].toString() ).toBe( 'option' );
+		expect( select.childNodes[0].innerHTML ).toBeUndefined();
+		expect( select.childNodes[1].toString() ).toBe( 'option' );
+		expect( select.childNodes[1].innerHTML ).toBe( 'foo' );
+		expect( select.childNodes[2].toString() ).toBe( 'option' );
+		expect( select.childNodes[2].innerHTML ).toBe( 'bar' );
+		expect( select.childNodes[3].toString() ).toBe( 'option' );
+		expect( select.childNodes[3].innerHTML ).toBe( 'baz' );
+		expect( select.childNodes.length ).toBe( 4 );
 
 		var button = widgetBuilder.buildWidget( {
 			"name": "clickMe",
