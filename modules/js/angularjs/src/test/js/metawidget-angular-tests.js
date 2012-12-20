@@ -49,9 +49,7 @@ describe( "The AngularWidgetProcessor", function() {
 			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $rootScope.$new() );
 			var attributes = {
 				"name": "foo",
-				"required": "true",
 				"minimumLength": "3",
-				"maximumLength": "9"
 			};
 			var mw = {
 				"toInspect": {}
@@ -62,9 +60,7 @@ describe( "The AngularWidgetProcessor", function() {
 			var widget = document.createElement( 'input' );
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.getAttribute( 'ng-model' ) ).toBe( 'toInspect.foo' );
-			expect( widget.getAttribute( 'ng-required' ) ).toBe( 'true' );
 			expect( widget.getAttribute( 'ng-minlength' ) ).toBe( '3' );
-			expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( '9' );
 			
 			// Buttons
 
@@ -74,13 +70,17 @@ describe( "The AngularWidgetProcessor", function() {
 			widget = document.createElement( 'button' );
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.getAttribute( 'ng-click' ) ).toBe( 'toInspect.bar()' );
-			expect( widget.getAttribute( 'ng-required' ) ).toBe( null );
 			expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
-			expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( null );
 
 			// Outputs
 
 			widget = document.createElement( 'output' );
+			processor.processWidget( widget, attributes, mw );
+			expect( widget.innerHTML ).toBe( '{{toInspect.bar}}' );
+
+			// Textareas
+
+			widget = document.createElement( 'textarea' );
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.innerHTML ).toBe( '{{toInspect.bar}}' );
 

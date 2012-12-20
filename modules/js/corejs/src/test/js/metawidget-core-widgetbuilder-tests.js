@@ -111,12 +111,16 @@ describe( "The ReadOnlyWidgetBuilder", function() {
 		expect( widgetBuilder.buildWidget( {
 			"readOnly": "true",
 			"type": "string"
-		}, {} ).toString() ).toBe( "output" );
+		}, {} ).toString() ).toBe( 'output' );
 		expect( widgetBuilder.buildWidget( {
 			"hidden": "true",
 			"readOnly": "true",
 			"type": "string"
-		}, {} ).toString() ).toBe( "stub" );
+		}, {} ).toString() ).toBe( 'stub' );
+		expect( widgetBuilder.buildWidget( {
+			"readOnly": "true",
+			"dontExpand": "true"
+		}, {} ).toString() ).toBe( 'output' );
 	} );
 } );
 
@@ -213,11 +217,26 @@ describe( "The HtmlWidgetBuilder", function() {
 
 		expect( widgetBuilder.buildWidget( {
 			"type": "string",
-			"masked": "true"			
+			"masked": "true",
 		}, {} ).toString() ).toBe( 'input type="password"' );
+
+		expect( widgetBuilder.buildWidget( {
+			"type": "string",
+			"masked": "true",
+			"maximumLength": "30"
+		}, {} ).toString() ).toBe( 'input type="password" maxlength="30"' );
 
 		expect( widgetBuilder.buildWidget( {
 			"type": "string"
 		}, {} ).toString() ).toBe( 'input type="text"' );
+		
+		expect( widgetBuilder.buildWidget( {
+			"type": "string",
+			"maximumLength": "32"
+		}, {} ).toString() ).toBe( 'input type="text" maxlength="32"' );
+
+		expect( widgetBuilder.buildWidget( {
+			"dontExpand": "true"
+		}, {} ).toString() ).toBe( 'input type="text"' );		
 	} );
 } );

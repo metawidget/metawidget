@@ -23,7 +23,6 @@
 //
 // Default Jasmine initialization
 //
-
 var reporter = new jasmine.JsApiReporter();
 reporter.log = print;
 
@@ -65,10 +64,17 @@ function runJasmine() {
 document = {
 	"createElement": function( elementName ) {
 
+		var attributes = {};
+		
 		return {
+			"tagName": elementName.toUpperCase(),
 			"setAttribute": function( name, value ) {
 
-				elementName += ' ' + name + '="' + value + '"';
+				attributes[name] = value;
+			},
+			"getAttribute": function( name ) {
+				
+				return attributes[name];
 			},
 			"appendChild": function( childNode ) {
 
@@ -77,7 +83,15 @@ document = {
 			},
 			"toString": function() {
 
-				return elementName;
+				var toString = elementName;
+
+				if ( attributes ) {
+					for ( var name in attributes ) {
+						toString += ' ' + name + '="' + attributes[name] + '"';
+					}
+				}
+
+				return toString;
 			}
 		};
 	}

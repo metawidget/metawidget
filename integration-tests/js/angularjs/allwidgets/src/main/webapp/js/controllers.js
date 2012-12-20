@@ -4,26 +4,22 @@
 
 function AllWidgetsController( $scope ) {
 
-	$scope.allWidgets = {
-		"nestedWidgets": {
-			"nestedTextbox1": "foo"
-		},
-		"readOnly": "Read Only Value"
-	};
+	$scope.allWidgets = allWidgets;
+	
 	$scope.metawidgetConfig = {
 
 		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
 
 			switch ( type ) {
 				case 'allWidgets':
-					return metawidget.test.allWidgets;
+					return metawidget.test.allWidgetsMetadata;
 				case 'allWidgets.nestedWidgets':
-					return [ {
-						"name": "nestedTextbox1"
-					}, {
-						"name": "nestedTextbox2"
-					} ];
-			}
+					return metawidget.test.nestedWidgetsMetadata;
+				case 'allWidgets.readOnlyNestedWidgets':
+					return metawidget.test.nestedWidgetsMetadata;
+				case 'allWidgets.nestedWidgetsDontExpand':
+					return metawidget.test.nestedWidgetsMetadata;
+			}					
 		}, new metawidget.inspector.PropertyTypeInspector() ] )
 	};
 }

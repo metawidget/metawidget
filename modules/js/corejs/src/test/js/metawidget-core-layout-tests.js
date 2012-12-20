@@ -46,14 +46,16 @@ describe( "The TableLayout", function() {
 
 		var layout = new metawidget.layout.TableLayout();
 
-		var widget1 = "widget1";
-		var widget2 = "widget2";
+		var widget1 = document.createElement( 'input' );
+		widget1.setAttribute( 'id', 'widget1' );
+		var widget2 = document.createElement( 'input' );
+		widget2.setAttribute( 'id', 'widget2' );
 		var container = document.createElement( 'metawidget' );
 		var mw = {
 			"path": "testPath"
 		};
 
-		layout.startContainerLayout( container );
+		layout.startContainerLayout( container, mw );
 		layout.layoutWidget( widget1, {
 			"name": "widget1",
 			"required": "true"
@@ -63,7 +65,7 @@ describe( "The TableLayout", function() {
 			"label": "widgetLabel 2"
 		}, container, mw );
 
-		expect( container.childNodes[0].toString() ).toBe( 'table' );
+		expect( container.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
 		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
 		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );

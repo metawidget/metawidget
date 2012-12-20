@@ -52,9 +52,13 @@ metawidget.layout.TableLayout = function( config ) {
 	var tableStyleClass = config ? config.tableStyleClass : null;
 	var columnStyleClasses = config ? config.columnStyleClasses : null;
 
-	this.startContainerLayout = function( container ) {
+	this.startContainerLayout = function( container, mw ) {
 
 		var table = document.createElement( 'table' );
+		if ( mw.path ) {
+			var id = metawidget.util.camelCase( mw.path.split( '.' ));
+			table.setAttribute( 'id', 'table-' + id );
+		}
 
 		if ( tableStyleClass ) {
 			table.setAttribute( 'class', tableStyleClass );
@@ -73,13 +77,16 @@ metawidget.layout.TableLayout = function( config ) {
 
 		var tr = document.createElement( 'tr' );
 
-		var idPrefix = 'table-';
+		var idPrefix = container.childNodes[0].getAttribute( 'id' );
 
-		if ( mw.path ) {
-			idPrefix += mw.path;
-			idPrefix += metawidget.util.capitalize( attributes.name );
+		if ( idPrefix ) {
+			if ( idPrefix.charAt( idPrefix.length - 1 ) != '-' ) {
+				idPrefix += metawidget.util.capitalize( attributes.name );
+			} else {
+				idPrefix += attributes.name;
+			}
 		} else {
-			idPrefix += attributes.name;
+			idPrefix = 'table-' + attributes.name;
 		}
 
 		tr.setAttribute( 'id', idPrefix + '-row' );
@@ -93,7 +100,7 @@ metawidget.layout.TableLayout = function( config ) {
 		}
 
 		var label = document.createElement( 'label' );
-		label.setAttribute( 'for', attributes.name );
+		label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 		label.setAttribute( 'id', idPrefix + '-label' );
 
 		if ( attributes.label ) {

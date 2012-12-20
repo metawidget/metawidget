@@ -105,6 +105,12 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 	if ( attributes.type == 'string' ) {
 		return document.createElement( 'output' );
 	}
+	
+	// Not simple, but don't expand
+	
+	if ( attributes.dontExpand == 'true' ) {
+		return document.createElement( 'output' );
+	}	
 };
 
 //
@@ -206,6 +212,11 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 		if ( attributes.masked == 'true' ) {
 			var password = document.createElement( 'input' );
 			password.setAttribute( 'type', 'password' );
+			
+			if ( attributes.maximumLength ) {
+				password.setAttribute( 'maxlength', attributes.maximumLength );
+			}
+			
 			return password;
 		}
 
@@ -215,6 +226,19 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 		var text = document.createElement( 'input' );
 		text.setAttribute( 'type', 'text' );
+		
+		if ( attributes.maximumLength ) {
+			text.setAttribute( 'maxlength', attributes.maximumLength );
+		}
+		
 		return text;
+	}
+	
+	// Not simple, but don't expand
+	
+	if ( attributes.dontExpand == 'true' ) {
+		var text = document.createElement( 'input' );
+		text.setAttribute( 'type', 'text' );
+		return text;		
 	}
 };

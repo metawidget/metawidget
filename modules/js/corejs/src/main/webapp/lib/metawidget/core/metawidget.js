@@ -32,31 +32,31 @@ metawidget.Metawidget = function( config ) {
 	this.path = '';
 	this.readOnly = false;
 
-	var pipeline = new metawidget.Pipeline( config );
+	var pipeline = new metawidget.Pipeline();
 
 	// Configure defaults
 
-	if ( !config || !config.inspector ) {
-		pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	}
-	if ( !config || !config.widgetBuilder ) {
-		pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-	}
-	if ( !config || !config.widgetBuilder ) {
-		pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdWidgetProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
-	}
-	if ( !config || !config.layout ) {
-		pipeline.layout = new metawidget.layout.TableLayout();
-	}
+	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
+	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
+	pipeline.layout = new metawidget.layout.TableLayout();
+	pipeline.configure( config );
+
+	this.getWidgetProcessor = function( testInstanceOf ) {
+
+		return pipeline.getWidgetProcessor( testInstanceOf );
+	};
 
 	this.buildWidgets = function() {
 
 		return pipeline.buildWidgets( this );
 	};
-	
+
 	this.buildNestedMetawidget = function( attributes ) {
 
-		var nested = new metawidget.Metawidget( this );
+		// Duck-type our 'pipeline' as the 'config' of the nested Metawidget
+
+		var nested = new metawidget.Metawidget( pipeline );
 
 		if ( this.toInspect ) {
 			nested.toInspect = this.toInspect[attributes.name];
@@ -69,40 +69,72 @@ metawidget.Metawidget = function( config ) {
 			nested.path = attributes.name;
 		}
 
-		return nested.buildWidgets();
-	};	
+		nested.readOnly = this.readOnly || attributes.readOnly == 'true';
+		
+		// Because we cannot 'extend' the built-in HTML tags, attach ourselves
+		// as a property of the tag
+
+		var widget = nested.buildWidgets().children[0];
+		widget.metawidget = nested;
+
+		return widget;
+	};
 };
 
 /**
  * Pipeline.
  */
 
-metawidget.Pipeline = function( config ) {
+metawidget.Pipeline = function() {
 
 	if ( ! ( this instanceof metawidget.Pipeline ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
-	// Configure
+	this.inspectionResultProcessors = [];
+	this.widgetProcessors = [];
+};
 
-	if ( config && config.inspector ) {
+metawidget.Pipeline.prototype.configure = function( config ) {
+
+	if ( !config ) {
+		return;
+	}
+	if ( config.inspector ) {
 		this.inspector = config.inspector;
 	}
-	if ( config && config.inspectionResultProcessors ) {
+	if ( config.inspectionResultProcessors ) {
 		this.inspectionResultProcessors = config.inspectionResultProcessors.slice();
-	} else {
-		this.inspectionResultProcessors = [];
 	}
-	if ( config && config.widgetBuilder ) {
+	if ( config.widgetBuilder ) {
 		this.widgetBuilder = config.widgetBuilder;
 	}
-	if ( config && config.widgetProcessors ) {
+	if ( config.widgetProcessors ) {
 		this.widgetProcessors = config.widgetProcessors.slice();
-	} else {
-		this.widgetProcessors = [];
 	}
-	if ( config && config.layout ) {
+	if ( config.layout ) {
 		this.layout = config.layout;
+	}
+};
+
+/**
+ * Searches the pipeline's current list of WidgetProcessors and matches each
+ * against the given function
+ * 
+ * @param testInstanceOf
+ *            a function that accepts a WidgetProcessor and will perform an
+ *            'instanceof' test on it
+ */
+
+metawidget.Pipeline.prototype.getWidgetProcessor = function( testInstanceOf ) {
+
+	for ( var loop = 0, length = this.widgetProcessors.length; loop < length; loop++ ) {
+
+		var widgetProcessor = this.widgetProcessors[loop];
+
+		if ( testInstanceOf( widgetProcessor ) ) {
+			return widgetProcessor;
+		}
 	}
 };
 
@@ -151,11 +183,24 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 	// onStartBuild
 
 	if ( this.widgetBuilder.onStartBuild ) {
-		this.widgetBuilder.onStartBuild();
+		this.widgetBuilder.onStartBuild( mw );
+	}
+
+	for ( var loop = 0, length = this.widgetProcessors.length; loop < length; loop++ ) {
+
+		var widgetProcessor = this.widgetProcessors[loop];
+
+		if ( widgetProcessor.onStartBuild ) {
+			widgetProcessor.onStartBuild( mw );
+		}
+	}
+
+	if ( this.layout.onStartBuild ) {
+		this.layout.onStartBuild( mw );
 	}
 
 	if ( this.layout.startContainerLayout ) {
-		this.layout.startContainerLayout( container );
+		this.layout.startContainerLayout( container, mw );
 	}
 
 	// Build top-level widget...

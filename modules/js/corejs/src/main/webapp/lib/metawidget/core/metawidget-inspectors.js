@@ -132,7 +132,29 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 
 		var inspectedProperty = {};
 		inspectedProperty.name = property;
-		inspectedProperty.type = typeof ( toInspect[property] );
+
+		// Inspect the type of the property as best we can
+
+		var value = toInspect[property];
+
+		if ( value instanceof Date ) {
+
+			// typeof never seems to return 'date'. It returns 'number' and
+			// 'string' fine
+
+			inspectedProperty.type = 'date';
+		} else {
+
+			var typeOfProperty = typeof ( value );
+
+			// type 'object' doesn't convey much, and can override a more
+			// descriptive string from a previous inspection result
+
+			if ( typeOfProperty != 'object' ) {
+				inspectedProperty.type = typeOfProperty;
+			}
+		}
+
 		inspectionResult.push( inspectedProperty );
 	}
 

@@ -24,19 +24,50 @@ var metawidget = metawidget || {};
 metawidget.widgetprocessor = metawidget.widgetprocessor || {};
 
 //
-// IdWidgetProcessor
+// IdProcessor
 //
 
-metawidget.widgetprocessor.IdWidgetProcessor = function() {
+metawidget.widgetprocessor.IdProcessor = function() {
 
-	if ( ! ( this instanceof metawidget.widgetprocessor.IdWidgetProcessor ) ) {
+	if ( ! ( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 };
 
-metawidget.widgetprocessor.IdWidgetProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
-	widget.setAttribute( 'id', attributes.name );
+	var id = attributes.name;
+	
+	if ( mw.path ) {
+		var splitPath = mw.path.split( '.' );
+		if ( splitPath.length > 1 ) {
+			splitPath = splitPath.slice( 1 );
+			splitPath.push( attributes.name );
+			id = metawidget.util.camelCase( splitPath );
+		}		
+	}
+		
+	widget.setAttribute( 'id', id );
+	return widget;
+};
+
+//
+// RequiredAttributeProcessor
+//
+
+metawidget.widgetprocessor.RequiredAttributeProcessor = function() {
+
+	if ( ! ( this instanceof metawidget.widgetprocessor.RequiredAttributeProcessor ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+};
+
+metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+
+	if ( attributes.required == 'true' ) {
+		widget.setAttribute( 'required', 'required' );
+	}
+	
 	return widget;
 };
 
@@ -56,34 +87,64 @@ metawidget.widgetprocessor.SimpleBindingProcessor = function() {
 	}
 };
 
+metawidget.widgetprocessor.SimpleBindingProcessor.prototype.onStartBuild = function( mw ) {
+
+	mw._simpleBindingProcessorBindings = {};
+};
+
 metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
 	if ( widget.tagName == 'BUTTON' ) {
-		var onClick = 'toInspect';
+		var binding = mw.path;
 
 		if ( attributes.name != '$root' ) {
-			onClick += '.' + attributes.name;
+			binding += '.' + attributes.name;
 		}
 
-		widget.setAttribute( 'onClick', onClick + '()' );
+		widget.setAttribute( 'onClick', 'return ' + binding + '()' );
 	} else {
 
 		var value;
-
-		if ( attributes.name != '$root' ) {
+		
+		if ( attributes.name != '$root' && mw.toInspect ) {
 			value = mw.toInspect[attributes.name];
 		} else {
 			value = mw.toInspect;
 		}
 
+		var isBindable = ( widget.tagName == 'TEXTAREA' || widget.tagName == 'INPUT' || widget.tagName == 'SELECT' );
+
 		if ( value ) {
-			if ( widget.tagName == 'OUTPUT' ) {
+			if ( widget.tagName == 'OUTPUT' || widget.tagName == 'TEXTAREA' ) {
 				widget.innerHTML = value;
-			} else {
+			} else if ( isBindable ) {
 				widget.setAttribute( 'value', value );
 			}
+		}
+
+		if ( isBindable ) {
+			mw._simpleBindingProcessorBindings[attributes.name] = widget;
 		}
 	}
 
 	return widget;
+};
+
+/**
+ * Save the bindings associated with the given Metawidget.
+ */
+
+metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw ) {
+
+	for ( var name in mw._simpleBindingProcessorBindings ) {
+
+		var widget = mw._simpleBindingProcessorBindings[name];
+		
+		if ( widget.metawidget ) {
+			this.save( widget.metawidget );
+			continue;
+		}
+
+		mw.toInspect[name] = document.getElementById( widget.id ).value;
+	}
 };

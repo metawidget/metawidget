@@ -81,7 +81,7 @@ describe( "The PropertyTypeInspector", function() {
 	it( "inspects JavaScript objects", function() {
 
 		var inspector = new metawidget.inspector.PropertyTypeInspector();
-		var inspectionResult = inspector.inspect( { "foo": "Foo", "bar": "Bar", "action": function() { } });
+		var inspectionResult = inspector.inspect( { "foo": "Foo", "bar": "Bar", "date": new Date(), "object": {}, "action": function() { } });
 
 		expect( inspectionResult[0].name ).toBe( '$root' );
 		expect( inspectionResult[0].type ).toBe( 'object' );
@@ -89,7 +89,11 @@ describe( "The PropertyTypeInspector", function() {
 		expect( inspectionResult[1].type ).toBe( 'string' );
 		expect( inspectionResult[2].name ).toBe( 'bar' );
 		expect( inspectionResult[2].type ).toBe( 'string' );
-		expect( inspectionResult[3].name ).toBe( 'action' );
-		expect( inspectionResult[3].type ).toBe( 'function' );
+		expect( inspectionResult[3].name ).toBe( 'date' );
+		expect( inspectionResult[3].type ).toBe( 'date' );
+		expect( inspectionResult[4].name ).toBe( 'object' );
+		expect( inspectionResult[4].type ).toBeUndefined();
+		expect( inspectionResult[5].name ).toBe( 'action' );
+		expect( inspectionResult[5].type ).toBe( 'function' );
 	} );
 } );

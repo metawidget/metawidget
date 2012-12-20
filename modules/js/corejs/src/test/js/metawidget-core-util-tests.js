@@ -44,6 +44,17 @@ describe( "The capitalize function", function() {
 	} );
 } );
 
+describe( "The camelCase function", function() {
+
+	it( "camel cases arrays", function() {
+
+		expect( metawidget.util.camelCase( [] ) ).toBe( '' );
+		expect( metawidget.util.camelCase( [ 'foo' ] ) ).toBe( 'foo' );
+		expect( metawidget.util.camelCase( [ 'foo', 'bar' ] ) ).toBe( 'fooBar' );
+		expect( metawidget.util.camelCase( [ 'foo', 'bar', 'baz' ] ) ).toBe( 'fooBarBaz' );
+	} );
+} );
+
 describe( "The testIsReadOnly function", function() {
 
 	it( "tests if an attribute is read only", function() {

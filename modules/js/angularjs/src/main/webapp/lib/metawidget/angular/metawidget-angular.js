@@ -66,13 +66,13 @@ angular.module( 'metawidget.directives', [] )
 
 					return function( scope, element, attrs ) {
 
-						// Set up an Angular-specific Metawidget
+						// Set up an AngularMetawidget
 
 						var mw = new metawidget.angular.AngularMetawidget( transclude, scope, attrs, $compile );
 
 						// Observe
 						//
-						// Do not observe simple types, such as 'string',
+						// Do not observe root types, such as 'string',
 						// otherwise every keypress will recreate the widget
 
 						if ( typeof ( scope.$eval( 'toInspect' ) ) == 'object' ) {
@@ -125,26 +125,16 @@ metawidget.angular.AngularMetawidget = function( transclude, scope, attrs, $comp
 
 	// toInspect, path and readOnly set by _buildWidgets()
 
-	var config = scope.$eval( 'config' );
-	var pipeline = new metawidget.Pipeline( config );
+	var pipeline = new metawidget.Pipeline();
 
 	// Configure defaults
 
-	if ( !config || !config.inspector ) {
-		pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	}
-	if ( !config || !config.inspectorResultProcessor ) {	
-		pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope, this.buildWidgets ) ];
-	}	
-	if ( !config || !config.widgetBuilder ) {
-		pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-	}
-	if ( !config || !config.widgetBuilder ) {
-		pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdWidgetProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
-	}
-	if ( !config || !config.layout ) {
-		pipeline.layout = new metawidget.layout.TableLayout();
-	}
+	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
+	pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope, this.buildWidgets ) ];
+	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
+	pipeline.layout = new metawidget.layout.TableLayout();
+	pipeline.configure( scope.$eval( 'config' ));
 
 	this.buildWidgets = function() {
 
@@ -303,7 +293,7 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 				binding += '.' + attributes.name;
 			}
 	
-			if ( widget.tagName == 'OUTPUT' ) {
+			if ( widget.tagName == 'OUTPUT' || widget.tagName == 'TEXTAREA' ) {
 				widget.innerHTML = '{{' + binding + '}}';
 			} else if ( widget.tagName == 'BUTTON' ) {
 				widget.setAttribute( 'ng-click', binding + '()' );
@@ -314,16 +304,8 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 
 		// Validation
 
-		if ( attributes.required ) {
-			widget.setAttribute( 'ng-required', attributes.required );
-		}
-
 		if ( attributes.minimumLength ) {
 			widget.setAttribute( 'ng-minlength', attributes.minimumLength );
-		}
-
-		if ( attributes.maximumLength ) {
-			widget.setAttribute( 'ng-maxlength', attributes.maximumLength );
 		}
 
 		$compile( widget )( scope );

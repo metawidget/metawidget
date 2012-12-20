@@ -31,7 +31,7 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#table-allWidgetsTextarea-label' ).prop( 'for' ) ).toBe( 'textarea' );
 		expect( $( '#table-allWidgetsTextarea-label' ).text() ).toBe( 'Textarea:' );
 		expect( $( '#textarea' )[0].tagName ).toBe( 'TEXTAREA' );
-		expect( $( '#textarea' ).attr( 'ng-model' ) ).toBe( 'toInspect.textarea' );
+		expect( $( '#textarea' ).text() ).toBe( 'Textarea' );
 
 		expect( $( '#table-allWidgetsPassword-label' ).prop( 'for' ) ).toBe( 'password' );
 		expect( $( '#table-allWidgetsPassword-label' ).text() ).toBe( 'Password:' );
@@ -88,12 +88,10 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#table-allWidgetsNotNullDropdown-label' ).text() ).toBe( 'Not Null Dropdown:' );
 		expect( $( '#notNullDropdown' )[0].tagName ).toBe( 'SELECT' );
 		expect( $( '#notNullDropdown' ).attr( 'ng-model' ) ).toBe( 'toInspect.notNullDropdown' );
-		// AngularJS will create a non-initialized option
-		expect( $( '#notNullDropdown option' )[0].value ).toBe( '? undefined:undefined ?' );
-		expect( $( '#notNullDropdown option' )[1].value ).toBe( '-1' );
-		expect( $( '#notNullDropdown option' )[2].value ).toBe( '0' );
-		expect( $( '#notNullDropdown option' )[3].value ).toBe( '1' );
-		expect( $( '#notNullDropdown option' ).length ).toBe( 4 );
+		expect( $( '#notNullDropdown option' )[0].value ).toBe( '-1' );
+		expect( $( '#notNullDropdown option' )[1].value ).toBe( '0' );
+		expect( $( '#notNullDropdown option' )[2].value ).toBe( '1' );
+		expect( $( '#notNullDropdown option' ).length ).toBe( 3 );
 
 		expect( $( '#table-allWidgetsDate-label' ).prop( 'for' ) ).toBe( 'date' );
 		expect( $( '#table-allWidgetsDate-label' ).text() ).toBe( 'Date:' );

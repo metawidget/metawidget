@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html ng-app="allWidgets">
 	<head>
 		<meta charset="utf-8"/>
@@ -14,32 +14,42 @@
 	<body>
 	
 		<script type="text/javascript">
-			var allWidgets = {
-				"nestedWidgets": {
-					"nestedTextbox1": "foo"
-				},
-				"readOnly": "Read Only Value"
-			};			
+						
 			var mw = new metawidget.Metawidget( {
 	
 				inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
 	
 					switch ( type ) {
 						case 'allWidgets':
-							return metawidget.test.allWidgets;
+							return metawidget.test.allWidgetsMetadata;
 						case 'allWidgets.nestedWidgets':
-							return [ {
-								"name": "nestedTextbox1"
-							}, {
-								"name": "nestedTextbox2"
-							} ];
+							return metawidget.test.nestedWidgetsMetadata;
+						case 'allWidgets.readOnlyNestedWidgets':
+							return metawidget.test.nestedWidgetsMetadata;
+						case 'allWidgets.nestedWidgetsDontExpand':
+							return metawidget.test.nestedWidgetsMetadata;
 					}					
 				}, new metawidget.inspector.PropertyTypeInspector() ] )
-			} );
-	
+			} );	
 			mw.toInspect = allWidgets;
 			mw.path = 'allWidgets';
 			document.write( mw.buildWidgets().innerHTML );
+			
+			actions = {
+				"save": function() {
+					var processor = mw.getWidgetProcessor( function( widgetProcessor ) { return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } );
+					processor.save( mw );
+					mw.readOnly = true;
+					document.getElementById( 'table-allWidgets' ).innerHTML = mw.buildWidgets().innerHTML;
+				}			
+			}
+			
+			var actionsMetawidget = new metawidget.Metawidget( {
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+			actionsMetawidget.toInspect = actions;
+			actionsMetawidget.path = 'actions';
+			document.write( actionsMetawidget.buildWidgets().innerHTML );
 		</script>
 	
 	</body>

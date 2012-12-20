@@ -26,7 +26,7 @@ describe( "The Metawidget", function() {
 		// TODO: expect( mw.inspector instanceof metawidget.inspector.PropertyTypeInspector ).toBeTruthy();
 		// TODO: expect( mw.inspectionResultProcessors.length ).toBe( 0 );
 		// TODO: expect( mw.widgetBuilder instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ).toBeTruthy();
-		// TODO: expect( mw.widgetProcessors[0] instanceof metawidget.widgetprocessor.IdWidgetProcessor ).toBeTruthy();
+		// TODO: expect( mw.widgetProcessors[0] instanceof metawidget.widgetprocessor.IdProcessor ).toBeTruthy();
 		// TODO: expect( mw.widgetProcessors.length ).toBe( 1 );
 		// TODO: expect( mw.layout instanceof metawidget.layout.TableLayout ).toBeTruthy();
 

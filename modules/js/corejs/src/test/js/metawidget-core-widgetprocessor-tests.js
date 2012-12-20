@@ -16,19 +16,112 @@
 
 'use strict';
 
-describe( "The IdWidgetProcessor", function() {
+describe( "The IdProcessor", function() {
 
 	it( "assigns ids to widgets", function() {
 
-		var widgetProcessor = new metawidget.widgetprocessor.IdWidgetProcessor();
+		var processor = new metawidget.widgetprocessor.IdProcessor();
 
-		var widget = {
-			"setAttribute": function( name, value ) {
-				this[name] = value;
-			}
+		var widget = document.createElement( 'input' );
+		var mw = {};
+		processor.processWidget( widget, {
+			"name": "foo"
+		}, mw );
+		expect( widget.getAttribute( 'id' )).toBe( 'foo' );
+
+		// With subpath
+
+		mw.path = 'foo.bar';
+		processor.processWidget( widget, {
+			"name": "baz"
+		}, mw );
+		expect( widget.getAttribute( 'id' ) ).toBe( 'barBaz' );
+	} );
+} );
+
+describe( "The RequiredAttributeProcessor", function() {
+
+	it( "assigns the required attribute to widgets", function() {
+
+		var processor = new metawidget.widgetprocessor.RequiredAttributeProcessor();
+
+		var widget = document.createElement( 'input' );
+		var mw = {};
+
+		processor.processWidget( widget, {}, mw );
+		expect( widget.getAttribute( 'required' ) ).toBeUndefined();
+
+		processor.processWidget( widget, {
+			"required": "false"
+		}, mw );
+		expect( widget.getAttribute( 'required' ) ).toBeUndefined();
+
+		processor.processWidget( widget, {
+			"required": "true"
+		}, mw );
+		expect( widget.getAttribute( 'required' ) ).toBe( 'required' );
+	} );
+} );
+
+describe( "The SimpleBindingProcessor", function() {
+
+	it( "processes widgets and binds them", function() {
+
+		var processor = new metawidget.widgetprocessor.SimpleBindingProcessor();
+		var attributes = {
+			"name": "foo",
 		};
-		widgetProcessor.processWidget( widget, { "name": "foo" } );
+		var mw = {
+			"toInspect": {
+				"foo": "fooValue",
+				"bar": "barValue",
+				"baz": "bazValue"
+			},
+			"path": "testPath"
+		};
 
-		expect( widget.id ).toBe( 'foo' );
+		processor.onStartBuild( mw );
+
+		// Inputs
+
+		var widget = document.createElement( 'input' );
+		processor.processWidget( widget, attributes, mw );
+		expect( widget.toString() ).toBe( 'input value="fooValue"' );
+
+		// Buttons
+
+		attributes = {
+			"name": "bar"
+		};
+		widget = document.createElement( 'button' );
+		processor.processWidget( widget, attributes, mw );
+		expect( widget.toString() ).toBe( 'button onClick="return testPath.bar()"' );
+
+		// Outputs
+
+		widget = document.createElement( 'output' );
+		processor.processWidget( widget, attributes, mw );
+		expect( widget.toString() ).toBe( 'output' );
+		expect( widget.innerHTML ).toBe( 'barValue' );
+
+		// Textareas
+
+		attributes = {
+			"name": "baz"
+		};
+		widget = document.createElement( 'textarea' );
+		processor.processWidget( widget, attributes, mw );
+		expect( widget.toString() ).toBe( 'textarea' );
+		expect( widget.innerHTML ).toBe( 'bazValue' );
+
+		// Root-level
+
+		attributes = {
+			"name": "$root"
+		};
+		widget = document.createElement( 'output' );
+		processor.processWidget( widget, attributes, mw );
+		expect( widget.toString() ).toBe( 'output' );
+		expect( widget.innerHTML ).toBe( mw.toInspect );
 	} );
 } );

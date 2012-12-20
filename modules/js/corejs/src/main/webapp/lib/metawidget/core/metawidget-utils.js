@@ -36,6 +36,22 @@ metawidget.util.capitalize = function( name ) {
 	return name.charAt( 0 ).toUpperCase() + name.slice( 1 );
 };
 
+metawidget.util.camelCase = function( names ) {
+	
+	var toString = '';	
+	var length = names.length;
+	
+	if ( length > 0 ) {
+		toString += names[0];
+	}
+	
+	for( var loop = 1; loop < length; loop++ ) {
+		toString += metawidget.util.capitalize( names[loop] );
+	}
+	
+	return toString;
+};
+
 metawidget.util.isReadOnly = function( attributes, mw ) {
 	
 	if ( attributes.readOnly == 'true' ) {
