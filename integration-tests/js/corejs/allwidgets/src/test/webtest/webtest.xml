@@ -15,14 +15,16 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@id" text="textbox"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@value" text="Textbox"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td[2]" text="*"/>
 
 				<verifyXPath xpath="/html/body/table/tbody/tr[2]/@id" text="table-allWidgetsLimitedTextbox-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[2]/th/label" text="Limited Textbox:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[2]/th/label/@for" text="limitedTextbox"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@id" text="limitedTextbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@maxlength" text="30"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@maxlength" text="20"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@value" text="Limited Textbox"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td[2]" text=""/>
 
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/@id" text="table-allWidgetsTextarea-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th/label" text="Textarea:"/>
@@ -92,6 +94,7 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/option[2]" text="0"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/option[3]" text="1"/>
 				<verifyXPath xpath="count(/html/body/table/tbody/tr[10]/td/select/option)" text="3"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td[2]" text="*"/>				
 
 				<verifyXPath xpath="/html/body/table/tbody/tr[11]/@id" text="table-allWidgetsNestedWidgets-row"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[11]/th/label" text="Nested Widgets:"/>

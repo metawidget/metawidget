@@ -41,11 +41,16 @@ var allWidgets = {
 
 metawidget.test.allWidgetsMetadata = [ {
 	"name": "textbox",
-	"type": "string"
+	"type": "string",
+	"lookup": "",
+	"masked": "",
+	"large": "",
+	"maximumLength": "",	
+	"required": "true"
 }, {
 	"name": "limitedTextbox",
 	"type": "string",
-	"maximumLength": "30"
+	"maximumLength": "20"
 }, {
 	"name": "textarea",
 	"type": "string",
@@ -67,7 +72,8 @@ metawidget.test.allWidgetsMetadata = [ {
 	"type": "boolean"
 }, {
 	"name": "dropdown",
-	"lookup": "foo1,dropdown1,bar1"
+	"lookup": "foo1,dropdown1,bar1",
+	"lookupLabels": ""
 }, {
 	"name": "dropdownWithLabels",
 	"lookup": "foo2,dropdown2,bar2,baz2",
@@ -98,7 +104,8 @@ metawidget.test.allWidgetsMetadata = [ {
 }, {
 	"name": "readOnly",
 	"readOnly": "true",
-	"type": "string"
+	"type": "string",
+	"section": "Section Break"
 } ];
 
 metawidget.test.nestedWidgetsMetadata = [ {

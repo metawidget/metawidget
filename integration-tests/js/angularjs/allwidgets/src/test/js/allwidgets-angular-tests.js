@@ -21,12 +21,25 @@ describe( "AngularJS AllWidgets", function() {
 	it( "tests every sort of widget", function() {
 
 		angular.bootstrap( document, [ 'allWidgets' ] );
+		
+		console.log( document.innerHTML );
 
 		expect( $( '#table-allWidgetsTextbox-label' ).prop( 'for' ) ).toBe( 'textbox' );
 		expect( $( '#table-allWidgetsTextbox-label' ).text() ).toBe( 'Textbox:' );
 		expect( $( '#textbox' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#textbox' )[0].type ).toBe( 'text' );
 		expect( $( '#textbox' ).attr( 'ng-model' ) ).toBe( 'toInspect.textbox' );
+		expect( $( '#textbox' ).attr( 'required' ) ).toBe( 'required' );
+		expect( $( '#table-allWidgetsTextbox-row td' )[1].innerHTML ).toBe( '*' );
+
+		expect( $( '#table-allWidgetsLimitedTextbox-label' ).prop( 'for' ) ).toBe( 'limitedTextbox' );
+		expect( $( '#table-allWidgetsLimitedTextbox-label' ).text() ).toBe( 'Limited Textbox:' );
+		expect( $( '#limitedTextbox' )[0].tagName ).toBe( 'INPUT' );
+		expect( $( '#limitedTextbox' )[0].type ).toBe( 'text' );
+		expect( $( '#limitedTextbox' ).attr( 'ng-model' ) ).toBe( 'toInspect.limitedTextbox' );
+		expect( $( '#limitedTextbox' ).attr( 'maxlength' ) ).toBe( '20' );
+		expect( $( '#limitedTextbox' ).attr( 'required' ) ).toBeUndefined();
+		expect( $( '#table-allWidgetsLimitedTextbox-row td' )[1].innerHTML ).toBe( '' );
 
 		expect( $( '#table-allWidgetsTextarea-label' ).prop( 'for' ) ).toBe( 'textarea' );
 		expect( $( '#table-allWidgetsTextarea-label' ).text() ).toBe( 'Textarea:' );
@@ -92,6 +105,7 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#notNullDropdown option' )[1].value ).toBe( '0' );
 		expect( $( '#notNullDropdown option' )[2].value ).toBe( '1' );
 		expect( $( '#notNullDropdown option' ).length ).toBe( 3 );
+		expect( $( '#table-allWidgetsNotNullDropdown-row td' )[1].innerHTML ).toBe( '*' );
 
 		expect( $( '#table-allWidgetsDate-label' ).prop( 'for' ) ).toBe( 'date' );
 		expect( $( '#table-allWidgetsDate-label' ).text() ).toBe( 'Date:' );
