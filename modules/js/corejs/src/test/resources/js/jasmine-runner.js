@@ -61,11 +61,11 @@ function runJasmine() {
 // Simple document implementation (can be replaced by EnvJS)
 //
 
-document = {
+this.document = {
 	"createElement": function( elementName ) {
 
 		var attributes = {};
-		
+
 		return {
 			"tagName": elementName.toUpperCase(),
 			"setAttribute": function( name, value ) {
@@ -73,7 +73,7 @@ document = {
 				attributes[name] = value;
 			},
 			"getAttribute": function( name ) {
-				
+
 				return attributes[name];
 			},
 			"appendChild": function( childNode ) {

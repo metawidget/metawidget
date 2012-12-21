@@ -30,8 +30,7 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsTextbox' ).attr( 'ng-model' ) ).toBe( 'toInspect.textbox' );
 		expect( $( '#allWidgetsTextbox' ).attr( 'required' ) ).toBe( 'required' );
 		expect( $( '#table-allWidgetsTextbox-row td' )[1].innerHTML ).toBe( '*' );
-		$( 'allWidgetsTextbox' ).val( 'Textbox1' );
-		$( 'allWidgetsTextbox' ).trigger( 'onchange' );
+		$( '#allWidgetsTextbox' ).val( 'Textbox1' ).change();
 
 		expect( $( '#table-allWidgetsLimitedTextbox-label' ).prop( 'for' ) ).toBe( 'allWidgetsLimitedTextbox' );
 		expect( $( '#table-allWidgetsLimitedTextbox-label' ).text() ).toBe( 'Limited Textbox:' );
@@ -41,23 +40,27 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'maxlength' ) ).toBe( '20' );
 		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'required' ) ).toBeUndefined();
 		expect( $( '#table-allWidgetsLimitedTextbox-row td' )[1].innerHTML ).toBe( '' );
+		$( '#allWidgetsLimitedTextbox' ).val( 'Limited Textbox1' ).change();
 
 		expect( $( '#table-allWidgetsTextarea-label' ).prop( 'for' ) ).toBe( 'allWidgetsTextarea' );
 		expect( $( '#table-allWidgetsTextarea-label' ).text() ).toBe( 'Textarea:' );
 		expect( $( '#allWidgetsTextarea' )[0].tagName ).toBe( 'TEXTAREA' );
-		expect( $( '#allWidgetsTextarea' ).text() ).toBe( 'Textarea' );
+		expect( $( '#allWidgetsTextarea' ).attr( 'ng-model' ) ).toBe( 'toInspect.textarea' );
+		$( '#allWidgetsTextarea' ).val( 'Textarea1' ).change();
 
 		expect( $( '#table-allWidgetsPassword-label' ).prop( 'for' ) ).toBe( 'allWidgetsPassword' );
 		expect( $( '#table-allWidgetsPassword-label' ).text() ).toBe( 'Password:' );
 		expect( $( '#allWidgetsPassword' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#allWidgetsPassword' )[0].type ).toBe( 'password' );
 		expect( $( '#allWidgetsPassword' ).attr( 'ng-model' ) ).toBe( 'toInspect.password' );
+		$( '#allWidgetsPassword' ).val( 'Password1' ).change();
 
 		expect( $( '#table-allWidgetsNumber-label' ).prop( 'for' ) ).toBe( 'allWidgetsNumber' );
 		expect( $( '#table-allWidgetsNumber-label' ).text() ).toBe( 'Number:' );
 		expect( $( '#allWidgetsNumber' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#allWidgetsNumber' )[0].type ).toBe( 'number' );
 		expect( $( '#allWidgetsNumber' ).attr( 'ng-model' ) ).toBe( 'toInspect.number' );
+		$( '#allWidgetsNumber' ).val( '311' ).change();
 
 		expect( $( '#table-allWidgetsRangedNumber-label' ).prop( 'for' ) ).toBe( 'allWidgetsRangedNumber' );
 		expect( $( '#table-allWidgetsRangedNumber-label' ).text() ).toBe( 'Ranged Number:' );
@@ -66,6 +69,7 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsRangedNumber' ).attr( 'ng-model' ) ).toBe( 'toInspect.rangedNumber' );
 		expect( $( '#allWidgetsRangedNumber' ).attr( 'min' ) ).toBe( '1' );
 		expect( $( '#allWidgetsRangedNumber' ).attr( 'max' ) ).toBe( '100' );
+		$( '#allWidgetsRangedNumber' ).val( '33' ).change();
 
 		expect( $( '#table-allWidgetsBoolean-label' ).prop( 'for' ) ).toBe( 'allWidgetsBoolean' );
 		expect( $( '#table-allWidgetsBoolean-label' ).text() ).toBe( 'Boolean:' );
@@ -82,6 +86,7 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsDropdown option' )[2].value ).toBe( 'dropdown1' );
 		expect( $( '#allWidgetsDropdown option' )[3].value ).toBe( 'bar1' );
 		expect( $( '#allWidgetsDropdown option' ).length ).toBe( 4 );
+		$( '#allWidgetsDropdown' ).val( 'foo1' ).change();
 		
 		expect( $( '#table-allWidgetsDropdownWithLabels-label' ).prop( 'for' ) ).toBe( 'allWidgetsDropdownWithLabels' );
 		expect( $( '#table-allWidgetsDropdownWithLabels-label' ).text() ).toBe( 'Dropdown With Labels:' );
@@ -97,6 +102,7 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsDropdownWithLabels option' )[4].value ).toBe( 'baz2' );
 		expect( $( '#allWidgetsDropdownWithLabels option' )[4].text ).toBe( 'Baz #2' );
 		expect( $( '#allWidgetsDropdownWithLabels option' ).length ).toBe( 5 );
+		$( '#allWidgetsDropdownWithLabels' ).val( 'bar2' ).change();
 
 		expect( $( '#table-allWidgetsNotNullDropdown-label' ).prop( 'for' ) ).toBe( 'allWidgetsNotNullDropdown' );
 		expect( $( '#table-allWidgetsNotNullDropdown-label' ).text() ).toBe( 'Not Null Dropdown:' );
@@ -107,6 +113,7 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsNotNullDropdown option' )[2].value ).toBe( '1' );
 		expect( $( '#allWidgetsNotNullDropdown option' ).length ).toBe( 3 );
 		expect( $( '#table-allWidgetsNotNullDropdown-row td' )[1].innerHTML ).toBe( '*' );
+		$( '#allWidgetsNotNullDropdown' ).val( '1' ).change();
 
 		expect( $( '#table-allWidgetsNestedWidgets-label' ).prop( 'for' ) ).toBe( 'allWidgetsNestedWidgets' );
 		expect( $( '#table-allWidgetsNestedWidgets-label' ).text() ).toBe( 'Nested Widgets:' );
@@ -116,18 +123,25 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1' )[0].type ).toBe( 'text' );
 		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1' ).attr( 'ng-model' ) ).toBe( 'toInspect.nestedTextbox1' );
+		$( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1' ).val( 'Textbox 1.1 (further)' ).change();
+		
 		expect( $( '#table-allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2-label' ).text() ).toBe( 'Nested Textbox 2:' );
 		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2' )[0].type ).toBe( 'text' );
 		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2' ).attr( 'ng-model' ) ).toBe( 'toInspect.nestedTextbox2' );
+		$( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2' ).val( 'Textbox 2.2 (further)' ).change();
+
 		expect( $( '#table-allWidgetsNestedWidgetsNestedTextbox1-label' ).text() ).toBe( 'Nested Textbox 1:' );
 		expect( $( '#allWidgetsNestedWidgetsNestedTextbox1' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#allWidgetsNestedWidgetsNestedTextbox1' )[0].type ).toBe( 'text' );
 		expect( $( '#allWidgetsNestedWidgetsNestedTextbox1' ).attr( 'ng-model' ) ).toBe( 'toInspect.nestedTextbox1' );
+		$( '#allWidgetsNestedWidgetsNestedTextbox1' ).val( 'Textbox 1.1' ).change();
+
 		expect( $( '#table-allWidgetsNestedWidgetsNestedTextbox2-label' ).text() ).toBe( 'Nested Textbox 2:' );
 		expect( $( '#allWidgetsNestedWidgetsNestedTextbox2' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#allWidgetsNestedWidgetsNestedTextbox2' )[0].type ).toBe( 'text' );
 		expect( $( '#allWidgetsNestedWidgetsNestedTextbox2' ).attr( 'ng-model' ) ).toBe( 'toInspect.nestedTextbox2' );
+		$( '#allWidgetsNestedWidgetsNestedTextbox2' ).val( 'Textbox 2.2' ).change();
 
 		expect( $( '#table-allWidgetsReadOnlyNestedWidgets-label' ).prop( 'for' ) ).toBe( 'allWidgetsReadOnlyNestedWidgets' );
 		expect( $( '#table-allWidgetsReadOnlyNestedWidgets-label' ).text() ).toBe( 'Read Only Nested Widgets:' );
@@ -172,5 +186,23 @@ describe( "AngularJS AllWidgets", function() {
 		
 		expect( $( '#allWidgetsTextbox' )[0].tagName ).toBe( 'OUTPUT' );
 		expect( $( '#allWidgetsTextbox' ).text() ).toBe( 'Textbox1' );
+		expect( $( '#allWidgetsLimitedTextbox' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsLimitedTextbox' ).text() ).toBe( 'Limited Textbox1' );
+		expect( $( '#allWidgetsTextarea' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsTextarea' ).text() ).toBe( 'Textarea1' );
+		expect( $( '#allWidgetsNumber' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsNumber' ).text() ).toBe( '311' );
+		expect( $( '#allWidgetsRangedNumber' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsRangedNumber' ).text() ).toBe( '33' );
+		expect( $( '#allWidgetsDropdown' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsDropdown' ).text() ).toBe( 'foo1' );
+		expect( $( '#allWidgetsDropdownWithLabels' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsDropdownWithLabels' ).text() ).toBe( 'bar2' );
+		expect( $( '#allWidgetsNotNullDropdown' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsNotNullDropdown' ).text() ).toBe( '1' );
+		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1' ).text() ).toBe( 'Textbox 1.1 (further)' );
+		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2' ).text() ).toBe( 'Textbox 2.2 (further)' );
+		expect( $( '#allWidgetsNestedWidgetsNestedTextbox1' ).text() ).toBe( 'Textbox 1.1' );
+		expect( $( '#allWidgetsNestedWidgetsNestedTextbox2' ).text() ).toBe( 'Textbox 2.2' );
 	} );
 } );

@@ -305,7 +305,7 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 				binding += '.' + attributes.name;
 			}
 	
-			if ( widget.tagName == 'OUTPUT' || widget.tagName == 'TEXTAREA' ) {
+			if ( widget.tagName == 'OUTPUT' ) {
 				widget.innerHTML = '{{' + binding + '}}';
 			} else if ( widget.tagName == 'BUTTON' ) {
 				widget.setAttribute( 'ng-click', binding + '()' );

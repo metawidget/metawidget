@@ -94,8 +94,9 @@ public abstract class JavaScriptTestCase
 	/**
 	 * Evaluate the given HTML file.
 	 *
-	 * @param filename
-	 *            the filename. File path is relative to the project root
+	 * @param url
+	 *            or filename
+	 *            the url or filename. If the latter, file path is relative to the project root
 	 */
 
 	protected void evaluateHtml( String filename ) {
@@ -104,10 +105,16 @@ public abstract class JavaScriptTestCase
 
 		initializeEnvJs();
 
-		// Load the page relative to the project root. On Windows, we need to hardcode triple
-		// forward slash. Envjs defaults to a double forward slash for some reason
+		String absolutePath = filename;
 
-		String absolutePath = "file:///" + new File( filename ).getAbsolutePath().replace( '\\', '/' );
+		if ( !absolutePath.startsWith( "http://" ) ) {
+
+			// Load the page relative to the project root. On Windows, we need to hardcode triple
+			// forward slash. Envjs defaults to a double forward slash for some reason
+
+			absolutePath = "file:///" + new File( filename ).getAbsolutePath().replace( '\\', '/' );
+		}
+
 		evaluateString( "window.location = '" + absolutePath + "'" );
 	}
 
@@ -144,12 +151,14 @@ public abstract class JavaScriptTestCase
 	// Private methods
 	//
 
+	// TODO: make private?
+
 	@SuppressWarnings( "unchecked" )
-	private <T> T evaluateString( String toEvaluate ) {
+	protected <T> T evaluateString( String toEvaluate ) {
 
 		try {
 			return (T) mContext.evaluateString( mScope, toEvaluate, toEvaluate, 1, null );
-		} catch( JavaScriptException e ) {
+		} catch ( JavaScriptException e ) {
 			throw new RuntimeException( e.getMessage(), e );
 		}
 	}

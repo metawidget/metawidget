@@ -62,6 +62,12 @@ describe( "The AngularWidgetProcessor", function() {
 			expect( widget.getAttribute( 'ng-model' ) ).toBe( 'toInspect.foo' );
 			expect( widget.getAttribute( 'ng-minlength' ) ).toBe( '3' );
 			
+			// Textareas (same as inputs, not same as outputs)
+
+			widget = document.createElement( 'textarea' );
+			processor.processWidget( widget, attributes, mw );
+			expect( widget.getAttribute( 'ng-model' ) ).toBe( 'toInspect.foo' );
+
 			// Buttons
 
 			attributes = {
@@ -75,12 +81,6 @@ describe( "The AngularWidgetProcessor", function() {
 			// Outputs
 
 			widget = document.createElement( 'output' );
-			processor.processWidget( widget, attributes, mw );
-			expect( widget.innerHTML ).toBe( '{{toInspect.bar}}' );
-
-			// Textareas
-
-			widget = document.createElement( 'textarea' );
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.innerHTML ).toBe( '{{toInspect.bar}}' );
 
