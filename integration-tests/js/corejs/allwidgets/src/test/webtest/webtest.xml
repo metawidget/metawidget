@@ -3,200 +3,266 @@
 	<taskdef resource="webtestTaskdefs.properties"/>
 
 	<target name="all">
-		<webtest name="test-search">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/> 
+		<webtest name="test-allWidgets">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>				
 			<steps>
 				<invoke url="/" />
 				<verifyTitle text="All Widgets (Metawidget CoreJS Test)" />
 				
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/@id" text="table-allWidgetsTextbox-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label" text="Textbox:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label/@for" text="textbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@id" text="textbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/input/@value" text="Textbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td[2]" text="*"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/@id" text="table-allWidgetsTextbox-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/th/label" text="Textbox:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/th/label/@for" text="allWidgetsTextbox"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/input/@id" text="allWidgetsTextbox"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/input/@value" text="Textbox"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td[2]" text="*"/>
+				<setInputField name="allWidgetsTextbox" value="Textbox1"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/@id" text="table-allWidgetsLimitedTextbox-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/th/label" text="Limited Textbox:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/th/label/@for" text="limitedTextbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@id" text="limitedTextbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@maxlength" text="20"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td/input/@value" text="Limited Textbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td[2]" text=""/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/@id" text="table-allWidgetsLimitedTextbox-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/th/label" text="Limited Textbox:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/th/label/@for" text="allWidgetsLimitedTextbox"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/input/@id" text="allWidgetsLimitedTextbox"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/input/@maxlength" text="20"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/input/@value" text="Limited Textbox"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td[2]" text=""/>
+				<setInputField name="allWidgetsLimitedTextbox" value="Limited Textbox1"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[3]/@id" text="table-allWidgetsTextarea-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th/label" text="Textarea:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th/label/@for" text="textarea"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td/textarea/@id" text="textarea"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td/textarea" text="Textarea"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/@id" text="table-allWidgetsTextarea-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/th/label" text="Textarea:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/th/label/@for" text="allWidgetsTextarea"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/textarea/@id" text="allWidgetsTextarea"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/textarea" text="Textarea"/>
+				<setInputField name="allWidgetsTextarea" value="Textarea1"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[4]/@id" text="table-allWidgetsPassword-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[4]/th/label" text="Password:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[4]/th/label/@for" text="password"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[4]/td/input/@type" text="password"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[4]/td/input/@id" text="password"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[4]/td/input/@value" text="Password"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/@id" text="table-allWidgetsPassword-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/th/label" text="Password:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/th/label/@for" text="allWidgetsPassword"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@type" text="password"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@id" text="allWidgetsPassword"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@value" text="Password"/>
+				<setInputField name="allWidgetsPassword" value="Password1"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[5]/@id" text="table-allWidgetsNumber-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[5]/th/label" text="Number:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[5]/th/label/@for" text="number"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[5]/td/input/@type" text="number"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[5]/td/input/@id" text="number"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[5]/td/input/@value" text="31"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/@id" text="table-allWidgetsNumber-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/th/label" text="Number:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/th/label/@for" text="allWidgetsNumber"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/td/input/@type" text="number"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/td/input/@id" text="allWidgetsNumber"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/td/input/@name" text="allWidgetsNumber"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/td/input/@value" text="31"/>
+				<forceInputFieldAttribute name="allWidgetsNumber" attributeName="value" attributeValue="311"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/@id" text="table-allWidgetsRangedNumber-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/th/label" text="Ranged Number:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/th/label/@for" text="rangedNumber"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@type" text="range"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@id" text="rangedNumber"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@value" text="32"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@min" text="1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[6]/td/input/@max" text="100"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[6]/@id" text="table-allWidgetsRangedNumber-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[6]/th/label" text="Ranged Number:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[6]/th/label/@for" text="allWidgetsRangedNumber"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[6]/td/input/@type" text="range"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[6]/td/input/@id" text="allWidgetsRangedNumber"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[6]/td/input/@value" text="32"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[6]/td/input/@min" text="1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[6]/td/input/@max" text="100"/>
+				<forceInputFieldAttribute name="allWidgetsRangedNumber" attributeName="value" attributeValue="33"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[7]/@id" text="table-allWidgetsBoolean-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[7]/th/label" text="Boolean:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[7]/th/label/@for" text="boolean"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[7]/td/input/@type" text="checkbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[7]/td/input/@id" text="boolean"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[7]/@id" text="table-allWidgetsBoolean-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[7]/th/label" text="Boolean:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[7]/th/label/@for" text="allWidgetsBoolean"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[7]/td/input/@type" text="checkbox"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[7]/td/input/@id" text="allWidgetsBoolean"/>
+				<verifyCheckbox name="allWidgetsBoolean" checked="false"/>
+				<setCheckbox name="allWidgetsBoolean" checked="true"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/@id" text="table-allWidgetsDropdown-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th/label" text="Dropdown:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th/label/@for" text="dropdown"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/@id" text="dropdown"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/option[1]" text=""/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/option[2]" text="foo1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/option[3]" text="dropdown1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td/select/option[4]" text="bar1"/>
-				<verifyXPath xpath="count(/html/body/table/tbody/tr[8]/td/select/option)" text="4"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/@id" text="table-allWidgetsDropdown-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/th/label" text="Dropdown:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/th/label/@for" text="allWidgetsDropdown"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/td/select/@id" text="allWidgetsDropdown"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/td/select/option[1]" text=""/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/td/select/option[2]" text="foo1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/td/select/option[3]" text="dropdown1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/td/select/option[4]" text="bar1"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr[8]/td/select/option)" text="4"/>
+				<setSelectField name="allWidgetsDropdown" text="foo1"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/@id" text="table-allWidgetsDropdownWithLabels-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/th/label" text="Dropdown With Labels:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/th/label/@for" text="dropdownWithLabels"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/@id" text="dropdownWithLabels"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[1]" text=""/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[2]" text="Foo #2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[2]/@value" text="foo2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[3]" text="Dropdown #2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[3]/@value" text="dropdown2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[4]" text="Bar #2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[4]/@value" text="bar2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[5]" text="Baz #2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[9]/td/select/option[5]/@value" text="baz2"/>
-				<verifyXPath xpath="count(/html/body/table/tbody/tr[9]/td/select/option)" text="5"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/@id" text="table-allWidgetsDropdownWithLabels-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/th/label" text="Dropdown With Labels:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/th/label/@for" text="allWidgetsDropdownWithLabels"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/@id" text="allWidgetsDropdownWithLabels"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[1]" text=""/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[2]" text="Foo #2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[2]/@value" text="foo2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[3]" text="Dropdown #2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[3]/@value" text="dropdown2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[4]" text="Bar #2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[4]/@value" text="bar2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[5]" text="Baz #2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option[5]/@value" text="baz2"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr[9]/td/select/option)" text="5"/>
+				<setSelectField name="allWidgetsDropdownWithLabels" text="Bar #2"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[10]/@id" text="table-allWidgetsNotNullDropdown-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[10]/th/label" text="Not Null Dropdown:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[10]/th/label/@for" text="notNullDropdown"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/@id" text="notNullDropdown"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/option[1]" text="-1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/option[2]" text="0"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td/select/option[3]" text="1"/>
-				<verifyXPath xpath="count(/html/body/table/tbody/tr[10]/td/select/option)" text="3"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td[2]" text="*"/>				
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/@id" text="table-allWidgetsNotNullDropdown-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/th/label" text="Not Null Dropdown:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/th/label/@for" text="allWidgetsNotNullDropdown"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/td/select/@id" text="allWidgetsNotNullDropdown"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/td/select/option[1]" text="-1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/td/select/option[2]" text="0"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/td/select/option[3]" text="1"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/td/select/option)" text="3"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[10]/td[2]" text="*"/>
+				<setSelectField name="allWidgetsNotNullDropdown" text="1"/>
 
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/@id" text="table-allWidgetsNestedWidgets-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/th/label" text="Nested Widgets:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/th/label/@for" text="nestedWidgets"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/@id" text="nestedWidgets"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[1]/@id" text="table-allWidgetsNestedWidgetsNestedTextbox1-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[1]/th/label/@id" text="table-allWidgetsNestedWidgetsNestedTextbox1-label"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[1]/th/label/@for" text="nestedWidgetsNestedTextbox1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[1]/th/label" text="Nested Textbox 1:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[1]/td/input/@id" text="nestedWidgetsNestedTextbox1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[1]/td/input/@value" text="Nested Textbox 1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[2]/@id" text="table-allWidgetsNestedWidgetsNestedTextbox2-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[2]/th/label/@id" text="table-allWidgetsNestedWidgetsNestedTextbox2-label"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[2]/th/label/@for" text="nestedWidgetsNestedTextbox2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[2]/th/label" text="Nested Textbox 2:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[2]/td/input/@id" text="nestedWidgetsNestedTextbox2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[2]/td/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[2]/td/input/@value" text="Nested Textbox 2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgets-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/th/label/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgets-label"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/th/label/@for" text="nestedWidgetsFurtherNestedWidgets"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/th/label" text="Further Nested Widgets:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/@id" text="nestedWidgetsFurtherNestedWidgets"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[1]/th/label/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1-label"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[1]/th/label/@for" text="nestedWidgetsFurtherNestedWidgetsNestedTextbox1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[1]/th/label" text="Nested Textbox 1:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td/input/@id" text="nestedWidgetsFurtherNestedWidgetsNestedTextbox1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td/input/@value" text="Nested Textbox 1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/th/label/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2-label"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/th/label/@for" text="nestedWidgetsFurtherNestedWidgetsNestedTextbox2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/th/label" text="Nested Textbox 2:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/td/input/@id" text="nestedWidgetsFurtherNestedWidgetsNestedTextbox2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/td/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr[2]/td/input/@value" text="Nested Textbox 2"/>
-				<verifyXPath xpath="count(/html/body/table/tbody/tr[11]/td/table/tbody/tr[3]/td/table/tbody/tr)" text="2"/>
-				<verifyXPath xpath="count(/html/body/table/tbody/tr[11]/td/table/tbody/tr)" text="3"/>
-
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/@id" text="table-allWidgetsReadOnlyNestedWidgets-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/th/label" text="Read Only Nested Widgets:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/th/label/@for" text="readOnlyNestedWidgets"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/@id" text="readOnlyNestedWidgets"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[1]/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox1-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[1]/th/label/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox1-label"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[1]/th/label/@for" text="readOnlyNestedWidgetsNestedTextbox1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[1]/th/label" text="Nested Textbox 1:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[1]/td/output/@id" text="readOnlyNestedWidgetsNestedTextbox1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[1]/td/output" text="Nested Textbox 1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[2]/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox2-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[2]/th/label/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox2-label"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[2]/th/label/@for" text="readOnlyNestedWidgetsNestedTextbox2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[2]/th/label" text="Nested Textbox 2:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[2]/td/output/@id" text="readOnlyNestedWidgetsNestedTextbox2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[2]/td/output" text="Nested Textbox 2"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[3]/@id" text="table-allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[3]/th/label/@id" text="table-allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets-label"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[3]/th/label/@for" text="readOnlyNestedWidgetsFurtherNestedWidgets"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[3]/th/label" text="Further Nested Widgets:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[12]/td/table/tbody/tr[3]/td/table/@id" text="readOnlyNestedWidgetsFurtherNestedWidgets"/>				
-				<verifyXPath xpath="count(/html/body/table/tbody/tr[12]/td/table/tbody/tr[3]/td/table/tbody/tr)" text="0"/>				
-				<verifyXPath xpath="count(/html/body/table/tbody/tr[12]/td/table/tbody/tr)" text="3"/>
-
-				<verifyXPath xpath="/html/body/table/tbody/tr[13]/@id" text="table-allWidgetsNestedWidgetsDontExpand-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[13]/th/label" text="Nested Widgets Dont Expand:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[13]/th/label/@for" text="nestedWidgetsDontExpand"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[13]/td/input/@type" text="text"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[13]/td/input/@id" text="nestedWidgetsDontExpand"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[13]/td/input/@value" text="[object Object]"/>
-
-				<verifyXPath xpath="/html/body/table/tbody/tr[14]/@id" text="table-allWidgetsReadOnlyNestedWidgetsDontExpand-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[14]/th/label" text="Read Only Nested Widgets Dont Expand:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[14]/th/label/@for" text="readOnlyNestedWidgetsDontExpand"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[14]/td/output/@id" text="readOnlyNestedWidgetsDontExpand"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[14]/td/output" text="[object Object]"/>
-
-				<verifyXPath xpath="/html/body/table/tbody/tr[15]/@id" text="table-allWidgetsDate-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[15]/th/label" text="Date:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[15]/th/label/@for" text="date"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[15]/td/input/@type" text="date"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[15]/td/input/@id" text="date"/>
-
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/@id" text="table-allWidgetsReadOnly-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/th/label" text="Read Only:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/th/label/@for" text="readOnly"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/td/output/@id" text="readOnly"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/td/output" text="Read Only Value"/>
-
-				<verifyXPath xpath="count(/html/body/table/tbody/tr)" text="16"/>
-
-				<verifyXPath xpath="/html/body/button" text="Save"/>
-				<verifyXPath xpath="/html/body/button/@id" text="save"/>
-				<verifyXPath xpath="/html/body/button/@onclick" text="return actions.save()"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/@id" text="table-allWidgetsNestedWidgets-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/th/label" text="Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/th/label/@for" text="allWidgetsNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/@id" text="allWidgetsNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/@id" text="table-allWidgetsNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgets-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/th/label/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgets-label"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/th/label/@for" text="allWidgetsNestedWidgetsFurtherNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/th/label" text="Further Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/@id" text="allWidgetsNestedWidgetsFurtherNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[1]/th/label/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1-label"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[1]/th/label/@for" text="allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[1]/th/label" text="Nested Textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[1]/td/input/@id" text="allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[1]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[1]/td/input/@value" text="Nested Textbox 1"/>
+				<setInputField name="allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1" value="Nested Textbox 1.1 (further)"/>
 				
-				<!-- <clickButton label="Save"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[2]/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[2]/th/label/@id" text="table-allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2-label"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[2]/th/label/@for" text="allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[2]/th/label" text="Nested Textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[2]/td/input/@id" text="allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[2]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr[2]/td/input/@value" text="Nested Textbox 2"/>
+				<setInputField name="allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2" value="Nested Textbox 2.2 (further)"/>
 				
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/@id" text="table-allWidgetsTextbox-row"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label" text="Textbox:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/th/label/@for" text="textbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/output/@id" text="textbox"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[1]/td/output" text="Textbox"/> -->
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/tbody/tr)" text="2"/>				
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[2]/@id" text="table-allWidgetsNestedWidgetsNestedTextbox1-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[2]/th/label/@id" text="table-allWidgetsNestedWidgetsNestedTextbox1-label"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[2]/th/label/@for" text="allWidgetsNestedWidgetsNestedTextbox1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[2]/th/label" text="Nested Textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[2]/td/input/@id" text="allWidgetsNestedWidgetsNestedTextbox1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[2]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[2]/td/input/@value" text="Nested Textbox 1"/>
+				<setInputField name="allWidgetsNestedWidgetsNestedTextbox1" value="Nested Textbox 1.1"/>
+				
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[3]/@id" text="table-allWidgetsNestedWidgetsNestedTextbox2-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[3]/th/label/@id" text="table-allWidgetsNestedWidgetsNestedTextbox2-label"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[3]/th/label/@for" text="allWidgetsNestedWidgetsNestedTextbox2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[3]/th/label" text="Nested Textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[3]/td/input/@id" text="allWidgetsNestedWidgetsNestedTextbox2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[3]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr[3]/td/input/@value" text="Nested Textbox 2"/>
+				<setInputField name="allWidgetsNestedWidgetsNestedTextbox2" value="Nested Textbox 2.2"/>
+				
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr[11]/td/metawidget/table/tbody/tr)" text="3"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/@id" text="table-allWidgetsReadOnlyNestedWidgets-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/th/label" text="Read Only Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/th/label/@for" text="allWidgetsReadOnlyNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/@id" text="allWidgetsReadOnlyNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/@id" text="table-allWidgetsReadOnlyNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[1]/@id" text="table-allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[1]/th/label/@id" text="table-allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets-label"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[1]/th/label/@for" text="allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[1]/th/label" text="Further Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[1]/td/metawidget/@id" text="allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets"/>				
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[1]/td/metawidget/table/@id" text="table-allWidgetsReadOnlyNestedWidgetsFurtherNestedWidgets"/>				
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[1]/td/table/tbody/tr)" text="0"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[2]/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox1-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[2]/th/label/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox1-label"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[2]/th/label/@for" text="allWidgetsReadOnlyNestedWidgetsNestedTextbox1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[2]/th/label" text="Nested Textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[2]/td/output/@id" text="allWidgetsReadOnlyNestedWidgetsNestedTextbox1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[2]/td/output" text="Nested Textbox 1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[3]/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox2-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[3]/th/label/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox2-label"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[3]/th/label/@for" text="allWidgetsReadOnlyNestedWidgetsNestedTextbox2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[3]/th/label" text="Nested Textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[3]/td/output/@id" text="allWidgetsReadOnlyNestedWidgetsNestedTextbox2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr[3]/td/output" text="Nested Textbox 2"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr[12]/td/metawidget/table/tbody/tr)" text="3"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[13]/@id" text="table-allWidgetsNestedWidgetsDontExpand-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[13]/th/label" text="Nested Widgets Dont Expand:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[13]/th/label/@for" text="allWidgetsNestedWidgetsDontExpand"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[13]/td/input/@type" text="text"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[13]/td/input/@id" text="allWidgetsNestedWidgetsDontExpand"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[13]/td/input/@value" text="[object Object]"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[14]/@id" text="table-allWidgetsReadOnlyNestedWidgetsDontExpand-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[14]/th/label" text="Read Only Nested Widgets Dont Expand:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[14]/th/label/@for" text="allWidgetsReadOnlyNestedWidgetsDontExpand"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[14]/td/output/@id" text="allWidgetsReadOnlyNestedWidgetsDontExpand"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[14]/td/output" text="[object Object]"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[15]/@id" text="table-allWidgetsDate-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[15]/th/label" text="Date:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[15]/th/label/@for" text="allWidgetsDate"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[15]/td/input/@type" text="date"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[15]/td/input/@id" text="allWidgetsDate"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/@id" text="table-allWidgetsReadOnly-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/th/label" text="Read Only:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/th/label/@for" text="allWidgetsReadOnly"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/td/output/@id" text="allWidgetsReadOnly"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/td/output" text="Read Only Value"/>
+
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="16"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget-actions']/button" text="Save"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget-actions']/button/@id" text="actionsSave"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget-actions']/button/@onclick" text="return actions.save()"/>
+				
+				<clickButton label="Save"/>
+				
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[1]/div[1]/label" text="Textbox:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[1]/div[2]/output" text="Textbox1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[2]/div[1]/label" text="Limited Textbox:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[2]/div[2]/output" text="Limited Textbox1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[3]/div[1]/label" text="Textarea:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[3]/div[2]/output" text="Textarea1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[4]/div[1]/label" text="Password:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[4]/div[2]/stub" text=""/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[5]/div[1]/label" text="Number:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[5]/div[2]/output" text="311"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[6]/div[1]/label" text="Ranged Number:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[6]/div[2]/output" text="33"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[7]/div[1]/label" text="Boolean:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[7]/div[2]/output" text="true"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[8]/div[1]/label" text="Dropdown:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[8]/div[2]/output" text="foo1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[9]/div[1]/label" text="Dropdown With Labels:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[9]/div[2]/output" text="bar2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[10]/div[1]/label" text="Not Null Dropdown:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[10]/div[2]/output" text="1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[1]/label" text="Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[1]/div[1]/label" text="Further Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[1]/div[2]/metawidget/div[1]/div[1]/label" text="Nested Textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[1]/div[2]/metawidget/div[1]/div[2]/output" text="Nested Textbox 1.1 (further)"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[1]/div[2]/metawidget/div[2]/div[1]/label" text="Nested Textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[1]/div[2]/metawidget/div[2]/div[2]/output" text="Nested Textbox 2.2 (further)"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[2]/div[1]/label" text="Nested Textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[2]/div[2]/output" text="Nested Textbox 1.1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[3]/div[1]/label" text="Nested Textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[2]/metawidget/div[3]/div[2]/output" text="Nested Textbox 2.2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[12]/div[1]/label" text="Read Only Nested Widgets:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[12]/div[2]/metawidget/div[1]/div[1]/label" text="Further Nested Widgets:"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/div[12]/div[2]/metawidget/div[1]/div[2]/metawidget/div)" text="0"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[12]/div[2]/metawidget/div[2]/div[1]/label" text="Nested Textbox 1:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[12]/div[2]/metawidget/div[2]/div[2]/output" text="Nested Textbox 1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[12]/div[2]/metawidget/div[3]/div[1]/label" text="Nested Textbox 2:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[12]/div[2]/metawidget/div[3]/div[2]/output" text="Nested Textbox 2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[13]/div[1]/label" text="Nested Widgets Dont Expand:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[13]/div[2]/output" text="[object Object]"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[14]/div[1]/label" text="Read Only Nested Widgets Dont Expand:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[14]/div[2]/output" text="[object Object]"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[15]/div[1]/label" text="Date:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[15]/div[2]/output"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[16]/div[1]/label" text="Read Only:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[16]/div[2]/output" text="Read Only Value"/>
+
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/div)" text="16"/>
 			</steps>
 		</webtest>
 	</target>

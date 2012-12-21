@@ -110,7 +110,24 @@ describe( "The ReadOnlyWidgetBuilder", function() {
 		}, {} ) ).toBeUndefined();
 		expect( widgetBuilder.buildWidget( {
 			"readOnly": "true",
+			"masked": "true",
 			"type": "string"
+		}, {} ).toString() ).toBe( 'stub' );
+		expect( widgetBuilder.buildWidget( {
+			"readOnly": "true",
+			"type": "string"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			"readOnly": "true",
+			"type": "boolean"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			"readOnly": "true",
+			"type": "number"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			"readOnly": "true",
+			"type": "date"
 		}, {} ).toString() ).toBe( 'output' );
 		expect( widgetBuilder.buildWidget( {
 			"hidden": "true",
@@ -141,11 +158,11 @@ describe( "The HtmlWidgetBuilder", function() {
 		}, {} );
 		
 		expect( select.toString() ).toBe( 'select' );
-		expect( select.childNodes[0].toString() ).toBe( 'option' );
+		expect( select.childNodes[0].toString() ).toBe( 'option value="foo"' );
 		expect( select.childNodes[0].innerHTML ).toBe( 'foo' );
-		expect( select.childNodes[1].toString() ).toBe( 'option' );
+		expect( select.childNodes[1].toString() ).toBe( 'option value="bar"' );
 		expect( select.childNodes[1].innerHTML ).toBe( 'bar' );
-		expect( select.childNodes[2].toString() ).toBe( 'option' );
+		expect( select.childNodes[2].toString() ).toBe( 'option value="baz"' );
 		expect( select.childNodes[2].innerHTML ).toBe( 'baz' );
 		expect( select.childNodes.length ).toBe( 3 );
 
@@ -171,11 +188,11 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( select.toString() ).toBe( 'select' );
 		expect( select.childNodes[0].toString() ).toBe( 'option' );
 		expect( select.childNodes[0].innerHTML ).toBeUndefined();
-		expect( select.childNodes[1].toString() ).toBe( 'option' );
+		expect( select.childNodes[1].toString() ).toBe( 'option value="foo"' );
 		expect( select.childNodes[1].innerHTML ).toBe( 'foo' );
-		expect( select.childNodes[2].toString() ).toBe( 'option' );
+		expect( select.childNodes[2].toString() ).toBe( 'option value="bar"' );
 		expect( select.childNodes[2].innerHTML ).toBe( 'bar' );
-		expect( select.childNodes[3].toString() ).toBe( 'option' );
+		expect( select.childNodes[3].toString() ).toBe( 'option value="baz"' );
 		expect( select.childNodes[3].innerHTML ).toBe( 'baz' );
 		expect( select.childNodes.length ).toBe( 4 );
 

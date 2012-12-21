@@ -12,7 +12,10 @@
 		<script src="js/allwidgets.js" type="text/javascript"></script>
 	</head>
 	<body>
-	
+		<form>
+			<div id="metawidget"></div>
+			<div id="metawidget-actions"></div>
+		</form>
 		<script type="text/javascript">
 						
 			var mw = new metawidget.Metawidget( {
@@ -33,14 +36,16 @@
 			} );	
 			mw.toInspect = allWidgets;
 			mw.path = 'allWidgets';
-			document.write( mw.buildWidgets().innerHTML );
+			document.getElementById( 'metawidget' ).innerHTML = mw.buildWidgets().innerHTML; 
 			
 			actions = {
 				"save": function() {
 					var processor = mw.getWidgetProcessor( function( widgetProcessor ) { return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } );
 					processor.save( mw );
 					mw.readOnly = true;
-					document.getElementById( 'table-allWidgets' ).innerHTML = mw.buildWidgets().innerHTML;
+					mw.setLayout( new metawidget.layout.DivLayout() );
+					document.getElementById( 'metawidget' ).innerHTML = mw.buildWidgets().innerHTML;
+					return false;
 				}			
 			}
 			
@@ -49,8 +54,7 @@
 			} );
 			actionsMetawidget.toInspect = actions;
 			actionsMetawidget.path = 'actions';
-			document.write( actionsMetawidget.buildWidgets().innerHTML );
+			document.getElementById( 'metawidget-actions' ).innerHTML = actionsMetawidget.buildWidgets().innerHTML;
 		</script>
-	
 	</body>
 </html>

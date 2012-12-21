@@ -40,11 +40,8 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 	
 	if ( mw.path ) {
 		var splitPath = mw.path.split( '.' );
-		if ( splitPath.length > 1 ) {
-			splitPath = splitPath.slice( 1 );
-			splitPath.push( attributes.name );
-			id = metawidget.util.camelCase( splitPath );
-		}		
+		splitPath.push( attributes.name );
+		id = metawidget.util.camelCase( splitPath );
 	}
 		
 	widget.setAttribute( 'id', id );
@@ -114,15 +111,26 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 
 		var isBindable = ( widget.tagName == 'TEXTAREA' || widget.tagName == 'INPUT' || widget.tagName == 'SELECT' );
 
+		if ( isBindable && widget.getAttribute( 'id' )) {
+			
+			// Standard HTML works off 'name', not 'id', for binding
+			
+			widget.setAttribute( 'name', widget.getAttribute( 'id' ));
+		}
+
 		if ( value ) {
 			if ( widget.tagName == 'OUTPUT' || widget.tagName == 'TEXTAREA' ) {
 				widget.innerHTML = value;
+			} else if ( widget.tagName == 'INPUT' && widget.getAttribute( 'type' ) == 'checkbox' ) {
+				if ( value == true ) {
+					widget.setAttribute( 'checked', 'checked' );
+				}
 			} else if ( isBindable ) {
 				widget.setAttribute( 'value', value );
 			}
 		}
 
-		if ( isBindable ) {
+		if ( isBindable || widget.metawidget ) {
 			mw._simpleBindingProcessorBindings[attributes.name] = widget;
 		}
 	}
@@ -145,6 +153,12 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw 
 			continue;
 		}
 
-		mw.toInspect[name] = document.getElementById( widget.id ).value;
+		widget = document.getElementById( widget.id );
+		
+		if ( widget.getAttribute( 'type' ) == 'checkbox' ) {
+			mw.toInspect[name] = ( widget.checked );
+		} else {
+			mw.toInspect[name] = widget.value;
+		}
 	}
 };

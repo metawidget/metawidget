@@ -102,15 +102,26 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 		return document.createElement( 'stub' );
 	}
 
-	if ( attributes.type == 'string' ) {
+	if ( attributes.type == 'string' || attributes.type == 'boolean' || attributes.type == 'number' || attributes.type == 'date' ) {
+
+		if ( attributes.masked == 'true' ) {
+
+			// Masked (return a couple of nested Stubs, so that we DO still
+			// render a label)
+
+			var stub = document.createElement( 'stub' );
+			stub.appendChild( document.createElement( 'stub' ) );
+			return stub;
+		}
+
 		return document.createElement( 'output' );
 	}
-	
+
 	// Not simple, but don't expand
-	
+
 	if ( attributes.dontExpand == 'true' ) {
 		return document.createElement( 'output' );
-	}	
+	}
 };
 
 //
@@ -146,12 +157,15 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 		for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
 			var option = document.createElement( 'option' );
 
+			// HtmlUnit needs an 'option' to have a 'value', even if the same as
+			// the innerHTML
+
+			option.setAttribute( 'value', lookupSplit[loop] );
+
 			if ( attributes.lookupLabels ) {
-				option.setAttribute( 'value', lookupSplit[loop] );
 				option.innerHTML = attributes.lookupLabels.split( ',' )[loop];
 			} else {
 				option.innerHTML = lookupSplit[loop];
-
 			}
 
 			select.appendChild( option );
@@ -198,7 +212,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 	}
 
 	// Date
-	
+
 	if ( attributes.type == 'date' ) {
 		var date = document.createElement( 'input' );
 		date.setAttribute( 'type', 'date' );
@@ -212,11 +226,11 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 		if ( attributes.masked == 'true' ) {
 			var password = document.createElement( 'input' );
 			password.setAttribute( 'type', 'password' );
-			
+
 			if ( attributes.maximumLength ) {
 				password.setAttribute( 'maxlength', attributes.maximumLength );
 			}
-			
+
 			return password;
 		}
 
@@ -226,19 +240,19 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 		var text = document.createElement( 'input' );
 		text.setAttribute( 'type', 'text' );
-		
+
 		if ( attributes.maximumLength ) {
 			text.setAttribute( 'maxlength', attributes.maximumLength );
 		}
-		
+
 		return text;
 	}
-	
+
 	// Not simple, but don't expand
-	
+
 	if ( attributes.dontExpand == 'true' ) {
 		var text = document.createElement( 'input' );
 		text.setAttribute( 'type', 'text' );
-		return text;		
+		return text;
 	}
 };

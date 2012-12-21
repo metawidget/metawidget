@@ -47,6 +47,10 @@ metawidget.Metawidget = function( config ) {
 		return pipeline.getWidgetProcessor( testInstanceOf );
 	};
 
+	this.setLayout = function( layout ) {
+		pipeline.layout = layout;
+	};
+	
 	this.buildWidgets = function() {
 
 		return pipeline.buildWidgets( this );
@@ -74,7 +78,9 @@ metawidget.Metawidget = function( config ) {
 		// Because we cannot 'extend' the built-in HTML tags, attach ourselves
 		// as a property of the tag
 
-		var widget = nested.buildWidgets().children[0];
+		// TODO: test not using 'children'
+		
+		var widget = nested.buildWidgets();
 		widget.metawidget = nested;
 
 		return widget;

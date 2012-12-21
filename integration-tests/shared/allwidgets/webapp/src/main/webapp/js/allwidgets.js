@@ -15,12 +15,12 @@ var allWidgets = {
 	"dropdownWithLabels": "dropdown2",
 	"notNullDropdown": "0",
 	"nestedWidgets": {
-		"nestedTextbox1": "Nested Textbox 1",
-		"nestedTextbox2": "Nested Textbox 2",
 		"furtherNestedWidgets": {
 			"nestedTextbox1": "Nested Textbox 1",
 			"nestedTextbox2": "Nested Textbox 2"
-		}
+		},
+		"nestedTextbox1": "Nested Textbox 1",
+		"nestedTextbox2": "Nested Textbox 2"
 	},
 	"readOnlyNestedWidgets": {
 		"nestedTextbox1": "Nested Textbox 1",
@@ -109,11 +109,11 @@ metawidget.test.allWidgetsMetadata = [ {
 } ];
 
 metawidget.test.nestedWidgetsMetadata = [ {
+	"name": "furtherNestedWidgets"
+}, {
 	"name": "nestedTextbox1",
 	"type": "string"
 }, {
 	"name": "nestedTextbox2",
 	"type": "string"
-}, {
-	"name": "furtherNestedWidgets"
 } ];

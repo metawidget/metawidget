@@ -15,4 +15,17 @@ public class AllWidgetsAngularTest
 		evaluateHtml( "target/allwidgets-angularjs/index.html" );
 		run( "src/test/js/allwidgets-angular-tests.js" );
 	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected void setUp() {
+
+		super.setUp();
+
+		initializeEnvJs();
+		evaluateResource( "/js/angular-scenario.js" );
+	}
 }

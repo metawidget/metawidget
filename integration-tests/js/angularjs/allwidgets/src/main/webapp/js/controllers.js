@@ -5,7 +5,18 @@
 function AllWidgetsController( $scope ) {
 
 	$scope.allWidgets = allWidgets;
-	
+
+	$scope.allWidgetsActions = {
+		"save": function() {
+
+			$scope.readOnly = true;
+			$scope.metawidgetConfig = {
+
+				layout: new metawidget.layout.DivLayout()
+			};
+		}
+	}
+
 	$scope.metawidgetConfig = {
 
 		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
@@ -19,7 +30,12 @@ function AllWidgetsController( $scope ) {
 					return metawidget.test.nestedWidgetsMetadata;
 				case 'allWidgets.nestedWidgetsDontExpand':
 					return metawidget.test.nestedWidgetsMetadata;
-			}					
+			}
 		}, new metawidget.inspector.PropertyTypeInspector() ] )
+	};
+
+	$scope.metawidgetActionsConfig = {
+
+		layout: new metawidget.layout.SimpleLayout()
 	};
 }

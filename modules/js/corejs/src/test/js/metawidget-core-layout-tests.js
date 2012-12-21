@@ -40,9 +40,50 @@ describe( "The SimpleLayout", function() {
 	} );
 } );
 
+describe( "The DivLayout", function() {
+
+	it( "arranges widgets using divs", function() {
+
+		var layout = new metawidget.layout.DivLayout();
+
+		var widget1 = document.createElement( 'input' );
+		widget1.setAttribute( 'id', 'widget1' );
+		var widget2 = document.createElement( 'input' );
+		widget2.setAttribute( 'id', 'widget2' );
+		var container = document.createElement( 'metawidget' );
+		var mw = {
+			"path": "testPath"
+		};
+
+		layout.layoutWidget( widget1, {
+			"name": "widget1",
+		}, container, mw );
+		layout.layoutWidget( widget2, {
+			"name": "widget2",
+			"label": "widgetLabel 2"
+		}, container, mw );
+
+		expect( container.childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1:' );
+		expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+		expect( container.childNodes[1].toString() ).toBe( 'div' );
+		expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2"' );
+		expect( container.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'widgetLabel 2:' );
+		expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'div' );
+		expect( container.childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
+		expect( container.childNodes[1].childNodes.length ).toBe( 2 );
+		expect( container.childNodes.length ).toBe( 2 );
+	} );
+} );
+
 describe( "The TableLayout", function() {
 
-	it( "arranges children in a table", function() {
+	it( "arranges widgets in a table", function() {
 
 		var layout = new metawidget.layout.TableLayout();
 

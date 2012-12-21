@@ -40,6 +40,49 @@ metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attrib
 };
 
 //
+// DivLayout
+//
+
+metawidget.layout.DivLayout = function() {
+
+	if ( ! ( this instanceof metawidget.layout.DivLayout ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+};
+
+metawidget.layout.DivLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
+
+	if ( widget.tagName == 'STUB' && widget.childNodes.length == 0 ) {
+		return;
+	}
+
+	var outerDiv = document.createElement( 'div' );
+
+	// Label
+
+	var labelDiv = document.createElement( 'div' );
+	var label = document.createElement( 'label' );
+	label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+
+	if ( attributes.label ) {
+		label.innerHTML = attributes.label + ':';
+	} else {
+		label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
+	}
+
+	labelDiv.appendChild( label );
+	outerDiv.appendChild( labelDiv );
+
+	// Widget
+
+	var widgetDiv = document.createElement( 'div' );
+	widgetDiv.appendChild( widget );
+	outerDiv.appendChild( widgetDiv );
+
+	container.appendChild( outerDiv );
+};
+
+//
 // TableLayout
 //
 
@@ -56,7 +99,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 		var table = document.createElement( 'table' );
 		if ( mw.path ) {
-			var id = metawidget.util.camelCase( mw.path.split( '.' ));
+			var id = metawidget.util.camelCase( mw.path.split( '.' ) );
 			table.setAttribute( 'id', 'table-' + id );
 		}
 
@@ -71,7 +114,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 	this.layoutWidget = function( widget, attributes, container, mw ) {
 
-		if ( widget.tagName == 'STUB' ) {
+		if ( widget.tagName == 'STUB' && widget.childNodes.length == 0 ) {
 			return;
 		}
 

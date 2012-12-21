@@ -35,7 +35,7 @@ describe( "The IdProcessor", function() {
 		processor.processWidget( widget, {
 			"name": "baz"
 		}, mw );
-		expect( widget.getAttribute( 'id' ) ).toBe( 'barBaz' );
+		expect( widget.getAttribute( 'id' ) ).toBe( 'fooBarBaz' );
 	} );
 } );
 
@@ -75,7 +75,8 @@ describe( "The SimpleBindingProcessor", function() {
 			"toInspect": {
 				"foo": "fooValue",
 				"bar": "barValue",
-				"baz": "bazValue"
+				"baz": "bazValue",
+				"boolean": true
 			},
 			"path": "testPath"
 		};
@@ -114,6 +115,16 @@ describe( "The SimpleBindingProcessor", function() {
 		expect( widget.toString() ).toBe( 'textarea' );
 		expect( widget.innerHTML ).toBe( 'bazValue' );
 
+		// Checkboxes
+
+		attributes = {
+			"name": "boolean"
+		};
+		widget = document.createElement( 'input' );
+		widget.setAttribute( 'type', 'checkbox' );
+		processor.processWidget( widget, attributes, mw );
+		expect( widget.toString() ).toBe( 'input type="checkbox" checked="checked"' );
+		
 		// Root-level
 
 		attributes = {
@@ -123,5 +134,7 @@ describe( "The SimpleBindingProcessor", function() {
 		processor.processWidget( widget, attributes, mw );
 		expect( widget.toString() ).toBe( 'output' );
 		expect( widget.innerHTML ).toBe( mw.toInspect );
+		
+		// TODO: nested widgets
 	} );
 } );

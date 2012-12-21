@@ -85,6 +85,11 @@ angular.module( 'metawidget.directives', [] )
 
 							_buildWidgets();
 						} );
+						scope.$watch( 'config', function( newValue, oldValue ) {
+
+							mw.configure( newValue );
+							_buildWidgets();
+						} );
 
 						// Build
 
@@ -134,8 +139,13 @@ metawidget.angular.AngularMetawidget = function( transclude, scope, attrs, $comp
 	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
 	pipeline.layout = new metawidget.layout.TableLayout();
-	pipeline.configure( scope.$eval( 'config' ));
 
+	this.configure = function( config ) {
+		pipeline.configure( config );		
+	};
+	
+	this.configure( scope.$eval( 'config' ));
+	
 	this.buildWidgets = function() {
 
 		return pipeline.buildWidgets( this );
@@ -145,7 +155,9 @@ metawidget.angular.AngularMetawidget = function( transclude, scope, attrs, $comp
 
 		var nested = document.createElement( 'metawidget' );
 		nested.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
-		if ( attrs.readOnly ) {
+		if ( attributes.readOnly == 'true' ) {
+			nested.setAttribute( 'read-only', 'true' );
+		} else {
 			nested.setAttribute( 'read-only', attrs.readOnly );
 		}
 		if ( attrs.config ) {
