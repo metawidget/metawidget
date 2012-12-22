@@ -27,7 +27,7 @@ describe( "The IdProcessor", function() {
 		processor.processWidget( widget, {
 			"name": "foo"
 		}, mw );
-		expect( widget.getAttribute( 'id' )).toBe( 'foo' );
+		expect( widget.toString() ).toBe( 'input id="foo" name="foo"' );
 
 		// With subpath
 
@@ -35,7 +35,7 @@ describe( "The IdProcessor", function() {
 		processor.processWidget( widget, {
 			"name": "baz"
 		}, mw );
-		expect( widget.getAttribute( 'id' ) ).toBe( 'fooBarBaz' );
+		expect( widget.toString() ).toBe( 'input id="fooBarBaz" name="fooBarBaz"' );
 	} );
 } );
 

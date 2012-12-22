@@ -4,7 +4,10 @@
 
 	<target name="all">
 		<webtest name="test-allWidgets">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>				
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
+				<!-- Stricter JS compliance (eg. must use 'element.childNodes' not 'element.children') -->
+				<header name="User-Agent" value="Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0"/>
+			</config>
 			<steps>
 				<invoke url="/" />
 				<verifyTitle text="All Widgets (Metawidget CoreJS Test)" />

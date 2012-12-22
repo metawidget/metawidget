@@ -45,6 +45,11 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 	}
 		
 	widget.setAttribute( 'id', id );
+	
+	if ( widget.tagName == 'INPUT' || widget.tagName == 'SELECT' || widget.tagName == 'TEXTAREA' ) {
+		widget.setAttribute( 'name', id );
+	}
+
 	return widget;
 };
 
@@ -109,14 +114,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 			value = mw.toInspect;
 		}
 
-		var isBindable = ( widget.tagName == 'TEXTAREA' || widget.tagName == 'INPUT' || widget.tagName == 'SELECT' );
-
-		if ( isBindable && widget.getAttribute( 'id' )) {
-			
-			// Standard HTML works off 'name', not 'id', for binding
-			
-			widget.setAttribute( 'name', widget.getAttribute( 'id' ));
-		}
+		var isBindable = ( widget.tagName == 'INPUT' || widget.tagName == 'SELECT' || widget.tagName == 'TEXTAREA' );
 
 		if ( value ) {
 			if ( widget.tagName == 'OUTPUT' || widget.tagName == 'TEXTAREA' ) {
