@@ -178,9 +178,9 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 		var inspectionResultProcessor = this.inspectionResultProcessors[loop];
 
 		if ( inspectionResultProcessor.processInspectionResult ) {
-			inspectionResultProcessor.processInspectionResult( inspectionResult );
+			inspectionResultProcessor.processInspectionResult( inspectionResult, mw );
 		} else {
-			inspectionResultProcessor( inspectionResult );
+			inspectionResultProcessor( inspectionResult, mw );
 		}
 	}
 

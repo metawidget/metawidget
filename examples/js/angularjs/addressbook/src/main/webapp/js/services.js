@@ -76,7 +76,7 @@ angular.module( 'addressBookServices', [] )
 						"hidden": "{{readOnly}}"
 					}, {
 						"name": "delete",
-						"hidden": "{{readOnly || !current.id }}"
+						"hidden": "{{readOnly || !current.id}}"
 					} ];
 				}
 			} ] ),

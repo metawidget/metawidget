@@ -52,21 +52,22 @@ describe( "The AngularWidgetProcessor", function() {
 				"minimumLength": "3",
 			};
 			var mw = {
-				"toInspect": {}
+				"toInspect": {},
+				"path": "testPath"
 			};
 
 			// Inputs
 
 			var widget = document.createElement( 'input' );
 			processor.processWidget( widget, attributes, mw );
-			expect( widget.getAttribute( 'ng-model' ) ).toBe( 'toInspect.foo' );
+			expect( widget.getAttribute( 'ng-model' ) ).toBe( 'testPath.foo' );
 			expect( widget.getAttribute( 'ng-minlength' ) ).toBe( '3' );
-			
+
 			// Textareas (same as inputs, not same as outputs)
 
 			widget = document.createElement( 'textarea' );
 			processor.processWidget( widget, attributes, mw );
-			expect( widget.getAttribute( 'ng-model' ) ).toBe( 'toInspect.foo' );
+			expect( widget.getAttribute( 'ng-model' ) ).toBe( 'testPath.foo' );
 
 			// Buttons
 
@@ -75,14 +76,14 @@ describe( "The AngularWidgetProcessor", function() {
 			};
 			widget = document.createElement( 'button' );
 			processor.processWidget( widget, attributes, mw );
-			expect( widget.getAttribute( 'ng-click' ) ).toBe( 'toInspect.bar()' );
+			expect( widget.getAttribute( 'ng-click' ) ).toBe( 'testPath.bar()' );
 			expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
 
 			// Outputs
 
 			widget = document.createElement( 'output' );
 			processor.processWidget( widget, attributes, mw );
-			expect( widget.innerHTML ).toBe( '{{toInspect.bar}}' );
+			expect( widget.innerHTML ).toBe( '{{testPath.bar}}' );
 
 			// Root-level
 
@@ -91,32 +92,7 @@ describe( "The AngularWidgetProcessor", function() {
 			};
 			widget = document.createElement( 'output' );
 			processor.processWidget( widget, attributes, mw );
-			expect( widget.innerHTML ).toBe( '{{toInspect}}' );
-		} );
-	} );
-
-	it( "ignores transcluded widgets", function() {
-
-		var injector = angular.bootstrap();
-
-		injector.invoke( function( $compile, $rootScope ) {
-
-			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $rootScope.$new() );
-			var attributes = {
-				"name": "foo",
-			};
-			var mw = {
-				"toInspect": {}
-			};
-
-			var widget = document.createElement( 'input' );
-			processor.processWidget( widget, attributes, mw );
-			expect( widget.getAttribute( 'ng-model' ) ).toBeDefined();
-
-			widget = document.createElement( 'input' );
-			widget.transcluded = true;
-			processor.processWidget( widget, attributes, mw );
-			expect( widget.getAttribute( 'ng-model' ) ).toBe( null );
+			expect( widget.innerHTML ).toBe( '{{testPath}}' );
 		} );
 	} );
 } );

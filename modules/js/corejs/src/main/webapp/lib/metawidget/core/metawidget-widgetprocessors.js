@@ -44,12 +44,7 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 		id = metawidget.util.camelCase( splitPath );
 	}
 		
-	widget.setAttribute( 'id', id );
-	
-	if ( widget.tagName == 'INPUT' || widget.tagName == 'SELECT' || widget.tagName == 'TEXTAREA' ) {
-		widget.setAttribute( 'name', id );
-	}
-
+	widget.setAttribute( 'id', id );	
 	return widget;
 };
 
@@ -115,6 +110,13 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 		}
 
 		var isBindable = ( widget.tagName == 'INPUT' || widget.tagName == 'SELECT' || widget.tagName == 'TEXTAREA' );
+
+		if ( isBindable && widget.getAttribute( 'id' )) {
+			
+			// Standard HTML works off 'name', not 'id', for binding
+			
+			widget.setAttribute( 'name', widget.getAttribute( 'id' ));
+		}
 
 		if ( value ) {
 			if ( widget.tagName == 'OUTPUT' || widget.tagName == 'TEXTAREA' ) {

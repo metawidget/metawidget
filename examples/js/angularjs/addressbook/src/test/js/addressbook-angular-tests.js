@@ -29,16 +29,16 @@ describe( "AngularJS AddressBook", function() {
 		expect( $( '#table-searchFirstname-label' ).text() ).toBe( 'Firstname:' );
 		expect( $( '#searchFirstname' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#searchFirstname' )[0].type ).toBe( 'text' );
-		expect( $( '#searchFirstname' ).attr( 'ng-model' ) ).toBe( 'toInspect.firstname' );		
+		expect( $( '#searchFirstname' ).attr( 'ng-model' ) ).toBe( 'search.firstname' );		
 		expect( $( '#table-searchSurname-label' ).prop( 'for' ) ).toBe( 'searchSurname' );
 		expect( $( '#table-searchSurname-label' ).text() ).toBe( 'Surname:' );
 		expect( $( '#searchSurname' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#searchSurname' )[0].type ).toBe( 'text' );
-		expect( $( '#searchSurname' ).attr( 'ng-model' ) ).toBe( 'toInspect.surname' );		
+		expect( $( '#searchSurname' ).attr( 'ng-model' ) ).toBe( 'search.surname' );		
 		expect( $( '#table-searchType-label' ).prop( 'for' ) ).toBe( 'searchType' );
 		expect( $( '#table-searchType-label' ).text() ).toBe( 'Type:' );
 		expect( $( '#searchType' )[0].tagName ).toBe( 'SELECT' );
-		expect( $( '#searchType' ).attr( 'ng-model' ) ).toBe( 'toInspect.type' );		
+		expect( $( '#searchType' ).attr( 'ng-model' ) ).toBe( 'search.type' );		
 		expect( $( '#searchType option' )[0].value ).toBe( '' );
 		expect( $( '#searchType option' )[1].value ).toBe( 'personal' );
 		expect( $( '#searchType option' )[1].text ).toBe( 'Personal' );
@@ -47,17 +47,15 @@ describe( "AngularJS AddressBook", function() {
 		expect( $( '.table-form tbody tr' ).length ).toBe( 3 );
 
 		expect( $( '#searchActionsSearch' )[0].tagName ).toBe( 'BUTTON' );
-		expect( $( '#searchActionsSearch' ).attr( 'ng-click' ) ).toBe( 'toInspect.search()' );		
+		expect( $( '#searchActionsSearch' ).attr( 'ng-click' ) ).toBe( 'searchActions.search()' );		
 		expect( $( '#searchActionsSearch' ).text() ).toBe( 'Search' );
 
 		expect( $( '#searchActionsCreatePersonal' )[0].tagName ).toBe( 'BUTTON' );
-		expect( $( '#searchActionsCreatePersonal' ).attr( 'ng-click' ) ).toBe( 'toInspect.createPersonal()' );		
+		expect( $( '#searchActionsCreatePersonal' ).attr( 'ng-click' ) ).toBe( 'searchActions.createPersonal()' );		
 		expect( $( '#searchActionsCreatePersonal' ).text() ).toBe( 'Create Personal' );
 
 		expect( $( '#searchActionsCreateBusiness' )[0].tagName ).toBe( 'BUTTON' );
-		expect( $( '#searchActionsCreateBusiness' ).attr( 'ng-click' ) ).toBe( 'toInspect.createBusiness()' );		
+		expect( $( '#searchActionsCreateBusiness' ).attr( 'ng-click' ) ).toBe( 'searchActions.createBusiness()' );		
 		expect( $( '#searchActionsCreateBusiness' ).text() ).toBe( 'Create Business' );
-		
-		console.log( document.innerHTML );
 	} );
 } );

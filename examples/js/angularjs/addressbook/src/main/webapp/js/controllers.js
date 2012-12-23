@@ -69,7 +69,7 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 				$scope.dialogTitle = 'Personal Contact';
 			} else {
 				$scope.dialogTitle = 'Business Contact';
-			}						
+			}
 			break;
 
 		default:
@@ -82,12 +82,12 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 						// cancel
 						$scope.current = angular.fromJson( angular.toJson( result.data[loop] ) );
 						$scope.dialogTitle = $scope.current.title + ' ' + $scope.current.firstname + ' ' + $scope.current.surname + ' - ';
-						
+
 						if ( $scope.current.type == 'personal' ) {
 							$scope.dialogTitle += 'Personal Contact';
 						} else {
 							$scope.dialogTitle += 'Business Contact';
-						}						
+						}
 						break;
 					}
 				}
@@ -159,19 +159,19 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 	// Communications table
 
 	$scope.communication = {
-			type: "",
-			value: ""
+		type: "",
+		value: ""
 	};
-	
+
 	$scope.addCommunication = function() {
 
 		$scope.current.communications = $scope.current.communications || [];
-		$scope.current.communications.push( angular.fromJson( angular.toJson( $scope.communication )));
+		$scope.current.communications.push( angular.fromJson( angular.toJson( $scope.communication ) ) );
 		$scope.communication = {};
 	};
 
 	$scope.removeCommunication = function( index ) {
-		
+
 		$scope.current.communications.splice( index, 1 );
 	};
 }

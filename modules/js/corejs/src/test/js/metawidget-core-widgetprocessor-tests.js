@@ -27,7 +27,7 @@ describe( "The IdProcessor", function() {
 		processor.processWidget( widget, {
 			"name": "foo"
 		}, mw );
-		expect( widget.toString() ).toBe( 'input id="foo" name="foo"' );
+		expect( widget.toString() ).toBe( 'input id="foo"' );
 
 		// With subpath
 
@@ -35,7 +35,7 @@ describe( "The IdProcessor", function() {
 		processor.processWidget( widget, {
 			"name": "baz"
 		}, mw );
-		expect( widget.toString() ).toBe( 'input id="fooBarBaz" name="fooBarBaz"' );
+		expect( widget.toString() ).toBe( 'input id="fooBarBaz"' );
 	} );
 } );
 
@@ -86,8 +86,9 @@ describe( "The SimpleBindingProcessor", function() {
 		// Inputs
 
 		var widget = document.createElement( 'input' );
+		widget.setAttribute( 'id', 'fooId' );
 		processor.processWidget( widget, attributes, mw );
-		expect( widget.toString() ).toBe( 'input value="fooValue"' );
+		expect( widget.toString() ).toBe( 'input id="fooId" name="fooId" value="fooValue"' );
 
 		// Buttons
 

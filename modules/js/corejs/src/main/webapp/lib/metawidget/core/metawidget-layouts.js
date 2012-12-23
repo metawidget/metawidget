@@ -36,6 +36,12 @@ metawidget.layout.SimpleLayout = function() {
 
 metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
 
+	// TODO: test stubs ignored
+	
+	if ( widget.tagName == 'STUB' && widget.childNodes.length == 0 ) {
+		return;
+	}
+
 	container.appendChild( widget );
 };
 

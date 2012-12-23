@@ -26,95 +26,93 @@ angular.module( 'metawidget.directives', [] )
  * Angular directive to expose Metawidget.
  */
 
-.directive(
-		'metawidget',
-		function( $compile ) {
+.directive( 'metawidget', function( $compile ) {
 
-			// Returns the Metawidget
+	// Returns the Metawidget
 
-			return {
+	return {
 
-				/**
-				 * Metawidget is (E)lement level.
-				 */
+		/**
+		 * Metawidget is (E)lement level.
+		 */
 
-				restrict: 'E',
+		restrict: 'E',
 
-				/**
-				 * Metawidget isolated scope.
-				 */
+		/**
+		 * Metawidget isolated scope.
+		 */
 
-				scope: {
-					toInspect: '=',
-					readOnly: '=',
-					config: '='
-				},
+		scope: {
+			toInspect: '=',
+			readOnly: '=',
+			config: '='
+		},
 
-				/**
-				 * Metawidget must transclude, so that transcluded DOM doesn't
-				 * have to reference 'toInspect'.
-				 */
+		/**
+		 * Metawidget must transclude, so that transcluded DOM doesn't have to
+		 * reference 'toInspect'.
+		 */
 
-				transclude: true,
+		transclude: true,
 
-				/**
-				 * Angular compile function. Configures an Angular-specific
-				 * Metawidget and invokes buildWidgets on it.
-				 */
+		/**
+		 * Angular compile function. Configures an Angular-specific Metawidget
+		 * and invokes buildWidgets on it.
+		 */
 
-				compile: function compile( element, attrs, transclude ) {
+		compile: function compile( element, attrs, transclude ) {
 
-					return function( scope, element, attrs ) {
+			return function( scope, element, attrs ) {
 
-						// Set up an AngularMetawidget
+				// Set up an AngularMetawidget
 
-						var mw = new metawidget.angular.AngularMetawidget( transclude, scope, attrs, $compile );
+				var mw = new metawidget.angular.AngularMetawidget( transclude, scope, attrs, $compile );
 
-						// Observe
-						//
-						// Do not observe root types, such as 'string',
-						// otherwise every keypress will recreate the widget
+				// Observe
+				//
+				// Do not observe root types, such as 'string',
+				// otherwise every keypress will recreate the widget
 
-						if ( typeof ( scope.$eval( 'toInspect' ) ) == 'object' ) {
-							scope.$watch( 'toInspect', function( newValue, oldValue ) {
+				if ( typeof ( scope.$eval( 'toInspect' ) ) == 'object' ) {
+					scope.$watch( 'toInspect', function( newValue, oldValue ) {
 
-								_buildWidgets();
-							} );
-						}
-						scope.$watch( 'readOnly', function( newValue, oldValue ) {
+						_buildWidgets();
+					} );
+				}
+				scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
-							_buildWidgets();
-						} );
-						scope.$watch( 'config', function( newValue, oldValue ) {
+					_buildWidgets();
+				} );
+				scope.$watch( 'config', function( newValue, oldValue ) {
 
-							mw.configure( newValue );
-							_buildWidgets();
-						} );
+					mw.configure( newValue );
+					_buildWidgets();
+				} );
 
-						// Build
+				// Build
 
-						function _buildWidgets() {
+				function _buildWidgets() {
 
-							// Invoke Metawidget
+					// Invoke Metawidget
 
-							mw.toInspect = scope.$eval( 'toInspect' );							
-							mw.path = attrs.toInspect;
-							mw.readOnly = scope.$eval( 'readOnly' );
-							var builtWidgets = mw.buildWidgets();
+					mw.toInspect = scope.$eval( 'toInspect' );
+					mw.path = attrs.toInspect;
+					mw.readOnly = scope.$eval( 'readOnly' );
+					var builtWidgets = mw.buildWidgets();
 
-							// Clear all children (jqLite lacks .empty()?)
+					// Clear all children (jqLite lacks .empty()?)
 
-							element.children().remove();
+					element.children().remove();
 
-							// Append the children of the Metawidget, to avoid a
-							// repeat 'metawidget' tag
+					// Append the children of the Metawidget, to avoid a
+					// repeat 'metawidget' tag
 
-							element.append( angular.element( builtWidgets ).children() );
-						}
-					};
+					element.append( angular.element( builtWidgets ).children() );
 				}
 			};
-		} );
+		}
+	};
+} );
 
 /**
  * Angular Metawidget.
@@ -135,22 +133,25 @@ metawidget.angular.AngularMetawidget = function( transclude, scope, attrs, $comp
 	// Configure defaults
 
 	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope, this.buildWidgets ) ];
-	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
+	pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
+	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ),
+			new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
+			new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
 	pipeline.layout = new metawidget.layout.TableLayout();
 
 	this.configure = function( config ) {
-		pipeline.configure( config );		
+
+		pipeline.configure( config );
 	};
-	
-	this.configure( scope.$eval( 'config' ));
-	
+
+	this.configure( scope.$eval( 'config' ) );
+
 	this.buildWidgets = function() {
 
 		return pipeline.buildWidgets( this );
 	};
-	
+
 	this.buildNestedMetawidget = function( attributes ) {
 
 		var nested = document.createElement( 'metawidget' );
@@ -163,13 +164,7 @@ metawidget.angular.AngularMetawidget = function( transclude, scope, attrs, $comp
 		if ( attrs.config ) {
 			nested.setAttribute( 'config', attrs.config );
 		}
-		
-		// Scope the nested Metawidget to the parent, not the directive, so that the
-		// paths look more natural
-		
-		$compile( nested )( scope.$parent );
-		nested.transcluded = true;
-		
+
 		return nested;
 	};
 };
@@ -188,12 +183,12 @@ metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
  * @returns {metawidget.angular.AngularInspectionResultProcessor}
  */
 
-metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( scope, buildWidgets ) {
+metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( scope ) {
 
-	if ( !( this instanceof metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor )) {
+	if ( ! ( this instanceof metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
-	
+
 	this.processInspectionResult = function( inspectionResult, mw ) {
 
 		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
@@ -222,7 +217,7 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 				scope.$parent.$watch( expression, function( newValue, oldValue ) {
 
 					if ( newValue != oldValue ) {
-						buildWidgets();
+						mw.buildWidgets();
 					}
 				} );
 			}
@@ -241,10 +236,10 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 
 metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder = function( transclude, scope ) {
 
-	if ( !( this instanceof metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder )) {
+	if ( ! ( this instanceof metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
-	
+
 	var transcluded = [];
 
 	/**
@@ -268,7 +263,6 @@ metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder = function( tran
 
 			var child = transcluded[loop];
 			if ( child.id == attributes.name ) {
-				child.transcluded = true;
 				return child;
 			}
 		}
@@ -283,28 +277,27 @@ metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder = function( tran
 
 metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, scope ) {
 
-	if ( !( this instanceof metawidget.angular.widgetprocessor.AngularWidgetProcessor )) {
+	if ( ! ( this instanceof metawidget.angular.widgetprocessor.AngularWidgetProcessor ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
 	this.processWidget = function( widget, attributes, mw ) {
 
-		// Don't compile transcluded widgets, as they will be a) compiled
-		// already; b) using scope.$parent
-
-		if ( widget.transcluded ) {
-			return widget;
-		}
-
 		// Binding
+		//
+		// Scope the binding to scope.$parent, not scope, so that:
+		//
+		// a) bindings look more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
+		// b) transcluded widgets can be compiled the same as generated widgets
+		// (because transcluded widgets need to be to scope.$parent)
 
 		if ( mw.toInspect != null ) {
-			var binding = 'toInspect';
-	
+			var binding = mw.path;
+
 			if ( attributes.name != '$root' ) {
 				binding += '.' + attributes.name;
 			}
-	
+
 			if ( widget.tagName == 'OUTPUT' ) {
 				widget.innerHTML = '{{' + binding + '}}';
 			} else if ( widget.tagName == 'BUTTON' ) {
@@ -320,7 +313,7 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 			widget.setAttribute( 'ng-minlength', attributes.minimumLength );
 		}
 
-		$compile( widget )( scope );
+		$compile( widget )( scope.$parent );
 
 		return widget;
 	};
