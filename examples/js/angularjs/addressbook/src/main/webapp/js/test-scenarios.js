@@ -50,7 +50,7 @@ describe( 'AddressBook App', function() {
 		expect( element( '#table-currentSurname-label' ).text() ).toBe( 'Surname:' );
 		expect( input( 'current.surname' ).val() ).toBe( 'Simpson' );
 		
-		input( 'current.firstname' ).val( 'Homer1' );
+		input( 'current.firstname' ).enter( 'Homer1' );
 		element( '#crudActionsSave' ).click();
 
 		expect( element( 'a:eq(0)' ).text() ).toContain( 'Homer1 Simpson' );

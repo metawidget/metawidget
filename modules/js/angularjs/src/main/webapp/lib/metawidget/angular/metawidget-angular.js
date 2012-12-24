@@ -66,7 +66,7 @@ angular.module( 'metawidget.directives', [] )
 
 				// Set up an AngularMetawidget
 
-				var mw = new metawidget.angular.AngularMetawidget( transclude, scope, attrs, $compile );
+				var mw = new metawidget.angular.AngularMetawidget( element, attrs, transclude, scope, $compile );
 
 				// Observe
 				//
@@ -120,7 +120,7 @@ angular.module( 'metawidget.directives', [] )
 
 metawidget.angular = metawidget.angular || {};
 
-metawidget.angular.AngularMetawidget = function( transclude, scope, attrs, $compile ) {
+metawidget.angular.AngularMetawidget = function( element, attrs, transclude, scope, $compile ) {
 
 	if ( ! ( this instanceof metawidget.angular.AngularMetawidget ) ) {
 		throw new Error( "Constructor called as a function" );
@@ -133,7 +133,7 @@ metawidget.angular.AngularMetawidget = function( transclude, scope, attrs, $comp
 	// Configure defaults
 
 	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
+	pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( element, scope ) ];
 	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ),
 			new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
@@ -183,7 +183,7 @@ metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
  * @returns {metawidget.angular.AngularInspectionResultProcessor}
  */
 
-metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( scope ) {
+metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( element, scope ) {
 
 	if ( ! ( this instanceof metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor ) ) {
 		throw new Error( "Constructor called as a function" );
@@ -217,7 +217,9 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 				scope.$parent.$watch( expression, function( newValue, oldValue ) {
 
 					if ( newValue != oldValue ) {
-						mw.buildWidgets();
+						var builtWidgets = mw.buildWidgets();
+						element.children().remove();
+						element.append( angular.element( builtWidgets ).children() );
 					}
 				} );
 			}
