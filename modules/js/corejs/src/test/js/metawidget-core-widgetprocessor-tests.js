@@ -36,6 +36,14 @@ describe( "The IdProcessor", function() {
 			"name": "baz"
 		}, mw );
 		expect( widget.toString() ).toBe( 'input id="fooBarBaz"' );
+		
+		// With root
+
+		mw.path = 'foo.bar';
+		processor.processWidget( widget, {
+			"name": "$root"
+		}, mw );
+		expect( widget.toString() ).toBe( 'input id="fooBar"' );
 	} );
 } );
 

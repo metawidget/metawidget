@@ -40,7 +40,11 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 	
 	if ( mw.path ) {
 		var splitPath = mw.path.split( '.' );
-		splitPath.push( attributes.name );
+		
+		if ( attributes.name != '$root' ) {
+			splitPath.push( attributes.name );
+		}
+		
 		id = metawidget.util.camelCase( splitPath );
 	}
 		

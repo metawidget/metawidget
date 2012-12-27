@@ -138,7 +138,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
 			new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
-	pipeline.layout = new metawidget.layout.HeadingLayoutDecorator( { delegate: new metawidget.layout.TableLayout() } );
+	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( { delegate: new metawidget.layout.TableLayout() } );
 
 	this.configure = function( config ) {
 

@@ -27,10 +27,18 @@ metawidget.inspector = metawidget.inspector || {};
 // CompositeInspector
 //
 
-metawidget.inspector.CompositeInspector = function( inspectors ) {
+metawidget.inspector.CompositeInspector = function( config ) {
 
 	if ( ! ( this instanceof metawidget.inspector.CompositeInspector ) ) {
 		throw new Error( "Constructor called as a function" );
+	}
+
+	var inspectors;
+	
+	if ( config.inspectors ) {
+		inspectors = config.inspectors;
+	} else {
+		inspectors = config;
 	}
 
 	this.inspect = function( toInspect, type ) {

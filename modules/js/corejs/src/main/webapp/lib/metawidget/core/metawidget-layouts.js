@@ -200,7 +200,13 @@ metawidget.layout.TableLayout = function( config ) {
 
 function _flatSectionLayoutDecorator( config, decorator ) {
 
-	var delegate = config.delegate;
+	var delegate;
+	
+	if ( config.delegate ) {
+		delegate = config.delegate;
+	} else {
+		delegate = config;
+	}
 
 	decorator.onStartBuild = function( mw ) {
 
@@ -239,12 +245,12 @@ function _flatSectionLayoutDecorator( config, decorator ) {
 };
 
 //
-// HeadingLayoutDecorator
+// HeadingTagLayoutDecorator
 //
 
-metawidget.layout.HeadingLayoutDecorator = function( config ) {
+metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 
-	if ( ! ( this instanceof metawidget.layout.HeadingLayoutDecorator ) ) {
+	if ( ! ( this instanceof metawidget.layout.HeadingTagLayoutDecorator ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 

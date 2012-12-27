@@ -5,7 +5,6 @@
 	 "firstname": "Homer",
 	 "surname": "Simpson",
 	 "gender": "Male",
-	 "dateOfBirth": "12/5/1956",
 	 "address": {
 	 	"street": "742 Evergreen Terrace",
 	 	"city": "Springfield",

@@ -27,12 +27,20 @@ metawidget.widgetbuilder = metawidget.widgetbuilder || {};
 // CompositeWidgetBuilder
 //
 
-metawidget.widgetbuilder.CompositeWidgetBuilder = function( widgetBuilders ) {
-
+metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
+	
 	if ( ! ( this instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
+	var widgetBuilders;
+	
+	if ( config.widgetBuilders ) {
+		widgetBuilders = config.widgetBuilders;
+	} else {
+		widgetBuilders = config;
+	}
+	
 	this.onStartBuild = function() {
 
 		for ( var loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {

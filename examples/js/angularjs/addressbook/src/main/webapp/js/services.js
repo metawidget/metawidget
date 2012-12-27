@@ -108,7 +108,7 @@ angular.module( 'addressBookServices', [] )
 						} ];
 				}
 			}, new metawidget.inspector.PropertyTypeInspector() ] ),
-			layout: new metawidget.layout.HeadingLayoutDecorator( {
+			layout: new metawidget.layout.HeadingTagLayoutDecorator( {
 				delegate: new metawidget.layout.TableLayout( {
 					"tableStyleClass": "table-form",
 					"columnStyleClasses": "table-label-column,table-component-column,table-required-column"
