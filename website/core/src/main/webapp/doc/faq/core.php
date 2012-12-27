@@ -61,12 +61,6 @@
 			different features, and Metawidget takes advantage of this.
 		</p>
 
-		<h3><a name="requirements">What are Metawidget's system requirements?</a></h3>
-
-		<p>
-			Metawidget requires at least Java SE 5, and varies depending on which optional modules you use.
-		</p>
-
 		<h3><a name="why">Why is it called Metawidget?</a></h3>
 
 		<p>

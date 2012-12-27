@@ -59,6 +59,7 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 		case 'business':
 			$scope.readOnly = false;
 			$scope.current = {};
+			$scope.current.title = "Mr";
 			$scope.current.type = $routeParams.contactId;
 			if ( $scope.current.type == 'personal' ) {
 				$scope.dialogTitle = 'Personal Contact';
@@ -101,6 +102,16 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 		},
 
 		save: function() {
+
+			if ( $scope.firstname = '' ) {
+				alert( 'Firstname is required' );
+				return;
+			}
+			
+			if ( $scope.surname = '' ) {
+				alert( 'Surname is required' );
+				return;
+			}
 
 			contacts.then( function( result ) {
 
@@ -159,8 +170,6 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 	};
 
 	$scope.addCommunication = function() {
-
-		console.log( 'addComm called' );
 
 		if ( $scope.communication.type == '' ) {
 			alert( 'Communication type is required' );

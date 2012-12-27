@@ -4,6 +4,28 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v3.0 Released!</h3>
+		<h4></h4>
+		
+		<p>
+			Metawidget v3.0 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Support for a pure JavaScript, runtime Metawidget</li>
+			<li>Support for AngularJS</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+		
 		<h3>Metawidget Nominated For PhD Thesis Of The Year</h3>
 		<h4>1st December 2012</h4>
 		

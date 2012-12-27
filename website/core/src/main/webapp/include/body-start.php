@@ -62,6 +62,9 @@
 					<a href="http://code.google.com/android" target="_blank" style="top: 40px; left: 65px">
 						<img src="/media/logos/logo-android.gif" alt="Android" style="border: 0px" />
 					</a>
+					<a href="http://angularjs.org" target="_blank" style="top: 40px; left: 65px">
+						<img src="/media/logos/logo-angularjs.gif" alt="AngularJS" style="border: 0px" />
+					</a>
 					<a href="http://jboss.org/forge" target="_blank" style="top: 65px; left: 60px">
 						<img src="/media/logos/logo-forge.gif" alt="JBoss Forge" style="border: 0px" />
 					</a>

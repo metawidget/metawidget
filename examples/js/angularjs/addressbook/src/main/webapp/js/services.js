@@ -67,9 +67,15 @@ angular.module( 'addressBookServices', [] )
 					"type": "date"
 				} );
 				var businessContact = contact.slice();
-				businessContact.splice( 7, 0, {
+				businessContact.splice( 4, 0, {
+					"name": "company",
+					"type": "string"
+				} );
+				businessContact.splice( 8, 0, {
 					"name": "numberOfStaff",
 					"type": "number",
+					"minimumValue": "0",
+					"maximumValue": "100",
 					"section": "Other"
 				} );
 

@@ -139,7 +139,7 @@
 		<h3 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal; margin-right: 175px">
 			Metawidget does this without introducing new technologies. It inspects your <em>existing</em> back-end
 			architecture (such as JavaBeans, existing annotations, existing XML configuration files) and creates widgets native to your
-			<em>existing</em> front-end framework (such as Swing, Java Server Faces, Struts, Android).
+			<em>existing</em> front-end framework (such as Swing, JavaScript, Java Server Faces, Struts, Android).
 		</h3>
 
 		<p style="margin-right: 175px">
@@ -206,6 +206,10 @@
 								<li>Android</li>
 								<li>Google Web Toolkit (GWT)</li>
 								<li>HTML 5 (POH5)</li>
+								<li>JavaScript
+									<ul>
+										<li>AngularJS</li>
+									</ul></li>								
 								<li>Java Server Faces (JSF)
 									<ul>
 										<li>Facelets</li>
@@ -249,6 +253,7 @@
 								<li>Javassist</li>
 								<li>JBoss Forge</li>
 								<li>JBoss jBPM</li>
+								<li>JSON</li>
 								<li>OVal</li>
 								<li>Scala</li>
 								<li>Seam</li>
@@ -272,10 +277,6 @@
 		</ul>
 
 		<p>
-			Metawidget requires Java SE 5 or higher.
-		</p>
-
-		<p>
 			The download includes documentation and examples for all supported front-ends and back-ends. <a href="download.html">Click here to download it</a>.
 		</p>
 
@@ -284,7 +285,7 @@
 		</div>
 	
 		<div id="tooltip-web" class="tooltip">
-			<strong>Web:</strong> Metawidget has a native component/taglib for each popular Web framework
+			<strong>Web:</strong> Metawidget has a native component/taglib for each popular Web technology
 		</div>
 	
 		<div id="tooltip-mobile" class="tooltip">
@@ -297,11 +298,12 @@
 		</div>
 	
 		<div id="tooltip-property" class="tooltip">
-			<strong>Properties:</strong> Metawidget inspects runtime properties from objects such as JavaBeans, GroovyBeans and Scala objects
+			<strong>Properties:</strong> Metawidget inspects runtime properties from objects such as
+			JavaBeans, Scala objects and JavaScript objects
 		</div>
 	
 		<div id="tooltip-annotation" class="tooltip">
-			<strong>Annotations:</strong> Metawidget inspects runtime Java objects for existing annotations, such
+			<strong>Annotations:</strong> Metawidget inspects runtime objects for existing annotations, such
 			as JPA and Hibernate Validator annotations
 		</div>
 	
@@ -317,7 +319,7 @@
 		</div>
 	
 		<div id="tooltip-web-widget" class="tooltip">
-			<strong>Web:</strong> Metawidget creates native components/taglibs for each popular Web framework,
+			<strong>Web:</strong> Metawidget creates native components/taglibs for each popular Web technology,
 			including attaching validators
 		</div>
 	

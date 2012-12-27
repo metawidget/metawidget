@@ -9,7 +9,7 @@
 		</p>		
 		
 		<p>
-			There are three downloads: one containing binaries and documentation, another containing examples, and the third containing
+			There are three downloads: one containing Java binaries, JavaScript libraries and documentation; another containing examples; and the third containing
 			source code and tests.
 		</p>
 	
@@ -26,7 +26,7 @@
 			<tbody>
 				<tr>
 					<th>Metawidget</th>
-					<td>Binaries and Documentation</td>
+					<td>Java Binaries, JavaScript libraries and Documentation</td>
 					<td style="text-align: center">${project.version}</td>
 					<td style="text-align: center">${timestamp}</td>
 					<td class="link"><a href="https://sourceforge.net/project/downloading.php?group_id=208482&amp;filename=metawidget-${project.version}-bin.zip">Download</a></td>
@@ -61,7 +61,7 @@
 		&nbsp;&nbsp;&nbsp;&lt;version&gt;<strong>${project.version}</strong>&lt;/version&gt;<br/>
 		&lt;/dependency&gt;</tt></div>
 		
-		<h2 class="h2-underneath">Fine-grained Dependencies</h2>
+		<h2 class="h2-underneath">Maven Fine-grained Dependencies</h2>
 
 		<p>
 			If you need more control over how Metawidget is included in your application, fine-grained dependencies are also available. For example you can:

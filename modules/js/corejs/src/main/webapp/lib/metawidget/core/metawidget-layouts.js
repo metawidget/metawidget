@@ -37,6 +37,8 @@ metawidget.layout.SimpleLayout = function() {
 metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
 
 	// TODO: test stubs ignored
+	
+	// TODO: facets!	
 
 	if ( widget.tagName == 'STUB' && widget.childNodes.length == 0 ) {
 		return;
