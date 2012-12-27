@@ -37,7 +37,7 @@ metawidget.layout.SimpleLayout = function() {
 metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
 
 	// TODO: test stubs ignored
-	
+
 	if ( widget.tagName == 'STUB' && widget.childNodes.length == 0 ) {
 		return;
 	}
@@ -124,9 +124,10 @@ metawidget.layout.TableLayout = function( config ) {
 			return;
 		}
 
+		var table = container.childNodes[ container.childNodes.length - 1 ];
 		var tr = document.createElement( 'tr' );
 
-		var idPrefix = container.childNodes[0].getAttribute( 'id' );
+		var idPrefix = table.getAttribute( 'id' );
 
 		if ( idPrefix ) {
 			if ( idPrefix.charAt( idPrefix.length - 1 ) != '-' ) {
@@ -143,6 +144,7 @@ metawidget.layout.TableLayout = function( config ) {
 		// Label
 
 		var th = document.createElement( 'th' );
+		th.setAttribute( 'id', idPrefix + '-label-cell' );
 
 		if ( columnStyleClasses ) {
 			th.setAttribute( 'class', columnStyleClasses.split( ',' )[0] );
@@ -164,6 +166,7 @@ metawidget.layout.TableLayout = function( config ) {
 		// Widget
 
 		var td = document.createElement( 'td' );
+		td.setAttribute( 'id', idPrefix + '-cell' );
 
 		if ( columnStyleClasses ) {
 			td.setAttribute( 'class', columnStyleClasses.split( ',' )[1] );
@@ -186,6 +189,72 @@ metawidget.layout.TableLayout = function( config ) {
 
 		tr.appendChild( td );
 
-		container.childNodes[0].childNodes[0].appendChild( tr );
+		var tbody = table.childNodes[0]; 
+		tbody.appendChild( tr );
+	};
+};
+
+//
+// FlatSectionLayoutDecorator
+//
+
+function _flatSectionLayoutDecorator( config, decorator ) {
+
+	var delegate = config.delegate;
+
+	decorator.onStartBuild = function( mw ) {
+
+		mw.headingLayoutDecorator = {};
+		
+		if ( delegate.onStartBuild ) {
+			delegate.onStartBuild( mw );
+		}
+	};
+	
+	decorator.startContainerLayout = function( container, mw ) {
+
+		if ( delegate.startContainerLayout ) {
+			delegate.startContainerLayout( container, mw );
+		}
+	};
+
+	decorator.layoutWidget = function( widget, attributes, container, mw ) {
+
+		if ( !attributes.section || attributes.section == mw.headingLayoutDecorator.currentSection ) {
+			return delegate.layoutWidget( widget, attributes, container, mw );
+		}
+
+		decorator.endContainerLayout( container, mw );		
+		decorator.addSectionWidget( attributes, container, mw );
+		decorator.startContainerLayout( container, mw );
+		delegate.layoutWidget( widget, attributes, container, mw );
+	};
+
+	decorator.endContainerLayout = function( container, mw ) {
+
+		if ( delegate.endContainerLayout ) {
+			delegate.endContainerLayout( container, mw );
+		}
+	};
+};
+
+//
+// HeadingLayoutDecorator
+//
+
+metawidget.layout.HeadingLayoutDecorator = function( config ) {
+
+	if ( ! ( this instanceof metawidget.layout.HeadingLayoutDecorator ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+
+	_flatSectionLayoutDecorator( config, this );
+	
+	this.addSectionWidget = function( attributes, container, mw ) {
+
+		mw.headingLayoutDecorator.currentSection = attributes.section;		
+		var h1 = document.createElement( 'h1' );
+		h1.innerHTML = attributes.section;
+		container.appendChild( h1 );
 	};
 };

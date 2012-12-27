@@ -26,39 +26,93 @@ angular.module( 'addressBookServices', [] )
 		// For the body of the form
 
 		form: {
-			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type ) {
+			inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
+
+				var contact = [ {
+					"name": "id",
+					"hidden": "true"
+				}, {
+					"name": "title",
+					"lookup": "Mr,Mrs,Miss,Dr,Cpt",
+					"required": "true"
+				}, {
+					"name": "firstname",
+					"type": "string",
+					"required": "true"
+				}, {
+					"name": "surname",
+					"type": "string",
+					"required": "true"
+				}, {
+					"name": "gender",
+					"lookup": "Male,Female"
+				}, {
+					"name": "address",
+					"section": "Contact Details"
+				}, {
+					"name": "communications"
+				}, {
+					"name": "notes",
+					"type": "string",
+					"large": "true",
+					"section": "Other"
+				}, {
+					"name": "type",
+					"hidden": "true"
+				} ];
+
+				var personalContact = contact.slice();
+				personalContact.splice( 5, 0, {
+					"name": "dateOfBirth",
+					"type": "date"
+				} );
+				var businessContact = contact.slice();
+				businessContact.splice( 7, 0, {
+					"name": "numberOfStaff",
+					"type": "number",
+					"section": "Other"
+				} );
 
 				switch ( type ) {
 					case 'search':
 						return [ {
+							"name": "firstname"
+						}, {
+							"name": "surname"
+						}, {
 							"name": "type",
 							"lookup": "personal,business",
 							"lookupLabels": "Personal,Business"
 						} ];
 
 					case 'current':
+						if ( toInspect.type == 'business' ) {
+							return businessContact;
+						} else {
+							return personalContact;
+						}
+
+					case 'current.address':
 						return [ {
-							"name": "id",
-							"hidden": "true"
+							"name": "street",
+							"type": "string"
 						}, {
-							"name": "title",
-							"lookup": "Mr,Mrs,Miss,Dr,Cpt",
-							"required": "true"
+							"name": "city",
+							"type": "string"
 						}, {
-							"name": "firstname",
-							"required": "true"
+							"name": "state",
+							"lookup": "Anytown,Cyberton,Lostville,Whereverton"
 						}, {
-							"name": "surname",
-							"required": "true"
-						}, {
-							"name": "type",
-							"hidden": "true"
+							"name": "postcode",
+							"type": "string"
 						} ];
 				}
-			} ] ),
-			layout: new metawidget.layout.TableLayout( {
-				"tableStyleClass": "table-form",
-				"columnStyleClasses": "table-label-column,table-component-column,table-required-column"
+			}, new metawidget.inspector.PropertyTypeInspector() ] ),
+			layout: new metawidget.layout.HeadingLayoutDecorator( {
+				delegate: new metawidget.layout.TableLayout( {
+					"tableStyleClass": "table-form",
+					"columnStyleClasses": "table-label-column,table-component-column,table-required-column"
+				} )
 			} )
 		},
 
@@ -82,7 +136,7 @@ angular.module( 'addressBookServices', [] )
 			} ] ),
 			layout: new metawidget.layout.SimpleLayout()
 		},
-		
+
 		simple: {
 			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type ) {
 
@@ -94,6 +148,6 @@ angular.module( 'addressBookServices', [] )
 				}
 			} ] ),
 			layout: new metawidget.layout.SimpleLayout()
-		}		
+		}
 	};
 } );

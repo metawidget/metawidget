@@ -115,6 +115,10 @@ describe( "The ReadOnlyWidgetBuilder", function() {
 		}, {} ).toString() ).toBe( 'stub' );
 		expect( widgetBuilder.buildWidget( {
 			"readOnly": "true",
+			"lookup": "foo,bar,baz"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			"readOnly": "true",
 			"type": "string"
 		}, {} ).toString() ).toBe( 'output' );
 		expect( widgetBuilder.buildWidget( {

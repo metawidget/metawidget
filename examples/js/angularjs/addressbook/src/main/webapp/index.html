@@ -40,10 +40,10 @@
 			</thead>
 			<tbody>
 
-				<tr ng-repeat="contact in contacts | filter:filter">
+				<tr ng-repeat="contact in contacts | filter:filter | orderBy:'firstname'">
 					<td class="column-half">
 						<a href="#/contact/{{contact.id}}">
-							{{contact.firstname}} {{contact.surname}}
+							{{contact.title}} {{contact.firstname}} {{contact.surname}}
 						</a>
 					</td>
 					<td class="column-half">

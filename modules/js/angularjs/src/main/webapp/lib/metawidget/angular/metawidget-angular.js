@@ -138,7 +138,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
 			new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
-	pipeline.layout = new metawidget.layout.TableLayout();
+	pipeline.layout = new metawidget.layout.HeadingLayoutDecorator( { delegate: new metawidget.layout.TableLayout() } );
 
 	this.configure = function( config ) {
 
@@ -265,6 +265,7 @@ metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder = function( tran
 
 			var child = transcluded[loop];
 			if ( child.id == attributes.name ) {
+				child.transcluded = true;
 				return child;
 			}
 		}
@@ -285,13 +286,17 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 
 	this.processWidget = function( widget, attributes, mw ) {
 
+		// Ignore transcluded widgets. Compiling them again using $compile
+		// seemed to trigger 'ng-click' listeners twice?
+
+		if ( widget.transcluded ) {
+			return widget;
+		}
+
 		// Binding
 		//
-		// Scope the binding to scope.$parent, not scope, so that:
-		//
-		// a) bindings look more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
-		// b) transcluded widgets can be compiled the same as generated widgets
-		// (because transcluded widgets need to be to scope.$parent)
+		// Scope the binding to scope.$parent, not scope, so that bindings look
+		// more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
 
 		if ( mw.toInspect != null ) {
 			var binding = mw.path;

@@ -102,7 +102,7 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 		return document.createElement( 'stub' );
 	}
 
-	if ( attributes.type == 'string' || attributes.type == 'boolean' || attributes.type == 'number' || attributes.type == 'date' ) {
+	if ( attributes.lookup || attributes.type == 'string' || attributes.type == 'boolean' || attributes.type == 'number' || attributes.type == 'date' ) {
 
 		if ( attributes.masked == 'true' ) {
 

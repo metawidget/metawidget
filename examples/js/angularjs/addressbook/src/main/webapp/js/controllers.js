@@ -58,12 +58,7 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 		case 'personal':
 		case 'business':
 			$scope.readOnly = false;
-			$scope.current = {
-				"title": "",
-				"firstname": "",
-				"surname": "",
-				"communications": "",
-			};
+			$scope.current = {};
 			$scope.current.type = $routeParams.contactId;
 			if ( $scope.current.type == 'personal' ) {
 				$scope.dialogTitle = 'Personal Contact';
@@ -164,6 +159,18 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 	};
 
 	$scope.addCommunication = function() {
+
+		console.log( 'addComm called' );
+
+		if ( $scope.communication.type == '' ) {
+			alert( 'Communication type is required' );
+			return;
+		}
+		
+		if ( $scope.communication.value == '' ) {
+			alert( 'Communication value is required' );
+			return;
+		}
 
 		$scope.current.communications = $scope.current.communications || [];
 		$scope.current.communications.push( angular.fromJson( angular.toJson( $scope.communication ) ) );

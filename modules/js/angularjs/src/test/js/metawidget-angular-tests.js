@@ -95,4 +95,29 @@ describe( "The AngularWidgetProcessor", function() {
 			expect( widget.innerHTML ).toBe( '{{testPath}}' );
 		} );
 	} );
+	
+	it( "ignores transcluded widgets", function() {
+
+		var injector = angular.bootstrap();
+
+		injector.invoke( function( $compile, $rootScope ) {
+
+			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $rootScope.$new() );
+			var attributes = {
+				"name": "foo",
+			};
+			var mw = {
+				"toInspect": {}
+			};
+
+			var widget = document.createElement( 'input' );
+			processor.processWidget( widget, attributes, mw );
+			expect( widget.getAttribute( 'ng-model' ) ).toBeDefined();
+
+			widget = document.createElement( 'input' );
+			widget.transcluded = true;
+			processor.processWidget( widget, attributes, mw );
+			expect( widget.getAttribute( 'ng-model' ) ).toBe( null );
+		} );
+	} );	
 } );

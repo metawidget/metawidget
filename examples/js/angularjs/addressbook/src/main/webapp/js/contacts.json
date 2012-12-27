@@ -4,6 +4,7 @@
 	 "title": "Mr",
 	 "firstname": "Homer",
 	 "surname": "Simpson",
+	 "gender": "Male",
 	 "dateOfBirth": "12/5/1956",
 	 "address": {
 	 	"street": "742 Evergreen Terrace",
@@ -17,15 +18,46 @@
 	{
 	 "id": 2,
 	 "title": "Mrs",
-	 "firstname": "Marge",
+	 "firstname": "Marjorie",
 	 "surname": "Simpson",
+	 "gender": "Female",
+	 "address": {
+	 	"street": "742 Evergreen Terrace",
+	 	"city": "Springfield"
+	 },
+	 "notes": "Known as 'Marge'",
 	 "type": "personal"
 	},
 	{
 	 "id": 3,
 	 "title": "Mr",
-	 "firstname": "Montgomery",
+	 "firstname": "Nedward",
+	 "surname": "Flanders",
+	 "gender": "Male",
+	 "type": "personal"
+	},
+	{
+	 "id": 4,
+	 "title": "Mrs",
+	 "firstname": "Maude",
+	 "surname": "Flanders",
+	 "gender": "Female",	 
+	 "type": "personal"
+	},
+	{
+	 "id": 5,
+	 "title": "Mr",
+	 "firstname": "Charles Montgomery",
 	 "surname": "Burns",
+	 "gender": "Male",
+	 "type": "business"
+	},
+	{
+	 "id": 6,
+	 "title": "Mr",
+	 "firstname": "Waylon",
+	 "surname": "Smithers",
+	 "gender": "Male",
 	 "type": "business"
 	}
 ]
