@@ -55,6 +55,38 @@ describe( "The camelCase function", function() {
 	} );
 } );
 
+describe( "The getId function", function() {
+
+	it( "creates an Id for an attribute", function() {
+
+		expect( metawidget.util.getId( {
+			"name": "baz"
+		}, {
+			path: "foo.bar"
+		} ) ).toBe( "fooBarBaz" );
+	} );
+} );
+
+describe( "The hasChildElements function", function() {
+
+	it( "checks if a node has child elements", function() {
+
+		var div = document.createElement( 'div' );
+		expect( metawidget.util.hasChildElements( div )).toBe( false );
+		div.appendChild( document.createElement( 'span' ));
+		expect( metawidget.util.hasChildElements( div )).toBe( true );
+	} );
+
+	it( "ignores text nodes", function() {
+
+		var div = document.createElement( 'div' );
+		div.appendChild( {} );
+		expect( metawidget.util.hasChildElements( div )).toBe( false );
+		div.appendChild( document.createElement( 'span' ));
+		expect( metawidget.util.hasChildElements( div )).toBe( true );
+	} );
+} );
+
 describe( "The testIsReadOnly function", function() {
 
 	it( "tests if an attribute is read only", function() {

@@ -37,9 +37,9 @@ metawidget.Metawidget = function( config ) {
 	// Configure defaults
 
 	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
-	pipeline.layout = new metawidget.layout.TableLayout();
+	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 	pipeline.configure( config );
 
 	this.getWidgetProcessor = function( testInstanceOf ) {
@@ -48,12 +48,27 @@ metawidget.Metawidget = function( config ) {
 	};
 
 	this.setLayout = function( layout ) {
+
 		pipeline.layout = layout;
 	};
-	
-	this.buildWidgets = function() {
 
-		return pipeline.buildWidgets( this );
+	this.buildWidgets = function( container ) {
+
+		// First time in, capture the contents of the Metawidget (if any)
+
+		if ( !this.overriddenNodes ) {
+			this.overriddenNodes = [];
+			
+			while( container.childNodes.length > 0 ) {
+				this.overriddenNodes.push( container.removeChild( container.childNodes[0] ));
+			}
+		}
+		
+		pipeline.buildWidgets( container, this );
+
+		// Hack for WebTest 3.0. Without this, onClicks don't fire
+
+		container.innerHTML = container.innerHTML;
 	};
 
 	this.buildNestedMetawidget = function( attributes ) {
@@ -74,16 +89,17 @@ metawidget.Metawidget = function( config ) {
 		}
 
 		nested.readOnly = this.readOnly || attributes.readOnly == 'true';
-		
+
 		// Because we cannot 'extend' the built-in HTML tags, attach ourselves
 		// as a property of the tag
 
 		// TODO: test not using 'children'
-		
-		var widget = nested.buildWidgets();
-		widget.metawidget = nested;
 
-		return widget;
+		var nestedWidget = document.createElement( 'metawidget' );
+		nestedWidget.metawidget = nested;
+		nested.buildWidgets( nestedWidget );
+
+		return nestedWidget;
 	};
 };
 
@@ -153,7 +169,7 @@ metawidget.Pipeline.prototype.getWidgetProcessor = function( testInstanceOf ) {
  *            'toInspect', 'path' and 'readOnly'
  */
 
-metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
+metawidget.Pipeline.prototype.buildWidgets = function( container, mw ) {
 
 	// Inspector
 
@@ -184,7 +200,9 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 		}
 	}
 
-	var container = document.createElement( 'metawidget' );
+	// Clear existing contents
+	
+	container.innerHTML = '';
 
 	// onStartBuild
 
@@ -226,7 +244,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 
 			if ( widget ) {
 				_layoutWidget( this, widget, attributes, container, mw );
-				return container;
+				return;
 			}
 		}
 
@@ -256,7 +274,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 		}
 	}
 
-	return container;
+	return;
 
 	//
 	// Private methods

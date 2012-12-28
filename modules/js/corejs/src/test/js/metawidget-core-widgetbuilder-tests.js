@@ -98,6 +98,27 @@ describe( "The CompositeWidgetBuilder", function() {
 	} );
 } );
 
+describe( "The OverriddenWidgetBuilder", function() {
+
+	it( "looks for child widgets with the same id", function() {
+
+		var widgetBuilder = new metawidget.widgetbuilder.OverriddenWidgetBuilder();
+
+		var attributes = { "name": "baz" };
+		var mw = { path: "foo.bar" };		
+		expect( widgetBuilder.buildWidget( attributes, mw ) ).toBeUndefined();
+		
+		var widget1 = document.createElement( 'widget1' );
+		widget1.setAttribute( 'id', 'abcDefGhi' );
+		var widget2 = document.createElement( 'widget2' );
+		widget2.setAttribute( 'id', 'baz' );
+		var widget3 = document.createElement( 'widget3' );
+		widget3.setAttribute( 'id', 'fooBarBaz' );
+		mw.overriddenNodes = [ widget1, widget2, widget3 ];
+		expect( widgetBuilder.buildWidget( attributes, mw ) ).toBe( widget3 );
+	} );
+} );
+
 describe( "The ReadOnlyWidgetBuilder", function() {
 
 	it( "returns read-only widgets", function() {

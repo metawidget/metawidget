@@ -12,7 +12,7 @@ function AllWidgetsController( $scope ) {
 			$scope.readOnly = true;
 			$scope.metawidgetConfig = {
 
-				layout: new metawidget.layout.DivLayout()
+				layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout() )
 			};
 		}
 	}

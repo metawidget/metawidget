@@ -11,7 +11,7 @@
 			<img id="dialog-image" src="media/{{current.type}}.gif" alt=""/>
 
 			<metawidget to-inspect="current" read-only="readOnly" config="metawidgetConfig.form">
-				<table id="communications" class="data-table">
+				<table id="currentCommunications" class="data-table">
 					<thead>
 						<tr>
 							<th>Type</th>
@@ -34,11 +34,12 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<facet name="footer">
+					<metawidget to-inspect="crudActions" config="metawidgetConfig.buttons"></metawidget>
+				</facet>
 			</metawidget>
 
-			<div class="buttons">
-				<metawidget to-inspect="crudActions" config="metawidgetConfig.buttons"></metawidget>
-			</div>
 		</div>
 	</div>
 </div>

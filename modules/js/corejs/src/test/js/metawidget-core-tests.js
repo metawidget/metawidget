@@ -33,7 +33,8 @@ describe( "The Metawidget", function() {
 		mw.toInspect = {
 			"foo": "Foo"
 		};
-		var element = mw.buildWidgets();
+		var element = document.createElement( 'div' );
+		mw.buildWidgets( element );
 		
 		expect( element.childNodes[0].toString() ).toBe( 'table' );
 		expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
@@ -61,7 +62,8 @@ describe( "The Metawidget", function() {
 		mw.toInspect = {
 			"bar": "Bar"
 		};
-		var element = mw.buildWidgets();
+		element = document.createElement( 'div' );
+		mw.buildWidgets( element );
 		
 		expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar" value="Bar"' );
 		expect( element.childNodes.length ).toBe( 1 );

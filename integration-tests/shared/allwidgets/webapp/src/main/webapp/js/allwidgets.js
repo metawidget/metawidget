@@ -9,7 +9,7 @@ var allWidgets = {
 	"textarea": "Textarea",
 	"password": "Password",
 	"number": 31,
-	"rangedNumber": 32,
+	"rangedNumber": 32,	
 	"boolean": false,
 	"dropdown": "dropdown1",
 	"dropdownWithLabels": "dropdown2",
@@ -67,6 +67,8 @@ metawidget.test.allWidgetsMetadata = [ {
 	"type": "number",
 	"minimumValue": "1",
 	"maximumValue": "100",
+}, {
+	"name": "toBeStubbed"
 }, {
 	"name": "boolean",
 	"type": "boolean"

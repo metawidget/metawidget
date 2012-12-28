@@ -28,7 +28,7 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsTextbox' )[0].type ).toBe( 'text' );
 		expect( $( '#allWidgetsTextbox' ).attr( 'name' ) ).toBeUndefined();
 		expect( $( '#allWidgetsTextbox' ).attr( 'ng-model' ) ).toBe( 'allWidgets.textbox' );
-		expect( $( '#allWidgetsTextbox' ).attr( 'required' ) ).toBe( 'required' );
+		expect( $( '#allWidgetsTextbox' ).attr( 'ng-required' ) ).toBe( 'true' );
 		expect( $( '#table-allWidgetsTextbox-row td' )[1].innerHTML ).toBe( '*' );
 		$( '#allWidgetsTextbox' ).val( 'Textbox1' ).change();
 
@@ -37,8 +37,9 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsLimitedTextbox' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#allWidgetsLimitedTextbox' )[0].type ).toBe( 'text' );
 		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'ng-model' ) ).toBe( 'allWidgets.limitedTextbox' );
-		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'maxlength' ) ).toBe( '20' );
-		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'required' ) ).toBeUndefined();
+		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'maxlength' ) ).toBeUndefined();
+		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'ng-maxlength' ) ).toBe( '20' );
+		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'ng-required' ) ).toBeUndefined();
 		expect( $( '#table-allWidgetsLimitedTextbox-row td' )[1].innerHTML ).toBe( '' );
 		$( '#allWidgetsLimitedTextbox' ).val( 'Limited Textbox1' ).change();
 
@@ -173,6 +174,8 @@ describe( "AngularJS AllWidgets", function() {
 
 		expect( $( '#hidden' ).length ).toBe( 0 );
 		
+		expect( $( 'h1' ).text() ).toBe( 'Section Break' );
+		
 		expect( $( '#table-allWidgetsReadOnly-label' ).prop( 'for' ) ).toBe( 'allWidgetsReadOnly' );
 		expect( $( '#table-allWidgetsReadOnly-label' ).text() ).toBe( 'Read Only:' );
 		expect( $( '#allWidgetsReadOnly' )[0].tagName ).toBe( 'OUTPUT' );
@@ -204,5 +207,16 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox2' ).text() ).toBe( 'Textbox 2.2 (further)' );
 		expect( $( '#allWidgetsNestedWidgetsNestedTextbox1' ).text() ).toBe( 'Textbox 1.1' );
 		expect( $( '#allWidgetsNestedWidgetsNestedTextbox2' ).text() ).toBe( 'Textbox 2.2' );
+		expect( $( '#allWidgetsReadOnlyNestedWidgetsNestedTextbox1' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsReadOnlyNestedWidgetsNestedTextbox1' ).text() ).toBe( 'Nested Textbox 1' );
+		expect( $( '#allWidgetsReadOnlyNestedWidgetsNestedTextbox2' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsReadOnlyNestedWidgetsNestedTextbox2' ).text() ).toBe( 'Nested Textbox 2' );
+		expect( $( '#allWidgetsNestedWidgetsDontExpand' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsReadOnlyNestedWidgetsDontExpand' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsDate' )[0].tagName ).toBe( 'OUTPUT' );
+		
+		expect( $( 'h1' ).text() ).toBe( 'Section Break' );
+		expect( $( '#allWidgetsReadOnly' )[0].tagName ).toBe( 'OUTPUT' );
+		expect( $( '#allWidgetsReadOnly' ).text() ).toBe( 'Read Only Value' );
 	} );
 } );

@@ -3114,7 +3114,7 @@ public class HtmlListLayout
 						</para>
 						
 						<programlisting language="java">public void layoutChild( JComponent component, String elementName, Map&lt;String, String&gt; attributes,
-											JComponent container, SwingMetawidget metawidget ) {
+								JComponent container, SwingMetawidget metawidget ) {
 	getState( container ).currentRow++;
 }
 

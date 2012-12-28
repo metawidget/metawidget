@@ -21,8 +21,9 @@ public class AddressBookAngularTest
 		//
 		// ...and...
 		//
-		// evaluateString( "Envjs.wait(10000); print( document.innerHTML )" );
+		// evaluateString( "print( document.innerHTML )" );
 		//
-		// ...here to run test-runner.html on the server. But that didn't work?
+		// ...here to run test-runner.html on the server. But that didn't work? Possibly because
+		// need to investigate IFRAME support?
 	}
 }

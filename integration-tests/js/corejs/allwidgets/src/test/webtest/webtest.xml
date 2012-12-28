@@ -205,17 +205,20 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[15]/td/input/@type" text="date"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[15]/td/input/@id" text="allWidgetsDate"/>
 
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/@id" text="table-allWidgetsReadOnly-row"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/th/label" text="Read Only:"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/th/label/@for" text="allWidgetsReadOnly"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/td/output/@id" text="allWidgetsReadOnly"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/td/output" text="Read Only Value"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/td/@colspan" text="2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[16]/td/h1" text="Section Break"/>
 
-				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="16"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[17]/@id" text="table-allWidgetsReadOnly-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[17]/th/label" text="Read Only:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[17]/th/label/@for" text="allWidgetsReadOnly"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[17]/td/output/@id" text="allWidgetsReadOnly"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[17]/td/output" text="Read Only Value"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="17"/>
 
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget-actions']/button" text="Save"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget-actions']/button/@id" text="actionsSave"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget-actions']/button/@onclick" text="return actions.save()"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/@colspan" text="2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/button" text="Save"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/button/@id" text="actionsSave"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/button/@onclick" text="return actions.save()"/>
 				
 				<clickButton label="Save"/>
 				
@@ -262,10 +265,11 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[14]/div[2]/output" text="[object Object]"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[15]/div[1]/label" text="Date:"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[15]/div[2]/output"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[16]/div[1]/label" text="Read Only:"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[16]/div[2]/output" text="Read Only Value"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[16]/div/h1" text="Section Break"/>				
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[17]/div[1]/label" text="Read Only:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[17]/div[2]/output" text="Read Only Value"/>
 
-				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/div)" text="16"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/div)" text="17"/>
 			</steps>
 		</webtest>
 	</target>

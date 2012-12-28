@@ -93,21 +93,24 @@ angular.module( 'metawidget.directives', [] )
 
 				function _buildWidgets() {
 
+					//
+					// Rebuild the transcluded tree at the start of each build.
+					//
+					// Rebuilding only at the start of the <em>initial</em>
+					// build was sufficient for {{...}} expressions, but not
+					// 'ng-click' triggers.
+
+					mw.overriddenNodes = transclude( scope.$parent, function( clone ) {
+
+						return clone;
+					} );
+
 					// Invoke Metawidget
 
 					mw.toInspect = scope.$eval( 'toInspect' );
 					mw.path = attrs.toInspect;
 					mw.readOnly = scope.$eval( 'readOnly' );
-					var builtWidgets = mw.buildWidgets();
-
-					// Clear all children (jqLite lacks .empty()?)
-
-					element.children().remove();
-
-					// Append the children of the Metawidget, to avoid a
-					// repeat 'metawidget' tag
-
-					element.append( angular.element( builtWidgets ).children() );
+					mw.buildWidgets( element );
 				}
 			};
 		}
@@ -134,11 +137,10 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
 	pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( element, scope ) ];
-	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder( transclude, scope ),
-			new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-			new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
-	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( { delegate: new metawidget.layout.TableLayout() } );
+	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+			new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
+	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
 	this.configure = function( config ) {
 
@@ -147,9 +149,9 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	this.configure( scope.$eval( 'config' ) );
 
-	this.buildWidgets = function() {
+	this.buildWidgets = function( element ) {
 
-		return pipeline.buildWidgets( this );
+		return pipeline.buildWidgets( element[0], this );
 	};
 
 	this.buildNestedMetawidget = function( attributes ) {
@@ -217,56 +219,9 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 				scope.$parent.$watch( expression, function( newValue, oldValue ) {
 
 					if ( newValue != oldValue ) {
-						var builtWidgets = mw.buildWidgets();
-						element.children().remove();
-						element.append( angular.element( builtWidgets ).children() );
+						mw.buildWidgets( element );
 					}
 				} );
-			}
-		}
-	};
-};
-
-/**
- * WidgetBuilder to override widgets based on the original children in the
- * template (what Angular calls 'transcluded' children).
- * 
- * @param transclude
- *            the transclude function, as given to directive.compile
- * @returns {metawidget.angular.AngularOverriddenWidgetBuilder}
- */
-
-metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder = function( transclude, scope ) {
-
-	if ( ! ( this instanceof metawidget.angular.widgetbuilder.AngularOverriddenWidgetBuilder ) ) {
-		throw new Error( "Constructor called as a function" );
-	}
-
-	var transcluded = [];
-
-	/**
-	 * Rebuilds the transcluded tree at the start of each build.
-	 * <p>
-	 * Rebuilding only at the start of the <em>initial</em> build was
-	 * sufficient for {{...}} expressions, but not 'ng-click' triggers.
-	 */
-
-	this.onStartBuild = function() {
-
-		transcluded = transclude( scope.$parent, function( clone ) {
-
-			return clone;
-		} );
-	};
-
-	this.buildWidget = function( attributes, mw ) {
-
-		for ( var loop = 0, length = transcluded.length; loop < length; loop++ ) {
-
-			var child = transcluded[loop];
-			if ( child.id == attributes.name ) {
-				child.transcluded = true;
-				return child;
 			}
 		}
 	};
@@ -289,7 +244,7 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		// Ignore transcluded widgets. Compiling them again using $compile
 		// seemed to trigger 'ng-click' listeners twice?
 
-		if ( widget.transcluded ) {
+		if ( widget.overridden ) {
 			return widget;
 		}
 
@@ -316,8 +271,20 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 
 		// Validation
 
+		if ( attributes.required ) {
+			widget.setAttribute( 'ng-required', attributes.required );
+		}
+
 		if ( attributes.minimumLength ) {
 			widget.setAttribute( 'ng-minlength', attributes.minimumLength );
+		}
+
+		if ( attributes.maximumLength ) {
+			widget.setAttribute( 'ng-maxlength', attributes.maximumLength );
+
+			// (maxlength set by WidgetBuilder)
+
+			widget.removeAttribute( 'maxlength' );
 		}
 
 		$compile( widget )( scope.$parent );

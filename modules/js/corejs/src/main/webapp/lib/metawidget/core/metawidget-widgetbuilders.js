@@ -28,19 +28,19 @@ metawidget.widgetbuilder = metawidget.widgetbuilder || {};
 //
 
 metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
-	
+
 	if ( ! ( this instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
 	var widgetBuilders;
-	
+
 	if ( config.widgetBuilders ) {
 		widgetBuilders = config.widgetBuilders;
 	} else {
 		widgetBuilders = config;
 	}
-	
+
 	this.onStartBuild = function() {
 
 		for ( var loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
@@ -83,6 +83,35 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 			}
 		}
 	};
+};
+
+/**
+ * WidgetBuilder to override widgets based on mw.overriddenNodes
+ */
+
+metawidget.widgetbuilder.OverriddenWidgetBuilder = function() {
+
+	if ( ! ( this instanceof metawidget.widgetbuilder.OverriddenWidgetBuilder ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+};
+
+metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
+
+	if ( !mw.overriddenNodes ) {
+		return;
+	}
+
+	var overrideId = metawidget.util.getId( attributes, mw );
+
+	for ( var loop = 0, length = mw.overriddenNodes.length; loop < length; loop++ ) {
+
+		var child = mw.overriddenNodes[loop];
+		if ( child.getAttribute && child.getAttribute( 'id' ) == overrideId ) {
+			child.overridden = true;
+			return child;
+		}
+	}
 };
 
 //

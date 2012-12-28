@@ -13,8 +13,12 @@
 	</head>
 	<body>
 		<form>
-			<div id="metawidget"></div>
-			<div id="metawidget-actions"></div>
+			<div id="metawidget">
+				<stub id="allWidgetsToBeStubbed"></stub>
+				<facet name="footer">
+					<div id="metawidget-actions"></div>
+				</facet>
+			</div>			
 		</form>
 		<script type="text/javascript">
 						
@@ -36,15 +40,15 @@
 			} );	
 			mw.toInspect = allWidgets;
 			mw.path = 'allWidgets';
-			document.getElementById( 'metawidget' ).innerHTML = mw.buildWidgets().innerHTML; 
+			mw.buildWidgets( document.getElementById( 'metawidget' ) ); 
 			
 			actions = {
 				"save": function() {
 					var processor = mw.getWidgetProcessor( function( widgetProcessor ) { return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } );
 					processor.save( mw );
 					mw.readOnly = true;
-					mw.setLayout( new metawidget.layout.DivLayout() );
-					document.getElementById( 'metawidget' ).innerHTML = mw.buildWidgets().innerHTML;
+					mw.setLayout( new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout() ));
+					mw.buildWidgets( document.getElementById( 'metawidget' ));
 					return false;
 				}			
 			}
@@ -54,7 +58,7 @@
 			} );
 			actionsMetawidget.toInspect = actions;
 			actionsMetawidget.path = 'actions';
-			document.getElementById( 'metawidget-actions' ).innerHTML = actionsMetawidget.buildWidgets().innerHTML;
+			actionsMetawidget.buildWidgets( document.getElementById( 'metawidget-actions' ));
 		</script>
 	</body>
 </html>

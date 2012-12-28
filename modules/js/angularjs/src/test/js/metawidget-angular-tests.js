@@ -49,7 +49,9 @@ describe( "The AngularWidgetProcessor", function() {
 			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $rootScope.$new() );
 			var attributes = {
 				"name": "foo",
+				"required": "true",
 				"minimumLength": "3",
+				"maximumLength": "97"
 			};
 			var mw = {
 				"toInspect": {},
@@ -61,8 +63,10 @@ describe( "The AngularWidgetProcessor", function() {
 			var widget = document.createElement( 'input' );
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.getAttribute( 'ng-model' ) ).toBe( 'testPath.foo' );
+			expect( widget.getAttribute( 'ng-required' ) ).toBe( 'true' );
 			expect( widget.getAttribute( 'ng-minlength' ) ).toBe( '3' );
-
+			expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( '97' );
+			
 			// Textareas (same as inputs, not same as outputs)
 
 			widget = document.createElement( 'textarea' );
@@ -77,7 +81,9 @@ describe( "The AngularWidgetProcessor", function() {
 			widget = document.createElement( 'button' );
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.getAttribute( 'ng-click' ) ).toBe( 'testPath.bar()' );
+			expect( widget.getAttribute( 'ng-required' ) ).toBe( null );
 			expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
+			expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( null );
 
 			// Outputs
 
@@ -96,7 +102,7 @@ describe( "The AngularWidgetProcessor", function() {
 		} );
 	} );
 	
-	it( "ignores transcluded widgets", function() {
+	it( "ignores overridden widgets", function() {
 
 		var injector = angular.bootstrap();
 
@@ -115,7 +121,7 @@ describe( "The AngularWidgetProcessor", function() {
 			expect( widget.getAttribute( 'ng-model' ) ).toBeDefined();
 
 			widget = document.createElement( 'input' );
-			widget.transcluded = true;
+			widget.overridden = true;
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.getAttribute( 'ng-model' ) ).toBe( null );
 		} );

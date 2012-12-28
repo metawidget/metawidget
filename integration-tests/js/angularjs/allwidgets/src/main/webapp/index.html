@@ -17,8 +17,12 @@
 	</head>
 	<body ng-controller="AllWidgetsController">
 
-		<metawidget to-inspect="allWidgets" read-only="readOnly" config="metawidgetConfig"></metawidget>
-		<metawidget to-inspect="allWidgetsActions" config="metawidgetActionsConfig"></metawidget>
+		<metawidget to-inspect="allWidgets" read-only="readOnly" config="metawidgetConfig">
+			<stub id="allWidgetsToBeStubbed"></stub>
+			<facet name="footer">
+				<metawidget to-inspect="allWidgetsActions" config="metawidgetActionsConfig"></metawidget>
+			</facet>
+		</metawidget>
 
 	</body>
 </html>

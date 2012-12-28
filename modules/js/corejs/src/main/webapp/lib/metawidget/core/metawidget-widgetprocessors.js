@@ -36,19 +36,7 @@ metawidget.widgetprocessor.IdProcessor = function() {
 
 metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
-	var id = attributes.name;
-	
-	if ( mw.path ) {
-		var splitPath = mw.path.split( '.' );
-		
-		if ( attributes.name != '$root' ) {
-			splitPath.push( attributes.name );
-		}
-		
-		id = metawidget.util.camelCase( splitPath );
-	}
-		
-	widget.setAttribute( 'id', id );	
+	widget.setAttribute( 'id', metawidget.util.getId( attributes, mw ) );	
 	return widget;
 };
 

@@ -68,6 +68,7 @@ this.document = {
 
 		return {
 			"tagName": elementName.toUpperCase(),
+			"childNodes": [],
 			"setAttribute": function( name, value ) {
 
 				attributes[name] = value;
@@ -78,7 +79,6 @@ this.document = {
 			},
 			"appendChild": function( childNode ) {
 
-				this.childNodes = this.childNodes || [];
 				this.childNodes.push( childNode );
 			},
 			"toString": function() {

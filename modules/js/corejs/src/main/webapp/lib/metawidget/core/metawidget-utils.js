@@ -52,6 +52,37 @@ metawidget.util.camelCase = function( names ) {
 	return toString;
 };
 
+metawidget.util.getId = function( attributes, mw ) {
+	
+	var id = attributes.name;
+	
+	if ( mw.path ) {
+		var splitPath = mw.path.split( '.' );
+		
+		if ( attributes.name != '$root' ) {
+			splitPath.push( attributes.name );
+		}
+		
+		id = metawidget.util.camelCase( splitPath );
+	}
+	
+	return id;
+};
+
+metawidget.util.hasChildElements = function( node ) {
+	
+	var childNodes = node.childNodes;
+	
+	for( var loop = 0, length = childNodes.length; loop < length; loop++ ) {
+		
+		if ( childNodes[loop].getAttribute ) {
+			return true;
+		}
+	}
+	
+	return false;
+};
+
 metawidget.util.isReadOnly = function( attributes, mw ) {
 	
 	if ( attributes.readOnly == 'true' ) {
