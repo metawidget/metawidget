@@ -117,7 +117,8 @@ angular.module( 'addressBookServices', [] )
 			layout: new metawidget.layout.HeadingTagLayoutDecorator( {
 				delegate: new metawidget.layout.TableLayout( {
 					"tableStyleClass": "table-form",
-					"columnStyleClasses": "table-label-column,table-component-column,table-required-column"
+					"columnStyleClasses": "table-label-column,table-component-column,table-required-column",
+					"footerStyleClass": "buttons"
 				} )
 			} )
 		},

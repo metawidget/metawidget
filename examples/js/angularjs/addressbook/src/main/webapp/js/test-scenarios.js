@@ -31,6 +31,12 @@ describe( 'AddressBook App', function() {
 		expect( element( '#table-search tbody tr:eq(2) th' ).text() ).toBe( 'Type:' );
 		expect( element( '#table-search tbody tr:eq(2) th label' ).attr( 'for' ) ).toBe( 'searchType' );
 		expect( element( '#table-search tbody tr:eq(2) td select' ).attr( 'id' ) ).toBe( 'searchType' );
+		expect( element( '#table-search tfoot tr td' ).attr( 'colspan' ) ).toBe( '2' );
+		expect( element( '#table-search tfoot tr td' ).attr( 'class' ) ).toBe( 'buttons' );
+		expect( element( '#table-search tfoot tr td button:eq(0)' ).text() ).toBe( 'Search' );
+		expect( element( '#table-search tfoot tr td button:eq(1)' ).text() ).toBe( 'Create Personal' );
+		expect( element( '#table-search tfoot tr td button:eq(2)' ).text() ).toBe( 'Create Business' );
+		expect( element( '#table-search tfoot tr td button' ).count() ).toBe( 3 );
 
 		expect( element( '.data-table tbody a:eq(0)' ).text() ).toContain( 'Mr Charles Montgomery Burns' );
 		expect( element( '.data-table tbody a:eq(1)' ).text() ).toContain( 'Mr Homer Simpson' );
@@ -137,6 +143,9 @@ describe( 'AddressBook App', function() {
 		expect( element( '#table-current tbody > tr:eq(9) th:eq(0)' ).text() ).toBe( 'Notes:' );
 		expect( element( '#table-current tbody > tr:eq(9) th:eq(0) label' ).attr( 'for' ) ).toBe( 'currentNotes' );
 		expect( element( '#table-current tbody > tr:eq(9) td:eq(0) output' ).attr( 'id' ) ).toBe( 'currentNotes' );
+		expect( element( '#table-current tfoot:eq(0) tr td' ).attr( 'colspan' ) ).toBe( '2' );
+		expect( element( '#table-current tfoot:eq(0) tr td' ).attr( 'class' ) ).toBe( 'buttons' );
+		expect( element( '#table-current tfoot:eq(0) tr td button' ).count() ).toBe( 2 );
 
 		element( '#crudActionsEdit' ).click();
 

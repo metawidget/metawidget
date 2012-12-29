@@ -103,6 +103,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 	var tableStyleClass = config ? config.tableStyleClass : null;
 	var columnStyleClasses = config ? config.columnStyleClasses : null;
+	var footerStyleClass = config ? config.footerStyleClass : null;
 
 	this.startContainerLayout = function( container, mw ) {
 
@@ -132,12 +133,17 @@ metawidget.layout.TableLayout = function( config ) {
 					tfoot.appendChild( tr );
 					var td = document.createElement( 'td' );
 					td.setAttribute( 'colspan', '2' );
+					
+					if ( footerStyleClass ) {
+						td.setAttribute( 'class', footerStyleClass );
+					}
+					
 					tr.appendChild( td );
 					
 					// Append children, so as to unwrap the 'facet' tag
 					
 					while( child.childNodes.length > 0 ) {
-						td.appendChild( child.childNodes[0] );
+						td.appendChild( child.removeChild( child.childNodes[0] ));
 					}
 					break;
 				}

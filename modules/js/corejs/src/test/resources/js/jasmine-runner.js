@@ -69,6 +69,10 @@ this.document = {
 		return {
 			"tagName": elementName.toUpperCase(),
 			"childNodes": [],
+			"children": function() {
+
+				throw new Error( "children is not ECMAScript" );
+			},
 			"setAttribute": function( name, value ) {
 
 				attributes[name] = value;
@@ -80,6 +84,17 @@ this.document = {
 			"appendChild": function( childNode ) {
 
 				this.childNodes.push( childNode );
+			},
+			"removeChild": function( childNode ) {
+
+				for( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
+					if ( this.childNodes[loop] == childNode ) {
+						this.childNodes.splice( loop, 1 );
+						return childNode;
+					}
+				}
+				
+				throw new Error( "childNode not found: " + childNode );
 			},
 			"toString": function() {
 

@@ -65,10 +65,6 @@ metawidget.Metawidget = function( config ) {
 		}
 		
 		pipeline.buildWidgets( container, this );
-
-		// Hack for WebTest 3.0. Without this, onClicks don't fire
-
-		container.innerHTML = container.innerHTML;
 	};
 
 	this.buildNestedMetawidget = function( attributes ) {
@@ -93,9 +89,7 @@ metawidget.Metawidget = function( config ) {
 		// Because we cannot 'extend' the built-in HTML tags, attach ourselves
 		// as a property of the tag
 
-		// TODO: test not using 'children'
-
-		var nestedWidget = document.createElement( 'metawidget' );
+		var nestedWidget = document.createElement( 'div' );
 		nestedWidget.metawidget = nested;
 		nested.buildWidgets( nestedWidget );
 

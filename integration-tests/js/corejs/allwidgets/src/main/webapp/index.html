@@ -59,6 +59,11 @@
 			actionsMetawidget.toInspect = actions;
 			actionsMetawidget.path = 'actions';
 			actionsMetawidget.buildWidgets( document.getElementById( 'metawidget-actions' ));
+
+			// Hack for WebTest 3.0. Without this, onClicks don't fire
+
+			document.getElementById( 'metawidget-actions' ).innerHTML = document.getElementById( 'metawidget-actions' ).innerHTML;
+
 		</script>
 	</body>
 </html>
