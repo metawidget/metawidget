@@ -126,7 +126,7 @@ metawidget.layout.TableLayout = function( config ) {
 	
 				var child = mw.overriddenNodes[loop1];
 								
-				if ( child.tagName == 'FACET' && child.getAttribute( 'name' ) == 'footer' ) {
+				if ( child.tagName == 'FACET' && child.getAttribute( 'name' ) == 'footer' ) {					
 					var tfoot = document.createElement( 'tfoot' );
 					table.appendChild( tfoot );
 					var tr = document.createElement( 'tr' );

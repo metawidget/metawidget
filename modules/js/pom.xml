@@ -14,6 +14,7 @@
 	<modules>
 		<module>angularjs</module>
 		<module>corejs</module>
+		<module>jqueryui</module>
 	</modules>
 
 	<dependencyManagement>

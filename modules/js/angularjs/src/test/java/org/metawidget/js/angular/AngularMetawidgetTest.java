@@ -26,7 +26,7 @@ public class AngularMetawidgetTest
 
 		initializeEnvJs();
 
-		evaluateJavaScript( "src/test/js/angular.min.js" );
+		evaluateResource( "/js/angular.min.js" );
 		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-inspectors.js" );
 		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-widgetbuilders.js" );
 		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-widgetprocessors.js" );

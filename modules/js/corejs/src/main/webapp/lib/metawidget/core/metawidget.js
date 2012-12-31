@@ -22,25 +22,65 @@
 
 var metawidget = metawidget || {};
 
-metawidget.Metawidget = function( config ) {
+metawidget.Metawidget = function( element, config ) {
 
 	if ( ! ( this instanceof metawidget.Metawidget ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
-	this.toInspect = {};
-	this.path = '';
-	this.readOnly = false;
+	var pipeline = new metawidget.Pipeline( element );
+	pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
-	var pipeline = new metawidget.Pipeline();
+		var nestedWidget = document.createElement( 'div' );
+
+		// Duck-type our 'pipeline' as the 'config' of the nested Metawidget
+
+		var nestedMetawidget = new metawidget.Metawidget( nestedWidget, pipeline );
+
+		if ( mw.toInspect ) {
+			nestedMetawidget.toInspect = mw.toInspect[attributes.name];
+		}
+
+		if ( mw.path ) {
+			nestedMetawidget.path = mw.path + '.' + attributes.name;
+		} else {
+			// TODO: temporary safeguard against infinite recursion
+			nestedMetawidget.path = attributes.name;
+		}
+
+		nestedMetawidget.readOnly = mw.readOnly || attributes.readOnly == 'true';
+
+		// Attach ourselves as a property of the tag, rather than try to
+		// 'extend' the built-in HTML tags
+
+		nestedWidget.metawidget = nestedMetawidget;
+		nestedMetawidget.buildWidgets();
+
+		return nestedWidget;
+	};
 
 	// Configure defaults
 
 	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+			new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
 	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 	pipeline.configure( config );
+
+	// First time in, capture the contents of the Metawidget (if any). Do not
+	// actually 'removeChild' yet, so that we can still use
+	// 'document.getElementById'
+
+	this._overriddenNodes = [];
+
+	for ( var loop = 0, length = element.childNodes.length; loop < length; loop++ ) {
+		this._overriddenNodes.push( element.childNodes[loop] );
+	}
+
+	//
+	// Public methods
+	//
 
 	this.getWidgetProcessor = function( testInstanceOf ) {
 
@@ -52,56 +92,28 @@ metawidget.Metawidget = function( config ) {
 		pipeline.layout = layout;
 	};
 
-	this.buildWidgets = function( container ) {
+	this.buildWidgets = function() {
 
-		// First time in, capture the contents of the Metawidget (if any)
+		// Defensive copy
+		// TODO: test Defensive copy
 
-		if ( !this.overriddenNodes ) {
-			this.overriddenNodes = [];
-			
-			while( container.childNodes.length > 0 ) {
-				this.overriddenNodes.push( container.removeChild( container.childNodes[0] ));
-			}
-		}
-		
-		pipeline.buildWidgets( container, this );
-	};
+		this.overriddenNodes = [];
 
-	this.buildNestedMetawidget = function( attributes ) {
-
-		// Duck-type our 'pipeline' as the 'config' of the nested Metawidget
-
-		var nested = new metawidget.Metawidget( pipeline );
-
-		if ( this.toInspect ) {
-			nested.toInspect = this.toInspect[attributes.name];
+		for ( var loop = 0, length = this._overriddenNodes.length; loop < length; loop++ ) {
+			this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
 		}
 
-		if ( this.path ) {
-			nested.path = this.path + '.' + attributes.name;
-		} else {
-			// TODO: temporary safeguard against infinite recursion
-			nested.path = attributes.name;
-		}
-
-		nested.readOnly = this.readOnly || attributes.readOnly == 'true';
-
-		// Because we cannot 'extend' the built-in HTML tags, attach ourselves
-		// as a property of the tag
-
-		var nestedWidget = document.createElement( 'div' );
-		nestedWidget.metawidget = nested;
-		nested.buildWidgets( nestedWidget );
-
-		return nestedWidget;
+		pipeline.buildWidgets( this );
 	};
 };
 
 /**
  * Pipeline.
+ * <p>
+ * Clients should override 'buildNestedMetawidget'.
  */
 
-metawidget.Pipeline = function() {
+metawidget.Pipeline = function( element ) {
 
 	if ( ! ( this instanceof metawidget.Pipeline ) ) {
 		throw new Error( "Constructor called as a function" );
@@ -109,7 +121,15 @@ metawidget.Pipeline = function() {
 
 	this.inspectionResultProcessors = [];
 	this.widgetProcessors = [];
+	this.element = element;
 };
+
+/**
+ * Configures the pipeline using the given config object.
+ * <p>
+ * This method is separate to the constructor, so that subclasses can set
+ * defaults.
+ */
 
 metawidget.Pipeline.prototype.configure = function( config ) {
 
@@ -160,10 +180,10 @@ metawidget.Pipeline.prototype.getWidgetProcessor = function( testInstanceOf ) {
  * @param mw
  *            Metawidget instance that will be passed down the pipeline
  *            (WidgetBuilders, WidgetProcessors etc). Expected to have
- *            'toInspect', 'path' and 'readOnly'
+ *            'toInspect', 'path' and 'readOnly'.
  */
 
-metawidget.Pipeline.prototype.buildWidgets = function( container, mw ) {
+metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 
 	// Inspector
 
@@ -195,8 +215,8 @@ metawidget.Pipeline.prototype.buildWidgets = function( container, mw ) {
 	}
 
 	// Clear existing contents
-	
-	container.innerHTML = '';
+
+	this.element.innerHTML = '';
 
 	// onStartBuild
 
@@ -218,7 +238,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( container, mw ) {
 	}
 
 	if ( this.layout.startContainerLayout ) {
-		this.layout.startContainerLayout( container, mw );
+		this.layout.startContainerLayout( this.element, mw );
 	}
 
 	// Build top-level widget...
@@ -237,7 +257,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( container, mw ) {
 			widget = _processWidget( this, widget, attributes, mw );
 
 			if ( widget ) {
-				_layoutWidget( this, widget, attributes, container, mw );
+				_layoutWidget( this, widget, attributes, this.element, mw );
 				return;
 			}
 		}
@@ -258,13 +278,17 @@ metawidget.Pipeline.prototype.buildWidgets = function( container, mw ) {
 		var widget = _buildWidget( this, attributes, mw );
 
 		if ( !widget ) {
-			widget = mw.buildNestedMetawidget( attributes );
+			widget = this.buildNestedMetawidget( attributes, mw );
+
+			if ( !widget ) {
+				return;
+			}
 		}
 
 		widget = _processWidget( this, widget, attributes, mw );
 
 		if ( widget ) {
-			_layoutWidget( this, widget, attributes, container, mw );
+			_layoutWidget( this, widget, attributes, this.element, mw );
 		}
 	}
 
@@ -312,4 +336,14 @@ metawidget.Pipeline.prototype.buildWidgets = function( container, mw ) {
 
 		pipeline.layout( widget, attributes, container, mw );
 	}
+};
+
+/**
+ * Subclasses should override this method to create a nested Metawidget, using
+ * their preferred widget creation methodology.
+ */
+
+metawidget.Pipeline.prototype.buildNestedMetawidget = function( attributes, mw ) {
+
+	return null;
 };

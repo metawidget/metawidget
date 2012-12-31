@@ -23,6 +23,7 @@ var allWidgets = {
 		"nestedTextbox2": "Nested Textbox 2"
 	},
 	"readOnlyNestedWidgets": {
+		"furtherNestedWidgets": null,
 		"nestedTextbox1": "Nested Textbox 1",
 		"nestedTextbox2": "Nested Textbox 2"
 	},

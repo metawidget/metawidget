@@ -93,7 +93,6 @@ angular.module( 'metawidget.directives', [] )
 
 				function _buildWidgets() {
 
-					//
 					// Rebuild the transcluded tree at the start of each build.
 					//
 					// Rebuilding only at the start of the <em>initial</em>
@@ -110,7 +109,7 @@ angular.module( 'metawidget.directives', [] )
 					mw.toInspect = scope.$eval( 'toInspect' );
 					mw.path = attrs.toInspect;
 					mw.readOnly = scope.$eval( 'readOnly' );
-					mw.buildWidgets( element );
+					mw.buildWidgets();
 				}
 			};
 		}
@@ -131,7 +130,22 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	// toInspect, path and readOnly set by _buildWidgets()
 
-	var pipeline = new metawidget.Pipeline();
+	var pipeline = new metawidget.Pipeline( element[0] );
+	pipeline.buildNestedMetawidget = function( attributes, mw ) {
+
+		var nestedMetawidget = document.createElement( 'metawidget' );
+		nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
+		if ( attributes.readOnly == 'true' ) {
+			nestedMetawidget.setAttribute( 'read-only', 'true' );
+		} else {
+			nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
+		}
+		if ( attrs.config ) {
+			nestedMetawidget.setAttribute( 'config', attrs.config );
+		}
+
+		return nestedMetawidget;
+	};
 
 	// Configure defaults
 
@@ -149,25 +163,9 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	this.configure( scope.$eval( 'config' ) );
 
-	this.buildWidgets = function( element ) {
+	this.buildWidgets = function() {
 
-		return pipeline.buildWidgets( element[0], this );
-	};
-
-	this.buildNestedMetawidget = function( attributes ) {
-
-		var nested = document.createElement( 'metawidget' );
-		nested.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
-		if ( attributes.readOnly == 'true' ) {
-			nested.setAttribute( 'read-only', 'true' );
-		} else {
-			nested.setAttribute( 'read-only', attrs.readOnly );
-		}
-		if ( attrs.config ) {
-			nested.setAttribute( 'config', attrs.config );
-		}
-
-		return nested;
+		return pipeline.buildWidgets( this );
 	};
 };
 
@@ -219,7 +217,7 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 				scope.$parent.$watch( expression, function( newValue, oldValue ) {
 
 					if ( newValue != oldValue ) {
-						mw.buildWidgets( element );
+						mw.buildWidgets();
 					}
 				} );
 			}

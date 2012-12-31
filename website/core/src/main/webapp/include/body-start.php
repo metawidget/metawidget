@@ -80,6 +80,9 @@
 					<a href="http://icefaces.org" target="_blank" style="top: 218px; left: 2px">
 						<img src="/media/logos/logo-icefaces.gif" alt="ICEfaces" style="border: 0px" />
 					</a>
+					<a href="http://jqueryui.com" target="_blank" style="top: 183px; left: 2px">
+						<img src="/media/logos/logo-jqueryui.gif" alt="JQuery UI" style="border: 0px" />
+					</a>
 					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 186px; left: 138px">
 						<img src="/media/logos/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
 					</a>

@@ -85,15 +85,24 @@ this.document = {
 
 				this.childNodes.push( childNode );
 			},
+			"cloneNode": function( deepClone ) {
+
+				var clone = document.createElement( elementName );
+
+				for ( var property in attributes ) {
+					clone.setAttribute( property, attributes[property] );
+				}
+				return clone;
+			},
 			"removeChild": function( childNode ) {
 
-				for( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
+				for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
 					if ( this.childNodes[loop] == childNode ) {
 						this.childNodes.splice( loop, 1 );
 						return childNode;
 					}
 				}
-				
+
 				throw new Error( "childNode not found: " + childNode );
 			},
 			"toString": function() {

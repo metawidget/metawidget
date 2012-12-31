@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html ng-app="allWidgets">
+<html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<title>All Widgets (Metawidget CoreJS Test)</title>
+		<title>All Widgets (Metawidget JQuery UI Test)</title>
 		<script src="lib/metawidget/core/metawidget.js" type="text/javascript"></script>
 		<script src="lib/metawidget/core/metawidget-inspectors.js" type="text/javascript"></script>
 		<script src="lib/metawidget/core/metawidget-widgetbuilders.js" type="text/javascript"></script>
 		<script src="lib/metawidget/core/metawidget-widgetprocessors.js" type="text/javascript"></script>
 		<script src="lib/metawidget/core/metawidget-layouts.js" type="text/javascript"></script>
 		<script src="lib/metawidget/core/metawidget-utils.js" type="text/javascript"></script>
+		<script src="lib/jquery-ui/jquery-1.8.3.js" type="text/javascript"></script>
+		<script src="lib/jquery-ui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+		<script src="lib/metawidget/jquery-ui/metawidget-jqueryui.js" type="text/javascript"></script>
 		<script src="js/allwidgets.js" type="text/javascript"></script>
 	</head>
 	<body>
@@ -16,14 +19,14 @@
 			<div id="metawidget">
 				<stub id="allWidgetsToBeStubbed"></stub>
 				<facet name="footer">
-					<div id="metawidget-actions"></div>
+					<div id="metawidget-actions"></div>			
 				</facet>
-			</div>			
+			</div>
 		</form>
 		<script type="text/javascript">
-						
-			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
-	
+
+			$( "#metawidget" ).metawidget( {
+				
 				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(),
 					function( toInspect, type ) {
 	
@@ -36,35 +39,32 @@
 								return metawidget.test.nestedWidgetsMetadata;
 							case 'allWidgets.nestedWidgetsDontExpand':
 								return metawidget.test.nestedWidgetsMetadata;
-						}
+						}					
 					} ] )
-			} );	
-			mw.toInspect = allWidgets;
-			mw.path = 'allWidgets';
-			mw.buildWidgets();
+			} );
 			
+			$( "#metawidget" ).metawidget( "buildWidgets", allWidgets, "allWidgets" );
+		
 			actions = {
 				"save": function() {
-					var processor = mw.getWidgetProcessor( function( widgetProcessor ) { return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } );
-					processor.save( mw );
-					mw.readOnly = true;
-					mw.setLayout( new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout() ));
-					mw.buildWidgets();
+					var processor = $( "#metawidget" ).metawidget( "getWidgetProcessor", function( widgetProcessor ) { return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } );
+					processor.save( $( "#metawidget" ).metawidget( "getThis" )[0] );
+					$( "#metawidget" ).metawidget( "option", "readOnly", true );
+					$( "#metawidget" ).metawidget( "option", "layout", new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout() ) );
 					return false;
-				}			
+				}
 			}
 			
-			var actionsMetawidget = new metawidget.Metawidget( document.getElementById( 'metawidget-actions' ), {
+			$( "#metawidget-actions" ).metawidget( {
 				layout: new metawidget.layout.SimpleLayout()
 			} );
-			actionsMetawidget.toInspect = actions;
-			actionsMetawidget.path = 'actions';
-			actionsMetawidget.buildWidgets();
-
-			// Hack for WebTest 3.0. Without this, dynamically created onClicks don't fire
 			
-			document.getElementById( 'metawidget-actions' ).innerHTML = document.getElementById( 'metawidget-actions' ).innerHTML;
+			$( "#metawidget-actions" ).metawidget( "buildWidgets", actions, "actions" );
+			
+			// Hack for WebTest 3.0. Without this, dynamically created onClicks don't fire
 
+			document.getElementById( 'metawidget-actions' ).innerHTML = document.getElementById( 'metawidget-actions' ).innerHTML;
+			
 		</script>
 	</body>
 </html>

@@ -209,6 +209,7 @@
 								<li>JavaScript
 									<ul>
 										<li>AngularJS</li>
+										<li>JQuery UI</li>
 									</ul></li>								
 								<li>Java Server Faces (JSF)
 									<ul>

@@ -45,6 +45,8 @@ public abstract class JavaScriptTestCase
 
 	private boolean	mInitializedEnvJs	= false;
 
+	private boolean	mInitializedJQuery	= false;
+
 	//
 	// Protected methods
 	//
@@ -117,7 +119,7 @@ public abstract class JavaScriptTestCase
 
 	protected void evaluateHtml( String filename ) {
 
-		// Use EnvJS/JQuery for HTML support
+		// Use EnvJS for HTML support
 
 		initializeEnvJs();
 
@@ -161,6 +163,20 @@ public abstract class JavaScriptTestCase
 		// Tell Envjs to load external scripts found in the page
 
 		evaluateString( "Envjs.scriptTypes['text/javascript'] = true" );
+	}
+
+	protected void initializeJQuery() {
+
+		if ( mInitializedJQuery ) {
+			return;
+		}
+
+		mInitializedJQuery = true;
+
+		// JQuery references 'window' and other DOM constructs
+
+		initializeEnvJs();
+		evaluateResource( "/js/jquery-1.8.3.js" );
 	}
 
 	//
