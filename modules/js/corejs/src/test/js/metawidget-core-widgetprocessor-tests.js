@@ -31,6 +31,7 @@ describe( "The IdProcessor", function() {
 
 		// With subpath
 
+		widget = document.createElement( 'input' );
 		mw.path = 'foo.bar';
 		processor.processWidget( widget, {
 			"name": "baz"
@@ -39,11 +40,25 @@ describe( "The IdProcessor", function() {
 		
 		// With root
 
-		mw.path = 'foo.bar';
+		widget = document.createElement( 'input' );		
+		mw.path = 'foo.bar';		
 		processor.processWidget( widget, {
 			"name": "$root"
 		}, mw );
 		expect( widget.toString() ).toBe( 'input id="fooBar"' );
+	} );
+
+	it( "does not reassigns ids", function() {
+
+		var processor = new metawidget.widgetprocessor.IdProcessor();
+
+		var widget = document.createElement( 'input' );
+		widget.setAttribute( 'id', 'do-not-touch' );
+		var mw = {};
+		processor.processWidget( widget, {
+			"name": "foo"
+		}, mw );
+		expect( widget.toString() ).toBe( 'input id="do-not-touch"' );
 	} );
 } );
 

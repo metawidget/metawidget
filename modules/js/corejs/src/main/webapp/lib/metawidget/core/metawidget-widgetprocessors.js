@@ -36,7 +36,13 @@ metawidget.widgetprocessor.IdProcessor = function() {
 
 metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
-	widget.setAttribute( 'id', metawidget.util.getId( attributes, mw ) );	
+	// Dangerous to reassign an id. For example, some JQuery UI widgets assign
+	// temporary ids when they wrap widgets
+
+	if ( !widget.hasAttribute( 'id' ) ) {
+		widget.setAttribute( 'id', metawidget.util.getId( attributes, mw ) );
+	}
+
 	return widget;
 };
 
@@ -56,12 +62,12 @@ metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = 
 	if ( attributes.required == 'true' ) {
 		widget.setAttribute( 'required', 'required' );
 	}
-	
+
 	return widget;
 };
 
 //
-// ValueWidgetProcessor
+// SimpleBindingProcessor
 //
 
 /**
@@ -94,7 +100,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 	} else {
 
 		var value;
-		
+
 		if ( attributes.name != '$root' && mw.toInspect ) {
 			value = mw.toInspect[attributes.name];
 		} else {
@@ -103,11 +109,11 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 
 		var isBindable = ( widget.tagName == 'INPUT' || widget.tagName == 'SELECT' || widget.tagName == 'TEXTAREA' );
 
-		if ( isBindable && widget.getAttribute( 'id' )) {
-			
+		if ( isBindable && widget.getAttribute( 'id' ) ) {
+
 			// Standard HTML works off 'name', not 'id', for binding
-			
-			widget.setAttribute( 'name', widget.getAttribute( 'id' ));
+
+			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
 		}
 
 		if ( value ) {
@@ -139,14 +145,14 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw 
 	for ( var name in mw._simpleBindingProcessorBindings ) {
 
 		var widget = mw._simpleBindingProcessorBindings[name];
-		
+
 		if ( widget.metawidget ) {
 			this.save( widget.metawidget );
 			continue;
 		}
 
 		widget = document.getElementById( widget.id );
-		
+
 		if ( widget.getAttribute( 'type' ) == 'checkbox' ) {
 			mw.toInspect[name] = ( widget.checked );
 		} else {

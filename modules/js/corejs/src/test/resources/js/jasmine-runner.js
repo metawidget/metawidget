@@ -77,6 +77,10 @@ this.document = {
 
 				attributes[name] = value;
 			},
+			"hasAttribute": function( name ) {
+
+				return ( attributes[name] != undefined );
+			},
 			"getAttribute": function( name ) {
 
 				return attributes[name];

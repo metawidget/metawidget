@@ -45,8 +45,6 @@ public abstract class JavaScriptTestCase
 
 	private boolean	mInitializedEnvJs	= false;
 
-	private boolean	mInitializedJQuery	= false;
-
 	//
 	// Protected methods
 	//
@@ -119,7 +117,7 @@ public abstract class JavaScriptTestCase
 
 	protected void evaluateHtml( String filename ) {
 
-		// Use EnvJS for HTML support
+		// Use EnvJS/JQuery for HTML support
 
 		initializeEnvJs();
 
@@ -158,25 +156,15 @@ public abstract class JavaScriptTestCase
 		mInitializedEnvJs = true;
 
 		evaluateResource( "/js/env.rhino.1.2.js" );
+
+		// JQuery is not strictly needed here, but we saw strange side effects trying to initialize
+		// it later
+
 		evaluateResource( "/js/jquery-1.8.3.js" );
 
 		// Tell Envjs to load external scripts found in the page
 
 		evaluateString( "Envjs.scriptTypes['text/javascript'] = true" );
-	}
-
-	protected void initializeJQuery() {
-
-		if ( mInitializedJQuery ) {
-			return;
-		}
-
-		mInitializedJQuery = true;
-
-		// JQuery references 'window' and other DOM constructs
-
-		initializeEnvJs();
-		evaluateResource( "/js/jquery-1.8.3.js" );
 	}
 
 	//

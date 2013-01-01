@@ -328,7 +328,7 @@ $.extend( $.ui, {
 			return true;
 		}
 
-		// TODO: determine which cases actually cause this to happen
+		// TOxDO: determine which cases actually cause this to happen
 		// if the element doesn't have the scroll set, see if it's possible to
 		// set the scroll
 		el[ scroll ] = 1;
@@ -439,7 +439,7 @@ $.widget = function( name, base, prototype ) {
 		}
 	});
 	constructor.prototype = $.widget.extend( basePrototype, {
-		// TODO: remove support for widgetEventPrefix
+		// TOxDO: remove support for widgetEventPrefix
 		// always use the name + a colon as the prefix, e.g., draggable:start
 		// don't prefix for widgets that aren't DOM-based
 		widgetEventPrefix: existingConstructor ? basePrototype.widgetEventPrefix : name
@@ -447,7 +447,7 @@ $.widget = function( name, base, prototype ) {
 		constructor: constructor,
 		namespace: namespace,
 		widgetName: name,
-		// TODO remove widgetBaseClass, see #8155
+		// TOxDO remove widgetBaseClass, see #8155
 		widgetBaseClass: fullName,
 		widgetFullName: fullName
 	});
@@ -575,7 +575,7 @@ $.Widget.prototype = {
 
 		if ( element !== this ) {
 			// 1.9 BC for #7810
-			// TODO remove dual storage
+			// TOxDO remove dual storage
 			$.data( element, this.widgetName, this );
 			$.data( element, this.widgetFullName, this );
 			this._on( true, this.element, {
@@ -609,7 +609,7 @@ $.Widget.prototype = {
 		this.element
 			.unbind( this.eventNamespace )
 			// 1.9 BC for #7810
-			// TODO remove dual storage
+			// TOxDO remove dual storage
 			.removeData( this.widgetName )
 			.removeData( this.widgetFullName )
 			// support: jquery <1.6.3
@@ -899,7 +899,7 @@ $.widget("ui.mouse", {
 		this.started = false;
 	},
 
-	// TODO: make sure destroying one instance of mouse doesn't mess with
+	// TOxDO: make sure destroying one instance of mouse doesn't mess with
 	// other instances of mouse
 	_mouseDestroy: function() {
 		this.element.unbind('.'+this.widgetName);
@@ -2471,7 +2471,7 @@ $.widget( "ui.autocomplete", {
 				}
 
 				// back compat for _renderItem using item.autocomplete, via #7810
-				// TODO remove the fallback, see #8156
+				// TOxDO remove the fallback, see #8156
 				var item = ui.item.data( "ui-autocomplete-item" ) || ui.item.data( "item.autocomplete" );
 				if ( false !== this._trigger( "focus", event, { item: item } ) ) {
 					// use value to match what will end up in the input, if it was a key event
@@ -2489,7 +2489,7 @@ $.widget( "ui.autocomplete", {
 			},
 			menuselect: function( event, ui ) {
 				// back compat for _renderItem using item.autocomplete, via #7810
-				// TODO remove the fallback, see #8156
+				// TOxDO remove the fallback, see #8156
 				var item = ui.item.data( "ui-autocomplete-item" ) || ui.item.data( "item.autocomplete" ),
 					previous = this.previous;
 
@@ -3020,14 +3020,14 @@ $.widget( "ui.button", {
 			if ( this.buttonElement.is("a") ) {
 				this.buttonElement.keyup(function(event) {
 					if ( event.keyCode === $.ui.keyCode.SPACE ) {
-						// TODO pass through original event correctly (just as 2nd argument doesn't work)
+						// TOxDO pass through original event correctly (just as 2nd argument doesn't work)
 						$( this ).click();
 					}
 				});
 			}
 		}
 
-		// TODO: pull out $.Widget's handling for the disabled option into
+		// TOxDO: pull out $.Widget's handling for the disabled option into
 		// $.Widget.prototype._setOptionDisabled so it's easy to proxy and can
 		// be overridden by individual plugins
 		this._setOption( "disabled", options.disabled );
@@ -3352,7 +3352,7 @@ $.extend(Datepicker.prototype, {
 			console.log.apply('', arguments);
 	},
 
-	// TODO rename to "widget" when switching to widget factory
+	// TOxDO rename to "widget" when switching to widget factory
 	_widgetDatepicker: function() {
 		return this.dpDiv;
 	},
@@ -5151,7 +5151,7 @@ $.widget("ui.dialog", {
 				.addClass( uiDialogClasses + options.dialogClass )
 				.css({
 					display: "none",
-					outline: 0, // TODO: move to stylesheet
+					outline: 0, // TOxDO: move to stylesheet
 					zIndex: options.zIndex
 				})
 				// setting tabIndex makes the div focusable
@@ -8100,7 +8100,7 @@ function standardSpeed( speed ) {
 
 	// invalid strings - treat as "normal" speed
 	if ( typeof speed === "string" && !$.effects.effect[ speed ] ) {
-		// TODO: remove in 2.0 (#7115)
+		// TOxDO: remove in 2.0 (#7115)
 		if ( backCompat && $.effects[ speed ] ) {
 			return false;
 		}
@@ -8156,7 +8156,7 @@ $.fn.extend({
 			}
 		}
 
-		// TODO: remove this check in 2.0, effectMethod will always be true
+		// TOxDO: remove this check in 2.0, effectMethod will always be true
 		if ( effectMethod ) {
 			return queue === false ? this.each( run ) : this.queue( queue || "fx", run );
 		} else {
@@ -9834,7 +9834,7 @@ $.widget( "ui.menu", {
 	},
 
 	select: function( event ) {
-		// TODO: It should never be possible to not have an active item at this
+		// TOxDO: It should never be possible to not have an active item at this
 		// point, but the tests don't trigger mouseenter before click.
 		this.active = this.active || $( event.target ).closest( ".ui-menu-item" );
 		var ui = { item: this.active };
@@ -10027,7 +10027,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 				// Apply zIndex to all handles - see #7960
 				axis.css({ zIndex: o.zIndex });
 
-				//TODO : What's going on here?
+				//TOxDO : What's going on here?
 				if ('se' == handle) {
 					axis.addClass('ui-icon ui-icon-gripsmall-diagonal-se');
 				};
@@ -10068,14 +10068,14 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 				}
 
-				//TODO: What's that good for? There's not anything to be executed left
+				//TOxDO: What's that good for? There's not anything to be executed left
 				if(!$(this.handles[i]).length)
 					continue;
 
 			}
 		};
 
-		//TODO: make renderAxis a prototype function
+		//TOxDO: make renderAxis a prototype function
 		this._renderAxis(this.element);
 
 		this._handles = $('.ui-resizable-handle', this.element)
@@ -10124,7 +10124,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 				.removeData("resizable").removeData("ui-resizable").unbind(".resizable").find('.ui-resizable-handle').remove();
 		};
 
-		//TODO: Unwrap at same DOM position
+		//TOxDO: Unwrap at same DOM position
 		if (this.elementIsWrapper) {
 			_destroy(this.element);
 			var wrapper = this.element;
@@ -10242,7 +10242,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 		if(this._helper) {
 			var pr = this._proportionallyResizeElements, ista = pr.length && (/textarea/i).test(pr[0].nodeName),
-				soffseth = ista && $.ui.hasScroll(pr[0], 'left') /* TODO - jump height */ ? 0 : that.sizeDiff.height,
+				soffseth = ista && $.ui.hasScroll(pr[0], 'left') /* TOxDO - jump height */ ? 0 : that.sizeDiff.height,
 				soffsetw = ista ? 0 : that.sizeDiff.width;
 
 			var s = { width: (that.helper.width()  - soffsetw), height: (that.helper.height() - soffseth) },
@@ -10388,7 +10388,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 			this.helper = this.helper || $('<div style="overflow:hidden;"></div>');
 
-			// fix ie6 offset TODO: This seems broken
+			// fix ie6 offset TOxDO: This seems broken
 			var ie6offset = ($.ui.ie6 ? 1 : 0),
 			pxyoffset = ( $.ui.ie6 ? 2 : -1 );
 
@@ -10398,7 +10398,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 				position: 'absolute',
 				left: this.elementOffset.left - ie6offset +'px',
 				top: this.elementOffset.top - ie6offset +'px',
-				zIndex: ++o.zIndex //TODO: Don't modify option
+				zIndex: ++o.zIndex //TOxDO: Don't modify option
 			});
 
 			this.helper
@@ -10529,7 +10529,7 @@ $.ui.plugin.add("resizable", "animate", {
 		var that = $(this).data("resizable"), o = that.options;
 
 		var pr = that._proportionallyResizeElements, ista = pr.length && (/textarea/i).test(pr[0].nodeName),
-					soffseth = ista && $.ui.hasScroll(pr[0], 'left') /* TODO - jump height */ ? 0 : that.sizeDiff.height,
+					soffseth = ista && $.ui.hasScroll(pr[0], 'left') /* TOxDO - jump height */ ? 0 : that.sizeDiff.height,
 						soffsetw = ista ? 0 : that.sizeDiff.width;
 
 		var style = { width: (that.size.width - soffsetw), height: (that.size.height - soffseth) },
@@ -11750,7 +11750,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 		});
 
 		// Only after we got the offset, we can change the helper's position to absolute
-		// TODO: Still need to figure out a way to make relative sorting possible
+		// TOxDO: Still need to figure out a way to make relative sorting possible
 		this.helper.css("position", "absolute");
 		this.cssPosition = this.helper.css("position");
 
@@ -12276,7 +12276,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 		//Append it after the actual current item
 		that.currentItem.after(that.placeholder);
 
-		//Update the size of the placeholder (TODO: Logic to fuzzy, see line 316/317)
+		//Update the size of the placeholder (TOxDO: Logic to fuzzy, see line 316/317)
 		o.placeholder.update(that, that.placeholder);
 
 	},
@@ -12846,7 +12846,7 @@ $.widget( "ui.spinner", {
 			}
 			this._repeat( null, $( event.currentTarget ).hasClass( "ui-spinner-up" ) ? 1 : -1, event );
 		},
-		// TODO: do we really want to consider this a stop?
+		// TOxDO: do we really want to consider this a stop?
 		// shouldn't we just stop the repeater and wait until mouseup before
 		// we trigger the stop event?
 		"mouseleave .ui-spinner-button": "_stop"
@@ -13074,7 +13074,7 @@ $.widget( "ui.spinner", {
 		this.element.attr({
 			"aria-valuemin": this.options.min,
 			"aria-valuemax": this.options.max,
-			// TODO: what should we do with values that can't be parsed?
+			// TOxDO: what should we do with values that can't be parsed?
 			"aria-valuenow": this._parse( this.element.val() )
 		});
 	},
@@ -13962,7 +13962,7 @@ $.widget( "ui.tabs", {
 		}
 	},
 
-	// TODO: Remove this function in 1.10 when ajaxOptions is removed
+	// TOxDO: Remove this function in 1.10 when ajaxOptions is removed
 	_ajaxSettings: function( anchor, event, eventData ) {
 		var that = this;
 		return {
@@ -13999,7 +13999,7 @@ if ( $.uiBackCompat !== false ) {
 		}
 	});
 
-	// TODO: Remove _ajaxSettings() method when removing this extension
+	// TOxDO: Remove _ajaxSettings() method when removing this extension
 	// ajaxOptions and cache options
 	$.widget( "ui.tabs", $.ui.tabs, {
 		options: {

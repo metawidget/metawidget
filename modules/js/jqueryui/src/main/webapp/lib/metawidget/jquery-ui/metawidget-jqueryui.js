@@ -16,6 +16,135 @@
 
 'use strict';
 
+//
+// JQueryUIWidgetBuilder
+//
+
+metawidget.jqueryui = metawidget.jqueryui || {};
+metawidget.jqueryui.widgetbuilder = metawidget.jqueryui.widgetbuilder || {};
+
+metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder = function() {
+
+	if ( ! ( this instanceof metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+};
+
+metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
+
+	// Not for us?
+
+	if ( metawidget.util.isReadOnly( attributes, mw ) ) {
+		return;
+	}
+
+	if ( attributes.hidden == 'true' ) {
+		return;
+	}
+	
+	// Number
+
+	if ( attributes.type == 'number' ) {
+
+		if ( attributes.minimumValue && attributes.maximumValue ) {
+			var slider = document.createElement( 'div' );
+			$( slider ).slider();
+			return slider;
+		}
+
+		var spinner = document.createElement( 'input' );
+		$( spinner ).spinner();
+		return $( spinner ).spinner( 'widget' )[0];
+	}
+	
+	// Datepicker
+	
+	if ( attributes.type == 'date' ) {
+		var date = document.createElement( 'input' );
+		$( date ).datepicker();
+		return date;
+	}
+};
+
+//
+// JQueryUIBindingProcessor
+//
+
+metawidget.jqueryui.widgetprocessor = metawidget.jqueryui.widgetprocessor || {};
+
+metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor = function() {
+
+	if ( ! ( this instanceof metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+};
+
+metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.onStartBuild = function( mw ) {
+
+	mw._jQueryUIBindingProcessorBindings = {};
+};
+
+metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+
+	var value;
+
+	if ( attributes.name != '$root' && mw.toInspect ) {
+		value = mw.toInspect[attributes.name];
+	} else {
+		value = mw.toInspect;
+	}
+
+	var isBindable = false;
+	var styleClass = widget.getAttribute( 'class' );
+	
+	if ( styleClass ) {
+		if ( styleClass.indexOf( 'ui-slider' ) != -1 ) {
+			$( widget ).slider( 'value', value );
+			isBindable = true;
+		} else if ( styleClass.indexOf( 'ui-spinner' ) != -1 ) {
+			$( widget.childNodes[0] ).spinner( 'value', value );
+			isBindable = true;
+		}
+	}
+
+	if ( isBindable || widget.metawidget ) {
+		mw._jQueryUIBindingProcessorBindings[attributes.name] = widget;
+	}
+
+	return widget;
+};
+
+/**
+ * Save the bindings associated with the given Metawidget.
+ */
+
+metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = function( mw ) {
+
+	for ( var name in mw._jQueryUIBindingProcessorBindings ) {
+
+		var widget = mw._jQueryUIBindingProcessorBindings[name];
+
+		if ( widget.metawidget ) {
+			this.save( widget.metawidget );
+			continue;
+		}
+
+		widget = document.getElementById( widget.id );
+
+		var styleClass = widget.getAttribute( 'class' );
+		
+		if ( styleClass.indexOf( 'ui-slider' ) != -1 ) {
+			mw.toInspect[name] = $( widget ).slider( 'value' );
+		} else if ( styleClass.indexOf( 'ui-spinner' ) != -1 ) {
+			mw.toInspect[name] = $( widget.childNodes[0] ).spinner( 'value' );
+		}
+	}
+};
+
+//
+// Widget Factory
+//
+
 $.widget( "custom.metawidget", {
 
 	/**
@@ -25,9 +154,10 @@ $.widget( "custom.metawidget", {
 	options: {
 		readOnly: false,
 		inspector: new metawidget.inspector.PropertyTypeInspector(),
-		widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
-				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
-		widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ],
+		widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder(),
+				new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
+		widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
+		        new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ],
 		layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
 	},
 
@@ -70,9 +200,7 @@ $.widget( "custom.metawidget", {
 
 		this._pipeline.configure( this.options );
 
-		// First time in, capture the contents of the Metawidget (if any). Do not
-		// actually 'removeChild' yet, so that we can still use
-		// 'document.getElementById'
+		// First time in, capture the contents of the Metawidget (if any)
 
 		this._overriddenNodes = [];
 
@@ -90,7 +218,7 @@ $.widget( "custom.metawidget", {
 	_refresh: function() {
 
 		// Defensive copy
-		// TODO: not DRY with corejs?
+		// TODO: test Defensive copy
 
 		this.overriddenNodes = [];
 

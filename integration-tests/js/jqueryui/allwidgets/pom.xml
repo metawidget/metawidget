@@ -29,18 +29,6 @@
 					</overlays>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tomcat-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>webtest-maven-plugin</artifactId>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -51,11 +39,25 @@
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
-		<dependency>		
+		<dependency>
 			<groupId>org.metawidget.integration-tests.shared</groupId>
 			<artifactId>allwidgets-shared-webapp</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.js</groupId>
+			<artifactId>metawidget-corejs</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mozilla</groupId>
+			<artifactId>rhino</artifactId>
 		</dependency>
 	</dependencies>
 

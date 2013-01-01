@@ -170,7 +170,6 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 };
 
 metawidget.angular.inspectionresultprocessor = metawidget.angular.inspectionresultprocessor || {};
-metawidget.angular.widgetbuilder = metawidget.angular.widgetbuilder || {};
 metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
 
 /**

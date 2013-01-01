@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>All Widgets (Metawidget JQuery UI Test)</title>
+		<link href="lib/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet">
 		<script src="lib/metawidget/core/metawidget.js" type="text/javascript"></script>
 		<script src="lib/metawidget/core/metawidget-inspectors.js" type="text/javascript"></script>
 		<script src="lib/metawidget/core/metawidget-widgetbuilders.js" type="text/javascript"></script>
@@ -44,13 +45,16 @@
 			} );
 			
 			$( "#metawidget" ).metawidget( "buildWidgets", allWidgets, "allWidgets" );
-		
+			
 			actions = {
 				"save": function() {
 					var processor = $( "#metawidget" ).metawidget( "getWidgetProcessor", function( widgetProcessor ) { return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } );
 					processor.save( $( "#metawidget" ).metawidget( "getThis" )[0] );
+					processor = $( "#metawidget" ).metawidget( "getWidgetProcessor", function( widgetProcessor ) { return widgetProcessor instanceof metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor; } );
+					processor.save( $( "#metawidget" ).metawidget( "getThis" )[0] );
 					$( "#metawidget" ).metawidget( "option", "readOnly", true );
 					$( "#metawidget" ).metawidget( "option", "layout", new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout() ) );
+					
 					return false;
 				}
 			}
@@ -60,10 +64,6 @@
 			} );
 			
 			$( "#metawidget-actions" ).metawidget( "buildWidgets", actions, "actions" );
-			
-			// Hack for WebTest 3.0. Without this, dynamically created onClicks don't fire
-
-			document.getElementById( 'metawidget-actions' ).innerHTML = document.getElementById( 'metawidget-actions' ).innerHTML;
 			
 		</script>
 	</body>

@@ -150,7 +150,7 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 			stub.appendChild( document.createElement( 'stub' ) );
 			return stub;
 		}
-
+		
 		return document.createElement( 'output' );
 	}
 

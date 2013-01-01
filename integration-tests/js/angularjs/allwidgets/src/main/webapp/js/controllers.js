@@ -6,7 +6,7 @@ function AllWidgetsController( $scope ) {
 
 	$scope.allWidgets = allWidgets;
 
-	$scope.allWidgetsActions = {
+	$scope.actions = {
 		"save": function() {
 
 			$scope.readOnly = true;

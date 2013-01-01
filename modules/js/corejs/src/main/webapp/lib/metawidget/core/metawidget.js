@@ -68,9 +68,7 @@ metawidget.Metawidget = function( element, config ) {
 	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 	pipeline.configure( config );
 
-	// First time in, capture the contents of the Metawidget (if any). Do not
-	// actually 'removeChild' yet, so that we can still use
-	// 'document.getElementById'
+	// First time in, capture the contents of the Metawidget (if any)
 
 	this._overriddenNodes = [];
 

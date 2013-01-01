@@ -24,7 +24,7 @@ public class JQueryUIMetawidgetTest
 
 		super.setUp();
 
-		initializeJQuery();
+		initializeEnvJs();
 
 		evaluateResource( "/js/jquery-ui-1.9.2.custom.min.js" );
 		evaluateJavaScript( "target/metawidget-jqueryui/lib/metawidget/core/metawidget.js" );
