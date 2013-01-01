@@ -254,7 +254,7 @@
 								<li>Javassist</li>
 								<li>JBoss Forge</li>
 								<li>JBoss jBPM</li>
-								<li>JSON</li>
+								<li>JavaScript Object Notation (JSON)</li>
 								<li>OVal</li>
 								<li>Scala</li>
 								<li>Seam</li>

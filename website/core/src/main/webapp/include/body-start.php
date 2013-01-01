@@ -62,28 +62,28 @@
 					<a href="http://code.google.com/android" target="_blank" style="top: 40px; left: 65px">
 						<img src="/media/logos/logo-android.gif" alt="Android" style="border: 0px" />
 					</a>
-					<a href="http://angularjs.org" target="_blank" style="top: 40px; left: 65px">
+					<a href="http://angularjs.org" target="_blank" style="top: 67px; left: 49px">
 						<img src="/media/logos/logo-angularjs.gif" alt="AngularJS" style="border: 0px" />
 					</a>
-					<a href="http://jboss.org/forge" target="_blank" style="top: 65px; left: 60px">
+					<a href="http://jboss.org/forge" target="_blank" style="top: 65px; left: 95px">
 						<img src="/media/logos/logo-forge.gif" alt="JBoss Forge" style="border: 0px" />
 					</a>
-					<a href="http://code.google.com/webtoolkit" target="_blank" style="top: 113px; left: 25px">
+					<a href="http://code.google.com/webtoolkit" target="_blank" style="top: 115px; left: 25px">
 						<img src="/media/logos/logo-gwt.gif" alt="Google Web Toolkit" style="border: 0px" />
 					</a>
-					<a href="http://groovy.codehaus.org" target="_blank" style="top: 118px; left: 90px">
+					<a href="http://groovy.codehaus.org" target="_blank" style="top: 115px; left: 90px">
 						<img src="/media/logos/logo-groovy.gif" alt="Groovy" style="border: 0px" />
 					</a>
-					<a href="http://hibernate.org" target="_blank" style="top: 183px; left: 2px">
+					<a href="http://hibernate.org" target="_blank" style="top: 179px; left: 68px">
 						<img src="/media/logos/logo-hibernate.gif" alt="Hibernate" style="border: 0px" />
 					</a>
 					<a href="http://icefaces.org" target="_blank" style="top: 218px; left: 2px">
 						<img src="/media/logos/logo-icefaces.gif" alt="ICEfaces" style="border: 0px" />
 					</a>
-					<a href="http://jqueryui.com" target="_blank" style="top: 183px; left: 2px">
+					<a href="http://jqueryui.com" target="_blank" style="top: 172px; left: 10px">
 						<img src="/media/logos/logo-jqueryui.gif" alt="JQuery UI" style="border: 0px" />
 					</a>
-					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 186px; left: 138px">
+					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 205px; left: 138px">
 						<img src="/media/logos/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
 					</a>
 					<a href="http://oval.sourceforge.net" target="_blank" style="top: 280px; left: 3px">
