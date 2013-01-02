@@ -26,6 +26,27 @@
 
 		<hr/>
 		
+		<h3>Metawidget meets JQuery UI and AngularJS</h3>
+		<h4>2nd January 2013</h4>
+		
+		<p>
+			The next release of Metawidget will be later than usual. Our apologies.
+		</p>
+		
+		<p>
+			We are busy porting Metawidget to a whole new platform. Version 3.0 will support fully client-side
+			Web Metawidgets, with initial support for either pure JavaScript, <a href="http://jqueryui.com">JQuery UI</a>
+			and/or <a href="http://angularjs.org">AngularJS</a>.
+			Each JavaScript implementation will support the same five stage pipeline as the existing Metawidgets. 
+		</p>
+		
+		<p>
+			Development builds are already available, and there is an example application to download. More details
+			can be found on <a href="http://blog.kennardconsulting.com/2013/01/metawidget-meets-jquery-ui-and-angularjs.html">this blog entry</a>.
+		</p>
+		
+		<hr/>
+
 		<h3>Metawidget Nominated For PhD Thesis Of The Year</h3>
 		<h4>1st December 2012</h4>
 		
