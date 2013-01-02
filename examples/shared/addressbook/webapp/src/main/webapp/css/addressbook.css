@@ -16,6 +16,8 @@ h1, .section-heading
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 20pt;
 	text-align: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .section-heading
