@@ -22,20 +22,37 @@ describe( "The SimpleLayout", function() {
 
 		var layout = new metawidget.layout.SimpleLayout();
 
-		var widget1 = "widget1";
-		var widget2 = "widget2";
-		var container = {
-			"appendChild": function( child ) {
-
-				this.childNodes = this.childNodes || [];
-				this.childNodes.push( child );
-			}
-		};
+		var widget1 = document.createElement( 'widget1' );
+		var widget2 = document.createElement( 'widget2' );
+		var container = document.createElement( 'metawidget' );
+		
 		layout.layoutWidget( widget1, {}, container );
 		layout.layoutWidget( widget2, {}, container );
 
 		expect( container.childNodes[0] ).toBe( widget1 );
 		expect( container.childNodes[1] ).toBe( widget2 );
+		expect( container.childNodes.length ).toBe( 2 );
+	} );
+
+	it( "ignores empty stubs", function() {
+
+		var layout = new metawidget.layout.SimpleLayout();
+
+		var stub = document.createElement( 'stub' );
+		var widget1 = document.createElement( 'widget1' );
+		var container = document.createElement( 'metawidget' );
+
+		layout.layoutWidget( stub, {}, container );
+		layout.layoutWidget( widget1, {}, container );
+
+		expect( container.childNodes[0] ).toBe( widget1 );
+		expect( container.childNodes.length ).toBe( 1 );
+		
+		stub.appendChild( document.createElement( 'widget2' ));
+
+		layout.layoutWidget( stub, {}, container );
+
+		expect( container.childNodes[1] ).toBe( stub );
 		expect( container.childNodes.length ).toBe( 2 );
 	} );
 } );
@@ -77,6 +94,34 @@ describe( "The DivLayout", function() {
 		expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'div' );
 		expect( container.childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
 		expect( container.childNodes[1].childNodes.length ).toBe( 2 );
+		expect( container.childNodes.length ).toBe( 2 );
+	} );
+
+	it( "ignores empty stubs", function() {
+
+		var layout = new metawidget.layout.DivLayout();
+
+		var stub = document.createElement( 'stub' );
+		var widget1 = document.createElement( 'widget1' );
+		var container = document.createElement( 'metawidget' );
+
+		layout.layoutWidget( stub, {}, container );
+		layout.layoutWidget( widget1, {}, container );
+
+		expect( container.childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( container.childNodes.length ).toBe( 1 );
+		
+		stub.appendChild( document.createElement( 'widget2' ));
+
+		layout.layoutWidget( stub, {}, container );
+
+		expect( container.childNodes[1].toString() ).toBe( 'div' );
+		expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[1].childNodes[0].childNodes[0] ).toBe( stub );
+		expect( container.childNodes[1].childNodes.length ).toBe( 1 );
 		expect( container.childNodes.length ).toBe( 2 );
 	} );
 } );
@@ -176,6 +221,43 @@ describe( "The TableLayout", function() {
 		expect( container.childNodes.length ).toBe( 1 );
 	} );
 
+	it( "ignores empty stubs", function() {
+
+		var layout = new metawidget.layout.TableLayout();
+
+		var stub = document.createElement( 'stub' );
+		var widget1 = document.createElement( 'widget1' );
+		var container = document.createElement( 'metawidget' );
+
+		layout.startContainerLayout( container, {} );
+		layout.layoutWidget( stub, {}, container, {} );
+		layout.layoutWidget( widget1, {}, container, {} );
+
+		expect( container.childNodes[0].toString() ).toBe( 'table' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+		expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( container.childNodes.length ).toBe( 1 );
+		
+		stub.appendChild( document.createElement( 'widget2' ));
+
+		layout.layoutWidget( stub, {}, container, {} );
+
+		expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0] ).toBe( stub );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 2 );
+		expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( container.childNodes.length ).toBe( 1 );
+	} );
+	
 	// TODO: ie support?
 } );
 

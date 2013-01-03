@@ -507,8 +507,13 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			}
 
 			// Metawidget as a whole may have had setReadOnly( true )
-
-			// TODO: why don't we do this in WidgetBuilderUtils.isReadOnly?
+			//
+			// Note: we cannot do this in WidgetBuilderUtils.isReadOnly because:
+			//
+			// 1) There is not a common Metawidget class that we can pass to WidgetBuilderUtils in
+			// order for it to call isReadOnly
+			// 2) This way WidgetBuilders/Layouts etc don't have to worry about checking 2 places
+			// for readOnly-ness
 
 			boolean forcedReadOnly = false;
 

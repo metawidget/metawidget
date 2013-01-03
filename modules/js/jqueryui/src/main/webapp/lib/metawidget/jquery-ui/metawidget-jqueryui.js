@@ -145,7 +145,7 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 // Widget Factory
 //
 
-$.widget( "custom.metawidget", {
+$.widget( "metawidget.metawidget", {
 
 	/**
 	 * Default configuration

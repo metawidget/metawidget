@@ -36,8 +36,6 @@ metawidget.layout.SimpleLayout = function() {
 
 metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
 
-	// TODO: test stubs ignored
-	
 	if ( widget.tagName == 'STUB' && !metawidget.util.hasChildElements( widget )) {
 		return;
 	}
