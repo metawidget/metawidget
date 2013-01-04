@@ -131,6 +131,17 @@ describe( "The splitPath function", function() {
 	} );
 } );
 
+
+describe( "The appendPath function", function() {
+
+	it( "appends attribute names to paths", function() {
+
+		expect( metawidget.util.appendPath( { "name": "foo" }, {} )).toBe( 'object.foo' );
+		expect( metawidget.util.appendPath( { "name": "foo" }, { "toInspect": "aString" } )).toBe( 'string.foo' );
+		expect( metawidget.util.appendPath( { "name": "foo" }, { "path": "bar.baz" } )).toBe( 'bar.baz.foo' );
+	} );
+} );
+
 describe( "The traversePath function", function() {
 
 	it( "traverses names", function() {

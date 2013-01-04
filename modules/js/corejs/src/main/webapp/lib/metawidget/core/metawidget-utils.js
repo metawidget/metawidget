@@ -59,12 +59,6 @@ metawidget.util.camelCase = function( names ) {
 
 metawidget.util.getId = function( attributes, mw ) {
 
-	var id = '';
-	
-	if ( attributes ) {
-		id = attributes.name;
-	}
-
 	if ( mw.path ) {
 		var splitPath = mw.path.split( '.' );
 
@@ -76,10 +70,12 @@ metawidget.util.getId = function( attributes, mw ) {
 			splitPath.push( attributes.name );
 		}
 
-		id = metawidget.util.camelCase( splitPath );
+		return metawidget.util.camelCase( splitPath );
 	}
 
-	return id;
+	if ( attributes ) {
+		return attributes.name;
+	}
 };
 
 metawidget.util.hasChildElements = function( node ) {
@@ -127,8 +123,12 @@ metawidget.util.appendPath = function( attributes, mw ) {
 	if ( mw.path ) {
 		return mw.path + '.' + attributes.name;
 	}
-
-	return typeof( mw.toInspect ) + '.' + attributes.name;
+	
+	if ( mw.toInspect ) {
+		return typeof( mw.toInspect ) + '.' + attributes.name;
+	}
+	
+	return 'object.' + attributes.name;
 };
 
 metawidget.util.traversePath = function( toInspect, type, names ) {

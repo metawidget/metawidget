@@ -84,8 +84,6 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.onStartBu
 	mw._jQueryUIBindingProcessorBindings = {};
 };
 
-// TODO: test nested JQueryUIBindingProcessor
-
 metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
 	var value;
@@ -215,7 +213,6 @@ $.widget( "metawidget.metawidget", {
 	_refresh: function() {
 
 		// Defensive copy
-		// TODO: test Defensive copy
 
 		this.overriddenNodes = [];
 

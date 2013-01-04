@@ -164,7 +164,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 		var idPrefix = null;
 		
-		if ( attributes.name ) {			
+		if ( attributes.name && attributes.name != '__root' ) {			
 			idPrefix = table.getAttribute( 'id' );
 	
 			if ( idPrefix ) {

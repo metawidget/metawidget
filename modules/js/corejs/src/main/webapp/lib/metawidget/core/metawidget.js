@@ -37,9 +37,6 @@ metawidget.Metawidget = function( element, config ) {
 
 		var nestedMetawidget = new metawidget.Metawidget( nestedWidget, pipeline );
 		nestedMetawidget.toInspect = mw.toInspect;
-
-		// TODO: temporary safeguard against infinite recursion
-		
 		nestedMetawidget.path = metawidget.util.appendPath( attributes, mw );
 		nestedMetawidget.readOnly = mw.readOnly || attributes.readOnly == 'true';
 
@@ -86,7 +83,6 @@ metawidget.Metawidget = function( element, config ) {
 	this.buildWidgets = function() {
 
 		// Defensive copy
-		// TODO: test Defensive copy
 
 		this.overriddenNodes = [];
 
@@ -113,6 +109,7 @@ metawidget.Pipeline = function( element ) {
 	this.inspectionResultProcessors = [];
 	this.widgetProcessors = [];
 	this.element = element;
+	this.maximumInspectionDepth = 10;
 };
 
 /**
@@ -141,6 +138,12 @@ metawidget.Pipeline.prototype.configure = function( config ) {
 	}
 	if ( config.layout ) {
 		this.layout = config.layout;
+	}
+	
+	// Safeguard against infinite recursion
+	
+	if ( config.maximumInspectionDepth ) {
+		this.maximumInspectionDepth = config.maximumInspectionDepth - 1;
 	}
 };
 
@@ -270,6 +273,10 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 		var widget = _buildWidget( this, attributes, mw );
 
 		if ( !widget ) {
+			if ( this.maximumInspectionDepth <= 0 ) {
+				return;
+			}
+			
 			widget = this.buildNestedMetawidget( attributes, mw );
 
 			if ( !widget ) {

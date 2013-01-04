@@ -221,7 +221,31 @@ describe( "The TableLayout", function() {
 		expect( container.childNodes.length ).toBe( 1 );
 	} );
 
-	// TODO: test __root
+	it( "does not assign ids to root nodes", function() {
+
+		var layout = new metawidget.layout.TableLayout();
+		var widget1 = document.createElement( 'input' );
+		widget1.setAttribute( 'id', 'widget1' );
+
+		var container = document.createElement( 'metawidget' );
+		var mw = {};
+
+		layout.startContainerLayout( container, mw );
+		layout.layoutWidget( widget1, {
+			"name": "__root",
+		}, container, mw );
+
+		expect( container.childNodes[0].toString() ).toBe( 'table' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+		expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( container.childNodes.length ).toBe( 1 );
+	} );
 	
 	it( "ignores empty stubs", function() {
 

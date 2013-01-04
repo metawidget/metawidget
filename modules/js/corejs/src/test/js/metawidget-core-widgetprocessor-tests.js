@@ -37,11 +37,11 @@ describe( "The IdProcessor", function() {
 			"name": "baz"
 		}, mw );
 		expect( widget.toString() ).toBe( 'input id="fooBarBaz"' );
-		
+
 		// With root
 
-		widget = document.createElement( 'input' );		
-		mw.path = 'foo.bar';		
+		widget = document.createElement( 'input' );
+		mw.path = 'foo.bar';
 		processor.processWidget( widget, {
 			"name": "__root"
 		}, mw );
@@ -99,7 +99,10 @@ describe( "The SimpleBindingProcessor", function() {
 				"foo": "fooValue",
 				"bar": "barValue",
 				"baz": "bazValue",
-				"boolean": true
+				"boolean": true,
+				"nested": {
+					"nestedFoo": "nestedFooValue"
+				}
 			},
 			"path": "testPath"
 		};
@@ -148,7 +151,7 @@ describe( "The SimpleBindingProcessor", function() {
 		widget.setAttribute( 'type', 'checkbox' );
 		processor.processWidget( widget, attributes, mw );
 		expect( widget.toString() ).toBe( 'input type="checkbox" checked="checked"' );
-		
+
 		// Root-level
 
 		attributes = {
@@ -158,7 +161,16 @@ describe( "The SimpleBindingProcessor", function() {
 		processor.processWidget( widget, attributes, mw );
 		expect( widget.toString() ).toBe( 'output' );
 		expect( widget.innerHTML ).toBe( mw.toInspect );
-		
-		// TODO: nested widgets
+
+		// Nested widgets
+
+		mw.path = 'object.nested';
+		attributes = {
+			"name": "nestedFoo"
+		};
+		widget = document.createElement( 'input' );
+		widget.setAttribute( 'type', 'text' );
+		processor.processWidget( widget, attributes, mw );
+		expect( widget.toString() ).toBe( 'input type="text" value="nestedFooValue"' );
 	} );
 } );
