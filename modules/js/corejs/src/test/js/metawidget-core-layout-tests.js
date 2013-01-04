@@ -221,6 +221,8 @@ describe( "The TableLayout", function() {
 		expect( container.childNodes.length ).toBe( 1 );
 	} );
 
+	// TODO: test __root
+	
 	it( "ignores empty stubs", function() {
 
 		var layout = new metawidget.layout.TableLayout();

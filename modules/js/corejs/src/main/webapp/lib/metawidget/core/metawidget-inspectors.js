@@ -41,7 +41,7 @@ metawidget.inspector.CompositeInspector = function( config ) {
 		inspectors = config;
 	}
 
-	this.inspect = function( toInspect, type ) {
+	this.inspect = function( toInspect, type, names ) {
 
 		var compositeInspectionResult = [];
 
@@ -51,9 +51,9 @@ metawidget.inspector.CompositeInspector = function( config ) {
 			var inspector = inspectors[ins];
 
 			if ( inspector.inspect ) {
-				inspectionResult = inspector.inspect( toInspect, type );
+				inspectionResult = inspector.inspect( toInspect, type, names );
 			} else {
-				inspectionResult = inspector( toInspect, type );
+				inspectionResult = inspector( toInspect, type, names );
 			}
 
 			// Inspector may return null
@@ -129,10 +129,20 @@ metawidget.inspector.PropertyTypeInspector = function() {
 	}
 };
 
-metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspect, type ) {
+metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspect, type, names ) {
 
+	// Traverse names
+
+	toInspect = metawidget.util.traversePath( toInspect, type, names );
+
+	if ( toInspect == null ) {
+		return;
+	}
+
+	// Inspect leaf
+	
 	var inspectionResult = [ {
-		"name": "$root",
+		"name": "__root",
 		"type": typeof ( toInspect )
 	} ];
 

@@ -199,7 +199,8 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 
 		$scope.current.communications = $scope.current.communications || [];
 		$scope.current.communications.push( angular.fromJson( angular.toJson( $scope.communication ) ) );
-		$scope.communication = {};
+		$scope.communication.type = '';
+		$scope.communication.value = '';
 	};
 
 	$scope.removeCommunication = function( index ) {

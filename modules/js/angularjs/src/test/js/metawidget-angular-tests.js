@@ -94,7 +94,7 @@ describe( "The AngularWidgetProcessor", function() {
 			// Root-level
 
 			attributes = {
-				"name": "$root"
+				"name": "__root"
 			};
 			widget = document.createElement( 'output' );
 			processor.processWidget( widget, attributes, mw );

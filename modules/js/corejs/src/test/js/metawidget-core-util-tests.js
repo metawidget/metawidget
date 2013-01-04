@@ -112,3 +112,41 @@ describe( "The testIsReadOnly function", function() {
 		} ) ).toBe( false );
 	} );
 } );
+
+describe( "The splitPath function", function() {
+
+	it( "splits a path into types and names", function() {
+
+		expect( metawidget.util.splitPath( 'foo' ).type ).toBe( 'foo' );
+		expect( metawidget.util.splitPath( 'foo' ).names.length ).toBe( 0 );
+		
+		expect( metawidget.util.splitPath( 'foo.bar' ).type ).toBe( 'foo' );
+		expect( metawidget.util.splitPath( 'foo.bar' ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( 'foo.bar' ).names.length ).toBe( 1 );
+
+		expect( metawidget.util.splitPath( 'foo.bar.baz' ).type ).toBe( 'foo' );
+		expect( metawidget.util.splitPath( 'foo.bar.baz' ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( 'foo.bar.baz' ).names[1] ).toBe( 'baz' );
+		expect( metawidget.util.splitPath( 'foo.bar.baz' ).names.length ).toBe( 2 );
+	} );
+} );
+
+describe( "The traversePath function", function() {
+
+	it( "traverses names", function() {
+
+		var object2 = {
+			"foo": "bar"
+		}
+		var object1 = {
+			"object2": object2
+		}
+		
+		expect( metawidget.util.traversePath( object1 )).toBe( object1 );
+		expect( metawidget.util.traversePath( object1, 'ignore' )).toBe( object1 );
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2' ] )).toBe( object2 );
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo' ] )).toBe( 'bar' );
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo', 'bar' ] )).toBe( null );
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'baz' ] )).toBe( null );
+	} );
+} );

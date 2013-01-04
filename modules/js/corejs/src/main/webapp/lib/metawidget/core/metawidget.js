@@ -36,18 +36,11 @@ metawidget.Metawidget = function( element, config ) {
 		// Duck-type our 'pipeline' as the 'config' of the nested Metawidget
 
 		var nestedMetawidget = new metawidget.Metawidget( nestedWidget, pipeline );
+		nestedMetawidget.toInspect = mw.toInspect;
 
-		if ( mw.toInspect ) {
-			nestedMetawidget.toInspect = mw.toInspect[attributes.name];
-		}
-
-		if ( mw.path ) {
-			nestedMetawidget.path = mw.path + '.' + attributes.name;
-		} else {
-			// TODO: temporary safeguard against infinite recursion
-			nestedMetawidget.path = attributes.name;
-		}
-
+		// TODO: temporary safeguard against infinite recursion
+		
+		nestedMetawidget.path = metawidget.util.appendPath( attributes, mw );
 		nestedMetawidget.readOnly = mw.readOnly || attributes.readOnly == 'true';
 
 		// Attach ourselves as a property of the tag, rather than try to
@@ -185,12 +178,13 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 
 	// Inspector
 
+	var splitPath = metawidget.util.splitPath( mw.path );
 	var inspectionResult;
 
 	if ( this.inspector.inspect ) {
-		inspectionResult = this.inspector.inspect( mw.toInspect, mw.path );
+		inspectionResult = this.inspector.inspect( mw.toInspect, splitPath.type, splitPath.names );
 	} else {
-		inspectionResult = this.inspector( mw.toInspect, mw.path );
+		inspectionResult = this.inspector( mw.toInspect, splitPath.type, splitPath.names );
 	}
 
 	// Inspector may return null
@@ -206,9 +200,9 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 		var inspectionResultProcessor = this.inspectionResultProcessors[loop];
 
 		if ( inspectionResultProcessor.processInspectionResult ) {
-			inspectionResultProcessor.processInspectionResult( inspectionResult, mw );
+			inspectionResultProcessor.processInspectionResult( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
 		} else {
-			inspectionResultProcessor( inspectionResult, mw );
+			inspectionResultProcessor( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
 		}
 	}
 
@@ -245,7 +239,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 
 		var attributes = inspectionResult[loop];
 
-		if ( attributes.name != '$root' ) {
+		if ( attributes.name != '__root' ) {
 			continue;
 		}
 
@@ -269,7 +263,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 
 		var attributes = inspectionResult[loop];
 
-		if ( attributes.name == '$root' ) {
+		if ( attributes.name == '__root' ) {
 			continue;
 		}
 

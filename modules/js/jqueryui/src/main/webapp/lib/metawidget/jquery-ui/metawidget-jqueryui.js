@@ -41,7 +41,7 @@ metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = 
 	if ( attributes.hidden == 'true' ) {
 		return;
 	}
-	
+
 	// Number
 
 	if ( attributes.type == 'number' ) {
@@ -56,9 +56,9 @@ metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = 
 		$( spinner ).spinner();
 		return $( spinner ).spinner( 'widget' )[0];
 	}
-	
+
 	// Datepicker
-	
+
 	if ( attributes.type == 'date' ) {
 		var date = document.createElement( 'input' );
 		$( date ).datepicker();
@@ -84,19 +84,23 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.onStartBu
 	mw._jQueryUIBindingProcessorBindings = {};
 };
 
+// TODO: test nested JQueryUIBindingProcessor
+
 metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
 	var value;
+	var typeAndNames = metawidget.util.splitPath( mw.path );
+	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
 
-	if ( attributes.name != '$root' && mw.toInspect ) {
-		value = mw.toInspect[attributes.name];
+	if ( attributes.name != '__root' && toInspect ) {
+		value = toInspect[attributes.name];
 	} else {
-		value = mw.toInspect;
+		value = toInspect;
 	}
 
 	var isBindable = false;
 	var styleClass = widget.getAttribute( 'class' );
-	
+
 	if ( styleClass ) {
 		if ( styleClass.indexOf( 'ui-slider' ) != -1 ) {
 			$( widget ).slider( 'value', value );
@@ -120,6 +124,9 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWi
 
 metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = function( mw ) {
 
+	var typeAndNames = metawidget.util.splitPath( mw.path );
+	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
+	
 	for ( var name in mw._jQueryUIBindingProcessorBindings ) {
 
 		var widget = mw._jQueryUIBindingProcessorBindings[name];
@@ -132,11 +139,11 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 		widget = document.getElementById( widget.id );
 
 		var styleClass = widget.getAttribute( 'class' );
-		
+
 		if ( styleClass.indexOf( 'ui-slider' ) != -1 ) {
-			mw.toInspect[name] = $( widget ).slider( 'value' );
+			toInspect[name] = $( widget ).slider( 'value' );
 		} else if ( styleClass.indexOf( 'ui-spinner' ) != -1 ) {
-			mw.toInspect[name] = $( widget.childNodes[0] ).spinner( 'value' );
+			toInspect[name] = $( widget.childNodes[0] ).spinner( 'value' );
 		}
 	}
 };
@@ -157,7 +164,7 @@ $.widget( "metawidget.metawidget", {
 		widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder(),
 				new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
 		widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-		        new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ],
+				new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ],
 		layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
 	},
 
@@ -171,27 +178,17 @@ $.widget( "metawidget.metawidget", {
 		this._pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
 			var nestedWidget = document.createElement( 'div' );
-			var nestedMetawidget = $( nestedWidget ).metawidget( mw.options ); 
-			
+			var nestedMetawidget = $( nestedWidget ).metawidget( mw.options );
+
 			nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || attributes.readOnly == 'true' );
-			
-			var nestedToInspect = {};
-
-			if ( mw.toInspect ) {
-				nestedToInspect = mw.toInspect[attributes.name];
-			}
-
-			var nestedPath = attributes.name;
-			
-			if ( mw.path ) {
-				nestedPath = mw.path + '.' + nestedPath;
-			}
+			var nestedToInspect = mw.toInspect;
+			var nestedPath = metawidget.util.appendPath( attributes, mw );
 
 			// Attach ourselves as a property of the tag, rather than try to
 			// 'extend' the built-in HTML tags
 
 			nestedWidget.metawidget = nestedMetawidget.metawidget( "getThis" )[0];
-			
+
 			nestedMetawidget.metawidget( "buildWidgets", nestedToInspect, nestedPath );
 			return nestedWidget;
 		};
@@ -225,7 +222,7 @@ $.widget( "metawidget.metawidget", {
 		for ( var loop = 0, length = this._overriddenNodes.length; loop < length; loop++ ) {
 			this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
 		}
-		
+
 		this._pipeline.buildWidgets( this );
 	},
 
@@ -239,7 +236,7 @@ $.widget( "metawidget.metawidget", {
 		this._pipeline.configure( this.options );
 		this._refresh();
 	},
-	
+
 	/**
 	 * _setOption is called for each individual option that is changing.
 	 */
@@ -278,8 +275,9 @@ $.widget( "metawidget.metawidget", {
 
 	getThis: function() {
 
-		// TODO: jQuery appears to wrap 'this' into something else. How to stop this?
-		
+		// jQuery appears to wrap 'this' into something else. How to stop this?
+		// https://forum.jquery.com/topic/how-to-access-javascript-object-that-widgetfactory-instantiates
+
 		return [ this ];
 	},
 } );

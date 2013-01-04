@@ -92,7 +92,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 	if ( widget.tagName == 'BUTTON' ) {
 		var binding = mw.path;
 
-		if ( attributes.name != '$root' ) {
+		if ( attributes.name != '__root' ) {
 			binding += '.' + attributes.name;
 		}
 
@@ -100,11 +100,13 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 	} else {
 
 		var value;
+		var typeAndNames = metawidget.util.splitPath( mw.path );
+		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
 
-		if ( attributes.name != '$root' && mw.toInspect ) {
-			value = mw.toInspect[attributes.name];
+		if ( attributes.name != '__root' && toInspect ) {
+			value = toInspect[attributes.name];
 		} else {
-			value = mw.toInspect;
+			value = toInspect;
 		}
 
 		var isBindable = ( widget.tagName == 'INPUT' || widget.tagName == 'SELECT' || widget.tagName == 'TEXTAREA' );
@@ -142,6 +144,9 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 
 metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw ) {
 
+	var typeAndNames = metawidget.util.splitPath( mw.path );
+	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
+	
 	for ( var name in mw._simpleBindingProcessorBindings ) {
 
 		var widget = mw._simpleBindingProcessorBindings[name];
@@ -154,9 +159,9 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw 
 		widget = document.getElementById( widget.id );
 
 		if ( widget.getAttribute( 'type' ) == 'checkbox' ) {
-			mw.toInspect[name] = ( widget.checked );
+			toInspect[name] = ( widget.checked );
 		} else {
-			mw.toInspect[name] = widget.value;
+			toInspect[name] = widget.value;
 		}
 	}
 };

@@ -107,7 +107,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 		var table = document.createElement( 'table' );
 		if ( mw.path ) {
-			var id = metawidget.util.camelCase( mw.path.split( '.' ) );
+			var id = metawidget.util.getId( {}, mw );
 			table.setAttribute( 'id', 'table-' + id );
 		}
 

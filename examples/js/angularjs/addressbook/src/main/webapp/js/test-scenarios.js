@@ -213,6 +213,7 @@ describe( 'AddressBook App', function() {
 		expect( input( 'communication.type' ).val() ).toBe( '' );
 		select( 'communication.type' ).option( 'E-mail' );
 		input( 'communication.value' ).enter( 'homer@simpsons.com' );
+		expect( element( '#currentCommunications tfoot tr td:eq(2)' ).attr( 'class' ) ).toBe( 'column-tiny, table-buttons' );
 		element( '#currentCommunications tfoot tr td:eq(2) button' ).click();
 		expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(2) td:eq(0)' ).text() ).toBe( 'E-mail' );
 		expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(2) td:eq(1)' ).text() ).toBe( 'homer@simpsons.com' );

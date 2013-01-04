@@ -14,23 +14,23 @@
 				<table id="currentCommunications" class="data-table">
 					<thead>
 						<tr>
-							<th>Type</th>
-							<th>Value</th>
-							<th></th>
+							<th class="column-half">Type</th>
+							<th class="column-half">Value</th>
+							<th class="column-tiny"></th>
 						</tr>
 					</thead>
 					<tfoot ng-show="!readOnly">
 						<tr>
-							<td><metawidget to-inspect="communication.type" config="metawidgetConfig.simple"></metawidget></td>
-							<td><metawidget to-inspect="communication.value" config="metawidgetConfig.simple"></metawidget></td>
-							<td class="column tiny, table-buttons"><button ng-click="addCommunication()">Add</button></td>
+							<td class="column-half"><metawidget to-inspect="communication.type" config="metawidgetConfig.simple"></metawidget></td>
+							<td class="column-half"><metawidget to-inspect="communication.value" config="metawidgetConfig.simple"></metawidget></td>
+							<td class="column-tiny, table-buttons"><button ng-click="addCommunication()">Add</button></td>
 						</tr>
 					</tfoot>
 					<tbody>
 						<tr ng-repeat="communication in current.communications">
 							<td class="column-half">{{communication.type}}</td>
 							<td class="column-half">{{communication.value}}</td>
-							<td class="column tiny, table-buttons" ng-show="!readOnly"><button ng-click="removeCommunication($index)">Delete</button></td>
+							<td class="column-tiny, table-buttons" ng-show="!readOnly"><button ng-click="removeCommunication($index)">Delete</button></td>
 						</tr>
 					</tbody>
 				</table>

@@ -106,8 +106,8 @@ angular.module( 'metawidget.directives', [] )
 
 					// Invoke Metawidget
 
-					mw.toInspect = scope.$eval( 'toInspect' );
 					mw.path = attrs.toInspect;
+					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
 					mw.readOnly = scope.$eval( 'readOnly' );
 					mw.buildWidgets();
 				}
@@ -252,8 +252,8 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 
 		if ( mw.toInspect != null ) {
 			var binding = mw.path;
-
-			if ( attributes.name != '$root' ) {
+			
+			if ( attributes.name != '__root' ) {
 				binding += '.' + attributes.name;
 			}
 

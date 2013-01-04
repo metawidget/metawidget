@@ -35,17 +35,16 @@ function AllWidgetsController( $scope ) {
 
 	$scope.metawidgetConfig = {
 
-		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
+		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
-			switch ( type ) {
-				case 'allWidgets':
+			if ( type == 'allWidgets' ) {
+				if ( names.length == 0 ) {
 					return metawidget.test.allWidgetsMetadata;
-				case 'allWidgets.nestedWidgets':
-					return metawidget.test.nestedWidgetsMetadata;
-				case 'allWidgets.readOnlyNestedWidgets':
-					return metawidget.test.nestedWidgetsMetadata;
-				case 'allWidgets.nestedWidgetsDontExpand':
-					return metawidget.test.nestedWidgetsMetadata;
+				} else if ( names.length == 1 ) {
+					if ( names[0] == 'nestedWidgets' || names[0] == 'readOnlyNestedWidgets' || names[0] == 'nestedWidgetsDontExpand' ) {
+						return metawidget.test.nestedWidgetsMetadata;
+					}
+				}
 			}
 		}, new metawidget.inspector.PropertyTypeInspector() ] )
 	};

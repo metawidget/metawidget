@@ -42,7 +42,7 @@ angular.module( 'addressBookServices', [] )
 		// For the body of the form
 
 		form: {
-			inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
+			inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
 				var contact = [ {
 					"name": "id",
@@ -108,26 +108,30 @@ angular.module( 'addressBookServices', [] )
 						} ];
 
 					case 'current':
-						if ( toInspect.type == 'business' ) {
-							return businessContact;
-						} else {
-							return personalContact;
+						
+						if ( names.length == 0 ) {
+							if ( toInspect.type == 'business' ) {
+								return businessContact;
+							} else {
+								return personalContact;
+							}
 						}
-
-					case 'current.address':
-						return [ {
-							"name": "street",
-							"type": "string"
-						}, {
-							"name": "city",
-							"type": "string"
-						}, {
-							"name": "state",
-							"lookup": "Anytown,Cyberton,Lostville,Whereverton"
-						}, {
-							"name": "postcode",
-							"type": "string"
-						} ];
+						
+						if ( names.length == 1 && names[0] == 'address' ) {
+							return [ {
+								"name": "street",
+								"type": "string"
+							}, {
+								"name": "city",
+								"type": "string"
+							}, {
+								"name": "state",
+								"lookup": "Anytown,Cyberton,Lostville,Whereverton"
+							}, {
+								"name": "postcode",
+								"type": "string"
+							} ];
+						}
 				}
 			}, new metawidget.inspector.PropertyTypeInspector() ] ),
 			layout: new metawidget.layout.HeadingTagLayoutDecorator( {
@@ -142,7 +146,7 @@ angular.module( 'addressBookServices', [] )
 		// For the button bar
 
 		buttons: {
-			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type ) {
+			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
 				if ( type == 'crudActions' ) {
 					return [ {
@@ -161,11 +165,11 @@ angular.module( 'addressBookServices', [] )
 		},
 
 		simple: {
-			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type ) {
+			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-				if ( type == 'communication.type' ) {
+				if ( type == 'communication' && names.length == 1 && names[0] == 'type' ) {
 					return [ {
-						"name": "$root",
+						"name": "__root",
 						"lookup": "Telephone,Mobile,Fax,E-mail"
 					} ];
 				}
