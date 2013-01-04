@@ -21,6 +21,15 @@
 						<overlay>
 							<groupId>org.metawidget.modules.js</groupId>
 							<artifactId>metawidget-angularjs</artifactId>
+							<excludes>
+								<exclude>lib/metawidget/core/metawidget.js</exclude>
+								<exclude>lib/metawidget/core/metawidget-inspectors.js</exclude>
+								<exclude>lib/metawidget/core/metawidget-layouts.js</exclude>
+								<exclude>lib/metawidget/core/metawidget-utils.js</exclude>
+								<exclude>lib/metawidget/core/metawidget-widgetbuilders.js</exclude>
+								<exclude>lib/metawidget/core/metawidget-widgetprocessors.js</exclude>
+								<exclude>lib/metawidget/angular/metawidget-angular.js</exclude>
+							</excludes>
 						</overlay>
 						<overlay>
 							<groupId>org.metawidget.examples.shared</groupId>

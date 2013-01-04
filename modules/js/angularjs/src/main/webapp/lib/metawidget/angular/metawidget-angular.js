@@ -26,7 +26,7 @@ angular.module( 'metawidget.directives', [] )
  * Angular directive to expose Metawidget.
  */
 
-.directive( 'metawidget', function( $compile ) {
+.directive( 'metawidget', [ '$compile', function( $compile ) {
 
 	// Returns the Metawidget
 
@@ -114,7 +114,7 @@ angular.module( 'metawidget.directives', [] )
 			};
 		}
 	};
-} );
+} ] );
 
 /**
  * Angular Metawidget.
