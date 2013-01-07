@@ -185,7 +185,7 @@ $.widget( "metawidget.metawidget", {
 			// Attach ourselves as a property of the tag, rather than try to
 			// 'extend' the built-in HTML tags
 
-			nestedWidget.metawidget = nestedMetawidget.metawidget( "getThis" )[0];
+			nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
 
 			nestedMetawidget.metawidget( "buildWidgets", nestedToInspect, nestedPath );
 			return nestedWidget;
@@ -268,13 +268,5 @@ $.widget( "metawidget.metawidget", {
 	getWidgetProcessor: function( testInstanceOf ) {
 
 		return this._pipeline.getWidgetProcessor( testInstanceOf );
-	},
-
-	getThis: function() {
-
-		// jQuery appears to wrap 'this' into something else. How to stop this?
-		// https://forum.jquery.com/topic/how-to-access-javascript-object-that-widgetfactory-instantiates
-
-		return [ this ];
 	},
 } );

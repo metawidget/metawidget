@@ -59,7 +59,7 @@ describe(
 			it( "defensively copies overridden widgets", function() {
 
 				$( '#metawidget' ).metawidget();
-				var mw = $( '#metawidget' ).metawidget( "getThis" )[0];
+				var mw = $( '#metawidget' ).data( 'metawidget' );
 
 				var bar = document.createElement( 'span' );
 				bar.setAttribute( 'id', 'bar' );

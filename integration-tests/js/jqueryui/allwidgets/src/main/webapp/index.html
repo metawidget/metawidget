@@ -43,9 +43,9 @@
 			actions = {
 				"save": function() {
 					var processor = $( "#metawidget" ).metawidget( "getWidgetProcessor", function( widgetProcessor ) { return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } );
-					processor.save( $( "#metawidget" ).metawidget( "getThis" )[0] );
+					processor.save( $( "#metawidget" ).data( 'metawidget' ));
 					processor = $( "#metawidget" ).metawidget( "getWidgetProcessor", function( widgetProcessor ) { return widgetProcessor instanceof metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor; } );
-					processor.save( $( "#metawidget" ).metawidget( "getThis" )[0] );
+					processor.save( $( "#metawidget" ).data( 'metawidget' ));
 					$( "#metawidget" ).metawidget( "option", "readOnly", true );
 					$( "#metawidget" ).metawidget( "option", "layout", new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout() ) );
 					
