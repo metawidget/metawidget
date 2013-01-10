@@ -39,7 +39,7 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 	// Dangerous to reassign an id. For example, some JQuery UI widgets assign
 	// temporary ids when they wrap widgets
 
-	if ( !widget.hasAttribute( 'id' ) ) {
+	if ( widget.getAttribute( 'id' ) == null ) {
 		widget.setAttribute( 'id', metawidget.util.getId( attributes, mw ) );
 	}
 
@@ -90,7 +90,13 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.onStartBuild = funct
 metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
 	if ( widget.tagName == 'BUTTON' ) {
-		var binding = mw.path;
+		var binding;
+
+		if ( mw.path ) {
+			binding = mw.path;
+		} else {
+			binding = 'mw.toInspect';
+		}
 
 		if ( attributes.name != '__root' ) {
 			binding += '.' + attributes.name;

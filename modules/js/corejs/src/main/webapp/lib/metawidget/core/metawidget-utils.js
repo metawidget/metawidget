@@ -150,3 +150,67 @@ metawidget.util.traversePath = function( toInspect, type, names ) {
 	
 	return toInspect;
 };
+
+// TODO: test this
+
+metawidget.util.combineInspectionResults = function( existingInspectionResult, newInspectionResult ) {
+	
+	// Inspector may return null
+
+	if ( !newInspectionResult ) {
+		return existingInspectionResult;
+	}
+
+	// If this is the first result...
+
+	if ( existingInspectionResult.length == 0 ) {
+
+		// ...copy it
+
+		for ( var loop = 0, length = newInspectionResult.length; loop < length; loop++ ) {
+
+			var newAttributes = newInspectionResult[loop];
+			var existingAttributes = {};
+
+			for ( var attribute in newAttributes ) {
+				existingAttributes[attribute] = newAttributes[attribute];
+			}
+
+			existingInspectionResult.push( existingAttributes );
+		}
+
+	} else {
+
+		// ...otherwise merge it
+
+		outer: for ( var loop1 = 0, length1 = newInspectionResult.length; loop1 < length1; loop1++ ) {
+
+			var newAttributes = newInspectionResult[loop1];
+
+			for ( var loop2 = 0, length2 = existingInspectionResult.length; loop2 < length2; loop2++ ) {
+				var existingAttributes = existingInspectionResult[loop2];
+
+				if ( existingAttributes.name == newAttributes.name ) {
+
+					for ( var attribute in newAttributes ) {
+						existingAttributes[attribute] = newAttributes[attribute];
+					}
+
+					continue outer;
+				}
+			}
+
+			// If no existing attributes matched, push a new one
+
+			var existingAttributes = {};
+
+			for ( var attribute in newAttributes ) {
+				existingAttributes[attribute] = newAttributes[attribute];
+			}
+
+			existingInspectionResult.push( existingAttributes );
+		}
+	}
+	
+	return existingInspectionResult;
+};

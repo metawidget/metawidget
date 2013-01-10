@@ -256,6 +256,7 @@
 								<li>JBoss jBPM</li>
 								<li>JavaScript Object Notation (JSON)</li>
 								<li>OVal</li>
+								<li>Representational State Transfer (REST)</li>
 								<li>Scala</li>
 								<li>Seam</li>
 								<li>Swing AppFramework</li>

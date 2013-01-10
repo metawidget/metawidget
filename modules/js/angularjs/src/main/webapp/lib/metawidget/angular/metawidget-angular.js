@@ -165,7 +165,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	this.buildWidgets = function() {
 
-		return pipeline.buildWidgets( this );
+		return pipeline.buildWidgets( pipeline.inspect( this ), this );
 	};
 };
 

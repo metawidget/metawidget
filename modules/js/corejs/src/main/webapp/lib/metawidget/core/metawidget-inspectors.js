@@ -56,62 +56,7 @@ metawidget.inspector.CompositeInspector = function( config ) {
 				inspectionResult = inspector( toInspect, type, names );
 			}
 
-			// Inspector may return null
-
-			if ( !inspectionResult ) {
-				continue;
-			}
-
-			// If this is the first result...
-
-			if ( compositeInspectionResult.length == 0 ) {
-
-				// ...copy it
-
-				for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
-
-					var newAttributes = inspectionResult[loop];
-					var existingAttributes = {};
-
-					for ( var attribute in newAttributes ) {
-						existingAttributes[attribute] = newAttributes[attribute];
-					}
-
-					compositeInspectionResult.push( existingAttributes );
-				}
-
-			} else {
-
-				// ...otherwise merge it
-
-				outer: for ( var loop1 = 0, length1 = inspectionResult.length; loop1 < length1; loop1++ ) {
-
-					var newAttributes = inspectionResult[loop1];
-
-					for ( var loop2 = 0, length2 = compositeInspectionResult.length; loop2 < length2; loop2++ ) {
-						var existingAttributes = compositeInspectionResult[loop2];
-
-						if ( existingAttributes.name == newAttributes.name ) {
-
-							for ( var attribute in newAttributes ) {
-								existingAttributes[attribute] = newAttributes[attribute];
-							}
-
-							continue outer;
-						}
-					}
-
-					// If no existing attributes matched, push a new one
-
-					var existingAttributes = {};
-
-					for ( var attribute in newAttributes ) {
-						existingAttributes[attribute] = newAttributes[attribute];
-					}
-
-					compositeInspectionResult.push( existingAttributes );
-				}
-			}
+			compositeInspectionResult = metawidget.util.combineInspectionResults( compositeInspectionResult, inspectionResult );
 		}
 
 		return compositeInspectionResult;
@@ -139,7 +84,7 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 		return;
 	}
 
-	// Inspect leaf
+	// Inspect leaf node
 	
 	var inspectionResult = [ {
 		"name": "__root",
@@ -166,7 +111,7 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 			var typeOfProperty = typeof ( value );
 
 			// type 'object' doesn't convey much, and can override a more
-			// descriptive string from a previous inspection result
+			// descriptive inspection result from a previous Inspector
 
 			if ( typeOfProperty != 'object' ) {
 				inspectedProperty.type = typeOfProperty;

@@ -220,7 +220,7 @@ $.widget( "metawidget.metawidget", {
 			this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
 		}
 
-		this._pipeline.buildWidgets( this );
+		this._pipeline.buildWidgets( this._pipeline.inspect( this ), this );
 	},
 
 	/**

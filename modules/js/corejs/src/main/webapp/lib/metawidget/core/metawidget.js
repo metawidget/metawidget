@@ -80,7 +80,7 @@ metawidget.Metawidget = function( element, config ) {
 		pipeline.layout = layout;
 	};
 
-	this.buildWidgets = function() {
+	this.buildWidgets = function( inspectionResult ) {
 
 		// Defensive copy
 
@@ -90,7 +90,13 @@ metawidget.Metawidget = function( element, config ) {
 			this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
 		}
 
-		pipeline.buildWidgets( this );
+		// Inspect (if necessary)
+		
+		if ( !inspectionResult ) {
+			inspectionResult = pipeline.inspect( this );
+		}
+		
+		pipeline.buildWidgets( inspectionResult, this );
 	};
 };
 
@@ -139,9 +145,9 @@ metawidget.Pipeline.prototype.configure = function( config ) {
 	if ( config.layout ) {
 		this.layout = config.layout;
 	}
-	
+
 	// Safeguard against infinite recursion
-	
+
 	if ( config.maximumInspectionDepth ) {
 		this.maximumInspectionDepth = config.maximumInspectionDepth - 1;
 	}
@@ -169,15 +175,22 @@ metawidget.Pipeline.prototype.getWidgetProcessor = function( testInstanceOf ) {
 };
 
 /**
- * Standard Metawidget pipeline.
+ * Inspect the given Metawidget's 'toInspect' according to its 'path', and
+ * return the result as a JSON String.
+ * <p>
+ * This method mirrors the <code>Inspector</code> interface. Internally it
+ * looks up the Inspector to use. It is a useful hook for subclasses wishing to
+ * inspect different Objects using our same <code>Inspector</code>.
+ * <p>
+ * In addition, this method runs the <code>InspectionResultProcessors</code>.
  * 
  * @param mw
  *            Metawidget instance that will be passed down the pipeline
  *            (WidgetBuilders, WidgetProcessors etc). Expected to have
- *            'toInspect', 'path' and 'readOnly'.
+ *            'toInspect' and 'path'.
  */
 
-metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
+metawidget.Pipeline.prototype.inspect = function( mw ) {
 
 	// Inspector
 
@@ -203,11 +216,36 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 		var inspectionResultProcessor = this.inspectionResultProcessors[loop];
 
 		if ( inspectionResultProcessor.processInspectionResult ) {
-			inspectionResultProcessor.processInspectionResult( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+			inspectionResult = inspectionResultProcessor.processInspectionResult( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
 		} else {
-			inspectionResultProcessor( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+			inspectionResult = inspectionResultProcessor( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+		}
+
+		// InspectionResultProcessor may return null
+
+		// TODO: test this
+
+		if ( !inspectionResult ) {
+			return;
 		}
 	}
+
+	return inspectionResult;
+};
+
+/**
+ * Build widgets from the given JSON inspection result.
+ * <p>
+ * Note: the Pipeline expects the JSON to be passed in externally, rather than
+ * fetching it itself, because some JSON inspections may be asynchronous.
+ * 
+ * @param mw
+ *            Metawidget instance that will be passed down the pipeline
+ *            (WidgetBuilders, WidgetProcessors etc). Expected to have
+ *            'toInspect', 'path' and 'readOnly'.
+ */
+
+metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 	// Clear existing contents
 
@@ -238,57 +276,65 @@ metawidget.Pipeline.prototype.buildWidgets = function( mw ) {
 
 	// Build top-level widget...
 
-	for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+	if ( inspectionResult ) {
+		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
 
-		var attributes = inspectionResult[loop];
+			var attributes = inspectionResult[loop];
 
-		if ( attributes.name != '__root' ) {
-			continue;
+			if ( attributes.name != '__root' ) {
+				continue;
+			}
+
+			var widget = _buildWidget( this, attributes, mw );
+
+			if ( widget ) {
+				widget = _processWidget( this, widget, attributes, mw );
+
+				if ( widget ) {
+					_layoutWidget( this, widget, attributes, this.element, mw );
+					return;
+				}
+			}
+
+			break;
 		}
 
-		var widget = _buildWidget( this, attributes, mw );
+		// ...or try compound widget
 
-		if ( widget ) {
+		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+
+			var attributes = inspectionResult[loop];
+
+			if ( attributes.name == '__root' ) {
+				continue;
+			}
+
+			var widget = _buildWidget( this, attributes, mw );
+
+			if ( !widget ) {
+				if ( this.maximumInspectionDepth <= 0 ) {
+					return;
+				}
+
+				widget = this.buildNestedMetawidget( attributes, mw );
+
+				if ( !widget ) {
+					return;
+				}
+			}
+
 			widget = _processWidget( this, widget, attributes, mw );
 
 			if ( widget ) {
 				_layoutWidget( this, widget, attributes, this.element, mw );
-				return;
 			}
 		}
 
-		break;
-	}
+		// Even if no inspectors match, we still call startBuild()/endBuild()
+		// because you can use a Metawidget purely for layout, with no
+		// inspection
 
-	// ...or try compound widget
-
-	for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
-
-		var attributes = inspectionResult[loop];
-
-		if ( attributes.name == '__root' ) {
-			continue;
-		}
-
-		var widget = _buildWidget( this, attributes, mw );
-
-		if ( !widget ) {
-			if ( this.maximumInspectionDepth <= 0 ) {
-				return;
-			}
-			
-			widget = this.buildNestedMetawidget( attributes, mw );
-
-			if ( !widget ) {
-				return;
-			}
-		}
-
-		widget = _processWidget( this, widget, attributes, mw );
-
-		if ( widget ) {
-			_layoutWidget( this, widget, attributes, this.element, mw );
-		}
+		// TODO: endBuild, and refactor onStartBuild
 	}
 
 	return;
