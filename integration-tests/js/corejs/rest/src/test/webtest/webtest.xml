@@ -4,6 +4,9 @@
 
 	<target name="all">
 		<webtest name="test-allWidgets">
+		
+			<!-- Use FF3.6 for XMLHttpRequest -->
+			
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}" browser="FF3.6"/>
 			<steps>
 				<invoke url="/" />

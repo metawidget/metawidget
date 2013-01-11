@@ -163,9 +163,13 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	this.configure( scope.$eval( 'config' ) );
 
-	this.buildWidgets = function() {
+	this.buildWidgets = function( inspectionResult ) {
 
-		return pipeline.buildWidgets( pipeline.inspect( this ), this );
+		if ( !inspectionResult ) {
+			inspectionResult = pipeline.inspect( this );
+		}
+		
+		pipeline.buildWidgets( inspectionResult, this );
 	};
 };
 

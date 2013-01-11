@@ -151,7 +151,7 @@ metawidget.util.traversePath = function( toInspect, type, names ) {
 	return toInspect;
 };
 
-// TODO: test this
+// TODO: test combineInspectionResults
 
 metawidget.util.combineInspectionResults = function( existingInspectionResult, newInspectionResult ) {
 	

@@ -223,7 +223,7 @@ metawidget.Pipeline.prototype.inspect = function( mw ) {
 
 		// InspectionResultProcessor may return null
 
-		// TODO: test this
+		// TODO: test InspectionResultProcessor may return null
 
 		if ( !inspectionResult ) {
 			return;
