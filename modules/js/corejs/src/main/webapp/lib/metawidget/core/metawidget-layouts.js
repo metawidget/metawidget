@@ -308,3 +308,5 @@ metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 		this.delegate.layoutWidget( h1, { "wide": "true" }, container, mw );
 	};
 };
+
+// TODO: TabLayoutDecorator

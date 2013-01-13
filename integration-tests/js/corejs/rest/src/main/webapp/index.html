@@ -38,10 +38,6 @@
 					    	
 					    	inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, JSON.parse( xhr.responseText ));
 					    	mw.buildWidgets( inspectionResult );
-					    	
-					    	// Hack for WebTest 3.0. Without this, dynamically created onClicks don't fire
-					    	
-					    	document.getElementById( 'metawidget' ).innerHTML = document.getElementById( 'metawidget' ).innerHTML;
 					    }
 					}
 					

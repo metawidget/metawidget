@@ -20,9 +20,7 @@
 
 function RestTestController( $scope, $http ) {
 
-	$scope.restTest = {};
-
-	$scope.actions = {
+	$scope.restTest = {
 		"save": function() {
 
 			$scope.readOnly = true;
@@ -34,15 +32,15 @@ function RestTestController( $scope, $http ) {
 		inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
 
 			// Don't re-fetch second time around
-			
+
 			if ( mw.readOnly ) {
 				return inspectionResult;
 			}
-			
+
 			$http.get( 'rest/metadata/get' ).then( function( result ) {
 
-		    	inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
-		    	mw.buildWidgets( inspectionResult );
+				inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
+				mw.buildWidgets( inspectionResult );
 			} );
 		} ]
 	};

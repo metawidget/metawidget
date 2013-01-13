@@ -102,7 +102,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 			binding += '.' + attributes.name;
 		}
 
-		widget.setAttribute( 'onClick', 'return ' + binding + '()' );
+		widget.addEventListener( 'click', eval( 'function() { return ' + binding + '() }' ));
 	} else {
 
 		var value;

@@ -23,20 +23,30 @@
 					<!-- Configure as a pure JavaScript project -->
 					<configuration>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
-					</configuration>					
-					<!-- Configure maven-war-plugin to run early, so that our          -->
-					<!-- JavascriptTestCases can load dependent resources from /target -->
+					</configuration>
+				</plugin>
+				<!-- Run maven-surefire-plugin as an integration test, so that our -->
+				<!-- JavascriptTestCases can load dependent resources from /target -->
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
 					<executions>
 						<execution>
-							<phase>test-compile</phase>
+							<id>surefire-it</id>
+							<phase>integration-test</phase>
 							<goals>
-								<goal>war</goal>
+								<goal>test</goal>
 							</goals>
+							<configuration>
+								<skip>false</skip>
+							</configuration>
 						</execution>
 					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 </project>

@@ -123,7 +123,8 @@ describe( "The SimpleBindingProcessor", function() {
 		};
 		widget = document.createElement( 'button' );
 		processor.processWidget( widget, attributes, mw );
-		expect( widget.toString() ).toBe( 'button onClick="return testPath.bar()"' );
+		expect( widget.toString() ).toBe( 'button' );
+		expect( widget.click.toString() ).toContain( 'return testPath.bar();' );
 
 		// Outputs
 

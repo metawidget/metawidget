@@ -16,24 +16,19 @@
 
 'use strict';
 
-describe( "AngularJS AllWidgets", function() {
+describe( "AngularJS REST", function() {
 
-	it( "tests every sort of widget", function() {
+	it( "tests REST functionality", function() {
 
-		angular.bootstrap( document, [ 'allWidgets' ] );
+		angular.bootstrap( document, [ 'restTest' ] );
 		
-		expect( $( '#table-allWidgetsTextbox-label' ).prop( 'for' ) ).toBe( 'allWidgetsTextbox' );
-		expect( $( '#table-allWidgetsTextbox-label' ).text() ).toBe( 'Textbox:' );
-		expect( $( '#allWidgetsTextbox' )[0].tagName ).toBe( 'INPUT' );
-		expect( $( '#allWidgetsTextbox' )[0].type ).toBe( 'text' );
-		expect( $( '#allWidgetsTextbox' ).attr( 'name' ) ).toBeUndefined();
-		expect( $( '#allWidgetsTextbox' ).attr( 'ng-model' ) ).toBe( 'allWidgets.textbox' );
-		expect( $( '#allWidgetsTextbox' ).attr( 'ng-required' ) ).toBe( 'true' );
-		expect( $( '#table-allWidgetsTextbox-row td' )[1].innerHTML ).toBe( '*' );
-		$( '#allWidgetsTextbox' ).val( 'Textbox1' ).change();
+		expect( $( '#table-restTestSave-label' ).prop( 'for' ) ).toBe( 'restTestSave' );
+		expect( $( '#table-restTestSave-label' ).text() ).toBe( 'Save:' );
+		expect( $( '#restTestSave' )[0].tagName ).toBe( 'BUTTON' );
+		expect( $( '#restTestSave' ).attr( 'ng-click' ) ).toBe( 'restTest.save()' );
 
-		expect( $( '#table-allWidgetsLimitedTextbox-label' ).prop( 'for' ) ).toBe( 'allWidgetsLimitedTextbox' );
-		expect( $( '#table-allWidgetsLimitedTextbox-label' ).text() ).toBe( 'Limited Textbox:' );
+		expect( $( '#table-restTestName-label' ).prop( 'for' ) ).toBe( 'restTestName' );
+		expect( $( '#table-restTestName-label' ).text() ).toBe( 'Name:' );
 		expect( $( '#allWidgetsLimitedTextbox' )[0].tagName ).toBe( 'INPUT' );
 		expect( $( '#allWidgetsLimitedTextbox' )[0].type ).toBe( 'text' );
 		expect( $( '#allWidgetsLimitedTextbox' ).attr( 'ng-model' ) ).toBe( 'allWidgets.limitedTextbox' );

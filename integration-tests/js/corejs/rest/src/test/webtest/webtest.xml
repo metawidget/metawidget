@@ -18,7 +18,6 @@
 				
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/@id" text="table-save-row"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/button/@id" text="save"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/button/@onclick" text="return mw.toInspect.save()"/>
 
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/@id" text="table-name-row"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/th/label" text="Name:"/>

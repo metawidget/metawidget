@@ -12,7 +12,7 @@ public class RestAngularTest
 	public void testRest()
 		throws Exception {
 
-		evaluateHtml( "target/rest-angularjs/index.html" );
+		evaluateHtml( "http://localhost:8180/rest-angularjs/index.html" );
 		run( "src/test/js/rest-angular-tests.js" );
 	}
 }

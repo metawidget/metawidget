@@ -73,6 +73,8 @@ angular.module( 'metawidget.directives', [] )
 				// Do not observe root types, such as 'string',
 				// otherwise every keypress will recreate the widget
 
+				// TODO: runs multiple times
+				
 				if ( typeof ( scope.$eval( 'toInspect' ) ) == 'object' ) {
 					scope.$watch( 'toInspect', function( newValue, oldValue ) {
 
