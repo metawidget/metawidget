@@ -30,7 +30,7 @@ describe( "The AngularInspectionResultProcessor", function() {
 				"value": "{{1+2}}"
 			} ];
 
-			processor.processInspectionResult( inspectionResult );
+			inspectionResult = processor.processInspectionResult( inspectionResult );
 
 			expect( inspectionResult[0].name ).toBe( 'foo' );
 			expect( inspectionResult[0].value ).toBe( '3' );

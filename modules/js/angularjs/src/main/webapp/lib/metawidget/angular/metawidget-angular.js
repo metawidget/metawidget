@@ -227,6 +227,8 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 				} );
 			}
 		}
+		
+		return inspectionResult;
 	};
 };
 
