@@ -39,8 +39,10 @@ function RestTestController( $scope, $http ) {
 
 			$http.get( 'rest/metadata/get' ).then( function( result ) {
 
-				inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
+				inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );				
+				print( mw.buildWidgets );
 				mw.buildWidgets( inspectionResult );
+				print( 'Foo3' );
 			} );
 		} ]
 	};

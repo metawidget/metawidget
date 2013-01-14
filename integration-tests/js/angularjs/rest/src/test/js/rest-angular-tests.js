@@ -22,6 +22,8 @@ describe( "AngularJS REST", function() {
 
 		angular.bootstrap( document, [ 'restTest' ] );
 		
+		console.log( document.innerHTML );
+		
 		expect( $( '#table-restTestSave-label' ).prop( 'for' ) ).toBe( 'restTestSave' );
 		expect( $( '#table-restTestSave-label' ).text() ).toBe( 'Save:' );
 		expect( $( '#restTestSave' )[0].tagName ).toBe( 'BUTTON' );

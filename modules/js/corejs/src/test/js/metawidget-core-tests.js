@@ -59,7 +59,7 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar" value="Bar"' );
 		expect( element.childNodes.length ).toBe( 1 );
 	} );
-	
+
 	it( "defensively copies overridden widgets", function() {
 
 		var element = document.createElement( 'div' );
@@ -72,7 +72,7 @@ describe( "The core Metawidget", function() {
 		mw.toInspect = {
 			"foo": "Foo",
 			"bar": "Bar"
-		};		
+		};
 		mw.buildWidgets();
 
 		expect( element.childNodes[0].toString() ).toBe( 'table' );
@@ -96,7 +96,7 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes.length ).toBe( 1 );
-		
+
 		expect( mw._overriddenNodes.length ).toBe( 1 );
 		expect( mw.overriddenNodes.length ).toBe( 1 );
 		mw.overriddenNodes.push( "defensive" );
@@ -110,7 +110,9 @@ describe( "The core Metawidget", function() {
 		var mw = new metawidget.Metawidget( element );
 
 		mw.toInspect = {
-			"foo": { "nestedFoo": "Foo" }
+			"foo": {
+				"nestedFoo": "Foo"
+			}
 		};
 		mw.buildWidgets();
 
@@ -124,12 +126,16 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div id="foo"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-foo"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-fooNestedFoo-row"' );		
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-fooNestedFoo-label-cell"' );		
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="fooNestedFoo" id="table-fooNestedFoo-label"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-fooNestedFoo-row"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
+				'th id="table-fooNestedFoo-label-cell"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
+				'label for="fooNestedFoo" id="table-fooNestedFoo-label"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Foo:' );
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-fooNestedFoo-cell"' );
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="fooNestedFoo" name="fooNestedFoo" value="Foo"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe(
+				'td id="table-fooNestedFoo-cell"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe(
+				'input type="text" id="fooNestedFoo" name="fooNestedFoo" value="Foo"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
@@ -144,19 +150,22 @@ describe( "The core Metawidget", function() {
 		var element = document.createElement( 'div' );
 		var mw = new metawidget.Metawidget( element, {
 			inspector: function( toInspect, type, names ) {
-				return [ { "name": "foo" } ];
+
+				return [ {
+					"name": "foo"
+				} ];
 			}
 		} );
 		mw.buildWidgets();
 
 		expect( element.childNodes[0].toString() ).toBe( 'table' );
 		expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
-		
+
 		var childNode = element.childNodes[0].childNodes[0];
 		var idMiddle = '';
-		
-		for( var loop = 0; loop < 10; loop++ ) {
-			
+
+		for ( var loop = 0; loop < 10; loop++ ) {
+
 			expect( childNode.childNodes[0].toString() ).toBe( 'tr id="table-foo' + idMiddle + '-row"' );
 			expect( childNode.childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-foo' + idMiddle + '-label-cell"' );
 			expect( childNode.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo' + idMiddle + '" id="table-foo' + idMiddle + '-label"' );
@@ -167,14 +176,113 @@ describe( "The core Metawidget", function() {
 			expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 			expect( childNode.childNodes[0].childNodes.length ).toBe( 3 );
 			expect( childNode.childNodes.length ).toBe( 1 );
-			
+
 			idMiddle += 'Foo';
 			childNode = childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0];
 		}
-		
+
 		expect( childNode.childNodes.length ).toBe( 0 );
-		
+
 		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes.length ).toBe( 1 );
+	} );
+
+	it( "calls onStartBuild and onEndBuild", function() {
+
+		var called = [];
+
+		var element = document.createElement( 'div' );
+		var mw = new metawidget.Metawidget( element, {
+			widgetBuilder: {
+				"onStartBuild": function( mw ) {
+
+					called.push( 'widgetBuilder.onStartBuild( ' + mw + ' )' );
+				},
+				"onEndBuild": function( mw ) {
+
+					called.push( 'widgetBuilder.onEndBuild( ' + mw + ' )' );
+				}
+			},
+			widgetProcessors: [ {
+				"onStartBuild": function( mw ) {
+
+					called.push( 'widgetProcessor.onStartBuild( ' + mw + ' )' );
+				},
+				"onEndBuild": function( mw ) {
+
+					called.push( 'widgetProcessor.onEndBuild( ' + mw + ' )' );
+				}
+			} ],
+			layout: {
+				"onStartBuild": function( mw ) {
+
+					called.push( 'layout.onStartBuild( ' + mw + ' )' );
+				},
+				"startContainerLayout": function( element, mw ) {
+
+					called.push( 'layout.startContainerLayout( ' + element + ', ' + mw + ' )' );
+				},
+				"endContainerLayout": function( element, mw ) {
+
+					called.push( 'layout.endContainerLayout( ' + element + ', ' + mw + ' )' );
+				},
+				"onEndBuild": function( mw ) {
+
+					called.push( 'layout.onEndBuild( ' + mw + ' )' );
+				}
+			}
+		} );
+
+		mw.buildWidgets();
+
+		expect( called[0] ).toBe( 'widgetBuilder.onStartBuild( [object Object] )' );
+		expect( called[1] ).toBe( 'widgetProcessor.onStartBuild( [object Object] )' );
+		expect( called[2] ).toBe( 'layout.onStartBuild( [object Object] )' );
+		expect( called[3] ).toBe( 'layout.startContainerLayout( div, [object Object] )' );
+		expect( called[4] ).toBe( 'layout.endContainerLayout( div, [object Object] )' );
+		expect( called[5] ).toBe( 'layout.onEndBuild( [object Object] )' );
+		expect( called[6] ).toBe( 'widgetProcessor.onEndBuild( [object Object] )' );
+		expect( called[7] ).toBe( 'widgetBuilder.onEndBuild( [object Object] )' );
+	} );
+
+	it( "will stop the build if the inspection returns null", function() {
+
+		// Normal
+		
+		var element = document.createElement( 'div' );
+		var mw = new metawidget.Metawidget( element );
+		mw.toInspect = {
+			"foo": "bar"
+		};
+
+		mw.buildWidgets();
+		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+		
+		// With null InspectionResultProcessor
+		
+		element = document.createElement( 'div' );
+		mw = new metawidget.Metawidget( element, {
+			inspectionResultProcessors: [ function() {
+
+			} ]
+		} );
+		
+		mw.buildWidgets();
+		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
+
+		// With null Inspectior
+		
+		element = document.createElement( 'div' );
+		mw = new metawidget.Metawidget( element, {
+			inspector: function() {
+
+			},
+			inspectionResultProcessors: [ function() {
+				throw new Error( 'Should not reach' );
+			} ]
+		} );
+		
+		mw.buildWidgets();
+		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
 	} );
 } );

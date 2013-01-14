@@ -223,8 +223,6 @@ metawidget.Pipeline.prototype.inspect = function( mw ) {
 
 		// InspectionResultProcessor may return null
 
-		// TODO: test InspectionResultProcessor may return null
-
 		if ( !inspectionResult ) {
 			return;
 		}
@@ -251,28 +249,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 	this.element.innerHTML = '';
 
-	// onStartBuild
-
-	if ( this.widgetBuilder.onStartBuild ) {
-		this.widgetBuilder.onStartBuild( mw );
-	}
-
-	for ( var loop = 0, length = this.widgetProcessors.length; loop < length; loop++ ) {
-
-		var widgetProcessor = this.widgetProcessors[loop];
-
-		if ( widgetProcessor.onStartBuild ) {
-			widgetProcessor.onStartBuild( mw );
-		}
-	}
-
-	if ( this.layout.onStartBuild ) {
-		this.layout.onStartBuild( mw );
-	}
-
-	if ( this.layout.startContainerLayout ) {
-		this.layout.startContainerLayout( this.element, mw );
-	}
+	_startBuild( this, mw );
 
 	// Build top-level widget...
 
@@ -329,13 +306,13 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 				_layoutWidget( this, widget, attributes, this.element, mw );
 			}
 		}
-
-		// Even if no inspectors match, we still call startBuild()/endBuild()
-		// because you can use a Metawidget purely for layout, with no
-		// inspection
-
-		// TODO: endBuild, and refactor onStartBuild
 	}
+
+	// Even if no inspectors match, we still call startBuild()/endBuild()
+	// because you can use a Metawidget purely for layout, with no
+	// inspection
+
+	_endBuild( this, mw );
 
 	return;
 
@@ -343,6 +320,30 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 	// Private methods
 	//
 
+	function _startBuild( pipeline, mw ) {
+		
+		if ( pipeline.widgetBuilder.onStartBuild ) {
+			pipeline.widgetBuilder.onStartBuild( mw );
+		}
+
+		for ( var loop = 0, length = pipeline.widgetProcessors.length; loop < length; loop++ ) {
+
+			var widgetProcessor = pipeline.widgetProcessors[loop];
+
+			if ( widgetProcessor.onStartBuild ) {
+				widgetProcessor.onStartBuild( mw );
+			}
+		}
+
+		if ( pipeline.layout.onStartBuild ) {
+			pipeline.layout.onStartBuild( mw );
+		}
+
+		if ( pipeline.layout.startContainerLayout ) {
+			pipeline.layout.startContainerLayout( pipeline.element, mw );
+		}		
+	}
+	
 	function _buildWidget( pipeline, attributes, mw ) {
 
 		if ( pipeline.widgetBuilder.buildWidget ) {
@@ -380,6 +381,30 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 		}
 
 		pipeline.layout( widget, attributes, container, mw );
+	}
+
+	function _endBuild( pipeline, mw ) {
+		
+		if ( pipeline.layout.endContainerLayout ) {
+			pipeline.layout.endContainerLayout( pipeline.element, mw );
+		}		
+
+		if ( pipeline.layout.onEndBuild ) {
+			pipeline.layout.onEndBuild( mw );
+		}
+
+		for ( var loop = 0, length = pipeline.widgetProcessors.length; loop < length; loop++ ) {
+
+			var widgetProcessor = pipeline.widgetProcessors[loop];
+
+			if ( widgetProcessor.onEndBuild ) {
+				widgetProcessor.onEndBuild( mw );
+			}
+		}
+
+		if ( pipeline.widgetBuilder.onEndBuild ) {
+			pipeline.widgetBuilder.onEndBuild( mw );
+		}
 	}
 };
 
