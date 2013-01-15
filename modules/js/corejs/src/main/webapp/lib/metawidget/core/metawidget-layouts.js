@@ -242,10 +242,52 @@ metawidget.layout.TableLayout = function( config ) {
 };
 
 //
-// FlatSectionLayoutDecorator
+// LayoutDecorator
 //
 
 function _flatSectionLayoutDecorator( config, decorator ) {
+
+	if ( config.delegate ) {
+		decorator.delegate = config.delegate;
+	} else {
+		decorator.delegate = config;
+	}
+
+	decorator.onStartBuild = function( mw ) {
+
+		mw.headingLayoutDecorator = {};
+		
+		if ( decorator.delegate.onStartBuild ) {
+			decorator.delegate.onStartBuild( mw );
+		}
+	};
+	
+	decorator.startContainerLayout = function( container, mw ) {
+
+		if ( decorator.delegate.startContainerLayout ) {
+			decorator.delegate.startContainerLayout( container, mw );
+		}
+	};
+
+	decorator.layoutWidget = function( widget, attributes, container, mw ) {
+
+		if ( !attributes.section || attributes.section == mw.headingLayoutDecorator.currentSection ) {
+			return decorator.delegate.layoutWidget( widget, attributes, container, mw );
+		}
+
+		decorator.addSectionWidget( attributes, container, mw );
+		decorator.delegate.layoutWidget( widget, attributes, container, mw );
+	};
+
+	decorator.endContainerLayout = function( container, mw ) {
+
+		if ( decorator.delegate.endContainerLayout ) {
+			decorator.delegate.endContainerLayout( container, mw );
+		}
+	};
+};
+
+function _nestedSectionLayoutDecorator( config, decorator ) {
 
 	if ( config.delegate ) {
 		decorator.delegate = config.delegate;
@@ -309,4 +351,20 @@ metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 	};
 };
 
-// TODO: TabLayoutDecorator
+//
+// DivLayoutDecorator
+//
+
+metawidget.layout.DivLayoutDecorator = function( config ) {
+
+	if ( ! ( this instanceof metawidget.layout.DivLayoutDecorator ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+
+	_nestedSectionLayoutDecorator( config, this );
+	
+	this.addSectionWidget = function( attributes, container, mw ) {
+
+		// TODO: DivLayoutDecorator
+	};
+};

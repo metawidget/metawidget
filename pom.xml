@@ -551,6 +551,12 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>2.28.0</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
 				<groupId>org.eclipse.equinox</groupId>
 				<artifactId>org.eclipse.equinox.common</artifactId>
 				<version>3.6.0.v20100503</version>
@@ -649,7 +655,7 @@
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-servlet</artifactId>
 				<version>1.16</version>
-			</dependency>			
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -956,6 +962,22 @@
 								<resultpath>target/webtest-results</resultpath>
 								<haltonerror>true</haltonerror>
 								<haltonfailure>true</haltonfailure>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>selenium-maven-plugin</artifactId>
+					<version>2.3</version>
+					<executions>
+						<execution>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>start-server</goal>
+							</goals>
+							<configuration>
+								<background>true</background>
 							</configuration>
 						</execution>
 					</executions>

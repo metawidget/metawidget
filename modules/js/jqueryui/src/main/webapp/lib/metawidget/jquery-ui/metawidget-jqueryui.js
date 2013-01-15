@@ -147,6 +147,26 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 };
 
 //
+// TabLayout
+//
+
+metawidget.jqueryui.layout = metawidget.jqueryui.layout || {};
+
+metawidget.jqueryui.layout.TabLayout = function( config ) {
+
+	if ( ! ( this instanceof metawidget.jqueryui.layout.TabLayout ) ) {
+		throw new Error( "Constructor called as a function" );
+	}
+
+	_flatSectionLayoutDecorator( config, this );
+	
+	this.addSectionWidget = function( attributes, container, mw ) {
+
+		// TODO: TabLayoutDecorator
+	};
+};
+
+//
 // Widget Factory
 //
 

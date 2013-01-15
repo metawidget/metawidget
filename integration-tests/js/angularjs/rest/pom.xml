@@ -23,18 +23,18 @@
 			<artifactId>jersey-servlet</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.metawidget.modules.js</groupId>
-			<artifactId>metawidget-corejs</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mozilla</groupId>
-			<artifactId>rhino</artifactId>
+			<groupId>org.metawidget.modules.js</groupId>
+			<artifactId>metawidget-angularjs</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -67,6 +67,10 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>selenium-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
