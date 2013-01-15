@@ -46,10 +46,6 @@ public abstract class AngularScenarioRunnerTestCase
 					for ( WebElement test : theDriver.findElements( By.className( "test-it" ) ) ) {
 						String classAttribute = test.getAttribute( "class" );
 
-						if ( classAttribute.contains( "status-failure" ) || classAttribute.contains( "status-error" ) ) {
-							throw new RuntimeException( test.getText() );
-						}
-
 						if ( classAttribute.contains( "status-pending" ) ) {
 							return false;
 						}
@@ -61,7 +57,32 @@ public abstract class AngularScenarioRunnerTestCase
 
 			// Display the result
 
-			System.out.println( "Tests run: " + driver.findElement( By.className( "status-success" ) ).getText() );
+			String failed = null;
+
+			for ( WebElement test : driver.findElements( By.className( "test-it" ) ) ) {
+
+				StringBuilder builder = new StringBuilder( "\t" );
+				builder.append( test.getText() );
+				String classAttribute = test.getAttribute( "class" );
+
+				if ( classAttribute.contains( "status-failure" ) || classAttribute.contains( "status-error" ) ) {
+					failed = test.getText();
+					builder.append( " - failed" );
+				} else {
+					builder.append( " - passed" );
+				}
+
+				System.out.println( builder );
+			}
+
+			System.out.println( "Tests run: " + driver.findElement( By.className( "status-success" ) ).getText() + ", " + driver.findElement( By.className( "status-failure" ) ).getText() + ", " + driver.findElement( By.className( "status-error" ) ).getText() );
+
+			// Fail if necessary
+
+			if ( failed != null ) {
+				throw new RuntimeException( failed );
+			}
+
 		} finally {
 			driver.quit();
 		}
