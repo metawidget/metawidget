@@ -156,7 +156,6 @@ describe( "JQuery UI AllWidgets", function() {
 		expect( $( '#allWidgetsReadOnly' ).text() ).toBe( 'Read Only Value' );
 		
 		expect( $( '#actionsSave' )[0].tagName ).toBe( 'BUTTON' );
-		expect( $( '#actionsSave' ).attr( 'onclick' ) ).toBe( 'return actions.save()' );
 		expect( $( '#actionsSave' ).text() ).toBe( 'Save' );
 
 		// $( '#actionsSave' ).click() didn't work?
