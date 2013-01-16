@@ -337,4 +337,165 @@ describe( "The HeadingTagLayoutDecorator", function() {
 		expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 	} );
+
+	it( "flattens nested sections", function() {
+
+		var layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.SimpleLayout() );
+
+		var container = document.createElement( 'metawidget' );
+		var mw = {
+			"path": "testPath"
+		};
+
+		layout.onStartBuild( mw );
+		layout.startContainerLayout( container, mw );
+		layout.layoutWidget( document.createElement( 'widget1' ), {
+			"name": "widget1",
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.1' ), {
+			"name": "widget2.1",
+			"section": "Section 1"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.2' ), {
+			"name": "widget2.2",
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.3.1' ), {
+			"name": "widget2.3.1",
+			"section": "Section 1,Section 1.1"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget3' ), {
+			"name": "widget3",
+			"section": "Section 2"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget4' ), {
+			"name": "widget4",
+			"section": ""
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget5' ), {
+			"name": "widget5"
+		}, container, mw );
+
+		expect( container.childNodes[0].toString() ).toBe( 'widget1' );
+		expect( container.childNodes[1].toString() ).toBe( 'h1' );
+		expect( container.childNodes[1].innerHTML ).toBe( 'Section 1' );
+		expect( container.childNodes[2].toString() ).toBe( 'widget2.1' );
+		expect( container.childNodes[3].toString() ).toBe( 'widget2.2' );
+		expect( container.childNodes[4].toString() ).toBe( 'h1' );
+		expect( container.childNodes[4].innerHTML ).toBe( 'Section 1.1' );
+		expect( container.childNodes[1].childNodes[2].childNodes[0].toString() ).toBe( 'widget2.3.1' );
+		expect( container.childNodes[1].childNodes.length ).toBe( 3 );
+		expect( container.childNodes[2].toString() ).toBe( 'div title="Section 2"' );
+		expect( container.childNodes[2].childNodes[0].toString() ).toBe( 'widget3' );
+		expect( container.childNodes[2].childNodes.length ).toBe( 1 );
+		expect( container.childNodes[3].toString() ).toBe( 'widget4' );
+		expect( container.childNodes[4].toString() ).toBe( 'widget5' );
+		expect( container.childNodes.length ).toBe( 5 );
+	} );
+
+	it( "can be mixed with a NestedSectionLayoutDecorator", function() {
+
+		var layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayoutDecorator( new metawidget.layout.SimpleLayout() ));
+
+		var container = document.createElement( 'metawidget' );
+		var mw = {
+			"path": "testPath"
+		};
+
+		layout.onStartBuild( mw );
+		layout.startContainerLayout( container, mw );
+		layout.layoutWidget( document.createElement( 'widget1' ), {
+			"name": "widget1",
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.1' ), {
+			"name": "widget2.1",
+			"section": "Section 1"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.2' ), {
+			"name": "widget2.2",
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.3.1' ), {
+			"name": "widget2.3.1",
+			"section": "Section 1,Section 1.1"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget3' ), {
+			"name": "widget3",
+			"section": "Section 2"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget4' ), {
+			"name": "widget4",
+			"section": ""
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget5' ), {
+			"name": "widget5"
+		}, container, mw );
+
+		expect( container.childNodes[0].toString() ).toBe( 'widget1' );
+		expect( container.childNodes[1].toString() ).toBe( 'div title="Section 1"' );
+		expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'widget2.1' );
+		expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'widget2.2' );
+		expect( container.childNodes[1].childNodes[2].toString() ).toBe( 'div title="Section 1.1"' );
+		expect( container.childNodes[1].childNodes[2].childNodes[0].toString() ).toBe( 'widget2.3.1' );
+		expect( container.childNodes[1].childNodes.length ).toBe( 3 );
+		expect( container.childNodes[2].toString() ).toBe( 'div title="Section 2"' );
+		expect( container.childNodes[2].childNodes[0].toString() ).toBe( 'widget3' );
+		expect( container.childNodes[2].childNodes.length ).toBe( 1 );
+		expect( container.childNodes[3].toString() ).toBe( 'widget4' );
+		expect( container.childNodes[4].toString() ).toBe( 'widget5' );
+		expect( container.childNodes.length ).toBe( 5 );
+	} );
+} );
+
+describe( "The DivLayoutDecorator", function() {
+
+	it( "decorates sections with divs", function() {
+
+		var layout = new metawidget.layout.DivLayoutDecorator( new metawidget.layout.DivLayoutDecorator( new metawidget.layout.SimpleLayout() ));
+
+		var container = document.createElement( 'metawidget' );
+		var mw = {
+			"path": "testPath"
+		};
+
+		layout.onStartBuild( mw );
+		layout.startContainerLayout( container, mw );
+		layout.layoutWidget( document.createElement( 'widget1' ), {
+			"name": "widget1",
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.1' ), {
+			"name": "widget2.1",
+			"section": "Section 1"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.2' ), {
+			"name": "widget2.2",
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.3.1' ), {
+			"name": "widget2.3.1",
+			"section": "Section 1,Section 1.1"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget3' ), {
+			"name": "widget3",
+			"section": "Section 2"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget4' ), {
+			"name": "widget4",
+			"section": ""
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget5' ), {
+			"name": "widget5"
+		}, container, mw );
+
+		expect( container.childNodes[0].toString() ).toBe( 'widget1' );
+		expect( container.childNodes[1].toString() ).toBe( 'div title="Section 1"' );
+		expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'widget2.1' );
+		expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'widget2.2' );
+		expect( container.childNodes[1].childNodes[2].toString() ).toBe( 'div title="Section 1.1"' );
+		expect( container.childNodes[1].childNodes[2].childNodes[0].toString() ).toBe( 'widget2.3.1' );
+		expect( container.childNodes[1].childNodes.length ).toBe( 3 );
+		expect( container.childNodes[2].toString() ).toBe( 'div title="Section 2"' );
+		expect( container.childNodes[2].childNodes[0].toString() ).toBe( 'widget3' );
+		expect( container.childNodes[2].childNodes.length ).toBe( 1 );
+		expect( container.childNodes[3].toString() ).toBe( 'widget4' );
+		expect( container.childNodes[4].toString() ).toBe( 'widget5' );
+		expect( container.childNodes.length ).toBe( 5 );
+	} );
 } );

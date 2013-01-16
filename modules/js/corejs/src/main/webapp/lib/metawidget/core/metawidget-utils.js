@@ -212,3 +212,32 @@ metawidget.util.combineInspectionResults = function( existingInspectionResult, n
 	
 	return existingInspectionResult;
 };
+
+/**
+ * Strips the first section off the section attribute (if any).
+ */
+
+metawidget.util.stripSection = function( attributes ) {
+
+	var section = attributes.section;
+	
+	// (null means 'no change to current section')
+	
+	if ( section == null ) {
+		return null;
+	}
+	
+	var sections = section.split( ',' );
+
+	switch( sections.length ) {
+	
+		// (empty String means 'end current section')
+		case 0:	return '';
+		
+		case 1: attributes.section = null;
+				return sections[0];
+		
+		case 2: attributes.section = sections.slice( 1 ).join( ',' );
+				return sections[0];
+	}
+};

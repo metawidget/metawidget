@@ -29,18 +29,19 @@ metawidget.layout = metawidget.layout || {};
 
 metawidget.layout.SimpleLayout = function() {
 
-	if ( ! ( this instanceof metawidget.layout.SimpleLayout ) ) {
-		throw new Error( "Constructor called as a function" );
+	if (!(this instanceof metawidget.layout.SimpleLayout)) {
+		throw new Error("Constructor called as a function");
 	}
 };
 
-metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
+metawidget.layout.SimpleLayout.prototype.layoutWidget = function(widget,
+		attributes, container, mw) {
 
-	if ( widget.tagName == 'STUB' && !metawidget.util.hasChildElements( widget )) {
+	if (widget.tagName == 'STUB' && !metawidget.util.hasChildElements(widget)) {
 		return;
 	}
 
-	container.appendChild( widget );
+	container.appendChild(widget);
 };
 
 //
@@ -49,282 +50,351 @@ metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attrib
 
 metawidget.layout.DivLayout = function() {
 
-	if ( ! ( this instanceof metawidget.layout.DivLayout ) ) {
-		throw new Error( "Constructor called as a function" );
+	if (!(this instanceof metawidget.layout.DivLayout)) {
+		throw new Error("Constructor called as a function");
 	}
 };
 
-metawidget.layout.DivLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
+metawidget.layout.DivLayout.prototype.layoutWidget = function(widget,
+		attributes, container, mw) {
 
-	if ( widget.tagName == 'STUB' && !metawidget.util.hasChildElements( widget )) {
+	if (widget.tagName == 'STUB' && !metawidget.util.hasChildElements(widget)) {
 		return;
 	}
 
-	var outerDiv = document.createElement( 'div' );
+	var outerDiv = document.createElement('div');
 
 	// Label
 
-	if ( attributes.name ) {
+	if (attributes.name) {
 
-		var labelDiv = document.createElement( 'div' );
-		var label = document.createElement( 'label' );
-		label.setAttribute( 'for', widget.getAttribute( 'id' ) );
-	
-		if ( attributes.label ) {
+		var labelDiv = document.createElement('div');
+		var label = document.createElement('label');
+		label.setAttribute('for', widget.getAttribute('id'));
+
+		if (attributes.label) {
 			label.innerHTML = attributes.label + ':';
 		} else {
-			label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
+			label.innerHTML = metawidget.util.uncamelCase(attributes.name)
+					+ ':';
 		}
-	
-		labelDiv.appendChild( label );		
-		outerDiv.appendChild( labelDiv );
+
+		labelDiv.appendChild(label);
+		outerDiv.appendChild(labelDiv);
 	}
 
 	// Widget
 
-	var widgetDiv = document.createElement( 'div' );
-	widgetDiv.appendChild( widget );
-	outerDiv.appendChild( widgetDiv );
+	var widgetDiv = document.createElement('div');
+	widgetDiv.appendChild(widget);
+	outerDiv.appendChild(widgetDiv);
 
-	container.appendChild( outerDiv );
+	container.appendChild(outerDiv);
 };
 
 //
 // TableLayout
 //
 
-metawidget.layout.TableLayout = function( config ) {
+metawidget.layout.TableLayout = function(config) {
 
-	if ( ! ( this instanceof metawidget.layout.TableLayout ) ) {
-		throw new Error( "Constructor called as a function" );
+	if (!(this instanceof metawidget.layout.TableLayout)) {
+		throw new Error("Constructor called as a function");
 	}
 
 	var tableStyleClass = config ? config.tableStyleClass : null;
 	var columnStyleClasses = config ? config.columnStyleClasses : null;
 	var footerStyleClass = config ? config.footerStyleClass : null;
 
-	this.startContainerLayout = function( container, mw ) {
+			this.startContainerLayout = function(container, mw) {
 
-		var table = document.createElement( 'table' );
-		if ( mw.path ) {
-			var id = metawidget.util.getId( {}, mw );
-			table.setAttribute( 'id', 'table-' + id );
-		}
-
-		if ( tableStyleClass ) {
-			table.setAttribute( 'class', tableStyleClass );
-		}
-
-		container.appendChild( table );
-
-		// tfoot
-		
-		if ( mw.overriddenNodes ) {
-			for ( var loop1 = 0, length1 = mw.overriddenNodes.length; loop1 < length1; loop1++ ) {
-	
-				var child = mw.overriddenNodes[loop1];
-								
-				if ( child.tagName == 'FACET' && child.getAttribute( 'name' ) == 'footer' ) {					
-					var tfoot = document.createElement( 'tfoot' );
-					table.appendChild( tfoot );
-					var tr = document.createElement( 'tr' );
-					tfoot.appendChild( tr );
-					var td = document.createElement( 'td' );
-					td.setAttribute( 'colspan', '2' );
-					
-					if ( footerStyleClass ) {
-						td.setAttribute( 'class', footerStyleClass );
-					}
-					
-					tr.appendChild( td );
-					
-					// Append children, so as to unwrap the 'facet' tag
-					
-					while( child.childNodes.length > 0 ) {
-						td.appendChild( child.removeChild( child.childNodes[0] ));
-					}
-					break;
+				var table = document.createElement('table');
+				if (mw.path) {
+					var id = metawidget.util.getId({}, mw);
+					table.setAttribute('id', 'table-' + id);
 				}
-			}
-		}
-			
-		// tbody
-		
-		table.appendChild( document.createElement( 'tbody' ) );
-	},
 
-	this.layoutWidget = function( widget, attributes, container, mw ) {
-
-		if ( widget.tagName == 'STUB' && !metawidget.util.hasChildElements( widget )) {
-			return;
-		}
-
-		var table = container.childNodes[ container.childNodes.length - 1 ];
-		var tr = document.createElement( 'tr' );
-
-		var idPrefix = null;
-		
-		if ( attributes.name && attributes.name != '__root' ) {			
-			idPrefix = table.getAttribute( 'id' );
-	
-			if ( idPrefix ) {
-				if ( idPrefix.charAt( idPrefix.length - 1 ) != '-' ) {
-					idPrefix += metawidget.util.capitalize( attributes.name );
-				} else {
-					idPrefix += attributes.name;
+				if (tableStyleClass) {
+					table.setAttribute('class', tableStyleClass);
 				}
-			} else {
-				idPrefix = 'table-' + attributes.name;
-			}
 
-			tr.setAttribute( 'id', idPrefix + '-row' );
+				container.appendChild(table);
 
-			// Label
-	
-			var th = document.createElement( 'th' );
-			th.setAttribute( 'id', idPrefix + '-label-cell' );
-	
-			if ( columnStyleClasses ) {
-				th.setAttribute( 'class', columnStyleClasses.split( ',' )[0] );
-			}
+				// tfoot
 
-			var label = document.createElement( 'label' );
-			label.setAttribute( 'for', widget.getAttribute( 'id' ) );
-			label.setAttribute( 'id', idPrefix + '-label' );
+				if (mw.overriddenNodes) {
+					for ( var loop1 = 0, length1 = mw.overriddenNodes.length; loop1 < length1; loop1++) {
 
-			if ( attributes.label ) {
-				label.innerHTML = attributes.label + ':';
-			} else {
-				label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
-			}
+						var child = mw.overriddenNodes[loop1];
 
-			th.appendChild( label );
-			tr.appendChild( th );
-		}		
+						if (child.tagName == 'FACET'
+								&& child.getAttribute('name') == 'footer') {
+							var tfoot = document.createElement('tfoot');
+							table.appendChild(tfoot);
+							var tr = document.createElement('tr');
+							tfoot.appendChild(tr);
+							var td = document.createElement('td');
+							td.setAttribute('colspan', '2');
 
-		// Widget
+							if (footerStyleClass) {
+								td.setAttribute('class', footerStyleClass);
+							}
 
-		var td = document.createElement( 'td' );
-		
-		if ( idPrefix ) {
-			td.setAttribute( 'id', idPrefix + '-cell' );
-		}
+							tr.appendChild(td);
 
-		if ( columnStyleClasses ) {
-			td.setAttribute( 'class', columnStyleClasses.split( ',' )[1] );
-		}
+							// Append children, so as to unwrap the 'facet' tag
 
-		td.appendChild( widget );
-		
-		if ( tr.childNodes.length < 1 ) {
-			td.setAttribute( 'colspan', 2 - tr.childNodes.length );
-		}
-		
-		tr.appendChild( td );
+							while (child.childNodes.length > 0) {
+								td.appendChild(child
+										.removeChild(child.childNodes[0]));
+							}
+							break;
+						}
+					}
+				}
 
-		// Error
+				// tbody
 
-		td = document.createElement( 'td' );
+				table.appendChild(document.createElement('tbody'));
+			},
 
-		if ( columnStyleClasses ) {
-			td.setAttribute( 'class', columnStyleClasses.split( ',' )[2] );
-		}
+			this.layoutWidget = function(widget, attributes, container, mw) {
 
-		if ( !metawidget.util.isReadOnly( attributes, mw ) && attributes.required == 'true' ) {
-			td.innerHTML = '*';
-		}
+				if (widget.tagName == 'STUB'
+						&& !metawidget.util.hasChildElements(widget)) {
+					return;
+				}
 
-		tr.appendChild( td );
+				var table = container.childNodes[container.childNodes.length - 1];
+				var tr = document.createElement('tr');
 
-		var tbody = table.childNodes[table.childNodes.length - 1]; 
-		tbody.appendChild( tr );
-	};
+				var idPrefix = null;
+
+				if (attributes.name && attributes.name != '__root') {
+					idPrefix = table.getAttribute('id');
+
+					if (idPrefix) {
+						if (idPrefix.charAt(idPrefix.length - 1) != '-') {
+							idPrefix += metawidget.util
+									.capitalize(attributes.name);
+						} else {
+							idPrefix += attributes.name;
+						}
+					} else {
+						idPrefix = 'table-' + attributes.name;
+					}
+
+					tr.setAttribute('id', idPrefix + '-row');
+
+					// Label
+
+					var th = document.createElement('th');
+					th.setAttribute('id', idPrefix + '-label-cell');
+
+					if (columnStyleClasses) {
+						th.setAttribute('class',
+								columnStyleClasses.split(',')[0]);
+					}
+
+					var label = document.createElement('label');
+					label.setAttribute('for', widget.getAttribute('id'));
+					label.setAttribute('id', idPrefix + '-label');
+
+					if (attributes.label) {
+						label.innerHTML = attributes.label + ':';
+					} else {
+						label.innerHTML = metawidget.util
+								.uncamelCase(attributes.name)
+								+ ':';
+					}
+
+					th.appendChild(label);
+					tr.appendChild(th);
+				}
+
+				// Widget
+
+				var td = document.createElement('td');
+
+				if (idPrefix) {
+					td.setAttribute('id', idPrefix + '-cell');
+				}
+
+				if (columnStyleClasses) {
+					td.setAttribute('class', columnStyleClasses.split(',')[1]);
+				}
+
+				td.appendChild(widget);
+
+				if (tr.childNodes.length < 1) {
+					td.setAttribute('colspan', 2 - tr.childNodes.length);
+				}
+
+				tr.appendChild(td);
+
+				// Error
+
+				td = document.createElement('td');
+
+				if (columnStyleClasses) {
+					td.setAttribute('class', columnStyleClasses.split(',')[2]);
+				}
+
+				if (!metawidget.util.isReadOnly(attributes, mw)
+						&& attributes.required == 'true') {
+					td.innerHTML = '*';
+				}
+
+				tr.appendChild(td);
+
+				var tbody = table.childNodes[table.childNodes.length - 1];
+				tbody.appendChild(tr);
+			};
 };
 
 //
 // LayoutDecorator
 //
 
-function _flatSectionLayoutDecorator( config, decorator ) {
+function _flatSectionLayoutDecorator(config, decorator, decoratorName) {
 
-	if ( config.delegate ) {
+	if (config.delegate) {
 		decorator.delegate = config.delegate;
 	} else {
 		decorator.delegate = config;
 	}
 
-	decorator.onStartBuild = function( mw ) {
+	decorator.onStartBuild = function(mw) {
 
-		mw.headingLayoutDecorator = {};
-		
-		if ( decorator.delegate.onStartBuild ) {
-			decorator.delegate.onStartBuild( mw );
-		}
-	};
-	
-	decorator.startContainerLayout = function( container, mw ) {
-
-		if ( decorator.delegate.startContainerLayout ) {
-			decorator.delegate.startContainerLayout( container, mw );
+		if (decorator.delegate.onStartBuild) {
+			decorator.delegate.onStartBuild(mw);
 		}
 	};
 
-	decorator.layoutWidget = function( widget, attributes, container, mw ) {
+	decorator.startContainerLayout = function(container, mw) {
 
-		if ( !attributes.section || attributes.section == mw.headingLayoutDecorator.currentSection ) {
-			return decorator.delegate.layoutWidget( widget, attributes, container, mw );
+		container[decoratorName] = {};
+
+		if (decorator.delegate.startContainerLayout) {
+			decorator.delegate.startContainerLayout(container, mw);
 		}
-
-		decorator.addSectionWidget( attributes, container, mw );
-		decorator.delegate.layoutWidget( widget, attributes, container, mw );
 	};
 
-	decorator.endContainerLayout = function( container, mw ) {
+	decorator.layoutWidget = function(widget, attributes, container, mw) {
 
-		if ( decorator.delegate.endContainerLayout ) {
-			decorator.delegate.endContainerLayout( container, mw );
+		if (!attributes.section
+				|| attributes.section == container[decoratorName].currentSection) {
+			return decorator.delegate.layoutWidget(widget, attributes,
+					container, mw);
+		}
+
+		container[decoratorName].currentSection = attributes.section;
+		decorator.addSectionWidget(attributes, container, mw);
+
+		// Add component as normal
+
+		decorator.delegate.layoutWidget(widget, attributes, container, mw);
+	};
+
+	decorator.endContainerLayout = function(container, mw) {
+
+		if (decorator.delegate.endContainerLayout) {
+			decorator.delegate.endContainerLayout(container, mw);
 		}
 	};
 };
 
-function _nestedSectionLayoutDecorator( config, decorator ) {
+function _nestedSectionLayoutDecorator(config, decorator, decoratorName) {
 
-	if ( config.delegate ) {
-		decorator.delegate = config.delegate;
+	var delegate;
+
+	if (config.delegate) {
+		delegate = config.delegate;
 	} else {
-		decorator.delegate = config;
+		delegate = config;
 	}
 
-	decorator.onStartBuild = function( mw ) {
+	/**
+	 * Read-only getter.
+	 * <p>
+	 * Dangerous to add a 'delegate' property, because can conflict with
+	 * 'config.delegate'.
+	 */
 
-		mw.headingLayoutDecorator = {};
-		
-		if ( decorator.delegate.onStartBuild ) {
-			decorator.delegate.onStartBuild( mw );
-		}
-	};
-	
-	decorator.startContainerLayout = function( container, mw ) {
-
-		if ( decorator.delegate.startContainerLayout ) {
-			decorator.delegate.startContainerLayout( container, mw );
-		}
+	decorator.getDelegate = function() {
+		return delegate;
 	};
 
-	decorator.layoutWidget = function( widget, attributes, container, mw ) {
+	decorator.onStartBuild = function(mw) {
 
-		if ( !attributes.section || attributes.section == mw.headingLayoutDecorator.currentSection ) {
-			return decorator.delegate.layoutWidget( widget, attributes, container, mw );
+		if (decorator.getDelegate().onStartBuild) {
+			decorator.getDelegate().onStartBuild(mw);
 		}
-
-		decorator.addSectionWidget( attributes, container, mw );
-		decorator.delegate.layoutWidget( widget, attributes, container, mw );
 	};
 
-	decorator.endContainerLayout = function( container, mw ) {
+	decorator.startContainerLayout = function(container, mw) {
 
-		if ( decorator.delegate.endContainerLayout ) {
-			decorator.delegate.endContainerLayout( container, mw );
+		container[decoratorName] = {};
+
+		if (decorator.getDelegate().startContainerLayout) {
+			decorator.getDelegate().startContainerLayout(container, mw);
+		}
+	};
+
+	decorator.layoutWidget = function(widget, attributes, container, mw) {
+
+		// Stay where we are?
+
+		var section = metawidget.util.stripSection(attributes);
+
+		if (section == null	|| section == container[decoratorName].currentSection) {
+			if (container[decoratorName].currentSectionWidget) {
+				return decorator.getDelegate().layoutWidget(widget, attributes, container[decoratorName].currentSectionWidget, mw);
+			}
+			return decorator.getDelegate().layoutWidget(widget, attributes,	container, mw);
+		}
+
+		// End current section
+
+		if (container[decoratorName].currentSectionWidget) {
+			decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
+		}
+
+		container[decoratorName].currentSection = section;
+		container[decoratorName].currentSectionWidget = null;
+
+		// No new section?
+
+		if (section == '') {
+			decorator.getDelegate().layoutWidget(widget, attributes, container,
+					mw);
+			return;
+		}
+
+		// Start new section
+
+		container[decoratorName].currentSectionWidget = decorator
+				.createSectionWidget(attributes, container, mw);
+		decorator.startContainerLayout(
+				container[decoratorName].currentSectionWidget, mw);
+
+		// Add component to new section
+
+		decorator.getDelegate().layoutWidget(widget, attributes,
+				container[decoratorName].currentSectionWidget, mw);
+	};
+
+	decorator.endContainerLayout = function(container, mw) {
+
+		// End hanging layouts
+
+		if (container[decoratorName].currentSectionWidget) {
+			decorator.endContainerLayout(
+					container[decoratorName].currentSectionWidget, mw);
+		}
+
+		if (decorator.getDelegate().endContainerLayout) {
+			decorator.getDelegate().endContainerLayout(container, mw);
 		}
 	};
 };
@@ -333,21 +403,22 @@ function _nestedSectionLayoutDecorator( config, decorator ) {
 // HeadingTagLayoutDecorator
 //
 
-metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
+metawidget.layout.HeadingTagLayoutDecorator = function(config) {
 
-	if ( ! ( this instanceof metawidget.layout.HeadingTagLayoutDecorator ) ) {
-		throw new Error( "Constructor called as a function" );
+	if (!(this instanceof metawidget.layout.HeadingTagLayoutDecorator)) {
+		throw new Error("Constructor called as a function");
 	}
 
-	_flatSectionLayoutDecorator( config, this );
-	
-	this.addSectionWidget = function( attributes, container, mw ) {
+	_flatSectionLayoutDecorator(config, this, 'headingTagLayoutDecorator');
 
-		mw.headingLayoutDecorator.currentSection = attributes.section;		
-		var h1 = document.createElement( 'h1' );
+	this.addSectionWidget = function(attributes, container, mw) {
+
+		var h1 = document.createElement('h1');
 		h1.innerHTML = attributes.section;
-		
-		this.delegate.layoutWidget( h1, { "wide": "true" }, container, mw );
+
+		this.delegate.layoutWidget(h1, {
+			"wide" : "true"
+		}, container, mw);
 	};
 };
 
@@ -355,16 +426,22 @@ metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 // DivLayoutDecorator
 //
 
-metawidget.layout.DivLayoutDecorator = function( config ) {
+metawidget.layout.DivLayoutDecorator = function(config) {
 
-	if ( ! ( this instanceof metawidget.layout.DivLayoutDecorator ) ) {
-		throw new Error( "Constructor called as a function" );
+	if (!(this instanceof metawidget.layout.DivLayoutDecorator)) {
+		throw new Error("Constructor called as a function");
 	}
 
-	_nestedSectionLayoutDecorator( config, this );
-	
-	this.addSectionWidget = function( attributes, container, mw ) {
+	_nestedSectionLayoutDecorator(config, this, 'divLayoutDecorator');
 
-		// TODO: DivLayoutDecorator
+	this.createSectionWidget = function(attributes, container, mw) {
+
+		var div = document.createElement('div');
+		div.setAttribute('title', container.divLayoutDecorator.currentSection );
+		this.getDelegate().layoutWidget(div, {
+			"wide" : "true"
+		}, container, mw);
+
+		return div;
 	};
 };
