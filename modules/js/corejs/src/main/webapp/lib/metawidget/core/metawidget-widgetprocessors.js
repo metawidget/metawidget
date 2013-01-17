@@ -90,19 +90,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.onStartBuild = funct
 metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
 	if ( widget.tagName == 'BUTTON' ) {
-		var binding;
-
-		if ( mw.path ) {
-			binding = mw.path;
-		} else {
-			binding = 'mw.toInspect';
-		}
-
-		if ( attributes.name != '__root' ) {
-			binding += '.' + attributes.name;
-		}
-
-		widget.addEventListener( 'click', eval( 'function() { return ' + binding + '() }' ));
+		widget.onclick = function() { try { return mw.toInspect[attributes.name](); } catch( e ) { alert( e ); }};
 	} else {
 
 		var value;

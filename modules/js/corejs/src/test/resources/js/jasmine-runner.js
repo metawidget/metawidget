@@ -68,14 +68,6 @@ this.document = {
 
 		return {
 			"tagName": elementName.toUpperCase(),
-			"attachEvent": function() {
-
-				throw new Error( "attachEvent is not ECMAScript" );
-			},
-			"addEventListener": function( event, listener ) {
-
-				this[event] = listener;
-			},
 			"childNodes": [],
 			"children": function() {
 

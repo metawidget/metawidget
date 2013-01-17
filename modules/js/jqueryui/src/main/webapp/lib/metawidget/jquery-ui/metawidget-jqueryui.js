@@ -216,7 +216,9 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 			}
 		}
 
-		this._superOnEndBuild( mw );
+		if ( this._superOnEndBuild ) {
+			this._superOnEndBuild( mw );
+		}
 	};
 };
 
@@ -284,7 +286,7 @@ $.widget( "metawidget.metawidget", {
 	 * Called when created, and later when changing options.
 	 */
 
-	_refresh: function() {
+	_refresh: function( inspectionResult ) {
 
 		// Defensive copy
 
@@ -294,7 +296,13 @@ $.widget( "metawidget.metawidget", {
 			this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
 		}
 
-		this._pipeline.buildWidgets( this._pipeline.inspect( this ), this );
+		// Inspect (if necessary)
+		
+		if ( !inspectionResult ) {
+			inspectionResult = this._pipeline.inspect( this );
+		}
+		
+		this._pipeline.buildWidgets( inspectionResult, this );
 	},
 
 	/**
