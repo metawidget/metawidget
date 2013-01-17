@@ -175,7 +175,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 
 		// Otherwise, create a new section widget...
 
-		UIComponent sectionWidget = createNewSectionWidget( previousSectionWidget, attributes, container, metawidget );
+		UIComponent sectionWidget = createNewSectionWidget( previousSectionWidget, section, attributes, container, metawidget );
 
 		// ...and tag it (for layout Metawidget -> UITab -> UITabPanel, may need tagging at 3
 		// levels)
@@ -219,7 +219,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	 *            a TabHost
 	 */
 
-	protected abstract UIComponent createNewSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget );
+	protected abstract UIComponent createNewSectionWidget( UIComponent previousSectionWidget, String section, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget );
 
 	/**
 	 * Clears out all <code>existingSectionsUsed</code>. Needed for ICEfaces support.

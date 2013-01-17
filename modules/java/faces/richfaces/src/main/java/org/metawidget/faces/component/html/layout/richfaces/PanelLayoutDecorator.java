@@ -65,7 +65,7 @@ public class PanelLayoutDecorator
 	//
 
 	@Override
-	protected UIComponent createNewSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+	protected UIComponent createNewSectionWidget( UIComponent previousSectionWidget, String section, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -77,7 +77,6 @@ public class PanelLayoutDecorator
 
 		// Section name (possibly localized)
 
-		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null ) {
