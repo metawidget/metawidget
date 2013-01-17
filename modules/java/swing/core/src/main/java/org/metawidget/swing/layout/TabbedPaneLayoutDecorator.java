@@ -77,7 +77,7 @@ public class TabbedPaneLayoutDecorator
 	//
 
 	@Override
-	protected JComponent createSectionWidget( JComponent previousSectionWidget, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
+	protected JComponent createSectionWidget( JComponent previousSectionWidget, String section, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget ) {
 
 		JTabbedPane tabbedPane;
 
@@ -105,7 +105,6 @@ public class TabbedPaneLayoutDecorator
 
 		// Tab name (possibly localized)
 
-		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null ) {

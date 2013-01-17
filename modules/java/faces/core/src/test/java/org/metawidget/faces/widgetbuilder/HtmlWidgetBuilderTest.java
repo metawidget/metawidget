@@ -374,8 +374,8 @@ public class HtmlWidgetBuilderTest
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"ConverterFoo\">";
-		xml += "<property name=\"bar\" faces-converter-id=\"barConverter\"/>";
-		xml += "<property name=\"baz\" faces-converter-id=\"bazConverter\"/>";
+		xml += "<property name=\"bar\" faces-converter=\"barConverter\"/>";
+		xml += "<property name=\"baz\" faces-converter=\"bazConverter\"/>";
 		xml += "</entity>";
 		xml += "</inspection-result>";
 

@@ -57,7 +57,7 @@ public class StandardConverterProcessor
 
 		// Explicit Converter
 
-		String converterId = attributes.get( FACES_CONVERTER_ID );
+		String converterId = attributes.get( FACES_CONVERTER );
 
 		if ( converterId != null ) {
 			( (ValueHolder) widget ).setConverter( converterId );

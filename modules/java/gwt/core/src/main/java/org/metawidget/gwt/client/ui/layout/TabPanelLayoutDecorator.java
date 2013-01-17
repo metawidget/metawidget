@@ -53,7 +53,7 @@ public class TabPanelLayoutDecorator
 	//
 
 	@Override
-	protected Panel createSectionWidget( Panel previousSectionWidget, Map<String, String> attributes, Panel container, GwtMetawidget metawidget ) {
+	protected Panel createSectionWidget( Panel previousSectionWidget, String section, Map<String, String> attributes, Panel container, GwtMetawidget metawidget ) {
 
 		// Whole new tab panel?
 
@@ -78,7 +78,6 @@ public class TabPanelLayoutDecorator
 
 		// Section name (possibly localized)
 
-		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null ) {

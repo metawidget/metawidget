@@ -59,7 +59,7 @@ public class TabFolderLayoutDecorator
 	//
 
 	@Override
-	protected Composite createSectionWidget( Composite previousSectionWidget, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
+	protected Composite createSectionWidget( Composite previousSectionWidget, String section, Map<String, String> attributes, Composite container, SwtMetawidget metawidget ) {
 
 		TabFolder tabFolder;
 
@@ -85,7 +85,6 @@ public class TabFolderLayoutDecorator
 
 		// Tab name (possibly localized)
 
-		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null ) {

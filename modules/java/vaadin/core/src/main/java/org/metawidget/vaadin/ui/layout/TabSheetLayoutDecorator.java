@@ -53,7 +53,7 @@ public class TabSheetLayoutDecorator
 	//
 
 	@Override
-	protected ComponentContainer createSectionWidget( ComponentContainer previousSectionWidget, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
+	protected ComponentContainer createSectionWidget( ComponentContainer previousSectionWidget, String section, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
 
 		TabSheet tabSheet;
 
@@ -79,8 +79,6 @@ public class TabSheetLayoutDecorator
 		Panel tabPanel = new Panel();
 
 		// Tab name (possibly localized)
-
-		String section = getState( container, metawidget ).currentSection;
 
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 

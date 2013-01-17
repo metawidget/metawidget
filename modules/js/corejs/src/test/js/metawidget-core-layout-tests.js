@@ -380,16 +380,15 @@ describe( "The HeadingTagLayoutDecorator", function() {
 		expect( container.childNodes[1].innerHTML ).toBe( 'Section 1' );
 		expect( container.childNodes[2].toString() ).toBe( 'widget2.1' );
 		expect( container.childNodes[3].toString() ).toBe( 'widget2.2' );
-		expect( container.childNodes[4].toString() ).toBe( 'h1' );
+		expect( container.childNodes[4].toString() ).toBe( 'h2' );
 		expect( container.childNodes[4].innerHTML ).toBe( 'Section 1.1' );
-		expect( container.childNodes[1].childNodes[2].childNodes[0].toString() ).toBe( 'widget2.3.1' );
-		expect( container.childNodes[1].childNodes.length ).toBe( 3 );
-		expect( container.childNodes[2].toString() ).toBe( 'div title="Section 2"' );
-		expect( container.childNodes[2].childNodes[0].toString() ).toBe( 'widget3' );
-		expect( container.childNodes[2].childNodes.length ).toBe( 1 );
-		expect( container.childNodes[3].toString() ).toBe( 'widget4' );
-		expect( container.childNodes[4].toString() ).toBe( 'widget5' );
-		expect( container.childNodes.length ).toBe( 5 );
+		expect( container.childNodes[5].toString() ).toBe( 'widget2.3.1' );
+		expect( container.childNodes[6].toString() ).toBe( 'h1' );
+		expect( container.childNodes[6].innerHTML ).toBe( 'Section 2' );
+		expect( container.childNodes[7].toString() ).toBe( 'widget3' );
+		expect( container.childNodes[8].toString() ).toBe( 'widget4' );
+		expect( container.childNodes[9].toString() ).toBe( 'widget5' );
+		expect( container.childNodes.length ).toBe( 10 );
 	} );
 
 	it( "can be mixed with a NestedSectionLayoutDecorator", function() {
@@ -430,18 +429,18 @@ describe( "The HeadingTagLayoutDecorator", function() {
 		}, container, mw );
 
 		expect( container.childNodes[0].toString() ).toBe( 'widget1' );
-		expect( container.childNodes[1].toString() ).toBe( 'div title="Section 1"' );
-		expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'widget2.1' );
-		expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'widget2.2' );
-		expect( container.childNodes[1].childNodes[2].toString() ).toBe( 'div title="Section 1.1"' );
-		expect( container.childNodes[1].childNodes[2].childNodes[0].toString() ).toBe( 'widget2.3.1' );
-		expect( container.childNodes[1].childNodes.length ).toBe( 3 );
-		expect( container.childNodes[2].toString() ).toBe( 'div title="Section 2"' );
-		expect( container.childNodes[2].childNodes[0].toString() ).toBe( 'widget3' );
-		expect( container.childNodes[2].childNodes.length ).toBe( 1 );
-		expect( container.childNodes[3].toString() ).toBe( 'widget4' );
-		expect( container.childNodes[4].toString() ).toBe( 'widget5' );
-		expect( container.childNodes.length ).toBe( 5 );
+		expect( container.childNodes[1].toString() ).toBe( 'h1' );
+		expect( container.childNodes[1].innerHTML ).toBe( 'Section 1' );
+		expect( container.childNodes[2].toString() ).toBe( 'widget2.1' );
+		expect( container.childNodes[3].toString() ).toBe( 'widget2.2' );
+		expect( container.childNodes[4].toString() ).toBe( 'div title="Section 1.1"' );
+		expect( container.childNodes[4].childNodes[0].toString() ).toBe( 'widget2.3.1' );
+		expect( container.childNodes[5].toString() ).toBe( 'h1' );
+		expect( container.childNodes[5].innerHTML ).toBe( 'Section 2' );
+		expect( container.childNodes[6].toString() ).toBe( 'widget3' );
+		expect( container.childNodes[7].toString() ).toBe( 'widget4' );
+		expect( container.childNodes[8].toString() ).toBe( 'widget5' );
+		expect( container.childNodes.length ).toBe( 9 );
 	} );
 } );
 

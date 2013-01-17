@@ -77,17 +77,17 @@ public class StandardConverterProcessorTest
 
 		// Explicit converter
 
-		attributes.put( FACES_CONVERTER_ID, "fooConverter" );
+		attributes.put( FACES_CONVERTER, "fooConverter" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
 		assertEquals( "fooConverter", htmlInputText.getConverter().toString() );
 
 		// Explicit EL-based converter
 
-		attributes.put( FACES_CONVERTER_ID, "#{foo.converter}" );
+		attributes.put( FACES_CONVERTER, "#{foo.converter}" );
 		htmlInputText = new HtmlInputText();
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
 		assertEquals( "#{foo.converter}", htmlInputText.getValueBinding( "converter" ).getExpressionString() );
-		attributes.remove( FACES_CONVERTER_ID );
+		attributes.remove( FACES_CONVERTER );
 
 		// Implicit DateTimeConverter
 

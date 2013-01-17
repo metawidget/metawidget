@@ -398,7 +398,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<para>
 						<classname>StandardConverterProcessor</classname> attaches standard JSF converters to each widget as needed. This
 						includes <classname>DateTimeConverter</classname> and <classname>NumberConverter</classname>, and support for
-						the <parameter>faces-converter-id</parameter> attribute.
+						the <parameter>faces-converter</parameter> attribute.
 					</para>					
 				</section>
 

@@ -89,7 +89,7 @@ public abstract class SwtNestedSectionLayoutDecorator
 			return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 		}
 
-		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
+		state.currentSectionWidget = createSectionWidget( previousSectionWidget, section, attributes, container, metawidget );
 		super.startContainerLayout( state.currentSectionWidget, metawidget );
 
 		return delegateStartBuildWidget( elementName, attributes, state.currentSectionWidget, metawidget );

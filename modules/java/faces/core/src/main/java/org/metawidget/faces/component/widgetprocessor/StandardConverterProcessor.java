@@ -45,7 +45,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 /**
  * WidgetProcessor to add standard JSF Converters to a UIComponent. This
  * includes <code>DateTimeConverter</code> and <code>NumberConverter</code>, and
- * support for the <code>faces-converter-id</code> attribute.
+ * support for the <code>faces-converter</code> attribute.
  *
  * @author Richard Kennard
  */
@@ -112,7 +112,7 @@ public class StandardConverterProcessor
 		// from the ViewState
 
 		ValueHolder valueHolder = (ValueHolder) component;
-		String converterId = attributes.get( FACES_CONVERTER_ID );
+		String converterId = attributes.get( FACES_CONVERTER );
 
 		if ( converterId != null && FacesUtils.isExpression( converterId ) ) {
 
@@ -141,7 +141,7 @@ public class StandardConverterProcessor
 		// Create from id
 
 		FacesContext context = FacesContext.getCurrentInstance();
-		String converterId = attributes.get( FACES_CONVERTER_ID );
+		String converterId = attributes.get( FACES_CONVERTER );
 
 		if ( converterId != null ) {
 

@@ -102,12 +102,11 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	 */
 
 	@Override
-	protected final UIComponent createSectionWidget( UIComponent previousSectionWidget, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
+	protected final UIComponent createSectionWidget( UIComponent previousSectionWidget, String section, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget ) {
 
 		// If there is an existing section widget...
 
 		UIComponentState state = (UIComponentState) getState( container, metawidget );
-		String currentSection = state.currentSection;
 
 		for ( UIComponent child : container.getChildren() ) {
 
@@ -130,7 +129,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 
 			// ...remove it so we don't use it twice...
 
-			if ( !temporarySectionDecorator.remove( currentSection ) ) {
+			if ( !temporarySectionDecorator.remove( section ) ) {
 				continue;
 			}
 
@@ -164,7 +163,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 						state.existingSectionsUsed.put( nestedChild, nestedTemporarySectionDecorator );
 					}
 
-					if ( nestedTemporarySectionDecorator.remove( currentSection ) ) {
+					if ( nestedTemporarySectionDecorator.remove( section ) ) {
 						childToReturn = nestedChild;
 						continue outer;
 					}
@@ -201,7 +200,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 				state.existingSectionsUsed.put( taggedSectionWidget, new ArrayList<String>() );
 			}
 
-			sectionDecorator.add( currentSection );
+			sectionDecorator.add( section );
 
 			taggedSectionWidget = taggedSectionWidget.getParent();
 		}

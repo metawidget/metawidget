@@ -17,6 +17,7 @@
 		<module>corejs/allwidgets</module>
 		<module>corejs/rest</module>
 		<module>jqueryui/allwidgets</module>
+		<module>jqueryui/quirks</module>
 	</modules>
 
 	<build>

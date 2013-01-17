@@ -75,7 +75,7 @@ public class FacesAnnotationInspectorTest
 		assertTrue( !property.hasAttribute( FACES_LOOKUP_ITEM_LABEL ) );
 		assertEquals( "#{foo.suggest}", property.getAttribute( FACES_SUGGEST ) );
 		assertEquals( "foo.component", property.getAttribute( FACES_COMPONENT ) );
-		assertEquals( "foo.converter", property.getAttribute( FACES_CONVERTER_ID ) );
+		assertEquals( "foo.converter", property.getAttribute( FACES_CONVERTER ) );
 		assertEquals( "foo", property.getAttribute( FACES_AJAX_EVENT ) );
 		assertEquals( "#{bar}", property.getAttribute( FACES_AJAX_ACTION ) );
 		assertEquals( 7, property.getAttributes().getLength() );

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Quirks (Metawidget JQuery UI Test)</title>
+		<link href="lib/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet">
+		<script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"></script>
+		<script src="lib/jquery-ui/jquery-1.8.3.js" type="text/javascript"></script>
+		<script src="lib/jquery-ui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+		<script src="lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<form>
+			<div id="metawidget"></div>
+		</form>
+		<script type="text/javascript">
+
+			$( "#metawidget" ).metawidget( {
+				
+				inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
+				                                      	
+																			return [
+																				{ "name": "foo", "type": "string" },
+																				{ "name": "bar", "type": "string", "section": "Section 1" },
+																				{ "name": "baz", "type": "string" },
+																				{ "name": "abc", "type": "string", "section": "Section 2" },
+																				{ "name": "def", "type": "string", "section": "" }
+																			];
+				                                      					} ] ),
+				                                      					
+				layout: new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.layout.TableLayout() )
+			} );
+			
+			$( "#metawidget" ).metawidget( "buildWidgets" );
+			
+		</script>
+	</body>
+</html>

@@ -124,7 +124,7 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 
 	var typeAndNames = metawidget.util.splitPath( mw.path );
 	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
-	
+
 	for ( var name in mw._jQueryUIBindingProcessorBindings ) {
 
 		var widget = mw._jQueryUIBindingProcessorBindings[name];
@@ -152,17 +152,71 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 
 metawidget.jqueryui.layout = metawidget.jqueryui.layout || {};
 
-metawidget.jqueryui.layout.TabLayout = function( config ) {
+metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 
-	if ( ! ( this instanceof metawidget.jqueryui.layout.TabLayout ) ) {
+	if ( ! ( this instanceof metawidget.jqueryui.layout.TabLayoutDecorator ) ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
-	_flatSectionLayoutDecorator( config, this );
-	
-	this.addSectionWidget = function( attributes, container, mw ) {
+	_nestedSectionLayoutDecorator( config, this, 'tabLayoutDecorator' );
 
-		// TODO: TabLayoutDecorator
+	this.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
+
+		var tabs = previousSectionWidget;
+
+		// Whole new tabbed pane?
+
+		if ( !tabs ) {
+			tabs = document.createElement( 'div' );
+			tabs.setAttribute( 'id', metawidget.util.getId( attributes, mw ) + '-tabs' );
+			tabs.appendChild( document.createElement( 'ul' ) );
+			this.getDelegate().layoutWidget( tabs, {
+				"wide": "true"
+			}, container, mw );
+
+			mw.tabLayoutDecorator = mw.tabLayoutDecorator || [];
+			mw.tabLayoutDecorator.push( tabs );
+		} else {
+			tabs = previousSectionWidget.parentNode;
+		}
+
+		// New Tab
+
+		var ul = tabs.childNodes[0];
+		var tabId = tabs.getAttribute( 'id' ) + ( ul.childNodes.length + 1 );
+		var li = document.createElement( 'li' );
+		var a = document.createElement( 'a' );
+		a.setAttribute( 'href', '#' + tabId );
+		a.hash = '#' + tabId;
+		li.appendChild( a );
+		ul.appendChild( li );
+
+		var tab = document.createElement( 'div' );
+		tab.setAttribute( 'id', tabId );
+		tabs.appendChild( tab );
+
+		// Tab name
+
+		a.innerHTML = section;
+
+		return tab;
+	};
+
+	this._superOnEndBuild = this.onEndBuild;
+
+	/**
+	 * Wrap the tabs at the very end, to save using 'tabs.add'.
+	 */
+
+	this.onEndBuild = function( mw ) {
+
+		if ( mw.tabLayoutDecorator ) {
+			for ( var loop = 0, length = mw.tabLayoutDecorator.length; loop < length; loop++ ) {
+				$( mw.tabLayoutDecorator[loop] ).tabs();
+			}
+		}
+
+		this._superOnEndBuild( mw );
 	};
 };
 

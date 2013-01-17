@@ -107,7 +107,7 @@ public class FacesAnnotationInspector
 		UiFacesConverter converter = property.getAnnotation( UiFacesConverter.class );
 
 		if ( converter != null ) {
-			attributes.put( FACES_CONVERTER_ID, converter.value() );
+			attributes.put( FACES_CONVERTER, converter.value() );
 		}
 
 		UiFacesNumberConverter numberConverter = property.getAnnotation( UiFacesNumberConverter.class );

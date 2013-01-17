@@ -134,3 +134,48 @@ describe( "The JQueryUIBindingProcessor", function() {
 		expect( $( widget ).slider( 'value' ) ).toBe( 44 );
 	} );
 } );
+
+describe( "The TabLayoutDecorator", function() {
+
+	it( "decorates sections with tabs", function() {
+
+		var layout = new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.layout.SimpleLayout() );
+
+		var container = document.createElement( 'metawidget' );
+		var mw = {
+			"path": "testPath"
+		};
+
+		layout.onStartBuild( mw );
+		layout.startContainerLayout( container, mw );
+		layout.layoutWidget( document.createElement( 'widget1' ), {
+			"name": "widget1",
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.1' ), {
+			"name": "widget2.1",
+			"section": "Section 1"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.2' ), {
+			"name": "widget2.2",
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2.3.1' ), {
+			"name": "widget2.3.1",
+			"section": "Section 1,Section 1.1"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget3' ), {
+			"name": "widget3",
+			"section": "Section 2"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget4' ), {
+			"name": "widget4",
+			"section": ""
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget5' ), {
+			"name": "widget5"
+		}, container, mw );
+		layout.endContainerLayout( container, mw );
+		layout.onEndBuild( mw );
+
+		expect( container.innerHTML ).toBe( '<widget1/><div id="testPathWidget2.1-tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all"><ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist"><li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active ui-tabs-loading" role="tab" tabindex="0" aria-controls="ui-tabs-1" aria-labelledby="ui-id-1" aria-selected="true"><a href="#testPathWidget2.1-tabs1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-1">Section 1</a></li><li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="ui-tabs-2" aria-labelledby="ui-id-2" aria-selected="false"><a href="#testPathWidget2.1-tabs2" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-2">Section 2</a></li></ul><div id="ui-tabs-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-live="polite" aria-labelledby="ui-id-1" role="tabpanel" aria-expanded="true" aria-hidden="false" aria-busy="true"/><div id="ui-tabs-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-live="polite" aria-labelledby="ui-id-2" role="tabpanel" aria-expanded="false" aria-hidden="true"/><div id="testPathWidget2.1-tabs1"><widget2.1/><widget2.2/><widget2.3.1/></div><div id="testPathWidget2.1-tabs2"><widget3/></div></div><widget4/><widget5/>' );
+	} );
+} );

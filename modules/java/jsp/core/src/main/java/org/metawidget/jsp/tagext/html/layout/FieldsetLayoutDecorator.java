@@ -64,7 +64,7 @@ public class FieldsetLayoutDecorator
 	}
 
 	@Override
-	protected BodyTag createSectionWidget( BodyTag previousSectionWidget, Map<String, String> attributes, BodyTag container, MetawidgetTag metawidgetTag ) {
+	protected BodyTag createSectionWidget( BodyTag previousSectionWidget, String section, Map<String, String> attributes, BodyTag container, MetawidgetTag metawidgetTag ) {
 
 		JspWriter writer = metawidgetTag.getPageContext().getOut();
 
@@ -75,7 +75,6 @@ public class FieldsetLayoutDecorator
 
 			// Section name (possibly localized)
 
-			String section = getState( container, metawidgetTag ).currentSection;
 			String localizedSection = metawidgetTag.getLocalizedKey( StringUtils.camelCase( section ) );
 
 			if ( localizedSection == null ) {

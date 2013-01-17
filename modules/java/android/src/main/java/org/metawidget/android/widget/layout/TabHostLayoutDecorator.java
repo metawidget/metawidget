@@ -56,7 +56,7 @@ public class TabHostLayoutDecorator
 	//
 
 	@Override
-	protected ViewGroup createSectionWidget( ViewGroup previousSectionView, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget ) {
+	protected ViewGroup createSectionWidget( ViewGroup previousSectionView, String section, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget ) {
 
 		// Whole new tab host?
 
@@ -119,7 +119,6 @@ public class TabHostLayoutDecorator
 
 		// Section name (possibly localized)
 
-		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null ) {

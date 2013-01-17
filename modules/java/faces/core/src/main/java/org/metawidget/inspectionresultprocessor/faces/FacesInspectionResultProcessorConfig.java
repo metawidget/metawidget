@@ -36,7 +36,7 @@ public class FacesInspectionResultProcessorConfig {
 
 	private PropertyStyle	mInjectThis;
 
-	private String[]		mIgnoreAttributes	= new String[] { FACES_AJAX_ACTION, FACES_CONVERTER_ID, FACES_EXPRESSION, FACES_LOOKUP, FACES_LOOKUP_ITEM_LABEL, FACES_LOOKUP_ITEM_VALUE, FACES_SUGGEST };
+	private String[]		mIgnoreAttributes	= new String[] { FACES_AJAX_ACTION, FACES_CONVERTER, FACES_EXPRESSION, FACES_LOOKUP, FACES_LOOKUP_ITEM_LABEL, FACES_LOOKUP_ITEM_VALUE, FACES_SUGGEST };
 
 	//
 	// Public methods

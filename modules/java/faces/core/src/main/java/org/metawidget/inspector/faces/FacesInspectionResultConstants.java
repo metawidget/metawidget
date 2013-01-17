@@ -19,7 +19,7 @@ package org.metawidget.inspector.faces;
 /**
  * Faces-specific element and attribute names appearing in DOMs conforming to
  * inspection-result-1.0.xsd.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -47,10 +47,12 @@ public final class FacesInspectionResultConstants {
 
 	public static final String	FACES_AJAX_ACTION		= "faces-ajax-action";
 
-	// REFACTOR: this should probably be simply FACES_CONVERTER (no _ID), since it can be an EL
-	// expression
+	/**
+	 * The Faces Converter to use for this component. Can be an id or an EL expression that
+	 * evaluates to a <code>javax.faces.convert.Converter</code> instance.
+	 */
 
-	public static final String	FACES_CONVERTER_ID		= "faces-converter-id";
+	public static final String	FACES_CONVERTER			= "faces-converter";
 
 	/**
 	 * Attribute indicated the UIComponent should have its <code>immediate</code> flag set.

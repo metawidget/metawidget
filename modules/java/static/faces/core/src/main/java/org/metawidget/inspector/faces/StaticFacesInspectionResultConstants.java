@@ -19,7 +19,7 @@ package org.metawidget.inspector.faces;
 /**
  * Faces-specific element and attribute names appearing in DOMs conforming to
  * inspection-result-1.0.xsd.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -29,9 +29,9 @@ public final class StaticFacesInspectionResultConstants {
 	// Public statics
 	//
 
-	public static final String	FACES_LOOKUP		= "faces-lookup";
+	public static final String	FACES_LOOKUP	= "faces-lookup";
 
-	public static final String	FACES_CONVERTER_ID	= "faces-converter-id";
+	public static final String	FACES_CONVERTER	= "faces-converter";
 
 	//
 	// Private constructor

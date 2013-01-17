@@ -24,8 +24,9 @@ import java.lang.annotation.Target;
 /**
  * Annotates the field should use the given Faces converter in the UI.
  * <p>
- * This annotation uses the converter <em>id</em>, not its class.
- *
+ * This annotation uses the converter <em>id</em>, not its class. Alternatively, this annotation can
+ * be an EL expression that evaluates to a <code>javax.faces.convert.Converter</code> instance.
+ * 
  * @author Richard Kennard
  */
 
@@ -36,7 +37,7 @@ public @interface UiFacesConverter {
 	/**
 	 * The id of the converter, must match that defined in <code>faces-config.xml</code>'s
 	 * <code>&lt;converter-id&gt;</code>. This can also be an expression of the form
-	 * <code>#{...}</code>.
+	 * <code>#{...}</code> that evaluates to a <code>javax.faces.convert.Converter</code> instance.
 	 */
 
 	String value();

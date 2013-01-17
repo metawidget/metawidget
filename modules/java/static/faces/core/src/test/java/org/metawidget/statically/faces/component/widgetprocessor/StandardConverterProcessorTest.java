@@ -109,7 +109,7 @@ public class StandardConverterProcessorTest
 		// Explicit Converter
 
 		htmlInputText = new HtmlInputText();
-		attributes.put( FACES_CONVERTER_ID, "#{foo}" );
+		attributes.put( FACES_CONVERTER, "#{foo}" );
 		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
 		assertEquals( "<h:inputText converter=\"#{foo}\"/>", htmlInputText.toString() );
 	}

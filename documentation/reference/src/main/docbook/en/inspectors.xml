@@ -601,10 +601,11 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							</td>
 						</tr>
 						<tr>
-							<td><parameter>faces-converter-id</parameter></td>
+							<td><parameter>faces-converter</parameter></td>
 							<td>
 								<classname>UiFacesConverter</classname> - annotates the field should use the given JSF converter
-								in the UI. This annotation uses the converter <emphasis>id</emphasis>, not its class.
+								in the UI. This annotation uses the converter <emphasis>id</emphasis>, not its class. Alternatively, this
+								annotation can be an EL expression that evaluates to a <classname>javax.faces.convert.Converter</classname> instance.
 							</td>
 						</tr>
 						<tr>

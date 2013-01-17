@@ -91,7 +91,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 		// Start new section
 
-		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
+		state.currentSectionWidget = createSectionWidget( previousSectionWidget, section, attributes, container, metawidget );
 		super.startContainerLayout( state.currentSectionWidget, metawidget );
 
 		// Add component to new section
@@ -133,7 +133,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	 *            a TabHost
 	 */
 
-	protected abstract C createSectionWidget( C previousSectionWidget, Map<String, String> attributes, C container, M metawidget );
+	protected abstract C createSectionWidget( C previousSectionWidget, String section, Map<String, String> attributes, C container, M metawidget );
 
 	//
 	// Inner class
