@@ -3155,7 +3155,7 @@ jQuery.event = {
 		// Handle a global trigger
 		if ( !elem ) {
 
-			// TODO: Stop taunting the data cache; remove global events and always attach to document
+			// TOxDO: Stop taunting the data cache; remove global events and always attach to document
 			cache = jQuery.cache;
 			for ( i in cache ) {
 				if ( cache[ i ].events && cache[ i ].events[ type ] ) {
@@ -4510,7 +4510,7 @@ var Expr = Sizzle.selectors = {
 				Sizzle.error( match[0] );
 			}
 
-			// TODO: Move to normal caching system
+			// TOxDO: Move to normal caching system
 			match[0] = done++;
 
 			return match;
@@ -16842,7 +16842,7 @@ function $RootScopeProvider(){
             child;
 
         if (isFunction(isolate)) {
-          // TODO: remove at some point
+          // TOxDO: remove at some point
           throw Error('API-CHANGE: Use $controller to instantiate controllers.');
         }
         if (isolate) {
@@ -18899,7 +18899,7 @@ function currencyFilter($locale) {
  *
  * @param {number|string} number Number to format.
  * @param {(number|string)=} [fractionSize=2] Number of decimal places to round the number to.
- * @returns {string} Number rounded to decimalPlaces and places a “,” after each third digit.
+ * @returns {string} Number rounded to decimalPlaces and places a after each third digit.
  *
  * @example
    <doc:example>
@@ -21467,7 +21467,7 @@ var ngBindDirective = ngDirective(function(scope, element, attr) {
  */
 var ngBindTemplateDirective = ['$interpolate', function($interpolate) {
   return function(scope, element, attr) {
-    // TODO: move this to scenario runner
+    // TOxDO: move this to scenario runner
     var interpolateFn = $interpolate(element.attr(attr.$attr.ngBindTemplate));
     element.addClass('ng-binding').data('$binding', interpolateFn);
     attr.$observe('ngBindTemplate', function(value) {
@@ -23168,7 +23168,7 @@ var scriptDirective = ['$templateCache', function($templateCache) {
  * Optionally `ngOptions` attribute can be used to dynamically generate a list of `<option>`
  * elements for a `<select>` element using an array or an object obtained by evaluating the
  * `ngOptions` expression.
- *˝˝
+ *
  * When an item in the select menu is select, the value of array element or object property
  * represented by the selected option will be bound to the model identified by the `ngModel`
  * directive of the parent select element.

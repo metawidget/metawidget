@@ -93,7 +93,7 @@ public abstract class JavaScriptTestCase
 
 	/**
 	 * Evaluate the given Javascript file.
-	 *
+	 * 
 	 * @param filename
 	 *            the filename. File path is relative to the project root
 	 */
@@ -109,7 +109,7 @@ public abstract class JavaScriptTestCase
 
 	/**
 	 * Evaluate the given HTML file.
-	 *
+	 * 
 	 * @param url
 	 *            or filename
 	 *            the url or filename. If the latter, file path is relative to the project root
@@ -160,9 +160,9 @@ public abstract class JavaScriptTestCase
 		// JQuery is not strictly needed here, but we saw strange side effects trying to initialize
 		// it later
 
-		evaluateResource( "/js/jquery-1.8.3.js" );
+		evaluateResource( "/js/jquery-1.8.3.min.js" );
 
-		// Tell Envjs to load external scripts found in the page
+		// Tell Envjs to load external scripts found in any page loaded by 'window.location'
 
 		evaluateString( "Envjs.scriptTypes['text/javascript'] = true" );
 	}
