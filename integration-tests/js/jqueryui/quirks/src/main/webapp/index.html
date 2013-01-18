@@ -23,12 +23,13 @@
 																				{ "name": "foo", "type": "string" },
 																				{ "name": "bar", "type": "string", "section": "Section 1" },
 																				{ "name": "baz", "type": "string" },
-																				{ "name": "abc", "type": "string", "section": "Section 2" },
-																				{ "name": "def", "type": "string", "section": "" }
+																				{ "name": "abc", "type": "string", "section": "Section 1,Section 1.1" },
+																				{ "name": "def", "type": "string", "section": "Section 2" },
+																				{ "name": "ghi", "type": "string", "section": "" }
 																			];
 				                                      					} ] ),
 				                                      					
-				layout: new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.layout.TableLayout() )
+				layout: new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.layout.TableLayout() ))
 			} );
 			
 			$( "#metawidget" ).metawidget( "buildWidgets" );
