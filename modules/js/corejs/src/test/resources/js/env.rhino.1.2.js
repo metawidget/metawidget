@@ -95,7 +95,7 @@ Envjs.lineSource = function(e){};
 
     
 /**
- * TODO: used in ./event/eventtarget.js
+ * TOxDO: used in ./event/eventtarget.js
  * @param {Object} event
  */
 Envjs.defaultEventBehaviors = {};
@@ -822,8 +822,8 @@ Envjs.WAIT_INTERVAL = 20;//milliseconds
  *   http://php.net/manual/en/function.parse-url.php
  *   returns assocative array but cannot handle relative URL
  *
- * TODO: test allowfragments more
- * TODO: test netloc missing, but hostname present
+ * TOxDO: test allowfragments more
+ * TOxDO: test netloc missing, but hostname present
  */
 
 var urlparse = {};
@@ -1226,8 +1226,8 @@ Envjs.loadFrame = function(frame, url){
 
 
 // The following are in rhino/window.js
-// TODO: Envjs.unloadFrame
-// TODO: Envjs.proxy
+// TOxDO: Envjs.unloadFrame
+// TOxDO: Envjs.proxy
 
 /**
  * @author john resig & the envjs team
@@ -1698,7 +1698,7 @@ Envjs.loadFrame = function(frame, url){
 Envjs.unloadFrame = function(frame){
     var all, length, i;
     try{
-        //TODO: probably self-referencing structures within a document tree
+        //TOxDO: probably self-referencing structures within a document tree
         //preventing it from being entirely garbage collected once orphaned.
         //Should have code to walk tree and break all links between contained
         //objects.
@@ -3811,7 +3811,7 @@ Attr = function(ownerDocument) {
     Node.apply(this, arguments);
     // set when Attr is added to NamedNodeMap
     this.ownerElement = null;
-    //TODO: our implementation of Attr is incorrect because we don't
+    //TOxDO: our implementation of Attr is incorrect because we don't
     //      treat the value of the attribute as a child text node.
 };
 Attr.prototype = new Node();
@@ -4834,7 +4834,7 @@ var __isValidNamespace__;
 Document = function(implementation, docParentWindow) {
     Node.apply(this, arguments);
 
-    //TODO: Temporary!!! Cnage back to true!!!
+    //TOxDO: Temporary!!! Cnage back to true!!!
     this.async = true;
     // The Document Type Declaration (see DocumentType) associated with this document
     this.doctype = null;
@@ -5103,7 +5103,7 @@ __isValidNamespace__ = function(doc, namespaceURI, qualifiedName, isAttribute) {
  * @author thatcher
  */
 DOMParser = function(principle, documentURI, baseURI) {
-    // TODO: why/what should these 3 args do?
+    // TOxDO: why/what should these 3 args do?
 };
 __extend__(DOMParser.prototype,{
     parseFromString: function(xmlstring, mimetype){
@@ -5567,7 +5567,7 @@ function __setArray__( target, array ) {
 /**
  * @name EventTarget
  * @w3c:domlevel 2
- * @uri -//TODO: paste dom event level 2 w3c spc uri here
+ * @uri -//TOxDO: paste dom event level 2 w3c spc uri here
  */
 EventTarget = function(){};
 EventTarget.prototype.addEventListener = function(type, fn, phase){
@@ -6085,7 +6085,7 @@ EventException.UNSPECIFIED_EVENT_TYPE_ERR = 0;
  */
 
 /**
- * TODO: Not sure we need a full prototype.  We not just an regular object?
+ * TOxDO: Not sure we need a full prototype.  We not just an regular object?
  */
 DocumentEvent = function(){};
 DocumentEvent.prototype.__EventMap__ = {
@@ -6295,7 +6295,7 @@ clearInterval = clearTimeout = function(num){
 // wait(-n): keep sleeping until the next event is more than n ms
 //  in the future
 //
-// TODO: make a priority queue ...
+// TOxDO: make a priority queue ...
 
 Envjs.wait = function(wait) {
     //console.log('wait %s', wait);
@@ -6371,7 +6371,7 @@ Envjs.wait = function(wait) {
         } else {
             // there are events in the queue, but they aren't firable now
             /*if ( delta_wait && sleep <= delta_wait ) {
-                //TODO: why waste a check on a tight
+                //TOxDO: why waste a check on a tight
                 // loop if it just falls through?
             // if they will happen within the next delta, fall through to sleep
             } else */if ( wait === 0 || ( wait > 0 && wait < Date.now () ) ) {
@@ -6543,7 +6543,7 @@ __extend__(HTMLDocument.prototype, {
         tagName = tagName.toUpperCase();
         // create Element specifying 'this' as ownerDocument
         // This is an html document so we need to use explicit interfaces per the
-        //TODO: would be much faster as a big switch
+        //TOxDO: would be much faster as a big switch
         switch(tagName){
         case "A":
             node = new HTMLAnchorElement(this);break;
@@ -6864,7 +6864,7 @@ __extend__(HTMLDocument.prototype, {
         return new HTMLCollection(this.getElementsByTagName('img'));
     },
     get lastModified(){
-        /* TODO */
+        /* TOxDO */
         return this._lastModified;
     },
     get links(){
@@ -6968,7 +6968,7 @@ Aspect.around({
                                 node.dispatchEvent( event, false );
                             }else{
                                 //I dont like this being here:
-                                //TODO: better  mix-in strategy so the try/catch isnt required
+                                //TOxDO: better  mix-in strategy so the try/catch isnt required
                                 try{
                                     if(Window){
                                         Envjs.loadFrame(node);
@@ -7119,7 +7119,7 @@ var __isNamedElement__ = function(node) {
             nodename = node.id;
             break;
         case 'object':
-            // TODO: object needs to be 'fallback free'
+            // TOxDO: object needs to be 'fallback free'
             nodename = node.id;
             break;
         case 'img':
@@ -7556,11 +7556,11 @@ __extend__(HTMLElement.prototype, {
     offsetLeft: 0,
     offsetRight: 0,
     get offsetParent(){
-        /* TODO */
+        /* TOxDO */
         return;
     },
     set offsetParent(element){
-        /* TODO */
+        /* TOxDO */
         return;
     },
     scrollHeight: 0,
@@ -7595,7 +7595,7 @@ __extend__(HTMLElement.prototype, {
         return this.xhtml;
     },
     scrollIntoView: function(){
-        /*TODO*/
+        /*TOxDO*/
         return;
     },
     toString: function(){
@@ -8189,7 +8189,7 @@ __extend__(HTMLAreaElement.prototype, {
         return this.hasAttribute('href');
     },
     get shape(){
-        //TODO
+        //TOxDO
         return 0;
     },
     /*get tabIndex(){
@@ -8262,7 +8262,7 @@ __extend__(HTMLQuoteElement.prototype, {
      * should allow users to follow such citation links.
      * """
      *
-     * TODO: normalize
+     * TOxDO: normalize
      *
      */
     get cite() {
@@ -8615,7 +8615,7 @@ HTMLElement.registerSetAttribute('FIELDSET', 'name',
 HTMLFormElement = function(ownerDocument){
     HTMLElement.apply(this, arguments);
 
-    //TODO: on __elementPopped__ from the parser
+    //TOxDO: on __elementPopped__ from the parser
     //      we need to determine all the forms default
     //      values
 };
@@ -8716,14 +8716,14 @@ __extend__(HTMLFormElement.prototype,{
         return '[object HTMLFormElement]';
     },
     submit: function() {
-        //TODO: this needs to perform the form inputs serialization
+        //TOxDO: this needs to perform the form inputs serialization
         //      and submission
         //  DONE: see xhr/form.js
         var event = __submit__(this);
 
     },
     reset: function() {
-        //TODO: this needs to reset all values specified in the form
+        //TOxDO: this needs to reset all values specified in the form
         //      to those which where set as defaults
         __reset__(this);
 
@@ -8864,13 +8864,13 @@ __extend__(HTMLHeadElement.prototype, {
     //like loading scripts
     appendChild : function(newChild) {
         newChild = HTMLElement.prototype.appendChild.apply(this,[newChild]);
-        //TODO: evaluate scripts which are appended to the head
+        //TOxDO: evaluate scripts which are appended to the head
         //__evalScript__(newChild);
         return newChild;
     },
     insertBefore : function(newChild, refChild) {
         newChild = HTMLElement.prototype.insertBefore.apply(this,[newChild]);
-        //TODO: evaluate scripts which are appended to the head
+        //TOxDO: evaluate scripts which are appended to the head
         //__evalScript__(newChild);
         return newChild;
     },
@@ -9202,7 +9202,7 @@ __extend__(HTMLInputElement.prototype, {
         return this.getAttribute('src') || '';
     },
     set src(value){
-        // TODO: make absolute any relative URLS
+        // TOxDO: make absolute any relative URLS
         this.setAttribute('src', value);
     },
 
@@ -9297,7 +9297,7 @@ HTMLLIElement = function(ownerDocument) {
 HTMLLIElement.prototype = new HTMLElement();
 __extend__(HTMLLIElement.prototype, {
 
-    // TODO: attribute long value;
+    // TOxDO: attribute long value;
 
     toString: function() {
         return '[object HTMLLIElement]';
@@ -9597,8 +9597,8 @@ HTMLOListElement = function(ownerDocument) {
 HTMLOListElement.prototype = new HTMLElement();
 __extend__(HTMLOListElement.prototype, {
 
-    // TODO: attribute boolean reversed;
-    // TODO:  attribute long start;
+    // TOxDO: attribute boolean reversed;
+    // TOxDO:  attribute long start;
 
     toString: function() {
         return '[object HTMLOListElement]';
@@ -10464,10 +10464,10 @@ HTMLTableCellElement.prototype = new HTMLElement();
 __extend__(HTMLTableCellElement.prototype, {
 
 
-    // TOOD: attribute unsigned long  colSpan;
-    // TODO: attribute unsigned long  rowSpan;
-    // TODO: attribute DOMString      headers;
-    // TODO: readonly attribute long  cellIndex;
+    // TOxDO: attribute unsigned long  colSpan;
+    // TOxDO: attribute unsigned long  rowSpan;
+    // TOxDO: attribute DOMString      headers;
+    // TOxDO: readonly attribute long  cellIndex;
 
     // Not really necessary but might be helpful in debugging
     toString: function() {
@@ -10505,7 +10505,7 @@ HTMLTableHeaderCellElement = function(ownerDocument) {
 HTMLTableHeaderCellElement.prototype = new HTMLTableCellElement();
 __extend__(HTMLTableHeaderCellElement.prototype, {
 
-    // TODO:  attribute DOMString scope
+    // TOxDO:  attribute DOMString scope
 
     toString: function() {
         return '[object HTMLTableHeaderCellElement]';
@@ -11244,7 +11244,7 @@ CSSStyleSheet = function(options){
             text = '';
         }
         text = __trim__(text.replace(/\/\*(\r|\n|.)*\*\//g,""));
-        // TODO: @import
+        // TOxDO: @import
         var blocks = text.split("}");
         blocks.pop();
         var i, j, len = blocks.length;
@@ -11285,9 +11285,9 @@ CSSStyleSheet = function(options){
         get type(){
             return $type;
         },
-        addRule: function(selector, style, index){/*TODO*/},
-        deleteRule: function(index){/*TODO*/},
-        insertRule: function(rule, index){/*TODO*/},
+        addRule: function(selector, style, index){/*TOxDO*/},
+        deleteRule: function(index){/*TOxDO*/},
+        insertRule: function(rule, index){/*TOxDO*/},
         //IE - may be deprecated
         removeRule: function(index){
             this.deleteRule(index);
@@ -12197,7 +12197,7 @@ var __elementPopped__ = function(ns, name, node){
                                             node.dispatchEvent( event, false );
                                         }else{
                                             //I dont like this being here:
-                                            //TODO: better  mix-in strategy so the try/catch isnt required
+                                            //TOxDO: better  mix-in strategy so the try/catch isnt required
                                             try{
                                                 if(Window){
                                                     Envjs.loadFrame(node);
@@ -12385,7 +12385,7 @@ function __trim__( str ){
 
 
 /**
- * @todo: document
+ * @TOxDO: document
  */
 __extend__(Document.prototype,{
     load: function(url){
@@ -12937,10 +12937,10 @@ Location = function(url, doc, history) {
                 //console.log('fetching %s (async? %s)', url, $document.async);
                 xhr = new XMLHttpRequest();
 
-                // TODO: make async flag a Envjs paramter
+                // TOxDO: make async flag a Envjs paramter
                 xhr.open('GET', url, false);//$document.async);
 
-                // TODO: is there a better way to test if a node is an HTMLDocument?
+                // TOxDO: is there a better way to test if a node is an HTMLDocument?
                 if ($document.toString() === '[object HTMLDocument]') {
                     //tell the xhr to not parse the document as XML
                     //console.log('loading html document');
@@ -13021,7 +13021,7 @@ var __exchangeHTMLDocument__ = function(doc, text, url) {
         }
 
         //finally fire the window.onload event
-        //TODO: this belongs in window.js which is a event
+        //TOxDO: this belongs in window.js which is a event
         //      event handler for DOMContentLoaded on document
 
         try {
@@ -13126,7 +13126,7 @@ XMLHttpRequest.prototype = {
         }
 
         if (this.async){
-            //TODO: what we really need to do here is rejoin the
+            //TOxDO: what we really need to do here is rejoin the
             //      current thread and call onreadystatechange via
             //      setTimeout so the callback is essentially applied
             //      at the end of the current callstack
@@ -13191,7 +13191,7 @@ XMLHttpRequest.prototype = {
 }());
 
 /**
- * @todo: document
+ * @TOxDO: document
  */
 var Window,
     Screen,
@@ -13230,7 +13230,7 @@ function __extend__(a,b) {
 }
 
 /**
- * @todo: document
+ * @TOxDO: document
  */
 
 __extend__(HTMLFrameElement.prototype,{
@@ -13283,7 +13283,7 @@ History = function(owner) {
                     $current = target;
                 }
             } else {
-                //TODO: walk through the history and find the 'best match'?
+                //TOxDO: walk through the history and find the 'best match'?
             }
         },
 
@@ -13402,13 +13402,13 @@ Screen = function(__window__){
 
     __extend__( __window__, {
         moveBy : function(dx,dy){
-            //TODO - modify $locals to reflect change
+            //TOxDO - modify $locals to reflect change
         },
         moveTo : function(x,y) {
-            //TODO - modify $locals to reflect change
+            //TOxDO - modify $locals to reflect change
         },
         /*print : function(){
-            //TODO - good global to modify to ensure print is not misused
+            //TOxDO - good global to modify to ensure print is not misused
         };*/
         resizeBy : function(dw, dh){
             __window__resizeTo($width + dw, $height + dh);
@@ -13418,13 +13418,13 @@ Screen = function(__window__){
             $height = (height <= $availHeight) ? height : $availHeight;
         },
         scroll : function(x,y){
-            //TODO - modify $locals to reflect change
+            //TOxDO - modify $locals to reflect change
         },
         scrollBy : function(dx, dy){
-            //TODO - modify $locals to reflect change
+            //TOxDO - modify $locals to reflect change
         },
         scrollTo : function(x,y){
-            //TODO - modify $locals to reflect change
+            //TOxDO - modify $locals to reflect change
         }
     });
 
