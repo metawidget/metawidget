@@ -181,6 +181,18 @@
 						<classname>ReflectionBindingProcessor</classname> binds <classname>Button</classname>s to backing objects using
 						Java-based reflection to support runtime binding.
 					</para>
+					
+					<para>
+						After <classname>JComponent</classname>s have been generated for the initial <function>setToInspect</function>, clients
+						can load values for a new Object into the same UI without a full re-inspection by using <function>rebind</function>: 
+					</para>
+					
+					<programlisting language="java">myMetawidget.getWidgetProcessor( ReflectionBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
+					
+					<para>
+						For more details, see <xref linkend="section-howto-performance-rebind"/>.
+					</para>
+					
 				</section>					
 			</section>
 		</section>

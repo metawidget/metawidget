@@ -65,6 +65,7 @@ public class ReflectionBindingProcessorTest
 		assertEquals( ((Foo) metawidget.getToInspect()).getNestedFoo().getActionFired(), 0 );
 		button.doClick();
 		assertEquals( ((Foo) metawidget.getToInspect()).getNestedFoo().getActionFired(), 1 );
+		assertEquals( "Do Action", button.getText() );
 
 		// Rebind
 
@@ -72,6 +73,7 @@ public class ReflectionBindingProcessorTest
 		assertEquals( ((Foo) metawidget.getToInspect()).getNestedFoo().getActionFired(), 0 );
 		button.doClick();
 		assertEquals( ((Foo) metawidget.getToInspect()).getNestedFoo().getActionFired(), 1 );
+		assertEquals( "Do Action", button.getText() );
 	}
 
 	public void testNullBinding() {

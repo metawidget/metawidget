@@ -96,7 +96,7 @@ public class ReflectionBindingProcessor
 		// Bind it
 
 		AbstractButton button = (AbstractButton) component;
-		BoundAction action = new BoundAction( attributes.get( NAME ), metawidget.getToInspect(), metawidget.getPath() );
+		BoundAction action = new BoundAction( button.getText(), metawidget.getToInspect(), metawidget.getPath(), attributes.get( NAME ) );
 		button.setAction( action );
 
 		// Save the binding
@@ -195,9 +195,10 @@ public class ReflectionBindingProcessor
 		// Constructor
 		//
 
-		public BoundAction( String actionName, Object bindTo, String path ) {
+		public BoundAction( String actionName, Object bindTo, String path, String name ) {
 
 			super( actionName );
+
 			mBindTo = bindTo;
 
 			if ( path == null ) {
@@ -210,24 +211,24 @@ public class ReflectionBindingProcessor
 
 			Object traverse = mBindTo;
 
-			for ( String name : mNames ) {
+			for ( String subName : mNames ) {
 
 				if ( traverse == null ) {
 					return;
 				}
 
-				traverse = ClassUtils.getProperty( traverse, name );
+				traverse = ClassUtils.getProperty( traverse, subName );
 			}
 
 			try {
 				// Parameterless methods
 
-				mAction = traverse.getClass().getMethod( actionName, (Class[]) null );
+				mAction = traverse.getClass().getMethod( name, (Class[]) null );
 			} catch ( NoSuchMethodException e1 ) {
 				try {
 					// ActionEvent-parameter based methods
 
-					mAction = traverse.getClass().getMethod( actionName, ActionEvent.class );
+					mAction = traverse.getClass().getMethod( name, ActionEvent.class );
 				} catch ( NoSuchMethodException e2 ) {
 					throw WidgetProcessorException.newException( e2 );
 				}
