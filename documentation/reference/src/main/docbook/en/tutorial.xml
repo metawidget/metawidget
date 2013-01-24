@@ -1107,7 +1107,7 @@ public class Main {
 					<parameter>input</parameter> types and with all properties from the JSON object:
 				</para>
 
-				<figure id="section-introduction-javascript-part1-screenshot4">
+				<figure id="section-introduction-javascript-part1-screenshot3">
 					<title>Using multiple inspectors</title>
 					<!-- <screenshot>
 						<graphic fileref="images/screenshots/js-tutorial3.jpg" width="100mm" />
