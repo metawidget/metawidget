@@ -158,8 +158,7 @@ describe( "JQuery UI AllWidgets", function() {
 		expect( $( '#actionsSave' )[0].tagName ).toBe( 'BUTTON' );
 		expect( $( '#actionsSave' ).text() ).toBe( 'Save' );
 
-		// $( '#actionsSave' ).click() didn't work?
-		actions.save();
+		$( '#actionsSave' ).click();
 		
 		expect( $( '#allWidgetsTextbox' )[0].tagName ).toBe( 'OUTPUT' );
 		expect( $( '#allWidgetsTextbox' ).text() ).toBe( 'Textbox1' );
