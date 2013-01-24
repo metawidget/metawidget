@@ -989,9 +989,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot1">
 					<title>Metawidget rendering of person object</title>
-					<screenshot>
+					<!-- <screenshot>
 						<graphic fileref="images/screenshots/js-tutorial1.jpg" width="100mm" />
-					</screenshot>
+					</screenshot> -->
 				</figure>
 
 				<para>
@@ -1053,7 +1053,7 @@ public class Main {
 			{ "name": "retried", "type": "boolean" }
 		];
 	}
-} );
+} );</programlisting>
 				
 				<para>
 					Refresh the page in your browser. It does not yield the correct result - the properties appear
@@ -1063,9 +1063,9 @@ public class Main {
 	
 				<figure id="section-introduction-javascript-part1-screenshot2">
 					<title>Correct input types, but missing property</title>
-					<screenshot>
+					<!-- <screenshot>
 						<graphic fileref="images/screenshots/js-tutorial2.jpg" width="100mm" />
-					</screenshot>
+					</screenshot> -->
 				</figure>
 
 				<para>
@@ -1109,9 +1109,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot4">
 					<title>Using multiple inspectors</title>
-					<screenshot>
+					<!-- <screenshot>
 						<graphic fileref="images/screenshots/js-tutorial3.jpg" width="100mm" />
-					</screenshot>
+					</screenshot> -->
 				</figure>
 
 				<para>
@@ -1149,9 +1149,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot4">
 					<title>Additional properties and a section heading</title>
-					<screenshot>
+					<!-- <screenshot>
 						<graphic fileref="images/screenshots/js-tutorial4.jpg" width="100mm" />
-					</screenshot>
+					</screenshot> -->
 				</figure>
 
 				<para>
@@ -1183,9 +1183,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot5">
 					<title>A two-column layout</title>
-					<screenshot>
+					<!-- <screenshot>
 						<graphic fileref="images/screenshots/js-tutorial5.jpg" width="100mm" />
-					</screenshot>
+					</screenshot> -->
 				</figure>
 
 				<para>
@@ -1203,7 +1203,7 @@ public class Main {
 		<symbol>&lt;link href="lib/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet"&gt;
 		&lt;script src="lib/jquery-ui/jquery-1.8.3.min.js" type="text/javascript"&gt;&lt;/script&gt;
 		&lt;script src="lib/jquery-ui/jquery-ui-1.9.2.custom.js" type="text/javascript"&gt;&lt;/script&gt;
-		&lt;script src="lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" type="text/javascript"&gt;&lt;/script&gt;<symbol>
+		&lt;script src="lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" type="text/javascript"&gt;&lt;/script&gt;</symbol>
 		&lt;script type="text/javascript"&gt;
 			var person = {
 				"name": "Homer Simpson",
@@ -1236,7 +1236,7 @@ public class Main {
 			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ));
 			mw.toInspect = person;
 			mw.buildWidgets();
-		&lt;/script&gt;</symbol>
+		&lt;/script&gt;
 	&lt;/body&gt;
 &lt;/html&gt;</programlisting>
 
@@ -1246,9 +1246,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot6">
 					<title>Two-column layout with a tab</title>
-					<screenshot>
+					<!-- <screenshot>
 						<graphic fileref="images/screenshots/js-tutorial6.jpg" width="100mm" />
-					</screenshot>
+					</screenshot> -->
 				</figure>
 			</section>
 
@@ -1278,9 +1278,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot8">
 					<title>The 'retired' property has been overridden</title>
-					<screenshot>
+					<!-- <screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial8.jpg" width="100mm" />
-					</screenshot>
+					</screenshot> -->
 				</figure>
 
 				<tip>
@@ -1339,9 +1339,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot9">
 					<title>The 'retired' property has been suppressed</title>
-					<screenshot>
+					<!-- <screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial9.jpg" width="100mm" />
-					</screenshot>
+					</screenshot> -->
 				</figure>
 
 				<para>

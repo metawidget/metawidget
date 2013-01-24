@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -40,12 +41,6 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 public class ReflectionBindingProcessorTest
 	extends TestCase {
-
-	//
-	// Package-level members
-	//
-
-	int	mActionFired;
 
 	//
 	// Public methods
@@ -67,9 +62,16 @@ public class ReflectionBindingProcessorTest
 
 		JButton button = (JButton) ( (SwingMetawidget) metawidget.getComponent( 1 ) ).getComponent( 0 );
 
-		assertEquals( mActionFired, 0 );
+		assertEquals( ((Foo) metawidget.getToInspect()).getNestedFoo().getActionFired(), 0 );
 		button.doClick();
-		assertEquals( mActionFired, 1 );
+		assertEquals( ((Foo) metawidget.getToInspect()).getNestedFoo().getActionFired(), 1 );
+
+		// Rebind
+
+		metawidget.getWidgetProcessor( ReflectionBindingProcessor.class ).rebind( new Foo(), metawidget );
+		assertEquals( ((Foo) metawidget.getToInspect()).getNestedFoo().getActionFired(), 0 );
+		button.doClick();
+		assertEquals( ((Foo) metawidget.getToInspect()).getNestedFoo().getActionFired(), 1 );
 	}
 
 	public void testNullBinding() {
@@ -77,15 +79,13 @@ public class ReflectionBindingProcessorTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
-		// Null object
+		// Null object (should not NPE)
 
 		JButton button = new JButton();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		binding.processWidget( button, ACTION, attributes, null );
+		binding.processWidget( button, ACTION, attributes, metawidget );
 
-		assertEquals( button.getAction(), null );
-
-		// Null nested object
+		// Null nested object (should not NPE)
 
 		Foo foo = new Foo();
 		foo.setNestedFoo( null );
@@ -93,8 +93,6 @@ public class ReflectionBindingProcessorTest
 		metawidget.setToInspect( foo );
 		metawidget.setPath( "foo/nestedFoo/doAction" );
 		binding.processWidget( button, ACTION, attributes, metawidget );
-
-		assertEquals( button.getAction(), null );
 	}
 
 	public void testBadBinding() {
@@ -112,7 +110,7 @@ public class ReflectionBindingProcessorTest
 	// Inner class
 	//
 
-	public class Foo {
+	public static class Foo {
 
 		//
 		// Private members
@@ -135,11 +133,23 @@ public class ReflectionBindingProcessorTest
 		}
 	}
 
-	public class NestedFoo {
+	public static class NestedFoo {
+
+		//
+		// Private members
+		//
+
+		private int	mActionFired;
 
 		//
 		// Public methods
 		//
+
+		@UiHidden
+		public int getActionFired() {
+
+			return mActionFired;
+		}
 
 		/**
 		 * @param event
