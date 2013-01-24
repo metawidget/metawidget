@@ -7,13 +7,20 @@
 			Metawidget. Before you begin, you need to download the binary distribution from
 			<ulink url="http://metawidget.org/download.php">http://metawidget.org/download.php</ulink>.
 		</para>
+		
+		<para>
+			If you are using a Java-based framework (including Android, and Java-based web frameworks
+			such as GWT and Java Server Faces) you should follow the Java version of Part 1. If you
+			are using a pure JavaScript-based framework (such as AngularJS) you should follow the
+			JavaScript version of Part 1. 
+		</para>
 
-		<section id="section-introduction-part1">
-			<title>Part 1 - The First Metawidget Application</title>
+		<section id="section-introduction-java-part1">
+			<title>Part 1 - The First Metawidget Application (Java version)</title>
 
 			<para>
 				Part 1 starts with a simple Swing application and develops it in easy to understand steps.
-				Metawidget supports many UI frameworks, not just Swing, but we start with Swing because it
+				Metawidget supports many Java-based UI frameworks, not just Swing, but we start with Swing because it
 				ships with Java SE and requires minimal setup.
 			</para>
 
@@ -24,7 +31,7 @@
 				you just need to ensure <filename>metawidget-all.jar</filename> is on your <parameter>CLASSPATH</parameter>.
 			</para>
 
-			<section id="section-introduction-part1-object">
+			<section id="section-introduction-java-part1-object">
 				<title>The Object</title>
 
 				<para>
@@ -52,7 +59,7 @@ public class Person {
 
 			</section>
 
-			<section id="section-introduction-part1-interface">
+			<section id="section-introduction-java-part1-interface">
 				<title>The Interface</title>
 
 				<para>
@@ -94,15 +101,15 @@ public class Main {
 
 			</section>
 
-			<section id="section-introduction-part1-output">
+			<section id="section-introduction-java-part1-output">
 				<title>The Output</title>
 
 				<para>
 					If you're using an IDE, such as	<ulink url="http://netbeans.org">NetBeans</ulink>, your project should
-					look something like pictured in	<xref linkend="section-introduction-part1-screenshot-ide" />.
+					look something like pictured in	<xref linkend="section-introduction-java-part1-screenshot-ide" />.
 				</para>
 
-				<figure id="section-introduction-part1-screenshot-ide">
+				<figure id="section-introduction-java-part1-screenshot-ide">
 					<title>Metawidget tutorial in NetBeans IDE</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial-ide.jpg" width="170mm" />
@@ -110,10 +117,10 @@ public class Main {
 				</figure>
 
 				<para>
-					Run the code. You should see the screen in <xref linkend="section-introduction-part1-screenshot1" />.
+					Run the code. You should see the screen in <xref linkend="section-introduction-java-part1-screenshot1" />.
 				</para>
 
-				<figure id="section-introduction-part1-screenshot1">
+				<figure id="section-introduction-java-part1-screenshot1">
 					<title>SwingMetawidget rendering of Person class</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial1.jpg" width="100mm" />
@@ -159,7 +166,7 @@ public class Main {
 
 			</section>
 
-			<section id="section-introduction-part1-ordering">
+			<section id="section-introduction-java-part1-ordering">
 				<title>Ordering The Properties</title>
 
 				<para>
@@ -215,7 +222,7 @@ public class Person {
 					Run the code again. This time the properties appear in the correct order:
 				</para>
 
-				<figure id="section-introduction-part1-ordered-screenshot2">
+				<figure id="section-introduction-java-part1-ordered-screenshot2">
 					<title>Properties in correct order</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial2.jpg" width="100mm" />
@@ -223,7 +230,7 @@ public class Person {
 				</figure>
 			</section>
 
-			<section id="section-introduction-part1-inspectors">
+			<section id="section-introduction-java-part1-inspectors">
 				<title>Inspectors</title>
 
 				<para>
@@ -307,7 +314,7 @@ public class Person {
 					What happened?
 				</para>
 	
-				<figure id="section-introduction-part1-screenshot3">
+				<figure id="section-introduction-java-part1-screenshot3">
 					<title>Correct property order, but wrong JComponents</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial3.jpg" width="100mm" />
@@ -326,7 +333,7 @@ public class Person {
 
 			</section>
 
-			<section id="section-introduction-part1-compositeinspector">
+			<section id="section-introduction-java-part1-compositeinspector">
 				<title>Combining Multiple Inspection Results</title>
 
 				<para>
@@ -373,7 +380,7 @@ public class Main {
 					and using the correct <classname>JComponent</classname>:
 				</para>
 
-				<figure id="section-introduction-part1-screenshot4">
+				<figure id="section-introduction-java-part1-screenshot4">
 					<title>Using multiple inspectors</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial4.jpg" width="100mm" />
@@ -417,7 +424,7 @@ public class Person {
 				
 			</section>
 
-			<section id="section-introduction-part1-layout">
+			<section id="section-introduction-java-part1-layout">
 				<title>Controlling The Layout</title>
 
 				<para>
@@ -479,11 +486,11 @@ public class Person {
 				</calloutlist>
 
 				<para>
-					This code produces the screen in <xref linkend="section-introduction-part1-screenshot5" />. Annotations
+					This code produces the screen in <xref linkend="section-introduction-java-part1-screenshot5" />. Annotations
 					have been used to define section headings and 'large' properties (i.e. a <classname>JTextArea</classname>).
 				</para>
 
-				<figure id="section-introduction-part1-screenshot5">
+				<figure id="section-introduction-java-part1-screenshot5">
 					<title>Additional properties and a section heading</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial5.jpg" width="100mm" />
@@ -545,7 +552,7 @@ public class Main {
 					Run the code. The <classname>JComponent</classname>s are now arranged across two columns:
 				</para>
 
-				<figure id="section-introduction-part1-screenshot6">
+				<figure id="section-introduction-java-part1-screenshot6">
 					<title>A two-column layout</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial6.jpg" width="100mm" />
@@ -599,7 +606,7 @@ public class Main {
 					Run the code. The section heading is now a <classname>JTabbedPane</classname>:
 				</para>
 
-				<figure id="section-introduction-part1-screenshot7">
+				<figure id="section-introduction-java-part1-screenshot7">
 					<title>Two-column layout with a JTabbedPane</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial7.jpg" width="100mm" />
@@ -612,7 +619,7 @@ public class Main {
 				</para>
 			</section>
 
-			<section id="section-introduction-part1-creation">
+			<section id="section-introduction-java-part1-creation">
 				<title>Controlling Widget Creation</title>
 
 				<para>
@@ -671,7 +678,7 @@ public class Main {
 					<classname>JCheckbox</classname>:
 				</para>
 
-				<figure id="section-introduction-part1-screenshot8">
+				<figure id="section-introduction-java-part1-screenshot8">
 					<title>The 'retired' property has been overridden</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial8.jpg" width="100mm" />
@@ -732,7 +739,7 @@ public class Main {
 					Run the code. The <parameter>retired</parameter> property and its label will not appear:
 				</para>
 
-				<figure id="section-introduction-part1-screenshot9">
+				<figure id="section-introduction-java-part1-screenshot9">
 					<title>The 'retired' property has been suppressed</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial9.jpg" width="100mm" />
@@ -797,7 +804,605 @@ public class Person {
 
 			</section>
 
-			<section id="section-introduction-part1-metawidget-config">
+			<section id="section-introduction-java-part1-metawidget-config">
+				<title>Configuring Metawidget Externally</title>
+
+				<para>
+					So far we have been instantiating our <classname>Inspector</classname>s and
+					<classname>Layout</classname>s in Java code. Whilst this approach is possible for all
+					<classname>Inspector</classname>s and <classname>Layout</classname>s, many UI frameworks employ
+					visual UI builders or intermediate languages (such as JSP) that make getting to the Java code cumbersome (i.e. you have to derive
+					custom widgets).
+				</para>
+
+				<para>
+					As an alternative, Metawidget supports external XML configuration. Create a file called
+					<filename>metawidget.xml</filename> in the same folder as your <classname>Main</classname>
+					class:
+				</para>
+
+				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="1.0"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
+
+	&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;		
+		&lt;inspector&gt;
+			&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+				config="CompositeInspectorConfig"&gt;
+				&lt;inspectors&gt;
+					&lt;array&gt;
+						&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"&gt;
+							&lt;inputStream&gt;
+								&lt;resource&gt;com/myapp/metawidget-metadata.xml&lt;/resource&gt;
+							&lt;/inputStream&gt;
+						&lt;/xmlInspector&gt;
+						&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+						&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+					&lt;/array&gt;
+				&lt;/inspectors&gt;
+			&lt;/compositeInspector&gt;
+		&lt;/inspector&gt;
+		&lt;metawidgetLayout&gt;
+			&lt;tabbedPaneLayoutDecorator xmlns="java:org.metawidget.swing.layout"
+				config="TabbedPaneLayoutDecoratorConfig"&gt;
+				&lt;layout&gt;
+					&lt;gridBagLayout config="GridBagLayoutConfig"&gt;
+						&lt;numberOfColumns&gt;
+							&lt;int&gt;2&lt;/int&gt;
+						&lt;/numberOfColumns&gt;
+					&lt;/gridBagLayout&gt;
+				&lt;/layout&gt;
+			&lt;/tabbedPaneLayoutDecorator&gt;
+		&lt;/metawidgetLayout&gt;	
+	&lt;/swingMetawidget&gt;
+
+&lt;/metawidget&gt;</programlisting>			
+				
+				<para>
+					Now update your <classname>Main</classname> class to use this file:
+				</para>
+					
+				<programlisting language="java">package com.myapp;
+
+<symbol>import javax.swing.*;
+import org.metawidget.swing.*;</symbol>
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<symbol>metawidget.setConfig( "com/myapp/metawidget.xml" );</symbol>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 250 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+
+				<para>
+					Run the code. The output is the same as before, but this time we are configuring our Metawidget via external XML.
+				</para>
+				
+				<para>
+					Visual UI builders can call <function>SwingMetawidget.setConfig</function> from the builder, with no coding required. Other
+					UI frameworks (e.g. JSPs, Android) have similar 'code free' approaches (e.g. setting an attribute on a JSP tag, setting an
+					attribute in an Android layout file) to setting the XML file. We shall look at these sorts of frameworks in Part 2.
+				</para>
+				
+			</section>
+			
+		</section>
+
+		<section id="section-introduction-javascript-part1">
+			<title>Part 1 - The First Metawidget Application (JavaScript version)</title>
+
+			<para>
+				Part 1 starts with a pure JavaScript application and develops it in easy to understand steps.
+				Metawidget supports many JavaScript-based UI frameworks, but we start with pure JavaScript because it
+				ships with Java SE and requires minimal setup.
+			</para>
+
+			<para>
+				This tutorial should take around 20 minutes. We recommend you use your preferred JavaScript
+				development environment.
+			</para>
+
+			<section id="section-introduction-javascript-part1-object">
+				<title>The Object</title>
+
+				<para>
+					Metawidget is an Object/User Interface Mapping tool (OIM), so first we need an object to map from - the
+					<emphasis>O</emphasis> in OIM. Create a new HTML page in your project called <classname>index.html</classname>
+					with the following code:
+				</para>
+
+				<programlisting language="xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;script type="text/javascript"&gt;
+			var person = {
+				"name": "Homer Simpson",
+				"age": 57,
+				"retired": false
+			};
+		&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+
+			</section>
+
+			<section id="section-introduction-javascript-part1-interface">
+				<title>The Interface</title>
+
+				<para>
+					Next we need a User Interface - the <emphasis>I</emphasis>
+					in OIM. Add the following code to your HTML page
+					(lines to add are highlighted):
+				</para>
+
+				<programlisting language="java">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		<symbol>&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;</symbol>
+		&lt;script type="text/javascript"&gt;
+			var person = {
+				"name": "Homer Simpson",
+				"age": 57,
+				"retired": false
+			};
+		&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		<symbol>&lt;form&gt;
+			&lt;div id="metawidget"&gt;&lt;/div&gt;
+		&lt;/form&gt;
+		&lt;script type="text/javascript"&gt;
+			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ));
+			mw.toInspect = person;
+			mw.buildWidgets();
+		&lt;/script&gt;</symbol>
+	&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+
+				<para>
+					You will also need to copy <filename>js/lib/metawidget/core/metawidget-core.min.js</filename> from
+					the Metawidget binary distribution into your project.
+				</para>
+				
+			</section>
+
+			<section id="section-introduction-javascript-part1-output">
+				<title>The Output</title>
+
+				<para>
+					Open your HTML page in your browser.
+					You should see the page in <xref linkend="section-introduction-javascript-part1-screenshot1" />.
+				</para>
+
+				<figure id="section-introduction-javascript-part1-screenshot1">
+					<title>Metawidget rendering of person object</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/js-tutorial1.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					The Metawidget has automatically populated the <parameter>div</parameter> with child widgets at
+					runtime. This is the First Goal Of Metawidget:
+				</para>
+
+				<important>
+					<title>First Goal Of Metawidget</title>
+					Metawidget creates UI widgets by inspecting existing architectures
+				</important>
+
+				<para>
+					By default, Metawidget has laid out the	HTML <parameter>input</parameter> components
+					using a <paramater>table</paramater>. This may not be your preferred approach, and
+					either way this is clearly not a complete UI. There are no Save or Cancel buttons, for example.
+					This is explained by the Second Goal Of Metawidget:
+				</para>
+
+				<important>
+					<title>Second Goal Of Metawidget</title>
+					Metawidget does not try to 'own' the entire UI - it focuses on
+					creating native sub-widgets for slotting into existing UIs
+				</important>
+
+				<para>
+					You slot Metawidget alongside your standard UI components, often combining several
+					Metawidgets on the same screen. We'll see how this works later.
+				</para>
+
+			</section>
+
+			<section id="section-introduction-javascript-part1-inspectors">
+				<title>Inspectors</title>
+
+				<para>
+					Currently the <parameter>age</parameter>
+					and	<parameter>retired</parameter> properties are rendered as
+					<parameter>text</parameter> boxes - even though their data types are almost
+					certainly <parameter>number</parameter> and <parameter>boolean</parameter>.
+					This is because type information is not retained within JSON
+					(as per the JavaScript Specification).
+				</para>
+
+				<para>
+					To correct this, Metawidget needs to gather additional information. To do this,
+					you need to use a different <emphasis>Inspector</emphasis>.
+					Metawidget comes with multiple <classname>Inspector</classname>s, each
+					targeting different sources of information, and makes it easy to add your own.
+					Change your HTML page to configure a new <classname>Inspector</classname> (lines to add are highlighted):
+				</para>
+				
+				<programlisting language="xml">var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
+	
+	inspector: function( toInspect, type, names ) {
+
+		return [
+			{ "name": "age", "type": "number" },
+			{ "name": "retried", "type": "boolean" }
+		];
+	}
+} );
+				
+				<para>
+					Refresh the page in your browser. It does not yield the correct result - the properties appear
+					with the correct <parameter>input</parameter> types, but the <parameter>name</parameter>
+					property has disappeared! What happened?
+				</para>
+	
+				<figure id="section-introduction-javascript-part1-screenshot2">
+					<title>Correct input types, but missing property</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/js-tutorial2.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					Metawidget <classname>Inspector</classname>s are very targeted in what they inspect.
+					Our new <classname>Inspector</classname> returns type information - but it does
+					<emphasis>not</emphasis> return anything else, such as properties from our JSON object.
+					Before we explicitly specified a new <classname>Inspector</classname>, Metawidget had
+					been implictly using another <classname>Inspector</classname> for us,
+					called <classname>PropertyTypeInspector</classname>.
+				</para>
+
+			</section>
+
+			<section id="section-introduction-javascript-part1-compositeinspector">
+				<title>Combining Multiple Inspection Results</title>
+
+				<para>
+					What we need is to <emphasis>combine</emphasis> the results of
+					<classname>PropertyTypeInspector</classname> and our new
+					<classname>Inspector</classname> before returning them to the
+					Metawidget. We do this using <classname>CompositeInspector</classname>:
+				</para>
+
+				<programlisting language="java">var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
+	
+	inspector: <symbol>new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(),</symbol>
+		function( toInspect, type, names ) {
+		
+				return [
+					{ "name": "age", "type": "number" },
+					{ "name": "retried", "type": "boolean" }
+				];
+			}
+		} <symbol>] )</symbol>
+} );</programlisting>
+
+				<para>
+					Refresh the page again. This time properties appear both with the correct
+					<parameter>input</parameter> types and with all properties from the JSON object:
+				</para>
+
+				<figure id="section-introduction-javascript-part1-screenshot4">
+					<title>Using multiple inspectors</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/js-tutorial3.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					This idea of combining multiple <classname>Inspector</classname>s to inspect different characteristics of your
+					existing architecture is very powerful. Metawidget comes with many pre-written
+					<classname>Inspector</classname>s for many different technologies, and makes it easy to
+					add your own - such as for REST services. There is a lot of metadata already lurking in back-end
+					systems - it just needs extracting.
+				</para>				
+			</section>
+
+			<section id="section-introduction-javascript-part1-layout">
+				<title>Controlling The Layout</title>
+
+				<para>
+					There are several ways to control the layout of the components. To demonstrate, Try adding
+					the following metadata for the person object:
+				</para>
+
+				<programlisting language="java">function( toInspect, type, names ) {
+		
+	return [
+		{ "name": "age", "type": "number" },
+		{ "name": "retried", "type": "boolean" },
+		<symbol>{ "name": "notes", "large": "true" },
+		{ "name": "employer": "type": "string", "section": "Work" }</symbol>
+		{ "name": "department", "type": "string" },
+	];
+}</programlisting>
+				
+				<para>
+					This produces the screen in <xref linkend="section-introduction-javascript-part1-screenshot4" />. Metadata
+					has been added to define section headings and 'large' properties (i.e. a <parameter>textarea</parameter>).
+				</para>
+
+				<figure id="section-introduction-javascript-part1-screenshot4">
+					<title>Additional properties and a section heading</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/js-tutorial4.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					By default,	Metawidget lays out components using an HTML <parameter>table</parameter>.
+					You can configure this layout or swap it for a different one. Modify the code
+					as follows:
+				</para>
+
+				<programlisting language="java">var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
+	
+	inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(),
+		function( toInspect, type, names ) {
+				
+			return [
+				{ "name": "age", "type": "number" },
+				{ "name": "retried", "type": "boolean" },
+				{ "name": "notes", "large": "true" },
+				{ "name": "employer": "type": "string", "section": "Work" }
+				{ "name": "department", "type": "string" },
+			];
+		} ] )
+		
+	<symbol>layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
+} );</programlisting>
+
+				<para>
+					Refresh the page. The components are now arranged across two columns:
+				</para>
+
+				<figure id="section-introduction-javascript-part1-screenshot5">
+					<title>A two-column layout</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/js-tutorial5.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					You may have noticed the <classname>TableLayout</classname> is nested inside
+					a <classname>HeadingTagLayoutDecorator</classname>. This
+					is responsible for separating widgets in different sections using <parameter>h1</parameter>
+					tags. However there are other choices for separating widgets. Modify the code to
+					use a JQuery-based <classname>TabLayoutDecorator</classname> instead:
+				</para>
+				
+				<programlisting language="java">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;	
+		<symbol>&lt;link href="lib/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet"&gt;
+		&lt;script src="lib/jquery-ui/jquery-1.8.3.min.js" type="text/javascript"&gt;&lt;/script&gt;
+		&lt;script src="lib/jquery-ui/jquery-ui-1.9.2.custom.js" type="text/javascript"&gt;&lt;/script&gt;
+		&lt;script src="lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" type="text/javascript"&gt;&lt;/script&gt;<symbol>
+		&lt;script type="text/javascript"&gt;
+			var person = {
+				"name": "Homer Simpson",
+				"age": 57,
+				"retired": false
+			};
+		&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;form&gt;
+			&lt;div id="metawidget"&gt;&lt;/div&gt;
+		&lt;/form&gt;
+		&lt;script type="text/javascript"&gt;
+			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
+				
+				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(),
+					function( toInspect, type, names ) {
+							
+						return [
+							{ "name": "age", "type": "number" },
+							{ "name": "retried", "type": "boolean" },
+							{ "name": "notes", "large": "true" },
+							{ "name": "employer": "type": "string", "section": "Work" }
+							{ "name": "department", "type": "string" },
+						];
+					} ] )
+					
+				<symbol>layout: new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
+			} );		
+			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ));
+			mw.toInspect = person;
+			mw.buildWidgets();
+		&lt;/script&gt;</symbol>
+	&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+
+				<para>
+					Refresh the browser. The section heading is now a tab:
+				</para>
+
+				<figure id="section-introduction-javascript-part1-screenshot6">
+					<title>Two-column layout with a tab</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/js-tutorial6.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+			</section>
+
+			<section id="section-introduction-javascript-part1-creation">
+				<title>Controlling Widget Creation</title>
+
+				<para>
+					There are several ways to control widget creation. One way is to add child controls inside the
+					Metawidget:
+				</para>
+
+				<programlisting language="java">&lt;form&gt;
+	&lt;div id="metawidget"&gt;
+		&lt;select name="retired"&gt;
+			&lt;option /&gt;
+			&lt;option value="true" /&gt;
+			&lt;option value="false" /&gt;
+		&lt;/select&gt;
+	&lt;/div&gt;
+&lt;/form&gt;</programlisting>
+
+				<para>
+					Run the code. The <classname>JComboBox</classname> appears in place of the
+					<parameter>retired</parameter> <classname>JCheckBox</classname>, because it has the same name (i.e. 'retired') as Metawidget would have given the
+					<classname>JCheckbox</classname>:
+				</para>
+
+				<figure id="section-introduction-javascript-part1-screenshot8">
+					<title>The 'retired' property has been overridden</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/swing-tutorial8.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<tip>
+					<title>Note</title>
+					The default algorithm looks for child controls with the same name, but you can plug in your own implementation
+					if you need to. See <xref linkend="section-architecture-overriddenwidgetbuilder"/>.
+				</tip>
+				
+				<para>
+					To suppress a widget's creation entirely, simply supplying an empty
+					<classname>JPanel</classname> named 'retired' will not work as Metawidget
+					will still create an accompanying label in the left hand column. Instead, Metawidget includes special
+					<classname>Stub</classname> widgets	for this purpose:
+				</para>
+
+				<programlisting language="java">package com.myapp;
+
+import javax.swing.*;
+import org.metawidget.inspector.annotation.*;
+import org.metawidget.inspector.composite.*;
+import org.metawidget.inspector.propertytype.*;
+import org.metawidget.inspector.xml.*;
+import org.metawidget.swing.*;
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+		
+		SwingMetawidget metawidget = new SwingMetawidget();
+		XmlInspectorConfig config = new XmlInspectorConfig();
+		config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));		
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
+			new XmlInspector( config ),
+			new PropertyTypeInspector(),
+			new MetawidgetAnnotationInspector() );
+		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
+		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
+		TabbedPaneLayoutDecoratorConfig layoutConfig = new TabbedPaneLayoutDecoratorConfig().setLayout(
+			new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( layoutConfig ));
+		metawidget.setToInspect( person );
+		<symbol>metawidget.add( new Stub( "retired" ));</symbol>
+		
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 250 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+
+				<para>
+					Run the code. The <parameter>retired</parameter> property and its label will not appear:
+				</para>
+
+				<figure id="section-introduction-javascript-part1-screenshot9">
+					<title>The 'retired' property has been suppressed</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/swing-tutorial9.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					Another way is to use a <classname>@UiHidden</classname> annotation on the business class:
+				</para>
+
+				<programlisting language="java">package com.myapp;
+
+import org.metawidget.inspector.annotation.*;
+
+public class Person {
+
+	public enum Gender { Male, Female }
+	
+	private String	mName;
+	private int		mAge;
+	private boolean	mRetired;
+	private Gender	mGender;
+	private String	mNotes;
+	private String	mEmployer;
+	private String	mDepartment;
+	
+	public String getName() { return mName; }
+	public void setName( String name ) { mName = name; }
+
+	public int getAge() { return mAge; }
+	public void setAge( int age ) { mAge = age; }
+
+	<symbol>@UiHidden</symbol>
+	public boolean isRetired() { return mRetired; }
+	public void setRetired( boolean retired ) { mRetired = retired; }
+
+	@UiComesAfter( "retired" )
+	public Gender getGender() { return mGender; }
+	public void setGender( Gender gender ) { mGender = gender; }
+
+	@UiComesAfter( "gender" )
+	@UiLarge
+	public String getNotes() { return mNotes; }
+	public void setNotes( String notes ) { mNotes = notes; }
+
+	@UiComesAfter( "notes" )
+	@UiSection( "Work" )
+	public String getEmployer() { return mEmployer; }
+	public void setEmployer( String employer ) { mEmployer = employer; }
+
+	@UiComesAfter( "employer" )
+	public String getDepartment() { return mDepartment; }
+	public void setDepartment( String department ) { mDepartment = department; }
+}</programlisting>
+
+				<para>
+					In both cases, <classname>org.metawidget.swing.layout.GridBagLayout</classname>
+					is smart enough to always give large <classname>JComponent</classname>s
+					like <parameter>notes</parameter> the full width of the
+					<classname>JFrame</classname>.
+				</para>
+
+			</section>
+
+			<section id="section-introduction-javascript-part1-metawidget-config">
 				<title>Configuring Metawidget Externally</title>
 
 				<para>
