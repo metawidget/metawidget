@@ -86,7 +86,10 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 };
 
 /**
- * WidgetBuilder to override widgets based on mw.overriddenNodes
+ * WidgetBuilder to override widgets based on mw.overriddenNodes.
+ * <p>
+ * Widgets are overridden based on name, not id, because name is not legal
+ * syntax for many nodes (e.g. table)
  */
 
 metawidget.widgetbuilder.OverriddenWidgetBuilder = function() {
@@ -150,7 +153,7 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 			stub.appendChild( document.createElement( 'stub' ) );
 			return stub;
 		}
-		
+
 		return document.createElement( 'output' );
 	}
 

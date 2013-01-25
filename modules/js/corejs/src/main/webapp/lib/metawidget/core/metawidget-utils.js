@@ -101,6 +101,23 @@ metawidget.util.isReadOnly = function( attributes, mw ) {
 	return ( mw.readOnly );
 };
 
+metawidget.util.isSpanAllColumns = function( attributes ) {
+
+	if ( !attributes ) {
+		return false;
+	}
+	
+	if ( attributes.large == 'true' ) {
+		return true;
+	}
+
+	if ( attributes.wide == 'true' ) {
+		return true;
+	}
+
+	return false;
+};
+
 metawidget.util.splitPath = function( path ) {
 	
 	var type = '';

@@ -28,7 +28,7 @@
 			<xref linkend="preface-diagram" />, Metawidget inspects an application's
 			<emphasis>existing</emphasis> back-end architecture (such as JavaBeans, XML configuration files,
 			annotations) and creates widgets native to its <emphasis>existing</emphasis>
-			front-end framework (such as Swing, Java Server Faces, Struts or Android).
+			front-end framework (such as Swing, JavaScript, Java Server Faces, Struts or Android).
 		</para>
 
 		<figure id="preface-diagram">
@@ -71,7 +71,8 @@
 		<para>
 			Metawidget comes with a native UI component for each supported front-end.
 			This support includes: Android, Google Web Toolkit (including
-			extensions such as ExtGWT), 'plain' HTML 5 (POH5), Java Server
+			extensions such as ExtGWT), 'plain' HTML 5 (POH5), JavaScript (including
+			extensions such as JQuery UI and AngularJS), Java Server
 			Faces (including extensions such as Facelets, ICEfaces, PrimeFaces, RichFaces and Tomahawk),
 			'plain' Java Server Pages (including extensions such as DisplayTag),
 			Spring Web MVC, Struts, Swing (including extensions such as Beans Binding,
@@ -82,7 +83,8 @@
 			Metawidget can read business object information from any combination of supported
 			back-end technologies. This support includes: annotations, Bean Validation (JSR 303), Commons
 			JEXL, Commons Validator, Groovy, Hibernate, Hibernate Validator, JavaBeans, Java Persistence
-			Architecture (JPA), Javassist, JBoss Forge, JBoss jBPM, OVal, Scala, Seam and the Swing AppFramework. 
+			Architecture (JPA), Javassist, JBoss Forge, JBoss jBPM, JSON, OVal, REST, Scala, Seam and
+			the Swing AppFramework. 
 		</para>
 
 		<tip>

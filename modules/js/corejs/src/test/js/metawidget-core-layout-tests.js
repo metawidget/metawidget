@@ -284,6 +284,73 @@ describe( "The TableLayout", function() {
 		expect( container.childNodes.length ).toBe( 1 );
 	} );
 	
+	it( "support multiple columns", function() {
+
+		var layout = new metawidget.layout.TableLayout( { "numberOfColumns": 2 } );
+
+		var container = document.createElement( 'metawidget' );
+		var mw = {
+			"path": "testPath"
+		};
+
+		layout.startContainerLayout( container, mw );
+		layout.layoutWidget( document.createElement( 'widget1' ), {
+			"name": "widget1",
+			"required": "true"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget2' ), {
+			"name": "widget2",
+			"label": "widgetLabel 2"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget3' ), {
+			"name": "widget3",
+			"large": "true"
+		}, container, mw );
+		layout.layoutWidget( document.createElement( 'widget4' ), {
+			"name": "widget4"
+		}, container, mw );
+
+		expect( container.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget1-label"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1:' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'widget1' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].innerHTML ).toBe( '*' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[3].toString() ).toBe( 'th id="table-testPathWidget2-label-cell"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[3].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget2-label"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[3].childNodes[0].innerHTML ).toBe( 'widgetLabel 2:' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[4].toString() ).toBe( 'td id="table-testPathWidget2-cell"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[4].childNodes[0].toString() ).toBe( 'widget2' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[5].toString() ).toBe( 'td' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[5].innerHTML ).toBeUndefined();
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 6 );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr id="table-testPathWidget3-row"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget3-label-cell"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget3-label"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 3:' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget3-cell" colspan="4"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'widget3' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[2].innerHTML ).toBeUndefined();
+		expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 3 );
+		expect( container.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'tr id="table-testPathWidget4-row"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget4-label-cell"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget4-label"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 4:' );
+		expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget4-cell"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[0].toString() ).toBe( 'widget4' );
+		expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[2].toString() ).toBe( 'td' );
+		expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[2].innerHTML ).toBeUndefined();
+		expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes.length ).toBe( 3 );
+		expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( container.childNodes.length ).toBe( 1 );
+	} );
+	
 	// TODO: ie support?
 } );
 

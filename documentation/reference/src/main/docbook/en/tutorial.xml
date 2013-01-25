@@ -10,13 +10,13 @@
 		
 		<para>
 			If you are using a Java-based framework (including Android, and Java-based web frameworks
-			such as GWT and Java Server Faces) you should follow the Java version of Part 1. If you
+			such as GWT or Java Server Faces) you should follow the Java version of Part 1. If you
 			are using a pure JavaScript-based framework (such as AngularJS) you should follow the
-			JavaScript version of Part 1. 
+			JavaScript version of Part 1 (see <xref linkend="section-introduction-javascript-part1" />). 
 		</para>
 
 		<section id="section-introduction-java-part1">
-			<title>Part 1 - The First Metawidget Application (Java version)</title>
+			<title>Part 1 (Java version) - The First Metawidget Application</title>
 
 			<para>
 				Part 1 starts with a simple Swing application and develops it in easy to understand steps.
@@ -900,12 +900,12 @@ public class Main {
 		</section>
 
 		<section id="section-introduction-javascript-part1">
-			<title>Part 1 - The First Metawidget Application (JavaScript version)</title>
+			<title>Part 1 (JavaScript version) - The First Metawidget Application</title>
 
 			<para>
 				Part 1 starts with a pure JavaScript application and develops it in easy to understand steps.
 				Metawidget supports many JavaScript-based UI frameworks, but we start with pure JavaScript because it
-				ships with Java SE and requires minimal setup.
+				requires minimal setup.
 			</para>
 
 			<para>
@@ -961,9 +961,7 @@ public class Main {
 		&lt;/script&gt;
 	&lt;/head&gt;
 	&lt;body&gt;
-		<symbol>&lt;form&gt;
-			&lt;div id="metawidget"&gt;&lt;/div&gt;
-		&lt;/form&gt;
+		<symbol>&lt;div id="metawidget"&gt;&lt;/div&gt;
 		&lt;script type="text/javascript"&gt;
 			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ));
 			mw.toInspect = person;
@@ -996,7 +994,8 @@ public class Main {
 
 				<para>
 					The Metawidget has automatically populated the <parameter>div</parameter> with child widgets at
-					runtime. This is the First Goal Of Metawidget:
+					runtime. It has chosen <parameter>text</parameter>, <parameter>number</parameter> and <parameter>checkbox</parameter>
+					inputs based on the types of the properties of the Person object. This is the First Goal Of Metawidget: 
 				</para>
 
 				<important>
@@ -1006,7 +1005,7 @@ public class Main {
 
 				<para>
 					By default, Metawidget has laid out the	HTML <parameter>input</parameter> components
-					using a <paramater>table</paramater>. This may not be your preferred approach, and
+					using a <parameter>table</parameter>. This may not be your preferred approach, and
 					either way this is clearly not a complete UI. There are no Save or Cancel buttons, for example.
 					This is explained by the Second Goal Of Metawidget:
 				</para>
@@ -1028,41 +1027,30 @@ public class Main {
 				<title>Inspectors</title>
 
 				<para>
-					Currently the <parameter>age</parameter>
-					and	<parameter>retired</parameter> properties are rendered as
-					<parameter>text</parameter> boxes - even though their data types are almost
-					certainly <parameter>number</parameter> and <parameter>boolean</parameter>.
-					This is because type information is not retained within JSON
-					(as per the JavaScript Specification).
-				</para>
-
-				<para>
-					To correct this, Metawidget needs to gather additional information. To do this,
-					you need to use a different <emphasis>Inspector</emphasis>.
-					Metawidget comes with multiple <classname>Inspector</classname>s, each
-					targeting different sources of information, and makes it easy to add your own.
-					Change your HTML page to configure a new <classname>Inspector</classname> (lines to add are highlighted):
+					Suppose we want the <parameter>name</parameter> property to be a required field. Such
+					metadata cannot be represented using standard JavaScript Object Notation (JSON) so
+					Metawidget needs a way to gather the additional information. There are several ways to do this, but the simplest
+					for now is to add a custom <emphasis>Inspector</emphasis> (text to add is highlighted):
 				</para>
 				
-				<programlisting language="xml">var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
+				<programlisting language="xml">var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' )<symbol>, {
 	
 	inspector: function( toInspect, type, names ) {
 
 		return [
-			{ "name": "age", "type": "number" },
-			{ "name": "retried", "type": "boolean" }
+			{ "name": "name", "type": "string", "required": "true" }
 		];
 	}
-} );</programlisting>
+}</symbol> );</programlisting>
 				
 				<para>
-					Refresh the page in your browser. It does not yield the correct result - the properties appear
-					with the correct <parameter>input</parameter> types, but the <parameter>name</parameter>
-					property has disappeared! What happened?
+					Refresh the page in your browser. It does not yield the correct result - the <parameter>name</parameter>
+					property appears as a required field, but the <parameter>age</parameter> and <parameter>retired</parameter>					
+					properties have disappeared! What happened?
 				</para>
 	
 				<figure id="section-introduction-javascript-part1-screenshot2">
-					<title>Correct input types, but missing property</title>
+					<title>Name is required, but other properties are missing</title>
 					<!-- <screenshot>
 						<graphic fileref="images/screenshots/js-tutorial2.jpg" width="100mm" />
 					</screenshot> -->
@@ -1070,7 +1058,8 @@ public class Main {
 
 				<para>
 					Metawidget <classname>Inspector</classname>s are very targeted in what they inspect.
-					Our new <classname>Inspector</classname> returns type information - but it does
+					Our custom <classname>Inspector</classname> returns information about 'name' being
+					a required field - but it does
 					<emphasis>not</emphasis> return anything else, such as properties from our JSON object.
 					Before we explicitly specified a new <classname>Inspector</classname>, Metawidget had
 					been implictly using another <classname>Inspector</classname> for us,
@@ -1084,7 +1073,7 @@ public class Main {
 
 				<para>
 					What we need is to <emphasis>combine</emphasis> the results of
-					<classname>PropertyTypeInspector</classname> and our new
+					<classname>PropertyTypeInspector</classname> and our custom
 					<classname>Inspector</classname> before returning them to the
 					Metawidget. We do this using <classname>CompositeInspector</classname>:
 				</para>
@@ -1095,16 +1084,15 @@ public class Main {
 		function( toInspect, type, names ) {
 		
 				return [
-					{ "name": "age", "type": "number" },
-					{ "name": "retried", "type": "boolean" }
+					{ "name": "name", "required": "true" }
 				];
 			}
 		} <symbol>] )</symbol>
 } );</programlisting>
 
 				<para>
-					Refresh the page again. This time properties appear both with the correct
-					<parameter>input</parameter> types and with all properties from the JSON object:
+					Refresh the page again. This time all properties appear and <parameter>name</parameter>
+					is marked as a required field.
 				</para>
 
 				<figure id="section-introduction-javascript-part1-screenshot3">
@@ -1134,11 +1122,10 @@ public class Main {
 				<programlisting language="java">function( toInspect, type, names ) {
 		
 	return [
-		{ "name": "age", "type": "number" },
-		{ "name": "retried", "type": "boolean" },
-		<symbol>{ "name": "notes", "large": "true" },
-		{ "name": "employer": "type": "string", "section": "Work" }</symbol>
-		{ "name": "department", "type": "string" },
+		{ "name": "name", "required": "true" }<symbol>,
+		{ "name": "notes", "type": "string", "large": "true" },
+		{ "name": "employer", "type": "string", "section": "Work" },
+		{ "name": "department", "type": "string" }</symbol>
 	];
 }</programlisting>
 				
@@ -1166,13 +1153,12 @@ public class Main {
 		function( toInspect, type, names ) {
 				
 			return [
-				{ "name": "age", "type": "number" },
-				{ "name": "retried", "type": "boolean" },
-				{ "name": "notes", "large": "true" },
-				{ "name": "employer": "type": "string", "section": "Work" }
-				{ "name": "department", "type": "string" },
+				{ "name": "name", "required": "true" },
+				{ "name": "notes", "type": "string", "large": "true" },
+				{ "name": "employer", "type": "string", "section": "Work" },
+				{ "name": "department", "type": "string" }
 			];
-		} ] )
+		} ] ),
 		
 	<symbol>layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
 } );</programlisting>
@@ -1188,12 +1174,20 @@ public class Main {
 					</screenshot> -->
 				</figure>
 
+				<tip>
+					<title>Note</title>
+					Your browser may not have stretched the <parameter>textarea</parameter> across the full width of
+					the <parameter>table</parameter>, even though the <parameter>colspan</parameter> has been set to
+					4. You can add <parameter>&lt;style&gt;textarea { width: 100% }&lt;/style&gt;</parameter>
+					into the <parameter>head</parameter> to confirm this visually
+				</tip>
+
 				<para>
 					You may have noticed the <classname>TableLayout</classname> is nested inside
 					a <classname>HeadingTagLayoutDecorator</classname>. This
 					is responsible for separating widgets in different sections using <parameter>h1</parameter>
 					tags. However there are other choices for separating widgets. Modify the code to
-					use a JQuery-based <classname>TabLayoutDecorator</classname> instead:
+					use a JQuery UI-based <classname>TabLayoutDecorator</classname> instead:
 				</para>
 				
 				<programlisting language="java">&lt;!DOCTYPE html&gt;
@@ -1231,7 +1225,8 @@ public class Main {
 						];
 					} ] )
 					
-				<symbol>layout: new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
+				<symbol>layout: new metawidget.jqueryui.layout.TabLayoutDecorator(
+					new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
 			} );		
 			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ));
 			mw.toInspect = person;
@@ -1241,7 +1236,7 @@ public class Main {
 &lt;/html&gt;</programlisting>
 
 				<para>
-					Refresh the browser. The section heading is now a tab:
+					Refresh the page. The section heading is now a tab:
 				</para>
 
 				<figure id="section-introduction-javascript-part1-screenshot6">
@@ -1262,7 +1257,7 @@ public class Main {
 
 				<programlisting language="java">&lt;form&gt;
 	&lt;div id="metawidget"&gt;
-		&lt;select name="retired"&gt;
+		&lt;select id="retired"&gt;
 			&lt;option /&gt;
 			&lt;option value="true" /&gt;
 			&lt;option value="false" /&gt;
@@ -1271,9 +1266,9 @@ public class Main {
 &lt;/form&gt;</programlisting>
 
 				<para>
-					Run the code. The <classname>JComboBox</classname> appears in place of the
-					<parameter>retired</parameter> <classname>JCheckBox</classname>, because it has the same name (i.e. 'retired') as Metawidget would have given the
-					<classname>JCheckbox</classname>:
+					Refresh the page. The <parameter>select</parameter> box appears in place of the
+					<parameter>checkbox</parameter>, because it has the same id (i.e. 'retired') as Metawidget would have given the
+					<classname>checkbox</classname>:
 				</para>
 
 				<figure id="section-introduction-javascript-part1-screenshot8">
@@ -1285,56 +1280,25 @@ public class Main {
 
 				<tip>
 					<title>Note</title>
-					The default algorithm looks for child controls with the same name, but you can plug in your own implementation
+					The default algorithm looks for child controls with the same id, but you can plug in your own implementation
 					if you need to. See <xref linkend="section-architecture-overriddenwidgetbuilder"/>.
 				</tip>
 				
 				<para>
 					To suppress a widget's creation entirely, simply supplying an empty
-					<classname>JPanel</classname> named 'retired' will not work as Metawidget
+					<parameter>div</parameter> with id 'retired' will not work as Metawidget
 					will still create an accompanying label in the left hand column. Instead, Metawidget includes special
-					<classname>Stub</classname> widgets	for this purpose:
+					<parameter>stub</parameter> widgets	for this purpose:
 				</para>
 
-				<programlisting language="java">package com.myapp;
-
-import javax.swing.*;
-import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.composite.*;
-import org.metawidget.inspector.propertytype.*;
-import org.metawidget.inspector.xml.*;
-import org.metawidget.swing.*;
-
-public class Main {
-
-	public static void main( String[] args ) {
-		Person person = new Person();
-		
-		SwingMetawidget metawidget = new SwingMetawidget();
-		XmlInspectorConfig config = new XmlInspectorConfig();
-		config.setInputStream( Main.class.getResourceAsStream( "metawidget-metadata.xml" ));		
-		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
-			new XmlInspector( config ),
-			new PropertyTypeInspector(),
-			new MetawidgetAnnotationInspector() );
-		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
-		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
-		TabbedPaneLayoutDecoratorConfig layoutConfig = new TabbedPaneLayoutDecoratorConfig().setLayout(
-			new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
-		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( layoutConfig ));
-		metawidget.setToInspect( person );
-		<symbol>metawidget.add( new Stub( "retired" ));</symbol>
-		
-		JFrame frame = new JFrame( "Metawidget Tutorial" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 250 );
-		frame.setVisible( true );
-	}
-}</programlisting>
+				<programlisting language="java">&lt;form&gt;
+	&lt;div id="metawidget"&gt;
+		&lt;stub id="retired"&gt;&lt;/stub&gt;
+	&lt;/div&gt;
+&lt;/form&gt;</programlisting>
 
 				<para>
-					Run the code. The <parameter>retired</parameter> property and its label will not appear:
+					Refresh the page. The <parameter>retired</parameter> property and its label will not appear:
 				</para>
 
 				<figure id="section-introduction-javascript-part1-screenshot9">
@@ -1345,156 +1309,29 @@ public class Main {
 				</figure>
 
 				<para>
-					Another way is to use a <classname>@UiHidden</classname> annotation on the business class:
+					Another way is to add a <parameter>hidden</parameter> attribute to the metadata:
 				</para>
 
-				<programlisting language="java">package com.myapp;
-
-import org.metawidget.inspector.annotation.*;
-
-public class Person {
-
-	public enum Gender { Male, Female }
-	
-	private String	mName;
-	private int		mAge;
-	private boolean	mRetired;
-	private Gender	mGender;
-	private String	mNotes;
-	private String	mEmployer;
-	private String	mDepartment;
-	
-	public String getName() { return mName; }
-	public void setName( String name ) { mName = name; }
-
-	public int getAge() { return mAge; }
-	public void setAge( int age ) { mAge = age; }
-
-	<symbol>@UiHidden</symbol>
-	public boolean isRetired() { return mRetired; }
-	public void setRetired( boolean retired ) { mRetired = retired; }
-
-	@UiComesAfter( "retired" )
-	public Gender getGender() { return mGender; }
-	public void setGender( Gender gender ) { mGender = gender; }
-
-	@UiComesAfter( "gender" )
-	@UiLarge
-	public String getNotes() { return mNotes; }
-	public void setNotes( String notes ) { mNotes = notes; }
-
-	@UiComesAfter( "notes" )
-	@UiSection( "Work" )
-	public String getEmployer() { return mEmployer; }
-	public void setEmployer( String employer ) { mEmployer = employer; }
-
-	@UiComesAfter( "employer" )
-	public String getDepartment() { return mDepartment; }
-	public void setDepartment( String department ) { mDepartment = department; }
+				<programlisting language="java">function( toInspect, type, names ) {
+				
+	return [
+		{ "name": "name", "required": "true" },
+		<symbol>{ "name": "retired", "hidden": "true" },</symbol>
+		{ "name": "notes", "type": "string", "large": "true" },
+		{ "name": "employer", "type": "string", "section": "Work" },
+		{ "name": "department", "type": "string" }
+	];
 }</programlisting>
 
 				<para>
-					In both cases, <classname>org.metawidget.swing.layout.GridBagLayout</classname>
-					is smart enough to always give large <classname>JComponent</classname>s
-					like <parameter>notes</parameter> the full width of the
-					<classname>JFrame</classname>.
+					In both cases, <classname>metawidget.layout.TableLayout</classname>
+					is smart enough to always give large components
+					like <parameter>textarea</parameter> the full width of the
+					<parameter>table</parameter>.
 				</para>
 
 			</section>
 
-			<section id="section-introduction-javascript-part1-metawidget-config">
-				<title>Configuring Metawidget Externally</title>
-
-				<para>
-					So far we have been instantiating our <classname>Inspector</classname>s and
-					<classname>Layout</classname>s in Java code. Whilst this approach is possible for all
-					<classname>Inspector</classname>s and <classname>Layout</classname>s, many UI frameworks employ
-					visual UI builders or intermediate languages (such as JSP) that make getting to the Java code cumbersome (i.e. you have to derive
-					custom widgets).
-				</para>
-
-				<para>
-					As an alternative, Metawidget supports external XML configuration. Create a file called
-					<filename>metawidget.xml</filename> in the same folder as your <classname>Main</classname>
-					class:
-				</para>
-
-				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	version="1.0"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
-
-	&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;		
-		&lt;inspector&gt;
-			&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
-				config="CompositeInspectorConfig"&gt;
-				&lt;inspectors&gt;
-					&lt;array&gt;
-						&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"&gt;
-							&lt;inputStream&gt;
-								&lt;resource&gt;com/myapp/metawidget-metadata.xml&lt;/resource&gt;
-							&lt;/inputStream&gt;
-						&lt;/xmlInspector&gt;
-						&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
-						&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
-					&lt;/array&gt;
-				&lt;/inspectors&gt;
-			&lt;/compositeInspector&gt;
-		&lt;/inspector&gt;
-		&lt;metawidgetLayout&gt;
-			&lt;tabbedPaneLayoutDecorator xmlns="java:org.metawidget.swing.layout"
-				config="TabbedPaneLayoutDecoratorConfig"&gt;
-				&lt;layout&gt;
-					&lt;gridBagLayout config="GridBagLayoutConfig"&gt;
-						&lt;numberOfColumns&gt;
-							&lt;int&gt;2&lt;/int&gt;
-						&lt;/numberOfColumns&gt;
-					&lt;/gridBagLayout&gt;
-				&lt;/layout&gt;
-			&lt;/tabbedPaneLayoutDecorator&gt;
-		&lt;/metawidgetLayout&gt;	
-	&lt;/swingMetawidget&gt;
-
-&lt;/metawidget&gt;</programlisting>			
-				
-				<para>
-					Now update your <classname>Main</classname> class to use this file:
-				</para>
-					
-				<programlisting language="java">package com.myapp;
-
-<symbol>import javax.swing.*;
-import org.metawidget.swing.*;</symbol>
-
-public class Main {
-
-	public static void main( String[] args ) {
-		Person person = new Person();
-
-		SwingMetawidget metawidget = new SwingMetawidget();
-		<symbol>metawidget.setConfig( "com/myapp/metawidget.xml" );</symbol>
-		metawidget.setToInspect( person );
-
-		JFrame frame = new JFrame( "Metawidget Tutorial" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 250 );
-		frame.setVisible( true );
-	}
-}</programlisting>
-
-				<para>
-					Run the code. The output is the same as before, but this time we are configuring our Metawidget via external XML.
-				</para>
-				
-				<para>
-					Visual UI builders can call <function>SwingMetawidget.setConfig</function> from the builder, with no coding required. Other
-					UI frameworks (e.g. JSPs, Android) have similar 'code free' approaches (e.g. setting an attribute on a JSP tag, setting an
-					attribute in an Android layout file) to setting the XML file. We shall look at these sorts of frameworks in Part 2.
-				</para>
-				
-			</section>
-			
 		</section>
 
 		<section id="section-introduction-part2">
@@ -1519,10 +1356,16 @@ public class Main {
 				<title>Desktop Address Book</title>
 				
 				<para>
-					The Desktop Address Book is essentially a larger version of the Swing application developed in
-					Part 1 - it just has more business objects and more Swing widgets.
+					The Desktop Address Book is essentially a larger version of the application developed in
+					Part 1 - it just has more business objects and more widgets.
 				</para>
 				
+				<tip>
+					<title>Note</title>
+					If you are following along with the JavaScript-based Metawidget, you should skip straight to
+					<xref linkend="section-introduction-part2-web"/>.
+				</tip>				
+
 				<para>
 					The application is pre-built for you in <filename>examples/swing/addressbook-swing.jar</filename>.
 					This is a self-executing JAR. For convenience, it has <filename>MANIFEST.MF</filename> dependencies hard-coded into it, so
@@ -1711,24 +1554,26 @@ public class Main {
 				<title>Web Address Book</title>
 				
 				<para>
-					As there are a large number of Java Web application frameworks to choose from, this example comes written
-					in six of the most popular: Google Web Toolkit (GWT), Java Server Faces (JSF) 1.x and 2.x (using Facelets),
+					As there are a large number of Web application frameworks to choose from, this example comes written
+					in seven of the most popular: AngularJS, Google Web Toolkit (GWT), Java Server Faces (JSF) 1.x and 2.x (using Facelets),
 					Java Server Pages (JSP), Spring Web MVC, Struts and Vaadin. We recommend you follow along using the one most relevant to you.
 				</para>
 				
 				<para>
 					Web-based applications are inherently more difficult to setup and run than desktop-based
-					applications because they require a container application. For
-					this tutorial we recommend using Apache Tomcat as it is one of the easier containers
+					applications because they require a container application (this is true even for the pure client-side, AngularJS-based
+					version of the Address Book as it uses REST calls back to the server).
+					For this tutorial we recommend using Apache Tomcat as it is one of the easier containers
 					to get running (the examples are tested against Tomcat <?eval ${tomcatVersion}?>).
 					Tomcat can be downloaded from <ulink url="http://tomcat.apache.org">http://tomcat.apache.org</ulink>.
 				</para>
 				
 				<para>
-					Take a fresh install of Tomcat. The Address Book WAR is pre-built for you in
-					either <filename>examples/faces/addressbook-faces.war</filename>, <filename>examples/gwt/addressbook-gwt.war</filename>,
-					<filename>examples/jsp/addressbook-jsp.war</filename>, <filename>examples/spring/addressbook-spring.war</filename>,
-					<filename>examples/struts/addressbook-struts.war</filename> or <filename>examples/vaadin/addressbook-struts.war</filename>.
+					Take a fresh install of Tomcat. The Address Book application is pre-built for you in
+					either <filename>examples/js/angular/addressbook</filename>,
+					<filename>examples/java/faces/addressbook-faces.war</filename>, <filename>examples/java/gwt/addressbook-gwt.war</filename>,
+					<filename>examples/java/jsp/addressbook-jsp.war</filename>, <filename>examples/java/spring/addressbook-spring.war</filename>,
+					<filename>examples/java/struts/addressbook-struts.war</filename> or <filename>examples/java/vaadin/addressbook-struts.war</filename>.
 					Alternatively you can build it yourself
 					by changing to the <filename>src/examples</filename> folder and typing:
 				</para>
@@ -1749,7 +1594,7 @@ public class Main {
 				</tip>				
 
 				<para>
-					Copy the WAR into Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
+					Copy the application into Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
 					to <ulink url="http://localhost:8080/addressbook-faces">http://localhost:8080/addressbook-faces</ulink>. The home page displays
 					a search filter (at the top) and lists existing Address Book entries (at the bottom)
 					as in <xref linkend="section-introduction-part2-web-opening-screenshot"/>.
@@ -1764,7 +1609,8 @@ public class Main {
 
 				<para>
 					As with the Desktop Address Book, the three search filter fields are created
-					by Metawidget (this time <classname>UIMetawidget</classname>, <classname>GwtMetawidget</classname>, <classname>HtmlMetawidgetTag</classname>,
+					by Metawidget (this time <classname>AngularMetawidget</classname>, <classname>UIMetawidget</classname>,
+					<classname>GwtMetawidget</classname>, <classname>HtmlMetawidgetTag</classname>,
 					<classname>SpringMetawidgetTag</classname>, <classname>StrutsMetawidgetTag</classname>
 					or <classname>VaadinMetawidget</classname>) based on the <classname>ContactSearch</classname> business class:
 				</para>
@@ -1787,7 +1633,8 @@ public class Main {
 				</tip>				
 
 				<para>
-					The look of the Web page relies entirely on HTML and CSS technologies. These are configured in <filename>metawidget.xml</filename>:
+					The look of the Web page relies entirely on HTML and CSS technologies. These are configured in <filename>metawidget.xml</filename>
+					(or <filename>services.js</filename> for AngularJS):
 				</para>
 
 				<programlisting language="xml">&lt;htmlMetawidget&gt;
@@ -1827,7 +1674,7 @@ public class Main {
 					The <parameter>Address</parameter> property is a nested Metawidget. The <parameter>Communications</parameter> property
 					has been overridden in the page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified widget to
 					override an automatic one if it has the same <parameter>value</parameter> binding as the automatic
-					widget would have (<classname>GwtMetawidget</classname>, <classname>SpringMetawidgetTag</classname>,
+					widget would have (<classname>AngularMetawidget</classname>, <classname>GwtMetawidget</classname>, <classname>SpringMetawidgetTag</classname>,
 					<classname>StrutsMetawidgetTag</classname>
 					and <classname>VaadinMetawidget</classname> do something similar):
 				</para>

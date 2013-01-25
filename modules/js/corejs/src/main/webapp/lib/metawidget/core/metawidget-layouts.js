@@ -102,6 +102,8 @@ metawidget.layout.TableLayout = function( config ) {
 	var tableStyleClass = config ? config.tableStyleClass : null;
 	var columnStyleClasses = config ? config.columnStyleClasses : null;
 	var footerStyleClass = config ? config.footerStyleClass : null;
+	var numberOfColumns = config && config.numberOfColumns ? config.numberOfColumns : 1;
+	var currentColumn = 0;
 
 	this.startContainerLayout = function( container, mw ) {
 
@@ -130,7 +132,7 @@ metawidget.layout.TableLayout = function( config ) {
 					var tr = document.createElement( 'tr' );
 					tfoot.appendChild( tr );
 					var td = document.createElement( 'td' );
-					td.setAttribute( 'colspan', '2' );
+					td.setAttribute( 'colspan', numberOfColumns * 2 );
 
 					if ( footerStyleClass ) {
 						td.setAttribute( 'class', footerStyleClass );
@@ -155,18 +157,28 @@ metawidget.layout.TableLayout = function( config ) {
 
 	this.layoutWidget = function( widget, attributes, container, mw ) {
 
+		// Do not render empty stubs
+		
 		if ( widget.tagName == 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 			return;
 		}
 
-		var table = container.childNodes[container.childNodes.length - 1];
-		var tr = document.createElement( 'tr' );
+		// Special support for large components
 
+		var spanAllColumns = metawidget.util.isSpanAllColumns( attributes );
+
+		if ( spanAllColumns && currentColumn > 0 ) {
+			currentColumn = 0;
+		}
+		
+		// Id
+		
+		var table = container.childNodes[container.childNodes.length - 1];
 		var idPrefix = null;
 
 		if ( attributes.name && attributes.name != '__root' ) {
 			idPrefix = table.getAttribute( 'id' );
-
+			
 			if ( idPrefix ) {
 				if ( idPrefix.charAt( idPrefix.length - 1 ) != '-' ) {
 					idPrefix += metawidget.util.capitalize( attributes.name );
@@ -176,9 +188,24 @@ metawidget.layout.TableLayout = function( config ) {
 			} else {
 				idPrefix = 'table-' + attributes.name;
 			}
+		}
 
-			tr.setAttribute( 'id', idPrefix + '-row' );
+		// Start column
+		
+		var tbody = table.childNodes[table.childNodes.length - 1];
+		var tr;
+		
+		if ( currentColumn == 0 ) {
+			tr = document.createElement( 'tr' );
+			if ( idPrefix ) {
+				tr.setAttribute( 'id', idPrefix + '-row' );
+			}
+			tbody.appendChild( tr );
+		} else {
+			tr = tbody.childNodes[tbody.childNodes.length - 1];
+		}
 
+		if ( attributes.name && attributes.name != '__root' ) {
 			// Label
 
 			var th = document.createElement( 'th' );
@@ -189,7 +216,11 @@ metawidget.layout.TableLayout = function( config ) {
 			}
 
 			var label = document.createElement( 'label' );
-			label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+			
+			if ( widget.getAttribute( 'id' )) {
+				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+			}
+			
 			label.setAttribute( 'id', idPrefix + '-label' );
 
 			if ( attributes.label ) {
@@ -214,12 +245,13 @@ metawidget.layout.TableLayout = function( config ) {
 			td.setAttribute( 'class', columnStyleClasses.split( ',' )[1] );
 		}
 
-		td.appendChild( widget );
-
-		if ( tr.childNodes.length < 1 ) {
+		if ( spanAllColumns ) {
+			td.setAttribute( 'colspan', (( numberOfColumns * 3 ) - 1 ) - tr.childNodes.length );
+		} else if ( tr.childNodes.length < 1 ) {
 			td.setAttribute( 'colspan', 2 - tr.childNodes.length );
 		}
 
+		td.appendChild( widget );
 		tr.appendChild( td );
 
 		// Error
@@ -235,9 +267,14 @@ metawidget.layout.TableLayout = function( config ) {
 		}
 
 		tr.appendChild( td );
+		
+		// Next column
 
-		var tbody = table.childNodes[table.childNodes.length - 1];
-		tbody.appendChild( tr );
+		if ( spanAllColumns ) {
+			currentColumn = numberOfColumns - 1;
+		}
+		
+		currentColumn = ( currentColumn + 1 ) % numberOfColumns;
 	};
 };
 
