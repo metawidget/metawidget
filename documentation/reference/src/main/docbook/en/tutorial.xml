@@ -10,9 +10,9 @@
 		
 		<para>
 			If you are using a Java-based framework (including Android, and Java-based web frameworks
-			such as GWT or Java Server Faces) you should follow the Java version of Part 1. If you
-			are using a pure JavaScript-based framework (such as AngularJS) you should follow the
-			JavaScript version of Part 1 (see <xref linkend="section-introduction-javascript-part1" />). 
+			such as GWT or Java Server Faces) you should follow <xref linkend="section-introduction-java-part1" />. If you
+			are using a pure JavaScript-based framework (such as AngularJS) you should follow
+			<xref linkend="section-introduction-javascript-part1" />. 
 		</para>
 
 		<section id="section-introduction-java-part1">
@@ -1176,7 +1176,8 @@ public class Main {
 			];
 		} ] )<symbol>,
 		
-	layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
+	layout: new metawidget.layout.HeadingTagLayoutDecorator(
+		new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
 } );</programlisting>
 
 				<para>

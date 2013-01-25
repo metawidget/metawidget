@@ -90,6 +90,8 @@ describe( 'AddressBook App', function() {
 		expect( element( 'a:eq(1)' ).text() ).toContain( 'Homer Simpson' );
 		element( 'a:eq(1)' ).click();
 
+		expect( element( '#dialog-image' ).prop( 'src' ) ).toBe( 'http://localhost:8180/addressbook-angularjs/media/personal.gif' );
+
 		expect( element( '#dialog-content metawidget > *:eq(0)' ).prop( 'tagName' ) ).toBe( 'TABLE' );
 		expect( element( '#table-current' ).attr( 'class' ) ).toBe( 'table-form' );
 		expect( element( '#table-current tbody tr:eq(0) th label' ).text() ).toBe( 'Title:' );
@@ -252,6 +254,7 @@ describe( 'AddressBook App', function() {
 
 		expect( element( '.data-table tbody tr:eq(0) td:eq(0) a' ).text() ).toContain( 'Mr Charles Montgomery Burns' );
 		element( 'a:eq(0)' ).click();
+		expect( element( '#dialog-image' ).prop( 'src' ) ).toBe( 'http://localhost:8180/addressbook-angularjs/media/business.gif' );		
 		element( '#crudActionsEdit' ).click();
 
 		expect( element( '#table-current tbody > tr:eq(9) td:eq(0) input' ).attr( 'type' ) ).toBe( 'range' );

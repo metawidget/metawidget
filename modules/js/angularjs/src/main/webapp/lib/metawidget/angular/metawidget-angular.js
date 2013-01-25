@@ -70,29 +70,35 @@ angular.module( 'metawidget.directives', [] )
 
 				// Observe
 				//
-				// Do not observe root types, such as 'string',
+				// Do not observe primitive types, such as 'string',
 				// otherwise every keypress will recreate the widget
 
-				// TODO: runs multiple times
-				
 				if ( typeof ( scope.$eval( 'toInspect' ) ) == 'object' ) {
 					scope.$watch( 'toInspect', function( newValue, oldValue ) {
-
-						_buildWidgets();
+					
+						if ( newValue != oldValue ) {
+							_buildWidgets();
+						}
 					} );
 				}
 				scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
-					_buildWidgets();
+					if ( newValue != oldValue ) {
+						_buildWidgets();
+					}
 				} );
 				scope.$watch( 'config', function( newValue, oldValue ) {
 
-					mw.configure( newValue );
-					_buildWidgets();
+					if ( newValue != oldValue ) {
+						mw.configure( newValue );
+						_buildWidgets();
+					}
 				} );
-
+				
 				// Build
 
+				_buildWidgets();
+				
 				function _buildWidgets() {
 
 					// Rebuild the transcluded tree at the start of each build.
@@ -258,20 +264,18 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		// Scope the binding to scope.$parent, not scope, so that bindings look
 		// more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
 
-		if ( mw.toInspect != null ) {
-			var binding = mw.path;
-			
-			if ( attributes.name != '__root' ) {
-				binding += '.' + attributes.name;
-			}
+		var binding = mw.path;
+		
+		if ( attributes.name != '__root' ) {
+			binding += '.' + attributes.name;
+		}
 
-			if ( widget.tagName == 'OUTPUT' ) {
-				widget.innerHTML = '{{' + binding + '}}';
-			} else if ( widget.tagName == 'BUTTON' ) {
-				widget.setAttribute( 'ng-click', binding + '()' );
-			} else {
-				widget.setAttribute( 'ng-model', binding );
-			}
+		if ( widget.tagName == 'OUTPUT' ) {
+			widget.innerHTML = '{{' + binding + '}}';
+		} else if ( widget.tagName == 'BUTTON' ) {
+			widget.setAttribute( 'ng-click', binding + '()' );
+		} else {
+			widget.setAttribute( 'ng-model', binding );
 		}
 
 		// Validation

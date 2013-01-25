@@ -110,7 +110,7 @@ angular.module( 'addressBookServices', [] )
 					case 'current':
 						
 						if ( names.length == 0 ) {
-							if ( toInspect.type == 'business' ) {
+							if ( toInspect && toInspect.type == 'business' ) {
 								return businessContact;
 							} else {
 								return personalContact;
