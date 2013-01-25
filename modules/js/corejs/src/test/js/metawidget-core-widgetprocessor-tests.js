@@ -100,6 +100,7 @@ describe( "The SimpleBindingProcessor", function() {
 				"bar": "barValue",
 				"baz": "bazValue",
 				"boolean": true,
+				"select": false,
 				"nested": {
 					"nestedFoo": "nestedFooValue"
 				}
@@ -114,7 +115,8 @@ describe( "The SimpleBindingProcessor", function() {
 		var widget = document.createElement( 'input' );
 		widget.setAttribute( 'id', 'fooId' );
 		processor.processWidget( widget, attributes, mw );
-		expect( widget.toString() ).toBe( 'input id="fooId" name="fooId" value="fooValue"' );
+		expect( widget.toString() ).toBe( 'input id="fooId" name="fooId"' );
+		expect( widget.value ).toBe( 'fooValue' );
 
 		// Buttons
 
@@ -151,7 +153,18 @@ describe( "The SimpleBindingProcessor", function() {
 		widget = document.createElement( 'input' );
 		widget.setAttribute( 'type', 'checkbox' );
 		processor.processWidget( widget, attributes, mw );
-		expect( widget.toString() ).toBe( 'input type="checkbox" checked="checked"' );
+		expect( widget.toString() ).toBe( 'input type="checkbox"' );
+		expect( widget.checked ).toBe( true );
+
+		// Select boxes
+
+		attributes = {
+			"name": "select"
+		};
+		widget = document.createElement( 'select' );
+		processor.processWidget( widget, attributes, mw );
+		expect( widget.toString() ).toBe( 'select' );
+		expect( widget.value ).toBe( false );
 
 		// Root-level
 
@@ -172,6 +185,7 @@ describe( "The SimpleBindingProcessor", function() {
 		widget = document.createElement( 'input' );
 		widget.setAttribute( 'type', 'text' );
 		processor.processWidget( widget, attributes, mw );
-		expect( widget.toString() ).toBe( 'input type="text" value="nestedFooValue"' );
+		expect( widget.toString() ).toBe( 'input type="text"' );
+		expect( widget.value ).toBe( 'nestedFooValue' );
 	} );
 } );

@@ -47,13 +47,14 @@ describe(
 
 						expect( element.childNodes[0].outerHTML )
 								.toBe(
-										'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo" value="Foo"/></td><td/></tr></tbody></table>' );
+										'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td><td/></tr></tbody></table>' );
 
 						// Configured
 
 						$( '#metawidget' ).metawidget( "option", "layout", new metawidget.layout.SimpleLayout() );
 
-						expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo" value="Foo"/>' );
+						expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
+						expect( element.childNodes[0].value ).toBe( 'Foo' );
 					} );
 
 			it( "defensively copies overridden widgets", function() {

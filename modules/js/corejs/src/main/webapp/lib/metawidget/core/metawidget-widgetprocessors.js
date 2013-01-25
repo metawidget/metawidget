@@ -112,15 +112,15 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
 		}
 
-		if ( value ) {
+		// Check 'not null', rather than 'if value', in case value is a boolean of false
+		
+		if ( value != null ) {
 			if ( widget.tagName == 'OUTPUT' || widget.tagName == 'TEXTAREA' ) {
 				widget.innerHTML = value;
 			} else if ( widget.tagName == 'INPUT' && widget.getAttribute( 'type' ) == 'checkbox' ) {
-				if ( value == true ) {
-					widget.setAttribute( 'checked', 'checked' );
-				}
+				widget.checked = value;
 			} else if ( isBindable ) {
-				widget.setAttribute( 'value', value );
+				widget.value = value;
 			}
 		}
 
@@ -153,7 +153,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw 
 		widget = document.getElementById( widget.id );
 
 		if ( widget.getAttribute( 'type' ) == 'checkbox' ) {
-			toInspect[name] = ( widget.checked );
+			toInspect[name] = widget.checked;
 		} else {
 			toInspect[name] = widget.value;
 		}

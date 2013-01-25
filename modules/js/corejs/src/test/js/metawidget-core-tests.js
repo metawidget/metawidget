@@ -37,7 +37,8 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo" value="Foo"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Foo' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
@@ -56,7 +57,8 @@ describe( "The core Metawidget", function() {
 		};
 		mw.buildWidgets();
 
-		expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar" value="Bar"' );
+		expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
+		expect( element.childNodes[0].value ).toBe( 'Bar' );
 		expect( element.childNodes.length ).toBe( 1 );
 	} );
 
@@ -82,7 +84,8 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo" value="Foo"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Foo' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( element.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr id="table-bar-row"' );
@@ -135,7 +138,9 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe(
 				'td id="table-fooNestedFoo-cell"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe(
-				'input type="text" id="fooNestedFoo" name="fooNestedFoo" value="Foo"' );
+				'input type="text" id="fooNestedFoo" name="fooNestedFoo"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe(
+		'Foo' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );

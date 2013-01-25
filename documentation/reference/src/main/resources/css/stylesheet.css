@@ -355,6 +355,10 @@ div.section table th, div.section table td {
 	font-size: 10pt;
 }
 
+em.parameter {
+	font-style: normal;
+}
+
 /* Syntax highlighting styles start */
 .str{color:#2A00FF;}
 .kwd{color:#7F0055;

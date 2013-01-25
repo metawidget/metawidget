@@ -133,12 +133,18 @@
 
 	<xsl:template match="d:parameter">
 		<tt>
-			<xsl:call-template name="inline.italicseq" />
+			<xsl:apply-templates />
 		</tt>
 	</xsl:template>
 
 	<xsl:template match="d:symbol">
 		<span style="color: red">
+			<xsl:apply-templates />
+		</span>
+	</xsl:template>
+
+	<xsl:template match="d:emphasis[@role='strike']">
+		<span style="text-decoration: line-through">
 			<xsl:apply-templates />
 		</span>
 	</xsl:template>

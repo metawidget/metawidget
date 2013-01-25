@@ -389,7 +389,7 @@ public class Main {
 
 				<para>
 					This idea of combining multiple <classname>Inspector</classname>s to inspect different characteristics of your
-					existing architecture is very powerful. Metawidget comes with many pre-written
+					existing architecture is very powerful. Metawidget comes with pre-written
 					<classname>Inspector</classname>s for many different technologies - from JPA and Hibernate Validator annotations,
 					to <filename>struts-config.xml</filename> configuration files, to Groovy and Scala properties.
 					There is a lot of metadata already lurking in back-end
@@ -615,7 +615,9 @@ public class Main {
 
 				<para>
 					Again, if you've ever used <classname>java.awt.GridBagLayout</classname> by hand, you'll appreciate how much easier
-					Metawidget makes all this.
+					Metawidget makes it to apply consistent layouts across all screens of your application.
+				</para>
+					
 				</para>
 			</section>
 
@@ -897,6 +899,10 @@ public class Main {
 				
 			</section>
 			
+			<para>
+				Now skip to <xref linkend="section-introduction-part2" />
+			</para>
+			
 		</section>
 
 		<section id="section-introduction-javascript-part1">
@@ -928,7 +934,7 @@ public class Main {
 		&lt;script type="text/javascript"&gt;
 			var person = {
 				"name": "Homer Simpson",
-				"age": 57,
+				"age": 40,
 				"retired": false
 			};
 		&lt;/script&gt;
@@ -955,7 +961,7 @@ public class Main {
 		&lt;script type="text/javascript"&gt;
 			var person = {
 				"name": "Homer Simpson",
-				"age": 57,
+				"age": 40,
 				"retired": false
 			};
 		&lt;/script&gt;
@@ -987,15 +993,16 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot1">
 					<title>Metawidget rendering of person object</title>
-					<!-- <screenshot>
+					<screenshot>
 						<graphic fileref="images/screenshots/js-tutorial1.jpg" width="100mm" />
-					</screenshot> -->
+					</screenshot>
 				</figure>
 
 				<para>
-					The Metawidget has automatically populated the <parameter>div</parameter> with child widgets at
+					Metawidget has automatically populated the <parameter>div</parameter> with child widgets at
 					runtime. It has chosen <parameter>text</parameter>, <parameter>number</parameter> and <parameter>checkbox</parameter>
-					inputs based on the types of the properties of the Person object. This is the First Goal Of Metawidget: 
+					inputs based on the types of the properties of the <parameter>person</parameter> object. This
+					is the First Goal Of Metawidget: 
 				</para>
 
 				<important>
@@ -1051,9 +1058,9 @@ public class Main {
 	
 				<figure id="section-introduction-javascript-part1-screenshot2">
 					<title>Name is required, but other properties are missing</title>
-					<!-- <screenshot>
+					<screenshot>
 						<graphic fileref="images/screenshots/js-tutorial2.jpg" width="100mm" />
-					</screenshot> -->
+					</screenshot>
 				</figure>
 
 				<para>
@@ -1084,11 +1091,21 @@ public class Main {
 		function( toInspect, type, names ) {
 		
 				return [
-					{ "name": "name", "required": "true" }
+					{ "name": "name", <symbol><emphasis role="strike">"type": "string",</emphasis></symbol><co id="co-introduction-javascript-part1-compositeinspector" linkends="ca-introduction-javascript-part1-compositeinspector" /> "required": "true" }
 				];
 			}
-		} <symbol>] )</symbol>
+		}
+	<symbol>] )</symbol>
 } );</programlisting>
+
+				<calloutlist>
+					<callout arearefs="co-introduction-javascript-part1-compositeinspector" id="ca-introduction-javascript-part1-compositeinspector">
+						<para>
+							<parameter>type</parameter> can now be removed from our custom <classname>Inspector</classname>, as it will
+							be looked up by <classname>PropertyTypeInspector</classname>.
+						</para>
+					</callout>
+				</calloutlist>
 
 				<para>
 					Refresh the page again. This time all properties appear and <parameter>name</parameter>
@@ -1097,15 +1114,15 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot3">
 					<title>Using multiple inspectors</title>
-					<!-- <screenshot>
+					<screenshot>
 						<graphic fileref="images/screenshots/js-tutorial3.jpg" width="100mm" />
-					</screenshot> -->
+					</screenshot>
 				</figure>
 
 				<para>
 					This idea of combining multiple <classname>Inspector</classname>s to inspect different characteristics of your
-					existing architecture is very powerful. Metawidget comes with many pre-written
-					<classname>Inspector</classname>s for many different technologies, and makes it easy to
+					existing architecture is very powerful. Metawidget comes with pre-written
+					<classname>Inspector</classname>s for many different technologies and makes it easy to
 					add your own - such as for REST services. There is a lot of metadata already lurking in back-end
 					systems - it just needs extracting.
 				</para>				
@@ -1116,7 +1133,7 @@ public class Main {
 
 				<para>
 					There are several ways to control the layout of the components. To demonstrate, Try adding
-					the following metadata for the person object:
+					the following metadata for the <parameter>person</parameter> object:
 				</para>
 
 				<programlisting language="java">function( toInspect, type, names ) {
@@ -1136,9 +1153,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot4">
 					<title>Additional properties and a section heading</title>
-					<!-- <screenshot>
+					<screenshot>
 						<graphic fileref="images/screenshots/js-tutorial4.jpg" width="100mm" />
-					</screenshot> -->
+					</screenshot>
 				</figure>
 
 				<para>
@@ -1158,9 +1175,9 @@ public class Main {
 				{ "name": "employer", "type": "string", "section": "Work" },
 				{ "name": "department", "type": "string" }
 			];
-		} ] ),
+		} ] )<symbol>,
 		
-	<symbol>layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
+	layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
 } );</programlisting>
 
 				<para>
@@ -1169,9 +1186,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot5">
 					<title>A two-column layout</title>
-					<!-- <screenshot>
+					<screenshot>
 						<graphic fileref="images/screenshots/js-tutorial5.jpg" width="100mm" />
-					</screenshot> -->
+					</screenshot>
 				</figure>
 
 				<tip>
@@ -1194,14 +1211,14 @@ public class Main {
 &lt;html&gt;
 	&lt;head&gt;
 		&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;	
-		<symbol>&lt;link href="lib/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet"&gt;
-		&lt;script src="lib/jquery-ui/jquery-1.8.3.min.js" type="text/javascript"&gt;&lt;/script&gt;
-		&lt;script src="lib/jquery-ui/jquery-ui-1.9.2.custom.js" type="text/javascript"&gt;&lt;/script&gt;
+		<symbol>&lt;link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" /&gt;
+		&lt;script src="http://code.jquery.com/jquery-1.8.3.js"&gt;&lt;/script&gt;
+		&lt;script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"&gt;&lt;/script&gt;
 		&lt;script src="lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" type="text/javascript"&gt;&lt;/script&gt;</symbol>
 		&lt;script type="text/javascript"&gt;
 			var person = {
 				"name": "Homer Simpson",
-				"age": 57,
+				"age": 40,
 				"retired": false
 			};
 		&lt;/script&gt;
@@ -1217,18 +1234,16 @@ public class Main {
 					function( toInspect, type, names ) {
 							
 						return [
-							{ "name": "age", "type": "number" },
-							{ "name": "retried", "type": "boolean" },
-							{ "name": "notes", "large": "true" },
-							{ "name": "employer": "type": "string", "section": "Work" }
-							{ "name": "department", "type": "string" },
+							{ "name": "name", "required": "true" },
+							{ "name": "notes", "type": "string", "large": "true" },
+							{ "name": "employer", "type": "string", "section": "Work" },
+							{ "name": "department", "type": "string" }
 						];
-					} ] )
+					} ] ),
 					
-				<symbol>layout: new metawidget.jqueryui.layout.TabLayoutDecorator(
-					new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
+				layout: new metawidget.<symbol>jqueryui.layout.TabLayoutDecorator</symbol>(
+					new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))
 			} );		
-			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ));
 			mw.toInspect = person;
 			mw.buildWidgets();
 		&lt;/script&gt;
@@ -1236,15 +1251,24 @@ public class Main {
 &lt;/html&gt;</programlisting>
 
 				<para>
+					You will also need to copy <filename>js/lib/metawidget/jquery-ui/metawidget-jqueryui.min.js</filename> from
+					the Metawidget binary distribution into your project.
+				</para>
+
+				<para>
 					Refresh the page. The section heading is now a tab:
 				</para>
 
 				<figure id="section-introduction-javascript-part1-screenshot6">
-					<title>Two-column layout with a tab</title>
-					<!-- <screenshot>
+					<title>Two-column layout with a JQuery UI tab</title>
+					<screenshot>
 						<graphic fileref="images/screenshots/js-tutorial6.jpg" width="100mm" />
-					</screenshot> -->
+					</screenshot>
 				</figure>
+				
+				<para>
+					Metawidget makes it easy to apply consistent layouts across all pages of your application.
+				</para>
 			</section>
 
 			<section id="section-introduction-javascript-part1-creation">
@@ -1257,25 +1281,25 @@ public class Main {
 
 				<programlisting language="java">&lt;form&gt;
 	&lt;div id="metawidget"&gt;
-		&lt;select id="retired"&gt;
+		<symbol>&lt;select id="retired"&gt;
 			&lt;option /&gt;
-			&lt;option value="true" /&gt;
-			&lt;option value="false" /&gt;
-		&lt;/select&gt;
+			&lt;option&gt;true&lt;/option&gt;
+			&lt;option&gt;false&lt;/option&gt;
+		&lt;/select&gt;</symbol>
 	&lt;/div&gt;
 &lt;/form&gt;</programlisting>
 
 				<para>
 					Refresh the page. The <parameter>select</parameter> box appears in place of the
 					<parameter>checkbox</parameter>, because it has the same id (i.e. 'retired') as Metawidget would have given the
-					<classname>checkbox</classname>:
+					<classname>checkbox</classname>. Notice Metawidget has still bound its value:
 				</para>
 
 				<figure id="section-introduction-javascript-part1-screenshot8">
 					<title>The 'retired' property has been overridden</title>
-					<!-- <screenshot>
-						<graphic fileref="images/screenshots/swing-tutorial8.jpg" width="100mm" />
-					</screenshot> -->
+					<screenshot>
+						<graphic fileref="images/screenshots/js-tutorial8.jpg" width="100mm" />
+					</screenshot>
 				</figure>
 
 				<tip>
@@ -1293,7 +1317,7 @@ public class Main {
 
 				<programlisting language="java">&lt;form&gt;
 	&lt;div id="metawidget"&gt;
-		&lt;stub id="retired"&gt;&lt;/stub&gt;
+		<symbol>&lt;stub id="retired"&gt;&lt;/stub&gt;</symbol>
 	&lt;/div&gt;
 &lt;/form&gt;</programlisting>
 
@@ -1303,9 +1327,9 @@ public class Main {
 
 				<figure id="section-introduction-javascript-part1-screenshot9">
 					<title>The 'retired' property has been suppressed</title>
-					<!-- <screenshot>
-						<graphic fileref="images/screenshots/swing-tutorial9.jpg" width="100mm" />
-					</screenshot> -->
+					<screenshot>
+						<graphic fileref="images/screenshots/js-tutorial9.jpg" width="100mm" />
+					</screenshot>
 				</figure>
 
 				<para>
@@ -1326,7 +1350,7 @@ public class Main {
 				<para>
 					In both cases, <classname>metawidget.layout.TableLayout</classname>
 					is smart enough to always give large components
-					like <parameter>textarea</parameter> the full width of the
+					like <parameter>textarea</parameter> the full <parameter>colspan</parameter> of the
 					<parameter>table</parameter>.
 				</para>
 
@@ -1362,7 +1386,7 @@ public class Main {
 				
 				<tip>
 					<title>Note</title>
-					If you are following along with the JavaScript-based Metawidget, you should skip straight to
+					If you are only interested in the JavaScript-based Metawidget, you should skip straight to
 					<xref linkend="section-introduction-part2-web"/>.
 				</tip>				
 

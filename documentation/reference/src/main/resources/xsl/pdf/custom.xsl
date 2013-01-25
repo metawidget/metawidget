@@ -127,12 +127,18 @@
 
 	<xsl:template match="d:parameter">
 		<fo:inline font-family="monospace" font-size="9pt">
-			<xsl:call-template name="inline.italicseq" />
+			<xsl:apply-templates />
 		</fo:inline>
 	</xsl:template>
 
 	<xsl:template match="d:symbol">
 		<fo:inline color="red">
+			<xsl:apply-templates />
+		</fo:inline>
+	</xsl:template>
+
+	<xsl:template match="d:emphasis[@role='strike']">
+		<fo:inline text-decoration="line-through">
 			<xsl:apply-templates />
 		</fo:inline>
 	</xsl:template>
