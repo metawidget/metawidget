@@ -63,6 +63,10 @@ metawidget.Metawidget = function( element, config ) {
 	this._overriddenNodes = [];
 
 	for ( var loop = 0, length = element.childNodes.length; loop < length; loop++ ) {
+		// TODO: test ignore text
+		if ( element.childNodes[loop].nodeType == 3 ) {
+			continue;
+		}
 		this._overriddenNodes.push( element.childNodes[loop] );
 	}
 
@@ -91,11 +95,11 @@ metawidget.Metawidget = function( element, config ) {
 		}
 
 		// Inspect (if necessary)
-		
+
 		if ( !inspectionResult ) {
 			inspectionResult = pipeline.inspect( this );
 		}
-		
+
 		pipeline.buildWidgets( inspectionResult, this );
 	};
 };
@@ -321,7 +325,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 	//
 
 	function _startBuild( pipeline, mw ) {
-		
+
 		if ( pipeline.widgetBuilder.onStartBuild ) {
 			pipeline.widgetBuilder.onStartBuild( mw );
 		}
@@ -341,9 +345,9 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 		if ( pipeline.layout.startContainerLayout ) {
 			pipeline.layout.startContainerLayout( pipeline.element, mw );
-		}		
+		}
 	}
-	
+
 	function _buildWidget( pipeline, attributes, mw ) {
 
 		if ( pipeline.widgetBuilder.buildWidget ) {
@@ -384,10 +388,10 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 	}
 
 	function _endBuild( pipeline, mw ) {
-		
+
 		if ( pipeline.layout.endContainerLayout ) {
 			pipeline.layout.endContainerLayout( pipeline.element, mw );
-		}		
+		}
 
 		if ( pipeline.layout.onEndBuild ) {
 			pipeline.layout.onEndBuild( mw );
