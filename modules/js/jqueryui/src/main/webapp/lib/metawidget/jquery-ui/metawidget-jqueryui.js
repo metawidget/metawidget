@@ -276,6 +276,9 @@ $.widget( "metawidget.metawidget", {
 		this._overriddenNodes = [];
 
 		for ( var loop = 0, length = this.element[0].childNodes.length; loop < length; loop++ ) {
+			if ( this.element[0].childNodes[loop].nodeType == 3 ) {
+				continue;
+			}			
 			this._overriddenNodes.push( this.element[0].childNodes[loop] );
 		}
 

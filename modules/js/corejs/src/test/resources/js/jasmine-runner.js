@@ -122,5 +122,11 @@ this.document = {
 				return toString;
 			}
 		};
+	},
+	"createTextNode": function( data ) {
+		
+		return {
+			"nodeType": 3
+		}
 	}
 };

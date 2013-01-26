@@ -63,7 +63,6 @@ metawidget.Metawidget = function( element, config ) {
 	this._overriddenNodes = [];
 
 	for ( var loop = 0, length = element.childNodes.length; loop < length; loop++ ) {
-		// TODO: test ignore text
 		if ( element.childNodes[loop].nodeType == 3 ) {
 			continue;
 		}

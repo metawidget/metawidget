@@ -106,6 +106,18 @@ describe( "The core Metawidget", function() {
 		expect( mw.overriddenNodes.length ).toBe( 2 );
 		expect( mw._overriddenNodes.length ).toBe( 1 );
 	} );
+	
+	it( "ignores embedded text nodes", function() {
+
+		var element = document.createElement( 'div' );
+		element.appendChild( document.createTextNode( 'text1' ) );
+		element.appendChild( document.createElement( 'span' ) );
+		element.appendChild( document.createTextNode( 'text2' ) );
+		var mw = new metawidget.Metawidget( element );
+
+		expect( mw._overriddenNodes[0].toString() ).toBe( 'span' );
+		expect( mw._overriddenNodes.length ).toBe( 1 );
+	} );	
 
 	it( "builds nested Metawidgets", function() {
 

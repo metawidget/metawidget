@@ -80,6 +80,20 @@ describe(
 				expect( mw.overriddenNodes.length ).toBe( 2 );
 				expect( mw._overriddenNodes.length ).toBe( 1 );
 			} );
+			
+			it( "ignores embedded text nodes", function() {
+
+				var element = document.getElementById( 'metawidget' );
+				element.appendChild( document.createTextNode( 'text1' ) );
+				element.appendChild( document.createElement( 'span' ) );
+				element.appendChild( document.createTextNode( 'text2' ) );
+
+				$( '#metawidget' ).metawidget();
+				var mw = $( '#metawidget' ).data( 'metawidget' );
+
+				expect( mw._overriddenNodes[0].outerHTML ).toBe( '<span/>' );
+				expect( mw._overriddenNodes.length ).toBe( 1 );
+			} );			
 
 		} );
 
