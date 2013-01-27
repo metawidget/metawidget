@@ -177,6 +177,17 @@ public class HibernateInspectorTest
 		assertEquals( "baz", property.getAttribute( NAME ) );
 		assertEquals( TRUE, property.getAttribute( LARGE ) );
 		assertEquals( "15", property.getAttribute( MAXIMUM_LENGTH ) );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bazWithColumn", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( "20", property.getAttribute( MAXIMUM_LENGTH ) );
+		assertEquals( TRUE, property.getAttribute( LARGE ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 5 );
+
+		assertEquals( property.getNextSibling(), null );
 	}
 
 	public void testConfig() {

@@ -113,6 +113,8 @@ public class XmlUtils {
 	 * <p>
 	 * An array of several names may be passed, in which case they will be traversed in a simple
 	 * XPath-like fashion.
+	 *
+	 * @return the child with the given name, or null if no such child
 	 */
 
 	public static Element getChildNamed( Element element, String... names ) {

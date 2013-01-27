@@ -5,6 +5,9 @@
     <class name="Bar">
         <id name="id"/>
         <property name="baz" type="clob" length="15"/>
+        <property name="bazWithColumn" type="clob">
+        	<column length="20" not-null="true"/>
+        </property>
     </class>
 
 </hibernate-mapping>

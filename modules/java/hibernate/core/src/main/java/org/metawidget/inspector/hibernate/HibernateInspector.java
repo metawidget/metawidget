@@ -52,6 +52,8 @@ public class HibernateInspector
 
 	private static final InputStream[]	EMPTY_INPUTSTREAM_ARRAY			= new InputStream[0];
 
+	private static final String			PROPERTY_REF_ATTRIBUTE			= "property-ref";
+
 	//
 	// Private members
 	//
@@ -184,7 +186,7 @@ public class HibernateInspector
 			String extendsAttribute = getExtendsAttribute();
 			Element child = XmlUtils.getFirstChildElement( root );
 
-			while( child != null ) {
+			while ( child != null ) {
 
 				// 'name' attribute of 'class'/'subclass' element
 
@@ -241,16 +243,14 @@ public class HibernateInspector
 			attributes.put( TYPE, toInspect.getAttribute( typeAttribute ) );
 		}
 
-		// Required
+		// Property/column elements
+		// https://sourceforge.net/p/metawidget/discussion/747623/thread/f8ce6edd/?limit=25#0830
 
-		if ( TRUE.equals( toInspect.getAttribute( "not-null" ) ) ) {
-			attributes.put( REQUIRED, TRUE );
-		}
+		inspectColumnAttributes( toInspect, attributes );
+		Element columnElement = XmlUtils.getChildNamed( toInspect, "column" );
 
-		// Length
-
-		if ( toInspect.hasAttribute( "length" ) ) {
-			attributes.put( MAXIMUM_LENGTH, toInspect.getAttribute( "length" ) );
+		if ( columnElement != null ) {
+			inspectColumnAttributes( columnElement, attributes );
 		}
 
 		// Hidden
@@ -272,16 +272,16 @@ public class HibernateInspector
 
 				// Property Ref
 
-				if ( withClass.hasAttribute( "property-ref" ) ) {
-					attributes.put( INVERSE_RELATIONSHIP, withClass.getAttribute( "property-ref" ) );
+				if ( withClass.hasAttribute( PROPERTY_REF_ATTRIBUTE ) ) {
+					attributes.put( INVERSE_RELATIONSHIP, withClass.getAttribute( PROPERTY_REF_ATTRIBUTE ) );
 				}
 			}
 		}
 
 		// Property Ref
 
-		if ( toInspect.hasAttribute( "property-ref" ) ) {
-			attributes.put( INVERSE_RELATIONSHIP, toInspect.getAttribute( "property-ref" ) );
+		if ( toInspect.hasAttribute( PROPERTY_REF_ATTRIBUTE ) ) {
+			attributes.put( INVERSE_RELATIONSHIP, toInspect.getAttribute( PROPERTY_REF_ATTRIBUTE ) );
 		}
 
 		return attributes;
@@ -290,6 +290,25 @@ public class HibernateInspector
 	//
 	// Private methods
 	//
+
+	/**
+	 * Inspect attributes that can appear either on 'property' elements or 'column' elements.
+	 */
+
+	private void inspectColumnAttributes( Element toInspect, Map<String, String> attributes ) {
+
+		// Required
+
+		if ( TRUE.equals( toInspect.getAttribute( "not-null" ) ) ) {
+			attributes.put( REQUIRED, TRUE );
+		}
+
+		// Length
+
+		if ( toInspect.hasAttribute( "length" ) ) {
+			attributes.put( MAXIMUM_LENGTH, toInspect.getAttribute( "length" ) );
+		}
+	}
 
 	private void prependPackageToClassAttribute( Element element, String packagePrefix ) {
 
