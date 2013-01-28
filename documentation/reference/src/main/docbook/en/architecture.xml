@@ -746,7 +746,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 							<classname>BaseObjectInspector</classname> assists in inspecting annotations and properties (including
 							support for different property styles, such as JavaBean properties or Groovy properties). Here
 							is an example of a custom <classname>Inspector</classname> to inspect tooltip metadata from
-							a custom annotation. It extends the code from the tutorial (see <xref linkend="section-introduction-java-part1/>).
+							a custom annotation. It extends the code from the tutorial (see <xref linkend="section-introduction-java-part1"/>).
 						</para>
 				
 						<programlisting language="java">package com.myapp;
