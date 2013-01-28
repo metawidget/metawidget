@@ -22,7 +22,7 @@
 	
 				<para>
 					<classname>SwingMetawidget</classname> is a Swing <classname>JComponent</classname>. For an introduction
-					to <classname>SwingMetawidget</classname>, see <xref linkend="section-introduction-part1"/>
+					to <classname>SwingMetawidget</classname>, see <xref linkend="section-introduction-java-part1"/>
 					and <xref linkend="section-introduction-part2-desktop"/>.
 				</para>
 	
@@ -53,8 +53,8 @@
 					
 					<para>
 						<classname>SwingMetawidget</classname> is preconfigured with sensible defaults for Swing. You can change this configuration
-						either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
-						or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+						either programmatically (as detailed in <xref linkend="section-introduction-java-part1-inspectors"/>)
+						or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-java-part1-metawidget-config"/>).
 					</para>
 				</section>
 
@@ -131,8 +131,8 @@
 					
 					<para>
 						<classname>SwtMetawidget</classname> is preconfigured with sensible defaults for SWT. You can change this configuration
-						either programmatically (as detailed for Swing in <xref linkend="section-introduction-part1-inspectors"/>, but the SWT API is the same)
-						or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
+						either programmatically (as detailed for Swing in <xref linkend="section-introduction-java-part1-inspectors"/>, but the SWT API is the same)
+						or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-java-part1-metawidget-config"/>).
 					</para>					
 				</section>
 

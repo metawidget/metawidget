@@ -526,6 +526,10 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
 						<tr>
+							<td>JavaScript (incl. AngularJS and JQuery UI)</td>
+							<td><programlisting language="java">new metawidget.inspector.PropertyTypeInspector()</programlisting></td>
+						</tr>
+						<tr>
 							<td>JSF</td>
 							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
@@ -676,6 +680,15 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 					to evolve independently with new types of widgets, and so on.
 				</para>
 				
+				<para>
+					For JavaScript-based Metawidgets, inspection results are returned as simple JSON arrays:
+				</para>
+				
+				<programlisting language="xml">[
+	{ "name": "name", "required": "true" },
+	{ "name": "age", "minimum-value": "0" }
+]</programlisting>
+
 			</section>
 		
 			<section id="section-architecture-inspectors-implementing-your-own">
@@ -733,7 +746,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 							<classname>BaseObjectInspector</classname> assists in inspecting annotations and properties (including
 							support for different property styles, such as JavaBean properties or Groovy properties). Here
 							is an example of a custom <classname>Inspector</classname> to inspect tooltip metadata from
-							a custom annotation. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
+							a custom annotation. It extends the code from the tutorial (see <xref linkend="section-introduction-java-part1/>).
 						</para>
 				
 						<programlisting language="java">package com.myapp;
@@ -1073,7 +1086,7 @@ public class CastorInspector
 				<title>Defaults</title>
 				
 				<para>
-					All Metawidgets have default <classname>InspectionResultProcessor</classname>s. Overriding the default means the default is no
+					Most Metawidgets have default <classname>InspectionResultProcessor</classname>s. Overriding the default means the default is no
 					longer instantiated. This may not be what you want, so you may want to instantiate the default along with your
 					new <classname>InspectionResultProcessor</classname>. You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
@@ -1103,11 +1116,19 @@ public class CastorInspector
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
+							<td>AngularJS</td>
+							<td><programlisting language="java">new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor(...)</programlisting></td>
+						</tr>						
+						<tr>
 							<td>GWT</td>
 							<td><programlisting language="xml">&lt;array&gt;
 	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
+						<tr>
+							<td>JavaScript (incl. JQuery UI)</td>
+							<td>(none)</td>							
+						</tr>						
 						<tr>
 							<td>JSF</td>
 							<td><programlisting language="xml">&lt;array&gt;
@@ -1169,7 +1190,7 @@ public class CastorInspector
 				<para>
 					Here is an example of a custom <classname>InspectionResultProcessor</classname> that chooses,
 					and sorts, business object properties based on a <classname>JComponent</classname> client property. It extends the code from the tutorial
-					(see <xref linkend="section-introduction-part1"/>).
+					(see <xref linkend="section-introduction-java-part1"/>).
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -1520,7 +1541,7 @@ static class State {
 					chain should generally be an <classname>OverriddenWidgetBuilder</classname>. This looks for existing
 					child widgets that override default generation. What consitutes an 'overridden widget' varies from
 					platform to platform. For example, for Swing any child widget with the same <parameter>name</parameter>
-					will be taken as the override (see <xref linkend="section-introduction-part1-creation"/>). Android
+					will be taken as the override (see <xref linkend="section-introduction-java-part1-creation"/>). Android
 					uses the <parameter>tag</parameter> attribute, JSF uses the value binding, and so on. For details
 					on the <classname>OverriddenWidgetBuilder</classname> for your platform see <xref linkend="chapter-widgetbuilders"/>.
 				</para>
@@ -1528,7 +1549,7 @@ static class State {
 				<para>
 					You can also choose to plug-in your own <classname>WidgetBuilder</classname> that detects 'overridden widgets' based
 					on your own criteria. Here is an example of a custom <classname>WidgetBuilder</classname> that excludes widgets
-					based on a <classname>JComponent</classname> client property. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
+					based on a <classname>JComponent</classname> client property. It extends the code from the tutorial (see <xref linkend="section-introduction-java-part1"/>).
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -1607,7 +1628,7 @@ public class Main {
 					for a widget library that had its own read-only components, or if you wanted to customise the
 					read-only handling. Here is an example of a custom <classname>WidgetBuilder</classname> that returns
 					non-editable <classname>JTextField</classname>s (instead of <classname>JLabel</classname>s)
-					for read-only properties. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
+					for read-only properties. It extends the code from the tutorial (see <xref linkend="section-introduction-java-part1"/>).
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -1714,6 +1735,23 @@ public class Main {
 							<classname>ReadOnlyWidgetBuilder</classname> and <classname>GwtWidgetBuilder</classname></td>
 						</tr>
 						<tr>
+							<td>JavaScript (incl. AngularJS)</td>
+							<td><programlisting language="java">new metawidget.widgetbuilder.CompositeWidgetBuilder( [
+	new metawidget.widgetbuilder.OverriddenWidgetBuilder(),
+	new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+	new metawidget.widgetbuilder.HtmlWidgetBuilder()
+] )</programlisting></td>							
+						</tr>						
+						<tr>
+							<td>JQuery UI</td>
+							<td><programlisting language="java">new metawidget.widgetbuilder.CompositeWidgetBuilder( [
+	new metawidget.widgetbuilder.OverriddenWidgetBuilder(),
+	new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder(),	
+	new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+	new metawidget.widgetbuilder.HtmlWidgetBuilder()
+] )</programlisting></td>
+						</tr>
+						<tr>
 							<td>JSF</td>
 							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
 	&lt;widgetBuilders&gt;
@@ -1724,7 +1762,7 @@ public class Main {
 		&lt;/array&gt;
 	&lt;/widgetBuilders&gt;
 &lt;/compositeWidgetBuilder&gt;</programlisting></td>							
-						</tr>
+						</tr>						
 						<tr>
 							<td>JSP</td>
 							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
@@ -1850,7 +1888,7 @@ public class Main {
 				<para>
 					Here is an example of a custom <classname>WidgetBuilder</classname> that uses two <classname>JRadioButton</classname>s,
 					instead of the usual <classname>JCheckBox</classname>, to represent <classname>boolean</classname> properties. It extends the code
-					from the tutorial (see <xref linkend="section-introduction-part1"/>).
+					from the tutorial (see <xref linkend="section-introduction-java-part1"/>).
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -2319,9 +2357,34 @@ void onEndBuild( M metawidget );</programlisting>
 							<td>(none)</td>
 						</tr>
 						<tr>
+							<td>AngularJS</td>
+							<td><programlisting language="java">[
+	new metawidget.widgetprocessor.IdProcessor(),
+	new metawidget.angular.widgetprocessor.AngularWidgetProcessor(...)
+]</programlisting>							
+							</td>
+						</tr>
+						<tr>
 							<td>GWT</td>
 							<td><classname>StyleNameProcessor</classname></td>
 						</tr>
+						<tr>
+							<td>JavaScript</td>
+							<td><programlisting language="java">[
+	new metawidget.widgetprocessor.IdProcessor(),
+	new metawidget.widgetprocessor.RequiredAttributeProcessor(),
+	new metawidget.widgetprocessor.SimpleBindingProcessor()
+]</programlisting></td>
+						</tr>							
+						<tr>
+							<td>JQuery UI</td>
+							<td><programlisting language="java">[
+	new metawidget.widgetprocessor.IdProcessor(),
+	new metawidget.widgetprocessor.RequiredAttributeProcessor(),
+	new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(),	
+	new metawidget.widgetprocessor.SimpleBindingProcessor()
+]</programlisting></td>							
+						</tr>						
 						<tr>
 							<td>JSF</td>
 							<td><programlisting language="xml">&lt;array&gt;
@@ -2427,7 +2490,7 @@ void onEndBuild( M metawidget );</programlisting>
 				<para>
 					Here is an example of a custom <classname>WidgetProcessor</classname> to add tooltips to
 					<classname>JComponent</classname>s. It extends the code from the tutorial
-					(see <xref linkend="section-introduction-part1"/>).
+					(see <xref linkend="section-introduction-java-part1"/>).
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -2876,6 +2939,12 @@ void onEndBuild(M metawidget);</programlisting>
 							<td><classname>LabelLayoutDecorator</classname> around a <classname>FlexTableLayout</classname></td>
 						</tr>
 						<tr>
+							<td>JavaScript (incl. AngularJS and JQuery UI)</td>
+							<td><programlisting language="java">new metawidget.layout.HeadingTagLayoutDecorator(
+	new metawidget.layout.TableLayout()
+)</programlisting></td>
+						</tr>
+						<tr>
 							<td>JSF</td>
 							<td><programlisting language="xml">&lt;outputTextLayoutDecorator config="OutputTextLayoutDecoratorConfig"&gt;
 		&lt;layout&gt;
@@ -3155,7 +3224,7 @@ static class State {
 				It allows you to configure a Metawidget without writing any Java code. This
 				can be useful in environments with intermediate languages that shield the developer from the
 				raw Java, such as JSPs or Facelets. It can also be useful as a single place for configuring multiple Metawidgets,
-				such as across multiple dialogs of a Swing application.
+				such as across multiple dialogs of a Swing application. It is not applicable in pure JavaScript environments.
 			</para>
 			
 			<para>

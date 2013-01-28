@@ -257,7 +257,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 							techniques) and in excluding properties based on name, type or base class. Here
 							is an example of a custom <classname>PropertyStyle</classname> that identifies properties based
 							on <classname>ResourceBundle</classname> i18n entries. It extends the code from the tutorial
-							(see <xref linkend="section-introduction-part1"/>).
+							(see <xref linkend="section-introduction-java-part1"/>).
 						</para>
 					
 						<programlisting language="java">package com.myapp;
