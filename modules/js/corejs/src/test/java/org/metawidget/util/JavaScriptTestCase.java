@@ -49,8 +49,6 @@ public abstract class JavaScriptTestCase
 	// Protected methods
 	//
 
-	// TODO: webjars and CDNs
-
 	/**
 	 * Runs all tests defined in the given file. Tests must be defined as methods of a 'tests'
 	 * object.
@@ -93,7 +91,7 @@ public abstract class JavaScriptTestCase
 
 	/**
 	 * Evaluate the given Javascript file.
-	 * 
+	 *
 	 * @param filename
 	 *            the filename. File path is relative to the project root
 	 */
@@ -109,7 +107,7 @@ public abstract class JavaScriptTestCase
 
 	/**
 	 * Evaluate the given HTML file.
-	 * 
+	 *
 	 * @param url
 	 *            or filename
 	 *            the url or filename. If the latter, file path is relative to the project root

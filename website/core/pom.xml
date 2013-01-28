@@ -177,6 +177,12 @@
 						<copy file="../../modules/java/struts/core/src/main/resources/META-INF/metawidget-struts.tld" tofile="target/ROOT/struts/index.html"/>
 						<copy file="../../modules/java/struts/core/src/main/resources/META-INF/metawidget-struts.tld" todir="target/ROOT/struts"/>
 						
+						<!-- Easy CDN -->
+
+						<copy file="../../modules/js/angularjs/target/metawidget-angularjs/lib/metawidget/angular/metawidget-angular.min.js" todir="target/ROOT/js/${project.version}"/>
+						<copy file="../../modules/js/corejs/target/metawidget-corejs/lib/metawidget/core/metawidget-core.min.js" todir="target/ROOT/js/${project.version}"/>
+						<copy file="../../modules/js/jqueryui/target/metawidget-jqueryui/lib/metawidget/core/metawidget-jqueryui.min.js" todir="target/ROOT/js/${project.version}"/>
+
 						<!-- Easy Android install -->
 						
 						<copy file="../../examples/java/android/addressbook/application/target/addressbook-android.apk" todir="target/ROOT/examples/android"/>

@@ -17,6 +17,9 @@
 		<ul>
 			<li>Support for a pure JavaScript, runtime Metawidget</li>
 			<li>Support for AngularJS</li>
+			<li>Support for JQuery UI</li>
+			<li>HibernateInspector improvements</li>
+			<li>ReflectionBindingProcessor rebinding</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
