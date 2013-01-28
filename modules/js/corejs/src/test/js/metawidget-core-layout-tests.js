@@ -350,8 +350,6 @@ describe( "The TableLayout", function() {
 		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( container.childNodes.length ).toBe( 1 );
 	} );
-	
-	// TODO: ie support?
 } );
 
 describe( "The HeadingTagLayoutDecorator", function() {
