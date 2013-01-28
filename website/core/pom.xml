@@ -181,7 +181,7 @@
 
 						<copy file="../../modules/js/angularjs/target/metawidget-angularjs/lib/metawidget/angular/metawidget-angular.min.js" todir="target/ROOT/js/${project.version}"/>
 						<copy file="../../modules/js/corejs/target/metawidget-corejs/lib/metawidget/core/metawidget-core.min.js" todir="target/ROOT/js/${project.version}"/>
-						<copy file="../../modules/js/jqueryui/target/metawidget-jqueryui/lib/metawidget/core/metawidget-jqueryui.min.js" todir="target/ROOT/js/${project.version}"/>
+						<copy file="../../modules/js/jqueryui/target/metawidget-jqueryui/lib/metawidget/jqueryui/metawidget-jqueryui.min.js" todir="target/ROOT/js/${project.version}"/>
 
 						<!-- Easy Android install -->
 						
