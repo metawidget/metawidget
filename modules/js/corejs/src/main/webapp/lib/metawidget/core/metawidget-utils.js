@@ -59,21 +59,21 @@ metawidget.util.camelCase = function( names ) {
 
 metawidget.util.getId = function( attributes, mw ) {
 
-	if ( mw.path ) {
+	if ( mw.path !== undefined ) {
 		var splitPath = mw.path.split( '.' );
 
-		if ( splitPath[0] == 'object' ) {
+		if ( splitPath[0] === 'object' ) {
 			splitPath = splitPath.slice( 1 );
 		}
 		
-		if ( attributes.name && attributes.name != '__root' ) {
+		if ( attributes.name && attributes.name !== '__root' ) {
 			splitPath.push( attributes.name );
 		}
 
 		return metawidget.util.camelCase( splitPath );
 	}
 
-	if ( attributes ) {
+	if ( attributes !== undefined ) {
 		return attributes.name;
 	}
 };
@@ -84,7 +84,9 @@ metawidget.util.hasChildElements = function( node ) {
 
 	for ( var loop = 0, length = childNodes.length; loop < length; loop++ ) {
 
-		if ( childNodes[loop].getAttribute ) {
+		// TODO: use typeOf instead of getAttribute
+		
+		if ( childNodes[loop].getAttribute !== undefined ) {
 			return true;
 		}
 	}
@@ -94,7 +96,7 @@ metawidget.util.hasChildElements = function( node ) {
 
 metawidget.util.isReadOnly = function( attributes, mw ) {
 
-	if ( attributes.readOnly == 'true' ) {
+	if ( attributes.readOnly === 'true' ) {
 		return true;
 	}
 
@@ -103,15 +105,15 @@ metawidget.util.isReadOnly = function( attributes, mw ) {
 
 metawidget.util.isSpanAllColumns = function( attributes ) {
 
-	if ( !attributes ) {
+	if ( attributes === undefined ) {
 		return false;
 	}
 	
-	if ( attributes.large == 'true' ) {
+	if ( attributes.large === 'true' ) {
 		return true;
 	}
 
-	if ( attributes.wide == 'true' ) {
+	if ( attributes.wide === 'true' ) {
 		return true;
 	}
 
@@ -123,25 +125,25 @@ metawidget.util.splitPath = function( path ) {
 	var type = '';
 	var names = [];
 
-	if ( path ) {
+	if ( path !== undefined ) {
 		var splitPath = path.split( '.' );
 		type = splitPath[0];
 		names = splitPath.slice( 1 );
 	}
 	
 	return {
-		"type": type,
-		"names": names
+		type: type,
+		names: names
 	};
 };
 
 metawidget.util.appendPath = function( attributes, mw ) {
 	
-	if ( mw.path ) {
+	if ( mw.path !== undefined ) {
 		return mw.path + '.' + attributes.name;
 	}
 	
-	if ( mw.toInspect ) {
+	if ( mw.toInspect !== undefined ) {
 		return typeof( mw.toInspect ) + '.' + attributes.name;
 	}
 	
@@ -150,17 +152,17 @@ metawidget.util.appendPath = function( attributes, mw ) {
 
 metawidget.util.traversePath = function( toInspect, type, names ) {
 	
-	if ( toInspect == null ) {
-		return null;
+	if ( toInspect === undefined ) {
+		return undefined;
 	}
 
-	if ( names ) {
+	if ( names !== undefined ) {
 		for( var loop = 0, length = names.length; loop < length; loop++ ) {
 
 			toInspect = toInspect[names[loop]];
 			
-			if ( toInspect == null ) {
-				return null;
+			if ( toInspect === undefined ) {
+				return undefined;
 			}
 		}
 	}
@@ -170,15 +172,15 @@ metawidget.util.traversePath = function( toInspect, type, names ) {
 
 metawidget.util.combineInspectionResults = function( existingInspectionResult, newInspectionResult ) {
 	
-	// Inspector may return null
+	// Inspector may return undefined
 
-	if ( !newInspectionResult ) {
+	if ( newInspectionResult === undefined ) {
 		return existingInspectionResult;
 	}
 
 	// If this is the first result...
 
-	if ( existingInspectionResult.length == 0 ) {
+	if ( existingInspectionResult.length === 0 ) {
 
 		// ...copy it
 
@@ -205,7 +207,7 @@ metawidget.util.combineInspectionResults = function( existingInspectionResult, n
 			for ( var loop2 = 0, length2 = existingInspectionResult.length; loop2 < length2; loop2++ ) {
 				var existingAttributes = existingInspectionResult[loop2];
 
-				if ( existingAttributes.name == newAttributes.name ) {
+				if ( existingAttributes.name === newAttributes.name ) {
 
 					for ( var attribute in newAttributes ) {
 						existingAttributes[attribute] = newAttributes[attribute];
@@ -238,10 +240,10 @@ metawidget.util.stripSection = function( attributes ) {
 
 	var section = attributes.section;
 	
-	// (null means 'no change to current section')
+	// (undefined means 'no change to current section')
 	
-	if ( section == null ) {
-		return null;
+	if ( section === undefined ) {
+		return undefined;
 	}
 	
 	var sections = section.split( ',' );
@@ -251,7 +253,7 @@ metawidget.util.stripSection = function( attributes ) {
 		// (empty String means 'end current section')
 		case 0:	return '';
 		
-		case 1: attributes.section = null;
+		case 1: delete attributes.section;
 				return sections[0];
 		
 		case 2: attributes.section = sections.slice( 1 ).join( ',' );

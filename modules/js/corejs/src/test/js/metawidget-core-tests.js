@@ -26,7 +26,7 @@ describe( "The core Metawidget", function() {
 		var mw = new metawidget.Metawidget( element );
 
 		mw.toInspect = {
-			"foo": "Foo"
+			foo: "Foo"
 		};
 		mw.buildWidgets();
 
@@ -53,7 +53,7 @@ describe( "The core Metawidget", function() {
 		} );
 
 		mw.toInspect = {
-			"bar": "Bar"
+			bar: "Bar"
 		};
 		mw.buildWidgets();
 
@@ -72,8 +72,8 @@ describe( "The core Metawidget", function() {
 		mw._overriddenNodes = [ bar ];
 
 		mw.toInspect = {
-			"foo": "Foo",
-			"bar": "Bar"
+			foo: "Foo",
+			bar: "Bar"
 		};
 		mw.buildWidgets();
 
@@ -125,8 +125,8 @@ describe( "The core Metawidget", function() {
 		var mw = new metawidget.Metawidget( element );
 
 		mw.toInspect = {
-			"foo": {
-				"nestedFoo": "Foo"
+			foo: {
+				nestedFoo: "Foo"
 			}
 		};
 		mw.buildWidgets();
@@ -169,7 +169,7 @@ describe( "The core Metawidget", function() {
 			inspector: function( toInspect, type, names ) {
 
 				return [ {
-					"name": "foo"
+					name: "foo"
 				} ];
 			}
 		} );
@@ -211,39 +211,39 @@ describe( "The core Metawidget", function() {
 		var element = document.createElement( 'div' );
 		var mw = new metawidget.Metawidget( element, {
 			widgetBuilder: {
-				"onStartBuild": function( mw ) {
+				onStartBuild: function( mw ) {
 
 					called.push( 'widgetBuilder.onStartBuild( ' + mw + ' )' );
 				},
-				"onEndBuild": function( mw ) {
+				onEndBuild: function( mw ) {
 
 					called.push( 'widgetBuilder.onEndBuild( ' + mw + ' )' );
 				}
 			},
 			widgetProcessors: [ {
-				"onStartBuild": function( mw ) {
+				onStartBuild: function( mw ) {
 
 					called.push( 'widgetProcessor.onStartBuild( ' + mw + ' )' );
 				},
-				"onEndBuild": function( mw ) {
+				onEndBuild: function( mw ) {
 
 					called.push( 'widgetProcessor.onEndBuild( ' + mw + ' )' );
 				}
 			} ],
 			layout: {
-				"onStartBuild": function( mw ) {
+				onStartBuild: function( mw ) {
 
 					called.push( 'layout.onStartBuild( ' + mw + ' )' );
 				},
-				"startContainerLayout": function( element, mw ) {
+				startContainerLayout: function( element, mw ) {
 
 					called.push( 'layout.startContainerLayout( ' + element + ', ' + mw + ' )' );
 				},
-				"endContainerLayout": function( element, mw ) {
+				endContainerLayout: function( element, mw ) {
 
 					called.push( 'layout.endContainerLayout( ' + element + ', ' + mw + ' )' );
 				},
-				"onEndBuild": function( mw ) {
+				onEndBuild: function( mw ) {
 
 					called.push( 'layout.onEndBuild( ' + mw + ' )' );
 				}
@@ -269,7 +269,7 @@ describe( "The core Metawidget", function() {
 		var element = document.createElement( 'div' );
 		var mw = new metawidget.Metawidget( element );
 		mw.toInspect = {
-			"foo": "bar"
+			foo: "bar"
 		};
 
 		mw.buildWidgets();

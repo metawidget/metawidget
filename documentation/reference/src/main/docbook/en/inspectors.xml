@@ -390,8 +390,8 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 			</section>
 			
-			<section id="section-inspectors-propertytype">
-				<title>PropertyTypeInspector</title>
+			<section id="section-inspectors-java-propertytype">
+				<title>PropertyTypeInspector (Java version)</title>
 				
 				<para>
 					<classname>PropertyTypeInspector</classname> extends <classname>BaseObjectInspector</classname>, and so inherits its features.
@@ -459,6 +459,24 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 					</tbody>
 				</informaltable>
 
+			</section>
+			
+			<section id="section-inspectors-javascript-propertytype">
+				<title>PropertyTypeInspector (JavaScript version)</title>
+				
+				<para>
+					The JavaScript <classname>PropertyTypeInspector</classname> is much simplified compared
+					to its Java-counterpart. It Inspects JavaScript objects for their property names and types.
+				</para>
+				
+				<para>
+					In principal, ordering of property names within JavaScript objects is not
+					guaranteed. In practice, most browsers respect the original ordering
+					that properties were defined in. However you may want to preceed
+					<classname>PropertyTypeInspector</classname> with a custom
+					<classname>Inspector</classname> that imposes a
+					defined ordering.
+				</para>
 			</section>
 			
 		</section>

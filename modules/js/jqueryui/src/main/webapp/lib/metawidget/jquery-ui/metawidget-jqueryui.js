@@ -158,7 +158,7 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
-	_nestedSectionLayoutDecorator( config, this, 'tabLayoutDecorator' );
+	metawidget.layout.nestedSectionLayoutDecorator( config, this, 'tabLayoutDecorator' );
 
 	this.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 

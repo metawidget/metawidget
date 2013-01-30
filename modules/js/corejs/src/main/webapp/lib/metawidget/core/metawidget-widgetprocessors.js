@@ -30,7 +30,7 @@ metawidget.widgetprocessor = metawidget.widgetprocessor || {};
 metawidget.widgetprocessor.IdProcessor = function() {
 
 	if ( ! ( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
 
@@ -39,7 +39,7 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 	// Dangerous to reassign an id. For example, some JQuery UI widgets assign
 	// temporary ids when they wrap widgets
 
-	if ( widget.getAttribute( 'id' ) == null ) {
+	if ( widget.getAttribute( 'id' ) === undefined ) {
 		widget.setAttribute( 'id', metawidget.util.getId( attributes, mw ) );
 	}
 
@@ -53,13 +53,13 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 metawidget.widgetprocessor.RequiredAttributeProcessor = function() {
 
 	if ( ! ( this instanceof metawidget.widgetprocessor.RequiredAttributeProcessor ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
 
 metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
-	if ( attributes.required == 'true' ) {
+	if ( attributes.required === 'true' ) {
 		widget.setAttribute( 'required', 'required' );
 	}
 
@@ -78,7 +78,7 @@ metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = 
 metawidget.widgetprocessor.SimpleBindingProcessor = function() {
 
 	if ( ! ( this instanceof metawidget.widgetprocessor.SimpleBindingProcessor ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
 
@@ -89,7 +89,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.onStartBuild = funct
 
 metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
-	if ( widget.tagName == 'BUTTON' ) {
+	if ( widget.tagName === 'BUTTON' ) {
 		widget.onclick = function() { try { return mw.toInspect[attributes.name](); } catch( e ) { alert( e ); }};
 	} else {
 
@@ -97,13 +97,13 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 		var typeAndNames = metawidget.util.splitPath( mw.path );
 		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
 
-		if ( attributes.name != '__root' && toInspect ) {
+		if ( attributes.name !== '__root' && toInspect ) {
 			value = toInspect[attributes.name];
 		} else {
 			value = toInspect;
 		}
 
-		var isBindable = ( widget.tagName == 'INPUT' || widget.tagName == 'SELECT' || widget.tagName == 'TEXTAREA' );
+		var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
 
 		if ( isBindable && widget.getAttribute( 'id' ) ) {
 
@@ -112,12 +112,12 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
 		}
 
-		// Check 'not null', rather than 'if value', in case value is a boolean of false
+		// Check 'not undefined', rather than 'if value', in case value is a boolean of false
 		
-		if ( value != null ) {
-			if ( widget.tagName == 'OUTPUT' || widget.tagName == 'TEXTAREA' ) {
+		if ( value !== undefined ) {
+			if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
 				widget.innerHTML = value;
-			} else if ( widget.tagName == 'INPUT' && widget.getAttribute( 'type' ) == 'checkbox' ) {
+			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
 				widget.checked = value;
 			} else if ( isBindable ) {
 				widget.value = value;
@@ -152,7 +152,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw 
 
 		widget = document.getElementById( widget.id );
 
-		if ( widget.getAttribute( 'type' ) == 'checkbox' ) {
+		if ( widget.getAttribute( 'type' ) === 'checkbox' ) {
 			toInspect[name] = widget.checked;
 		} else {
 			toInspect[name] = widget.value;

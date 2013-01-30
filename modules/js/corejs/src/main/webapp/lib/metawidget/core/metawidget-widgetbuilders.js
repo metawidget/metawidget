@@ -30,7 +30,7 @@ metawidget.widgetbuilder = metawidget.widgetbuilder || {};
 metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
 	if ( ! ( this instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 
 	var widgetBuilders;
@@ -88,14 +88,14 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 /**
  * WidgetBuilder to override widgets based on mw.overriddenNodes.
  * <p>
- * Widgets are overridden based on name, not id, because name is not legal
+ * Widgets are overridden based on id, not name, because name is not legal
  * syntax for many nodes (e.g. table)
  */
 
 metawidget.widgetbuilder.OverriddenWidgetBuilder = function() {
 
 	if ( ! ( this instanceof metawidget.widgetbuilder.OverriddenWidgetBuilder ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
 
@@ -110,7 +110,7 @@ metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = functio
 	for ( var loop = 0, length = mw.overriddenNodes.length; loop < length; loop++ ) {
 
 		var child = mw.overriddenNodes[loop];
-		if ( child.getAttribute && child.getAttribute( 'id' ) == overrideId ) {
+		if ( child.getAttribute && child.getAttribute( 'id' ) === overrideId ) {
 			child.overridden = true;
 			return child;
 		}
@@ -124,7 +124,7 @@ metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = functio
 metawidget.widgetbuilder.ReadOnlyWidgetBuilder = function() {
 
 	if ( ! ( this instanceof metawidget.widgetbuilder.ReadOnlyWidgetBuilder ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
 
@@ -138,13 +138,13 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 
 	// Hidden
 
-	if ( attributes.hidden == 'true' ) {
+	if ( attributes.hidden === 'true' || attributes.type === 'function' ) {
 		return document.createElement( 'stub' );
 	}
 
-	if ( attributes.lookup || attributes.type == 'string' || attributes.type == 'boolean' || attributes.type == 'number' || attributes.type == 'date' ) {
+	if ( attributes.lookup !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date' ) {
 
-		if ( attributes.masked == 'true' ) {
+		if ( attributes.masked === 'true' ) {
 
 			// Masked (return a couple of nested Stubs, so that we DO still
 			// render a label)
@@ -159,7 +159,7 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 
 	// Not simple, but don't expand
 
-	if ( attributes.dontExpand == 'true' ) {
+	if ( attributes.dontExpand === 'true' ) {
 		return document.createElement( 'output' );
 	}
 };
@@ -171,7 +171,7 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 metawidget.widgetbuilder.HtmlWidgetBuilder = function() {
 
 	if ( ! ( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
 
@@ -179,16 +179,16 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	// Hidden
 
-	if ( attributes.hidden == 'true' ) {
+	if ( attributes.hidden === 'true' ) {
 		return document.createElement( 'stub' );
 	}
 
 	// Select box
 
-	if ( attributes.lookup ) {
+	if ( attributes.lookup !== undefined ) {
 		var select = document.createElement( 'select' );
 
-		if ( !attributes.required || attributes.required == 'false' ) {
+		if ( !attributes.required || attributes.required === 'false' ) {
 			select.appendChild( document.createElement( 'option' ) );
 		}
 
@@ -202,7 +202,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 			option.setAttribute( 'value', lookupSplit[loop] );
 
-			if ( attributes.lookupLabels ) {
+			if ( attributes.lookupLabels !== undefined ) {
 				option.innerHTML = attributes.lookupLabels.split( ',' )[loop];
 			} else {
 				option.innerHTML = lookupSplit[loop];
@@ -215,7 +215,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	// Action
 
-	if ( attributes.type == 'function' ) {
+	if ( attributes.type === 'function' ) {
 		var button = document.createElement( 'button' );
 
 		if ( attributes.label ) {
@@ -228,7 +228,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	// Number
 
-	if ( attributes.type == 'number' ) {
+	if ( attributes.type === 'number' ) {
 
 		if ( attributes.minimumValue && attributes.maximumValue ) {
 			var range = document.createElement( 'input' );
@@ -245,7 +245,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	// Boolean
 
-	if ( attributes.type == 'boolean' ) {
+	if ( attributes.type === 'boolean' ) {
 		var checkbox = document.createElement( 'input' );
 		checkbox.setAttribute( 'type', 'checkbox' );
 		return checkbox;
@@ -253,7 +253,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	// Date
 
-	if ( attributes.type == 'date' ) {
+	if ( attributes.type === 'date' ) {
 		var date = document.createElement( 'input' );
 		date.setAttribute( 'type', 'date' );
 		return date;
@@ -261,27 +261,27 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	// String
 
-	if ( attributes.type == 'string' ) {
+	if ( attributes.type === 'string' ) {
 
-		if ( attributes.masked == 'true' ) {
+		if ( attributes.masked === 'true' ) {
 			var password = document.createElement( 'input' );
 			password.setAttribute( 'type', 'password' );
 
-			if ( attributes.maximumLength ) {
+			if ( attributes.maximumLength !== undefined ) {
 				password.setAttribute( 'maxlength', attributes.maximumLength );
 			}
 
 			return password;
 		}
 
-		if ( attributes.large == 'true' ) {
+		if ( attributes.large === 'true' ) {
 			return document.createElement( 'textarea' );
 		}
 
 		var text = document.createElement( 'input' );
 		text.setAttribute( 'type', 'text' );
 
-		if ( attributes.maximumLength ) {
+		if ( attributes.maximumLength !== undefined ) {
 			text.setAttribute( 'maxlength', attributes.maximumLength );
 		}
 
@@ -290,7 +290,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	// Not simple, but don't expand
 
-	if ( attributes.dontExpand == 'true' ) {
+	if ( attributes.dontExpand === 'true' ) {
 		var text = document.createElement( 'input' );
 		text.setAttribute( 'type', 'text' );
 		return text;

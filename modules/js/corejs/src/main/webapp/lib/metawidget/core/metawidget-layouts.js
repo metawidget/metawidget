@@ -30,13 +30,13 @@ metawidget.layout = metawidget.layout || {};
 metawidget.layout.SimpleLayout = function() {
 
 	if ( ! ( this instanceof metawidget.layout.SimpleLayout ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
 
 metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
 
-	if ( widget.tagName == 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
+	if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 		return;
 	}
 
@@ -50,13 +50,13 @@ metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attrib
 metawidget.layout.DivLayout = function() {
 
 	if ( ! ( this instanceof metawidget.layout.DivLayout ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
 
 metawidget.layout.DivLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
 
-	if ( widget.tagName == 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
+	if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 		return;
 	}
 
@@ -64,13 +64,13 @@ metawidget.layout.DivLayout.prototype.layoutWidget = function( widget, attribute
 
 	// Label
 
-	if ( attributes.name ) {
+	if ( attributes.name !== undefined ) {
 
 		var labelDiv = document.createElement( 'div' );
 		var label = document.createElement( 'label' );
 		label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 
-		if ( attributes.label ) {
+		if ( attributes.label !== undefined ) {
 			label.innerHTML = attributes.label + ':';
 		} else {
 			label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
@@ -96,24 +96,24 @@ metawidget.layout.DivLayout.prototype.layoutWidget = function( widget, attribute
 metawidget.layout.TableLayout = function( config ) {
 
 	if ( ! ( this instanceof metawidget.layout.TableLayout ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 
-	var tableStyleClass = config ? config.tableStyleClass : null;
-	var columnStyleClasses = config ? config.columnStyleClasses : null;
-	var footerStyleClass = config ? config.footerStyleClass : null;
-	var numberOfColumns = config && config.numberOfColumns ? config.numberOfColumns : 1;
+	var tableStyleClass = config !== undefined ? config.tableStyleClass : undefined;
+	var columnStyleClasses = config !== undefined ? config.columnStyleClasses : undefined;
+	var footerStyleClass = config !== undefined ? config.footerStyleClass : undefined;
+	var numberOfColumns = config !== undefined && config.numberOfColumns ? config.numberOfColumns : 1;
 	var currentColumn = 0;
 
 	this.startContainerLayout = function( container, mw ) {
 
 		var table = document.createElement( 'table' );
-		if ( mw.path ) {
+		if ( mw.path !== undefined ) {
 			var id = metawidget.util.getId( {}, mw );
 			table.setAttribute( 'id', 'table-' + id );
 		}
 
-		if ( tableStyleClass ) {
+		if ( tableStyleClass !== undefined ) {
 			table.setAttribute( 'class', tableStyleClass );
 		}
 
@@ -121,12 +121,12 @@ metawidget.layout.TableLayout = function( config ) {
 
 		// tfoot
 
-		if ( mw.overriddenNodes ) {
+		if ( mw.overriddenNodes !== undefined ) {
 			for ( var loop1 = 0, length1 = mw.overriddenNodes.length; loop1 < length1; loop1++ ) {
 
 				var child = mw.overriddenNodes[loop1];
 
-				if ( child.tagName == 'FACET' && child.getAttribute( 'name' ) == 'footer' ) {
+				if ( child.tagName === 'FACET' && child.getAttribute( 'name' ) === 'footer' ) {
 					var tfoot = document.createElement( 'tfoot' );
 					table.appendChild( tfoot );
 					var tr = document.createElement( 'tr' );
@@ -134,7 +134,7 @@ metawidget.layout.TableLayout = function( config ) {
 					var td = document.createElement( 'td' );
 					td.setAttribute( 'colspan', numberOfColumns * 2 );
 
-					if ( footerStyleClass ) {
+					if ( footerStyleClass !== undefined ) {
 						td.setAttribute( 'class', footerStyleClass );
 					}
 
@@ -159,7 +159,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 		// Do not render empty stubs
 		
-		if ( widget.tagName == 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
+		if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 			return;
 		}
 
@@ -167,20 +167,20 @@ metawidget.layout.TableLayout = function( config ) {
 
 		var spanAllColumns = metawidget.util.isSpanAllColumns( attributes );
 
-		if ( spanAllColumns && currentColumn > 0 ) {
+		if ( spanAllColumns === true && currentColumn > 0 ) {
 			currentColumn = 0;
 		}
 		
 		// Id
 		
 		var table = container.childNodes[container.childNodes.length - 1];
-		var idPrefix = null;
+		var idPrefix;
 
-		if ( attributes.name && attributes.name != '__root' ) {
+		if ( attributes.name !== undefined && attributes.name !== '__root' ) {
 			idPrefix = table.getAttribute( 'id' );
 			
-			if ( idPrefix ) {
-				if ( idPrefix.charAt( idPrefix.length - 1 ) != '-' ) {
+			if ( idPrefix !== undefined ) {
+				if ( idPrefix.charAt( idPrefix.length - 1 ) !== '-' ) {
 					idPrefix += metawidget.util.capitalize( attributes.name );
 				} else {
 					idPrefix += attributes.name;
@@ -195,9 +195,9 @@ metawidget.layout.TableLayout = function( config ) {
 		var tbody = table.childNodes[table.childNodes.length - 1];
 		var tr;
 		
-		if ( currentColumn == 0 ) {
+		if ( currentColumn === 0 ) {
 			tr = document.createElement( 'tr' );
-			if ( idPrefix ) {
+			if ( idPrefix !== undefined ) {
 				tr.setAttribute( 'id', idPrefix + '-row' );
 			}
 			tbody.appendChild( tr );
@@ -205,13 +205,13 @@ metawidget.layout.TableLayout = function( config ) {
 			tr = tbody.childNodes[tbody.childNodes.length - 1];
 		}
 
-		if ( attributes.name && attributes.name != '__root' ) {
+		if ( attributes.name !== undefined && attributes.name !== '__root' ) {
 			// Label
 
 			var th = document.createElement( 'th' );
 			th.setAttribute( 'id', idPrefix + '-label-cell' );
 
-			if ( columnStyleClasses ) {
+			if ( columnStyleClasses !== undefined ) {
 				th.setAttribute( 'class', columnStyleClasses.split( ',' )[0] );
 			}
 
@@ -223,7 +223,7 @@ metawidget.layout.TableLayout = function( config ) {
 			
 			label.setAttribute( 'id', idPrefix + '-label' );
 
-			if ( attributes.label ) {
+			if ( attributes.label !== undefined ) {
 				label.innerHTML = attributes.label + ':';
 			} else {
 				label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
@@ -237,15 +237,15 @@ metawidget.layout.TableLayout = function( config ) {
 
 		var td = document.createElement( 'td' );
 
-		if ( idPrefix ) {
+		if ( idPrefix !== undefined ) {
 			td.setAttribute( 'id', idPrefix + '-cell' );
 		}
 
-		if ( columnStyleClasses ) {
+		if ( columnStyleClasses !== undefined ) {
 			td.setAttribute( 'class', columnStyleClasses.split( ',' )[1] );
 		}
 
-		if ( spanAllColumns ) {
+		if ( spanAllColumns === true ) {
 			td.setAttribute( 'colspan', (( numberOfColumns * 3 ) - 1 ) - tr.childNodes.length );
 		} else if ( tr.childNodes.length < 1 ) {
 			td.setAttribute( 'colspan', 2 - tr.childNodes.length );
@@ -258,11 +258,11 @@ metawidget.layout.TableLayout = function( config ) {
 
 		td = document.createElement( 'td' );
 
-		if ( columnStyleClasses ) {
+		if ( columnStyleClasses !== undefined ) {
 			td.setAttribute( 'class', columnStyleClasses.split( ',' )[2] );
 		}
 
-		if ( !metawidget.util.isReadOnly( attributes, mw ) && attributes.required == 'true' ) {
+		if ( !metawidget.util.isReadOnly( attributes, mw ) && attributes.required === 'true' ) {
 			td.innerHTML = '*';
 		}
 
@@ -270,7 +270,7 @@ metawidget.layout.TableLayout = function( config ) {
 		
 		// Next column
 
-		if ( spanAllColumns ) {
+		if ( spanAllColumns === true ) {
 			currentColumn = numberOfColumns - 1;
 		}
 		
@@ -282,9 +282,13 @@ metawidget.layout.TableLayout = function( config ) {
 // LayoutDecorator
 //
 
-function _flatSectionLayoutDecorator( config, decorator, decoratorName ) {
+metawidget.layout.flatSectionLayoutDecorator = function( config, decorator, decoratorName ) {
 
-	if ( config.delegate ) {
+	if ( this instanceof metawidget.layout.flatSectionLayoutDecorator ) {
+		throw new Error( 'Function called as a Constructor' );
+	}
+
+	if ( config.delegate !== undefined ) {
 		decorator.delegate = config.delegate;
 	} else {
 		decorator.delegate = config;
@@ -292,7 +296,7 @@ function _flatSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 	decorator.onStartBuild = function( mw ) {
 
-		if ( decorator.delegate.onStartBuild ) {
+		if ( decorator.delegate.onStartBuild !== undefined ) {
 			decorator.delegate.onStartBuild( mw );
 		}
 	};
@@ -301,7 +305,7 @@ function _flatSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 		container[decoratorName] = {};
 
-		if ( decorator.delegate.startContainerLayout ) {
+		if ( decorator.delegate.startContainerLayout !== undefined ) {
 			decorator.delegate.startContainerLayout( container, mw );
 		}
 	};
@@ -317,13 +321,13 @@ function _flatSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 			var section = metawidget.util.stripSection( attributes );
 
-			if ( section == null || section == container[decoratorName].currentSection ) {
+			if ( section === undefined || section === container[decoratorName].currentSection ) {
 				return decorator.delegate.layoutWidget( widget, attributes, container, mw );
 			}
 
 			// End nested LayoutDecorator's current section
 
-			if ( container[decoratorName].currentSection ) {
+			if ( container[decoratorName].currentSection !== undefined ) {
 				decorator.delegate.endContainerLayout( container, mw );
 			}
 
@@ -331,14 +335,14 @@ function _flatSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 			// Add a heading
 
-			if ( section != '' ) {
+			if ( section !== '' ) {
 				decorator.addSectionWidget( section, 0, attributes, container, mw );
 			}
 		} else {
 
 			// Stay where we are?
 
-			if ( !attributes.section || attributes.section == container[decoratorName].currentSection ) {
+			if ( attributes.section === undefined || attributes.section === container[decoratorName].currentSection ) {
 				return decorator.delegate.layoutWidget( widget, attributes, container, mw );
 			}
 
@@ -347,7 +351,7 @@ function _flatSectionLayoutDecorator( config, decorator, decoratorName ) {
 			var sections = attributes.section.split( ',' );
 			var currentSections;
 
-			if ( container[decoratorName].currentSection ) {
+			if ( container[decoratorName].currentSection !== undefined ) {
 				currentSections = container[decoratorName].currentSection.split( ',' );
 			} else {
 				currentSections = [];
@@ -358,11 +362,11 @@ function _flatSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 				// ...that are different from our current...
 
-				if ( section == '' ) {
+				if ( section === '' ) {
 					continue;
 				}
 
-				if ( currentSections != null && level < currentSections.length && section == currentSections[level] ) {
+				if ( level < currentSections.length && section === currentSections[level] ) {
 					continue;
 				}
 
@@ -386,17 +390,21 @@ function _flatSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 	decorator.endContainerLayout = function( container, mw ) {
 
-		if ( decorator.delegate.endContainerLayout ) {
+		if ( decorator.delegate.endContainerLayout !== undefined ) {
 			decorator.delegate.endContainerLayout( container, mw );
 		}
 	};
 };
 
-function _nestedSectionLayoutDecorator( config, decorator, decoratorName ) {
+metawidget.layout.nestedSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+
+	if ( this instanceof metawidget.layout.nestedSectionLayoutDecorator ) {
+		throw new Error( 'Function called as a Constructor' );
+	}
 
 	var delegate;
 
-	if ( config.delegate ) {
+	if ( config.delegate !== undefined ) {
 		delegate = config.delegate;
 	} else {
 		delegate = config;
@@ -421,7 +429,7 @@ function _nestedSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 	decorator.onStartBuild = function( mw ) {
 
-		if ( decorator.getDelegate().onStartBuild ) {
+		if ( decorator.getDelegate().onStartBuild !== undefined ) {
 			decorator.getDelegate().onStartBuild( mw );
 		}
 	};
@@ -430,7 +438,7 @@ function _nestedSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 		container[decoratorName] = {};
 
-		if ( decorator.getDelegate().startContainerLayout ) {
+		if ( decorator.getDelegate().startContainerLayout !== undefined ) {
 			decorator.getDelegate().startContainerLayout( container, mw );
 		}
 	};
@@ -441,7 +449,7 @@ function _nestedSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 		var section = metawidget.util.stripSection( attributes );
 
-		if ( section == null || section == container[decoratorName].currentSection ) {
+		if ( section === undefined || section === container[decoratorName].currentSection ) {
 			if ( container[decoratorName].currentSectionWidget ) {
 				return decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
 			}
@@ -450,17 +458,17 @@ function _nestedSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 		// End current section
 
-		if ( container[decoratorName].currentSectionWidget ) {
+		if ( container[decoratorName].currentSectionWidget !== undefined ) {
 			decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
 		}
 
 		container[decoratorName].currentSection = section;
 		var previousSectionWidget = container[decoratorName].currentSectionWidget; 
-		container[decoratorName].currentSectionWidget = null;
+		delete container[decoratorName].currentSectionWidget;
 
 		// No new section?
 
-		if ( section == '' ) {
+		if ( section === '' ) {
 			decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
 			return;
 		}
@@ -479,11 +487,11 @@ function _nestedSectionLayoutDecorator( config, decorator, decoratorName ) {
 
 		// End hanging layouts
 
-		if ( container[decoratorName].currentSectionWidget ) {
+		if ( container[decoratorName].currentSectionWidget !== undefined ) {
 			decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
 		}
 
-		if ( decorator.getDelegate().endContainerLayout ) {
+		if ( decorator.getDelegate().endContainerLayout !== undefined ) {
 			decorator.getDelegate().endContainerLayout( container, mw );
 		}
 		
@@ -498,10 +506,10 @@ function _nestedSectionLayoutDecorator( config, decorator, decoratorName ) {
 metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 
 	if ( ! ( this instanceof metawidget.layout.HeadingTagLayoutDecorator ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 
-	_flatSectionLayoutDecorator( config, this, 'headingTagLayoutDecorator' );
+	metawidget.layout.flatSectionLayoutDecorator( config, this, 'headingTagLayoutDecorator' );
 
 	this.addSectionWidget = function( section, level, attributes, container, mw ) {
 
@@ -509,7 +517,7 @@ metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 		h1.innerHTML = section;
 
 		this.delegate.layoutWidget( h1, {
-			"wide": "true"
+			wide: 'true'
 		}, container, mw );
 	};
 };
@@ -521,17 +529,17 @@ metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 metawidget.layout.DivLayoutDecorator = function( config ) {
 
 	if ( ! ( this instanceof metawidget.layout.DivLayoutDecorator ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 
-	_nestedSectionLayoutDecorator( config, this, 'divLayoutDecorator' );
+	metawidget.layout.nestedSectionLayoutDecorator( config, this, 'divLayoutDecorator' );
 
 	this.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 
 		var div = document.createElement( 'div' );
 		div.setAttribute( 'title', section );
 		this.getDelegate().layoutWidget( div, {
-			"wide": "true"
+			wide: 'true'
 		}, container, mw );
 
 		return div;

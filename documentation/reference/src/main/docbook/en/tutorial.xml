@@ -1177,7 +1177,7 @@ public class Main {
 		} ] )<symbol>,
 		
 	layout: new metawidget.layout.HeadingTagLayoutDecorator(
-		new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))</symbol>
+		new metawidget.layout.TableLayout( { numberOfColumns: 2 } ))</symbol>
 } );</programlisting>
 
 				<para>
@@ -1242,7 +1242,7 @@ public class Main {
 					} ] ),
 					
 				layout: new metawidget.<symbol>jqueryui.layout.TabLayoutDecorator</symbol>(
-					new metawidget.layout.TableLayout( { "numberOfColumns": 2 } ))
+					new metawidget.layout.TableLayout( { numberOfColumns: 2 } ))
 			} );		
 			mw.toInspect = person;
 			mw.buildWidgets();

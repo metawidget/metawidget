@@ -69,15 +69,15 @@ describe( "The DivLayout", function() {
 		widget2.setAttribute( 'id', 'widget2' );
 		var container = document.createElement( 'metawidget' );
 		var mw = {
-			"path": "testPath"
+			path: "testPath"
 		};
 
 		layout.layoutWidget( widget1, {
-			"name": "widget1",
+			name: "widget1",
 		}, container, mw );
 		layout.layoutWidget( widget2, {
-			"name": "widget2",
-			"label": "widgetLabel 2"
+			name: "widget2",
+			label: "widgetLabel 2"
 		}, container, mw );
 
 		expect( container.childNodes[0].toString() ).toBe( 'div' );

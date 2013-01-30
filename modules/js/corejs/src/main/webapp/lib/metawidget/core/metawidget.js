@@ -25,7 +25,7 @@ var metawidget = metawidget || {};
 metawidget.Metawidget = function( element, config ) {
 
 	if ( ! ( this instanceof metawidget.Metawidget ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 
 	var pipeline = new metawidget.Pipeline( element );
@@ -38,7 +38,7 @@ metawidget.Metawidget = function( element, config ) {
 		var nestedMetawidget = new metawidget.Metawidget( nestedWidget, pipeline );
 		nestedMetawidget.toInspect = mw.toInspect;
 		nestedMetawidget.path = metawidget.util.appendPath( attributes, mw );
-		nestedMetawidget.readOnly = mw.readOnly || attributes.readOnly == 'true';
+		nestedMetawidget.readOnly = mw.readOnly || attributes.readOnly === 'true';
 
 		// Attach ourselves as a property of the tag, rather than try to
 		// 'extend' the built-in HTML tags
@@ -63,7 +63,7 @@ metawidget.Metawidget = function( element, config ) {
 	this._overriddenNodes = [];
 
 	for ( var loop = 0, length = element.childNodes.length; loop < length; loop++ ) {
-		if ( element.childNodes[loop].nodeType == 3 ) {
+		if ( element.childNodes[loop].nodeType === 3 ) {
 			continue;
 		}
 		this._overriddenNodes.push( element.childNodes[loop] );
@@ -95,7 +95,7 @@ metawidget.Metawidget = function( element, config ) {
 
 		// Inspect (if necessary)
 
-		if ( !inspectionResult ) {
+		if ( inspectionResult === undefined ) {
 			inspectionResult = pipeline.inspect( this );
 		}
 
@@ -112,7 +112,7 @@ metawidget.Metawidget = function( element, config ) {
 metawidget.Pipeline = function( element ) {
 
 	if ( ! ( this instanceof metawidget.Pipeline ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 
 	this.inspectionResultProcessors = [];
@@ -130,28 +130,28 @@ metawidget.Pipeline = function( element ) {
 
 metawidget.Pipeline.prototype.configure = function( config ) {
 
-	if ( !config ) {
+	if ( config === undefined) {
 		return;
 	}
-	if ( config.inspector ) {
+	if ( config.inspector !== undefined ) {
 		this.inspector = config.inspector;
 	}
-	if ( config.inspectionResultProcessors ) {
+	if ( config.inspectionResultProcessors !== undefined ) {
 		this.inspectionResultProcessors = config.inspectionResultProcessors.slice();
 	}
-	if ( config.widgetBuilder ) {
+	if ( config.widgetBuilder !== undefined ) {
 		this.widgetBuilder = config.widgetBuilder;
 	}
-	if ( config.widgetProcessors ) {
+	if ( config.widgetProcessors !== undefined ) {
 		this.widgetProcessors = config.widgetProcessors.slice();
 	}
-	if ( config.layout ) {
+	if ( config.layout !== undefined ) {
 		this.layout = config.layout;
 	}
 
 	// Safeguard against infinite recursion
 
-	if ( config.maximumInspectionDepth ) {
+	if ( config.maximumInspectionDepth !== undefined ) {
 		this.maximumInspectionDepth = config.maximumInspectionDepth - 1;
 	}
 };
@@ -200,15 +200,15 @@ metawidget.Pipeline.prototype.inspect = function( mw ) {
 	var splitPath = metawidget.util.splitPath( mw.path );
 	var inspectionResult;
 
-	if ( this.inspector.inspect ) {
+	if ( this.inspector.inspect !== undefined ) {
 		inspectionResult = this.inspector.inspect( mw.toInspect, splitPath.type, splitPath.names );
 	} else {
 		inspectionResult = this.inspector( mw.toInspect, splitPath.type, splitPath.names );
 	}
 
-	// Inspector may return null
+	// Inspector may return undefined
 
-	if ( !inspectionResult ) {
+	if ( inspectionResult === undefined ) {
 		return;
 	}
 
@@ -218,15 +218,15 @@ metawidget.Pipeline.prototype.inspect = function( mw ) {
 
 		var inspectionResultProcessor = this.inspectionResultProcessors[loop];
 
-		if ( inspectionResultProcessor.processInspectionResult ) {
+		if ( inspectionResultProcessor.processInspectionResult !== undefined ) {
 			inspectionResult = inspectionResultProcessor.processInspectionResult( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
 		} else {
 			inspectionResult = inspectionResultProcessor( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
 		}
 
-		// InspectionResultProcessor may return null
+		// InspectionResultProcessor may return undefined
 
-		if ( !inspectionResult ) {
+		if ( inspectionResult === undefined ) {
 			return;
 		}
 	}
@@ -256,21 +256,21 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 	// Build top-level widget...
 
-	if ( inspectionResult ) {
+	if ( inspectionResult !== undefined ) {
 		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
 
 			var attributes = inspectionResult[loop];
 
-			if ( attributes.name != '__root' ) {
+			if ( attributes.name !== '__root' ) {
 				continue;
 			}
 
 			var widget = _buildWidget( this, attributes, mw );
 
-			if ( widget ) {
+			if ( widget !== undefined ) {
 				widget = _processWidget( this, widget, attributes, mw );
 
-				if ( widget ) {
+				if ( widget !== undefined ) {
 					_layoutWidget( this, widget, attributes, this.element, mw );
 					return;
 				}
@@ -285,27 +285,27 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 			var attributes = inspectionResult[loop];
 
-			if ( attributes.name == '__root' ) {
+			if ( attributes.name === '__root' ) {
 				continue;
 			}
 
 			var widget = _buildWidget( this, attributes, mw );
 
-			if ( !widget ) {
+			if ( widget === undefined ) {
 				if ( this.maximumInspectionDepth <= 0 ) {
 					return;
 				}
 
 				widget = this.buildNestedMetawidget( attributes, mw );
 
-				if ( !widget ) {
+				if ( widget === undefined ) {
 					return;
 				}
 			}
 
 			widget = _processWidget( this, widget, attributes, mw );
 
-			if ( widget ) {
+			if ( widget !== undefined ) {
 				_layoutWidget( this, widget, attributes, this.element, mw );
 			}
 		}
@@ -325,7 +325,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 	function _startBuild( pipeline, mw ) {
 
-		if ( pipeline.widgetBuilder.onStartBuild ) {
+		if ( pipeline.widgetBuilder.onStartBuild !== undefined ) {
 			pipeline.widgetBuilder.onStartBuild( mw );
 		}
 
@@ -333,23 +333,23 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 			var widgetProcessor = pipeline.widgetProcessors[loop];
 
-			if ( widgetProcessor.onStartBuild ) {
+			if ( widgetProcessor.onStartBuild !== undefined ) {
 				widgetProcessor.onStartBuild( mw );
 			}
 		}
 
-		if ( pipeline.layout.onStartBuild ) {
+		if ( pipeline.layout.onStartBuild !== undefined ) {
 			pipeline.layout.onStartBuild( mw );
 		}
 
-		if ( pipeline.layout.startContainerLayout ) {
+		if ( pipeline.layout.startContainerLayout !== undefined ) {
 			pipeline.layout.startContainerLayout( pipeline.element, mw );
 		}
 	}
 
 	function _buildWidget( pipeline, attributes, mw ) {
 
-		if ( pipeline.widgetBuilder.buildWidget ) {
+		if ( pipeline.widgetBuilder.buildWidget !== undefined ) {
 			return pipeline.widgetBuilder.buildWidget( attributes, mw );
 		}
 
@@ -362,13 +362,13 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 			var widgetProcessor = pipeline.widgetProcessors[loop];
 
-			if ( widgetProcessor.processWidget ) {
+			if ( widgetProcessor.processWidget !== undefined ) {
 				widget = widgetProcessor.processWidget( widget, attributes, mw );
 			} else {
 				widget = widgetProcessor( widget, attributes, mw );
 			}
 
-			if ( !widget ) {
+			if ( widget === undefined ) {
 				return;
 			}
 		}
@@ -378,7 +378,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 	function _layoutWidget( pipeline, widget, attributes, container, mw ) {
 
-		if ( pipeline.layout.layoutWidget ) {
+		if ( pipeline.layout.layoutWidget !== undefined ) {
 			pipeline.layout.layoutWidget( widget, attributes, container, mw );
 			return;
 		}
@@ -388,11 +388,11 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 	function _endBuild( pipeline, mw ) {
 
-		if ( pipeline.layout.endContainerLayout ) {
+		if ( pipeline.layout.endContainerLayout !== undefined ) {
 			pipeline.layout.endContainerLayout( pipeline.element, mw );
 		}
 
-		if ( pipeline.layout.onEndBuild ) {
+		if ( pipeline.layout.onEndBuild !== undefined ) {
 			pipeline.layout.onEndBuild( mw );
 		}
 
@@ -400,12 +400,12 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 			var widgetProcessor = pipeline.widgetProcessors[loop];
 
-			if ( widgetProcessor.onEndBuild ) {
+			if ( widgetProcessor.onEndBuild !== undefined ) {
 				widgetProcessor.onEndBuild( mw );
 			}
 		}
 
-		if ( pipeline.widgetBuilder.onEndBuild ) {
+		if ( pipeline.widgetBuilder.onEndBuild !== undefined ) {
 			pipeline.widgetBuilder.onEndBuild( mw );
 		}
 	}
@@ -418,5 +418,5 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 metawidget.Pipeline.prototype.buildNestedMetawidget = function( attributes, mw ) {
 
-	return null;
+	return undefined;
 };

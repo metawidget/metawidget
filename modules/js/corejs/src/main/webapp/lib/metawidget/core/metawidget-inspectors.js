@@ -27,15 +27,25 @@ metawidget.inspector = metawidget.inspector || {};
 // CompositeInspector
 //
 
+/**
+ * Delegates inspection to one or more sub-inspectors, then combines the resulting metadata.
+ * <p>
+ * The combining algorithm should be suitable for most use cases, but one benefit of having a separate
+ * CompositeInspector is that developers can replace it with their own version, with its own
+ * combining algorithm, if required.
+ * <p>
+ * Note: the name <em>Composite</em>Inspector refers to the Composite design pattern.
+ */
+
 metawidget.inspector.CompositeInspector = function( config ) {
 
 	if ( ! ( this instanceof metawidget.inspector.CompositeInspector ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 
 	var inspectors;
 	
-	if ( config.inspectors ) {
+	if ( config.inspectors !== undefined ) {
 		inspectors = config.inspectors;
 	} else {
 		inspectors = config;
@@ -50,7 +60,7 @@ metawidget.inspector.CompositeInspector = function( config ) {
 			var inspectionResult;
 			var inspector = inspectors[ins];
 
-			if ( inspector.inspect ) {
+			if ( inspector.inspect !== undefined ) {
 				inspectionResult = inspector.inspect( toInspect, type, names );
 			} else {
 				inspectionResult = inspector( toInspect, type, names );
@@ -70,9 +80,19 @@ metawidget.inspector.CompositeInspector = function( config ) {
 metawidget.inspector.PropertyTypeInspector = function() {
 
 	if ( ! ( this instanceof metawidget.inspector.PropertyTypeInspector ) ) {
-		throw new Error( "Constructor called as a function" );
+		throw new Error( 'Constructor called as a function' );
 	}
 };
+
+/**
+ * Inspects JavaScript objects for their property names and types.
+ * <p>
+ * In principal, ordering of property names within JavaScript objects is not
+ * guaranteed. In practice, most browsers respect the original ordering
+ * that properties were defined in. However you may want to preceed
+ * PropertyTypeInspector with a custom Inspector that imposes a
+ * defined ordering.
+ */
 
 metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspect, type, names ) {
 
@@ -80,15 +100,16 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 
 	toInspect = metawidget.util.traversePath( toInspect, type, names );
 
-	if ( toInspect == null ) {
+	if ( toInspect === undefined ) {
 		return;
 	}
 
-	// Inspect leaf node
+	// Inspect root node. Important if the Metawidget is
+	// pointed directly at a primitive type
 	
 	var inspectionResult = [ {
-		"name": "__root",
-		"type": typeof ( toInspect )
+		name: '__root',
+		type: typeof ( toInspect )
 	} ];
 
 	for ( var property in toInspect ) {
@@ -102,8 +123,7 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 
 		if ( value instanceof Date ) {
 
-			// typeof never seems to return 'date'. It returns 'number' and
-			// 'string' fine
+			// typeof never returns 'date'
 
 			inspectedProperty.type = 'date';
 		} else {
@@ -113,7 +133,7 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 			// type 'object' doesn't convey much, and can override a more
 			// descriptive inspection result from a previous Inspector
 
-			if ( typeOfProperty != 'object' ) {
+			if ( typeOfProperty !== 'object' ) {
 				inspectedProperty.type = typeOfProperty;
 			}
 		}

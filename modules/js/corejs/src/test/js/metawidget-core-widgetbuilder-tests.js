@@ -24,13 +24,13 @@ describe( "The CompositeWidgetBuilder", function() {
 
 		var widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ {
 
-			"onStartBuild": function() {
+			onStartBuild: function() {
 
 				started++;
 			}
 		}, {
 
-			"onStartBuild": function() {
+			onStartBuild: function() {
 
 				started++;
 			}
@@ -47,7 +47,7 @@ describe( "The CompositeWidgetBuilder", function() {
 
 			if ( attributes.widgetBuilder == '1' ) {
 				return {
-					"name": "widgetBuilder1"
+					name: "widgetBuilder1"
 				};
 			}
 
@@ -55,22 +55,22 @@ describe( "The CompositeWidgetBuilder", function() {
 
 			if ( attributes.widgetBuilder == '2' ) {
 				return {
-					"name": "widgetBuilder2"
+					name: "widgetBuilder2"
 				};
 			}
 		}, function( attributes, mw ) {
 
 			return {
-				"name": "widgetBuilder3"
+				name: "widgetBuilder3"
 			};
 		} ] );
 
 		expect( widgetBuilder.buildWidget( {} ).name ).toBe( 'widgetBuilder3' );
 		expect( widgetBuilder.buildWidget( {
-			"widgetBuilder": "1"
+			widgetBuilder: "1"
 		} ).name ).toBe( 'widgetBuilder1' );
 		expect( widgetBuilder.buildWidget( {
-			"widgetBuilder": "2"
+			widgetBuilder: "2"
 		} ).name ).toBe( 'widgetBuilder2' );
 	} );
 
@@ -80,13 +80,13 @@ describe( "The CompositeWidgetBuilder", function() {
 
 		var widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ {
 
-			"onEndBuild": function() {
+			onEndBuild: function() {
 
 				ended++;
 			}
 		}, {
 
-			"onEndBuild": function() {
+			onEndBuild: function() {
 
 				ended++;
 			}
@@ -104,7 +104,7 @@ describe( "The OverriddenWidgetBuilder", function() {
 
 		var widgetBuilder = new metawidget.widgetbuilder.OverriddenWidgetBuilder();
 
-		var attributes = { "name": "baz" };
+		var attributes = { name: "baz" };
 		var mw = { path: "foo.bar" };		
 		expect( widgetBuilder.buildWidget( attributes, mw ) ).toBeUndefined();
 		
@@ -127,41 +127,45 @@ describe( "The ReadOnlyWidgetBuilder", function() {
 
 		expect( widgetBuilder.buildWidget( {}, {} ) ).toBeUndefined();
 		expect( widgetBuilder.buildWidget( {
-			"readOnly": "true"
+			readOnly: "true"
 		}, {} ) ).toBeUndefined();
 		expect( widgetBuilder.buildWidget( {
-			"readOnly": "true",
-			"masked": "true",
-			"type": "string"
+			readOnly: "true",
+			masked: "true",
+			type: "string"
 		}, {} ).toString() ).toBe( 'stub' );
 		expect( widgetBuilder.buildWidget( {
-			"readOnly": "true",
-			"lookup": "foo,bar,baz"
-		}, {} ).toString() ).toBe( 'output' );
-		expect( widgetBuilder.buildWidget( {
-			"readOnly": "true",
-			"type": "string"
-		}, {} ).toString() ).toBe( 'output' );
-		expect( widgetBuilder.buildWidget( {
-			"readOnly": "true",
-			"type": "boolean"
-		}, {} ).toString() ).toBe( 'output' );
-		expect( widgetBuilder.buildWidget( {
-			"readOnly": "true",
-			"type": "number"
-		}, {} ).toString() ).toBe( 'output' );
-		expect( widgetBuilder.buildWidget( {
-			"readOnly": "true",
-			"type": "date"
-		}, {} ).toString() ).toBe( 'output' );
-		expect( widgetBuilder.buildWidget( {
-			"hidden": "true",
-			"readOnly": "true",
-			"type": "string"
+			readOnly: "true",
+			type: "function"
 		}, {} ).toString() ).toBe( 'stub' );
 		expect( widgetBuilder.buildWidget( {
-			"readOnly": "true",
-			"dontExpand": "true"
+			readOnly: "true",
+			lookup: "foo,bar,baz"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			readOnly: "true",
+			type: "string"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			readOnly: "true",
+			type: "boolean"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			readOnly: "true",
+			type: "number"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			readOnly: "true",
+			type: "date"
+		}, {} ).toString() ).toBe( 'output' );
+		expect( widgetBuilder.buildWidget( {
+			hidden: "true",
+			readOnly: "true",
+			type: "string"
+		}, {} ).toString() ).toBe( 'stub' );
+		expect( widgetBuilder.buildWidget( {
+			readOnly: "true",
+			dontExpand: "true"
 		}, {} ).toString() ).toBe( 'output' );
 	} );
 } );
@@ -174,12 +178,12 @@ describe( "The HtmlWidgetBuilder", function() {
 
 		expect( widgetBuilder.buildWidget( {}, {} ) ).toBeUndefined();
 		expect( widgetBuilder.buildWidget( {
-			"hidden": "true"
+			hidden: "true"
 		}, {} ).toString() ).toBe( 'stub' );
 
 		var select = widgetBuilder.buildWidget( {
-			"lookup": "foo,bar,baz",
-			"required": "true"
+			lookup: "foo,bar,baz",
+			required: "true"
 		}, {} );
 		
 		expect( select.toString() ).toBe( 'select' );
@@ -192,9 +196,9 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( select.childNodes.length ).toBe( 3 );
 
 		select = widgetBuilder.buildWidget( {
-			"lookup": "foo,bar,baz",
-			"lookupLabels": "Foo,Bar,Baz",
-			"required": "true"
+			lookup: "foo,bar,baz",
+			lookupLabels: "Foo,Bar,Baz",
+			required: "true"
 		}, {} );
 		
 		expect( select.toString() ).toBe( 'select' );
@@ -207,7 +211,7 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( select.childNodes.length ).toBe( 3 );
 
 		select = widgetBuilder.buildWidget( {
-			"lookup": "foo,bar,baz",
+			lookup: "foo,bar,baz",
 		}, {} );
 		
 		expect( select.toString() ).toBe( 'select' );
@@ -222,63 +226,63 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( select.childNodes.length ).toBe( 4 );
 
 		var button = widgetBuilder.buildWidget( {
-			"name": "clickMe",
-			"type": "function"
+			name: "clickMe",
+			type: "function"
 		}, {} );
 		
 		expect( button.toString() ).toBe( 'button' );
 		expect( button.innerHTML ).toBe( 'Click Me' );
 
 		expect( widgetBuilder.buildWidget( {
-			"type": "number"
+			type: "number"
 		}, {} ).toString() ).toBe( 'input type="number"' );
 
 		expect( widgetBuilder.buildWidget( {
-			"type": "number",
-			"min": "2"
+			type: "number",
+			min: "2"
 		}, {} ).toString() ).toBe( 'input type="number"' );
 
 		expect( widgetBuilder.buildWidget( {
-			"type": "number",
-			"minimumValue": "2",
-			"maximumValue": "4"
+			type: "number",
+			minimumValue: "2",
+			maximumValue: "4"
 		}, {} ).toString() ).toBe( 'input type="range" min="2" max="4"' );
 
 		expect( widgetBuilder.buildWidget( {
-			"type": "boolean"
+			type: "boolean"
 		}, {} ).toString() ).toBe( 'input type="checkbox"' );
 		
 		expect( widgetBuilder.buildWidget( {
-			"type": "date"
+			type: "date"
 		}, {} ).toString() ).toBe( 'input type="date"' );
 
 		expect( widgetBuilder.buildWidget( {
-			"type": "string",
-			"large": "true"
+			type: "string",
+			large: "true"
 		}, {} ).toString() ).toBe( 'textarea' );
 
 		expect( widgetBuilder.buildWidget( {
-			"type": "string",
-			"masked": "true",
+			type: "string",
+			masked: "true",
 		}, {} ).toString() ).toBe( 'input type="password"' );
 
 		expect( widgetBuilder.buildWidget( {
-			"type": "string",
-			"masked": "true",
-			"maximumLength": "30"
+			type: "string",
+			masked: "true",
+			maximumLength: "30"
 		}, {} ).toString() ).toBe( 'input type="password" maxlength="30"' );
 
 		expect( widgetBuilder.buildWidget( {
-			"type": "string"
+			type: "string"
 		}, {} ).toString() ).toBe( 'input type="text"' );
 		
 		expect( widgetBuilder.buildWidget( {
-			"type": "string",
-			"maximumLength": "32"
+			type: "string",
+			maximumLength: "32"
 		}, {} ).toString() ).toBe( 'input type="text" maxlength="32"' );
 
 		expect( widgetBuilder.buildWidget( {
-			"dontExpand": "true"
+			dontExpand: "true"
 		}, {} ).toString() ).toBe( 'input type="text"' );		
 	} );
 } );

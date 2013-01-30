@@ -23,21 +23,21 @@ describe( "The CompositeInspector", function() {
 		var inspector = new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
 
 			return [ {
-				"name": "foo",
-				"override": "base",
-				"type": "fooType"
+				name: "foo",
+				override: "base",
+				type: "fooType"
 			}, {
 				name: "bar"
-			} ]
+			} ];
 		}, function( toInspect, type ) {
 
 			return [ {
 				name: "baz"
 			}, {
-				"name": "foo",
-				"override": "overridden",
-				"required": "fooRequired"
-			} ]
+				name: "foo",
+				override: "overridden",
+				required: "fooRequired"
+			} ];
 		} ] );
 
 		var inspectionResult = inspector.inspect();
@@ -53,8 +53,8 @@ describe( "The CompositeInspector", function() {
 	it( "defensively copies inspection results", function() {
 
 		var originalResult = [ {
-			"name": "foo",
-			"type": "fooType"
+			name: "foo",
+			type: "fooType"
 		} ];
 
 		var inspector = new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
@@ -81,7 +81,7 @@ describe( "The PropertyTypeInspector", function() {
 	it( "inspects JavaScript objects", function() {
 
 		var inspector = new metawidget.inspector.PropertyTypeInspector();
-		var inspectionResult = inspector.inspect( { "foo": "Foo", "bar": "Bar", "date": new Date(), "object": {}, "action": function() { } });
+		var inspectionResult = inspector.inspect( { foo: "Foo", bar: "Bar", date: new Date(), object: {}, action: function() { } });
 
 		expect( inspectionResult[0].name ).toBe( '__root' );
 		expect( inspectionResult[0].type ).toBe( 'object' );
@@ -97,11 +97,12 @@ describe( "The PropertyTypeInspector", function() {
 		expect( inspectionResult[5].type ).toBe( 'function' );
 	} );
 
-	it( "ignores null objects", function() {
+	it( "ignores undefined objects", function() {
 
 		var inspector = new metawidget.inspector.PropertyTypeInspector();
 		
 		expect( inspector.inspect() ).toBeUndefined();
+		expect( inspector.inspect( undefined ) ).toBeUndefined();
 		expect( inspector.inspect( {} )[0].name ).toBe( '__root' );
 		expect( inspector.inspect( {}, 'foo' )[0].name ).toBe( '__root' );
 		expect( inspector.inspect( {}, 'foo', [ 'bar' ] ) ).toBeUndefined();

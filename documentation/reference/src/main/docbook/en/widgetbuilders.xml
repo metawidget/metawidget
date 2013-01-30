@@ -549,6 +549,138 @@
 
 			</section>
 	
+			<section id="section-widgetbuilders-javascript">
+				<title>JavaScript WidgetBuilders</title>
+
+				<section id="section-widgetbuilders-javascript-default">
+					<title>HtmlWidgetBuilder</title>
+					
+					<para>
+						<classname>HtmlWidgetBuilder</classname> is the default <classname>WidgetBuilder</classname> for the
+						<filename>metawidget.js</filename>. It returns the following DOM nodes
+						for the following Metawidget attributes: 
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="40%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><programlisting type="xml">&lt;button&gt;</programlisting></td>
+								<td><parameter>type: "function"</parameter></td>
+							</tr>
+							<tr>
+								<td><programlisting type="xml">&lt;input type="checkbox"&gt;</programlisting></td>
+								<td><parameter>type: "boolean"</parameter></td>
+							</tr>				
+							<tr>
+								<td><programlisting type="xml">&lt;input type="date"&gt;</programlisting></td>
+								<td><parameter>type: "date"</parameter></td>
+							</tr>				
+							<tr>
+								<td><programlisting type="xml">&lt;input type="number"&gt;</programlisting></td>
+								<td><parameter>type: "number"</parameter></td>
+							</tr>				
+							<tr>
+								<td><programlisting type="xml">&lt;input type="password"&gt;</programlisting></td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
+							</tr>
+							<tr>
+								<td><programlisting type="xml">&lt;input type="range"&gt;</programlisting></td>
+								<td>
+									<parameter>type: "number"</parameter> and both
+									<parameter>minimumValue</parameter> and <parameter>maximumValue</parameter>
+									are set
+								</td>
+							</tr>				
+							<tr>
+								<td><programlisting type="xml">&lt;input type="text"&gt;</programlisting></td>
+								<td>
+									<parameter>type: "boolean"</parameter>.
+									Also if property is of unknown type but <parameter>dontExpand</parameter>.
+									If <parameter>maximumLength</parameter>, adds <parameter>maxlength="..."</parameter>
+								</td>							
+							</tr>
+							<tr>
+								<td><programlisting type="xml">&lt;select&gt;</programlisting></td>
+								<td><parameter>lookup</parameter></td>
+							</tr>					
+							<tr>
+								<td><programlisting type="xml">&lt;stub&gt;</programlisting></td>
+								<td><parameter>hidden</parameter></td>
+							</tr>
+							<tr>
+								<td><programlisting type="xml">&lt;textarea&gt;</programlisting></td>
+								<td><parameter>type: "string"</parameter> and <parameter>large</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
+					
+				</section>				
+	
+				<section id="section-widgetbuilders-javascript-overridden">
+					<title>OverriddenWidgetBuilder</title>
+					
+					<para>
+						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
+						based on the <parameter>id</parameter> of the DOM node. It does not match on <parameter>name</parameter>, because
+						<parameter>name</parameter> is not a legal attribute for many nodes (e.g. table).
+					</para>
+				</section>
+
+				<section id="section-widgetbuilders-javascript-readonly">
+					<title>ReadOnlyWidgetBuilder</title>
+					
+					<para>
+						<classname>ReadOnlyWidgetBuilder</classname> returns read-only widgets when either the business property is
+						read-only or the Metawidget has <function>setReadOnly</function>. It instantiates the following
+						DOM nodes for the following Metawidget attributes:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="40%"/>
+							<col width="60%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Widget</th>
+								<th align="left">Metawidget Attribute</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><programlisting language="xml">output</programlisting></td>
+								<td>
+									<parameter>read-only</parameter> and <parameter>lookup</parameter>,
+									<parameter>type: "string"</parameter>,
+									<parameter>type: "boolean"</parameter>,
+									<parameter>type: "number"</parameter> or
+									<parameter>type: "date"</parameter>
+								</td>
+							</tr>
+							<tr>
+								<td><programlisting language="xml">stub</programlisting></td>
+								<td>
+									<parameter>read-only</parameter> and
+									<parameter>hidden</parameter>, <parameter>masked</parameter>
+									or <parameter>type: "function"</parameter>.
+									Also if property is of unknown type but <parameter>dontExpand</parameter>.
+								</td>
+							</tr>
+						</tbody>
+					</informaltable>
+				</section>
+			</section>
+
 			<section id="section-widgetbuilders-jsp">
 				<title>JSP WidgetBuilders</title>
 

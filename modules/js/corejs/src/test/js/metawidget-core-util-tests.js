@@ -60,7 +60,7 @@ describe( "The getId function", function() {
 	it( "creates an Id for an attribute", function() {
 
 		expect( metawidget.util.getId( {
-			"name": "baz"
+			name: "baz"
 		}, {
 			path: "foo.bar"
 		} ) ).toBe( "fooBarBaz" );
@@ -136,9 +136,9 @@ describe( "The appendPath function", function() {
 
 	it( "appends attribute names to paths", function() {
 
-		expect( metawidget.util.appendPath( { "name": "foo" }, {} )).toBe( 'object.foo' );
-		expect( metawidget.util.appendPath( { "name": "foo" }, { "toInspect": "aString" } )).toBe( 'string.foo' );
-		expect( metawidget.util.appendPath( { "name": "foo" }, { "path": "bar.baz" } )).toBe( 'bar.baz.foo' );
+		expect( metawidget.util.appendPath( { name: "foo" }, {} )).toBe( 'object.foo' );
+		expect( metawidget.util.appendPath( { name: "foo" }, { toInspect: "aString" } )).toBe( 'string.foo' );
+		expect( metawidget.util.appendPath( { name: "foo" }, { path: "bar.baz" } )).toBe( 'bar.baz.foo' );
 	} );
 } );
 
@@ -147,17 +147,17 @@ describe( "The traversePath function", function() {
 	it( "traverses names", function() {
 
 		var object2 = {
-			"foo": "bar"
-		}
+			foo: "bar"
+		};
 		var object1 = {
-			"object2": object2
-		}
+			object2: object2
+		};
 		
 		expect( metawidget.util.traversePath( object1 )).toBe( object1 );
 		expect( metawidget.util.traversePath( object1, 'ignore' )).toBe( object1 );
 		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2' ] )).toBe( object2 );
 		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo' ] )).toBe( 'bar' );
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo', 'bar' ] )).toBe( null );
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'baz' ] )).toBe( null );
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo', 'bar' ] )).toBeUndefined();
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'baz' ] )).toBeUndefined();
 	} );
 } );

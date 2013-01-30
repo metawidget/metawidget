@@ -25,7 +25,7 @@ describe( "The IdProcessor", function() {
 		var widget = document.createElement( 'input' );
 		var mw = {};
 		processor.processWidget( widget, {
-			"name": "foo"
+			name: "foo"
 		}, mw );
 		expect( widget.toString() ).toBe( 'input id="foo"' );
 
@@ -34,7 +34,7 @@ describe( "The IdProcessor", function() {
 		widget = document.createElement( 'input' );
 		mw.path = 'foo.bar';
 		processor.processWidget( widget, {
-			"name": "baz"
+			name: "baz"
 		}, mw );
 		expect( widget.toString() ).toBe( 'input id="fooBarBaz"' );
 
@@ -43,7 +43,7 @@ describe( "The IdProcessor", function() {
 		widget = document.createElement( 'input' );
 		mw.path = 'foo.bar';
 		processor.processWidget( widget, {
-			"name": "__root"
+			name: "__root"
 		}, mw );
 		expect( widget.toString() ).toBe( 'input id="fooBar"' );
 	} );
@@ -56,7 +56,7 @@ describe( "The IdProcessor", function() {
 		widget.setAttribute( 'id', 'do-not-touch' );
 		var mw = {};
 		processor.processWidget( widget, {
-			"name": "foo"
+			name: "foo"
 		}, mw );
 		expect( widget.toString() ).toBe( 'input id="do-not-touch"' );
 	} );
@@ -75,12 +75,12 @@ describe( "The RequiredAttributeProcessor", function() {
 		expect( widget.getAttribute( 'required' ) ).toBeUndefined();
 
 		processor.processWidget( widget, {
-			"required": "false"
+			required: "false"
 		}, mw );
 		expect( widget.getAttribute( 'required' ) ).toBeUndefined();
 
 		processor.processWidget( widget, {
-			"required": "true"
+			required: "true"
 		}, mw );
 		expect( widget.getAttribute( 'required' ) ).toBe( 'required' );
 	} );
@@ -92,20 +92,20 @@ describe( "The SimpleBindingProcessor", function() {
 
 		var processor = new metawidget.widgetprocessor.SimpleBindingProcessor();
 		var attributes = {
-			"name": "foo",
+			name: "foo",
 		};
 		var mw = {
-			"toInspect": {
-				"foo": "fooValue",
-				"bar": "barValue",
-				"baz": "bazValue",
-				"boolean": true,
-				"select": false,
-				"nested": {
+			toInspect: {
+				foo: "fooValue",
+				bar: "barValue",
+				baz: "bazValue",
+				boolean: true,
+				select: false,
+				nested: {
 					"nestedFoo": "nestedFooValue"
 				}
 			},
-			"path": "testPath"
+			path: "testPath"
 		};
 
 		processor.onStartBuild( mw );
@@ -121,7 +121,7 @@ describe( "The SimpleBindingProcessor", function() {
 		// Buttons
 
 		attributes = {
-			"name": "bar"
+			name: "bar"
 		};
 		widget = document.createElement( 'button' );
 		processor.processWidget( widget, attributes, mw );
@@ -138,7 +138,7 @@ describe( "The SimpleBindingProcessor", function() {
 		// Textareas
 
 		attributes = {
-			"name": "baz"
+			name: "baz"
 		};
 		widget = document.createElement( 'textarea' );
 		processor.processWidget( widget, attributes, mw );
@@ -148,7 +148,7 @@ describe( "The SimpleBindingProcessor", function() {
 		// Checkboxes
 
 		attributes = {
-			"name": "boolean"
+			name: "boolean"
 		};
 		widget = document.createElement( 'input' );
 		widget.setAttribute( 'type', 'checkbox' );
@@ -159,7 +159,7 @@ describe( "The SimpleBindingProcessor", function() {
 		// Select boxes
 
 		attributes = {
-			"name": "select"
+			name: "select"
 		};
 		widget = document.createElement( 'select' );
 		processor.processWidget( widget, attributes, mw );
@@ -169,7 +169,7 @@ describe( "The SimpleBindingProcessor", function() {
 		// Root-level
 
 		attributes = {
-			"name": "__root"
+			name: "__root"
 		};
 		widget = document.createElement( 'output' );
 		processor.processWidget( widget, attributes, mw );
@@ -180,7 +180,7 @@ describe( "The SimpleBindingProcessor", function() {
 
 		mw.path = 'object.nested';
 		attributes = {
-			"name": "nestedFoo"
+			name: "nestedFoo"
 		};
 		widget = document.createElement( 'input' );
 		widget.setAttribute( 'type', 'text' );
