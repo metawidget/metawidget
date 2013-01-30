@@ -61,7 +61,7 @@ describe( "The DivLayout", function() {
 
 	it( "arranges widgets using divs", function() {
 
-		var layout = new metawidget.layout.DivLayout();
+		var layout = new metawidget.layout.DivLayout( { divStyleClasses: 'outerStyle,labelStyle,widgetStyle' });
 
 		var widget1 = document.createElement( 'input' );
 		widget1.setAttribute( 'id', 'widget1' );
@@ -80,18 +80,18 @@ describe( "The DivLayout", function() {
 			label: "widgetLabel 2"
 		}, container, mw );
 
-		expect( container.childNodes[0].toString() ).toBe( 'div' );
-		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].toString() ).toBe( 'div class="outerStyle"' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div class="labelStyle"' );
 		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1"' );
 		expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1:' );
-		expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div class="widgetStyle"' );
 		expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
 		expect( container.childNodes[0].childNodes.length ).toBe( 2 );
-		expect( container.childNodes[1].toString() ).toBe( 'div' );
-		expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[1].toString() ).toBe( 'div class="outerStyle"' );
+		expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div class="labelStyle"' );
 		expect( container.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2"' );
 		expect( container.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'widgetLabel 2:' );
-		expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'div' );
+		expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'div class="widgetStyle"' );
 		expect( container.childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
 		expect( container.childNodes[1].childNodes.length ).toBe( 2 );
 		expect( container.childNodes.length ).toBe( 2 );

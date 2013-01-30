@@ -549,6 +549,116 @@
 
 			</section>
 
+			<section id="section-layouts-web-javascript">
+				<title>JavaScript Layouts</title>
+				
+				<para>
+					All of the supported JavaScript-based technologies (i.e. pure JavaScript, JQuery UI and AngularJS)
+					share the same <classname>Layout</classname>s.
+				</para>
+				
+				<section id="section-layouts-web-javascript-div">
+					<title>DivLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets using <parameter>div</parameter> tags.
+						This <classname>Layout</classname> recognizes the following configuration properties:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>divStyleClasses</parameter></td>
+								<td>
+									Comma separated list of style classes to apply to the divs,
+									in order of outer, label, component
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
+				<section id="section-layouts-web-javascript-headingtaglayoutdecorator">
+					<title>HeadingTagLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
+						an HTML heading tag (i.e. <parameter>h1</parameter>, <parameter>h2</parameter> etc).
+					</para>
+				</section>
+
+				<section id="section-layouts-web-javascript-tab">
+					<title>TabLayoutDecorator</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
+						JQuery UI tabs.
+					</para>
+				</section>
+				
+				<section id="section-layouts-web-javascript-table">
+					<title>TableLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets in a table, with one column for the label
+						and another for the widget.					
+						This <classname>Layout</classname> recognizes the following configuration properties:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>columnStyleClasses</parameter></td>
+								<td>Comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyleClass</parameter></td>
+								<td>CSS style class to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>Number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleClass</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+				
+				<section id="section-layouts-web-javascript-simple">
+					<title>SimpleLayout</title>
+				
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure. This
+						<classname>Layout</classname> is suited to rendering single components, or for rendering components whose
+ 						layout relies entirely on CSS.
+					</para>
+				</section>
+
+			</section>
+
 			<section id="section-layouts-web-faces">
 				<title>JSF Layouts</title>
 				

@@ -27,6 +27,12 @@ metawidget.layout = metawidget.layout || {};
 // SimpleLayout
 //
 
+/**
+ * Layout to simply output components one after another, with no labels and no structure. This
+ * Layout is suited to rendering single components, or for rendering components whose layout relies
+ * entirely on CSS.
+ */
+
 metawidget.layout.SimpleLayout = function() {
 
 	if ( ! ( this instanceof metawidget.layout.SimpleLayout ) ) {
@@ -47,51 +53,72 @@ metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attrib
 // DivLayout
 //
 
-metawidget.layout.DivLayout = function() {
+/**
+ * Layout to arrange widgets using div tags.
+ */
+
+metawidget.layout.DivLayout = function( config ) {
 
 	if ( ! ( this instanceof metawidget.layout.DivLayout ) ) {
 		throw new Error( 'Constructor called as a function' );
 	}
-};
 
-metawidget.layout.DivLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
+	var divStyleClasses = config !== undefined ? config.divStyleClasses : undefined;
 
-	if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
-		return;
-	}
+	this.layoutWidget = function( widget, attributes, container, mw ) {
 
-	var outerDiv = document.createElement( 'div' );
-
-	// Label
-
-	if ( attributes.name !== undefined ) {
-
-		var labelDiv = document.createElement( 'div' );
-		var label = document.createElement( 'label' );
-		label.setAttribute( 'for', widget.getAttribute( 'id' ) );
-
-		if ( attributes.label !== undefined ) {
-			label.innerHTML = attributes.label + ':';
-		} else {
-			label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
+		if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
+			return;
+		}
+	
+		var outerDiv = document.createElement( 'div' );
+		if ( divStyleClasses !== undefined ) {
+			outerDiv.setAttribute( 'class', divStyleClasses.split( ',' )[0] );
+		}
+		
+		// Label
+	
+		if ( attributes.name !== undefined ) {
+	
+			var labelDiv = document.createElement( 'div' );
+			if ( divStyleClasses !== undefined ) {
+				labelDiv.setAttribute( 'class', divStyleClasses.split( ',' )[1] );
+			}
+			
+			var label = document.createElement( 'label' );
+			label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+	
+			if ( attributes.label !== undefined ) {
+				label.innerHTML = attributes.label + ':';
+			} else {
+				label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
+			}
+	
+			labelDiv.appendChild( label );
+			outerDiv.appendChild( labelDiv );
+		}
+	
+		// Widget
+	
+		var widgetDiv = document.createElement( 'div' );
+		if ( divStyleClasses !== undefined ) {
+			widgetDiv.setAttribute( 'class', divStyleClasses.split( ',' )[2] );
 		}
 
-		labelDiv.appendChild( label );
-		outerDiv.appendChild( labelDiv );
+		widgetDiv.appendChild( widget );
+		outerDiv.appendChild( widgetDiv );
+	
+		container.appendChild( outerDiv );
 	}
-
-	// Widget
-
-	var widgetDiv = document.createElement( 'div' );
-	widgetDiv.appendChild( widget );
-	outerDiv.appendChild( widgetDiv );
-
-	container.appendChild( outerDiv );
 };
 
 //
 // TableLayout
 //
+
+/**
+ * Layout to arrange widgets in a table, with one column for the label and another for the widget.
+ */
 
 metawidget.layout.TableLayout = function( config ) {
 
@@ -502,6 +529,11 @@ metawidget.layout.nestedSectionLayoutDecorator = function( config, decorator, de
 //
 // HeadingTagLayoutDecorator
 //
+
+/**
+ * LayoutDecorator to decorate widgets from different sections using an HTML heading
+ * tag (i.e. h1, h2 etc).
+ */
 
 metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 

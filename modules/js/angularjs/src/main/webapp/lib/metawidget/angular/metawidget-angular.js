@@ -73,23 +73,23 @@ angular.module( 'metawidget.directives', [] )
 				// Do not observe primitive types, such as 'string',
 				// otherwise every keypress will recreate the widget
 
-				if ( typeof ( scope.$eval( 'toInspect' ) ) == 'object' ) {
+				if ( typeof ( scope.$eval( 'toInspect' ) ) === 'object' ) {
 					scope.$watch( 'toInspect', function( newValue, oldValue ) {
 					
-						if ( newValue != oldValue ) {
+						if ( newValue !== oldValue ) {
 							_buildWidgets();
 						}
 					} );
 				}
 				scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
-					if ( newValue != oldValue ) {
+					if ( newValue !== oldValue ) {
 						_buildWidgets();
 					}
 				} );
 				scope.$watch( 'config', function( newValue, oldValue ) {
 
-					if ( newValue != oldValue ) {
+					if ( newValue !== oldValue ) {
 						mw.configure( newValue );
 						_buildWidgets();
 					}
@@ -143,12 +143,12 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 		var nestedMetawidget = document.createElement( 'metawidget' );
 		nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
-		if ( attributes.readOnly == 'true' ) {
+		if ( attributes.readOnly === 'true' ) {
 			nestedMetawidget.setAttribute( 'read-only', 'true' );
 		} else {
 			nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
 		}
-		if ( attrs.config ) {
+		if ( attrs.config !== undefined ) {
 			nestedMetawidget.setAttribute( 'config', attrs.config );
 		}
 
@@ -173,7 +173,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	this.buildWidgets = function( inspectionResult ) {
 
-		if ( !inspectionResult ) {
+		if ( inspectionResult === undefined ) {
 			inspectionResult = pipeline.inspect( this );
 		}
 		
@@ -214,7 +214,7 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 
 				var expression = attributes[attribute];
 
-				if ( expression.length < 4 || expression.slice( 0, 2 ) != '{{' || expression.slice( expression.length - 2, expression.length ) != '}}' ) {
+				if ( expression.length < 4 || expression.slice( 0, 2 ) !== '{{' || expression.slice( expression.length - 2, expression.length ) !== '}}' ) {
 					continue;
 				}
 
@@ -227,7 +227,7 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 
 				scope.$parent.$watch( expression, function( newValue, oldValue ) {
 
-					if ( newValue != oldValue ) {
+					if ( newValue !== oldValue ) {
 						mw.buildWidgets();
 					}
 				} );
@@ -255,7 +255,7 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		// Ignore transcluded widgets. Compiling them again using $compile
 		// seemed to trigger 'ng-click' listeners twice?
 
-		if ( widget.overridden ) {
+		if ( widget.overridden !== undefined ) {
 			return widget;
 		}
 
@@ -266,13 +266,13 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 
 		var binding = mw.path;
 		
-		if ( attributes.name != '__root' ) {
+		if ( attributes.name !== '__root' ) {
 			binding += '.' + attributes.name;
 		}
 
-		if ( widget.tagName == 'OUTPUT' ) {
+		if ( widget.tagName === 'OUTPUT' ) {
 			widget.innerHTML = '{{' + binding + '}}';
-		} else if ( widget.tagName == 'BUTTON' ) {
+		} else if ( widget.tagName === 'BUTTON' ) {
 			widget.setAttribute( 'ng-click', binding + '()' );
 		} else {
 			widget.setAttribute( 'ng-model', binding );
@@ -280,15 +280,15 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 
 		// Validation
 
-		if ( attributes.required ) {
+		if ( attributes.required !== undefined ) {
 			widget.setAttribute( 'ng-required', attributes.required );
 		}
 
-		if ( attributes.minimumLength ) {
+		if ( attributes.minimumLength !== undefined ) {
 			widget.setAttribute( 'ng-minlength', attributes.minimumLength );
 		}
 
-		if ( attributes.maximumLength ) {
+		if ( attributes.maximumLength !== undefined ) {
 			widget.setAttribute( 'ng-maxlength', attributes.maximumLength );
 
 			// (maxlength set by WidgetBuilder)

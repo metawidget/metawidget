@@ -38,13 +38,13 @@ metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = 
 		return;
 	}
 
-	if ( attributes.hidden == 'true' ) {
+	if ( attributes.hidden === 'true' ) {
 		return;
 	}
 
 	// Number
 
-	if ( attributes.type == 'number' ) {
+	if ( attributes.type === 'number' ) {
 
 		if ( attributes.minimumValue && attributes.maximumValue ) {
 			var slider = document.createElement( 'div' );
@@ -59,7 +59,7 @@ metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = 
 
 	// Datepicker
 
-	if ( attributes.type == 'date' ) {
+	if ( attributes.type === 'date' ) {
 		var date = document.createElement( 'input' );
 		$( date ).datepicker();
 		return date;
@@ -90,7 +90,7 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWi
 	var typeAndNames = metawidget.util.splitPath( mw.path );
 	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
 
-	if ( attributes.name != '__root' && toInspect ) {
+	if ( attributes.name !== '__root' && toInspect ) {
 		value = toInspect[attributes.name];
 	} else {
 		value = toInspect;
@@ -99,17 +99,17 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWi
 	var isBindable = false;
 	var styleClass = widget.getAttribute( 'class' );
 
-	if ( styleClass ) {
-		if ( styleClass.indexOf( 'ui-slider' ) != -1 ) {
+	if ( styleClass !== undefined ) {
+		if ( styleClass.indexOf( 'ui-slider' ) !== -1 ) {
 			$( widget ).slider( 'value', value );
 			isBindable = true;
-		} else if ( styleClass.indexOf( 'ui-spinner' ) != -1 ) {
+		} else if ( styleClass.indexOf( 'ui-spinner' ) !== -1 ) {
 			$( widget.childNodes[0] ).spinner( 'value', value );
 			isBindable = true;
 		}
 	}
 
-	if ( isBindable || widget.metawidget ) {
+	if ( isBindable === true || widget.metawidget !== undefined ) {
 		mw._jQueryUIBindingProcessorBindings[attributes.name] = widget;
 	}
 
@@ -129,7 +129,7 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 
 		var widget = mw._jQueryUIBindingProcessorBindings[name];
 
-		if ( widget.metawidget ) {
+		if ( widget.metawidget !== undefined ) {
 			this.save( widget.metawidget );
 			continue;
 		}
@@ -138,9 +138,9 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 
 		var styleClass = widget.getAttribute( 'class' );
 
-		if ( styleClass.indexOf( 'ui-slider' ) != -1 ) {
+		if ( styleClass.indexOf( 'ui-slider' ) !== -1 ) {
 			toInspect[name] = $( widget ).slider( 'value' );
-		} else if ( styleClass.indexOf( 'ui-spinner' ) != -1 ) {
+		} else if ( styleClass.indexOf( 'ui-spinner' ) !== -1 ) {
 			toInspect[name] = $( widget.childNodes[0] ).spinner( 'value' );
 		}
 	}
@@ -151,6 +151,10 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 //
 
 metawidget.jqueryui.layout = metawidget.jqueryui.layout || {};
+
+/**
+ * LayoutDecorator to decorate widgets from different sections using JQuery UI tabs.
+ */
 
 metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 
@@ -166,12 +170,12 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 
 		// Whole new tabbed pane?
 
-		if ( !tabs ) {
+		if ( tabs === undefined ) {
 			tabs = document.createElement( 'div' );
 			tabs.setAttribute( 'id', metawidget.util.getId( attributes, mw ) + '-tabs' );
 			tabs.appendChild( document.createElement( 'ul' ) );
 			this.getDelegate().layoutWidget( tabs, {
-				"wide": "true"
+				wide: "true"
 			}, container, mw );
 
 			mw.tabLayoutDecorator = mw.tabLayoutDecorator || [];
@@ -202,6 +206,8 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 		return tab;
 	};
 
+	// TODO: why not private?
+	
 	this._superOnEndBuild = this.onEndBuild;
 
 	/**
@@ -210,13 +216,13 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 
 	this.onEndBuild = function( mw ) {
 
-		if ( mw.tabLayoutDecorator ) {
+		if ( mw.tabLayoutDecorator !== undefined ) {
 			for ( var loop = 0, length = mw.tabLayoutDecorator.length; loop < length; loop++ ) {
 				$( mw.tabLayoutDecorator[loop] ).tabs();
 			}
 		}
 
-		if ( this._superOnEndBuild ) {
+		if ( this._superOnEndBuild != undefined ) {
 			this._superOnEndBuild( mw );
 		}
 	};
@@ -254,7 +260,7 @@ $.widget( "metawidget.metawidget", {
 			var nestedWidget = document.createElement( 'div' );
 			var nestedMetawidget = $( nestedWidget ).metawidget( mw.options );
 
-			nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || attributes.readOnly == 'true' );
+			nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || attributes.readOnly === 'true' );
 			var nestedToInspect = mw.toInspect;
 			var nestedPath = metawidget.util.appendPath( attributes, mw );
 
@@ -276,7 +282,7 @@ $.widget( "metawidget.metawidget", {
 		this._overriddenNodes = [];
 
 		for ( var loop = 0, length = this.element[0].childNodes.length; loop < length; loop++ ) {
-			if ( this.element[0].childNodes[loop].nodeType == 3 ) {
+			if ( this.element[0].childNodes[loop].nodeType === 3 ) {
 				continue;
 			}			
 			this._overriddenNodes.push( this.element[0].childNodes[loop] );
@@ -301,7 +307,7 @@ $.widget( "metawidget.metawidget", {
 
 		// Inspect (if necessary)
 		
-		if ( !inspectionResult ) {
+		if ( inspectionResult === undefined ) {
 			inspectionResult = this._pipeline.inspect( this );
 		}
 		
@@ -325,7 +331,7 @@ $.widget( "metawidget.metawidget", {
 
 	_setOption: function( key, value ) {
 
-		if ( key == "readOnly" ) {
+		if ( key === "readOnly" ) {
 			this.readOnly = value;
 		}
 
@@ -338,12 +344,12 @@ $.widget( "metawidget.metawidget", {
 
 	buildWidgets: function( toInspect, path ) {
 
-		if ( toInspect ) {
+		if ( toInspect !== undefined ) {
 			this.toInspect = toInspect;
 			this.path = '';
 		}
 
-		if ( path ) {
+		if ( path !== undefined ) {
 			this.path = path;
 		}
 
