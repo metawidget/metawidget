@@ -39,7 +39,7 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 	// Dangerous to reassign an id. For example, some JQuery UI widgets assign
 	// temporary ids when they wrap widgets
 
-	if ( widget.getAttribute( 'id' ) === undefined ) {
+	if ( !widget.hasAttribute( 'id' )) {
 		widget.setAttribute( 'id', metawidget.util.getId( attributes, mw ) );
 	}
 
@@ -105,7 +105,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 
 		var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
 
-		if ( isBindable && widget.getAttribute( 'id' ) ) {
+		if ( isBindable && widget.hasAttribute( 'id' ) ) {
 
 			// Standard HTML works off 'name', not 'id', for binding
 

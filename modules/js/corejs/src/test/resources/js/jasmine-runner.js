@@ -62,34 +62,42 @@ function runJasmine() {
 //
 
 this.document = {
-	"createElement": function( elementName ) {
+	createElement: function( elementName ) {
 
 		var attributes = {};
 
 		return {
-			"tagName": elementName.toUpperCase(),
-			"childNodes": [],
-			"children": function() {
+			nodeType: 1,
+			tagName: elementName.toUpperCase(),
+			childNodes: [],
+			children: function() {
 
 				throw new Error( "children is not ECMAScript" );
 			},
-			"setAttribute": function( name, value ) {
+			setAttribute: function( name, value ) {
 
 				attributes[name] = value;
 			},
-			"hasAttribute": function( name ) {
+			hasAttribute: function( name ) {
 
 				return ( attributes[name] != undefined );
 			},
-			"getAttribute": function( name ) {
+			getAttribute: function( name ) {
+
+				// This method should return an empty string, however most
+				// browsers return null
+				
+				if ( !this.hasAttribute( name ) ) {
+					return null;
+				}
 
 				return attributes[name];
 			},
-			"appendChild": function( childNode ) {
+			appendChild: function( childNode ) {
 
 				this.childNodes.push( childNode );
 			},
-			"cloneNode": function( deepClone ) {
+			cloneNode: function( deepClone ) {
 
 				var clone = document.createElement( elementName );
 
@@ -98,7 +106,7 @@ this.document = {
 				}
 				return clone;
 			},
-			"removeChild": function( childNode ) {
+			removeChild: function( childNode ) {
 
 				for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
 					if ( this.childNodes[loop] == childNode ) {
@@ -109,7 +117,7 @@ this.document = {
 
 				throw new Error( "childNode not found: " + childNode );
 			},
-			"toString": function() {
+			toString: function() {
 
 				var toString = elementName;
 
@@ -123,10 +131,10 @@ this.document = {
 			}
 		};
 	},
-	"createTextNode": function( data ) {
-		
+	createTextNode: function( data ) {
+
 		return {
-			"nodeType": 3
+			nodeType: 3
 		}
 	}
 };

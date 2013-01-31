@@ -84,9 +84,7 @@ metawidget.util.hasChildElements = function( node ) {
 
 	for ( var loop = 0, length = childNodes.length; loop < length; loop++ ) {
 
-		// TODO: use typeOf instead of getAttribute
-		
-		if ( childNodes[loop].getAttribute !== undefined ) {
+		if ( childNodes[loop].nodeType === 1 ) {
 			return true;
 		}
 	}

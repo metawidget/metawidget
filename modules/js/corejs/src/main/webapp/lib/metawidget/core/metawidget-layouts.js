@@ -204,7 +204,9 @@ metawidget.layout.TableLayout = function( config ) {
 		var idPrefix;
 
 		if ( attributes.name !== undefined && attributes.name !== '__root' ) {
-			idPrefix = table.getAttribute( 'id' );
+			if ( table.hasAttribute( 'id' )) {
+				idPrefix = table.getAttribute( 'id' );
+			}
 			
 			if ( idPrefix !== undefined ) {
 				if ( idPrefix.charAt( idPrefix.length - 1 ) !== '-' ) {
@@ -244,7 +246,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 			var label = document.createElement( 'label' );
 			
-			if ( widget.getAttribute( 'id' )) {
+			if ( widget.hasAttribute( 'id' )) {
 				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 			}
 			

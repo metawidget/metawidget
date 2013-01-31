@@ -110,7 +110,7 @@ metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = functio
 	for ( var loop = 0, length = mw.overriddenNodes.length; loop < length; loop++ ) {
 
 		var child = mw.overriddenNodes[loop];
-		if ( child.getAttribute && child.getAttribute( 'id' ) === overrideId ) {
+		if ( child.nodeType === 1 && child.getAttribute( 'id' ) === overrideId ) {
 			child.overridden = true;
 			return child;
 		}
@@ -185,7 +185,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	// Select box
 
-	if ( attributes.lookup !== undefined ) {
+	if ( attributes.lookup !== undefined && attributes.lookup !== '' ) {
 		var select = document.createElement( 'select' );
 
 		if ( !attributes.required || attributes.required === 'false' ) {
@@ -202,7 +202,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 			option.setAttribute( 'value', lookupSplit[loop] );
 
-			if ( attributes.lookupLabels !== undefined ) {
+			if ( attributes.lookupLabels !== undefined && attributes.lookupLabels != '' ) {
 				option.innerHTML = attributes.lookupLabels.split( ',' )[loop];
 			} else {
 				option.innerHTML = lookupSplit[loop];

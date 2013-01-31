@@ -72,12 +72,12 @@ describe( "The RequiredAttributeProcessor", function() {
 		var mw = {};
 
 		processor.processWidget( widget, {}, mw );
-		expect( widget.getAttribute( 'required' ) ).toBeUndefined();
+		expect( widget.hasAttribute( 'required' ) ).toBe( false );
 
 		processor.processWidget( widget, {
 			required: "false"
 		}, mw );
-		expect( widget.getAttribute( 'required' ) ).toBeUndefined();
+		expect( widget.hasAttribute( 'required' ) ).toBe( false );
 
 		processor.processWidget( widget, {
 			required: "true"

@@ -29,6 +29,25 @@
 
 		<hr/>
 		
+		<h3>Metawidget Wins PhD Thesis Of The Year</h3>
+		<h4>30th January 2013</h4>
+		
+		<p>
+			The PhD thesis <a href="http://hdl.handle.net/2100/1305">Derivation of a General
+			Purpose Architecture for Automatic User Interface Generation</a> details the research
+			that underpins Metawidget. It has won the Distinguished Australasian Doctoral Dissertation
+			Award (formerly known as the Best PhD Thesis Award).
+		</p>
+		<p>
+			The award is presented annually to the best PhD thesis in Australasia.
+		</p>
+		<p>
+			Full
+			<a href="http://blog.kennardconsulting.com/2013/01/metawidget-wins-phd-thesis-of-year.html">details can be found here</a>.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget meets JQuery UI and AngularJS</h3>
 		<h4>2nd January 2013</h4>
 		

@@ -33,13 +33,15 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/input/@id" text="age"/>
 				<forceInputFieldAttribute name="age" attributeName="value" attributeValue="42"/>
 				
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="3"/>
 				<clickButton label="Save"/>
 
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/output/@id" text="name"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/output/text()" text="Name1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/output/@id" text="name"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/output/text()" text="Name1"/>
 
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/@id" text="age"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/text()" text="42"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/output/@id" text="age"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/output/text()" text="42"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="2"/>
 			</steps>
 		</webtest>
 	</target>

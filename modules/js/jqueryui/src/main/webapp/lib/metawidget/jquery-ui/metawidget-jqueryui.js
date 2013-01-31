@@ -97,9 +97,10 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWi
 	}
 
 	var isBindable = false;
-	var styleClass = widget.getAttribute( 'class' );
 
-	if ( styleClass !== undefined ) {
+	if ( widget.hasAttribute( 'class' ) ) {
+		var styleClass = widget.getAttribute( 'class' );
+		
 		if ( styleClass.indexOf( 'ui-slider' ) !== -1 ) {
 			$( widget ).slider( 'value', value );
 			isBindable = true;
@@ -346,7 +347,7 @@ $.widget( "metawidget.metawidget", {
 
 		if ( toInspect !== undefined ) {
 			this.toInspect = toInspect;
-			this.path = '';
+			this.path = undefined;
 		}
 
 		if ( path !== undefined ) {

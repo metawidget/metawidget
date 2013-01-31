@@ -63,10 +63,9 @@ metawidget.Metawidget = function( element, config ) {
 	this._overriddenNodes = [];
 
 	for ( var loop = 0, length = element.childNodes.length; loop < length; loop++ ) {
-		if ( element.childNodes[loop].nodeType === 3 ) {
-			continue;
+		if ( element.childNodes[loop].nodeType === 1 ) {
+			this._overriddenNodes.push( element.childNodes[loop] );
 		}
-		this._overriddenNodes.push( element.childNodes[loop] );
 	}
 
 	//
