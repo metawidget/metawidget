@@ -932,9 +932,9 @@ public class Main {
 	&lt;head&gt;
 		&lt;script type="text/javascript"&gt;
 			var person = {
-				"name": "Homer Simpson",
-				"age": 40,
-				"retired": false
+				name: "Homer Simpson",
+				age: 40,
+				retired: false
 			};
 		&lt;/script&gt;
 	&lt;/head&gt;
@@ -959,9 +959,9 @@ public class Main {
 		<symbol>&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;</symbol>
 		&lt;script type="text/javascript"&gt;
 			var person = {
-				"name": "Homer Simpson",
-				"age": 40,
-				"retired": false
+				name: "Homer Simpson",
+				age: 40,
+				retired: false
 			};
 		&lt;/script&gt;
 	&lt;/head&gt;
@@ -1044,7 +1044,7 @@ public class Main {
 	inspector: function( toInspect, type, names ) {
 
 		return [
-			{ "name": "name", "type": "string", "required": "true" }
+			{ name: "name", type: "string", required: "true" }
 		];
 	}
 }</symbol> );</programlisting>
@@ -1090,7 +1090,7 @@ public class Main {
 		function( toInspect, type, names ) {
 		
 				return [
-					{ "name": "name", <symbol><emphasis role="strike">"type": "string",</emphasis></symbol><co id="co-introduction-javascript-part1-compositeinspector" linkends="ca-introduction-javascript-part1-compositeinspector" /> "required": "true" }
+					{ name: "name", <symbol><emphasis role="strike">type: "string",</emphasis></symbol><co id="co-introduction-javascript-part1-compositeinspector" linkends="ca-introduction-javascript-part1-compositeinspector" /> required: "true" }
 				];
 			}
 		}
@@ -1138,10 +1138,10 @@ public class Main {
 				<programlisting language="java">function( toInspect, type, names ) {
 		
 	return [
-		{ "name": "name", "required": "true" }<symbol>,
-		{ "name": "notes", "type": "string", "large": "true" },
-		{ "name": "employer", "type": "string", "section": "Work" },
-		{ "name": "department", "type": "string" }</symbol>
+		{ name: "name", required: "true" }<symbol>,
+		{ name: "notes", type: "string", large: "true" },
+		{ name: "employer", type: "string", section: "Work" },
+		{ name: "department", type: "string" }</symbol>
 	];
 }</programlisting>
 				
@@ -1169,10 +1169,10 @@ public class Main {
 		function( toInspect, type, names ) {
 				
 			return [
-				{ "name": "name", "required": "true" },
-				{ "name": "notes", "type": "string", "large": "true" },
-				{ "name": "employer", "type": "string", "section": "Work" },
-				{ "name": "department", "type": "string" }
+				{ name: "name", required: "true" },
+				{ name: "notes", type: "string", large: "true" },
+				{ name: "employer", type: "string", section: "Work" },
+				{ name: "department", type: "string" }
 			];
 		} ] )<symbol>,
 		
@@ -1217,9 +1217,9 @@ public class Main {
 		&lt;script src="lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" type="text/javascript"&gt;&lt;/script&gt;</symbol>
 		&lt;script type="text/javascript"&gt;
 			var person = {
-				"name": "Homer Simpson",
-				"age": 40,
-				"retired": false
+				name: "Homer Simpson",
+				age: 40,
+				retired: false
 			};
 		&lt;/script&gt;
 	&lt;/head&gt;
@@ -1234,10 +1234,10 @@ public class Main {
 					function( toInspect, type, names ) {
 							
 						return [
-							{ "name": "name", "required": "true" },
-							{ "name": "notes", "type": "string", "large": "true" },
-							{ "name": "employer", "type": "string", "section": "Work" },
-							{ "name": "department", "type": "string" }
+							{ name: "name", required: "true" },
+							{ name: "notes", type: "string", large: "true" },
+							{ name: "employer", type: "string", section: "Work" },
+							{ name: "department", type: "string" }
 						];
 					} ] ),
 					
@@ -1339,11 +1339,11 @@ public class Main {
 				<programlisting language="java">function( toInspect, type, names ) {
 				
 	return [
-		{ "name": "name", "required": "true" },
-		<symbol>{ "name": "retired", "hidden": "true" },</symbol>
-		{ "name": "notes", "type": "string", "large": "true" },
-		{ "name": "employer", "type": "string", "section": "Work" },
-		{ "name": "department", "type": "string" }
+		{ name: "name", required: "true" },
+		<symbol>{ name: "retired", hidden: "true" },</symbol>
+		{ name: "notes", type: "string", large: "true" },
+		{ name: "employer", type: "string", section: "Work" },
+		{ name: "department", type: "string" }
 	];
 }</programlisting>
 

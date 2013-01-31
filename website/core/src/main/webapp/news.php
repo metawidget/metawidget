@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v3.0 Released!</h3>
-		<h4></h4>
+		<h4>31st January 2013</h4>
 		
 		<p>
 			Metawidget v3.0 is now available!
@@ -15,11 +15,11 @@
 		</p>
 		
 		<ul>
-			<li>Support for a pure JavaScript, runtime Metawidget</li>
-			<li>Support for AngularJS</li>
+			<li><a href="http://metawidget.org/doc/reference/en/html/ch01s02.html">Support for a pure JavaScript, runtime Metawidget</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2013/01/metawidget-meets-jquery-ui-and-angularjs.html">Support for AngularJS</a></li>
 			<li>Support for JQuery UI</li>
-			<li>HibernateInspector improvements</li>
-			<li>ReflectionBindingProcessor rebinding</li>
+			<li><a href="https://sourceforge.net/p/metawidget/discussion/747623/thread/f8ce6edd">HibernateInspector improvements</a></li>
+			<li><a href="https://sourceforge.net/p/metawidget/discussion/747623/thread/0fe8883c">ReflectionBindingProcessor rebinding</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
