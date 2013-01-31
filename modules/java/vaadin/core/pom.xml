@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.modules.vaadin</groupId>
 		<artifactId>vaadin-parent</artifactId>
-		<version>3.0-SNAPSHOT</version>
+		<version>3.0</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
