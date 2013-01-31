@@ -121,12 +121,12 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 
 		save: function() {
 
-			if ( $scope.firstname === '' ) {
+			if ( $scope.current.firstname === undefined ) {
 				alert( 'Firstname is required' );
 				return;
 			}
 
-			if ( $scope.surname === '' ) {
+			if ( $scope.current.surname === undefined ) {
 				alert( 'Surname is required' );
 				return;
 			}
