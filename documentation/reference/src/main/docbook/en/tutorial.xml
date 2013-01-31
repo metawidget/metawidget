@@ -1064,8 +1064,8 @@ public class Main {
 
 				<para>
 					Metawidget <classname>Inspector</classname>s are very targeted in what they inspect.
-					Our custom <classname>Inspector</classname> returns information about 'name' being
-					a required field - but it does
+					Our custom <classname>Inspector</classname> returns information about <parameter>name</parameter>
+					being a required field - but it does
 					<emphasis>not</emphasis> return anything else, such as properties from our JSON object.
 					Before we explicitly specified a new <classname>Inspector</classname>, Metawidget had
 					been implictly using another <classname>Inspector</classname> for us,
@@ -1122,7 +1122,7 @@ public class Main {
 					This idea of combining multiple <classname>Inspector</classname>s to inspect different characteristics of your
 					existing architecture is very powerful. Metawidget comes with pre-written
 					<classname>Inspector</classname>s for many different technologies and makes it easy to
-					add your own - such as for REST services. There is a lot of metadata already lurking in back-end
+					add your own, such as for REST services. There is a lot of metadata already lurking in back-end
 					systems - it just needs extracting.
 				</para>				
 			</section>
