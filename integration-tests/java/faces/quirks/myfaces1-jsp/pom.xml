@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.integration-tests.faces</groupId>
 		<artifactId>quirks-faces-parent</artifactId>
-		<version>3.0</version>
+		<version>3.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>

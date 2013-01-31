@@ -121,6 +121,10 @@
 			<li>
 				Metawidget is a super-cool project
 				<a href="http://jbaruch.wordpress.com">Baruch Sadogursky (author, Spring in a Nutshell)</a>
+			</li>
+			<li>
+				This research makes both fundamental contributions to computer science and practice in industry
+				<a href="http://http://blog.kennardconsulting.com/2013/01/metawidget-wins-phd-thesis-of-year.html">David Abramson, Professor of Computer Science at Monash University</a>
 			</li>   			
 		</ul>
 	</div>
