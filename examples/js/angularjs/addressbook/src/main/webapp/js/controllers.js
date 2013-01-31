@@ -43,13 +43,13 @@ function ContactsController( $scope, $location, contacts, metawidgetConfig ) {
 		search: function() {
 
 			$scope.filter = {};
-			if ( $scope.search.firstname ) {
+			if ( $scope.search.firstname !== '' ) {
 				$scope.filter.firstname = $scope.search.firstname;
 			}
-			if ( $scope.search.surname ) {
+			if ( $scope.search.surname !== '' ) {
 				$scope.filter.surname = $scope.search.surname;
 			}
-			if ( $scope.search.type ) {
+			if ( $scope.search.type !== '' ) {
 				$scope.filter.type = $scope.search.type;
 			}
 		},
@@ -77,7 +77,7 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 			$scope.current = {};
 			$scope.current.title = "Mr";
 			$scope.current.type = $routeParams.contactId;
-			if ( $scope.current.type == 'personal' ) {
+			if ( $scope.current.type === 'personal' ) {
 				$scope.dialogTitle = 'Personal Contact';
 			} else {
 				$scope.dialogTitle = 'Business Contact';
@@ -88,14 +88,16 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 			$scope.readOnly = true;
 			contacts.then( function( result ) {
 
+				var contactId = parseInt( $routeParams.contactId );
+
 				for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
-					if ( result.data[loop].id == $routeParams.contactId ) {
+					if ( result.data[loop].id === contactId ) {
 						// Return a copy of the entry, in case the user hits
 						// cancel
 						$scope.current = angular.fromJson( angular.toJson( result.data[loop] ) );
 						$scope.dialogTitle = $scope.current.title + ' ' + $scope.current.firstname + ' ' + $scope.current.surname + ' - ';
 
-						if ( $scope.current.type == 'personal' ) {
+						if ( $scope.current.type === 'personal' ) {
 							$scope.dialogTitle += 'Personal Contact';
 						} else {
 							$scope.dialogTitle += 'Business Contact';
@@ -119,19 +121,19 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 
 		save: function() {
 
-			if ( $scope.firstname = '' ) {
+			if ( $scope.firstname === '' ) {
 				alert( 'Firstname is required' );
 				return;
 			}
-			
-			if ( $scope.surname = '' ) {
+
+			if ( $scope.surname === '' ) {
 				alert( 'Surname is required' );
 				return;
 			}
 
 			contacts.then( function( result ) {
 
-				if ( !$scope.current.id ) {
+				if ( $scope.current.id === undefined ) {
 
 					// Save new
 
@@ -148,7 +150,7 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 					// Update existing
 
 					for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
-						if ( result.data[loop].id == $scope.current.id ) {
+						if ( result.data[loop].id === $scope.current.id ) {
 							result.data.splice( loop, 1, $scope.current );
 							break;
 						}
@@ -163,7 +165,7 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 			contacts.then( function( result ) {
 
 				for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
-					if ( result.data[loop].id == $scope.current.id ) {
+					if ( result.data[loop].id === $scope.current.id ) {
 						result.data.splice( loop, 1 );
 						break;
 					}
@@ -187,12 +189,12 @@ function ContactController( $scope, $routeParams, $location, contacts, metawidge
 
 	$scope.addCommunication = function() {
 
-		if ( $scope.communication.type == '' ) {
+		if ( $scope.communication.type === '' ) {
 			alert( 'Communication type is required' );
 			return;
 		}
-		
-		if ( $scope.communication.value == '' ) {
+
+		if ( $scope.communication.value === '' ) {
 			alert( 'Communication value is required' );
 			return;
 		}

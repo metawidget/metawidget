@@ -109,15 +109,15 @@ angular.module( 'addressBookServices', [] )
 
 					case 'current':
 						
-						if ( names.length == 0 ) {
-							if ( toInspect && toInspect.type == 'business' ) {
+						if ( names.length === 0 ) {
+							if ( toInspect !== undefined && toInspect.type === 'business' ) {
 								return businessContact;
 							} else {
 								return personalContact;
 							}
 						}
 						
-						if ( names.length == 1 && names[0] == 'address' ) {
+						if ( names.length === 1 && names[0] === 'address' ) {
 							return [ {
 								"name": "street",
 								"type": "string"
@@ -148,7 +148,7 @@ angular.module( 'addressBookServices', [] )
 		buttons: {
 			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-				if ( type == 'crudActions' ) {
+				if ( type === 'crudActions' ) {
 					return [ {
 						"name": "edit",
 						"hidden": "{{!readOnly}}"
@@ -167,7 +167,7 @@ angular.module( 'addressBookServices', [] )
 		simple: {
 			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-				if ( type == 'communication' && names.length == 1 && names[0] == 'type' ) {
+				if ( type === 'communication' && names.length === 1 && names[0] === 'type' ) {
 					return [ {
 						"name": "__root",
 						"lookup": "Telephone,Mobile,Fax,E-mail"

@@ -33,7 +33,7 @@ function RestTestController( $scope, $http ) {
 
 			// Don't re-fetch second time around
 
-			if ( mw.readOnly ) {
+			if ( mw.readOnly === true ) {
 				return inspectionResult;
 			}
 

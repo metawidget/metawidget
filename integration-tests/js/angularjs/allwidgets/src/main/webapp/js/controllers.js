@@ -37,11 +37,11 @@ function AllWidgetsController( $scope ) {
 
 		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
-			if ( type == 'allWidgets' ) {
-				if ( names.length == 0 ) {
+			if ( type === 'allWidgets' ) {
+				if ( names.length === 0 ) {
 					return metawidget.test.allWidgetsMetadata;
-				} else if ( names.length == 1 ) {
-					if ( names[0] == 'nestedWidgets' || names[0] == 'readOnlyNestedWidgets' || names[0] == 'nestedWidgetsDontExpand' ) {
+				} else if ( names.length === 1 ) {
+					if ( names[0] === 'nestedWidgets' || names[0] === 'readOnlyNestedWidgets' || names[0] === 'nestedWidgetsDontExpand' ) {
 						return metawidget.test.nestedWidgetsMetadata;
 					}
 				}
