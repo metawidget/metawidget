@@ -163,7 +163,7 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 		throw new Error( "Constructor called as a function" );
 	}
 
-	metawidget.layout.nestedSectionLayoutDecorator( config, this, 'tabLayoutDecorator' );
+	metawidget.layout.createNestedSectionLayoutDecorator( config, this, 'tabLayoutDecorator' );
 
 	this.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 
@@ -207,9 +207,7 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 		return tab;
 	};
 
-	// TODO: why not private?
-	
-	this._superOnEndBuild = this.onEndBuild;
+	var _superOnEndBuild = this.onEndBuild;
 
 	/**
 	 * Wrap the tabs at the very end, to save using 'tabs.add'.
@@ -223,8 +221,8 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 			}
 		}
 
-		if ( this._superOnEndBuild != undefined ) {
-			this._superOnEndBuild( mw );
+		if ( _superOnEndBuild !== undefined ) {
+			_superOnEndBuild( mw );
 		}
 	};
 };

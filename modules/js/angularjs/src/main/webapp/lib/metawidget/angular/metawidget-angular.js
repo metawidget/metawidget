@@ -239,7 +239,7 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 };
 
 /**
- * WidgetProcessor to add Angular bindings/validation, and compile the widget.
+ * WidgetProcessor to add Angular bindings and validation, and compile the widget.
  * 
  * @returns {metawidget.angular.AngularWidgetProcessor}
  */

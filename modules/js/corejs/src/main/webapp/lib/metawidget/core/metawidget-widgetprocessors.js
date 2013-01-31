@@ -27,6 +27,10 @@ metawidget.widgetprocessor = metawidget.widgetprocessor || {};
 // IdProcessor
 //
 
+/**
+ * WidgetProcessor that sets the 'id' attribute.
+ */
+
 metawidget.widgetprocessor.IdProcessor = function() {
 
 	if ( ! ( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
@@ -49,6 +53,10 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 //
 // RequiredAttributeProcessor
 //
+
+/**
+ * WidgetProcessor that sets the 'required' attribute.
+ */
 
 metawidget.widgetprocessor.RequiredAttributeProcessor = function() {
 

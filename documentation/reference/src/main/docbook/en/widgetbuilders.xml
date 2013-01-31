@@ -556,7 +556,7 @@
 					<title>HtmlWidgetBuilder</title>
 					
 					<para>
-						<classname>HtmlWidgetBuilder</classname> is the default <classname>WidgetBuilder</classname> for the
+						<classname>HtmlWidgetBuilder</classname> is the default <classname>WidgetBuilder</classname> for
 						<filename>metawidget.js</filename>. It returns the following DOM nodes
 						for the following Metawidget attributes: 
 					</para>
@@ -568,7 +568,7 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th align="left">Widget</th>
+								<th align="left">DOM Node</th>
 								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
@@ -604,7 +604,7 @@
 							<tr>
 								<td><programlisting type="xml">&lt;input type="text"&gt;</programlisting></td>
 								<td>
-									<parameter>type: "boolean"</parameter>.
+									<parameter>type: "string"</parameter>.
 									Also if property is of unknown type but <parameter>dontExpand</parameter>.
 									If <parameter>maximumLength</parameter>, adds <parameter>maxlength="..."</parameter>
 								</td>							
@@ -632,7 +632,7 @@
 					<para>
 						<classname>OverriddenWidgetBuilder</classname> locates child widgets designed to override default generation. It matches
 						based on the <parameter>id</parameter> of the DOM node. It does not match on <parameter>name</parameter>, because
-						<parameter>name</parameter> is not a legal attribute for many nodes (e.g. table).
+						<parameter>name</parameter> is not a legal attribute for many nodes (e.g. <parameter>table</parameter>).
 					</para>
 				</section>
 
@@ -652,7 +652,7 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th align="left">Widget</th>
+								<th align="left">DOM Node</th>
 								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>

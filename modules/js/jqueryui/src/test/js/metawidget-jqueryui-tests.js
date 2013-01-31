@@ -103,14 +103,14 @@ describe( "The JQueryUIBindingProcessor", function() {
 
 		var processor = new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor();
 		var attributes = {
-			"name": "foo",
+			name: "foo",
 		};
 		var mw = {
-			"toInspect": {
-				"slider": "42",
-				"spinner": "43",
-				"nested": {
-					"nestedSlider": "44"
+			toInspect: {
+				slider: "42",
+				spinner: "43",
+				nested: {
+					nestedSlider: "44"
 				}
 			},
 		};
@@ -121,7 +121,7 @@ describe( "The JQueryUIBindingProcessor", function() {
 
 		var widget = document.createElement( 'div' );
 		attributes = {
-			"name": "slider"
+			name: "slider"
 		}
 		$( widget ).slider();
 		processor.processWidget( widget, attributes, mw );
@@ -131,7 +131,7 @@ describe( "The JQueryUIBindingProcessor", function() {
 
 		var widget = document.createElement( 'input' );
 		attributes = {
-			"name": "spinner"
+			name: "spinner"
 		}
 		$( widget ).spinner();
 		processor.processWidget( $( widget ).spinner( 'widget' )[0], attributes, mw );
@@ -141,7 +141,7 @@ describe( "The JQueryUIBindingProcessor", function() {
 
 		mw.path = 'object.nested';
 		attributes = {
-			"name": "nestedSlider"
+			name: "nestedSlider"
 		};
 		widget = document.createElement( 'div' );
 		$( widget ).slider();
@@ -154,7 +154,12 @@ describe( "The TabLayoutDecorator", function() {
 
 	it( "decorates sections with tabs", function() {
 
-		var layout = new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.layout.SimpleLayout() );
+		var onEndBuildCalled = false;
+		var simpleLayout = new metawidget.layout.SimpleLayout();
+		simpleLayout.onEndBuild = function( mw ) {
+			onEndBuildCalled = true;
+		}
+		var layout = new metawidget.jqueryui.layout.TabLayoutDecorator( simpleLayout );
 
 		var container = document.createElement( 'metawidget' );
 		var mw = {
@@ -192,5 +197,6 @@ describe( "The TabLayoutDecorator", function() {
 		layout.onEndBuild( mw );
 
 		expect( container.innerHTML ).toBe( '<widget1/><div id="testPathWidget2.1-tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all"><ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist"><li class="ui-state-default ui-corner-top ui-tabs-active ui-state-active ui-tabs-loading" role="tab" tabindex="0" aria-controls="ui-tabs-1" aria-labelledby="ui-id-1" aria-selected="true"><a href="#testPathWidget2.1-tabs1" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-1">Section 1</a></li><li class="ui-state-default ui-corner-top" role="tab" tabindex="-1" aria-controls="ui-tabs-2" aria-labelledby="ui-id-2" aria-selected="false"><a href="#testPathWidget2.1-tabs2" class="ui-tabs-anchor" role="presentation" tabindex="-1" id="ui-id-2">Section 2</a></li></ul><div id="ui-tabs-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-live="polite" aria-labelledby="ui-id-1" role="tabpanel" aria-expanded="true" aria-hidden="false" aria-busy="true"/><div id="ui-tabs-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom" aria-live="polite" aria-labelledby="ui-id-2" role="tabpanel" aria-expanded="false" aria-hidden="true"/><div id="testPathWidget2.1-tabs1"><widget2.1/><widget2.2/><widget2.3.1/></div><div id="testPathWidget2.1-tabs2"><widget3/></div></div><widget4/><widget5/>' );
+		expect( onEndBuildCalled ).toBe( true );
 	} );
 } );

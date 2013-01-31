@@ -300,6 +300,56 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				
 			</section>
 
+			<section id="section-widgetprocessors-web-javascript">
+				<title>JavaScript WidgetProcessors</title>
+			
+				<section id="section-widgetprocessors-web-javascript-angular">
+					<title>AngularWidgetProcessor</title>
+					
+					<para>
+						WidgetProcessor to add Angular JS bindings and validation, and compile the widget.
+					</para>
+					
+				</section>
+
+				<section id="section-widgetprocessors-web-javascript-id">
+					<title>IdProcessor</title>
+					
+					<para>
+						WidgetProcessor that sets the 'id' attribute.
+					</para>
+					
+				</section>
+
+				<section id="section-widgetprocessors-web-javascript-required">
+					<title>RequiredAttributeProcessor</title>
+					
+					<para>
+						WidgetProcessor that sets the 'required' attribute.
+					</para>
+					
+				</section>
+
+				<section id="section-widgetprocessors-web-javascript-binding">
+					<title>SimpleBindingProcessor</title>
+					
+					<para>
+						Simple data/action binding implementation. Frameworks that supply their own
+						data-binding mechanisms should override this with their own WidgetProcessor.
+					</para>
+					
+					<para>
+						<classname>SimpleBindingProcessor</classname> binds properties using <function>widget.value</function>. To
+						save values back into the business object, clients must call <function>save</function>:
+					</para>
+					
+					<programlisting language="java">mw.getWidgetProcessor( function( widgetProcessor ) {
+	return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+} ).save( mw );</programlisting>
+					
+				</section>
+			</section>
+			
 			<section id="section-widgetprocessors-web-faces">
 				<title>JSF WidgetProcessors</title>
 			

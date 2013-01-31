@@ -109,7 +109,7 @@ metawidget.layout.DivLayout = function( config ) {
 		outerDiv.appendChild( widgetDiv );
 	
 		container.appendChild( outerDiv );
-	}
+	};
 };
 
 //
@@ -201,7 +201,7 @@ metawidget.layout.TableLayout = function( config ) {
 		// Id
 		
 		var table = container.childNodes[container.childNodes.length - 1];
-		var idPrefix;
+		var idPrefix = undefined;
 
 		if ( attributes.name !== undefined && attributes.name !== '__root' ) {
 			if ( table.hasAttribute( 'id' )) {
@@ -311,22 +311,36 @@ metawidget.layout.TableLayout = function( config ) {
 // LayoutDecorator
 //
 
-metawidget.layout.flatSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+metawidget.layout._createSectionLayoutDecorator = function( config, decorator, decoratorName ) {
 
-	if ( this instanceof metawidget.layout.flatSectionLayoutDecorator ) {
+	if ( this instanceof metawidget.layout._createSectionLayoutDecorator ) {
 		throw new Error( 'Function called as a Constructor' );
 	}
 
+	var delegate;
+
 	if ( config.delegate !== undefined ) {
-		decorator.delegate = config.delegate;
+		delegate = config.delegate;
 	} else {
-		decorator.delegate = config;
+		delegate = config;
 	}
+
+	/**
+	 * Read-only getter.
+	 * <p>
+	 * Dangerous to add a 'delegate' property, because can conflict with
+	 * 'config.delegate'.
+	 */
+
+	decorator.getDelegate = function() {
+
+		return delegate;
+	};
 
 	decorator.onStartBuild = function( mw ) {
 
-		if ( decorator.delegate.onStartBuild !== undefined ) {
-			decorator.delegate.onStartBuild( mw );
+		if ( decorator.getDelegate().onStartBuild !== undefined ) {
+			decorator.getDelegate().onStartBuild( mw );
 		}
 	};
 
@@ -334,30 +348,55 @@ metawidget.layout.flatSectionLayoutDecorator = function( config, decorator, deco
 
 		container[decoratorName] = {};
 
-		if ( decorator.delegate.startContainerLayout !== undefined ) {
-			decorator.delegate.startContainerLayout( container, mw );
+		if ( decorator.getDelegate().startContainerLayout !== undefined ) {
+			decorator.getDelegate().startContainerLayout( container, mw );
 		}
 	};
 
+	decorator.endContainerLayout = function( container, mw ) {
+
+		if ( decorator.getDelegate().endContainerLayout !== undefined ) {
+			decorator.getDelegate().endContainerLayout( container, mw );
+		}
+
+		container[decoratorName] = {};		
+	};
+
+	decorator.onEndBuild = function( mw ) {
+
+		if ( decorator.getDelegate().onEndBuild !== undefined ) {
+			decorator.getDelegate().onEndBuild( mw );
+		}
+	};
+};
+
+metawidget.layout.createFlatSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+
+	if ( this instanceof metawidget.layout.createFlatSectionLayoutDecorator ) {
+		throw new Error( 'Function called as a Constructor' );
+	}
+
+	metawidget.layout._createSectionLayoutDecorator( config, decorator, decoratorName );
+	
 	decorator.layoutWidget = function( widget, attributes, container, mw ) {
 
 		// If our delegate is itself a NestedSectionLayoutDecorator, strip the
 		// section
 
-		if ( decorator.delegate.nestedSectionLayoutDecorator ) {
+		if ( decorator.getDelegate().nestedSectionLayoutDecorator === true ) {
 
 			// Stay where we are?
 
 			var section = metawidget.util.stripSection( attributes );
 
 			if ( section === undefined || section === container[decoratorName].currentSection ) {
-				return decorator.delegate.layoutWidget( widget, attributes, container, mw );
+				return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
 			}
 
 			// End nested LayoutDecorator's current section
 
 			if ( container[decoratorName].currentSection !== undefined ) {
-				decorator.delegate.endContainerLayout( container, mw );
+				decorator.getDelegate().endContainerLayout( container, mw );
 			}
 
 			container[decoratorName].currentSection = section;
@@ -372,7 +411,7 @@ metawidget.layout.flatSectionLayoutDecorator = function( config, decorator, deco
 			// Stay where we are?
 
 			if ( attributes.section === undefined || attributes.section === container[decoratorName].currentSection ) {
-				return decorator.delegate.layoutWidget( widget, attributes, container, mw );
+				return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
 			}
 
 			// For each of the new sections...
@@ -414,63 +453,22 @@ metawidget.layout.flatSectionLayoutDecorator = function( config, decorator, deco
 
 		// Add component as normal
 
-		decorator.delegate.layoutWidget( widget, attributes, container, mw );
-	};
-
-	decorator.endContainerLayout = function( container, mw ) {
-
-		if ( decorator.delegate.endContainerLayout !== undefined ) {
-			decorator.delegate.endContainerLayout( container, mw );
-		}
+		decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
 	};
 };
 
-metawidget.layout.nestedSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+metawidget.layout.createNestedSectionLayoutDecorator = function( config, decorator, decoratorName ) {
 
-	if ( this instanceof metawidget.layout.nestedSectionLayoutDecorator ) {
+	if ( this instanceof metawidget.layout.createNestedSectionLayoutDecorator ) {
 		throw new Error( 'Function called as a Constructor' );
 	}
 
-	var delegate;
-
-	if ( config.delegate !== undefined ) {
-		delegate = config.delegate;
-	} else {
-		delegate = config;
-	}
+	metawidget.layout._createSectionLayoutDecorator( config, decorator, decoratorName );
 
 	// Tag this NestedSectionLayoutDecorator so that FlatSectionLayoutDecorator
 	// can recognize it
 
 	decorator.nestedSectionLayoutDecorator = true;
-
-	/**
-	 * Read-only getter.
-	 * <p>
-	 * Dangerous to add a 'delegate' property, because can conflict with
-	 * 'config.delegate'.
-	 */
-
-	decorator.getDelegate = function() {
-
-		return delegate;
-	};
-
-	decorator.onStartBuild = function( mw ) {
-
-		if ( decorator.getDelegate().onStartBuild !== undefined ) {
-			decorator.getDelegate().onStartBuild( mw );
-		}
-	};
-
-	decorator.startContainerLayout = function( container, mw ) {
-
-		container[decoratorName] = {};
-
-		if ( decorator.getDelegate().startContainerLayout !== undefined ) {
-			decorator.getDelegate().startContainerLayout( container, mw );
-		}
-	};
 
 	decorator.layoutWidget = function( widget, attributes, container, mw ) {
 
@@ -512,6 +510,8 @@ metawidget.layout.nestedSectionLayoutDecorator = function( config, decorator, de
 		decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
 	};
 
+	var _superEndContainerLayout = decorator.endContainerLayout;
+ 
 	decorator.endContainerLayout = function( container, mw ) {
 
 		// End hanging layouts
@@ -520,11 +520,7 @@ metawidget.layout.nestedSectionLayoutDecorator = function( config, decorator, de
 			decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
 		}
 
-		if ( decorator.getDelegate().endContainerLayout !== undefined ) {
-			decorator.getDelegate().endContainerLayout( container, mw );
-		}
-		
-		container[decoratorName] = {};		
+		_superEndContainerLayout( container, mw );
 	};
 };
 
@@ -543,14 +539,14 @@ metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	metawidget.layout.flatSectionLayoutDecorator( config, this, 'headingTagLayoutDecorator' );
+	metawidget.layout.createFlatSectionLayoutDecorator( config, this, 'headingTagLayoutDecorator' );
 
 	this.addSectionWidget = function( section, level, attributes, container, mw ) {
 
 		var h1 = document.createElement( 'h' + ( level + 1 ) );
 		h1.innerHTML = section;
 
-		this.delegate.layoutWidget( h1, {
+		this.getDelegate().layoutWidget( h1, {
 			wide: 'true'
 		}, container, mw );
 	};
@@ -566,7 +562,7 @@ metawidget.layout.DivLayoutDecorator = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	metawidget.layout.nestedSectionLayoutDecorator( config, this, 'divLayoutDecorator' );
+	metawidget.layout.createNestedSectionLayoutDecorator( config, this, 'divLayoutDecorator' );
 
 	this.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 

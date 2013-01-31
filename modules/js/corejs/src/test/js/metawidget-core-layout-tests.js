@@ -25,7 +25,7 @@ describe( "The SimpleLayout", function() {
 		var widget1 = document.createElement( 'widget1' );
 		var widget2 = document.createElement( 'widget2' );
 		var container = document.createElement( 'metawidget' );
-		
+
 		layout.layoutWidget( widget1, {}, container );
 		layout.layoutWidget( widget2, {}, container );
 
@@ -47,8 +47,8 @@ describe( "The SimpleLayout", function() {
 
 		expect( container.childNodes[0] ).toBe( widget1 );
 		expect( container.childNodes.length ).toBe( 1 );
-		
-		stub.appendChild( document.createElement( 'widget2' ));
+
+		stub.appendChild( document.createElement( 'widget2' ) );
 
 		layout.layoutWidget( stub, {}, container );
 
@@ -61,7 +61,9 @@ describe( "The DivLayout", function() {
 
 	it( "arranges widgets using divs", function() {
 
-		var layout = new metawidget.layout.DivLayout( { divStyleClasses: 'outerStyle,labelStyle,widgetStyle' });
+		var layout = new metawidget.layout.DivLayout( {
+			divStyleClasses: 'outerStyle,labelStyle,widgetStyle'
+		} );
 
 		var widget1 = document.createElement( 'input' );
 		widget1.setAttribute( 'id', 'widget1' );
@@ -113,8 +115,8 @@ describe( "The DivLayout", function() {
 		expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
 		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( container.childNodes.length ).toBe( 1 );
-		
-		stub.appendChild( document.createElement( 'widget2' ));
+
+		stub.appendChild( document.createElement( 'widget2' ) );
 
 		layout.layoutWidget( stub, {}, container );
 
@@ -246,7 +248,7 @@ describe( "The TableLayout", function() {
 		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( container.childNodes.length ).toBe( 1 );
 	} );
-	
+
 	it( "ignores empty stubs", function() {
 
 		var layout = new metawidget.layout.TableLayout();
@@ -269,8 +271,8 @@ describe( "The TableLayout", function() {
 		expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( container.childNodes.length ).toBe( 1 );
-		
-		stub.appendChild( document.createElement( 'widget2' ));
+
+		stub.appendChild( document.createElement( 'widget2' ) );
 
 		layout.layoutWidget( stub, {}, container, {} );
 
@@ -283,10 +285,12 @@ describe( "The TableLayout", function() {
 		expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( container.childNodes.length ).toBe( 1 );
 	} );
-	
+
 	it( "support multiple columns", function() {
 
-		var layout = new metawidget.layout.TableLayout( { "numberOfColumns": 2 } );
+		var layout = new metawidget.layout.TableLayout( {
+			"numberOfColumns": 2
+		} );
 
 		var container = document.createElement( 'metawidget' );
 		var mw = {
@@ -458,7 +462,7 @@ describe( "The HeadingTagLayoutDecorator", function() {
 
 	it( "can be mixed with a NestedSectionLayoutDecorator", function() {
 
-		var layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayoutDecorator( new metawidget.layout.SimpleLayout() ));
+		var layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayoutDecorator( new metawidget.layout.SimpleLayout() ) );
 
 		var container = document.createElement( 'metawidget' );
 		var mw = {
@@ -513,7 +517,7 @@ describe( "The DivLayoutDecorator", function() {
 
 	it( "decorates sections with divs", function() {
 
-		var layout = new metawidget.layout.DivLayoutDecorator( new metawidget.layout.DivLayoutDecorator( new metawidget.layout.SimpleLayout() ));
+		var layout = new metawidget.layout.DivLayoutDecorator( new metawidget.layout.DivLayoutDecorator( new metawidget.layout.SimpleLayout() ) );
 
 		var container = document.createElement( 'metawidget' );
 		var mw = {
@@ -561,5 +565,123 @@ describe( "The DivLayoutDecorator", function() {
 		expect( container.childNodes[3].toString() ).toBe( 'widget4' );
 		expect( container.childNodes[4].toString() ).toBe( 'widget5' );
 		expect( container.childNodes.length ).toBe( 5 );
+	} );
+} );
+
+describe( "The FlatSectionLayoutDecorator", function() {
+
+	it( "delegates to its delegate", function() {
+
+		var onStartBuildCalled = false;
+		var startContainerLayoutCalled = false
+		var layoutWidgetCalled = false;
+		var endContainerLayoutCalled = false;
+		var onEndBuildCalled = false;
+
+		var layout = new metawidget.layout.HeadingTagLayoutDecorator( {
+			delegate: {
+				onStartBuild: function( mw ) {
+					onStartBuildCalled = true;
+				},
+
+				startContainerLayout: function( container, mw ) {
+
+					startContainerLayoutCalled = true;
+				},
+
+				layoutWidget: function( widget, attributes, container, mw ) {
+
+					layoutWidgetCalled = true;
+				},
+
+				endContainerLayout: function( container, mw ) {
+
+					endContainerLayoutCalled = true;
+				},
+
+				onEndBuild: function( mw ) {
+
+					onEndBuildCalled = true;
+				}
+			}
+		} );
+
+		var container = document.createElement( 'metawidget' );
+		var mw = {
+			"path": "testPath"
+		};
+
+		layout.onStartBuild( mw );
+		layout.startContainerLayout( container, mw );
+		layout.layoutWidget( document.createElement( 'widget1' ), {
+			"name": "widget1",
+		}, container, mw );
+		layout.endContainerLayout( container, mw );
+		layout.onEndBuild( mw );
+
+		expect( onStartBuildCalled ).toBe( true );
+		expect( startContainerLayoutCalled ).toBe( true );
+		expect( layoutWidgetCalled ).toBe( true );
+		expect( endContainerLayoutCalled ).toBe( true );
+		expect( onEndBuildCalled ).toBe( true );
+	} );
+} );
+
+describe( "The NestedSectionLayoutDecorator", function() {
+
+	it( "delegates to its delegate", function() {
+
+		var onStartBuildCalled = false;
+		var startContainerLayoutCalled = false
+		var layoutWidgetCalled = false;
+		var endContainerLayoutCalled = false;
+		var onEndBuildCalled = false;
+
+		var layout = new metawidget.layout.DivLayoutDecorator( {
+			delegate: {
+				onStartBuild: function( mw ) {
+					onStartBuildCalled = true;
+				},
+
+				startContainerLayout: function( container, mw ) {
+
+					startContainerLayoutCalled = true;
+				},
+
+				layoutWidget: function( widget, attributes, container, mw ) {
+
+					layoutWidgetCalled = true;
+				},
+
+				endContainerLayout: function( container, mw ) {
+
+					endContainerLayoutCalled = true;
+				},
+
+				onEndBuild: function( mw ) {
+
+					onEndBuildCalled = true;
+				}
+			}
+		} );
+
+		var container = document.createElement( 'metawidget' );
+		var mw = {
+			"path": "testPath"
+		};
+
+		layout.onStartBuild( mw );
+		layout.startContainerLayout( container, mw );
+		layout.layoutWidget( document.createElement( 'widget1' ), {
+			"name": "widget1",
+		}, container, mw );
+		layout.endContainerLayout( container, mw );
+		layout.onEndBuild( mw );
+
+		expect( onStartBuildCalled ).toBe( true );
+		expect( startContainerLayoutCalled ).toBe( true );
+		expect( layoutWidgetCalled ).toBe( true );
+		expect( endContainerLayoutCalled ).toBe( true );
+		expect( onEndBuildCalled ).toBe( true );
 	} );
 } );

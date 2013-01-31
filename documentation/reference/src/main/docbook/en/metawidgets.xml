@@ -169,6 +169,74 @@
 				preferred UI environment.
 			</para>
 			
+			<section id="section-metawidgets-web-angular">
+				<title>AngularJS Metawidget</title>
+	
+				<para>
+					<filename>metawidget-angular.js</filename> is a pure AngularJS Metawidget. For an introduction
+					to <filename>metawidget-angular.js</filename>, see <xref linkend="section-introduction-part2-web"/>.
+				</para>
+
+				<section id="section-metawidgets-web-angular-installation">
+					<title>Installation</title>
+
+					<para>
+						There are two steps to installing <filename>metawidget-angular.js</filename> within a web application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget-angular.min.js</filename> into <filename>/lib/metawidget/angular</filename>
+								and <filename>metawidget-core.min.js</filename> into <filename>/lib/metawidget/core</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add two <parameter>script</parameter> tags to the top of your page:
+							</para>
+							<programlisting language="xml">&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="lib/metawidget/angular/metawidget-angular.min.js" type="text/javascript"&gt;&lt;/script&gt;</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-angular-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<filename>metawidget-angular.js</filename> is preconfigured with sensible defaults. You can change this configuration
+						by putting a JavaScript object in your <parameter>$scope</parameter> and referring to it
+						in the <parameter>&lt;metawidget&gt;</parameter> tag:
+					</para>
+					
+					<programlisting language="java">$scope.metawidgetConfig = {	
+	inspector: ..., // Configure Inspector
+	inspectionResultProcessors: [...], // Configure InspectorResultProcessors
+	widgetBuilder: ..., // Configure WidgetBuilder
+	widgetProcessors: [...], // Configure WidgetProcessors
+	layout: ... // Configure Layout
+};</programlisting>
+					
+					<programlisting language="xml">&lt;metawidget to-inspect="..." config="metawidgetConfig" /&gt;</programlisting>
+
+				</section>
+
+				<section id="section-metawidgets-web-angular-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						See <xref linkend="section-metawidgets-web-javascript-look"/>.
+					</para>
+				</section>
+
+			</section>
+
 			<section id="section-metawidgets-web-gwt">
 				<title>GwtMetawidget</title>
 	
@@ -400,6 +468,78 @@
 
 			</section>
 
+			<section id="section-metawidgets-web-javascript">
+				<title>JavaScript Metawidget</title>
+	
+				<para>
+					<filename>metawidget.js</filename> is a pure JavaScript Metawidget. For an introduction
+					to <filename>metawidget.js</filename>, see <xref linkend="section-introduction-javascript-part1"/>.
+				</para>
+
+				<section id="section-metawidgets-web-javascript-installation">
+					<title>Installation</title>
+
+					<para>
+						There are two steps to installing <filename>metawidget.js</filename> within a web application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget-core.min.js</filename> into <filename>/lib/metawidget/core</filename>.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add a <parameter>script</parameter> tag to the top of your page:
+							</para>
+							<programlisting language="xml">&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-javascript-configuration">
+					<title>Configuration</title>
+										
+					<para>
+						<filename>metawidget.js</filename> is preconfigured with sensible defaults. You can change this configuration
+						by passing a JavaScript object to the <classname>metawidget.Metawidget</classname>
+						constructor:
+					</para>
+					
+					<programlisting language="java">var mw = new metawidget.Metawidget( myElement, {	
+	inspector: ..., // Configure Inspector
+	inspectionResultProcessors: [...], // Configure InspectorResultProcessors
+	widgetBuilder: ..., // Configure WidgetBuilder
+	widgetProcessors: [...], // Configure WidgetProcessors
+	layout: ... // Configure Layout
+} );</programlisting>
+					
+				</section>
+
+				<section id="section-metawidgets-web-javascript-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						Look and feel can be customized using CSS.
+						In addition, <filename>metawidget.js</filename> provides loosely coupled <classname>Layout</classname> classes.
+						Some <classname>Layout</classname>s can further be configured by
+						passing a JavaScript object:
+					</para>
+					
+					<programlisting language="java">new metawidget.layout.TableLayout( {
+	numberOfColumns: 2,
+	tableStyleClass: "my-table"
+} );</programlisting>
+				</section>
+
+			</section>
+
 			<section id="section-metawidgets-web-jsp">
 				<title>HtmlMetawidgetTag (JSP)</title>
 				
@@ -515,78 +655,6 @@
 				
 			</section>
 			
-			<section id="section-metawidgets-web-javascript">
-				<title>JavaScript Metawidget</title>
-	
-				<para>
-					<filename>metawidget.js</filename> is a pure JavaScript Metawidget. For an introduction
-					to <filename>metawidget.js</filename>, see <xref linkend="section-introduction-javascript-part1"/>.
-				</para>
-
-				<section id="section-metawidgets-web-javascript-installation">
-					<title>Installation</title>
-
-					<para>
-						There are two steps to installing <filename>metawidget.js</filename> within a web application:
-					</para>
-					
-					<orderedlist>
-						<listitem>
-							<para>
-								Add <filename>metawidget-core.min.js</filename> into <filename>/lib/metawidget/core</filename>.
-							</para>
-						</listitem>
-						<listitem>
-							<para>
-								Add a <parameter>script</parameter> tag to the top of your page:
-							</para>
-							<programlisting language="xml">&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;</programlisting>
-						</listitem>
-						<listitem>
-							<para>
-								Optionally configure the Metawidget, as described below.
-							</para>
-						</listitem>
-					</orderedlist>
-				</section>
-
-				<section id="section-metawidgets-web-javascript-configuration">
-					<title>Configuration</title>
-										
-					<para>
-						<filename>metawidget.js</filename> is preconfigured with sensible defaults. You can change this configuration
-						by passing a JavaScript object to the <classname>metawidget.Metawidget</classname>
-						constructor:
-					</para>
-					
-					<programlisting language="java">var mw = new metawidget.Metawidget( myElement, {	
-	inspector: ..., // Configure Inspector
-	inspectionResultProcessors: [...], // Configure InspectorResultProcessors
-	widgetBuilder: ..., // Configure WidgetBuilder
-	widgetProcessors: [...], // Configure WidgetProcessors
-	layout: ... // Configure Layout
-} );</programlisting>
-					
-				</section>
-
-				<section id="section-metawidgets-web-javascript-look">
-					<title>Customizing Look and Feel</title>
-					
-					<para>
-						Look and feel can be customized using CSS.
-						In addition, <filename>metawidget.js</filename> provides loosely coupled <classname>Layout</classname> classes.
-						Some <classname>Layout</classname>s can further be configured by
-						passing a JavaScript object:
-					</para>
-					
-					<programlisting language="java">new metawidget.layout.TableLayout( {
-	numberOfColumns: 2,
-	tableStyleClass: "my-table"
-} );</programlisting>
-				</section>
-
-			</section>
-
 			<section id="section-metawidgets-web-faces">
 				<title>UIMetawidget (JSF)</title>
 	
