@@ -18,4 +18,4 @@
 
 /* App Module */
 
-angular.module( 'restTest', [ 'metawidget.directives' ]);
+angular.module( 'restTest', [ 'metawidget' ]);

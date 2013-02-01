@@ -20,7 +20,7 @@
  * Metawidget module.
  */
 
-angular.module( 'metawidget.directives', [] )
+angular.module( 'metawidget', [] )
 
 /**
  * Angular directive to expose Metawidget.

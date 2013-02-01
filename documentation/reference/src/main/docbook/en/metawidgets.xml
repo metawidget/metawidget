@@ -181,7 +181,7 @@
 					<title>Installation</title>
 
 					<para>
-						There are two steps to installing <filename>metawidget-angular.js</filename> within a web application:
+						There are three steps to installing <filename>metawidget-angular.js</filename> within a web application:
 					</para>
 					
 					<orderedlist>
@@ -197,6 +197,12 @@
 							</para>
 							<programlisting language="xml">&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;
 &lt;script src="lib/metawidget/angular/metawidget-angular.min.js" type="text/javascript"&gt;&lt;/script&gt;</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Add the 'metawidget' module to your AngularJS application:
+							</para>
+							<programlisting language="java">angular.module( 'myApp', [ 'metawidget' ]);</programlisting>
 						</listitem>
 						<listitem>
 							<para>

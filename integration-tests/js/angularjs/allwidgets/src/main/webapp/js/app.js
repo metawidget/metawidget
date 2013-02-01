@@ -18,4 +18,4 @@
 
 /* App Module */
 
-angular.module( 'allWidgets', [ 'metawidget.directives' ]);
+angular.module( 'allWidgets', [ 'metawidget' ]);

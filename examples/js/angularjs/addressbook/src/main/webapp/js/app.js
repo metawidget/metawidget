@@ -18,7 +18,7 @@
 
 /* App Module */
 
-angular.module( 'addressBook', [ 'metawidget.directives', 'addressBookServices' ])
+angular.module( 'addressBook', [ 'metawidget', 'addressBookServices' ])
   .config(['$routeProvider', function( $routeProvider ) {
 	  $routeProvider.
       	when('/contact/:contactId', {templateUrl: 'partials/contact-detail.html', controller: ContactController}).
