@@ -73,7 +73,9 @@ angular.module( 'metawidget', [] )
 				// Do not observe primitive types, such as 'string',
 				// otherwise every keypress will recreate the widget
 
-				if ( typeof ( scope.$eval( 'toInspect' ) ) === 'object' ) {
+				var typeofToInspect = typeof ( scope.$eval( 'toInspect' ));
+				
+				if ( typeofToInspect === 'object' || typeofToInspect === 'undefined' ) {
 					scope.$watch( 'toInspect', function( newValue, oldValue ) {
 					
 						if ( newValue !== oldValue ) {

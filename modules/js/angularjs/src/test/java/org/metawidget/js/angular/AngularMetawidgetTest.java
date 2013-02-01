@@ -48,6 +48,7 @@ public class AngularMetawidgetTest
 		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-widgetprocessors.js" );
 		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-layouts.js" );
 		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget-utils.js" );
+		evaluateJavaScript( "target/metawidget-angularjs/lib/metawidget/core/metawidget.js" );
 		evaluateJavaScript( "src/main/webapp/lib/metawidget/angular/metawidget-angular.js" );
 	}
 }

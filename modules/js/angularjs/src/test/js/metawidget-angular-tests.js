@@ -16,6 +16,102 @@
 
 'use strict';
 
+describe(
+		"The AngularMetawidget",
+		function() {
+
+			it(
+					"populates itself with widgets to match the properties of business objects",
+					function() {
+
+						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+						var controller = myApp.controller( 'TestController', function( $scope ) {
+
+							$scope.foo = {
+								bar: "Bar"
+							};
+						} );
+
+						var mw = document.createElement( 'metawidget' );
+						mw.setAttribute( 'to-inspect', 'foo' );
+						mw.setAttribute( 'read-only', 'readOnly' );
+						mw.setAttribute( 'config', 'metawidgetConfig' );
+
+						var body = document.createElement( 'body' );
+						body.setAttribute( 'ng-controller', 'TestController' );
+						body.appendChild( mw );
+
+						var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+						injector
+								.invoke( function() {
+
+									expect( mw.innerHTML )
+											.toBe(
+													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+
+									// Test watching toInspect
+
+									var scope = angular.element( body ).scope();
+									scope.foo = {
+										baz: "Baz"
+									};
+									scope.$digest();
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+
+									// Test watching readOnly
+
+									scope.readOnly = true;
+									scope.$digest();
+
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
+
+									// Test watching config
+
+									scope.metawidgetConfig = { layout: new metawidget.layout.SimpleLayout() };
+									scope.$digest();
+
+									expect( mw.innerHTML ).toBe( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
+									expect( mw.innerHTML ).toNotContain( '<table' );
+								} );
+					} );
+
+			it(
+					"watches toInspects that are 'undefined'",
+					function() {
+
+						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+
+						var mw = document.createElement( 'metawidget' );
+						mw.setAttribute( 'to-inspect', 'foo' );
+
+						var body = document.createElement( 'body' );
+						body.appendChild( mw );
+
+						var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+						injector
+								.invoke( function() {
+
+									expect( mw.innerHTML ).toBe( '<table id="table-foo"><tbody/></table>' );
+
+									var scope = angular.element( body ).scope();
+									scope.foo = {
+										bar: "Bar"
+									};
+									scope.$digest();
+
+									expect( mw.innerHTML )
+											.toBe(
+													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+								} );
+					} );
+		} );
+
 describe( "The AngularInspectionResultProcessor", function() {
 
 	it( "executes Angular expressions inside inspection results", function() {
@@ -66,7 +162,7 @@ describe( "The AngularWidgetProcessor", function() {
 			expect( widget.getAttribute( 'ng-required' ) ).toBe( 'true' );
 			expect( widget.getAttribute( 'ng-minlength' ) ).toBe( '3' );
 			expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( '97' );
-			
+
 			// Textareas (same as inputs, not same as outputs)
 
 			widget = document.createElement( 'textarea' );
@@ -101,7 +197,7 @@ describe( "The AngularWidgetProcessor", function() {
 			expect( widget.innerHTML ).toBe( '{{testPath}}' );
 		} );
 	} );
-	
+
 	it( "ignores overridden widgets", function() {
 
 		var injector = angular.bootstrap();
@@ -125,5 +221,5 @@ describe( "The AngularWidgetProcessor", function() {
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.getAttribute( 'ng-model' ) ).toBe( null );
 		} );
-	} );	
+	} );
 } );
