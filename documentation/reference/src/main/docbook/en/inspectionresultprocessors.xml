@@ -234,4 +234,99 @@ public class ContactController {
 
 		</section>
 
+		<section id="section-inspectionresultprocessors-rest">
+			<title>RestInspectionResultProcessor</title>
+			
+			<para>
+				When using one of the pure JavaScript Metawidgets (<filename>metawidget.js</filename>, <filename>metawidget-angular.js</filename>
+				or <filename>metawidget-jqueryui.js</filename>), you can use an <classname>InspectionResultProcessor</classname>
+				to retrieve metadata using Representational State Transfer (REST). Note this is distinct from simply retrieving <emphasis>data</emphasis>
+				using REST. Retreiving data is usually much simpler, as it is done outside of Metawidget.
+			</para>
+			
+			<para>
+				REST is best performed asychronously. Because of this, we need a way to temporarily suspend Metawidget's inspection process then resume it
+				once the REST call has returned. <classname>Inspector</classname>s are not suitable for this, because <classname>Inspector</classname>s
+				are designed to operate without any dependency on the UI. This is so they can be deployed on remote tiers of
+				an application (such as the database tier). <classname>InspectionResultProcessor</classname>s, on the other hand, are for those
+				boundary cases where you need both an inspection <emphasis>and</emphasis> access to the UI. REST is one such boundary case. 
+			</para> 
+
+			<para>
+				To create a <classname>RestInspectionResultProcessor</classname> for your pure JavaScript application, use the following approach:
+			</para>
+			
+			<programlisting language="java">var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
+	
+	inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
+
+		var xhr = new XMLHttpRequest();
+		xhr.open( "GET", "rest/metadata/get", true );
+		
+		xhr.onreadystatechange = function () {
+		    if ( xhr.readyState == 4 &amp;&amp; xhr.status == 200 ) {
+		    	
+		    	inspectionResult = metawidget.util.combineInspectionResults( inspectionResult,
+		    		JSON.parse( xhr.responseText ));
+		    	
+		    	// Resume Metawidget operation
+		    	
+		    	mw.buildWidgets( inspectionResult );
+		    }
+		}
+		
+		xhr.send();
+		
+		// Return nothing to suspend Metawidget operation
+	} ]
+} );</programlisting>
+
+			<para>
+				For JQuery UI, the code is slightly easier:
+			</para>
+
+			<programlisting language="java">$( "#metawidget" ).metawidget( {
+
+	inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
+
+		$.ajax( 'rest/metadata/get' ).done( function ( data ) {
+
+			inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, JSON.parse( data ));
+
+			// Resume Metawidget operation
+			
+	    	mw._refresh( inspectionResult );
+		} );
+
+		// Return nothing to suspend Metawidget operation
+	} ]
+} );</programlisting>
+
+			<para>
+				For Angular JS, the code is very similar:
+			</para>
+
+			<programlisting language="java">$scope.metawidgetConfig = {
+
+	inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
+
+		$http.get( 'rest/metadata/get' ).then( function( result ) {
+
+			inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
+
+			// Resume Metawidget operation
+			
+			mw.buildWidgets( inspectionResult );
+		} );
+		
+		// Return nothing to suspend Metawidget operation
+	} ]
+};</programlisting>
+
+			<para>
+				Working examples of all three approaches can be found in the Metawidget integration tests.
+			</para>
+
+		</section>
+		
 	</chapter>
