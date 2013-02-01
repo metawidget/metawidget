@@ -246,7 +246,7 @@ public class ContactController {
 			
 			<para>
 				REST is best performed asychronously. Because of this, we need a way to temporarily suspend Metawidget's inspection process then resume it
-				once the REST call has returned. <classname>Inspector</classname>s are not suitable for this, because <classname>Inspector</classname>s
+				once the REST call has returned. <classname>Inspector</classname>s are not suitable for this, because they
 				are designed to operate without any dependency on the UI. This is so they can be deployed on remote tiers of
 				an application (such as the database tier). <classname>InspectionResultProcessor</classname>s, on the other hand, are for those
 				boundary cases where you need both an inspection <emphasis>and</emphasis> access to the UI. REST is one such boundary case. 
