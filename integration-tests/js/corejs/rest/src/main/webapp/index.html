@@ -20,12 +20,6 @@
 	
 				inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
 
-					// Don't re-fetch second time around
-					
-					if ( mw.readOnly === true ) {
-						return inspectionResult;
-					}
-					
 					var xhr = new XMLHttpRequest();
 					
 					// Easy if we say 'false' and make this synchronous! But

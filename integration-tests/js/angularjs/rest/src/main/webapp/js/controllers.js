@@ -31,12 +31,6 @@ function RestTestController( $scope, $http ) {
 
 		inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
 
-			// Don't re-fetch second time around
-
-			if ( mw.readOnly === true ) {
-				return inspectionResult;
-			}
-
 			$http.get( 'rest/metadata/get' ).then( function( result ) {
 
 				inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );

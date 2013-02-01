@@ -36,6 +36,10 @@
 				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="3"/>
 				<clickButton label="Save"/>
 
+				<!-- NicelyResynchronizingAjaxController didn't work? -->
+				
+				<sleep seconds="5"/>
+
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/output/@id" text="name"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/output/text()" text="Name1"/>
 
