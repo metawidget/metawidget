@@ -78,14 +78,14 @@ angular.module( 'metawidget', [] )
 				if ( typeofToInspect === 'object' || typeofToInspect === 'undefined' ) {
 					scope.$watch( 'toInspect', function( newValue, oldValue ) {
 					
-						if ( newValue !== oldValue ) {
+						if ( newValue !== mw.toInspect ) {
 							_buildWidgets();
 						}
 					} );
 				}
 				scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
-					if ( newValue !== oldValue ) {
+					if ( newValue !== mw.readOnly ) {
 						_buildWidgets();
 					}
 				} );
