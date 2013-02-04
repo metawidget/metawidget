@@ -34,7 +34,7 @@ metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = 
 
 	// Not for us?
 
-	if ( attributes.readOnly !== 'true' ) {
+	if ( attributes.readOnly === 'true' ) {
 		return;
 	}
 
