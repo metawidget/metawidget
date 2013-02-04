@@ -62,9 +62,12 @@ metawidget.Metawidget = function( element, config ) {
 
 	this._overriddenNodes = [];
 
-	for ( var loop = 0, length = element.childNodes.length; loop < length; loop++ ) {
-		if ( element.childNodes[loop].nodeType === 1 ) {
-			this._overriddenNodes.push( element.childNodes[loop] );
+	while ( element.childNodes.length > 0 ) {
+		var childNode = element.childNodes[0];
+		element.removeChild( childNode );
+
+		if ( childNode.nodeType === 1 ) {
+			this._overriddenNodes.push( childNode );
 		}
 	}
 
@@ -203,43 +206,48 @@ metawidget.Pipeline.prototype.getWidgetProcessor = function( testInstanceOf ) {
 
 metawidget.Pipeline.prototype.inspect = function( mw ) {
 
-	// Inspector
-
-	var splitPath = metawidget.util.splitPath( mw.path );
-	var inspectionResult;
-
-	if ( this.inspector.inspect !== undefined ) {
-		inspectionResult = this.inspector.inspect( mw.toInspect, splitPath.type, splitPath.names );
-	} else {
-		inspectionResult = this.inspector( mw.toInspect, splitPath.type, splitPath.names );
-	}
-
-	// Inspector may return undefined
-
-	if ( inspectionResult === undefined ) {
-		return;
-	}
-
-	// InspectionResultProcessors
-
-	for ( var loop = 0, length = this.inspectionResultProcessors.length; loop < length; loop++ ) {
-
-		var inspectionResultProcessor = this.inspectionResultProcessors[loop];
-
-		if ( inspectionResultProcessor.processInspectionResult !== undefined ) {
-			inspectionResult = inspectionResultProcessor.processInspectionResult( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+	try {
+		// Inspector
+	
+		var splitPath = metawidget.util.splitPath( mw.path );
+		var inspectionResult;
+	
+		if ( this.inspector.inspect !== undefined ) {
+			inspectionResult = this.inspector.inspect( mw.toInspect, splitPath.type, splitPath.names );
 		} else {
-			inspectionResult = inspectionResultProcessor( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+			inspectionResult = this.inspector( mw.toInspect, splitPath.type, splitPath.names );
 		}
-
-		// InspectionResultProcessor may return undefined
-
+	
+		// Inspector may return undefined
+	
 		if ( inspectionResult === undefined ) {
 			return;
 		}
+	
+		// InspectionResultProcessors
+	
+		for ( var loop = 0, length = this.inspectionResultProcessors.length; loop < length; loop++ ) {
+	
+			var inspectionResultProcessor = this.inspectionResultProcessors[loop];
+	
+			if ( inspectionResultProcessor.processInspectionResult !== undefined ) {
+				inspectionResult = inspectionResultProcessor.processInspectionResult( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+			} else {
+				inspectionResult = inspectionResultProcessor( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+			}
+	
+			// InspectionResultProcessor may return undefined
+	
+			if ( inspectionResult === undefined ) {
+				return;
+			}
+		}
+	
+		return inspectionResult;
+	} catch( e ) {
+		console.log( e );
+		throw e;
 	}
-
-	return inspectionResult;
 };
 
 /**
@@ -258,7 +266,9 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 	// Clear existing contents
 
-	this.element.innerHTML = '';
+	while ( this.element.childNodes.length > 0 ) {
+		this.element.removeChild( this.element.childNodes[0] );
+	}
 
 	_startBuild( this, mw );
 
@@ -269,7 +279,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 			var attributes = inspectionResult[loop];
 
-			if ( attributes.name !== '__root' ) {
+			if ( attributes._root !== 'true' ) {
 				continue;
 			}
 
@@ -294,7 +304,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 			var attributes = inspectionResult[loop];
 
-			if ( attributes.name === '__root' ) {
+			if ( attributes._root === 'true' ) {
 				continue;
 			}
 
@@ -422,6 +432,18 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 	}
 
 	function _endBuild( pipeline, mw ) {
+
+		while ( mw.overriddenNodes.length > 0 ) {
+
+			// Manually created components default to no section
+
+			_layoutWidget( pipeline, mw.overriddenNodes[0], {
+				section: ''
+			}, pipeline.element, mw );
+			mw.overriddenNodes.splice( 0, 1 );
+		}
+
+		// End all stages of the pipeline
 
 		if ( pipeline.layout.endContainerLayout !== undefined ) {
 			pipeline.layout.endContainerLayout( pipeline.element, mw );

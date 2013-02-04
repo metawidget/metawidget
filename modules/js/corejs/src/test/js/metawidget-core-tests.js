@@ -65,12 +65,14 @@ describe( "The core Metawidget", function() {
 	it( "defensively copies overridden widgets", function() {
 
 		var element = document.createElement( 'div' );
-		var mw = new metawidget.Metawidget( element );
-
 		var bar = document.createElement( 'span' );
 		bar.setAttribute( 'id', 'bar' );
-		mw._overriddenNodes = [ bar ];
+		element.appendChild( bar );
+		var baz = document.createElement( 'span' );
+		baz.setAttribute( 'id', 'baz' );
+		element.appendChild( baz );
 
+		var mw = new metawidget.Metawidget( element );
 		mw.toInspect = {
 			foo: "Foo",
 			bar: "Bar"
@@ -96,15 +98,52 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'span id="bar"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
 		expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 3 );
-		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+		expect( element.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'tr' );
+		expect( element.childNodes[0].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'span id="baz"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[2].childNodes[1].toString() ).toBe( 'td' );
+		expect( element.childNodes[0].childNodes[0].childNodes[2].childNodes.length ).toBe( 2 );
+		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes.length ).toBe( 1 );
 
-		expect( mw._overriddenNodes.length ).toBe( 1 );
-		expect( mw.overriddenNodes.length ).toBe( 1 );
+		expect( mw._overriddenNodes.length ).toBe( 2 );
+		expect( mw.overriddenNodes.length ).toBe( 0 );
 		mw.overriddenNodes.push( "defensive" );
-		expect( mw.overriddenNodes.length ).toBe( 2 );
-		expect( mw._overriddenNodes.length ).toBe( 1 );
+		expect( mw.overriddenNodes.length ).toBe( 1 );
+		expect( mw._overriddenNodes.length ).toBe( 2 );
+	} );
+
+	it( "can be used purely for layout", function() {
+
+		var element = document.createElement( 'div' );
+		var bar = document.createElement( 'span' );
+		bar.setAttribute( 'id', 'bar' );
+		element.appendChild( bar );
+		var baz = document.createElement( 'span' );
+		baz.setAttribute( 'id', 'baz' );
+		element.appendChild( baz );
+		var ignore = document.createTextNode( 'ignore' );
+		element.appendChild( ignore );
+
+		var mw = new metawidget.Metawidget( element );
+		mw.buildWidgets();
+
+		expect( element.childNodes[0].toString() ).toBe( 'table' );
+		expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+		expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'span id="bar"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+		expect( element.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+		expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'span id="baz"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+		expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 2 );
+		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( element.childNodes.length ).toBe( 1 );
 	} );
 
 	it( "ignores embedded text nodes", function() {
@@ -344,10 +383,10 @@ describe( "The core Metawidget", function() {
 		expect( widgetBuilt ).toBe( 1 );
 		expect( sawReadOnly ).toBe( 1 );
 		
-		// ___root nodes too
+		// _root nodes too
 		
 		inspectionResult = [ {
-			name: "__root",
+			_root: "true",
 			foo: "bar"
 		} ];
 
@@ -355,5 +394,31 @@ describe( "The core Metawidget", function() {
 		expect( inspectionResult[0].foo ).toBe( "bar" );
 		expect( widgetBuilt ).toBe( 2 );
 		expect( sawReadOnly ).toBe( 2 );		
+	} );
+
+	it( "inspects from parent", function() {
+
+		var element = document.createElement( 'div' );
+		var mw = new metawidget.Metawidget( element );
+		mw.toInspect = {
+			bar: "Bar"
+		};
+		mw.path = 'foo.bar'
+
+		mw.buildWidgets();
+		expect( element.childNodes[0].toString() ).toBe( 'table id="table-fooBar"' );
+		expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-fooBar-row"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-fooBar-label-cell"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="fooBar" id="table-fooBar-label"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Bar:' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-fooBar-cell"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="fooBar" name="fooBar"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Bar' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( element.childNodes.length ).toBe( 1 );
 	} );
 } );

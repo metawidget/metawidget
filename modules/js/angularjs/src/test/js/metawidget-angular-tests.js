@@ -201,6 +201,93 @@ describe(
 									expect( buildingCount ).toBe( 4 );
 								} );
 					} );
+
+			it( "defensively copies overridden widgets", function() {
+
+				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+				var controller = myApp.controller( 'TestController', function( $scope ) {
+
+					$scope.foo = {
+						foo: "Foo",
+						bar: "Bar"
+					};
+				} );
+
+				var mw = document.createElement( 'metawidget' );
+				mw.setAttribute( 'to-inspect', 'foo' );
+				var bar = document.createElement( 'span' );
+				bar.setAttribute( 'id', 'fooBar' );
+				mw.appendChild( bar );
+				var baz = document.createElement( 'span' );
+				baz.setAttribute( 'id', 'fooBaz' );
+				mw.appendChild( baz );
+
+				var body = document.createElement( 'body' );
+				body.setAttribute( 'ng-controller', 'TestController' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<input type="text" id="fooFoo" ng-model="foo.foo"' );
+					expect( mw.innerHTML ).toContain( '<td id="table-fooBar-cell"><span id="fooBar"' );
+					expect( mw.innerHTML ).toContain( '<td colspan="2"><span id="fooBaz"' );
+					expect( mw.childNodes.length ).toBe( 1 );
+				} );
+			} );
+
+			it( "can be used purely for layout", function() {
+
+				var mw = document.createElement( 'metawidget' );
+				var bar = document.createElement( 'span' );
+				bar.setAttribute( 'id', 'fooBar' );
+				mw.appendChild( bar );
+				var baz = document.createElement( 'span' );
+				baz.setAttribute( 'id', 'fooBaz' );
+				mw.appendChild( baz );
+				var ignore = document.createTextNode( 'ignore' );
+				mw.appendChild( ignore );
+
+				var body = document.createElement( 'body' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'metawidget' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<td colspan="2"><span id="fooBar"' );
+					expect( mw.innerHTML ).toContain( '<td colspan="2"><span id="fooBaz"' );
+					expect( mw.innerHTML ).toNotContain( 'ignore' );
+					expect( mw.childNodes.length ).toBe( 1 );
+				} );
+			} );
+
+			it( "inspects from parent", function() {
+
+				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+				var controller = myApp.controller( 'TestController', function( $scope ) {
+
+					$scope.foo = {
+						bar: "Bar"
+					};
+				} );
+
+				var mw = document.createElement( 'metawidget' );
+				mw.setAttribute( 'to-inspect', 'foo.bar' );
+
+				var body = document.createElement( 'body' );
+				body.setAttribute( 'ng-controller', 'TestController' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<label for="fooBar" id="table-fooBar-label">Bar:</label>' );
+					expect( mw.childNodes.length ).toBe( 1 );
+				} );
+			} );
 		} );
 
 describe( "The AngularInspectionResultProcessor", function() {
@@ -281,7 +368,7 @@ describe( "The AngularWidgetProcessor", function() {
 			// Root-level
 
 			attributes = {
-				"name": "__root"
+				_root: 'true'
 			};
 			widget = document.createElement( 'output' );
 			processor.processWidget( widget, attributes, mw );

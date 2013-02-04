@@ -105,7 +105,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 		var typeAndNames = metawidget.util.splitPath( mw.path );
 		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
 
-		if ( attributes.name !== '__root' && toInspect ) {
+		if ( attributes._root !== 'true' && toInspect ) {
 			value = toInspect[attributes.name];
 		} else {
 			value = toInspect;

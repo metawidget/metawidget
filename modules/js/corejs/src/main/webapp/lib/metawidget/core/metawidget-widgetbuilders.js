@@ -101,7 +101,7 @@ metawidget.widgetbuilder.OverriddenWidgetBuilder = function() {
 
 metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
 
-	if ( !mw.overriddenNodes ) {
+	if ( mw.overriddenNodes === undefined ) {
 		return;
 	}
 
@@ -112,6 +112,7 @@ metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = functio
 		var child = mw.overriddenNodes[loop];
 		if ( child.nodeType === 1 && child.getAttribute( 'id' ) === overrideId ) {
 			child.overridden = true;
+			mw.overriddenNodes.splice( loop, 1 );
 			return child;
 		}
 	}

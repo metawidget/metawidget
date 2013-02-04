@@ -109,7 +109,7 @@ this.document = {
 			removeChild: function( childNode ) {
 
 				for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
-					if ( this.childNodes[loop] == childNode ) {
+					if ( this.childNodes[loop] === childNode ) {
 						this.childNodes.splice( loop, 1 );
 						return childNode;
 					}

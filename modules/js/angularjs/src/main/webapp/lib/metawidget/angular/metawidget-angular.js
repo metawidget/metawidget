@@ -73,11 +73,11 @@ angular.module( 'metawidget', [] )
 				// Do not observe primitive types, such as 'string',
 				// otherwise every keypress will recreate the widget
 
-				var typeofToInspect = typeof ( scope.$eval( 'toInspect' ));
-				
+				var typeofToInspect = typeof ( scope.$eval( 'toInspect' ) );
+
 				if ( typeofToInspect === 'object' || typeofToInspect === 'undefined' ) {
 					scope.$watch( 'toInspect', function( newValue, oldValue ) {
-					
+
 						if ( newValue !== mw.toInspect ) {
 							mw.invalidateInspection();
 							_buildWidgets();
@@ -98,11 +98,11 @@ angular.module( 'metawidget', [] )
 						_buildWidgets();
 					}
 				} );
-				
+
 				// Build
 
 				_buildWidgets();
-				
+
 				function _buildWidgets() {
 
 					// Rebuild the transcluded tree at the start of each build.
@@ -111,9 +111,20 @@ angular.module( 'metawidget', [] )
 					// build was sufficient for {{...}} expressions, but not
 					// 'ng-click' triggers.
 
-					mw.overriddenNodes = transclude( scope.$parent, function( clone ) {
+					mw.overriddenNodes = [];
+					transclude( scope.$parent, function( clone ) {
 
-						return clone;
+						for ( var loop = 0, length = clone.length; loop < length; loop++ ) {
+							var cloneNode = clone[loop];
+
+							// Must check nodeType *and* other attributes,
+							// because Angular wraps everything (even text
+							// nodes) with a 'span class='ng-scope'' tag
+
+							if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {
+								mw.overriddenNodes.push( cloneNode );
+							}
+						}
 					} );
 
 					// Invoke Metawidget
@@ -169,7 +180,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
 	var lastInspectionResult = undefined;
-	
+
 	this.configure = function( config ) {
 
 		pipeline.configure( config );
@@ -179,10 +190,10 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	this.configure( scope.$eval( 'config' ) );
 
 	this.invalidateInspection = function() {
-	
+
 		lastInspectionResult = undefined;
 	};
-	
+
 	this.buildWidgets = function( inspectionResult ) {
 
 		if ( inspectionResult !== undefined ) {
@@ -190,7 +201,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 		} else if ( lastInspectionResult === undefined ) {
 			lastInspectionResult = pipeline.inspect( this );
 		}
-		
+
 		pipeline.buildWidgets( lastInspectionResult, this );
 	};
 };
@@ -247,13 +258,14 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 				} );
 			}
 		}
-		
+
 		return inspectionResult;
 	};
 };
 
 /**
- * WidgetProcessor to add Angular bindings and validation, and compile the widget.
+ * WidgetProcessor to add Angular bindings and validation, and compile the
+ * widget.
  * 
  * @returns {metawidget.angular.AngularWidgetProcessor}
  */
@@ -279,8 +291,8 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		// more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
 
 		var binding = mw.path;
-		
-		if ( attributes.name !== '__root' ) {
+
+		if ( attributes._root !== 'true' ) {
 			binding += '.' + attributes.name;
 		}
 

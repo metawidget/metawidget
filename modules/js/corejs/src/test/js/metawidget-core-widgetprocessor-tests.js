@@ -43,7 +43,7 @@ describe( "The IdProcessor", function() {
 		widget = document.createElement( 'input' );
 		mw.path = 'foo.bar';
 		processor.processWidget( widget, {
-			name: "__root"
+			_root: "true"
 		}, mw );
 		expect( widget.toString() ).toBe( 'input id="fooBar"' );
 	} );
@@ -169,7 +169,7 @@ describe( "The SimpleBindingProcessor", function() {
 		// Root-level
 
 		attributes = {
-			name: "__root"
+			_root: "true"
 		};
 		widget = document.createElement( 'output' );
 		processor.processWidget( widget, attributes, mw );

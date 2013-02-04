@@ -169,7 +169,7 @@ angular.module( 'addressBookServices', [] )
 
 				if ( type === 'communication' && names.length === 1 && names[0] === 'type' ) {
 					return [ {
-						"name": "__root",
+						"_root": 'true',
 						"lookup": "Telephone,Mobile,Fax,E-mail"
 					} ];
 				}

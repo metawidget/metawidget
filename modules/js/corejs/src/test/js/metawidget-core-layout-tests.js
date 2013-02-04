@@ -234,7 +234,7 @@ describe( "The TableLayout", function() {
 
 		layout.startContainerLayout( container, mw );
 		layout.layoutWidget( widget1, {
-			"name": "__root",
+			"_root": "true",
 		}, container, mw );
 
 		expect( container.childNodes[0].toString() ).toBe( 'table' );

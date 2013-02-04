@@ -203,16 +203,18 @@ metawidget.layout.TableLayout = function( config ) {
 		var table = container.childNodes[container.childNodes.length - 1];
 		var idPrefix = undefined;
 
-		if ( attributes.name !== undefined && attributes.name !== '__root' ) {
+		if ( attributes.name !== undefined ) {
 			if ( table.hasAttribute( 'id' )) {
 				idPrefix = table.getAttribute( 'id' );
 			}
 			
 			if ( idPrefix !== undefined ) {
-				if ( idPrefix.charAt( idPrefix.length - 1 ) !== '-' ) {
-					idPrefix += metawidget.util.capitalize( attributes.name );
-				} else {
-					idPrefix += attributes.name;
+				if ( attributes._root !== 'true' ) {
+					if ( idPrefix.charAt( idPrefix.length - 1 ) !== '-' ) {
+						idPrefix += metawidget.util.capitalize( attributes.name );
+					} else {
+						idPrefix += attributes.name;
+					}
 				}
 			} else {
 				idPrefix = 'table-' + attributes.name;
@@ -234,7 +236,7 @@ metawidget.layout.TableLayout = function( config ) {
 			tr = tbody.childNodes[tbody.childNodes.length - 1];
 		}
 
-		if ( attributes.name !== undefined && attributes.name !== '__root' ) {
+		if ( attributes.name !== undefined ) {
 			// Label
 
 			var th = document.createElement( 'th' );

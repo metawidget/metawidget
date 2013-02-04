@@ -90,7 +90,7 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWi
 	var typeAndNames = metawidget.util.splitPath( mw.path );
 	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
 
-	if ( attributes.name !== '__root' && toInspect ) {
+	if ( attributes._root !== 'true' && toInspect ) {
 		value = toInspect[attributes.name];
 	} else {
 		value = toInspect;
@@ -280,11 +280,17 @@ $.widget( "metawidget.metawidget", {
 
 		this._overriddenNodes = [];
 
-		for ( var loop = 0, length = this.element[0].childNodes.length; loop < length; loop++ ) {
-			if ( this.element[0].childNodes[loop].nodeType === 3 ) {
+		var element = this.element[0];
+		
+		for ( var loop = 0; loop < element.childNodes.length; ) {
+			if ( element.childNodes[loop].nodeType !== 1 ) {
+				loop++;
 				continue;
-			}			
-			this._overriddenNodes.push( this.element[0].childNodes[loop] );
+			}
+			
+			var childNode = element.childNodes[loop];
+			element.removeChild( childNode );
+			this._overriddenNodes.push( childNode );
 		}
 
 		this._refresh();

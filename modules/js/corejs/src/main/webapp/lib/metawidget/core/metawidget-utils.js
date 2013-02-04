@@ -66,7 +66,7 @@ metawidget.util.getId = function( attributes, mw ) {
 			splitPath = splitPath.slice( 1 );
 		}
 		
-		if ( attributes.name && attributes.name !== '__root' ) {
+		if ( attributes.name && attributes._root !== 'true' ) {
 			splitPath.push( attributes.name );
 		}
 

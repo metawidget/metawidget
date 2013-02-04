@@ -40,7 +40,7 @@ describe(
 
 						$( '#metawidget' ).metawidget();
 						$( '#metawidget' ).metawidget( "buildWidgets", {
-							"foo": "Foo"
+							foo: "Foo"
 						} );
 
 						var element = $( '#metawidget' )[0];
@@ -59,26 +59,53 @@ describe(
 
 			it( "defensively copies overridden widgets", function() {
 
+				var element = $( '#metawidget' )[0];
+				var bar = document.createElement( 'span' );
+				bar.setAttribute( 'id', 'bar' );
+				element.appendChild( bar );
+				var baz = document.createElement( 'span' );
+				baz.setAttribute( 'id', 'baz' );
+				element.appendChild( baz );
+				
 				$( '#metawidget' ).metawidget();
 				var mw = $( '#metawidget' ).data( 'metawidget' );
 
-				var bar = document.createElement( 'span' );
-				bar.setAttribute( 'id', 'bar' );
-				mw._overriddenNodes = [ bar ];
-
 				$( '#metawidget' ).metawidget( "buildWidgets", {
-					"foo": "Foo",
-					"bar": "Bar"
+					foo: "Foo",
+					bar: "Bar"
 				} );
 
-				var element = $( '#metawidget' )[0];
-				expect( element.outerHTML ).toContain( '<span id="bar"/>' );
+				expect( element.innerHTML ).toContain( '<td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td>' );
+				expect( element.innerHTML ).toContain( '<td id="table-bar-cell"><span id="bar"/></td>' );
+				expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
+				expect( element.childNodes.length ).toBe( 1 );
 
-				expect( mw._overriddenNodes.length ).toBe( 1 );
-				expect( mw.overriddenNodes.length ).toBe( 1 );
+				expect( mw._overriddenNodes.length ).toBe( 2 );
+				expect( mw.overriddenNodes.length ).toBe( 0 );
 				mw.overriddenNodes.push( "defensive" );
-				expect( mw.overriddenNodes.length ).toBe( 2 );
-				expect( mw._overriddenNodes.length ).toBe( 1 );
+				expect( mw.overriddenNodes.length ).toBe( 1 );
+				expect( mw._overriddenNodes.length ).toBe( 2 );
+			} );
+
+			it( "can be used purely for layout", function() {
+
+				var element = $( '#metawidget' )[0];
+				var bar = document.createElement( 'span' );
+				bar.setAttribute( 'id', 'bar' );
+				element.appendChild( bar );
+				var baz = document.createElement( 'span' );
+				baz.setAttribute( 'id', 'baz' );
+				element.appendChild( baz );
+				var ignore = document.createTextNode( 'ignore' );
+				element.appendChild( ignore );				
+				
+				$( '#metawidget' ).metawidget();
+				$( '#metawidget' ).metawidget( "buildWidgets" );
+
+				expect( element.innerHTML ).toContain( '<td colspan="2"><span id="bar"/></td>' );
+				expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
+				expect( element.innerHTML ).toNotContain( 'ignore' );
+				expect( element.childNodes.length ).toBe( 1 );
 			} );
 
 			it( "ignores embedded text nodes", function() {
