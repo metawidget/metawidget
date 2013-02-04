@@ -516,7 +516,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			// for readOnly-ness
 			//
 			// In addition, we are trying to keep the exact nature of the 'readOnly' mechanism (i.e.
-			// set on attribute, set on overall Metawidget) out of the
+			// set on attribute, or set on overall Metawidget) out of the
 			// WidgetBuilders/WidgetProcessors/Layouts. This is because not everybody will need/want
 			// a Metawidget-level 'setReadOnly'
 

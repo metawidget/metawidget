@@ -324,10 +324,12 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 	// Private methods
 	//
 
-	function _forceReadOnly( attributes, mw ) {
+	/**
+	 * Defensively copies the attributes (in case something like stripSection
+	 * changes them) and adds 'readOnly' if the given Metawidget is readOnly.
+	 */
 
-		// Defensively copy the attributes, in case something like stripSection
-		// changes them
+	function _forceReadOnly( attributes, mw ) {
 
 		var copiedAttributes = {};
 
@@ -336,7 +338,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 		}
 
 		// Try to keep the exact nature of the 'readOnly' mechanism (i.e. set on
-		// attribute, set on overall Metawidget) out of the
+		// attribute, or set on overall Metawidget) out of the
 		// WidgetBuilders/WidgetProcessors/Layouts. This is because not
 		// everybody will need/want a Metawidget-level 'setReadOnly'
 
