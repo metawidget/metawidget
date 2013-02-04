@@ -72,18 +72,18 @@ describe( "The hasChildElements function", function() {
 	it( "checks if a node has child elements", function() {
 
 		var div = document.createElement( 'div' );
-		expect( metawidget.util.hasChildElements( div )).toBe( false );
-		div.appendChild( document.createElement( 'span' ));
-		expect( metawidget.util.hasChildElements( div )).toBe( true );
+		expect( metawidget.util.hasChildElements( div ) ).toBe( false );
+		div.appendChild( document.createElement( 'span' ) );
+		expect( metawidget.util.hasChildElements( div ) ).toBe( true );
 	} );
 
 	it( "ignores text nodes", function() {
 
 		var div = document.createElement( 'div' );
 		div.appendChild( {} );
-		expect( metawidget.util.hasChildElements( div )).toBe( false );
-		div.appendChild( document.createElement( 'span' ));
-		expect( metawidget.util.hasChildElements( div )).toBe( true );
+		expect( metawidget.util.hasChildElements( div ) ).toBe( false );
+		div.appendChild( document.createElement( 'span' ) );
+		expect( metawidget.util.hasChildElements( div ) ).toBe( true );
 	} );
 } );
 
@@ -93,7 +93,7 @@ describe( "The splitPath function", function() {
 
 		expect( metawidget.util.splitPath( 'foo' ).type ).toBe( 'foo' );
 		expect( metawidget.util.splitPath( 'foo' ).names.length ).toBe( 0 );
-		
+
 		expect( metawidget.util.splitPath( 'foo.bar' ).type ).toBe( 'foo' );
 		expect( metawidget.util.splitPath( 'foo.bar' ).names[0] ).toBe( 'bar' );
 		expect( metawidget.util.splitPath( 'foo.bar' ).names.length ).toBe( 1 );
@@ -105,14 +105,23 @@ describe( "The splitPath function", function() {
 	} );
 } );
 
-
 describe( "The appendPath function", function() {
 
 	it( "appends attribute names to paths", function() {
 
-		expect( metawidget.util.appendPath( { name: "foo" }, {} )).toBe( 'object.foo' );
-		expect( metawidget.util.appendPath( { name: "foo" }, { toInspect: "aString" } )).toBe( 'string.foo' );
-		expect( metawidget.util.appendPath( { name: "foo" }, { path: "bar.baz" } )).toBe( 'bar.baz.foo' );
+		expect( metawidget.util.appendPath( {
+			name: "foo"
+		}, {} ) ).toBe( 'object.foo' );
+		expect( metawidget.util.appendPath( {
+			name: "foo"
+		}, {
+			toInspect: "aString"
+		} ) ).toBe( 'string.foo' );
+		expect( metawidget.util.appendPath( {
+			name: "foo"
+		}, {
+			path: "bar.baz"
+		} ) ).toBe( 'bar.baz.foo' );
 	} );
 } );
 
@@ -126,12 +135,51 @@ describe( "The traversePath function", function() {
 		var object1 = {
 			object2: object2
 		};
-		
-		expect( metawidget.util.traversePath( object1 )).toBe( object1 );
-		expect( metawidget.util.traversePath( object1, 'ignore' )).toBe( object1 );
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2' ] )).toBe( object2 );
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo' ] )).toBe( 'bar' );
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo', 'bar' ] )).toBeUndefined();
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'baz' ] )).toBeUndefined();
+
+		expect( metawidget.util.traversePath( object1 ) ).toBe( object1 );
+		expect( metawidget.util.traversePath( object1, 'ignore' ) ).toBe( object1 );
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2' ] ) ).toBe( object2 );
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo' ] ) ).toBe( 'bar' );
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo', 'bar' ] ) ).toBeUndefined();
+		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'baz' ] ) ).toBeUndefined();
+	} );
+} );
+
+describe( "The combineInspectionResults function", function() {
+
+	it( "combines inspection results", function() {
+
+		var existingInspectionResult = [ {
+			_root: 'true',
+			name: 'abc',
+			foo: 'foo'
+		}, {
+			name: 'bar',
+			baz: 'baz'
+		} ];
+		var newInspectionResult = [ {
+			_root: 'true',
+			name: 'new abc',
+			def: 'def'
+		}, {
+			name: 'bar',
+			mno: 'mno'
+		}, {
+			name: 'ghi',
+			jkl: 'jkl'
+		} ];
+
+		metawidget.util.combineInspectionResults( existingInspectionResult, newInspectionResult );
+
+		expect( existingInspectionResult[0]._root ).toBe( 'true' );
+		expect( existingInspectionResult[0].name ).toBe( 'new abc' );
+		expect( existingInspectionResult[0].foo ).toBe( 'foo' );
+		expect( existingInspectionResult[0].def ).toBe( 'def' );
+		expect( existingInspectionResult[1].name ).toBe( 'bar' );
+		expect( existingInspectionResult[1].baz ).toBe( 'baz' );
+		expect( existingInspectionResult[1].mno ).toBe( 'mno' );
+		expect( existingInspectionResult[2].name ).toBe( 'ghi' );
+		expect( existingInspectionResult[2].jkl ).toBe( 'jkl' );
+		expect( existingInspectionResult.length ).toBe( 3 );
 	} );
 } );

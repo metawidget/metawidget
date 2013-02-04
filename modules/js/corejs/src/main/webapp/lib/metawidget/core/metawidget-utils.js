@@ -196,7 +196,7 @@ metawidget.util.combineInspectionResults = function( existingInspectionResult, n
 			for ( var loop2 = 0, length2 = existingInspectionResult.length; loop2 < length2; loop2++ ) {
 				var existingAttributes = existingInspectionResult[loop2];
 
-				if ( existingAttributes.name === newAttributes.name ) {
+				if ( existingAttributes.name === newAttributes.name || ( existingAttributes._root === 'true' && newAttributes._root === 'true' )) {
 
 					for ( var attribute in newAttributes ) {
 						existingAttributes[attribute] = newAttributes[attribute];
