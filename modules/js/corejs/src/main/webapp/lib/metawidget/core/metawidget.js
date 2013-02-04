@@ -436,15 +436,19 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 		while ( mw.overriddenNodes.length > 0 ) {
 
 			var child = mw.overriddenNodes[0];
-			
-			if ( child.tagName !== 'FACET' ) {
-				// Manually created components default to no section
-	
-				_layoutWidget( pipeline, child, {
-					section: ''
-				}, pipeline.element, mw );
-			}
 			mw.overriddenNodes.splice( 0, 1 );
+			
+			// Unused facets don't count
+			
+			if ( child.tagName === 'FACET' ) {
+				continue;
+			}
+			
+			// Manually created components default to no section
+	
+			_layoutWidget( pipeline, child, {
+				section: ''
+			}, pipeline.element, mw );
 		}
 
 		// End all stages of the pipeline
