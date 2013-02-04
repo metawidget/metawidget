@@ -79,6 +79,7 @@ angular.module( 'metawidget', [] )
 					scope.$watch( 'toInspect', function( newValue, oldValue ) {
 					
 						if ( newValue !== mw.toInspect ) {
+							mw.invalidateInspection();
 							_buildWidgets();
 						}
 					} );
@@ -86,6 +87,7 @@ angular.module( 'metawidget', [] )
 				scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
 					if ( newValue !== mw.readOnly ) {
+						// Do not mw.invalidateInspection()
 						_buildWidgets();
 					}
 				} );
@@ -166,20 +168,30 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
 	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
+	var lastInspectionResult = undefined;
+	
 	this.configure = function( config ) {
 
 		pipeline.configure( config );
+		lastInspectionResult = undefined;
 	};
 
 	this.configure( scope.$eval( 'config' ) );
 
+	this.invalidateInspection = function() {
+	
+		lastInspectionResult = undefined;
+	};
+	
 	this.buildWidgets = function( inspectionResult ) {
 
-		if ( inspectionResult === undefined ) {
-			inspectionResult = pipeline.inspect( this );
+		if ( inspectionResult !== undefined ) {
+			lastInspectionResult = inspectionResult;
+		} else if ( lastInspectionResult === undefined ) {
+			lastInspectionResult = pipeline.inspect( this );
 		}
 		
-		pipeline.buildWidgets( inspectionResult, this );
+		pipeline.buildWidgets( lastInspectionResult, this );
 	};
 };
 

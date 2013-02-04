@@ -49,5 +49,6 @@ describe( 'AngularJS REST', function() {
 		
 		expect( element( '#restTestAge' ).prop( 'tagName' ) ).toBe( 'OUTPUT' );
 		expect( element( '#restTestAge' ).text() ).toBe( '42' );
+		expect( element( '#numberOfRestCalls' ).text() ).toBe( '1' );
 	} );
 } );

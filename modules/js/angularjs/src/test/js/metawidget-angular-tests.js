@@ -118,6 +118,7 @@ describe(
 
 						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 						var inspectionCount = 0;
+						var buildingCount = 0;
 						var controller = myApp.controller( 'TestController', function( $scope ) {
 
 							$scope.foo = {
@@ -129,6 +130,11 @@ describe(
 
 									inspectionCount++;
 									return inspectionResult;
+								} ],
+								addWidgetProcessors: [ function( widget, attributes, mw ) {
+
+									buildingCount++;
+									return widget;
 								} ]
 							}
 						} );
@@ -164,18 +170,23 @@ describe(
 
 									expect( mw.innerHTML ).toContain( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
 									expect( inspectionCount ).toBe( 2 );
+									expect( buildingCount ).toBe( 2 );
 
 									// Test changing to the same value
 
 									scope.toInspect = scope.toInspect;
 									scope.readOnly = scope.readOnly;
 									scope.$digest();
+
+									// Test rebuilding but not reinspecting
+
 									scope.readOnly = false;
 									scope.$digest();
 									scope.$digest();
 
 									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
-									expect( inspectionCount ).toBe( 3 );
+									expect( inspectionCount ).toBe( 2 );
+									expect( buildingCount ).toBe( 3 );
 
 									// Test changing toInspect to a similar
 									// value
@@ -186,7 +197,8 @@ describe(
 									scope.$digest();
 
 									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
-									expect( inspectionCount ).toBe( 4 );
+									expect( inspectionCount ).toBe( 3 );
+									expect( buildingCount ).toBe( 4 );
 								} );
 					} );
 		} );

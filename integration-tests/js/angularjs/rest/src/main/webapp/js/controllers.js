@@ -20,6 +20,8 @@
 
 function RestTestController( $scope, $http ) {
 
+	$scope.numberOfRestCalls = 0;
+	
 	$scope.restTest = {
 		"save": function() {
 
@@ -31,9 +33,12 @@ function RestTestController( $scope, $http ) {
 
 		inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
 
+			// Shouldn't get called again when we reset 'readOnly'
+			
 			$http.get( 'rest/metadata/get' ).then( function( result ) {
 
 				inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
+				$scope.numberOfRestCalls++;
 				mw.buildWidgets( inspectionResult );
 			} );
 		} ]

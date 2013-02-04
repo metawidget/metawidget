@@ -229,6 +229,16 @@ describe( "The core Metawidget", function() {
 					called.push( 'widgetProcessor.onEndBuild( ' + mw + ' )' );
 				}
 			} ],
+			addWidgetProcessors: [ {
+				onStartBuild: function( mw ) {
+
+					called.push( 'addedWidgetProcessor.onStartBuild( ' + mw + ' )' );
+				},
+				onEndBuild: function( mw ) {
+
+					called.push( 'addedWidgetProcessor.onEndBuild( ' + mw + ' )' );
+				}
+			} ],
 			layout: {
 				onStartBuild: function( mw ) {
 
@@ -253,12 +263,16 @@ describe( "The core Metawidget", function() {
 
 		expect( called[0] ).toBe( 'widgetBuilder.onStartBuild( [object Object] )' );
 		expect( called[1] ).toBe( 'widgetProcessor.onStartBuild( [object Object] )' );
-		expect( called[2] ).toBe( 'layout.onStartBuild( [object Object] )' );
-		expect( called[3] ).toBe( 'layout.startContainerLayout( div, [object Object] )' );
-		expect( called[4] ).toBe( 'layout.endContainerLayout( div, [object Object] )' );
-		expect( called[5] ).toBe( 'layout.onEndBuild( [object Object] )' );
-		expect( called[6] ).toBe( 'widgetProcessor.onEndBuild( [object Object] )' );
-		expect( called[7] ).toBe( 'widgetBuilder.onEndBuild( [object Object] )' );
+		expect( called[2] ).toBe( 'addedWidgetProcessor.onStartBuild( [object Object] )' );
+		expect( called[3] ).toBe( 'layout.onStartBuild( [object Object] )' );
+		expect( called[4] ).toBe( 'layout.startContainerLayout( div, [object Object] )' );
+		expect( called[5] ).toBe( 'layout.endContainerLayout( div, [object Object] )' );
+		expect( called[6] ).toBe( 'layout.onEndBuild( [object Object] )' );
+		expect( called[7] ).toBe( 'widgetProcessor.onEndBuild( [object Object] )' );
+		expect( called[8] ).toBe( 'addedWidgetProcessor.onEndBuild( [object Object] )' );
+		expect( called[9] ).toBe( 'widgetBuilder.onEndBuild( [object Object] )' );
+		
+		expect( called.length ).toBe( 10 );
 	} );
 
 	it( "will stop the build if the inspection returns null", function() {
