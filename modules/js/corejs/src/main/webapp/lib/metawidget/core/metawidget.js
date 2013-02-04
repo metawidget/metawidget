@@ -435,11 +435,15 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 
 		while ( mw.overriddenNodes.length > 0 ) {
 
-			// Manually created components default to no section
-
-			_layoutWidget( pipeline, mw.overriddenNodes[0], {
-				section: ''
-			}, pipeline.element, mw );
+			var child = mw.overriddenNodes[0];
+			
+			if ( child.tagName !== 'FACET' ) {
+				// Manually created components default to no section
+	
+				_layoutWidget( pipeline, child, {
+					section: ''
+				}, pipeline.element, mw );
+			}
 			mw.overriddenNodes.splice( 0, 1 );
 		}
 
