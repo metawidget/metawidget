@@ -291,7 +291,7 @@ metawidget.layout.TableLayout = function( config ) {
 			td.setAttribute( 'class', columnStyleClasses.split( ',' )[2] );
 		}
 
-		if ( !metawidget.util.isReadOnly( attributes, mw ) && attributes.required === 'true' ) {
+		if ( attributes.readOnly !== 'true' && attributes.required === 'true' ) {
 			td.innerHTML = '*';
 		}
 

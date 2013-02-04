@@ -132,7 +132,7 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 
 	// Not read-only?
 
-	if ( !metawidget.util.isReadOnly( attributes, mw ) ) {
+	if ( attributes.readOnly !== 'true' ) {
 		return;
 	}
 

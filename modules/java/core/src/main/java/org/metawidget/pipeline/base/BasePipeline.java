@@ -59,7 +59,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * Note: this class is located in <code>org.metawidget.pipeline.base</code>, as opposed to just
  * <code>org.metawidget.pipeline</code>, to make it easier to integrate GWT (which is bad at
  * ignoring sub-packages such as <code>org.metawidget.pipeline.w3c</code>).
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -120,7 +120,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 * -derived Inspectors are capable of detecting cyclic references, other Inspectors may not be.
 	 * For example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
 	 * types, not actual objects.
-	 *
+	 * 
 	 * @param maximumInspectionDepth
 	 *            0 for top-level only, 1 for 1 level deep etc.
 	 */
@@ -441,7 +441,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 * WidgetBuilders, WidgetProcessors and Layouts as the current pipeline. This is safe because
 	 * they are all immutable</li>
 	 * </ul>
-	 *
+	 * 
 	 * @param attributes
 	 *            may be null
 	 */
@@ -462,7 +462,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		if ( mInspectionResultProcessors == null ) {
 			nestedPipeline.mInspectionResultProcessors = null;
 		} else {
-			nestedPipeline .mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>( mInspectionResultProcessors );
+			nestedPipeline.mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<M>>( mInspectionResultProcessors );
 		}
 
 		if ( mWidgetProcessors == null ) {
@@ -514,6 +514,11 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			// order for it to call isReadOnly
 			// 2) This way WidgetBuilders/Layouts etc don't have to worry about checking 2 places
 			// for readOnly-ness
+			//
+			// In addition, we are trying to keep the exact nature of the 'readOnly' mechanism (i.e.
+			// set on attribute, set on overall Metawidget) out of the
+			// WidgetBuilders/WidgetProcessors/Layouts. This is because not everybody will need/want
+			// a Metawidget-level 'setReadOnly'
 
 			boolean forcedReadOnly = false;
 
@@ -569,7 +574,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 
 	/**
 	 * Serialize the given element to an XML String.
-	 *
+	 * 
 	 * @param element
 	 *            the element to serialize. May be null.
 	 */
@@ -591,7 +596,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		M pipelineOwner = getPipelineOwner();
 
 		if ( mWidgetBuilder instanceof AdvancedWidgetBuilder<?, ?> ) {
-			((AdvancedWidgetBuilder<W, M>) mWidgetBuilder).onStartBuild( pipelineOwner );
+			( (AdvancedWidgetBuilder<W, M>) mWidgetBuilder ).onStartBuild( pipelineOwner );
 		}
 
 		if ( mWidgetProcessors != null ) {
@@ -666,7 +671,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 * <p>
 	 * At the very least, this method should be implemented to support returning additional
 	 * attributes from stubs.
-	 *
+	 * 
 	 * @return the additional attributes. May be null
 	 */
 
@@ -744,7 +749,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 		}
 
 		if ( mWidgetBuilder instanceof AdvancedWidgetBuilder<?, ?> ) {
-			((AdvancedWidgetBuilder<W, M>) mWidgetBuilder).onEndBuild( pipelineOwner );
+			( (AdvancedWidgetBuilder<W, M>) mWidgetBuilder ).onEndBuild( pipelineOwner );
 		}
 	}
 }

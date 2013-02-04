@@ -106,7 +106,7 @@ describe( "The core Metawidget", function() {
 		expect( mw.overriddenNodes.length ).toBe( 2 );
 		expect( mw._overriddenNodes.length ).toBe( 1 );
 	} );
-	
+
 	it( "ignores embedded text nodes", function() {
 
 		var element = document.createElement( 'div' );
@@ -117,7 +117,7 @@ describe( "The core Metawidget", function() {
 
 		expect( mw._overriddenNodes[0].toString() ).toBe( 'span' );
 		expect( mw._overriddenNodes.length ).toBe( 1 );
-	} );	
+	} );
 
 	it( "builds nested Metawidgets", function() {
 
@@ -151,8 +151,7 @@ describe( "The core Metawidget", function() {
 				'td id="table-fooNestedFoo-cell"' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe(
 				'input type="text" id="fooNestedFoo" name="fooNestedFoo"' );
-		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe(
-		'Foo' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Foo' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
@@ -265,7 +264,7 @@ describe( "The core Metawidget", function() {
 	it( "will stop the build if the inspection returns null", function() {
 
 		// Normal
-		
+
 		var element = document.createElement( 'div' );
 		var mw = new metawidget.Metawidget( element );
 		mw.toInspect = {
@@ -274,32 +273,73 @@ describe( "The core Metawidget", function() {
 
 		mw.buildWidgets();
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
-		
+
 		// With null InspectionResultProcessor
-		
+
 		element = document.createElement( 'div' );
 		mw = new metawidget.Metawidget( element, {
 			inspectionResultProcessors: [ function() {
 
 			} ]
 		} );
-		
+
 		mw.buildWidgets();
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
 
 		// With null Inspectior
-		
+
 		element = document.createElement( 'div' );
 		mw = new metawidget.Metawidget( element, {
 			inspector: function() {
 
 			},
 			inspectionResultProcessors: [ function() {
+
 				throw new Error( 'Should not reach' );
 			} ]
 		} );
-		
+
 		mw.buildWidgets();
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
+	} );
+
+	it( "defensively copies attributes", function() {
+
+		var inspectionResult = [ {
+			foo: "bar"
+		} ];
+
+		var widgetBuilt = 0;
+		var sawReadOnly = 0;
+		var element = document.createElement( 'div' );
+		var mw = new metawidget.Metawidget( element, {
+			widgetBuilder: function( attributes, mw ) {
+				
+				attributes.foo = 'baz';
+				widgetBuilt++;
+				
+				if ( attributes.readOnly === 'true' ) {
+					sawReadOnly++;
+				}
+			}
+		} );
+		mw.readOnly = true;
+		
+		mw.buildWidgets( inspectionResult );
+		expect( inspectionResult[0].foo ).toBe( "bar" );
+		expect( widgetBuilt ).toBe( 1 );
+		expect( sawReadOnly ).toBe( 1 );
+		
+		// ___root nodes too
+		
+		inspectionResult = [ {
+			name: "__root",
+			foo: "bar"
+		} ];
+
+		mw.buildWidgets( inspectionResult );
+		expect( inspectionResult[0].foo ).toBe( "bar" );
+		expect( widgetBuilt ).toBe( 2 );
+		expect( sawReadOnly ).toBe( 2 );		
 	} );
 } );

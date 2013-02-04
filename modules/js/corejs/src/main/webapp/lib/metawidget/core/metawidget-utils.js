@@ -92,15 +92,6 @@ metawidget.util.hasChildElements = function( node ) {
 	return false;
 };
 
-metawidget.util.isReadOnly = function( attributes, mw ) {
-
-	if ( attributes.readOnly === 'true' ) {
-		return true;
-	}
-
-	return ( mw.readOnly );
-};
-
 metawidget.util.isSpanAllColumns = function( attributes ) {
 
 	if ( attributes === undefined ) {

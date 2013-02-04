@@ -129,7 +129,7 @@ metawidget.Pipeline = function( element ) {
 
 metawidget.Pipeline.prototype.configure = function( config ) {
 
-	if ( config === undefined) {
+	if ( config === undefined ) {
 		return;
 	}
 	if ( config.inspector !== undefined ) {
@@ -264,13 +264,14 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 				continue;
 			}
 
-			var widget = _buildWidget( this, attributes, mw );
+			var copiedAttributes = _forceReadOnly( attributes, mw );
+			var widget = _buildWidget( this, copiedAttributes, mw );
 
 			if ( widget !== undefined ) {
-				widget = _processWidget( this, widget, attributes, mw );
+				widget = _processWidget( this, widget, copiedAttributes, mw );
 
 				if ( widget !== undefined ) {
-					_layoutWidget( this, widget, attributes, this.element, mw );
+					_layoutWidget( this, widget, copiedAttributes, this.element, mw );
 					return;
 				}
 			}
@@ -288,24 +289,25 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 				continue;
 			}
 
-			var widget = _buildWidget( this, attributes, mw );
+			var copiedAttributes = _forceReadOnly( attributes, mw );
+			var widget = _buildWidget( this, copiedAttributes, mw );
 
 			if ( widget === undefined ) {
 				if ( this.maximumInspectionDepth <= 0 ) {
 					return;
 				}
 
-				widget = this.buildNestedMetawidget( attributes, mw );
+				widget = this.buildNestedMetawidget( copiedAttributes, mw );
 
 				if ( widget === undefined ) {
 					return;
 				}
 			}
 
-			widget = _processWidget( this, widget, attributes, mw );
+			widget = _processWidget( this, widget, copiedAttributes, mw );
 
 			if ( widget !== undefined ) {
-				_layoutWidget( this, widget, attributes, this.element, mw );
+				_layoutWidget( this, widget, copiedAttributes, this.element, mw );
 			}
 		}
 	}
@@ -321,6 +323,29 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 	//
 	// Private methods
 	//
+
+	function _forceReadOnly( attributes, mw ) {
+
+		// Defensively copy the attributes, in case something like stripSection
+		// changes them
+
+		var copiedAttributes = {};
+
+		for ( var name in attributes ) {
+			copiedAttributes[name] = attributes[name];
+		}
+
+		// Try to keep the exact nature of the 'readOnly' mechanism (i.e. set on
+		// attribute, set on overall Metawidget) out of the
+		// WidgetBuilders/WidgetProcessors/Layouts. This is because not
+		// everybody will need/want a Metawidget-level 'setReadOnly'
+
+		if ( mw.readOnly === true ) {
+			copiedAttributes.readOnly = 'true';
+		}
+
+		return copiedAttributes;
+	}
 
 	function _startBuild( pipeline, mw ) {
 

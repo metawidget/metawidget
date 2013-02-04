@@ -87,32 +87,6 @@ describe( "The hasChildElements function", function() {
 	} );
 } );
 
-describe( "The testIsReadOnly function", function() {
-
-	it( "tests if an attribute is read only", function() {
-
-		expect( metawidget.util.isReadOnly( {}, {
-			readOnly: false
-		} ) ).toBe( false );
-
-		expect( metawidget.util.isReadOnly( {}, {
-			readOnly: "true"
-		} ) ).toBe( "true" );
-
-		expect( metawidget.util.isReadOnly( {
-			readOnly: "false"
-		}, {
-			readOnly: true
-		} ) ).toBe( true );
-
-		expect( metawidget.util.isReadOnly( {
-			readOnly: "false"
-		}, {
-			readOnly: false
-		} ) ).toBe( false );
-	} );
-} );
-
 describe( "The splitPath function", function() {
 
 	it( "splits a path into types and names", function() {
