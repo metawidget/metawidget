@@ -123,6 +123,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 	var tableStyleClass = config !== undefined ? config.tableStyleClass : undefined;
 	var columnStyleClasses = config !== undefined ? config.columnStyleClasses : undefined;
+	var headerStyleClass = config !== undefined ? config.headerStyleClass : undefined;
 	var footerStyleClass = config !== undefined ? config.footerStyleClass : undefined;
 	var numberOfColumns = config !== undefined && config.numberOfColumns ? config.numberOfColumns : 1;
 	var currentColumn = 0;
@@ -141,33 +142,51 @@ metawidget.layout.TableLayout = function( config ) {
 
 		container.appendChild( table );
 
-		// tfoot
-
+		// Facets
+		
 		if ( mw.overriddenNodes !== undefined ) {
 			for ( var loop1 = 0, length1 = mw.overriddenNodes.length; loop1 < length1; loop1++ ) {
 
 				var child = mw.overriddenNodes[loop1];
 
-				if ( child.tagName === 'FACET' && child.getAttribute( 'name' ) === 'footer' ) {
-					var tfoot = document.createElement( 'tfoot' );
-					table.appendChild( tfoot );
-					var tr = document.createElement( 'tr' );
-					tfoot.appendChild( tr );
-					var td = document.createElement( 'td' );
-					td.setAttribute( 'colspan', numberOfColumns * 2 );
+				if ( child.tagName !== 'FACET' ) {
+					continue;
+				}
+				
+				// thead or tfoot
 
+				var parent;
+				
+				if ( child.getAttribute( 'name' ) === 'header' ) {
+					parent = document.createElement( 'thead' );
+				} else if ( child.getAttribute( 'name' ) === 'footer' ) {
+					parent = document.createElement( 'tfoot' );
+				} else {
+					continue;
+				}
+				
+				table.appendChild( parent );
+				var tr = document.createElement( 'tr' );
+				parent.appendChild( tr );
+				var td = document.createElement( 'td' );
+				td.setAttribute( 'colspan', numberOfColumns * 2 );
+
+				if ( child.getAttribute( 'name' ) === 'header' ) {
+					if ( headerStyleClass !== undefined ) {
+						td.setAttribute( 'class', headerStyleClass );
+					}
+				} else {
 					if ( footerStyleClass !== undefined ) {
 						td.setAttribute( 'class', footerStyleClass );
 					}
+				}
 
-					tr.appendChild( td );
+				tr.appendChild( td );
 
-					// Append children, so as to unwrap the 'facet' tag
+				// Append children, so as to unwrap the 'facet' tag
 
-					while ( child.childNodes.length > 0 ) {
-						td.appendChild( child.removeChild( child.childNodes[0] ) );
-					}
-					break;
+				while ( child.childNodes.length > 0 ) {
+					td.appendChild( child.removeChild( child.childNodes[0] ) );
 				}
 			}
 		}

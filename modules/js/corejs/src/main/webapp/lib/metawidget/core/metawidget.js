@@ -24,9 +24,12 @@ var metawidget = metawidget || {};
 
 /**
  * Pure JavaScript Metawidget.
- *  
- * @param element	the element to populate with UI components matching the properties of the business object 
- * @param config	optional configuration object (see metawidget.Pipeline.configure)
+ * 
+ * @param element
+ *            the element to populate with UI components matching the properties
+ *            of the business object
+ * @param config
+ *            optional configuration object (see metawidget.Pipeline.configure)
  * @returns {metawidget.Metawidget}
  */
 
@@ -105,7 +108,7 @@ metawidget.Metawidget = function( element, config ) {
 
 		// Inspect (if necessary)
 
-		if ( inspectionResult === undefined ) {			
+		if ( inspectionResult === undefined ) {
 			var splitPath = metawidget.util.splitPath( this.path );
 			inspectionResult = pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
@@ -116,8 +119,8 @@ metawidget.Metawidget = function( element, config ) {
 
 /**
  * @class Pipeline.
- * <p>
- * Clients should override 'buildNestedMetawidget'.
+ *        <p>
+ *        Clients should override 'buildNestedMetawidget'.
  */
 
 metawidget.Pipeline = function( element ) {
@@ -157,6 +160,15 @@ metawidget.Pipeline.prototype.configure = function( config ) {
 	if ( config.inspectionResultProcessors !== undefined ) {
 		this.inspectionResultProcessors = config.inspectionResultProcessors.slice();
 	}
+
+	// Support adding to the existing array of InspectionResultProcessors (it
+	// may be hard for clients to redefine the originals)
+
+	if ( config.addInspectionResultProcessors !== undefined ) {
+		for ( var loop = 0, length = config.addInspectionResultProcessors.length; loop < length; loop++ ) {
+			this.inspectionResultProcessors.push( config.addInspectionResultProcessors[loop] );
+		}
+	}
 	if ( config.widgetBuilder !== undefined ) {
 		this.widgetBuilder = config.widgetBuilder;
 	}
@@ -164,8 +176,8 @@ metawidget.Pipeline.prototype.configure = function( config ) {
 		this.widgetProcessors = config.widgetProcessors.slice();
 	}
 
-	// Support adding to the existing array of WidgetProcessors (which may be
-	// hard for clients to redefine)
+	// Support adding to the existing array of WidgetProcessors (it may be
+	// hard for clients to redefine the originals)
 
 	if ( config.addWidgetProcessors !== undefined ) {
 		for ( var loop = 0, length = config.addWidgetProcessors.length; loop < length; loop++ ) {
@@ -437,18 +449,18 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 			mw.onEndBuild();
 		} else {
 			while ( mw.overriddenNodes.length > 0 ) {
-	
+
 				var child = mw.overriddenNodes[0];
 				mw.overriddenNodes.splice( 0, 1 );
-	
+
 				// Unused facets don't count
-	
+
 				if ( child.tagName === 'FACET' ) {
 					continue;
 				}
-	
+
 				// Manually created components default to no section
-	
+
 				pipeline.layoutWidget( child, {
 					section: ''
 				}, pipeline.element, mw );

@@ -242,76 +242,123 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes.length ).toBe( 1 );
 	} );
 
-	it( "calls onStartBuild and onEndBuild", function() {
+	it( "calls events on its configured components", function() {
 
 		var called = [];
 
 		var element = document.createElement( 'div' );
 		var mw = new metawidget.Metawidget( element, {
+			inspector: {
+				inspect: function() {
+					
+					called.push( 'inspector.inspect' );
+					return [];
+				}
+			},
+			inspectionResultProcessors: [ {
+				processInspectionResult: function() {
+
+					called.push( 'inspectionResultProcessor.processInspectionResult' );
+					return [];
+				}
+			} ],
+			addInspectionResultProcessors: [ {
+				processInspectionResult: function() {
+
+					called.push( 'addedInspectionResultProcessor.processInspectionResult' );
+					return [ { name: "foo", type: "string" } ];
+				}
+			} ],
 			widgetBuilder: {
-				onStartBuild: function( mw ) {
+				onStartBuild: function() {
 
-					called.push( 'widgetBuilder.onStartBuild( ' + mw + ' )' );
+					called.push( 'widgetBuilder.onStartBuild' );
 				},
-				onEndBuild: function( mw ) {
+				buildWidget: function() {
+					
+					called.push( 'widgetBuilder.buildWidget' );
+					return document.createElement( 'span' );
+				},
+				onEndBuild: function() {
 
-					called.push( 'widgetBuilder.onEndBuild( ' + mw + ' )' );
+					called.push( 'widgetBuilder.onEndBuild' );
 				}
 			},
 			widgetProcessors: [ {
-				onStartBuild: function( mw ) {
+				onStartBuild: function() {
 
-					called.push( 'widgetProcessor.onStartBuild( ' + mw + ' )' );
+					called.push( 'widgetProcessor.onStartBuild' );
 				},
-				onEndBuild: function( mw ) {
+				processWidget: function( widget ) {
+					
+					called.push( 'widgetProcessor.processWidget' );
+					return widget;
+				},
+				onEndBuild: function() {
 
-					called.push( 'widgetProcessor.onEndBuild( ' + mw + ' )' );
+					called.push( 'widgetProcessor.onEndBuild' );
 				}
 			} ],
 			addWidgetProcessors: [ {
-				onStartBuild: function( mw ) {
+				onStartBuild: function() {
 
-					called.push( 'addedWidgetProcessor.onStartBuild( ' + mw + ' )' );
+					called.push( 'addedWidgetProcessor.onStartBuild' );
 				},
-				onEndBuild: function( mw ) {
+				processWidget: function( widget ) {
+					
+					called.push( 'addedWidgetProcessor.processWidget' );
+					return widget;
+				},
+				onEndBuild: function() {
 
-					called.push( 'addedWidgetProcessor.onEndBuild( ' + mw + ' )' );
+					called.push( 'addedWidgetProcessor.onEndBuild' );
 				}
 			} ],
 			layout: {
-				onStartBuild: function( mw ) {
+				onStartBuild: function() {
 
-					called.push( 'layout.onStartBuild( ' + mw + ' )' );
+					called.push( 'layout.onStartBuild' );
 				},
-				startContainerLayout: function( element, mw ) {
+				startContainerLayout: function() {
 
-					called.push( 'layout.startContainerLayout( ' + element + ', ' + mw + ' )' );
+					called.push( 'layout.startContainerLayout' );
 				},
-				endContainerLayout: function( element, mw ) {
-
-					called.push( 'layout.endContainerLayout( ' + element + ', ' + mw + ' )' );
+				layoutWidget: function() {
+					
+					called.push( 'layout.layoutWidget' );
 				},
-				onEndBuild: function( mw ) {
+				endContainerLayout: function() {
 
-					called.push( 'layout.onEndBuild( ' + mw + ' )' );
+					called.push( 'layout.endContainerLayout' );
+				},
+				onEndBuild: function() {
+
+					called.push( 'layout.onEndBuild' );
 				}
 			}
 		} );
 
 		mw.buildWidgets();
 
-		expect( called[0] ).toBe( 'widgetBuilder.onStartBuild( [object Object] )' );
-		expect( called[1] ).toBe( 'widgetProcessor.onStartBuild( [object Object] )' );
-		expect( called[2] ).toBe( 'addedWidgetProcessor.onStartBuild( [object Object] )' );
-		expect( called[3] ).toBe( 'layout.onStartBuild( [object Object] )' );
-		expect( called[4] ).toBe( 'layout.startContainerLayout( div, [object Object] )' );
-		expect( called[5] ).toBe( 'layout.endContainerLayout( div, [object Object] )' );
-		expect( called[6] ).toBe( 'layout.onEndBuild( [object Object] )' );
-		expect( called[7] ).toBe( 'widgetProcessor.onEndBuild( [object Object] )' );
-		expect( called[8] ).toBe( 'addedWidgetProcessor.onEndBuild( [object Object] )' );
-		expect( called[9] ).toBe( 'widgetBuilder.onEndBuild( [object Object] )' );
+		expect( called[0] ).toBe( 'inspector.inspect' );
+		expect( called[1] ).toBe( 'inspectionResultProcessor.processInspectionResult' );
+		expect( called[2] ).toBe( 'addedInspectionResultProcessor.processInspectionResult' );
+		expect( called[3] ).toBe( 'widgetBuilder.onStartBuild' );
+		expect( called[4] ).toBe( 'widgetProcessor.onStartBuild' );
+		expect( called[5] ).toBe( 'addedWidgetProcessor.onStartBuild' );
+		expect( called[6] ).toBe( 'layout.onStartBuild' );
+		expect( called[7] ).toBe( 'layout.startContainerLayout' );
+		expect( called[8] ).toBe( 'widgetBuilder.buildWidget' );
+		expect( called[9] ).toBe( 'widgetProcessor.processWidget' );
+		expect( called[10] ).toBe( 'addedWidgetProcessor.processWidget' );
+		expect( called[11] ).toBe( 'layout.layoutWidget' );
+		expect( called[12] ).toBe( 'layout.endContainerLayout' );
+		expect( called[13] ).toBe( 'layout.onEndBuild' );
+		expect( called[14] ).toBe( 'widgetProcessor.onEndBuild' );
+		expect( called[15] ).toBe( 'addedWidgetProcessor.onEndBuild' );
+		expect( called[16] ).toBe( 'widgetBuilder.onEndBuild' );
 		
-		expect( called.length ).toBe( 10 );
+		expect( called.length ).toBe( 17 );
 	} );
 
 	it( "will stop the build if the inspection returns null", function() {

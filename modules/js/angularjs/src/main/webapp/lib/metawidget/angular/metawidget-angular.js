@@ -79,7 +79,7 @@ angular.module( 'metawidget', [] )
 					scope.$watch( 'ngModel', function( newValue, oldValue ) {
 
 						// Cannot test against mw.toInspect, because is based on
-						// the parent
+						// the splitPath.type
 
 						if ( newValue !== oldValue ) {
 							mw.invalidateInspection();

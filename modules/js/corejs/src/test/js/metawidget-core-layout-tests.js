@@ -181,6 +181,7 @@ describe( "The TableLayout", function() {
 	it( "supports facets", function() {
 
 		var layout = new metawidget.layout.TableLayout( {
+			"headerStyleClass": "testHeaderStyleClass",
 			"footerStyleClass": "testFooterStyleClass"
 		} );
 
@@ -189,14 +190,20 @@ describe( "The TableLayout", function() {
 
 		var container = document.createElement( 'metawidget' );
 
-		var facet = document.createElement( 'facet' );
-		facet.setAttribute( 'name', 'footer' );
+		var header = document.createElement( 'facet' );
+		header.setAttribute( 'name', 'header' );
 		var widget2 = document.createElement( 'input' );
 		widget2.setAttribute( 'id', 'widget2' );
-		facet.appendChild( widget2 );
+		header.appendChild( widget2 );
+
+		var footer = document.createElement( 'facet' );
+		footer.setAttribute( 'name', 'footer' );
+		var widget3 = document.createElement( 'input' );
+		widget3.setAttribute( 'id', 'widget3' );
+		footer.appendChild( widget3 );
 
 		var mw = {
-			overriddenNodes: [ facet ]
+			overriddenNodes: [ header, footer ]
 		};
 
 		layout.startContainerLayout( container, mw );
@@ -205,21 +212,25 @@ describe( "The TableLayout", function() {
 		}, container, mw );
 
 		expect( container.childNodes[0].toString() ).toBe( 'table' );
-		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tfoot' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'thead' );
 		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
-		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2" class="testFooterStyleClass"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2" class="testHeaderStyleClass"' );
 		expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input id="widget2"' );
-		expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'tbody' );
-		expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
-		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
-		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
-		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1:' );
-		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
-		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
-		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
-		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes.length ).toBe( 3 );
-		expect( container.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
-		expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+		expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'tfoot' );
+		expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2" class="testFooterStyleClass"' );
+		expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input id="widget3"' );
+		expect( container.childNodes[0].childNodes[2].toString() ).toBe( 'tbody' );
+		expect( container.childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+		expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
+		expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
+		expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1:' );
+		expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
+		expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+		expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+		expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes.length ).toBe( 3 );
+		expect( container.childNodes[0].childNodes[2].childNodes.length ).toBe( 1 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 3 );
 		expect( container.childNodes.length ).toBe( 1 );
 	} );
 
