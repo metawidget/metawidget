@@ -16,9 +16,10 @@
 
 'use strict';
 
+var metawidget = metawidget || {};
+
 /**
- * InspectionResultProcessors.
+ * @namespace InspectionResultProcessors.
  */
 
-var metawidget = metawidget || {};
 metawidget.inspectionresultprocessor = metawidget.inspectionresultprocessor || {};

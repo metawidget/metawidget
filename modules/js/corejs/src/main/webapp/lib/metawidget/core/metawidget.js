@@ -17,7 +17,7 @@
 'use strict';
 
 /**
- * Metawidget for pure JavaScript environments.
+ * @namespace Metawidget for pure JavaScript environments.
  */
 
 var metawidget = metawidget || {};
@@ -97,8 +97,9 @@ metawidget.Metawidget = function( element, config ) {
 
 		// Inspect (if necessary)
 
-		if ( inspectionResult === undefined ) {
-			inspectionResult = pipeline.inspect( this );
+		if ( inspectionResult === undefined ) {			
+			var splitPath = metawidget.util.splitPath( this.path );
+			inspectionResult = pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 
 		pipeline.buildWidgets( inspectionResult, this );
@@ -106,7 +107,7 @@ metawidget.Metawidget = function( element, config ) {
 };
 
 /**
- * Pipeline.
+ * @class Pipeline.
  * <p>
  * Clients should override 'buildNestedMetawidget'.
  */
@@ -189,62 +190,56 @@ metawidget.Pipeline.prototype.getWidgetProcessor = function( testInstanceOf ) {
 };
 
 /**
- * Inspect the given Metawidget's 'toInspect' according to its 'path', and
- * return the result as a JSON String.
+ * Inspect the 'toInspect' according to its 'type' and 'names', and return the
+ * result as a JSON String.
  * <p>
  * This method mirrors the <code>Inspector</code> interface. Internally it
  * looks up the Inspector to use. It is a useful hook for subclasses wishing to
  * inspect different Objects using our same <code>Inspector</code>.
  * <p>
  * In addition, this method runs the <code>InspectionResultProcessors</code>.
- * 
- * @param mw
- *            Metawidget instance that will be passed down the pipeline
- *            (WidgetBuilders, WidgetProcessors etc). Expected to have
- *            'toInspect' and 'path'.
  */
 
-metawidget.Pipeline.prototype.inspect = function( mw ) {
+metawidget.Pipeline.prototype.inspect = function( toInspect, type, names, mw ) {
 
 	try {
 		// Inspector
-	
-		var splitPath = metawidget.util.splitPath( mw.path );
+
 		var inspectionResult;
-	
+
 		if ( this.inspector.inspect !== undefined ) {
-			inspectionResult = this.inspector.inspect( mw.toInspect, splitPath.type, splitPath.names );
+			inspectionResult = this.inspector.inspect( toInspect, type, names );
 		} else {
-			inspectionResult = this.inspector( mw.toInspect, splitPath.type, splitPath.names );
+			inspectionResult = this.inspector( toInspect, type, names );
 		}
-	
+
 		// Inspector may return undefined
-	
+
 		if ( inspectionResult === undefined ) {
 			return;
 		}
-	
+
 		// InspectionResultProcessors
-	
+
 		for ( var loop = 0, length = this.inspectionResultProcessors.length; loop < length; loop++ ) {
-	
+
 			var inspectionResultProcessor = this.inspectionResultProcessors[loop];
-	
+
 			if ( inspectionResultProcessor.processInspectionResult !== undefined ) {
-				inspectionResult = inspectionResultProcessor.processInspectionResult( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+				inspectionResult = inspectionResultProcessor.processInspectionResult( inspectionResult, mw, toInspect, type, names );
 			} else {
-				inspectionResult = inspectionResultProcessor( inspectionResult, mw, mw.toInspect, splitPath.type, splitPath.names );
+				inspectionResult = inspectionResultProcessor( inspectionResult, mw, toInspect, type, names );
 			}
-	
+
 			// InspectionResultProcessor may return undefined
-	
+
 			if ( inspectionResult === undefined ) {
 				return;
 			}
 		}
-	
+
 		return inspectionResult;
-	} catch( e ) {
+	} catch ( e ) {
 		console.log( e );
 		throw e;
 	}
@@ -290,7 +285,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 				widget = _processWidget( this, widget, copiedAttributes, mw );
 
 				if ( widget !== undefined ) {
-					_layoutWidget( this, widget, copiedAttributes, this.element, mw );
+					this.layoutWidget( widget, copiedAttributes, this.element, mw );
 					return;
 				}
 			}
@@ -326,7 +321,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 			widget = _processWidget( this, widget, copiedAttributes, mw );
 
 			if ( widget !== undefined ) {
-				_layoutWidget( this, widget, copiedAttributes, this.element, mw );
+				this.layoutWidget( widget, copiedAttributes, this.element, mw );
 			}
 		}
 	}
@@ -421,34 +416,28 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 		return widget;
 	}
 
-	function _layoutWidget( pipeline, widget, attributes, container, mw ) {
-
-		if ( pipeline.layout.layoutWidget !== undefined ) {
-			pipeline.layout.layoutWidget( widget, attributes, container, mw );
-			return;
-		}
-
-		pipeline.layout( widget, attributes, container, mw );
-	}
-
 	function _endBuild( pipeline, mw ) {
 
-		while ( mw.overriddenNodes.length > 0 ) {
-
-			var child = mw.overriddenNodes[0];
-			mw.overriddenNodes.splice( 0, 1 );
-			
-			// Unused facets don't count
-			
-			if ( child.tagName === 'FACET' ) {
-				continue;
-			}
-			
-			// Manually created components default to no section
+		if ( mw.onEndBuild !== undefined ) {
+			mw.onEndBuild();
+		} else {
+			while ( mw.overriddenNodes.length > 0 ) {
 	
-			_layoutWidget( pipeline, child, {
-				section: ''
-			}, pipeline.element, mw );
+				var child = mw.overriddenNodes[0];
+				mw.overriddenNodes.splice( 0, 1 );
+	
+				// Unused facets don't count
+	
+				if ( child.tagName === 'FACET' ) {
+					continue;
+				}
+	
+				// Manually created components default to no section
+	
+				pipeline.layoutWidget( child, {
+					section: ''
+				}, pipeline.element, mw );
+			}
 		}
 
 		// End all stages of the pipeline
@@ -474,6 +463,16 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 			pipeline.widgetBuilder.onEndBuild( mw );
 		}
 	}
+};
+
+metawidget.Pipeline.prototype.layoutWidget = function( widget, attributes, container, mw ) {
+
+	if ( this.layout.layoutWidget !== undefined ) {
+		this.layout.layoutWidget( widget, attributes, container, mw );
+		return;
+	}
+
+	this.layout( widget, attributes, container, mw );
 };
 
 /**

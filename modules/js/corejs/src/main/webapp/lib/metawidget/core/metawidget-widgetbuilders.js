@@ -16,16 +16,17 @@
 
 'use strict';
 
+var metawidget = metawidget || {};
+
 /**
- * WidgetBuilders.
+ * @namespace WidgetBuilders.
  */
 
-var metawidget = metawidget || {};
 metawidget.widgetbuilder = metawidget.widgetbuilder || {};
 
-//
-// CompositeWidgetBuilder
-//
+/**
+ * @class CompositeWidgetBuilder.
+ */
 
 metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
@@ -86,6 +87,8 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 };
 
 /**
+ * @class OverriddenWidgetBuilder.
+ * 
  * WidgetBuilder to override widgets based on mw.overriddenNodes.
  * <p>
  * Widgets are overridden based on id, not name, because name is not legal
@@ -118,9 +121,9 @@ metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = functio
 	}
 };
 
-//
-// ReadOnlyWidgetBuilder
-//
+/**
+ * @class ReadOnlyWidgetBuilder.
+ */
 
 metawidget.widgetbuilder.ReadOnlyWidgetBuilder = function() {
 
@@ -165,9 +168,9 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 	}
 };
 
-//
-// HtmlWidgetBuilder
-//
+/**
+ * @class HtmlWidgetBuilder.
+ */
 
 metawidget.widgetbuilder.HtmlWidgetBuilder = function() {
 

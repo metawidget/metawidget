@@ -16,18 +16,17 @@
 
 'use strict';
 
+var metawidget = metawidget || {};
+
 /**
- * Layouts.
+ * @namespace Layouts.
  */
 
-var metawidget = metawidget || {};
 metawidget.layout = metawidget.layout || {};
 
-//
-// SimpleLayout
-//
-
 /**
+ * @class SimpleLayout.
+ * 
  * Layout to simply output components one after another, with no labels and no structure. This
  * Layout is suited to rendering single components, or for rendering components whose layout relies
  * entirely on CSS.
@@ -49,11 +48,9 @@ metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attrib
 	container.appendChild( widget );
 };
 
-//
-// DivLayout
-//
-
 /**
+ * @class DivLayout.
+ * 
  * Layout to arrange widgets using div tags.
  */
 
@@ -112,11 +109,9 @@ metawidget.layout.DivLayout = function( config ) {
 	};
 };
 
-//
-// TableLayout
-//
-
 /**
+ * @class TableLayout.
+ * 
  * Layout to arrange widgets in a table, with one column for the label and another for the widget.
  */
 
@@ -526,11 +521,9 @@ metawidget.layout.createNestedSectionLayoutDecorator = function( config, decorat
 	};
 };
 
-//
-// HeadingTagLayoutDecorator
-//
-
 /**
+ * @class HeadingTagLayoutDecorator.
+ * 
  * LayoutDecorator to decorate widgets from different sections using an HTML heading
  * tag (i.e. h1, h2 etc).
  */
@@ -554,9 +547,9 @@ metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 	};
 };
 
-//
-// DivLayoutDecorator
-//
+/**
+ * @class DivLayoutDecorator.
+ */
 
 metawidget.layout.DivLayoutDecorator = function( config ) {
 

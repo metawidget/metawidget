@@ -16,18 +16,17 @@
 
 'use strict';
 
+var metawidget = metawidget || {};
+
 /**
- * Inspectors.
+ * @namespace Inspectors.
  */
 
-var metawidget = metawidget || {};
 metawidget.inspector = metawidget.inspector || {};
 
-//
-// CompositeInspector
-//
-
 /**
+ * @class CompositeInspector.
+ * 
  * Delegates inspection to one or more sub-inspectors, then combines the
  * resulting metadata.
  * <p>
@@ -47,7 +46,7 @@ metawidget.inspector.CompositeInspector = function( config ) {
 	}
 
 	var inspectors;
-	
+
 	if ( config.inspectors !== undefined ) {
 		inspectors = config.inspectors;
 	} else {
@@ -76,9 +75,17 @@ metawidget.inspector.CompositeInspector = function( config ) {
 	};
 };
 
-//
-// PropertyTypeInspector
-//
+/**
+ * @class PropertyTypeInspector
+ * 
+ * Inspects JavaScript objects for their property names and types.
+ * <p>
+ * In principal, ordering of property names within JavaScript objects is not
+ * guaranteed. In practice, most browsers respect the original ordering that
+ * properties were defined in. However you may want to precede
+ * PropertyTypeInspector with a custom Inspector that imposes a defined
+ * ordering.
+ */
 
 metawidget.inspector.PropertyTypeInspector = function() {
 
@@ -86,16 +93,6 @@ metawidget.inspector.PropertyTypeInspector = function() {
 		throw new Error( 'Constructor called as a function' );
 	}
 };
-
-/**
- * Inspects JavaScript objects for their property names and types.
- * <p>
- * In principal, ordering of property names within JavaScript objects is not
- * guaranteed. In practice, most browsers respect the original ordering that
- * properties were defined in. However you may want to preceed
- * PropertyTypeInspector with a custom Inspector that imposes a defined
- * ordering.
- */
 
 metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspect, type, names ) {
 
@@ -109,16 +106,16 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 
 	// Inspect root node. Important if the Metawidget is
 	// pointed directly at a primitive type
-	
+
 	var inspectionResult = [ {
 		_root: 'true',
 		type: typeof ( toInspect )
 	} ];
 
 	if ( names !== undefined && names.length > 0 ) {
-		inspectionResult[0].name = names[names.length-1];
+		inspectionResult[0].name = names[names.length - 1];
 	}
-	
+
 	for ( var property in toInspect ) {
 
 		var inspectedProperty = {};

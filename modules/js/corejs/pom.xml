@@ -59,6 +59,21 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>nl.windgazer</groupId>
+				<artifactId>jsdoctk-plugin</artifactId>
+				<configuration>
+					<srcDir>${basedir}/src/main/webapp/lib/metawidget/core</srcDir>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>jsdoc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

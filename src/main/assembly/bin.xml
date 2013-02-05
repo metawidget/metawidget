@@ -10,7 +10,11 @@
 			<outputDirectory>/doc/api</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/target/site/tlddoc</directory>
+			<directory>/modules/js/corejs/target/jsdoc</directory>
+			<outputDirectory>/doc/jsdoc</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>/modules/java/target/site/tlddoc</directory>
 			<outputDirectory>/doc/taglib</outputDirectory>
 		</fileSet>
 		<fileSet>

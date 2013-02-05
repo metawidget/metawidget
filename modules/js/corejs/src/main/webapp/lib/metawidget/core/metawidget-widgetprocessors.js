@@ -16,18 +16,17 @@
 
 'use strict';
 
+var metawidget = metawidget || {};
+
 /**
- * WidgetProcessors.
+ * @namespace WidgetProcessors.
  */
 
-var metawidget = metawidget || {};
 metawidget.widgetprocessor = metawidget.widgetprocessor || {};
 
-//
-// IdProcessor
-//
-
 /**
+ * @class IdProcessor.
+ * 
  * WidgetProcessor that sets the 'id' attribute.
  */
 
@@ -50,11 +49,9 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 	return widget;
 };
 
-//
-// RequiredAttributeProcessor
-//
-
 /**
+ * @class RequiredAttributeProcessor.
+ * 
  * WidgetProcessor that sets the 'required' attribute.
  */
 
@@ -74,11 +71,9 @@ metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = 
 	return widget;
 };
 
-//
-// SimpleBindingProcessor
-//
-
 /**
+ * @class SimpleBindingProcessor.
+ * 
  * Simple data/action binding implementation. Frameworks that supply their own
  * data-binding mechanisms should override this with their own WidgetProcessor.
  */

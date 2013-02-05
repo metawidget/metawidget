@@ -288,6 +288,36 @@ describe(
 					expect( mw.childNodes.length ).toBe( 1 );
 				} );
 			} );
+			
+			it( "defensively copies overridden widgets", function() {
+
+				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+				var controller = myApp.controller( 'TestController', function( $scope ) {
+
+					$scope.foo = {
+						bar: "Bar"
+					};
+				} );
+
+				var mw = document.createElement( 'metawidget' );
+				var bar = document.createElement( 'span' );
+				bar.setAttribute( 'ng-model', 'foo.bar' );
+				mw.appendChild( bar );
+
+				var body = document.createElement( 'body' );
+				body.setAttribute( 'ng-controller', 'TestController' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<label id="table-bar-label">Bar:</label>' );
+					expect( mw.innerHTML ).toContain( '<span ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+					expect( mw.childNodes.length ).toBe( 1 );
+				} );
+			} );
+			
 		} );
 
 describe( "The AngularInspectionResultProcessor", function() {

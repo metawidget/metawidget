@@ -16,12 +16,16 @@
 
 'use strict';
 
-//
-// JQueryUIWidgetBuilder
-//
+/**
+ * @namespace Metawidget for JQuery UI environments.
+ */
 
 metawidget.jqueryui = metawidget.jqueryui || {};
 metawidget.jqueryui.widgetbuilder = metawidget.jqueryui.widgetbuilder || {};
+
+/**
+ * @class JQueryUIWidgetBuilder.
+ */
 
 metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder = function() {
 
@@ -66,11 +70,11 @@ metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = 
 	}
 };
 
-//
-// JQueryUIBindingProcessor
-//
-
 metawidget.jqueryui.widgetprocessor = metawidget.jqueryui.widgetprocessor || {};
+
+/**
+ * @class JQueryUIBindingProcessor.
+ */
 
 metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor = function() {
 
@@ -147,14 +151,10 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 	}
 };
 
-//
-// TabLayout
-//
-
 metawidget.jqueryui.layout = metawidget.jqueryui.layout || {};
 
 /**
- * LayoutDecorator to decorate widgets from different sections using JQuery UI tabs.
+ * @class LayoutDecorator to decorate widgets from different sections using JQuery UI tabs.
  */
 
 metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
@@ -313,7 +313,9 @@ $.widget( "metawidget.metawidget", {
 		// Inspect (if necessary)
 		
 		if ( inspectionResult === undefined ) {
-			inspectionResult = this._pipeline.inspect( this );
+			var splitPath = metawidget.util.splitPath( this.path );
+			// TODO: test a case where splitPath.names is used
+			inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 		
 		this._pipeline.buildWidgets( inspectionResult, this );

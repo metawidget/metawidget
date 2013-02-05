@@ -120,6 +120,8 @@ angular.module( 'metawidget', [] )
 							// Must check nodeType *and* other attributes,
 							// because Angular wraps everything (even text
 							// nodes) with a 'span class='ng-scope'' tag
+							//
+							// https://github.com/angular/angular.js/issues/1059
 
 							if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {
 								mw.overriddenNodes.push( cloneNode );
@@ -140,7 +142,7 @@ angular.module( 'metawidget', [] )
 } ] );
 
 /**
- * Angular Metawidget.
+ * @namespace Metawidget for AngularJS environments.
  */
 
 metawidget.angular = metawidget.angular || {};
@@ -199,18 +201,57 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 		if ( inspectionResult !== undefined ) {
 			lastInspectionResult = inspectionResult;
 		} else if ( lastInspectionResult === undefined ) {
-			lastInspectionResult = pipeline.inspect( this );
+			var splitPath = metawidget.util.splitPath( this.path );
+			lastInspectionResult = pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 
 		pipeline.buildWidgets( lastInspectionResult, this );
 	};
+
+	/**
+	 * Overridden to inspect unused nodes by evaluating their 'ng-model'
+	 * attribute.
+	 */
+
+	this.onEndBuild = function() {
+
+		while ( this.overriddenNodes.length > 0 ) {
+
+			var child = this.overriddenNodes[0];
+			this.overriddenNodes.splice( 0, 1 );
+
+			// Unused facets don't count
+
+			if ( child.tagName === 'FACET' ) {
+				continue;
+			}
+
+			var childAttributes;
+
+			if ( child.hasAttribute( 'ng-model' ) ) {
+
+				var splitPath = metawidget.util.splitPath( child.getAttribute( 'ng-model' ) );
+				var toInspect = scope.$parent.$eval( splitPath.type );
+				childAttributes = pipeline.inspect( toInspect, splitPath.type, splitPath.names, this )[0];
+
+			} else {
+
+				// Manually created components default to no section
+
+				childAttributes = {
+					section: ''
+				};
+			}
+
+			pipeline.layoutWidget( child, childAttributes, pipeline.element, this );
+		}
+	};
 };
 
 metawidget.angular.inspectionresultprocessor = metawidget.angular.inspectionresultprocessor || {};
-metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
 
 /**
- * InspectionResultProcessor to evaluate Angular expressions.
+ * @class InspectionResultProcessor to evaluate Angular expressions.
  * 
  * @param scope
  *            scope of the Metawidget directive
@@ -263,9 +304,11 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 	};
 };
 
+metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
+
 /**
- * WidgetProcessor to add Angular bindings and validation, and compile the
- * widget.
+ * @class WidgetProcessor to add Angular bindings and validation, and compile
+ *        the widget.
  * 
  * @returns {metawidget.angular.AngularWidgetProcessor}
  */

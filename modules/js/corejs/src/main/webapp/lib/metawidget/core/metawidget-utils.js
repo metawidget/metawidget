@@ -16,11 +16,12 @@
 
 'use strict';
 
+var metawidget = metawidget || {};
+
 /**
- * Utilities.
+ * @namespace Utilities.
  */
 
-var metawidget = metawidget || {};
 metawidget.util = metawidget.util || {};
 
 metawidget.util.uncamelCase = function( name ) {
