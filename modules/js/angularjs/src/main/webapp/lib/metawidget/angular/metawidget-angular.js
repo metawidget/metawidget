@@ -73,6 +73,7 @@ angular.module( 'metawidget', [] )
 				// Do not observe primitive types, such as 'string',
 				// otherwise every keypress will recreate the widget
 
+				var oldToInspect = undefined;
 				var typeofNgModel = typeof ( scope.$eval( 'ngModel' ) );
 
 				if ( typeofNgModel === 'object' || typeofNgModel === 'undefined' ) {
@@ -81,7 +82,7 @@ angular.module( 'metawidget', [] )
 						// Cannot test against mw.toInspect, because is based on
 						// the splitPath.type
 
-						if ( newValue !== oldValue ) {
+						if ( newValue !== oldToInspect ) {
 							mw.invalidateInspection();
 							_buildWidgets();
 						}
@@ -138,6 +139,7 @@ angular.module( 'metawidget', [] )
 					// Invoke Metawidget
 
 					mw.path = attrs.ngModel;
+					oldToInspect = scope.$parent.$eval( mw.path );
 					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
 					mw.readOnly = scope.$eval( 'readOnly' );
 					mw.buildWidgets();
