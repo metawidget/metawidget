@@ -12,10 +12,10 @@
 	</head>
 	<body ng-controller="AllWidgetsController">
 
-		<metawidget to-inspect="allWidgets" read-only="readOnly" config="metawidgetConfig">
+		<metawidget ng-model="allWidgets" read-only="readOnly" config="metawidgetConfig">
 			<stub id="allWidgetsToBeStubbed"></stub>
 			<facet name="footer">
-				<metawidget to-inspect="actions" config="metawidgetActionsConfig"></metawidget>
+				<metawidget ng-model="actions" config="metawidgetActionsConfig"></metawidget>
 			</facet>
 		</metawidget>
 

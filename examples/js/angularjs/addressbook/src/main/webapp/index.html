@@ -20,9 +20,9 @@
 
 	<div id="content" ng-controller="ContactsController">
 
-		<metawidget to-inspect="search" config="metawidgetConfig.form">
+		<metawidget ng-model="search" config="metawidgetConfig.form">
 			<facet name="footer">
-				<metawidget to-inspect="searchActions" config="metawidgetConfig.buttons"></metawidget>
+				<metawidget ng-model="searchActions" config="metawidgetConfig.buttons"></metawidget>
 			</facet>
 		</metawidget>
 

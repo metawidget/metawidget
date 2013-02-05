@@ -229,7 +229,7 @@
 	layout: ... // Configure Layout
 };</programlisting>
 					
-					<programlisting language="xml">&lt;metawidget to-inspect="..." config="metawidgetConfig" /&gt;</programlisting>
+					<programlisting language="xml">&lt;metawidget ng-model="..." config="metawidgetConfig" /&gt;</programlisting>
 
 				</section>
 

@@ -374,6 +374,8 @@ describe( "The core Metawidget", function() {
 				if ( attributes.readOnly === 'true' ) {
 					sawReadOnly++;
 				}
+				
+				return document.createElement( 'span' );
 			}
 		} );
 		mw.readOnly = true;

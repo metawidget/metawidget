@@ -10,7 +10,7 @@
 
 			<img id="dialog-image" ng-src="media/{{current.type}}.gif" alt=""/>
 
-			<metawidget to-inspect="current" read-only="readOnly" config="metawidgetConfig.form">
+			<metawidget ng-model="current" read-only="readOnly" config="metawidgetConfig.form">
 				<table id="currentCommunications" class="data-table">
 					<thead>
 						<tr>
@@ -21,8 +21,8 @@
 					</thead>
 					<tfoot ng-show="!readOnly">
 						<tr>
-							<td class="column-half"><metawidget to-inspect="communication.type" config="metawidgetConfig.simple"></metawidget></td>
-							<td class="column-half"><metawidget to-inspect="communication.value" config="metawidgetConfig.simple"></metawidget></td>
+							<td class="column-half"><metawidget ng-model="communication.type" config="metawidgetConfig.simple"></metawidget></td>
+							<td class="column-half"><metawidget ng-model="communication.value" config="metawidgetConfig.simple"></metawidget></td>
 							<td class="column-tiny, table-buttons"><button ng-click="addCommunication()">Add</button></td>
 						</tr>
 					</tfoot>
@@ -36,7 +36,7 @@
 				</table>
 				
 				<facet name="footer">
-					<metawidget to-inspect="crudActions" config="metawidgetConfig.buttons"></metawidget>
+					<metawidget ng-model="crudActions" config="metawidgetConfig.buttons"></metawidget>
 				</facet>
 			</metawidget>
 

@@ -105,7 +105,9 @@ describe( "The PropertyTypeInspector", function() {
 		expect( inspector.inspect( undefined ) ).toBeUndefined();
 		expect( inspector.inspect( {} )[0]._root ).toBe( 'true' );
 		expect( inspector.inspect( {}, 'foo' )[0]._root ).toBe( 'true' );
-		expect( inspector.inspect( {}, 'foo', [ 'bar' ] ) ).toBeUndefined();
+		expect( inspector.inspect( {}, 'foo', [ 'bar' ] )[0]._root ).toBe( 'true' );
+		expect( inspector.inspect( {}, 'foo', [ 'bar' ] )[0].name ).toBe( 'bar' );
+		expect( inspector.inspect( {}, 'foo', [ 'bar' ] ).length ).toBe( 1 );
 	} );
 	
 	it( "does not ignore empty strings", function() {

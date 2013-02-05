@@ -33,7 +33,7 @@ describe(
 						} );
 
 						var mw = document.createElement( 'metawidget' );
-						mw.setAttribute( 'to-inspect', 'foo' );
+						mw.setAttribute( 'ng-model', 'foo' );
 						mw.setAttribute( 'read-only', 'readOnly' );
 						mw.setAttribute( 'config', 'metawidgetConfig' );
 
@@ -52,7 +52,7 @@ describe(
 
 									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
 
-									// Test watching toInspect
+									// Test watching ngModel
 
 									var scope = angular.element( body ).scope();
 									scope.foo = {
@@ -89,7 +89,7 @@ describe(
 						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 
 						var mw = document.createElement( 'metawidget' );
-						mw.setAttribute( 'to-inspect', 'foo' );
+						mw.setAttribute( 'ng-model', 'foo' );
 
 						var body = document.createElement( 'body' );
 						body.appendChild( mw );
@@ -140,7 +140,7 @@ describe(
 						} );
 
 						var mw = document.createElement( 'metawidget' );
-						mw.setAttribute( 'to-inspect', 'foo' );
+						mw.setAttribute( 'ng-model', 'foo' );
 						mw.setAttribute( 'read-only', 'readOnly' );
 						mw.setAttribute( 'config', 'metawidgetConfig' );
 
@@ -158,6 +158,9 @@ describe(
 													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 
 									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+
+									expect( inspectionCount ).toBe( 1 );
+									expect( buildingCount ).toBe( 1 );
 
 									// Test changing two things at once
 
@@ -214,7 +217,7 @@ describe(
 				} );
 
 				var mw = document.createElement( 'metawidget' );
-				mw.setAttribute( 'to-inspect', 'foo' );
+				mw.setAttribute( 'ng-model', 'foo' );
 				var bar = document.createElement( 'span' );
 				bar.setAttribute( 'id', 'fooBar' );
 				mw.appendChild( bar );
@@ -274,7 +277,7 @@ describe(
 				} );
 
 				var mw = document.createElement( 'metawidget' );
-				mw.setAttribute( 'to-inspect', 'foo.bar' );
+				mw.setAttribute( 'ng-model', 'foo.bar' );
 
 				var body = document.createElement( 'body' );
 				body.setAttribute( 'ng-controller', 'TestController' );

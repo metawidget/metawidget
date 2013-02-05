@@ -100,49 +100,56 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 
 	toInspect = metawidget.util.traversePath( toInspect, type, names );
 
-	if ( toInspect === undefined ) {
-		return;
-	}
-
 	// Inspect root node. Important if the Metawidget is
 	// pointed directly at a primitive type
 
 	var inspectionResult = [ {
-		_root: 'true',
-		type: typeof ( toInspect )
+		_root: 'true'
 	} ];
 
 	if ( names !== undefined && names.length > 0 ) {
 		inspectionResult[0].name = names[names.length - 1];
+	} else {
+		
+		// Nothing useful to return?
+		
+		if ( toInspect === undefined ) {
+			return;
+		}
 	}
 
-	for ( var property in toInspect ) {
+	if ( toInspect !== undefined ) {
 
-		var inspectedProperty = {};
-		inspectedProperty.name = property;
-
-		// Inspect the type of the property as best we can
-
-		var value = toInspect[property];
-
-		if ( value instanceof Date ) {
-
-			// typeof never returns 'date'
-
-			inspectedProperty.type = 'date';
-		} else {
-
-			var typeOfProperty = typeof ( value );
-
-			// type 'object' doesn't convey much, and can override a more
-			// descriptive inspection result from a previous Inspector
-
-			if ( typeOfProperty !== 'object' ) {
-				inspectedProperty.type = typeOfProperty;
+		inspectionResult[0].type = typeof( toInspect );
+		
+		for ( var property in toInspect ) {
+	
+			var inspectedProperty = {};
+			inspectedProperty.name = property;
+	
+			// Inspect the type of the property as best we can
+	
+			var value = toInspect[property];
+	
+			if ( value instanceof Date ) {
+	
+				// typeof never returns 'date'
+	
+				inspectedProperty.type = 'date';
+			} else {
+	
+				var typeOfProperty = typeof ( value );
+	
+				// type 'object' doesn't convey much, and can override a more
+				// descriptive inspection result from a previous Inspector
+	
+				if ( typeOfProperty !== 'object' ) {
+					inspectedProperty.type = typeOfProperty;
+				}
 			}
+	
+			inspectionResult.push( inspectedProperty );
 		}
-
-		inspectionResult.push( inspectedProperty );
 	}
 
 	return inspectionResult;

@@ -43,14 +43,14 @@ angular.module( 'metawidget', [] )
 		 */
 
 		scope: {
-			toInspect: '=',
+			ngModel: '=',
 			readOnly: '=',
 			config: '='
 		},
 
 		/**
 		 * Metawidget must transclude, so that transcluded DOM doesn't have to
-		 * reference 'toInspect'.
+		 * reference 'ng-model'.
 		 */
 
 		transclude: true,
@@ -73,10 +73,10 @@ angular.module( 'metawidget', [] )
 				// Do not observe primitive types, such as 'string',
 				// otherwise every keypress will recreate the widget
 
-				var typeofToInspect = typeof ( scope.$eval( 'toInspect' ) );
+				var typeofNgModel = typeof ( scope.$eval( 'ngModel' ) );
 
-				if ( typeofToInspect === 'object' || typeofToInspect === 'undefined' ) {
-					scope.$watch( 'toInspect', function( newValue, oldValue ) {
+				if ( typeofNgModel === 'object' || typeofNgModel === 'undefined' ) {
+					scope.$watch( 'ngModel', function( newValue, oldValue ) {
 
 						if ( newValue !== mw.toInspect ) {
 							mw.invalidateInspection();
@@ -130,8 +130,9 @@ angular.module( 'metawidget', [] )
 					} );
 
 					// Invoke Metawidget
+					// TODO: deeper path?
 
-					mw.path = attrs.toInspect;
+					mw.path = attrs.ngModel;
 					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
 					mw.readOnly = scope.$eval( 'readOnly' );
 					mw.buildWidgets();
