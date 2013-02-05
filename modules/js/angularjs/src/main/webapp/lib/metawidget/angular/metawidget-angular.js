@@ -130,7 +130,6 @@ angular.module( 'metawidget', [] )
 					} );
 
 					// Invoke Metawidget
-					// TODO: deeper path?
 
 					mw.path = attrs.ngModel;
 					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
