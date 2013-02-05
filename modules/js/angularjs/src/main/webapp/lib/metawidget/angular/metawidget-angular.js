@@ -78,13 +78,19 @@ angular.module( 'metawidget', [] )
 				if ( typeofNgModel === 'object' || typeofNgModel === 'undefined' ) {
 					scope.$watch( 'ngModel', function( newValue, oldValue ) {
 
-						if ( newValue !== mw.toInspect ) {
+						// Cannot test against mw.toInspect, because is based on
+						// the parent
+
+						if ( newValue !== oldValue ) {
 							mw.invalidateInspection();
 							_buildWidgets();
 						}
 					} );
 				}
 				scope.$watch( 'readOnly', function( newValue, oldValue ) {
+
+					// Test against mw.readOnly, not oldValue, because it may
+					// have been reset already by _buildWidgets
 
 					if ( newValue !== mw.readOnly ) {
 						// Do not mw.invalidateInspection()

@@ -22,6 +22,14 @@
 
 var metawidget = metawidget || {};
 
+/**
+ * Pure JavaScript Metawidget.
+ *  
+ * @param element	the element to populate with UI components matching the properties of the business object 
+ * @param config	optional configuration object (see metawidget.Pipeline.configure)
+ * @returns {metawidget.Metawidget}
+ */
+
 metawidget.Metawidget = function( element, config ) {
 
 	if ( ! ( this instanceof metawidget.Metawidget ) ) {
@@ -128,7 +136,14 @@ metawidget.Pipeline = function( element ) {
  * Configures the pipeline using the given config object.
  * <p>
  * This method is separate to the constructor, so that subclasses can set
- * defaults.
+ * defaults. The following configuration properties are supported:
+ * <ul>
+ * <li>inspector - an Inspector</li>
+ * <li>inspectionResultProcessors - an array of InspectionResultProcessors</li>
+ * <li>widgetBuilder - a WidgetBuilder</li>
+ * <li>widgetProcessors - an array of WidgetProcessors</li>
+ * <li>layout - a Layout</li>
+ * </ul>
  */
 
 metawidget.Pipeline.prototype.configure = function( config ) {
