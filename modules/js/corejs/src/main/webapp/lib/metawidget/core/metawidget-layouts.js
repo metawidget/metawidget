@@ -25,11 +25,10 @@ var metawidget = metawidget || {};
 metawidget.layout = metawidget.layout || {};
 
 /**
- * @class SimpleLayout.
- * 
- * Layout to simply output components one after another, with no labels and no
- * structure. This Layout is suited to rendering single components, or for
- * rendering components whose layout relies entirely on CSS.
+ * @class Layout to simply output components one after another, with no labels
+ *        and no structure. This Layout is suited to rendering single
+ *        components, or for rendering components whose layout relies entirely
+ *        on CSS.
  */
 
 metawidget.layout.SimpleLayout = function() {
@@ -49,9 +48,7 @@ metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attrib
 };
 
 /**
- * @class DivLayout.
- * 
- * Layout to arrange widgets using div tags.
+ * @class Layout to arrange widgets using div tags.
  */
 
 metawidget.layout.DivLayout = function( config ) {
@@ -110,9 +107,7 @@ metawidget.layout.DivLayout = function( config ) {
 };
 
 /**
- * @class TableLayout.
- * 
- * Layout to arrange widgets in a table, with one column for the label and
+ * @class Layout to arrange widgets in a table, with one column for the label and
  * another for the widget.
  */
 

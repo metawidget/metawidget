@@ -30,9 +30,10 @@ metawidget.jqueryui.widgetbuilder = metawidget.jqueryui.widgetbuilder || {};
 
 /**
  * @class Builds widgets using JQuery UI.
- * <p>
- * Chooses JQuery UI widgets such as <tt>slider</tt> and <tt>spinner</tt> to suit the
- * inspected fields. Returns undefined for everything else.
+ *        <p>
+ *        Chooses JQuery UI widgets such as <tt>slider</tt> and
+ *        <tt>spinner</tt> to suit the inspected fields. Returns undefined for
+ *        everything else.
  */
 
 metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder = function() {
@@ -85,7 +86,8 @@ metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = 
 metawidget.jqueryui.widgetprocessor = metawidget.jqueryui.widgetprocessor || {};
 
 /**
- * @class Binds JQuery UI specific widgets, using the JQuery <tt>$( widget ).foo( 'value', value )</tt> syntax.
+ * @class Binds JQuery UI specific widgets, using the JQuery
+ *        <tt>$( widget ).foo( 'value', value )</tt> syntax.
  */
 
 metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor = function() {
@@ -116,7 +118,7 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWi
 
 	if ( widget.hasAttribute( 'class' ) ) {
 		var styleClass = widget.getAttribute( 'class' );
-		
+
 		if ( styleClass.indexOf( 'ui-slider' ) !== -1 ) {
 			$( widget ).slider( 'value', value );
 			isBindable = true;
@@ -166,7 +168,8 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = fu
 metawidget.jqueryui.layout = metawidget.jqueryui.layout || {};
 
 /**
- * @class LayoutDecorator to decorate widgets from different sections using JQuery UI tabs.
+ * @class LayoutDecorator to decorate widgets from different sections using
+ *        JQuery UI tabs.
  */
 
 metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
@@ -244,7 +247,7 @@ metawidget.jqueryui.layout.TabLayoutDecorator.prototype.createSectionWidget = fu
  */
 
 $.widget( "metawidget.metawidget", {
-	
+
 	/**
 	 * Default configuration
 	 */
@@ -264,6 +267,9 @@ $.widget( "metawidget.metawidget", {
 	 */
 
 	_create: function() {
+
+		// Pipeline (private, based on convention here:
+		// http://forum.jquery.com/topic/what-s-the-right-way-to-store-private-data-in-widget-s-instance)
 
 		this._pipeline = new metawidget.Pipeline( this.element[0] );
 		this._pipeline.buildNestedMetawidget = function( attributes, mw ) {
@@ -293,13 +299,13 @@ $.widget( "metawidget.metawidget", {
 		this._overriddenNodes = [];
 
 		var element = this.element[0];
-		
+
 		for ( var loop = 0; loop < element.childNodes.length; ) {
 			if ( element.childNodes[loop].nodeType !== 1 ) {
 				loop++;
 				continue;
 			}
-			
+
 			var childNode = element.childNodes[loop];
 			element.removeChild( childNode );
 			this._overriddenNodes.push( childNode );
@@ -323,13 +329,13 @@ $.widget( "metawidget.metawidget", {
 		}
 
 		// Inspect (if necessary)
-		
+
 		if ( inspectionResult === undefined ) {
 			var splitPath = metawidget.util.splitPath( this.path );
 			// TODO: test a case where splitPath.names is used
 			inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
-		
+
 		this._pipeline.buildWidgets( inspectionResult, this );
 	},
 
@@ -360,7 +366,8 @@ $.widget( "metawidget.metawidget", {
 	/**
 	 * Inspect the given toInspect/path and build widgets.
 	 * <p>
-	 * Invoke using <tt>$( '#metawidget' ).metawidget( "buildWidgets", toInspect, path )</tt>.
+	 * Invoke using
+	 * <tt>$( '#metawidget' ).metawidget( "buildWidgets", toInspect, path )</tt>.
 	 */
 
 	buildWidgets: function( toInspect, path ) {

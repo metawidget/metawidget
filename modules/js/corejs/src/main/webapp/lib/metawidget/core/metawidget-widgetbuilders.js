@@ -95,9 +95,7 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 };
 
 /**
- * @class OverriddenWidgetBuilder.
- * 
- * WidgetBuilder to override widgets based on <tt>mw.overriddenNodes</tt>.
+ * @class WidgetBuilder to override widgets based on <tt>mw.overriddenNodes</tt>.
  * <p>
  * Widgets are overridden based on id, not name, because name is not legal
  * syntax for many nodes (e.g. <tt>table</tt>).
