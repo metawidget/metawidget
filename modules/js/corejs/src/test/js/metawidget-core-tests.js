@@ -107,11 +107,12 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes.length ).toBe( 1 );
 
-		expect( mw._overriddenNodes.length ).toBe( 2 );
 		expect( mw.overriddenNodes.length ).toBe( 0 );
-		mw.overriddenNodes.push( "defensive" );
+		mw.overriddenNodes.push( document.createElement( 'defensive' ) );
 		expect( mw.overriddenNodes.length ).toBe( 1 );
-		expect( mw._overriddenNodes.length ).toBe( 2 );
+		mw.buildWidgets();		
+		expect( mw.overriddenNodes.length ).toBe( 0 );
+		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 	} );
 
 	it( "can be used purely for layout", function() {
@@ -153,9 +154,13 @@ describe( "The core Metawidget", function() {
 		element.appendChild( document.createElement( 'span' ) );
 		element.appendChild( document.createTextNode( 'text2' ) );
 		var mw = new metawidget.Metawidget( element );
-
-		expect( mw._overriddenNodes[0].toString() ).toBe( 'span' );
-		expect( mw._overriddenNodes.length ).toBe( 1 );
+		mw.onEndBuild = function() {
+			// Do not clean up overriddenNodes
+		};
+		mw.buildWidgets();
+		
+		expect( mw.overriddenNodes[0].toString() ).toBe( 'span' );
+		expect( mw.overriddenNodes.length ).toBe( 1 );
 	} );
 
 	it( "builds nested Metawidgets", function() {
@@ -452,7 +457,7 @@ describe( "The core Metawidget", function() {
 		mw.toInspect = {
 			bar: "Bar"
 		};
-		mw.path = 'foo.bar'
+		mw.path = 'foo.bar';
 
 		mw.buildWidgets();
 		expect( element.childNodes[0].toString() ).toBe( 'table id="table-fooBar"' );
@@ -469,5 +474,64 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes.length ).toBe( 1 );
+	} );
+	
+	it( "handles falsy values gracefully", function() {
+
+		// These values should produce an empty Metawidget
+		
+		testFalsy( undefined );
+		testFalsy( null );
+		testFalsy( {} );
+		testFalsy( [] );
+		
+		function testFalsy( falsyValue ) {
+			
+			var element = document.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element );
+
+			mw.toInspect = falsyValue;
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'table' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
+			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 1 );
+		}
+
+		// These values should produce a primitive Metawidget
+
+		testNotFalsy( '' );
+		testNotFalsy( 0 );
+		testNotFalsy( NaN );
+		testNotFalsy( false );
+
+		function testNotFalsy( nonFalsyValue ) {
+			
+			var element = document.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element );
+
+			mw.toInspect = nonFalsyValue;
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'table' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+			
+			var widget = element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
+			expect( widget.toString() ).toContain( 'input type="' );
+			
+			if ( widget.toString().indexOf( 'checkbox' ) !== -1 ) {
+				expect( widget.checked ).toBe( nonFalsyValue );
+			} else if ( nonFalsyValue + '' !== 'NaN' ) {
+				expect( widget.value ).toBe( nonFalsyValue );
+			}
+			
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 1 );
+		}
 	} );
 } );

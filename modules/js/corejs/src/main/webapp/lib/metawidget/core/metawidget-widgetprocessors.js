@@ -25,9 +25,7 @@ var metawidget = metawidget || {};
 metawidget.widgetprocessor = metawidget.widgetprocessor || {};
 
 /**
- * @class IdProcessor.
- * 
- * WidgetProcessor that sets the 'id' attribute.
+ * @class WidgetProcessor that sets the HTML 'id' attribute.
  */
 
 metawidget.widgetprocessor.IdProcessor = function() {
@@ -43,16 +41,18 @@ metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widge
 	// temporary ids when they wrap widgets
 
 	if ( !widget.hasAttribute( 'id' )) {
-		widget.setAttribute( 'id', metawidget.util.getId( attributes, mw ) );
+		var id = metawidget.util.getId( attributes, mw );
+		
+		if ( id !== undefined ) {
+			widget.setAttribute( 'id', id );
+		}
 	}
 
 	return widget;
 };
 
 /**
- * @class RequiredAttributeProcessor.
- * 
- * WidgetProcessor that sets the 'required' attribute.
+ * @class WidgetProcessor that sets the HTML 5 'required' attribute.
  */
 
 metawidget.widgetprocessor.RequiredAttributeProcessor = function() {
@@ -72,10 +72,8 @@ metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = 
 };
 
 /**
- * @class SimpleBindingProcessor.
- * 
- * Simple data/action binding implementation. Frameworks that supply their own
- * data-binding mechanisms should override this with their own WidgetProcessor.
+ * @class Simple data/action binding implementation. Frameworks that supply their own
+ * data-binding mechanisms (such as Angular JS) should override this with their own WidgetProcessor.
  */
 
 metawidget.widgetprocessor.SimpleBindingProcessor = function() {

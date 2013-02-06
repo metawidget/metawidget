@@ -21,10 +21,18 @@
  */
 
 metawidget.jqueryui = metawidget.jqueryui || {};
+
+/**
+ * @namespace JQuery UI WidgetBuilders.
+ */
+
 metawidget.jqueryui.widgetbuilder = metawidget.jqueryui.widgetbuilder || {};
 
 /**
- * @class JQueryUIWidgetBuilder.
+ * @class Builds widgets using JQuery UI.
+ * <p>
+ * Chooses JQuery UI widgets such as <tt>slider</tt> and <tt>spinner</tt> to suit the
+ * inspected fields. Returns undefined for everything else.
  */
 
 metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder = function() {
@@ -70,10 +78,14 @@ metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = 
 	}
 };
 
+/**
+ * @namespace JQuery UI WidgetProcessors.
+ */
+
 metawidget.jqueryui.widgetprocessor = metawidget.jqueryui.widgetprocessor || {};
 
 /**
- * @class JQueryUIBindingProcessor.
+ * @class Binds JQuery UI specific widgets, using the JQuery <tt>$( widget ).foo( 'value', value )</tt> syntax.
  */
 
 metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor = function() {
@@ -165,48 +177,6 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 
 	metawidget.layout.createNestedSectionLayoutDecorator( config, this, 'tabLayoutDecorator' );
 
-	this.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
-
-		var tabs = previousSectionWidget;
-
-		// Whole new tabbed pane?
-
-		if ( tabs === undefined ) {
-			tabs = document.createElement( 'div' );
-			tabs.setAttribute( 'id', metawidget.util.getId( attributes, mw ) + '-tabs' );
-			tabs.appendChild( document.createElement( 'ul' ) );
-			this.getDelegate().layoutWidget( tabs, {
-				wide: "true"
-			}, container, mw );
-
-			mw.tabLayoutDecorator = mw.tabLayoutDecorator || [];
-			mw.tabLayoutDecorator.push( tabs );
-		} else {
-			tabs = previousSectionWidget.parentNode;
-		}
-
-		// New Tab
-
-		var ul = tabs.childNodes[0];
-		var tabId = tabs.getAttribute( 'id' ) + ( ul.childNodes.length + 1 );
-		var li = document.createElement( 'li' );
-		var a = document.createElement( 'a' );
-		a.setAttribute( 'href', '#' + tabId );
-		a.hash = '#' + tabId;
-		li.appendChild( a );
-		ul.appendChild( li );
-
-		var tab = document.createElement( 'div' );
-		tab.setAttribute( 'id', tabId );
-		tabs.appendChild( tab );
-
-		// Tab name
-
-		a.innerHTML = section;
-
-		return tab;
-	};
-
 	var _superOnEndBuild = this.onEndBuild;
 
 	/**
@@ -227,144 +197,194 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 	};
 };
 
-//
-// Widget Factory
-//
+metawidget.jqueryui.layout.TabLayoutDecorator.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 
-$.widget( "metawidget.metawidget", {
+	var tabs = previousSectionWidget;
 
-	/**
-	 * Default configuration
-	 */
+	// Whole new tabbed pane?
 
-	options: {
-		readOnly: false,
-		inspector: new metawidget.inspector.PropertyTypeInspector(),
-		widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder(),
-				new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
-		widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-				new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ],
-		layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
-	},
+	if ( tabs === undefined ) {
+		tabs = document.createElement( 'div' );
+		tabs.setAttribute( 'id', metawidget.util.getId( attributes, mw ) + '-tabs' );
+		tabs.appendChild( document.createElement( 'ul' ) );
+		this.getDelegate().layoutWidget( tabs, {
+			wide: "true"
+		}, container, mw );
 
-	/**
-	 * Constructor
-	 */
+		mw.tabLayoutDecorator = mw.tabLayoutDecorator || [];
+		mw.tabLayoutDecorator.push( tabs );
+	} else {
+		tabs = previousSectionWidget.parentNode;
+	}
 
-	_create: function() {
+	// New Tab
 
-		this._pipeline = new metawidget.Pipeline( this.element[0] );
-		this._pipeline.buildNestedMetawidget = function( attributes, mw ) {
+	var ul = tabs.childNodes[0];
+	var tabId = tabs.getAttribute( 'id' ) + ( ul.childNodes.length + 1 );
+	var li = document.createElement( 'li' );
+	var a = document.createElement( 'a' );
+	a.setAttribute( 'href', '#' + tabId );
+	a.hash = '#' + tabId;
+	li.appendChild( a );
+	ul.appendChild( li );
 
-			var nestedWidget = document.createElement( 'div' );
-			var nestedMetawidget = $( nestedWidget ).metawidget( mw.options );
+	var tab = document.createElement( 'div' );
+	tab.setAttribute( 'id', tabId );
+	tabs.appendChild( tab );
 
-			nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || attributes.readOnly === 'true' );
-			var nestedToInspect = mw.toInspect;
-			var nestedPath = metawidget.util.appendPath( attributes, mw );
+	// Tab name
 
-			// Attach ourselves as a property of the tag, rather than try to
-			// 'extend' the built-in HTML tags
+	a.innerHTML = section;
 
-			nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
+	return tab;
+};
 
-			nestedMetawidget.metawidget( "buildWidgets", nestedToInspect, nestedPath );
-			return nestedWidget;
-		};
+/**
+ * JQuery UI WidgetFactory-based Metawidget.
+ */
 
-		// Configure defaults
+$.widget( "metawidget.metawidget", (function() {
+	
+	var _pipeline;
+	var _overriddenNodes; 
+	
+	return {
 
-		this._pipeline.configure( this.options );
-
-		// First time in, capture the contents of the Metawidget (if any)
-
-		this._overriddenNodes = [];
-
-		var element = this.element[0];
-		
-		for ( var loop = 0; loop < element.childNodes.length; ) {
-			if ( element.childNodes[loop].nodeType !== 1 ) {
-				loop++;
-				continue;
+		/**
+		 * Default configuration
+		 */
+	
+		options: {
+			readOnly: false,
+			inspector: new metawidget.inspector.PropertyTypeInspector(),
+			widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder(),
+					new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
+			widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
+					new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ],
+			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
+		},
+	
+		/**
+		 * Constructor
+		 */
+	
+		_create: function() {
+	
+			_pipeline = new metawidget.Pipeline( this.element[0] );
+			_pipeline.buildNestedMetawidget = function( attributes, mw ) {
+	
+				var nestedWidget = document.createElement( 'div' );
+				var nestedMetawidget = $( nestedWidget ).metawidget( mw.options );
+	
+				nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || attributes.readOnly === 'true' );
+				var nestedToInspect = mw.toInspect;
+				var nestedPath = metawidget.util.appendPath( attributes, mw );
+	
+				// Attach ourselves as a property of the tag, rather than try to
+				// 'extend' the built-in HTML tags
+	
+				nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
+	
+				nestedMetawidget.metawidget( "buildWidgets", nestedToInspect, nestedPath );
+				return nestedWidget;
+			};
+	
+			// Configure defaults
+	
+			_pipeline.configure( this.options );
+	
+			// First time in, capture the contents of the Metawidget (if any)
+	
+			_overriddenNodes = [];
+	
+			var element = this.element[0];
+			
+			for ( var loop = 0; loop < element.childNodes.length; ) {
+				if ( element.childNodes[loop].nodeType !== 1 ) {
+					loop++;
+					continue;
+				}
+				
+				var childNode = element.childNodes[loop];
+				element.removeChild( childNode );
+				_overriddenNodes.push( childNode );
+			}
+	
+			this._refresh();
+		},
+	
+		/**
+		 * Called when created, and later when changing options.
+		 */
+	
+		_refresh: function( inspectionResult ) {
+	
+			// Defensive copy
+	
+			this.overriddenNodes = [];
+	
+			for ( var loop = 0, length = _overriddenNodes.length; loop < length; loop++ ) {
+				this.overriddenNodes.push( _overriddenNodes[loop].cloneNode( true ) );
+			}
+	
+			// Inspect (if necessary)
+			
+			if ( inspectionResult === undefined ) {
+				var splitPath = metawidget.util.splitPath( this.path );
+				// TODO: test a case where splitPath.names is used
+				inspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
 			
-			var childNode = element.childNodes[loop];
-			element.removeChild( childNode );
-			this._overriddenNodes.push( childNode );
+			_pipeline.buildWidgets( inspectionResult, this );
+		},
+	
+		/**
+		 * _setOptions is called with a hash of all options that are changing.
+		 */
+	
+		_setOptions: function() {
+	
+			this._superApply( arguments );
+			_pipeline.configure( this.options );
+			this._refresh();
+		},
+	
+		/**
+		 * _setOption is called for each individual option that is changing.
+		 */
+	
+		_setOption: function( key, value ) {
+	
+			if ( key === "readOnly" ) {
+				this.readOnly = value;
+			}
+	
+			this._super( key, value );
+		},
+	
+		/**
+		 * Inspect the given toInspect/path and build widgets.
+		 * <p>
+		 * Invoke using <tt>$( '#metawidget' ).metawidget( "buildWidgets", toInspect, path )</tt>.
+		 */
+	
+		buildWidgets: function( toInspect, path ) {
+	
+			if ( toInspect !== undefined ) {
+				this.toInspect = toInspect;
+				this.path = undefined;
+			}
+	
+			if ( path !== undefined ) {
+				this.path = path;
+			}
+	
+			this._refresh();
+		},
+	
+		getWidgetProcessor: function( testInstanceOf ) {
+	
+			return _pipeline.getWidgetProcessor( testInstanceOf );
 		}
-
-		this._refresh();
-	},
-
-	/**
-	 * Called when created, and later when changing options.
-	 */
-
-	_refresh: function( inspectionResult ) {
-
-		// Defensive copy
-
-		this.overriddenNodes = [];
-
-		for ( var loop = 0, length = this._overriddenNodes.length; loop < length; loop++ ) {
-			this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
-		}
-
-		// Inspect (if necessary)
-		
-		if ( inspectionResult === undefined ) {
-			var splitPath = metawidget.util.splitPath( this.path );
-			// TODO: test a case where splitPath.names is used
-			inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
-		}
-		
-		this._pipeline.buildWidgets( inspectionResult, this );
-	},
-
-	/**
-	 * _setOptions is called with a hash of all options that are changing.
-	 */
-
-	_setOptions: function() {
-
-		this._superApply( arguments );
-		this._pipeline.configure( this.options );
-		this._refresh();
-	},
-
-	/**
-	 * _setOption is called for each individual option that is changing.
-	 */
-
-	_setOption: function( key, value ) {
-
-		if ( key === "readOnly" ) {
-			this.readOnly = value;
-		}
-
-		this._super( key, value );
-	},
-
-	/**
-	 * Inspect the given toInspect/path and build widgets.
-	 */
-
-	buildWidgets: function( toInspect, path ) {
-
-		if ( toInspect !== undefined ) {
-			this.toInspect = toInspect;
-			this.path = undefined;
-		}
-
-		if ( path !== undefined ) {
-			this.path = path;
-		}
-
-		this._refresh();
-	},
-
-	getWidgetProcessor: function( testInstanceOf ) {
-
-		return this._pipeline.getWidgetProcessor( testInstanceOf );
-	},
-} );
+	};
+})() );

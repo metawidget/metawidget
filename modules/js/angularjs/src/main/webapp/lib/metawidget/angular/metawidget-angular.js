@@ -17,13 +17,13 @@
 'use strict';
 
 /**
- * Metawidget module.
+ * AngularJS Metawidget module.
  */
 
 angular.module( 'metawidget', [] )
 
 /**
- * Angular directive to expose Metawidget.
+ * Angular directive to expose <tt>metawidget.angular.AngularMetawidget</tt>.
  */
 
 .directive( 'metawidget', [ '$compile', function( $compile ) {
@@ -161,10 +161,10 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 		throw new Error( "Constructor called as a function" );
 	}
 
-	// toInspect, path and readOnly set by _buildWidgets()
+	// Pipeline (private)
 
-	var pipeline = new metawidget.Pipeline( element[0] );
-	pipeline.buildNestedMetawidget = function( attributes, mw ) {
+	var _pipeline = new metawidget.Pipeline( element[0] );
+	_pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
 		var nestedMetawidget = document.createElement( 'metawidget' );
 		nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
@@ -182,38 +182,40 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	// Configure defaults
 
-	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( element, scope ) ];
-	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+	_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
+	_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
+	_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 			new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
-	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
+	_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
+	_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
-	var lastInspectionResult = undefined;
+	// toInspect, path and readOnly set by _buildWidgets()
+	
+	var _lastInspectionResult = undefined;
 
 	this.configure = function( config ) {
 
-		pipeline.configure( config );
-		lastInspectionResult = undefined;
+		_pipeline.configure( config );
+		_lastInspectionResult = undefined;
 	};
 
 	this.configure( scope.$eval( 'config' ) );
 
 	this.invalidateInspection = function() {
 
-		lastInspectionResult = undefined;
+		_lastInspectionResult = undefined;
 	};
 
 	this.buildWidgets = function( inspectionResult ) {
 
 		if ( inspectionResult !== undefined ) {
-			lastInspectionResult = inspectionResult;
-		} else if ( lastInspectionResult === undefined ) {
+			_lastInspectionResult = inspectionResult;
+		} else if ( _lastInspectionResult === undefined ) {
 			var splitPath = metawidget.util.splitPath( this.path );
-			lastInspectionResult = pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
+			_lastInspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 
-		pipeline.buildWidgets( lastInspectionResult, this );
+		_pipeline.buildWidgets( _lastInspectionResult, this );
 	};
 
 	/**
@@ -240,7 +242,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 				var splitPath = metawidget.util.splitPath( child.getAttribute( 'ng-model' ) );
 				var toInspect = scope.$parent.$eval( splitPath.type );
-				childAttributes = pipeline.inspect( toInspect, splitPath.type, splitPath.names, this )[0];
+				childAttributes = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this )[0];
 
 			} else {
 
@@ -251,10 +253,14 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 				};
 			}
 
-			pipeline.layoutWidget( child, childAttributes, pipeline.element, this );
+			_pipeline.layoutWidget( child, childAttributes, _pipeline.element, this );
 		}
 	};
 };
+
+/**
+ * @namespace InspectionResultProcessors for AngularJS environments.
+ */
 
 metawidget.angular.inspectionresultprocessor = metawidget.angular.inspectionresultprocessor || {};
 
@@ -268,7 +274,7 @@ metawidget.angular.inspectionresultprocessor = metawidget.angular.inspectionresu
  * @returns {metawidget.angular.AngularInspectionResultProcessor}
  */
 
-metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( element, scope ) {
+metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( scope ) {
 
 	if ( ! ( this instanceof metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor ) ) {
 		throw new Error( "Constructor called as a function" );
@@ -311,6 +317,10 @@ metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = 
 		return inspectionResult;
 	};
 };
+
+/**
+ * @namespace WidgetProcessors for AngularJS environments.
+ */
 
 metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
 

@@ -60,7 +60,7 @@ metawidget.layout.DivLayout = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	var divStyleClasses = config !== undefined ? config.divStyleClasses : undefined;
+	var _divStyleClasses = config !== undefined && config.divStyleClasses !== undefined ? config.divStyleClasses.split( ',' ) : undefined;
 
 	this.layoutWidget = function( widget, attributes, container, mw ) {
 
@@ -69,8 +69,8 @@ metawidget.layout.DivLayout = function( config ) {
 		}
 	
 		var outerDiv = document.createElement( 'div' );
-		if ( divStyleClasses !== undefined ) {
-			outerDiv.setAttribute( 'class', divStyleClasses.split( ',' )[0] );
+		if ( _divStyleClasses !== undefined ) {
+			outerDiv.setAttribute( 'class', _divStyleClasses[0] );
 		}
 		
 		// Label
@@ -78,8 +78,8 @@ metawidget.layout.DivLayout = function( config ) {
 		if ( attributes.name !== undefined ) {
 	
 			var labelDiv = document.createElement( 'div' );
-			if ( divStyleClasses !== undefined ) {
-				labelDiv.setAttribute( 'class', divStyleClasses.split( ',' )[1] );
+			if ( _divStyleClasses !== undefined ) {
+				labelDiv.setAttribute( 'class', _divStyleClasses[1] );
 			}
 			
 			var label = document.createElement( 'label' );
@@ -98,8 +98,8 @@ metawidget.layout.DivLayout = function( config ) {
 		// Widget
 	
 		var widgetDiv = document.createElement( 'div' );
-		if ( divStyleClasses !== undefined ) {
-			widgetDiv.setAttribute( 'class', divStyleClasses.split( ',' )[2] );
+		if ( _divStyleClasses !== undefined ) {
+			widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
 		}
 
 		widgetDiv.appendChild( widget );
@@ -121,12 +121,12 @@ metawidget.layout.TableLayout = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	var tableStyleClass = config !== undefined ? config.tableStyleClass : undefined;
-	var columnStyleClasses = config !== undefined ? config.columnStyleClasses : undefined;
-	var headerStyleClass = config !== undefined ? config.headerStyleClass : undefined;
-	var footerStyleClass = config !== undefined ? config.footerStyleClass : undefined;
-	var numberOfColumns = config !== undefined && config.numberOfColumns ? config.numberOfColumns : 1;
-	var currentColumn = 0;
+	var _tableStyleClass = config !== undefined ? config.tableStyleClass : undefined;
+	var _columnStyleClasses = config !== undefined && config.columnStyleClasses !== undefined ? config.columnStyleClasses.split( ',' ) : undefined;
+	var _headerStyleClass = config !== undefined ? config.headerStyleClass : undefined;
+	var _footerStyleClass = config !== undefined ? config.footerStyleClass : undefined;
+	var _numberOfColumns = config !== undefined && config.numberOfColumns ? config.numberOfColumns : 1;
+	var _currentColumn = 0;
 
 	this.startContainerLayout = function( container, mw ) {
 
@@ -136,8 +136,8 @@ metawidget.layout.TableLayout = function( config ) {
 			table.setAttribute( 'id', 'table-' + id );
 		}
 
-		if ( tableStyleClass !== undefined ) {
-			table.setAttribute( 'class', tableStyleClass );
+		if ( _tableStyleClass !== undefined ) {
+			table.setAttribute( 'class', _tableStyleClass );
 		}
 
 		container.appendChild( table );
@@ -169,15 +169,15 @@ metawidget.layout.TableLayout = function( config ) {
 				var tr = document.createElement( 'tr' );
 				parent.appendChild( tr );
 				var td = document.createElement( 'td' );
-				td.setAttribute( 'colspan', numberOfColumns * 2 );
+				td.setAttribute( 'colspan', _numberOfColumns * 2 );
 
 				if ( child.getAttribute( 'name' ) === 'header' ) {
-					if ( headerStyleClass !== undefined ) {
-						td.setAttribute( 'class', headerStyleClass );
+					if ( _headerStyleClass !== undefined ) {
+						td.setAttribute( 'class', _headerStyleClass );
 					}
 				} else {
-					if ( footerStyleClass !== undefined ) {
-						td.setAttribute( 'class', footerStyleClass );
+					if ( _footerStyleClass !== undefined ) {
+						td.setAttribute( 'class', _footerStyleClass );
 					}
 				}
 
@@ -208,8 +208,8 @@ metawidget.layout.TableLayout = function( config ) {
 
 		var spanAllColumns = metawidget.util.isSpanAllColumns( attributes );
 
-		if ( spanAllColumns === true && currentColumn > 0 ) {
-			currentColumn = 0;
+		if ( spanAllColumns === true && _currentColumn > 0 ) {
+			_currentColumn = 0;
 		}
 		
 		// Id
@@ -240,7 +240,7 @@ metawidget.layout.TableLayout = function( config ) {
 		var tbody = table.childNodes[table.childNodes.length - 1];
 		var tr;
 		
-		if ( currentColumn === 0 ) {
+		if ( _currentColumn === 0 ) {
 			tr = document.createElement( 'tr' );
 			if ( idPrefix !== undefined ) {
 				tr.setAttribute( 'id', idPrefix + '-row' );
@@ -256,8 +256,8 @@ metawidget.layout.TableLayout = function( config ) {
 			var th = document.createElement( 'th' );
 			th.setAttribute( 'id', idPrefix + '-label-cell' );
 
-			if ( columnStyleClasses !== undefined ) {
-				th.setAttribute( 'class', columnStyleClasses.split( ',' )[0] );
+			if ( _columnStyleClasses !== undefined ) {
+				th.setAttribute( 'class', _columnStyleClasses[0] );
 			}
 
 			var label = document.createElement( 'label' );
@@ -286,12 +286,12 @@ metawidget.layout.TableLayout = function( config ) {
 			td.setAttribute( 'id', idPrefix + '-cell' );
 		}
 
-		if ( columnStyleClasses !== undefined ) {
-			td.setAttribute( 'class', columnStyleClasses.split( ',' )[1] );
+		if ( _columnStyleClasses !== undefined ) {
+			td.setAttribute( 'class', _columnStyleClasses[1] );
 		}
 
 		if ( spanAllColumns === true ) {
-			td.setAttribute( 'colspan', (( numberOfColumns * 3 ) - 1 ) - tr.childNodes.length );
+			td.setAttribute( 'colspan', (( _numberOfColumns * 3 ) - 1 ) - tr.childNodes.length );
 		} else if ( tr.childNodes.length < 1 ) {
 			td.setAttribute( 'colspan', 2 - tr.childNodes.length );
 		}
@@ -303,8 +303,8 @@ metawidget.layout.TableLayout = function( config ) {
 
 		td = document.createElement( 'td' );
 
-		if ( columnStyleClasses !== undefined ) {
-			td.setAttribute( 'class', columnStyleClasses.split( ',' )[2] );
+		if ( _columnStyleClasses !== undefined ) {
+			td.setAttribute( 'class', _columnStyleClasses[2] );
 		}
 
 		if ( attributes.readOnly !== 'true' && attributes.required === 'true' ) {
@@ -316,10 +316,10 @@ metawidget.layout.TableLayout = function( config ) {
 		// Next column
 
 		if ( spanAllColumns === true ) {
-			currentColumn = numberOfColumns - 1;
+			_currentColumn = _numberOfColumns - 1;
 		}
 		
-		currentColumn = ( currentColumn + 1 ) % numberOfColumns;
+		_currentColumn = ( _currentColumn + 1 ) % _numberOfColumns;
 	};
 };
 
@@ -333,24 +333,24 @@ metawidget.layout._createSectionLayoutDecorator = function( config, decorator, d
 		throw new Error( 'Function called as a Constructor' );
 	}
 
-	var delegate;
+	var _delegate;
 
 	if ( config.delegate !== undefined ) {
-		delegate = config.delegate;
+		_delegate = config.delegate;
 	} else {
-		delegate = config;
+		_delegate = config;
 	}
 
 	/**
 	 * Read-only getter.
 	 * <p>
-	 * Dangerous to add a 'delegate' property, because can conflict with
+	 * Dangerous to add a public 'delegate' property, because can conflict with
 	 * 'config.delegate'.
 	 */
 
 	decorator.getDelegate = function() {
 
-		return delegate;
+		return _delegate;
 	};
 
 	decorator.onStartBuild = function( mw ) {
@@ -554,16 +554,16 @@ metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
 	}
 
 	metawidget.layout.createFlatSectionLayoutDecorator( config, this, 'headingTagLayoutDecorator' );
+};
 
-	this.addSectionWidget = function( section, level, attributes, container, mw ) {
+metawidget.layout.HeadingTagLayoutDecorator.prototype.addSectionWidget = function( section, level, attributes, container, mw ) {
 
-		var h1 = document.createElement( 'h' + ( level + 1 ) );
-		h1.innerHTML = section;
+	var h1 = document.createElement( 'h' + ( level + 1 ) );
+	h1.innerHTML = section;
 
-		this.getDelegate().layoutWidget( h1, {
-			wide: 'true'
-		}, container, mw );
-	};
+	this.getDelegate().layoutWidget( h1, {
+		wide: 'true'
+	}, container, mw );
 };
 
 /**
@@ -577,15 +577,15 @@ metawidget.layout.DivLayoutDecorator = function( config ) {
 	}
 
 	metawidget.layout.createNestedSectionLayoutDecorator( config, this, 'divLayoutDecorator' );
+};
 
-	this.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
+metawidget.layout.DivLayoutDecorator.prototype.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 
-		var div = document.createElement( 'div' );
-		div.setAttribute( 'title', section );
-		this.getDelegate().layoutWidget( div, {
-			wide: 'true'
-		}, container, mw );
+	var div = document.createElement( 'div' );
+	div.setAttribute( 'title', section );
+	this.getDelegate().layoutWidget( div, {
+		wide: 'true'
+	}, container, mw );
 
-		return div;
-	};
+	return div;
 };

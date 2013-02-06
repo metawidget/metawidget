@@ -39,14 +39,16 @@ metawidget.Metawidget = function( element, config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	var pipeline = new metawidget.Pipeline( element );
-	pipeline.buildNestedMetawidget = function( attributes, mw ) {
+	// Pipeline (private)
+	
+	var _pipeline = new metawidget.Pipeline( element );
+	_pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
 		var nestedWidget = document.createElement( 'div' );
 
 		// Duck-type our 'pipeline' as the 'config' of the nested Metawidget
 
-		var nestedMetawidget = new metawidget.Metawidget( nestedWidget, pipeline );
+		var nestedMetawidget = new metawidget.Metawidget( nestedWidget, _pipeline );
 		nestedMetawidget.toInspect = mw.toInspect;
 		nestedMetawidget.path = metawidget.util.appendPath( attributes, mw );
 		nestedMetawidget.readOnly = mw.readOnly || attributes.readOnly === 'true';
@@ -62,23 +64,23 @@ metawidget.Metawidget = function( element, config ) {
 
 	// Configure defaults
 
-	pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+	_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
+	_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 			new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-	pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
-	pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
-	pipeline.configure( config );
+	_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
+	_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
+	_pipeline.configure( config );
 
-	// First time in, capture the contents of the Metawidget (if any)
+	// First time in, capture the contents of the Metawidget, if any (private)
 
-	this._overriddenNodes = [];
+	var _overriddenNodes = [];
 
 	while ( element.childNodes.length > 0 ) {
 		var childNode = element.childNodes[0];
 		element.removeChild( childNode );
 
 		if ( childNode.nodeType === 1 ) {
-			this._overriddenNodes.push( childNode );
+			_overriddenNodes.push( childNode );
 		}
 	}
 
@@ -88,12 +90,12 @@ metawidget.Metawidget = function( element, config ) {
 
 	this.getWidgetProcessor = function( testInstanceOf ) {
 
-		return pipeline.getWidgetProcessor( testInstanceOf );
+		return _pipeline.getWidgetProcessor( testInstanceOf );
 	};
 
 	this.setLayout = function( layout ) {
 
-		pipeline.layout = layout;
+		_pipeline.layout = layout;
 	};
 
 	this.buildWidgets = function( inspectionResult ) {
@@ -102,18 +104,18 @@ metawidget.Metawidget = function( element, config ) {
 
 		this.overriddenNodes = [];
 
-		for ( var loop = 0, length = this._overriddenNodes.length; loop < length; loop++ ) {
-			this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
+		for ( var loop = 0, length = _overriddenNodes.length; loop < length; loop++ ) {
+			this.overriddenNodes.push( _overriddenNodes[loop].cloneNode( true ) );
 		}
 
 		// Inspect (if necessary)
 
 		if ( inspectionResult === undefined ) {
 			var splitPath = metawidget.util.splitPath( this.path );
-			inspectionResult = pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
+			inspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 
-		pipeline.buildWidgets( inspectionResult, this );
+		_pipeline.buildWidgets( inspectionResult, this );
 	};
 };
 
@@ -267,6 +269,9 @@ metawidget.Pipeline.prototype.inspect = function( toInspect, type, names, mw ) {
 
 		return inspectionResult;
 	} catch ( e ) {
+		
+		// Can be useful for debugging
+		
 		console.log( e );
 		throw e;
 	}

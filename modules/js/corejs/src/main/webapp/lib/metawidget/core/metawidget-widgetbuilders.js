@@ -25,7 +25,13 @@ var metawidget = metawidget || {};
 metawidget.widgetbuilder = metawidget.widgetbuilder || {};
 
 /**
- * @class CompositeWidgetBuilder.
+ * @class Delegates widget building to one or more sub-WidgetBuilders.
+ * <p>
+ * Each sub-WidgetBuilder in the list is invoked, in order, calling its <code>buildWidget</code>
+ * method. The first result is returned. If all sub-WidgetBuilders return undefined, undefined is
+ * returned (the parent Metawidget will generally instantiate a nested Metawidget in this case).
+ * <p>
+ * Note: the name <em>Composite</em>WidgetBuilder refers to the Composite design pattern.
  */
 
 metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
@@ -34,19 +40,19 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	var widgetBuilders;
+	var _widgetBuilders;
 
 	if ( config.widgetBuilders ) {
-		widgetBuilders = config.widgetBuilders;
+		_widgetBuilders = config.widgetBuilders;
 	} else {
-		widgetBuilders = config;
+		_widgetBuilders = config;
 	}
 
 	this.onStartBuild = function() {
 
-		for ( var loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
+		for ( var loop = 0, length = _widgetBuilders.length; loop < length; loop++ ) {
 
-			var widgetBuilder = widgetBuilders[loop];
+			var widgetBuilder = _widgetBuilders[loop];
 
 			if ( widgetBuilder.onStartBuild ) {
 				widgetBuilder.onStartBuild();
@@ -56,10 +62,10 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
 	this.buildWidget = function( attributes, mw ) {
 
-		for ( var loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
+		for ( var loop = 0, length = _widgetBuilders.length; loop < length; loop++ ) {
 
 			var widget;
-			var widgetBuilder = widgetBuilders[loop];
+			var widgetBuilder = _widgetBuilders[loop];
 
 			if ( widgetBuilder.buildWidget ) {
 				widget = widgetBuilder.buildWidget( attributes, mw );
@@ -75,9 +81,9 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
 	this.onEndBuild = function() {
 
-		for ( var loop = 0, length = widgetBuilders.length; loop < length; loop++ ) {
+		for ( var loop = 0, length = _widgetBuilders.length; loop < length; loop++ ) {
 
-			var widgetBuilder = widgetBuilders[loop];
+			var widgetBuilder = _widgetBuilders[loop];
 
 			if ( widgetBuilder.onEndBuild ) {
 				widgetBuilder.onEndBuild();
@@ -89,10 +95,10 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 /**
  * @class OverriddenWidgetBuilder.
  * 
- * WidgetBuilder to override widgets based on mw.overriddenNodes.
+ * WidgetBuilder to override widgets based on <tt>mw.overriddenNodes</tt>.
  * <p>
  * Widgets are overridden based on id, not name, because name is not legal
- * syntax for many nodes (e.g. table)
+ * syntax for many nodes (e.g. <tt>table</tt>).
  */
 
 metawidget.widgetbuilder.OverriddenWidgetBuilder = function() {
@@ -122,7 +128,7 @@ metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = functio
 };
 
 /**
- * @class ReadOnlyWidgetBuilder.
+ * @class WidgetBuilder for read-only widgets in HTML 5 environments.
  */
 
 metawidget.widgetbuilder.ReadOnlyWidgetBuilder = function() {
@@ -169,7 +175,10 @@ metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function(
 };
 
 /**
- * @class HtmlWidgetBuilder.
+ * WidgetBuilder for pure JavaScript environments.
+ * <p>
+ * Creates native HTML 5 widgets, such as <code>input</code> and
+ * <code>select</code>, to suit the inspected fields.
  */
 
 metawidget.widgetbuilder.HtmlWidgetBuilder = function() {

@@ -28,7 +28,7 @@ metawidget.inspector = metawidget.inspector || {};
  * @class CompositeInspector.
  * 
  * Delegates inspection to one or more sub-inspectors, then combines the
- * resulting metadata.
+ * resulting metadata using <tt>metawidget.util.combineInspectionResults</tt>.
  * <p>
  * The combining algorithm should be suitable for most use cases, but one
  * benefit of having a separate CompositeInspector is that developers can
@@ -45,22 +45,24 @@ metawidget.inspector.CompositeInspector = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	var inspectors;
+	var _inspectors;
 
+	// TODO: defensive copy
+	
 	if ( config.inspectors !== undefined ) {
-		inspectors = config.inspectors;
+		_inspectors = config.inspectors;
 	} else {
-		inspectors = config;
+		_inspectors = config;
 	}
 
 	this.inspect = function( toInspect, type, names ) {
 
 		var compositeInspectionResult = [];
 
-		for ( var ins = 0, insLength = inspectors.length; ins < insLength; ins++ ) {
+		for ( var ins = 0, insLength = _inspectors.length; ins < insLength; ins++ ) {
 
 			var inspectionResult;
-			var inspector = inspectors[ins];
+			var inspector = _inspectors[ins];
 
 			if ( inspector.inspect !== undefined ) {
 				inspectionResult = inspector.inspect( toInspect, type, names );
