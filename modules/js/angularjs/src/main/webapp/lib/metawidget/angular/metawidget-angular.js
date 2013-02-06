@@ -191,25 +191,26 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 		// build was sufficient for {{...}} expressions, but not
 		// 'ng-click' triggers.
 
-		this.overriddenNodes = transclude( scope.$parent, function( clone ) {
+		var cloned = transclude( scope.$parent, function( clone ) {
 
-			for ( var loop = 0; loop < clone.length; ) {
-				var cloneNode = clone[loop];
-	
-				// Must check nodeType *and* other attributes,
-				// because Angular wraps everything (even text
-				// nodes) with a 'span class='ng-scope'' tag
-				//
-				// https://github.com/angular/angular.js/issues/1059
-	
-				if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {					
-					loop++;
-					continue;
-				}
-
-				clone.splice( loop, 1 );
-			}
+			return clone;
 		} );
+
+		this.overriddenNodes = [];
+
+		for ( var loop = 0; loop < cloned.length; loop++ ) {
+			var cloneNode = cloned[loop];
+
+			// Must check nodeType *and* other attributes,
+			// because Angular wraps everything (even text
+			// nodes) with a 'span class='ng-scope'' tag
+			//
+			// https://github.com/angular/angular.js/issues/1059
+
+			if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {
+				this.overriddenNodes.push( cloneNode );
+			}
+		}
 
 		// Inspect (if necessary)
 
