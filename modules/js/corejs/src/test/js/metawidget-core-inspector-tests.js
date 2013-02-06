@@ -50,6 +50,49 @@ describe( "The CompositeInspector", function() {
 		expect( inspectionResult[2].name ).toBe( 'baz' );
 	} );
 
+	it( "defensively copies inspectors", function() {
+
+		// Direct
+
+		var inspectors = [ function( toInspect, type ) {
+
+			return [ {
+				name: "foo"
+			} ];
+		} ];
+
+		var inspector = new metawidget.inspector.CompositeInspector( inspectors );
+		var inspectionResult = inspector.inspect();
+		expect( inspectionResult[0].name ).toBe( 'foo' );
+
+		expect( inspectors.length ).toBe( 1 );
+		inspectors.splice( 0, 1 );
+		expect( inspectors.length ).toBe( 0 );
+		inspectionResult = inspector.inspect();
+		expect( inspectionResult[0].name ).toBe( 'foo' );
+
+		// Via config
+
+		var config = {
+			inspectors: [ function( toInspect, type ) {
+
+				return [ {
+					name: "foo"
+				} ];
+			} ]
+		};
+
+		inspector = new metawidget.inspector.CompositeInspector( config );
+		inspectionResult = inspector.inspect();
+		expect( inspectionResult[0].name ).toBe( 'foo' );
+
+		expect( config.inspectors.length ).toBe( 1 );
+		config.inspectors.splice( 0, 1 );
+		expect( config.inspectors.length ).toBe( 0 );
+		inspectionResult = inspector.inspect();
+		expect( inspectionResult[0].name ).toBe( 'foo' );
+	} );
+
 	it( "defensively copies inspection results", function() {
 
 		var originalResult = [ {
@@ -81,7 +124,15 @@ describe( "The PropertyTypeInspector", function() {
 	it( "inspects JavaScript objects", function() {
 
 		var inspector = new metawidget.inspector.PropertyTypeInspector();
-		var inspectionResult = inspector.inspect( { foo: "Foo", bar: "Bar", date: new Date(), object: {}, action: function() { } });
+		var inspectionResult = inspector.inspect( {
+			foo: "Foo",
+			bar: "Bar",
+			date: new Date(),
+			object: {},
+			action: function() {
+
+			}
+		} );
 
 		expect( inspectionResult[0]._root ).toBe( 'true' );
 		expect( inspectionResult[0].type ).toBe( 'object' );
@@ -100,7 +151,7 @@ describe( "The PropertyTypeInspector", function() {
 	it( "ignores undefined objects", function() {
 
 		var inspector = new metawidget.inspector.PropertyTypeInspector();
-		
+
 		expect( inspector.inspect() ).toBeUndefined();
 		expect( inspector.inspect( undefined ) ).toBeUndefined();
 		expect( inspector.inspect( {} )[0]._root ).toBe( 'true' );
@@ -109,30 +160,44 @@ describe( "The PropertyTypeInspector", function() {
 		expect( inspector.inspect( {}, 'foo', [ 'bar' ] )[0].name ).toBe( 'bar' );
 		expect( inspector.inspect( {}, 'foo', [ 'bar' ] ).length ).toBe( 1 );
 	} );
-	
+
 	it( "does not ignore empty strings", function() {
 
 		var inspector = new metawidget.inspector.PropertyTypeInspector();
 
 		expect( inspector.inspect( '' )[0].type ).toBe( 'string' );
-		expect( inspector.inspect( { 'foo': '' }, 'ignore', [ 'foo' ] )[0].type ).toBe( 'string' );
+		expect( inspector.inspect( {
+			'foo': ''
+		}, 'ignore', [ 'foo' ] )[0].type ).toBe( 'string' );
 	} );
 
 	it( "inspects parent name", function() {
 
 		var inspector = new metawidget.inspector.PropertyTypeInspector();
 
-		expect( inspector.inspect( { 'foo': '' }, 'ignore', [ 'foo' ] )[0]._root ).toBe( 'true' );
-		expect( inspector.inspect( { 'foo': '' }, 'ignore', [ 'foo' ] )[0].name ).toBe( 'foo' );
-		
-		expect( inspector.inspect( { 'foo': '' }, 'ignore' )[0]._root ).toBe( 'true' );
-		for( var prop in inspector.inspect( { 'foo': '' }, 'ignore', [] )[0] ) {
-			expect( prop ).toNotBe( 'name' );	
-		}		
+		expect( inspector.inspect( {
+			'foo': ''
+		}, 'ignore', [ 'foo' ] )[0]._root ).toBe( 'true' );
+		expect( inspector.inspect( {
+			'foo': ''
+		}, 'ignore', [ 'foo' ] )[0].name ).toBe( 'foo' );
 
-		expect( inspector.inspect( { 'foo': '' }, 'ignore', [] )[0]._root ).toBe( 'true' );
-		for( var prop in inspector.inspect( { 'foo': '' }, 'ignore', [] )[0] ) {
-			expect( prop ).toNotBe( 'name' );	
-		}		
+		expect( inspector.inspect( {
+			'foo': ''
+		}, 'ignore' )[0]._root ).toBe( 'true' );
+		for ( var prop in inspector.inspect( {
+			'foo': ''
+		}, 'ignore', [] )[0] ) {
+			expect( prop ).toNotBe( 'name' );
+		}
+
+		expect( inspector.inspect( {
+			'foo': ''
+		}, 'ignore', [] )[0]._root ).toBe( 'true' );
+		for ( var prop in inspector.inspect( {
+			'foo': ''
+		}, 'ignore', [] )[0] ) {
+			expect( prop ).toNotBe( 'name' );
+		}
 	} );
 } );

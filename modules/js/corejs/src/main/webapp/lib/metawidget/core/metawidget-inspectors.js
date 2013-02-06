@@ -53,8 +53,6 @@ metawidget.inspector.CompositeInspector = function( config ) {
 		_inspectors = config.slice( 0 );
 	}
 
-	// TODO: test defensive copy
-	
 	this.inspect = function( toInspect, type, names ) {
 
 		var compositeInspectionResult = [];

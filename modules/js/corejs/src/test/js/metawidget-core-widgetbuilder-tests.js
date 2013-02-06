@@ -96,6 +96,45 @@ describe( "The CompositeWidgetBuilder", function() {
 
 		expect( ended ).toBe( 2 );
 	} );
+
+	it( "defensively copies widgetBuilders", function() {
+
+		// Direct
+
+		var widgetBuilders = [ function() {
+
+			return document.createElement( 'span' );
+		} ];
+
+		var widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( widgetBuilders );
+		var widget = widgetBuilder.buildWidget();
+		expect( widget.toString() ).toBe( 'span' );
+
+		expect( widgetBuilders.length ).toBe( 1 );
+		widgetBuilders.splice( 0, 1 );
+		expect( widgetBuilders.length ).toBe( 0 );
+		widget = widgetBuilder.buildWidget();
+		expect( widget.toString() ).toBe( 'span' );
+
+		// Via config
+
+		var config = {
+			widgetBuilders: [ function() {
+
+				return document.createElement( 'span' );
+			} ]
+		};
+
+		widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( config );
+		widget = widgetBuilder.buildWidget();
+		expect( widget.toString() ).toBe( 'span' );
+
+		expect( config.widgetBuilders.length ).toBe( 1 );
+		config.widgetBuilders.splice( 0, 1 );
+		expect( config.widgetBuilders.length ).toBe( 0 );
+		widget = widgetBuilder.buildWidget();
+		expect( widget.toString() ).toBe( 'span' );
+	} );
 } );
 
 describe( "The OverriddenWidgetBuilder", function() {
@@ -104,10 +143,14 @@ describe( "The OverriddenWidgetBuilder", function() {
 
 		var widgetBuilder = new metawidget.widgetbuilder.OverriddenWidgetBuilder();
 
-		var attributes = { name: "baz" };
-		var mw = { path: "foo.bar" };		
+		var attributes = {
+			name: "baz"
+		};
+		var mw = {
+			path: "foo.bar"
+		};
 		expect( widgetBuilder.buildWidget( attributes, mw ) ).toBeUndefined();
-		
+
 		var widget1 = document.createElement( 'widget1' );
 		widget1.setAttribute( 'id', 'abcDefGhi' );
 		var widget2 = document.createElement( 'widget2' );
@@ -185,7 +228,7 @@ describe( "The HtmlWidgetBuilder", function() {
 			lookup: "foo,bar,baz",
 			required: "true"
 		}, {} );
-		
+
 		expect( select.toString() ).toBe( 'select' );
 		expect( select.childNodes[0].toString() ).toBe( 'option value="foo"' );
 		expect( select.childNodes[0].innerHTML ).toBe( 'foo' );
@@ -200,7 +243,7 @@ describe( "The HtmlWidgetBuilder", function() {
 			lookupLabels: "Foo,Bar,Baz",
 			required: "true"
 		}, {} );
-		
+
 		expect( select.toString() ).toBe( 'select' );
 		expect( select.childNodes[0].toString() ).toBe( 'option value="foo"' );
 		expect( select.childNodes[0].innerHTML ).toBe( 'Foo' );
@@ -213,7 +256,7 @@ describe( "The HtmlWidgetBuilder", function() {
 		select = widgetBuilder.buildWidget( {
 			lookup: "foo,bar,baz",
 		}, {} );
-		
+
 		expect( select.toString() ).toBe( 'select' );
 		expect( select.childNodes[0].toString() ).toBe( 'option' );
 		expect( select.childNodes[0].innerHTML ).toBeUndefined();
@@ -229,7 +272,7 @@ describe( "The HtmlWidgetBuilder", function() {
 			lookup: "foo,bar,baz",
 			lookupLabels: ""
 		}, {} );
-		
+
 		expect( select.toString() ).toBe( 'select' );
 		expect( select.childNodes[0].toString() ).toBe( 'option' );
 		expect( select.childNodes[0].innerHTML ).toBeUndefined();
@@ -245,7 +288,7 @@ describe( "The HtmlWidgetBuilder", function() {
 			name: "clickMe",
 			type: "function"
 		}, {} );
-		
+
 		expect( button.toString() ).toBe( 'button' );
 		expect( button.innerHTML ).toBe( 'Click Me' );
 
@@ -267,7 +310,7 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( widgetBuilder.buildWidget( {
 			type: "boolean"
 		}, {} ).toString() ).toBe( 'input type="checkbox"' );
-		
+
 		expect( widgetBuilder.buildWidget( {
 			type: "date"
 		}, {} ).toString() ).toBe( 'input type="date"' );
@@ -292,13 +335,13 @@ describe( "The HtmlWidgetBuilder", function() {
 			type: "string",
 			lookup: "",
 			masked: "",
-			large: ""			
+			large: ""
 		}, {} ).toString() ).toBe( 'input type="text"' );
 
 		expect( widgetBuilder.buildWidget( {
 			type: "string"
 		}, {} ).toString() ).toBe( 'input type="text"' );
-		
+
 		expect( widgetBuilder.buildWidget( {
 			type: "string",
 			maximumLength: "32"
@@ -306,6 +349,6 @@ describe( "The HtmlWidgetBuilder", function() {
 
 		expect( widgetBuilder.buildWidget( {
 			dontExpand: "true"
-		}, {} ).toString() ).toBe( 'input type="text"' );		
+		}, {} ).toString() ).toBe( 'input type="text"' );
 	} );
 } );

@@ -43,8 +43,6 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	// TODO: test defensive copy
-	
 	var _widgetBuilders;
 
 	if ( config.widgetBuilders !== undefined ) {
