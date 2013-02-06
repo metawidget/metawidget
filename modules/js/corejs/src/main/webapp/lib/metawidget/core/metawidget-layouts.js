@@ -328,232 +328,243 @@ metawidget.layout.TableLayout = function( config ) {
 // LayoutDecorator
 //
 
-{
-	//
-	// Private method
-	//
+/**
+ * Augment the given 'decorator' with methods suitable for making section
+ * separator LayoutDecorators.
+ * <p>
+ * This includes implementing <tt>onStartBuild</tt>,
+ * <tt>startContainerLayout</tt>, <tt>endContainerLayout</tt> and
+ * <tt>onEndBuild</tt> methods.
+ */
 
-	function _createSectionLayoutDecorator( config, decorator, decoratorName ) {
+metawidget.layout._createSectionLayoutDecorator = function( config, decorator, decoratorName ) {
 
-		var _delegate;
+	var _delegate;
 
-		if ( config.delegate !== undefined ) {
-			_delegate = config.delegate;
-		} else {
-			_delegate = config;
-		}
-
-		/**
-		 * Read-only getter.
-		 * <p>
-		 * Dangerous to add a public 'delegate' property, because can conflict
-		 * with 'config.delegate'.
-		 */
-
-		decorator.getDelegate = function() {
-
-			return _delegate;
-		};
-
-		decorator.onStartBuild = function( mw ) {
-
-			if ( decorator.getDelegate().onStartBuild !== undefined ) {
-				decorator.getDelegate().onStartBuild( mw );
-			}
-		};
-
-		decorator.startContainerLayout = function( container, mw ) {
-
-			container[decoratorName] = {};
-
-			if ( decorator.getDelegate().startContainerLayout !== undefined ) {
-				decorator.getDelegate().startContainerLayout( container, mw );
-			}
-		};
-
-		decorator.endContainerLayout = function( container, mw ) {
-
-			if ( decorator.getDelegate().endContainerLayout !== undefined ) {
-				decorator.getDelegate().endContainerLayout( container, mw );
-			}
-
-			container[decoratorName] = {};
-		};
-
-		decorator.onEndBuild = function( mw ) {
-
-			if ( decorator.getDelegate().onEndBuild !== undefined ) {
-				decorator.getDelegate().onEndBuild( mw );
-			}
-		};
+	if ( config.delegate !== undefined ) {
+		_delegate = config.delegate;
+	} else {
+		_delegate = config;
 	}
 
-	//
-	// Public methods
-	//
+	/**
+	 * Read-only getter.
+	 * <p>
+	 * Dangerous to add a public 'delegate' property, because can conflict with
+	 * 'config.delegate'.
+	 */
 
-	metawidget.layout.createFlatSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+	decorator.getDelegate = function() {
 
-		if ( this instanceof metawidget.layout.createFlatSectionLayoutDecorator ) {
-			throw new Error( 'Function called as a Constructor' );
-		}
-
-		_createSectionLayoutDecorator( config, decorator, decoratorName );
-
-		decorator.layoutWidget = function( widget, attributes, container, mw ) {
-
-			// If our delegate is itself a NestedSectionLayoutDecorator, strip
-			// the
-			// section
-
-			if ( decorator.getDelegate().nestedSectionLayoutDecorator === true ) {
-
-				// Stay where we are?
-
-				var section = metawidget.util.stripSection( attributes );
-
-				if ( section === undefined || section === container[decoratorName].currentSection ) {
-					return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
-				}
-
-				// End nested LayoutDecorator's current section
-
-				if ( container[decoratorName].currentSection !== undefined ) {
-					decorator.getDelegate().endContainerLayout( container, mw );
-				}
-
-				container[decoratorName].currentSection = section;
-
-				// Add a heading
-
-				if ( section !== '' ) {
-					decorator.addSectionWidget( section, 0, attributes, container, mw );
-				}
-			} else {
-
-				// Stay where we are?
-
-				if ( attributes.section === undefined || attributes.section === container[decoratorName].currentSection ) {
-					return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
-				}
-
-				// For each of the new sections...
-
-				var sections = attributes.section.split( ',' );
-				var currentSections;
-
-				if ( container[decoratorName].currentSection !== undefined ) {
-					currentSections = container[decoratorName].currentSection.split( ',' );
-				} else {
-					currentSections = [];
-				}
-
-				for ( var level = 0; level < sections.length; level++ ) {
-					var section = sections[level];
-
-					// ...that are different from our current...
-
-					if ( section === '' ) {
-						continue;
-					}
-
-					if ( level < currentSections.length && section === currentSections[level] ) {
-						continue;
-					}
-
-					// ...add a heading
-					//
-					// Note: we cannot stop/start the delegate layout here. It
-					// is tempting, but remember addSectionWidget needs to use
-					// the delegate. If you stop/add section heading/start the
-					// delegate, who is laying out the section heading?
-
-					decorator.addSectionWidget( section, level, attributes, container, mw );
-				}
-
-				container[decoratorName].currentSection = attributes.section;
-			}
-
-			// Add component as normal
-
-			decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
-		};
+		return _delegate;
 	};
 
-	metawidget.layout.createNestedSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+	decorator.onStartBuild = function( mw ) {
 
-		if ( this instanceof metawidget.layout.createNestedSectionLayoutDecorator ) {
-			throw new Error( 'Function called as a Constructor' );
+		if ( decorator.getDelegate().onStartBuild !== undefined ) {
+			decorator.getDelegate().onStartBuild( mw );
+		}
+	};
+
+	decorator.startContainerLayout = function( container, mw ) {
+
+		container[decoratorName] = {};
+
+		if ( decorator.getDelegate().startContainerLayout !== undefined ) {
+			decorator.getDelegate().startContainerLayout( container, mw );
+		}
+	};
+
+	decorator.endContainerLayout = function( container, mw ) {
+
+		if ( decorator.getDelegate().endContainerLayout !== undefined ) {
+			decorator.getDelegate().endContainerLayout( container, mw );
 		}
 
-		_createSectionLayoutDecorator( config, decorator, decoratorName );
+		container[decoratorName] = {};
+	};
 
-		// Tag this NestedSectionLayoutDecorator so that
-		// FlatSectionLayoutDecorator
-		// can recognize it
+	decorator.onEndBuild = function( mw ) {
 
-		decorator.nestedSectionLayoutDecorator = true;
+		if ( decorator.getDelegate().onEndBuild !== undefined ) {
+			decorator.getDelegate().onEndBuild( mw );
+		}
+	};
+};
 
-		decorator.layoutWidget = function( widget, attributes, container, mw ) {
+/**
+ * Augment the given 'decorator' with methods suitable for making flat (as
+ * opposed to nested) section separator LayoutDecorators.
+ * <p>
+ * This includes an implementation of the <tt>layoutWidget</tt> method and a
+ * declaration of a <tt>addSectionWidget</tt> method.
+ */
+
+metawidget.layout.createFlatSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+
+	if ( this instanceof metawidget.layout.createFlatSectionLayoutDecorator ) {
+		throw new Error( 'Function called as a Constructor' );
+	}
+
+	metawidget.layout._createSectionLayoutDecorator( config, decorator, decoratorName );
+
+	decorator.layoutWidget = function( widget, attributes, container, mw ) {
+
+		// If our delegate is itself a NestedSectionLayoutDecorator, strip
+		// the section
+
+		if ( decorator.getDelegate().nestedSectionLayoutDecorator === true ) {
 
 			// Stay where we are?
 
 			var section = metawidget.util.stripSection( attributes );
 
 			if ( section === undefined || section === container[decoratorName].currentSection ) {
-				if ( container[decoratorName].currentSectionWidget ) {
-					return decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
-				}
 				return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
 			}
 
-			// End current section
+			// End nested LayoutDecorator's current section
 
-			if ( container[decoratorName].currentSectionWidget !== undefined ) {
-				decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
+			if ( container[decoratorName].currentSection !== undefined ) {
+				decorator.getDelegate().endContainerLayout( container, mw );
 			}
 
 			container[decoratorName].currentSection = section;
-			var previousSectionWidget = container[decoratorName].currentSectionWidget;
-			delete container[decoratorName].currentSectionWidget;
 
-			// No new section?
+			// Add a heading
 
-			if ( section === '' ) {
-				decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
-				return;
+			if ( section !== '' ) {
+				decorator.addSectionWidget( section, 0, attributes, container, mw );
+			}
+		} else {
+
+			// Stay where we are?
+
+			if ( attributes.section === undefined || attributes.section === container[decoratorName].currentSection ) {
+				return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
 			}
 
-			// Start new section
+			// For each of the new sections...
 
-			container[decoratorName].currentSectionWidget = decorator.createSectionWidget( previousSectionWidget, section, attributes, container, mw );
-			decorator.startContainerLayout( container[decoratorName].currentSectionWidget, mw );
+			var sections = attributes.section.split( ',' );
+			var currentSections;
 
-			// Add component to new section
-
-			decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
-		};
-
-		var _superEndContainerLayout = decorator.endContainerLayout;
-
-		decorator.endContainerLayout = function( container, mw ) {
-
-			// End hanging layouts
-
-			if ( container[decoratorName].currentSectionWidget !== undefined ) {
-				decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
+			if ( container[decoratorName].currentSection !== undefined ) {
+				currentSections = container[decoratorName].currentSection.split( ',' );
+			} else {
+				currentSections = [];
 			}
 
-			_superEndContainerLayout( container, mw );
-		};
+			for ( var level = 0; level < sections.length; level++ ) {
+				var section = sections[level];
+
+				// ...that are different from our current...
+
+				if ( section === '' ) {
+					continue;
+				}
+
+				if ( level < currentSections.length && section === currentSections[level] ) {
+					continue;
+				}
+
+				// ...add a heading
+				//
+				// Note: we cannot stop/start the delegate layout here. It is
+				// tempting, but remember addSectionWidget needs to use
+				// the delegate. If you stop/add section heading/start the
+				// delegate, who is laying out the section heading?
+
+				decorator.addSectionWidget( section, level, attributes, container, mw );
+			}
+
+			container[decoratorName].currentSection = attributes.section;
+		}
+
+		// Add component as normal
+
+		decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
 	};
-}
+};
 
 /**
- * @class HeadingTagLayoutDecorator.
- * 
- * LayoutDecorator to decorate widgets from different sections using an HTML
- * heading tag (i.e. h1, h2 etc).
+ * Augment the given 'decorator' with methods suitable for making nested (as
+ * opposed to flat) section separator LayoutDecorators.
+ * <p>
+ * This includes an implementation of the <tt>layoutWidget</tt> method and a
+ * declaration of a <tt>createSectionWidget</tt> method.
+ */
+
+metawidget.layout.createNestedSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+
+	if ( this instanceof metawidget.layout.createNestedSectionLayoutDecorator ) {
+		throw new Error( 'Function called as a Constructor' );
+	}
+
+	metawidget.layout._createSectionLayoutDecorator( config, decorator, decoratorName );
+
+	// Tag this NestedSectionLayoutDecorator so that FlatSectionLayoutDecorator
+	// can recognize it
+
+	decorator.nestedSectionLayoutDecorator = true;
+
+	decorator.layoutWidget = function( widget, attributes, container, mw ) {
+
+		// Stay where we are?
+
+		var section = metawidget.util.stripSection( attributes );
+
+		if ( section === undefined || section === container[decoratorName].currentSection ) {
+			if ( container[decoratorName].currentSectionWidget ) {
+				return decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
+			}
+			return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+		}
+
+		// End current section
+
+		if ( container[decoratorName].currentSectionWidget !== undefined ) {
+			decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
+		}
+
+		container[decoratorName].currentSection = section;
+		var previousSectionWidget = container[decoratorName].currentSectionWidget;
+		delete container[decoratorName].currentSectionWidget;
+
+		// No new section?
+
+		if ( section === '' ) {
+			decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+			return;
+		}
+
+		// Start new section
+
+		container[decoratorName].currentSectionWidget = decorator.createSectionWidget( previousSectionWidget, section, attributes, container, mw );
+		decorator.startContainerLayout( container[decoratorName].currentSectionWidget, mw );
+
+		// Add component to new section
+
+		decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
+	};
+
+	var _superEndContainerLayout = decorator.endContainerLayout;
+
+	decorator.endContainerLayout = function( container, mw ) {
+
+		// End hanging layouts
+
+		if ( container[decoratorName].currentSectionWidget !== undefined ) {
+			decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
+		}
+
+		_superEndContainerLayout( container, mw );
+	};
+};
+
+/**
+ * @class LayoutDecorator to decorate widgets from different sections using an
+ *        HTML heading tag (i.e. <tt>h1</tt>, <tt>h2</tt> etc).
  */
 
 metawidget.layout.HeadingTagLayoutDecorator = function( config ) {
@@ -576,7 +587,8 @@ metawidget.layout.HeadingTagLayoutDecorator.prototype.addSectionWidget = functio
 };
 
 /**
- * @class DivLayoutDecorator.
+ * @class LayoutDecorator to decorate widgets from different sections using
+ *        nested <tt>div</tt> tags.
  */
 
 metawidget.layout.DivLayoutDecorator = function( config ) {
