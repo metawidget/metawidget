@@ -73,7 +73,7 @@ angular.module( 'metawidget', [] )
 				// Do not observe primitive types, such as 'string',
 				// otherwise every keypress will recreate the widget
 
-				var oldToInspect = undefined;
+				var _oldToInspect = undefined;
 				var typeofNgModel = typeof ( scope.$eval( 'ngModel' ) );
 
 				if ( typeofNgModel === 'object' || typeofNgModel === 'undefined' ) {
@@ -82,7 +82,7 @@ angular.module( 'metawidget', [] )
 						// Cannot test against mw.toInspect, because is based on
 						// the splitPath.type
 
-						if ( newValue !== oldToInspect ) {
+						if ( newValue !== _oldToInspect ) {
 							mw.invalidateInspection();
 							_buildWidgets();
 						}
@@ -110,6 +110,10 @@ angular.module( 'metawidget', [] )
 
 				_buildWidgets();
 
+				//
+				// Private method
+				//
+				
 				function _buildWidgets() {
 
 					// Rebuild the transcluded tree at the start of each build.
@@ -139,7 +143,7 @@ angular.module( 'metawidget', [] )
 					// Invoke Metawidget
 
 					mw.path = attrs.ngModel;
-					oldToInspect = scope.$parent.$eval( mw.path );
+					_oldToInspect = scope.$parent.$eval( mw.path );
 					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
 					mw.readOnly = scope.$eval( 'readOnly' );
 					mw.buildWidgets();
@@ -188,6 +192,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 	_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
 	_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
+	_pipeline.configure( scope.$eval( 'config' ) );
 
 	// toInspect, path and readOnly set by _buildWidgets()
 	
@@ -198,8 +203,6 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 		_pipeline.configure( config );
 		_lastInspectionResult = undefined;
 	};
-
-	this.configure( scope.$eval( 'config' ) );
 
 	this.invalidateInspection = function() {
 

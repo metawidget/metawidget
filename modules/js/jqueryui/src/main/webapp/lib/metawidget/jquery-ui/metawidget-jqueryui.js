@@ -104,7 +104,7 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWi
 
 	var value;
 	var typeAndNames = metawidget.util.splitPath( mw.path );
-	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
+	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
 
 	if ( attributes._root !== 'true' && toInspect ) {
 		value = toInspect[attributes.name];
@@ -140,7 +140,7 @@ metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWi
 metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.save = function( mw ) {
 
 	var typeAndNames = metawidget.util.splitPath( mw.path );
-	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.type, typeAndNames.names );
+	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
 
 	for ( var name in mw._jQueryUIBindingProcessorBindings ) {
 
@@ -197,7 +197,7 @@ metawidget.jqueryui.layout.TabLayoutDecorator = function( config ) {
 	};
 };
 
-metawidget.jqueryui.layout.TabLayoutDecorator.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
+metawidget.jqueryui.layout.TabLayoutDecorator.prototype.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 
 	var tabs = previousSectionWidget;
 
@@ -245,8 +245,8 @@ metawidget.jqueryui.layout.TabLayoutDecorator.createSectionWidget = function( pr
 
 $.widget( "metawidget.metawidget", (function() {
 	
-	var _pipeline;
-	var _overriddenNodes; 
+	var _pipeline = undefined;
+	var _overriddenNodes = undefined; 
 	
 	return {
 

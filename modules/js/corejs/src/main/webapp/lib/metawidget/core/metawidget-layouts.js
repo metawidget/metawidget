@@ -27,9 +27,9 @@ metawidget.layout = metawidget.layout || {};
 /**
  * @class SimpleLayout.
  * 
- * Layout to simply output components one after another, with no labels and no structure. This
- * Layout is suited to rendering single components, or for rendering components whose layout relies
- * entirely on CSS.
+ * Layout to simply output components one after another, with no labels and no
+ * structure. This Layout is suited to rendering single components, or for
+ * rendering components whose layout relies entirely on CSS.
  */
 
 metawidget.layout.SimpleLayout = function() {
@@ -67,36 +67,36 @@ metawidget.layout.DivLayout = function( config ) {
 		if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 			return;
 		}
-	
+
 		var outerDiv = document.createElement( 'div' );
 		if ( _divStyleClasses !== undefined ) {
 			outerDiv.setAttribute( 'class', _divStyleClasses[0] );
 		}
-		
+
 		// Label
-	
+
 		if ( attributes.name !== undefined ) {
-	
+
 			var labelDiv = document.createElement( 'div' );
 			if ( _divStyleClasses !== undefined ) {
 				labelDiv.setAttribute( 'class', _divStyleClasses[1] );
 			}
-			
+
 			var label = document.createElement( 'label' );
 			label.setAttribute( 'for', widget.getAttribute( 'id' ) );
-	
+
 			if ( attributes.label !== undefined ) {
 				label.innerHTML = attributes.label + ':';
 			} else {
 				label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
 			}
-	
+
 			labelDiv.appendChild( label );
 			outerDiv.appendChild( labelDiv );
 		}
-	
+
 		// Widget
-	
+
 		var widgetDiv = document.createElement( 'div' );
 		if ( _divStyleClasses !== undefined ) {
 			widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
@@ -104,7 +104,7 @@ metawidget.layout.DivLayout = function( config ) {
 
 		widgetDiv.appendChild( widget );
 		outerDiv.appendChild( widgetDiv );
-	
+
 		container.appendChild( outerDiv );
 	};
 };
@@ -112,7 +112,8 @@ metawidget.layout.DivLayout = function( config ) {
 /**
  * @class TableLayout.
  * 
- * Layout to arrange widgets in a table, with one column for the label and another for the widget.
+ * Layout to arrange widgets in a table, with one column for the label and
+ * another for the widget.
  */
 
 metawidget.layout.TableLayout = function( config ) {
@@ -143,7 +144,7 @@ metawidget.layout.TableLayout = function( config ) {
 		container.appendChild( table );
 
 		// Facets
-		
+
 		if ( mw.overriddenNodes !== undefined ) {
 			for ( var loop1 = 0, length1 = mw.overriddenNodes.length; loop1 < length1; loop1++ ) {
 
@@ -152,11 +153,11 @@ metawidget.layout.TableLayout = function( config ) {
 				if ( child.tagName !== 'FACET' ) {
 					continue;
 				}
-				
+
 				// thead or tfoot
 
 				var parent;
-				
+
 				if ( child.getAttribute( 'name' ) === 'header' ) {
 					parent = document.createElement( 'thead' );
 				} else if ( child.getAttribute( 'name' ) === 'footer' ) {
@@ -164,7 +165,7 @@ metawidget.layout.TableLayout = function( config ) {
 				} else {
 					continue;
 				}
-				
+
 				table.appendChild( parent );
 				var tr = document.createElement( 'tr' );
 				parent.appendChild( tr );
@@ -199,7 +200,7 @@ metawidget.layout.TableLayout = function( config ) {
 	this.layoutWidget = function( widget, attributes, container, mw ) {
 
 		// Do not render empty stubs
-		
+
 		if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 			return;
 		}
@@ -211,17 +212,17 @@ metawidget.layout.TableLayout = function( config ) {
 		if ( spanAllColumns === true && _currentColumn > 0 ) {
 			_currentColumn = 0;
 		}
-		
+
 		// Id
-		
+
 		var table = container.childNodes[container.childNodes.length - 1];
 		var idPrefix = undefined;
 
 		if ( attributes.name !== undefined ) {
-			if ( table.hasAttribute( 'id' )) {
+			if ( table.hasAttribute( 'id' ) ) {
 				idPrefix = table.getAttribute( 'id' );
 			}
-			
+
 			if ( idPrefix !== undefined ) {
 				if ( attributes._root !== 'true' ) {
 					if ( idPrefix.charAt( idPrefix.length - 1 ) !== '-' ) {
@@ -236,10 +237,10 @@ metawidget.layout.TableLayout = function( config ) {
 		}
 
 		// Start column
-		
+
 		var tbody = table.childNodes[table.childNodes.length - 1];
 		var tr;
-		
+
 		if ( _currentColumn === 0 ) {
 			tr = document.createElement( 'tr' );
 			if ( idPrefix !== undefined ) {
@@ -261,11 +262,11 @@ metawidget.layout.TableLayout = function( config ) {
 			}
 
 			var label = document.createElement( 'label' );
-			
-			if ( widget.hasAttribute( 'id' )) {
+
+			if ( widget.hasAttribute( 'id' ) ) {
 				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 			}
-			
+
 			label.setAttribute( 'id', idPrefix + '-label' );
 
 			if ( attributes.label !== undefined ) {
@@ -291,7 +292,7 @@ metawidget.layout.TableLayout = function( config ) {
 		}
 
 		if ( spanAllColumns === true ) {
-			td.setAttribute( 'colspan', (( _numberOfColumns * 3 ) - 1 ) - tr.childNodes.length );
+			td.setAttribute( 'colspan', ( ( _numberOfColumns * 3 ) - 1 ) - tr.childNodes.length );
 		} else if ( tr.childNodes.length < 1 ) {
 			td.setAttribute( 'colspan', 2 - tr.childNodes.length );
 		}
@@ -312,13 +313,13 @@ metawidget.layout.TableLayout = function( config ) {
 		}
 
 		tr.appendChild( td );
-		
+
 		// Next column
 
 		if ( spanAllColumns === true ) {
 			_currentColumn = _numberOfColumns - 1;
 		}
-		
+
 		_currentColumn = ( _currentColumn + 1 ) % _numberOfColumns;
 	};
 };
@@ -327,224 +328,232 @@ metawidget.layout.TableLayout = function( config ) {
 // LayoutDecorator
 //
 
-metawidget.layout._createSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+{
+	//
+	// Private method
+	//
 
-	if ( this instanceof metawidget.layout._createSectionLayoutDecorator ) {
-		throw new Error( 'Function called as a Constructor' );
+	function _createSectionLayoutDecorator( config, decorator, decoratorName ) {
+
+		var _delegate;
+
+		if ( config.delegate !== undefined ) {
+			_delegate = config.delegate;
+		} else {
+			_delegate = config;
+		}
+
+		/**
+		 * Read-only getter.
+		 * <p>
+		 * Dangerous to add a public 'delegate' property, because can conflict
+		 * with 'config.delegate'.
+		 */
+
+		decorator.getDelegate = function() {
+
+			return _delegate;
+		};
+
+		decorator.onStartBuild = function( mw ) {
+
+			if ( decorator.getDelegate().onStartBuild !== undefined ) {
+				decorator.getDelegate().onStartBuild( mw );
+			}
+		};
+
+		decorator.startContainerLayout = function( container, mw ) {
+
+			container[decoratorName] = {};
+
+			if ( decorator.getDelegate().startContainerLayout !== undefined ) {
+				decorator.getDelegate().startContainerLayout( container, mw );
+			}
+		};
+
+		decorator.endContainerLayout = function( container, mw ) {
+
+			if ( decorator.getDelegate().endContainerLayout !== undefined ) {
+				decorator.getDelegate().endContainerLayout( container, mw );
+			}
+
+			container[decoratorName] = {};
+		};
+
+		decorator.onEndBuild = function( mw ) {
+
+			if ( decorator.getDelegate().onEndBuild !== undefined ) {
+				decorator.getDelegate().onEndBuild( mw );
+			}
+		};
 	}
 
-	var _delegate;
+	//
+	// Public methods
+	//
 
-	if ( config.delegate !== undefined ) {
-		_delegate = config.delegate;
-	} else {
-		_delegate = config;
-	}
+	metawidget.layout.createFlatSectionLayoutDecorator = function( config, decorator, decoratorName ) {
 
-	/**
-	 * Read-only getter.
-	 * <p>
-	 * Dangerous to add a public 'delegate' property, because can conflict with
-	 * 'config.delegate'.
-	 */
-
-	decorator.getDelegate = function() {
-
-		return _delegate;
-	};
-
-	decorator.onStartBuild = function( mw ) {
-
-		if ( decorator.getDelegate().onStartBuild !== undefined ) {
-			decorator.getDelegate().onStartBuild( mw );
-		}
-	};
-
-	decorator.startContainerLayout = function( container, mw ) {
-
-		container[decoratorName] = {};
-
-		if ( decorator.getDelegate().startContainerLayout !== undefined ) {
-			decorator.getDelegate().startContainerLayout( container, mw );
-		}
-	};
-
-	decorator.endContainerLayout = function( container, mw ) {
-
-		if ( decorator.getDelegate().endContainerLayout !== undefined ) {
-			decorator.getDelegate().endContainerLayout( container, mw );
+		if ( this instanceof metawidget.layout.createFlatSectionLayoutDecorator ) {
+			throw new Error( 'Function called as a Constructor' );
 		}
 
-		container[decoratorName] = {};		
+		_createSectionLayoutDecorator( config, decorator, decoratorName );
+
+		decorator.layoutWidget = function( widget, attributes, container, mw ) {
+
+			// If our delegate is itself a NestedSectionLayoutDecorator, strip
+			// the
+			// section
+
+			if ( decorator.getDelegate().nestedSectionLayoutDecorator === true ) {
+
+				// Stay where we are?
+
+				var section = metawidget.util.stripSection( attributes );
+
+				if ( section === undefined || section === container[decoratorName].currentSection ) {
+					return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+				}
+
+				// End nested LayoutDecorator's current section
+
+				if ( container[decoratorName].currentSection !== undefined ) {
+					decorator.getDelegate().endContainerLayout( container, mw );
+				}
+
+				container[decoratorName].currentSection = section;
+
+				// Add a heading
+
+				if ( section !== '' ) {
+					decorator.addSectionWidget( section, 0, attributes, container, mw );
+				}
+			} else {
+
+				// Stay where we are?
+
+				if ( attributes.section === undefined || attributes.section === container[decoratorName].currentSection ) {
+					return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+				}
+
+				// For each of the new sections...
+
+				var sections = attributes.section.split( ',' );
+				var currentSections;
+
+				if ( container[decoratorName].currentSection !== undefined ) {
+					currentSections = container[decoratorName].currentSection.split( ',' );
+				} else {
+					currentSections = [];
+				}
+
+				for ( var level = 0; level < sections.length; level++ ) {
+					var section = sections[level];
+
+					// ...that are different from our current...
+
+					if ( section === '' ) {
+						continue;
+					}
+
+					if ( level < currentSections.length && section === currentSections[level] ) {
+						continue;
+					}
+
+					// ...add a heading
+					//
+					// Note: we cannot stop/start the delegate layout here. It
+					// is tempting, but remember addSectionWidget needs to use
+					// the delegate. If you stop/add section heading/start the
+					// delegate, who is laying out the section heading?
+
+					decorator.addSectionWidget( section, level, attributes, container, mw );
+				}
+
+				container[decoratorName].currentSection = attributes.section;
+			}
+
+			// Add component as normal
+
+			decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+		};
 	};
 
-	decorator.onEndBuild = function( mw ) {
+	metawidget.layout.createNestedSectionLayoutDecorator = function( config, decorator, decoratorName ) {
 
-		if ( decorator.getDelegate().onEndBuild !== undefined ) {
-			decorator.getDelegate().onEndBuild( mw );
+		if ( this instanceof metawidget.layout.createNestedSectionLayoutDecorator ) {
+			throw new Error( 'Function called as a Constructor' );
 		}
-	};
-};
 
-metawidget.layout.createFlatSectionLayoutDecorator = function( config, decorator, decoratorName ) {
+		_createSectionLayoutDecorator( config, decorator, decoratorName );
 
-	if ( this instanceof metawidget.layout.createFlatSectionLayoutDecorator ) {
-		throw new Error( 'Function called as a Constructor' );
-	}
+		// Tag this NestedSectionLayoutDecorator so that
+		// FlatSectionLayoutDecorator
+		// can recognize it
 
-	metawidget.layout._createSectionLayoutDecorator( config, decorator, decoratorName );
-	
-	decorator.layoutWidget = function( widget, attributes, container, mw ) {
+		decorator.nestedSectionLayoutDecorator = true;
 
-		// If our delegate is itself a NestedSectionLayoutDecorator, strip the
-		// section
-
-		if ( decorator.getDelegate().nestedSectionLayoutDecorator === true ) {
+		decorator.layoutWidget = function( widget, attributes, container, mw ) {
 
 			// Stay where we are?
 
 			var section = metawidget.util.stripSection( attributes );
 
 			if ( section === undefined || section === container[decoratorName].currentSection ) {
+				if ( container[decoratorName].currentSectionWidget ) {
+					return decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
+				}
 				return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
 			}
 
-			// End nested LayoutDecorator's current section
+			// End current section
 
-			if ( container[decoratorName].currentSection !== undefined ) {
-				decorator.getDelegate().endContainerLayout( container, mw );
+			if ( container[decoratorName].currentSectionWidget !== undefined ) {
+				decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
 			}
 
 			container[decoratorName].currentSection = section;
+			var previousSectionWidget = container[decoratorName].currentSectionWidget;
+			delete container[decoratorName].currentSectionWidget;
 
-			// Add a heading
+			// No new section?
 
-			if ( section !== '' ) {
-				decorator.addSectionWidget( section, 0, attributes, container, mw );
-			}
-		} else {
-
-			// Stay where we are?
-
-			if ( attributes.section === undefined || attributes.section === container[decoratorName].currentSection ) {
-				return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+			if ( section === '' ) {
+				decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+				return;
 			}
 
-			// For each of the new sections...
+			// Start new section
 
-			var sections = attributes.section.split( ',' );
-			var currentSections;
+			container[decoratorName].currentSectionWidget = decorator.createSectionWidget( previousSectionWidget, section, attributes, container, mw );
+			decorator.startContainerLayout( container[decoratorName].currentSectionWidget, mw );
 
-			if ( container[decoratorName].currentSection !== undefined ) {
-				currentSections = container[decoratorName].currentSection.split( ',' );
-			} else {
-				currentSections = [];
+			// Add component to new section
+
+			decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
+		};
+
+		var _superEndContainerLayout = decorator.endContainerLayout;
+
+		decorator.endContainerLayout = function( container, mw ) {
+
+			// End hanging layouts
+
+			if ( container[decoratorName].currentSectionWidget !== undefined ) {
+				decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
 			}
 
-			for ( var level = 0; level < sections.length; level++ ) {
-				var section = sections[level];
-
-				// ...that are different from our current...
-
-				if ( section === '' ) {
-					continue;
-				}
-
-				if ( level < currentSections.length && section === currentSections[level] ) {
-					continue;
-				}
-
-				// ...add a heading
-				//
-				// Note: we cannot stop/start the delegate layout here. It is
-				// tempting, but remember addSectionWidget needs to use the
-				// delegate. If you stop/add section heading/start the delegate,
-				// who is laying out the section heading?
-
-				decorator.addSectionWidget( section, level, attributes, container, mw );
-			}
-
-			container[decoratorName].currentSection = attributes.section;
-		}
-
-		// Add component as normal
-
-		decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+			_superEndContainerLayout( container, mw );
+		};
 	};
-};
-
-metawidget.layout.createNestedSectionLayoutDecorator = function( config, decorator, decoratorName ) {
-
-	if ( this instanceof metawidget.layout.createNestedSectionLayoutDecorator ) {
-		throw new Error( 'Function called as a Constructor' );
-	}
-
-	metawidget.layout._createSectionLayoutDecorator( config, decorator, decoratorName );
-
-	// Tag this NestedSectionLayoutDecorator so that FlatSectionLayoutDecorator
-	// can recognize it
-
-	decorator.nestedSectionLayoutDecorator = true;
-
-	decorator.layoutWidget = function( widget, attributes, container, mw ) {
-
-		// Stay where we are?
-
-		var section = metawidget.util.stripSection( attributes );
-
-		if ( section === undefined || section === container[decoratorName].currentSection ) {
-			if ( container[decoratorName].currentSectionWidget ) {
-				return decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
-			}
-			return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
-		}
-
-		// End current section
-
-		if ( container[decoratorName].currentSectionWidget !== undefined ) {
-			decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
-		}
-
-		container[decoratorName].currentSection = section;
-		var previousSectionWidget = container[decoratorName].currentSectionWidget; 
-		delete container[decoratorName].currentSectionWidget;
-
-		// No new section?
-
-		if ( section === '' ) {
-			decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
-			return;
-		}
-
-		// Start new section
-
-		container[decoratorName].currentSectionWidget = decorator.createSectionWidget( previousSectionWidget, section, attributes, container, mw );
-		decorator.startContainerLayout( container[decoratorName].currentSectionWidget, mw );
-
-		// Add component to new section
-
-		decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
-	};
-
-	var _superEndContainerLayout = decorator.endContainerLayout;
- 
-	decorator.endContainerLayout = function( container, mw ) {
-
-		// End hanging layouts
-
-		if ( container[decoratorName].currentSectionWidget !== undefined ) {
-			decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
-		}
-
-		_superEndContainerLayout( container, mw );
-	};
-};
+}
 
 /**
  * @class HeadingTagLayoutDecorator.
  * 
- * LayoutDecorator to decorate widgets from different sections using an HTML heading
- * tag (i.e. h1, h2 etc).
+ * LayoutDecorator to decorate widgets from different sections using an HTML
+ * heading tag (i.e. h1, h2 etc).
  */
 
 metawidget.layout.HeadingTagLayoutDecorator = function( config ) {

@@ -137,11 +137,10 @@ describe( "The traversePath function", function() {
 		};
 
 		expect( metawidget.util.traversePath( object1 ) ).toBe( object1 );
-		expect( metawidget.util.traversePath( object1, 'ignore' ) ).toBe( object1 );
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2' ] ) ).toBe( object2 );
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo' ] ) ).toBe( 'bar' );
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'foo', 'bar' ] ) ).toBeUndefined();
-		expect( metawidget.util.traversePath( object1, 'ignore', [ 'object2', 'baz' ] ) ).toBeUndefined();
+		expect( metawidget.util.traversePath( object1, [ 'object2' ] ) ).toBe( object2 );
+		expect( metawidget.util.traversePath( object1, [ 'object2', 'foo' ] ) ).toBe( 'bar' );
+		expect( metawidget.util.traversePath( object1, [ 'object2', 'foo', 'bar' ] ) ).toBeUndefined();
+		expect( metawidget.util.traversePath( object1, [ 'object2', 'baz' ] ) ).toBeUndefined();
 	} );
 } );
 

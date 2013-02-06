@@ -173,14 +173,12 @@ metawidget.util.appendPath = function( attributes, mw ) {
  * Traverses the given 'toInspect' along properties defined by the array of 'names'. 
  */
 
-metawidget.util.traversePath = function( toInspect, type, names ) {
+metawidget.util.traversePath = function( toInspect, names ) {
 	
 	if ( toInspect === undefined ) {
 		return undefined;
 	}
 
-	// TODO: type is ignored?
-	
 	if ( names !== undefined ) {
 		for( var loop = 0, length = names.length; loop < length; loop++ ) {
 

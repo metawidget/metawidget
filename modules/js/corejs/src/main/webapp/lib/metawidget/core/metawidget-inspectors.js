@@ -100,7 +100,7 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 
 	// Traverse names
 
-	toInspect = metawidget.util.traversePath( toInspect, type, names );
+	toInspect = metawidget.util.traversePath( toInspect, names );
 
 	// Inspect root node. Important if the Metawidget is
 	// pointed directly at a primitive type

@@ -331,7 +331,7 @@ describe( "The AngularInspectionResultProcessor", function() {
 
 		injector.invoke( function( $rootScope ) {
 
-			var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( {}, $rootScope.$new() );
+			var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( $rootScope.$new() );
 			var inspectionResult = [ {
 				"name": "foo",
 				"value": "{{1+2}}"

@@ -42,7 +42,9 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
 	var _widgetBuilders;
 
-	if ( config.widgetBuilders ) {
+	// TODO: defensive copy
+	
+	if ( config.widgetBuilders !== undefined ) {
 		_widgetBuilders = config.widgetBuilders;
 	} else {
 		_widgetBuilders = config;

@@ -78,13 +78,15 @@ describe(
 				expect( element.innerHTML ).toContain( '<td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td>' );
 				expect( element.innerHTML ).toContain( '<td id="table-bar-cell"><span id="bar"/></td>' );
 				expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
+				expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 				expect( element.childNodes.length ).toBe( 1 );
 
-				expect( mw._overriddenNodes.length ).toBe( 2 );
 				expect( mw.overriddenNodes.length ).toBe( 0 );
-				mw.overriddenNodes.push( "defensive" );
+				mw.overriddenNodes.push( document.createElement( 'defensive' ) );
 				expect( mw.overriddenNodes.length ).toBe( 1 );
-				expect( mw._overriddenNodes.length ).toBe( 2 );
+				mw.buildWidgets();		
+				expect( mw.overriddenNodes.length ).toBe( 0 );
+				expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 			} );
 
 			it( "can be used purely for layout", function() {
@@ -117,9 +119,13 @@ describe(
 
 				$( '#metawidget' ).metawidget();
 				var mw = $( '#metawidget' ).data( 'metawidget' );
-
-				expect( mw._overriddenNodes[0].outerHTML ).toBe( '<span/>' );
-				expect( mw._overriddenNodes.length ).toBe( 1 );
+				mw.onEndBuild = function() {
+					// Do not clean up overriddenNodes
+				};
+				$( '#metawidget' ).metawidget( 'buildWidgets' );
+				
+				expect( mw.overriddenNodes[0].tagName ).toBe( 'SPAN' );
+				expect( mw.overriddenNodes.length ).toBe( 1 );				
 			} );
 
 		} );
