@@ -113,34 +113,8 @@ angular.module( 'metawidget', [] )
 				//
 				// Private method
 				//
-				
+
 				function _buildWidgets() {
-
-					// Rebuild the transcluded tree at the start of each build.
-					//
-					// Rebuilding only at the start of the <em>initial</em>
-					// build was sufficient for {{...}} expressions, but not
-					// 'ng-click' triggers.
-
-					mw.overriddenNodes = [];
-					transclude( scope.$parent, function( clone ) {
-
-						for ( var loop = 0, length = clone.length; loop < length; loop++ ) {
-							var cloneNode = clone[loop];
-
-							// Must check nodeType *and* other attributes,
-							// because Angular wraps everything (even text
-							// nodes) with a 'span class='ng-scope'' tag
-							//
-							// https://github.com/angular/angular.js/issues/1059
-
-							if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {
-								mw.overriddenNodes.push( cloneNode );
-							}
-						}
-					} );
-
-					// Invoke Metawidget
 
 					mw.path = attrs.ngModel;
 					_oldToInspect = scope.$parent.$eval( mw.path );
@@ -195,7 +169,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	_pipeline.configure( scope.$eval( 'config' ) );
 
 	// toInspect, path and readOnly set by _buildWidgets()
-	
+
 	var _lastInspectionResult = undefined;
 
 	this.configure = function( config ) {
@@ -210,6 +184,34 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	};
 
 	this.buildWidgets = function( inspectionResult ) {
+
+		// Rebuild the transcluded tree at the start of each build.
+		//
+		// Rebuilding only at the start of the <em>initial</em>
+		// build was sufficient for {{...}} expressions, but not
+		// 'ng-click' triggers.
+
+		this.overriddenNodes = transclude( scope.$parent, function( clone ) {
+
+			for ( var loop = 0; loop < clone.length; ) {
+				var cloneNode = clone[loop];
+	
+				// Must check nodeType *and* other attributes,
+				// because Angular wraps everything (even text
+				// nodes) with a 'span class='ng-scope'' tag
+				//
+				// https://github.com/angular/angular.js/issues/1059
+	
+				if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {					
+					loop++;
+					continue;
+				}
+
+				clone.splice( loop, 1 );
+			}
+		} );
+
+		// Inspect (if necessary)
 
 		if ( inspectionResult !== undefined ) {
 			_lastInspectionResult = inspectionResult;
@@ -239,6 +241,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 				continue;
 			}
 
+			console.log( child );
 			var childAttributes;
 
 			if ( child.hasAttribute( 'ng-model' ) ) {

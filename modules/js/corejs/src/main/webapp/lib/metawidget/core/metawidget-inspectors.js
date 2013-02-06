@@ -47,14 +47,14 @@ metawidget.inspector.CompositeInspector = function( config ) {
 
 	var _inspectors;
 
-	// TODO: defensive copy
-	
 	if ( config.inspectors !== undefined ) {
-		_inspectors = config.inspectors;
+		_inspectors = config.inspectors.slice( 0 );
 	} else {
-		_inspectors = config;
+		_inspectors = config.slice( 0 );
 	}
 
+	// TODO: test defensive copy
+	
 	this.inspect = function( toInspect, type, names ) {
 
 		var compositeInspectionResult = [];

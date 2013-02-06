@@ -26,12 +26,15 @@ metawidget.widgetbuilder = metawidget.widgetbuilder || {};
 
 /**
  * @class Delegates widget building to one or more sub-WidgetBuilders.
- * <p>
- * Each sub-WidgetBuilder in the list is invoked, in order, calling its <code>buildWidget</code>
- * method. The first result is returned. If all sub-WidgetBuilders return undefined, undefined is
- * returned (the parent Metawidget will generally instantiate a nested Metawidget in this case).
- * <p>
- * Note: the name <em>Composite</em>WidgetBuilder refers to the Composite design pattern.
+ *        <p>
+ *        Each sub-WidgetBuilder in the list is invoked, in order, calling its
+ *        <code>buildWidget</code> method. The first result is returned. If
+ *        all sub-WidgetBuilders return undefined, undefined is returned (the
+ *        parent Metawidget will generally instantiate a nested Metawidget in
+ *        this case).
+ *        <p>
+ *        Note: the name <em>Composite</em>WidgetBuilder refers to the
+ *        Composite design pattern.
  */
 
 metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
@@ -40,14 +43,14 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
+	// TODO: test defensive copy
+	
 	var _widgetBuilders;
 
-	// TODO: defensive copy
-	
 	if ( config.widgetBuilders !== undefined ) {
-		_widgetBuilders = config.widgetBuilders;
+		_widgetBuilders = config.widgetBuilders.slice( 0 );
 	} else {
-		_widgetBuilders = config;
+		_widgetBuilders = config.slice( 0 );
 	}
 
 	this.onStartBuild = function() {
@@ -96,9 +99,9 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
 /**
  * @class WidgetBuilder to override widgets based on <tt>mw.overriddenNodes</tt>.
- * <p>
- * Widgets are overridden based on id, not name, because name is not legal
- * syntax for many nodes (e.g. <tt>table</tt>).
+ *        <p>
+ *        Widgets are overridden based on id, not name, because name is not
+ *        legal syntax for many nodes (e.g. <tt>table</tt>).
  */
 
 metawidget.widgetbuilder.OverriddenWidgetBuilder = function() {

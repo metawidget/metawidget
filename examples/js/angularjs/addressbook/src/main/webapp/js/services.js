@@ -77,12 +77,12 @@ angular.module( 'addressBookServices', [] )
 					"hidden": "true"
 				} ];
 
-				var personalContact = contact.slice();
+				var personalContact = contact.slice( 0 );
 				personalContact.splice( 5, 0, {
 					"name": "dateOfBirth",
 					"type": "date"
 				} );
-				var businessContact = contact.slice();
+				var businessContact = contact.slice( 0 );
 				businessContact.splice( 4, 0, {
 					"name": "company",
 					"type": "string"

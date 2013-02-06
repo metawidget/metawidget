@@ -25,6 +25,9 @@ describe( 'AngularJS REST', function() {
 
 	it( 'tests REST functionality', function() {
 
+		expect( element( 'table thead tr td' ).text() ).toContain( 'A Header' );
+		expect( element( 'table tfoot tr td' ).text() ).toContain( 'A Footer' );
+		
 		expect( element( '#table-restTestSave-label' ).prop( 'for' ) ).toBe( 'restTestSave' );
 		expect( element( '#table-restTestSave-label' ).text() ).toBe( 'Save:' );
 		expect( element( '#restTestSave' ).prop( 'tagName' ) ).toBe( 'BUTTON' );
@@ -44,6 +47,9 @@ describe( 'AngularJS REST', function() {
 		
 		element( '#restTestSave' ).click();
 		
+		expect( element( 'table thead tr td' ).text() ).toContain( 'A Header' );
+		expect( element( 'table tfoot tr td' ).text() ).toContain( 'A Footer' );
+
 		expect( element( '#restTestName' ).prop( 'tagName' ) ).toBe( 'OUTPUT' );
 		expect( element( '#restTestName' ).text() ).toBe( 'Test Name' );
 		

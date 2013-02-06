@@ -16,7 +16,14 @@
 	</head>
 	<body ng-controller="RestTestController">
 
-		<metawidget ng-model="restTest" read-only="readOnly" config="metawidgetConfig"></metawidget>
+		<metawidget ng-model="restTest" read-only="readOnly" config="metawidgetConfig">
+			<facet name="header">
+				A Header
+			</facet>
+			<facet name="footer">
+				A Footer
+			</facet>
+		</metawidget>
 		
 		Number of REST calls: <span id="numberOfRestCalls">{{numberOfRestCalls}}</span>
 

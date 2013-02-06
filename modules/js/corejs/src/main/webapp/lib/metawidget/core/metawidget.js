@@ -160,7 +160,7 @@ metawidget.Pipeline.prototype.configure = function( config ) {
 		this.inspector = config.inspector;
 	}
 	if ( config.inspectionResultProcessors !== undefined ) {
-		this.inspectionResultProcessors = config.inspectionResultProcessors.slice();
+		this.inspectionResultProcessors = config.inspectionResultProcessors.slice( 0 );
 	}
 
 	// Support adding to the existing array of InspectionResultProcessors (it
@@ -175,7 +175,7 @@ metawidget.Pipeline.prototype.configure = function( config ) {
 		this.widgetBuilder = config.widgetBuilder;
 	}
 	if ( config.widgetProcessors !== undefined ) {
-		this.widgetProcessors = config.widgetProcessors.slice();
+		this.widgetProcessors = config.widgetProcessors.slice( 0 );
 	}
 
 	// Support adding to the existing array of WidgetProcessors (it may be
