@@ -192,7 +192,20 @@ metawidget.util.traversePath = function( toInspect, names ) {
 	if ( names !== undefined ) {
 		for ( var loop = 0, length = names.length; loop < length; loop++ ) {
 
-			toInspect = toInspect[names[loop]];
+			var name = names[loop];
+			var indexOf = name.indexOf( '[' );
+			var arrayIndex = undefined;
+			
+			if ( indexOf !== -1 ) {
+				arrayIndex = name.substring( indexOf + 1, name.length - 1 );
+				name = name.substring( 0, indexOf );
+			}
+			
+			toInspect = toInspect[name];
+			
+			if ( arrayIndex !== undefined ) {
+				toInspect = toInspect[arrayIndex];
+			}
 
 			if ( toInspect === undefined ) {
 				return undefined;

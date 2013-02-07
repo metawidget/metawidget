@@ -379,12 +379,14 @@ public final class ClassUtils {
 
 	public static void registerAlienClassLoader( ClassLoader classLoader ) {
 
-		// (JDK classes like java.util.ArrayList have no classloader)
+		// JDK classes like java.util.ArrayList have no classloader
 
 		if ( classLoader == null ) {
 			return;
 		}
 
+		// No need to register, as not alien?
+		
 		if ( classLoader.equals( Thread.currentThread().getContextClassLoader() ) ) {
 			return;
 		}

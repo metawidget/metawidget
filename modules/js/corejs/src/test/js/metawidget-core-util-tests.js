@@ -152,6 +152,28 @@ describe( "The traversePath function", function() {
 		expect( metawidget.util.traversePath( object1, [ 'object2', 'foo', 'bar' ] ) ).toBeUndefined();
 		expect( metawidget.util.traversePath( object1, [ 'object2', 'baz' ] ) ).toBeUndefined();
 	} );
+
+	it( "supports array indexes", function() {
+
+		var object2 = {
+			foo: "bar"
+		};
+		var object3 = {
+			baz: "Baz"
+		};
+		var object1 = {
+			array: [ object2, object3 ]
+		};
+
+		expect( metawidget.util.traversePath( object1 ) ).toBe( object1 );
+		expect( metawidget.util.traversePath( object1, [ 'array' ] ).length ).toBe( 2 );
+		expect( metawidget.util.traversePath( object1, [ 'array', 'foo' ] ) ).toBeUndefined();
+		expect( metawidget.util.traversePath( object1, [ 'array[0]', 'foo' ] ) ).toBe( 'bar' );
+		expect( metawidget.util.traversePath( object1, [ 'array[0]', 'baz' ] ) ).toBeUndefined();
+		expect( metawidget.util.traversePath( object1, [ 'array[1]', 'foo' ] ) ).toBeUndefined()
+		expect( metawidget.util.traversePath( object1, [ 'array[1]', 'baz' ] ) ).toBe( 'Baz' );
+		expect( metawidget.util.traversePath( object1, [ 'array[2]' ] ) ).toBeUndefined();
+	} );
 } );
 
 describe( "The combineInspectionResults function", function() {

@@ -561,22 +561,6 @@ public class XmlUtils {
 		}
 	}
 
-	public static String attributesToString( Attributes attributes ) {
-
-		StringBuilder builder = new StringBuilder();
-
-		for ( int loop = 0, length = attributes.getLength(); loop < length; loop++ ) {
-			builder.append( " " );
-			builder.append( attributes.getLocalName( loop ) );
-			builder.append( "=\"" );
-			builder.append( attributes.getValue( loop ) );
-			builder.append( "\"" );
-		}
-
-		return builder.toString();
-
-	}
-
 	//
 	// Inner class
 	//
@@ -1098,7 +1082,22 @@ public class XmlUtils {
 			@Override
 			public String toString() {
 
-				return "startElement " + mUri + " " + mLocalName + " " + mQName + attributesToString( mAttributes );
+				StringBuilder builder = new StringBuilder( "startElement " );
+				builder.append( mUri );
+				builder.append( ' ' );
+				builder.append( mLocalName );
+				builder.append( ' ' );
+				builder.append( mQName );
+
+				for ( int loop = 0, length = mAttributes.getLength(); loop < length; loop++ ) {
+					builder.append( " " );
+					builder.append( mAttributes.getLocalName( loop ) );
+					builder.append( "=\"" );
+					builder.append( mAttributes.getValue( loop ) );
+					builder.append( "\"" );
+				}
+
+				return builder.toString();
 			}
 		}
 

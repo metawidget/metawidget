@@ -34,8 +34,6 @@ import org.metawidget.iface.Immutable;
  * <code>ResourceResolver</code>)</li>
  * </ul>
  * <p>
- * This mechanism is not just static methods, because ConfigReaders need to be able to be subclassed
- * (eg. <code>ServletConfigReader</code>)
  * <h3>Important</h3>
  * <p>
  * <code>ConfigReader</code>'s support for reusing immutable objects (eg. <code>JpaInspector</code>)
