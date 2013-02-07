@@ -231,50 +231,42 @@ metawidget.Pipeline.prototype.getWidgetProcessor = function( testInstanceOf ) {
 
 metawidget.Pipeline.prototype.inspect = function( toInspect, type, names, mw ) {
 
-	try {
-		// Inspector
+	// Inspector
 
-		var inspectionResult;
+	var inspectionResult;
 
-		if ( this.inspector.inspect !== undefined ) {
-			inspectionResult = this.inspector.inspect( toInspect, type, names );
+	if ( this.inspector.inspect !== undefined ) {
+		inspectionResult = this.inspector.inspect( toInspect, type, names );
+	} else {
+		inspectionResult = this.inspector( toInspect, type, names );
+	}
+
+	// Inspector may return undefined
+
+	if ( inspectionResult === undefined ) {
+		return;
+	}
+
+	// InspectionResultProcessors
+
+	for ( var loop = 0, length = this.inspectionResultProcessors.length; loop < length; loop++ ) {
+
+		var inspectionResultProcessor = this.inspectionResultProcessors[loop];
+
+		if ( inspectionResultProcessor.processInspectionResult !== undefined ) {
+			inspectionResult = inspectionResultProcessor.processInspectionResult( inspectionResult, mw, toInspect, type, names );
 		} else {
-			inspectionResult = this.inspector( toInspect, type, names );
+			inspectionResult = inspectionResultProcessor( inspectionResult, mw, toInspect, type, names );
 		}
 
-		// Inspector may return undefined
+		// InspectionResultProcessor may return undefined
 
 		if ( inspectionResult === undefined ) {
 			return;
 		}
-
-		// InspectionResultProcessors
-
-		for ( var loop = 0, length = this.inspectionResultProcessors.length; loop < length; loop++ ) {
-
-			var inspectionResultProcessor = this.inspectionResultProcessors[loop];
-
-			if ( inspectionResultProcessor.processInspectionResult !== undefined ) {
-				inspectionResult = inspectionResultProcessor.processInspectionResult( inspectionResult, mw, toInspect, type, names );
-			} else {
-				inspectionResult = inspectionResultProcessor( inspectionResult, mw, toInspect, type, names );
-			}
-
-			// InspectionResultProcessor may return undefined
-
-			if ( inspectionResult === undefined ) {
-				return;
-			}
-		}
-
-		return inspectionResult;
-	} catch ( e ) {
-		
-		// Can be useful for debugging
-		
-		console.log( e );
-		throw e;
 	}
+
+	return inspectionResult;
 };
 
 /**

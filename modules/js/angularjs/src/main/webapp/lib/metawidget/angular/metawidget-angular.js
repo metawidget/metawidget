@@ -242,7 +242,6 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 				continue;
 			}
 
-			console.log( child );
 			var childAttributes;
 
 			if ( child.hasAttribute( 'ng-model' ) ) {
