@@ -38,7 +38,7 @@ function AllWidgetsController( $scope ) {
 		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
 			if ( type === 'allWidgets' ) {
-				if ( names.length === 0 ) {
+				if ( names === undefined ) {
 					return metawidget.test.allWidgetsMetadata;
 				} else if ( names.length === 1 ) {
 					if ( names[0] === 'nestedWidgets' || names[0] === 'readOnlyNestedWidgets' || names[0] === 'nestedWidgetsDontExpand' ) {

@@ -109,12 +109,11 @@ angular.module( 'addressBookServices', [] )
 
 					case 'current':
 						
-						if ( names.length === 0 ) {
+						if ( names === undefined ) {
 							if ( toInspect !== undefined && toInspect.type === 'business' ) {
 								return businessContact;
-							} else {
-								return personalContact;
 							}
+							return personalContact;
 						}
 						
 						if ( names.length === 1 && names[0] === 'address' ) {
