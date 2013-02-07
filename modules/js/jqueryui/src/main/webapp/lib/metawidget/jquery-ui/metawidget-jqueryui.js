@@ -332,7 +332,6 @@ $.widget( "metawidget.metawidget", {
 
 		if ( inspectionResult === undefined ) {
 			var splitPath = metawidget.util.splitPath( this.path );
-			// TODO: test a case where splitPath.names is used
 			inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 

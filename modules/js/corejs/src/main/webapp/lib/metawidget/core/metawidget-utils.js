@@ -37,7 +37,8 @@ metawidget.util.uncamelCase = function( name ) {
 };
 
 /**
- * Capitalizes the first letter of the given name (e.g. from 'fooBarBaz' to 'FooBarBaz').
+ * Capitalizes the first letter of the given name (e.g. from 'fooBarBaz' to
+ * 'FooBarBaz').
  */
 
 metawidget.util.capitalize = function( name ) {
@@ -46,7 +47,10 @@ metawidget.util.capitalize = function( name ) {
 };
 
 /**
- * Camel cases the given array of names (e.g. from ['foo','bar','baz'] to 'fooBarBaz').
+ * Camel cases the given array of names (e.g. from ['foo','bar','baz'] to
+ * 'fooBarBaz').
+ * 
+ * @return the camel cased name. Or an empty string if no name
  */
 
 metawidget.util.camelCase = function( names ) {
@@ -78,9 +82,11 @@ metawidget.util.getId = function( attributes, mw ) {
 		if ( splitPath[0] === 'object' ) {
 			splitPath = splitPath.slice( 1 );
 		}
-		
+
 		if ( attributes.name && attributes._root !== 'true' ) {
 			splitPath.push( attributes.name );
+		} else if ( splitPath.length == 0 ) {
+			return undefined;
 		}
 
 		return metawidget.util.camelCase( splitPath );
@@ -93,7 +99,8 @@ metawidget.util.getId = function( attributes, mw ) {
 
 /**
  * Returns true if the given node has child <em>elements</em>. That is, their
- * <tt>nodeType === 1</tt>. Ignores other sorts of child nodes, such as text nodes.
+ * <tt>nodeType === 1</tt>. Ignores other sorts of child nodes, such as text
+ * nodes.
  */
 
 metawidget.util.hasChildElements = function( node ) {
@@ -119,7 +126,7 @@ metawidget.util.isSpanAllColumns = function( attributes ) {
 	if ( attributes === undefined ) {
 		return false;
 	}
-	
+
 	if ( attributes.large === 'true' ) {
 		return true;
 	}
@@ -132,11 +139,12 @@ metawidget.util.isSpanAllColumns = function( attributes ) {
 };
 
 /**
- * Splits the given path into its type and an array of names (e.g. 'foo.bar.baz' into type 'foo' and names ['bar','baz']).
+ * Splits the given path into its type and an array of names (e.g. 'foo.bar.baz'
+ * into type 'foo' and names ['bar','baz']).
  */
 
 metawidget.util.splitPath = function( path ) {
-	
+
 	var type = '';
 	var names = [];
 
@@ -145,7 +153,7 @@ metawidget.util.splitPath = function( path ) {
 		type = splitPath[0];
 		names = splitPath.slice( 1 );
 	}
-	
+
 	return {
 		type: type,
 		names: names
@@ -153,56 +161,58 @@ metawidget.util.splitPath = function( path ) {
 };
 
 /**
- * Appends the 'path' property from the given Metawidget to the 'name' property in the given attributes.
+ * Appends the 'path' property from the given Metawidget to the 'name' property
+ * in the given attributes.
  */
 
 metawidget.util.appendPath = function( attributes, mw ) {
-	
+
 	if ( mw.path !== undefined ) {
 		return mw.path + '.' + attributes.name;
 	}
-	
+
 	if ( mw.toInspect !== undefined ) {
-		return typeof( mw.toInspect ) + '.' + attributes.name;
+		return typeof ( mw.toInspect ) + '.' + attributes.name;
 	}
-	
+
 	return 'object.' + attributes.name;
 };
 
 /**
- * Traverses the given 'toInspect' along properties defined by the array of 'names'. 
+ * Traverses the given 'toInspect' along properties defined by the array of
+ * 'names'.
  */
 
 metawidget.util.traversePath = function( toInspect, names ) {
-	
+
 	if ( toInspect === undefined ) {
 		return undefined;
 	}
 
 	if ( names !== undefined ) {
-		for( var loop = 0, length = names.length; loop < length; loop++ ) {
+		for ( var loop = 0, length = names.length; loop < length; loop++ ) {
 
 			toInspect = toInspect[names[loop]];
-			
+
 			if ( toInspect === undefined ) {
 				return undefined;
 			}
 		}
 	}
-	
+
 	return toInspect;
 };
 
 /**
  * Combines the given first array with the given second array.
  * <p>
- * Array elements are expected to be objects. They are combined based on their 'name' property (or
- * their '_root' property). If no elements match, new elements are appended to the end of
- * the array. 
+ * Array elements are expected to be objects. They are combined based on their
+ * 'name' property (or their '_root' property). If no elements match, new
+ * elements are appended to the end of the array.
  */
 
 metawidget.util.combineInspectionResults = function( existingInspectionResult, newInspectionResult ) {
-	
+
 	// Inspector may return undefined
 
 	if ( newInspectionResult === undefined ) {
@@ -238,7 +248,7 @@ metawidget.util.combineInspectionResults = function( existingInspectionResult, n
 			for ( var loop2 = 0, length2 = existingInspectionResult.length; loop2 < length2; loop2++ ) {
 				var existingAttributes = existingInspectionResult[loop2];
 
-				if ( existingAttributes.name === newAttributes.name || ( existingAttributes._root === 'true' && newAttributes._root === 'true' )) {
+				if ( existingAttributes.name === newAttributes.name || ( existingAttributes._root === 'true' && newAttributes._root === 'true' ) ) {
 
 					for ( var attribute in newAttributes ) {
 						existingAttributes[attribute] = newAttributes[attribute];
@@ -259,7 +269,7 @@ metawidget.util.combineInspectionResults = function( existingInspectionResult, n
 			existingInspectionResult.push( existingAttributes );
 		}
 	}
-	
+
 	return existingInspectionResult;
 };
 
@@ -270,24 +280,27 @@ metawidget.util.combineInspectionResults = function( existingInspectionResult, n
 metawidget.util.stripSection = function( attributes ) {
 
 	var section = attributes.section;
-	
+
 	// (undefined means 'no change to current section')
-	
+
 	if ( section === undefined ) {
 		return undefined;
 	}
-	
+
 	var sections = section.split( ',' );
 
-	switch( sections.length ) {
-	
+	switch ( sections.length ) {
+
 		// (empty String means 'end current section')
-		case 0:	return '';
-		
-		case 1: delete attributes.section;
-				return sections[0];
-		
-		case 2: attributes.section = sections.slice( 1 ).join( ',' );
-				return sections[0];
+		case 0:
+			return '';
+
+		case 1:
+			delete attributes.section;
+			return sections[0];
+
+		case 2:
+			attributes.section = sections.slice( 1 ).join( ',' );
+			return sections[0];
 	}
 };

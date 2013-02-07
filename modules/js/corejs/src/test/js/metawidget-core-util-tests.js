@@ -59,11 +59,21 @@ describe( "The getId function", function() {
 
 	it( "creates an Id for an attribute", function() {
 
+		expect( metawidget.util.getId( {}, {} ) ).toBeUndefined();
+		expect( metawidget.util.getId( {
+			name: "baz"
+		}, {} ) ).toBe( "baz" );
+		expect( metawidget.util.getId( {}, {
+			path: "foo.bar"
+		} ) ).toBe( "fooBar" );
 		expect( metawidget.util.getId( {
 			name: "baz"
 		}, {
 			path: "foo.bar"
 		} ) ).toBe( "fooBarBaz" );
+		expect( metawidget.util.getId( {}, {
+			path: 'object'
+		} ) ).toBeUndefined();
 	} );
 } );
 

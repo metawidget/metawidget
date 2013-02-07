@@ -57,6 +57,41 @@ describe(
 						expect( element.childNodes[0].value ).toBe( 'Foo' );
 					} );
 
+			it(
+					"supports sub names",
+					function() {
+
+						// Just type
+
+						$( '#metawidget' ).metawidget();
+						$( '#metawidget' ).metawidget( "buildWidgets", {
+							foo: {
+								bar: "Bar"
+							}
+						}, "object" );
+
+						var element = $( '#metawidget' )[0];
+
+						expect( element.childNodes[0].outerHTML )
+								.toBe(
+										'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><div id="foo"><table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" name="fooBar"/></td><td/></tr></tbody></table></div></td><td/></tr></tbody></table>' );
+
+						// Type and sub name
+
+						$( '#metawidget' ).metawidget();
+						$( '#metawidget' ).metawidget( "buildWidgets", {
+							foo: {
+								bar: "Bar"
+							}
+						}, "object.foo" );
+
+						var element = $( '#metawidget' )[0];
+
+						expect( element.childNodes[0].outerHTML )
+								.toBe(
+										'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" name="fooBar"/></td><td/></tr></tbody></table>' );
+					} );
+
 			it( "defensively copies overridden widgets", function() {
 
 				var element = $( '#metawidget' )[0];
@@ -66,7 +101,7 @@ describe(
 				var baz = document.createElement( 'span' );
 				baz.setAttribute( 'id', 'baz' );
 				element.appendChild( baz );
-				
+
 				$( '#metawidget' ).metawidget();
 				var mw = $( '#metawidget' ).data( 'metawidget' );
 
@@ -84,7 +119,7 @@ describe(
 				expect( mw.overriddenNodes.length ).toBe( 0 );
 				mw.overriddenNodes.push( document.createElement( 'defensive' ) );
 				expect( mw.overriddenNodes.length ).toBe( 1 );
-				mw.buildWidgets();		
+				mw.buildWidgets();
 				expect( mw.overriddenNodes.length ).toBe( 0 );
 				expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 			} );
@@ -99,8 +134,8 @@ describe(
 				baz.setAttribute( 'id', 'baz' );
 				element.appendChild( baz );
 				var ignore = document.createTextNode( 'ignore' );
-				element.appendChild( ignore );				
-				
+				element.appendChild( ignore );
+
 				$( '#metawidget' ).metawidget();
 				$( '#metawidget' ).metawidget( "buildWidgets" );
 
@@ -120,45 +155,44 @@ describe(
 				$( '#metawidget' ).metawidget();
 				var mw = $( '#metawidget' ).data( 'metawidget' );
 				mw.onEndBuild = function() {
+
 					// Do not clean up overriddenNodes
 				};
 				$( '#metawidget' ).metawidget( 'buildWidgets' );
-				
+
 				expect( mw.overriddenNodes[0].tagName ).toBe( 'SPAN' );
-				expect( mw.overriddenNodes.length ).toBe( 1 );				
+				expect( mw.overriddenNodes.length ).toBe( 1 );
 			} );
 
 		} );
 
-describe(
-		"The JQueryUIWidgetBuilder",
-		function() {
+describe( "The JQueryUIWidgetBuilder", function() {
 
-			it( "builds JQuery UI widgets", function() {
+	it( "builds JQuery UI widgets", function() {
 
-				var widgetBuilder = new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder();
+		var widgetBuilder = new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder();
 
-				expect( widgetBuilder.buildWidget( {}, {} ) ).toBeUndefined();
-				expect( widgetBuilder.buildWidget( {
-					readOnly: "true"
-				}, {} ) ).toBeUndefined();
-				expect( widgetBuilder.buildWidget( {
-					hidden: "true"
-				}, {} ) ).toBeUndefined();
-				expect( widgetBuilder.buildWidget( {
-					readOnly: "false",
-					type: "number"
-				}, {} ).innerHTML ).toContain( '<input class="ui-spinner-input"' );
-				expect( widgetBuilder.buildWidget( {
-					type: "number",
-					minimumValue: 10,
-					maximumValue: 90
-				}, {} ).innerHTML ).toContain( '<a class="ui-slider-handle' );
-				expect( widgetBuilder.buildWidget( {
-					type: "date"
-				}, {} ).outerHTML ).toContain( 'class="hasDatepicker"/>' );
-			} );
-		} );
+		expect( widgetBuilder.buildWidget( {}, {} ) ).toBeUndefined();
+		expect( widgetBuilder.buildWidget( {
+			readOnly: "true"
+		}, {} ) ).toBeUndefined();
+		expect( widgetBuilder.buildWidget( {
+			hidden: "true"
+		}, {} ) ).toBeUndefined();
+		expect( widgetBuilder.buildWidget( {
+			readOnly: "false",
+			type: "number"
+		}, {} ).innerHTML ).toContain( '<input class="ui-spinner-input"' );
+		expect( widgetBuilder.buildWidget( {
+			type: "number",
+			minimumValue: 10,
+			maximumValue: 90
+		}, {} ).innerHTML ).toContain( '<a class="ui-slider-handle' );
+		expect( widgetBuilder.buildWidget( {
+			type: "date"
+		}, {} ).outerHTML ).toContain( 'class="hasDatepicker"/>' );
+	} );
+} );
 
 describe( "The JQueryUIBindingProcessor", function() {
 

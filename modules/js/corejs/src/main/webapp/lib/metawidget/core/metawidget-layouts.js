@@ -107,8 +107,8 @@ metawidget.layout.DivLayout = function( config ) {
 };
 
 /**
- * @class Layout to arrange widgets in a table, with one column for the label and
- * another for the widget.
+ * @class Layout to arrange widgets in a table, with one column for the label
+ *        and another for the widget.
  */
 
 metawidget.layout.TableLayout = function( config ) {
@@ -129,7 +129,9 @@ metawidget.layout.TableLayout = function( config ) {
 		var table = document.createElement( 'table' );
 		if ( mw.path !== undefined ) {
 			var id = metawidget.util.getId( {}, mw );
-			table.setAttribute( 'id', 'table-' + id );
+			if ( id !== undefined ) {
+				table.setAttribute( 'id', 'table-' + id );
+			}
 		}
 
 		if ( _tableStyleClass !== undefined ) {
