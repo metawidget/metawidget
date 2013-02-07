@@ -101,8 +101,11 @@ describe( "The splitPath function", function() {
 
 	it( "splits a path into types and names", function() {
 
+		expect( metawidget.util.splitPath( undefined ).type ).toBe( undefined );
+		expect( metawidget.util.splitPath( undefined ).names ).toBe( undefined );
+
 		expect( metawidget.util.splitPath( 'foo' ).type ).toBe( 'foo' );
-		expect( metawidget.util.splitPath( 'foo' ).names.length ).toBe( 0 );
+		expect( metawidget.util.splitPath( 'foo' ).names ).toBeUndefined();
 
 		expect( metawidget.util.splitPath( 'foo.bar' ).type ).toBe( 'foo' );
 		expect( metawidget.util.splitPath( 'foo.bar' ).names[0] ).toBe( 'bar' );

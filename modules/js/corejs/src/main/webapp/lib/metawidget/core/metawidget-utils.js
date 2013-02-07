@@ -141,23 +141,25 @@ metawidget.util.isSpanAllColumns = function( attributes ) {
 /**
  * Splits the given path into its type and an array of names (e.g. 'foo.bar.baz'
  * into type 'foo' and names ['bar','baz']).
+ * 
+ * @returns an object with properties 'type' and 'names' (provided there is at
+ *          least 1 name)
  */
 
 metawidget.util.splitPath = function( path ) {
 
-	var type = '';
-	var names = [];
+	var splitPath = {};
 
 	if ( path !== undefined ) {
-		var splitPath = path.split( '.' );
-		type = splitPath[0];
-		names = splitPath.slice( 1 );
+		var pathArray = path.split( '.' );
+		splitPath.type = pathArray[0];
+
+		if ( pathArray.length > 1 ) {
+			splitPath.names = pathArray.slice( 1 );
+		}
 	}
 
-	return {
-		type: type,
-		names: names
-	};
+	return splitPath;
 };
 
 /**
@@ -195,14 +197,14 @@ metawidget.util.traversePath = function( toInspect, names ) {
 			var name = names[loop];
 			var indexOf = name.indexOf( '[' );
 			var arrayIndex = undefined;
-			
+
 			if ( indexOf !== -1 ) {
 				arrayIndex = name.substring( indexOf + 1, name.length - 1 );
 				name = name.substring( 0, indexOf );
 			}
-			
+
 			toInspect = toInspect[name];
-			
+
 			if ( arrayIndex !== undefined ) {
 				toInspect = toInspect[arrayIndex];
 			}
