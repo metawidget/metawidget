@@ -1122,7 +1122,8 @@ public class Main {
 					This idea of combining multiple <classname>Inspector</classname>s to inspect different characteristics of your
 					existing architecture is very powerful. Metawidget comes with pre-written
 					<classname>Inspector</classname>s for many different technologies and makes it easy to
-					add your own, such as for REST services. There is a lot of metadata already lurking in back-end
+					add your own, such as for REST services (see <xref linkend="section-inspectionresultprocessors-rest"/>).
+					There is a lot of metadata already lurking in back-end
 					systems - it just needs extracting.
 				</para>				
 			</section>

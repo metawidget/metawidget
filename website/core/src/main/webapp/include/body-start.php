@@ -1,5 +1,5 @@
 	<div id="logo">
-		<h1><a href="index.php">Metawidget</a></h1>
+		<h1><a href="http://metawidget.org">Metawidget</a></h1>
 	</div>
 	
 	<div id="top-tabs">
