@@ -96,9 +96,9 @@
 				</tr>
 				<tr>
 					<th>Fee</th>
-					<td style="text-align: center">$1500 AUD</td>
-					<td style="text-align: center">$2500 AUD</td>
-					<td style="text-align: center">$4000 AUD</td>
+					<td style="text-align: center">$1,500 AUD</td>
+					<td style="text-align: center">$2,500 AUD</td>
+					<td style="text-align: center">$4,000 AUD</td>
 				</tr>
 			</tbody>
 		</table>

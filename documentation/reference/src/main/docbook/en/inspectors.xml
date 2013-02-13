@@ -699,6 +699,41 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 			</section>
 
+			<section id="section-inspectors-jaxb">
+				<title>JaxbInspector</title>
+				
+				<para>
+					<classname>JaxbInspector</classname> inspects Java API for XML Binding (JAXB) annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">JPA Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>hidden</parameter></td>
+							<td>
+								<classname>@XmlTransient</classname>
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><classname>@XmlElement(required=true)</classname></td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
 			<section id="section-inspectors-jpa">
 				<title>JpaInspector</title>
 				

@@ -23,6 +23,7 @@
 		<module>gwt</module>
 		<module>hibernate</module>
 		<module>javassist</module>
+		<module>jaxb</module>
 		<module>jbpm</module>
 		<module>jpa</module>
 		<module>jsp</module>

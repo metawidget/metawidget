@@ -24,7 +24,7 @@
 		
 		<p>
 			The use of the unmodified Metawidget binary of course never affects the license of your application or distribution. The LGPL also forbids
-			distribution for profit, so you will never have to pay money to any commercial entity for using or integrating Metawidget.
+			distribution for profit, so you will never have to pay money to any commercial entity for using Metawidget.
 		</p>
 		
 		<p>
@@ -49,7 +49,7 @@
 			<li>Your modifications may be confidential, so you don't want to open source them</li>
 			<li>
 				We may feel your modifications are not acceptable to integrate. For example, they may introduce third-party dependencies or
-				have insufficient unit tests. If they are not accepted, you <em>cannot</em> continue to use your modifications. If it
+				have insufficient unit tests. If they are not accepted, you <em>cannot</em> continue to use your modifications. It is
 				not sufficient just to have submitted them. Rather, you would need to refactor your modifications from the rest of
 				your code base, open source them, and host them in a public repository (see the
 				<a href="http://weblogs.java.net/blog/kirillcool/archive/2007/03/genuitec_hibern.html">Genuitec/Hibernate incident</a>)
