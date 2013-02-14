@@ -25,7 +25,7 @@ import java.util.Map;
  * <p>
  * Some of the logic behind Layout decisions can be a little involved, so we refactor it here.
  *
- * @author Richard Kennard, Bernhard Huber
+ * @author Richard Kennard
  */
 
 public final class LayoutUtils {

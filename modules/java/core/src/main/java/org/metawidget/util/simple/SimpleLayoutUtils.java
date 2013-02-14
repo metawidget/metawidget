@@ -30,7 +30,7 @@ import org.metawidget.iface.Immutable;
  * In this context, 'simple' means 'with minimal class dependencies, suitable to be compiled into
  * JavaScript' (eg. for GWT).
  *
- * @author Richard Kennard
+ * @author Richard Kennard, Bernhard Huber
  */
 
 public final class SimpleLayoutUtils {

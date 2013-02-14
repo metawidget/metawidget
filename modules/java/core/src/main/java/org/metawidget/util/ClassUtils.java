@@ -575,15 +575,13 @@ public final class ClassUtils {
 		if ( cache == null ) {
 			cache = CollectionUtils.newWeakHashMap();
 			ORIGINAL_ANNOTATION_CACHE.put( method, cache );
-		} else {
 
 			// Use 'containsKey', because we may cache it as being 'null'
 
-			if ( cache.containsKey( annotationClass ) ) {
-				@SuppressWarnings( "unchecked" )
-				T annotation = (T) cache.get( annotationClass );
-				return annotation;
-			}
+		} else if ( cache.containsKey( annotationClass ) ) {
+			@SuppressWarnings( "unchecked" )
+			T annotation = (T) cache.get( annotationClass );
+			return annotation;
 		}
 
 		T annotation = _getOriginalAnnotation( method, annotationClass );
@@ -739,7 +737,7 @@ public final class ClassUtils {
 	// Private statics
 	//
 
-	private static Map<Method, Map<Class<? extends Annotation>, Annotation>>	ORIGINAL_ANNOTATION_CACHE	= CollectionUtils.newHashMap();
+	private static final Map<Method, Map<Class<? extends Annotation>, Annotation>>	ORIGINAL_ANNOTATION_CACHE	= CollectionUtils.newHashMap();
 
 	/**
 	 * We found <code>getOriginalAnnotation</code> to be around 10x slower that just

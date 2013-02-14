@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.impl;
+package org.metawidget.util.simple;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -23,13 +23,12 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
  * @author Richard Kennard, Bernhard Huber
  */
 
-public class LayoutUtilsTest
+public class SimpleLayoutUtilsTest
 	extends TestCase {
 
 	//
