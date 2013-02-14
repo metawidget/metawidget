@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.security.AccessControlException;
+import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.util.simple.StringUtils;
@@ -237,7 +238,7 @@ public final class ClassUtils {
 
 	public static Object parseNumber( Class<?> clazz, String value ) {
 
-		if ( value == null || "".equals( value )) {
+		if ( value == null || "".equals( value ) ) {
 			return null;
 		}
 
@@ -386,7 +387,7 @@ public final class ClassUtils {
 		}
 
 		// No need to register, as not alien?
-		
+
 		if ( classLoader.equals( Thread.currentThread().getContextClassLoader() ) ) {
 			return;
 		}
@@ -569,63 +570,26 @@ public final class ClassUtils {
 
 	public static <T extends Annotation> T getOriginalAnnotation( Method method, Class<T> annotationClass ) {
 
-		Method methodToUse = method;
-		String name = methodToUse.getName();
-		Class<?>[] parameterTypes = methodToUse.getParameterTypes();
+		Map<Class<? extends Annotation>, Annotation> cache = ORIGINAL_ANNOTATION_CACHE.get( method );
 
-		// If no annotations are defined at all, traverse up the hierarchy
+		if ( cache == null ) {
+			cache = CollectionUtils.newWeakHashMap();
+			ORIGINAL_ANNOTATION_CACHE.put( method, cache );
+		} else {
 
-		while ( methodToUse.getAnnotations().length == 0 ) {
+			// Use 'containsKey', because we may cache it as being 'null'
 
-			Class<?> superclass = methodToUse.getDeclaringClass().getSuperclass();
-			methodToUse = null;
-
-			while ( superclass != null ) {
-
-				try {
-					methodToUse = superclass.getDeclaredMethod( name, parameterTypes );
-					break;
-				} catch ( Exception e ) {
-					// Not in this superclass, but may be in super-superclass
-				}
-
-				superclass = superclass.getSuperclass();
-			}
-
-			if ( methodToUse == null ) {
-				break;
-			}
-		}
-
-		// If this method has the annotation, return it
-
-		if ( methodToUse != null ) {
-			T annotation = methodToUse.getAnnotation( annotationClass );
-
-			if ( annotation != null ) {
+			if ( cache.containsKey( annotationClass ) ) {
+				@SuppressWarnings( "unchecked" )
+				T annotation = (T) cache.get( annotationClass );
 				return annotation;
 			}
 		}
 
-		// Try interfaces too, in case annotation is defined there
+		T annotation = _getOriginalAnnotation( method, annotationClass );
+		cache.put( annotationClass, annotation );
 
-		for ( Class<?> iface : method.getDeclaringClass().getInterfaces() ) {
-
-			try {
-				methodToUse = iface.getDeclaredMethod( name, parameterTypes );
-				T annotation = methodToUse.getAnnotation( annotationClass );
-
-				if ( annotation != null ) {
-					return annotation;
-				}
-			} catch ( Exception e ) {
-				// Not in this interface
-			}
-		}
-
-		// No annotation found
-
-		return null;
+		return annotation;
 	}
 
 	/**
@@ -774,6 +738,74 @@ public final class ClassUtils {
 	//
 	// Private statics
 	//
+
+	private static Map<Method, Map<Class<? extends Annotation>, Annotation>>	ORIGINAL_ANNOTATION_CACHE	= CollectionUtils.newHashMap();
+
+	/**
+	 * We found <code>getOriginalAnnotation</code> to be around 10x slower that just
+	 * <code>method.getAnnotation</code>, so we cache it.
+	 */
+
+	private static <T extends Annotation> T _getOriginalAnnotation( Method method, Class<T> annotationClass ) {
+
+		Method methodToUse = method;
+		String name = methodToUse.getName();
+		Class<?>[] parameterTypes = methodToUse.getParameterTypes();
+
+		// If no annotations are defined at all, traverse up the hierarchy
+
+		while ( methodToUse.getAnnotations().length == 0 ) {
+
+			Class<?> superclass = methodToUse.getDeclaringClass().getSuperclass();
+			methodToUse = null;
+
+			while ( superclass != null ) {
+
+				try {
+					methodToUse = superclass.getDeclaredMethod( name, parameterTypes );
+					break;
+				} catch ( Exception e ) {
+					// Not in this superclass, but may be in super-superclass
+				}
+
+				superclass = superclass.getSuperclass();
+			}
+
+			if ( methodToUse == null ) {
+				break;
+			}
+		}
+
+		// If this method has the annotation, return it
+
+		if ( methodToUse != null ) {
+			T annotation = methodToUse.getAnnotation( annotationClass );
+
+			if ( annotation != null ) {
+				return annotation;
+			}
+		}
+
+		// Try interfaces too, in case annotation is defined there
+
+		for ( Class<?> iface : method.getDeclaringClass().getInterfaces() ) {
+
+			try {
+				methodToUse = iface.getDeclaredMethod( name, parameterTypes );
+				T annotation = methodToUse.getAnnotation( annotationClass );
+
+				if ( annotation != null ) {
+					return annotation;
+				}
+			} catch ( Exception e ) {
+				// Not in this interface
+			}
+		}
+
+		// No annotation found
+
+		return null;
+	}
 
 	private static Class<?> getPrimitive( String className ) {
 

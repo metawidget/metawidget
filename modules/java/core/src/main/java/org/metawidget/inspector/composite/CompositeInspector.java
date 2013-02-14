@@ -249,7 +249,6 @@ public class CompositeInspector
 				LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), xml );
 			}
 
-			validate( element.getOwnerDocument() );
 			return element.getOwnerDocument();
 		}
 
@@ -262,10 +261,7 @@ public class CompositeInspector
 		}
 
 		LOG.trace( "{0} inspected {1}{2}\r\n{3}", inspector.getClass(), type, ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ), xml );
-		Document document = XmlUtils.documentFromString( xml );
-		validate( document );
-
-		return document;
+		return XmlUtils.documentFromString( xml );
 	}
 
 	protected Document combineInspectionResult( Document masterDocument, Document inspectionDocument ) {
@@ -284,20 +280,5 @@ public class CompositeInspector
 
 		XmlUtils.combineElements( masterDocument.getDocumentElement(), inspectionDocument.getDocumentElement(), TYPE, NAME );
 		return masterDocument;
-	}
-
-	/**
-	 * Does nothing by default.
-	 * <p>
-	 * Subclasses can override this method to hook in validation.
-	 *
-	 * @param document
-	 *            the inspection result DOM
-	 */
-
-	protected void validate( Document document )
-		throws Exception {
-
-		// Do nothing
 	}
 }

@@ -24,6 +24,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -36,7 +37,7 @@ import org.xml.sax.SAXException;
  * performant and not all environments (eg. Android) support schema validation. Android is
  * particularly bad because its Dalvik preprocessor balks at unsupported classes even if they're
  * wrapped in a <code>ClassNotFoundException</code>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -71,9 +72,15 @@ public class ValidatingCompositeInspector
 	//
 
 	@Override
-	protected void validate( Document document )
+	protected Document runInspector( Inspector inspector, Object toInspect, String type, String... names )
 		throws Exception {
 
-		mSchema.newValidator().validate( new DOMSource( document ) );
+		Document document = super.runInspector( inspector, toInspect, type, names );
+
+		if ( document != null ) {
+			mSchema.newValidator().validate( new DOMSource( document ) );
+		}
+
+		return document;
 	}
 }
