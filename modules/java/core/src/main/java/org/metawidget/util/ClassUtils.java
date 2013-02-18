@@ -578,10 +578,14 @@ public final class ClassUtils {
 
 			// Use 'containsKey', because we may cache it as being 'null'
 
-		} else if ( cache.containsKey( annotationClass ) ) {
-			@SuppressWarnings( "unchecked" )
-			T annotation = (T) cache.get( annotationClass );
-			return annotation;
+		} else {
+			synchronized( cache ) {
+				if ( cache.containsKey( annotationClass ) ) {
+					@SuppressWarnings( "unchecked" )
+					T annotation = (T) cache.get( annotationClass );
+					return annotation;
+				}
+			}
 		}
 
 		T annotation = _getOriginalAnnotation( method, annotationClass );
