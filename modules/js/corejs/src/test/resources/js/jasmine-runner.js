@@ -64,11 +64,10 @@ function runJasmine() {
 this.document = {
 	createElement: function( elementName ) {
 
-		var attributes = {};
-
 		return {
 			nodeType: 1,
 			tagName: elementName.toUpperCase(),
+			attributes: [],
 			childNodes: [],
 			children: function() {
 
@@ -76,33 +75,55 @@ this.document = {
 			},
 			setAttribute: function( name, value ) {
 
-				attributes[name] = value;
+				for( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
+					if ( this.attributes[loop].nodeName === name ) {
+						this.attributes[loop].nodeValue = value;
+						return;
+					}
+				}
+				
+				this.attributes.push( {
+					nodeName: name,
+					nodeValue: value
+				} );				
 			},
 			hasAttribute: function( name ) {
 
-				return ( attributes[name] != undefined );
+				for( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
+					if ( this.attributes[loop].nodeName === name ) {
+						return true;
+					}
+				}
+				
+				return false;
 			},
 			getAttribute: function( name ) {
 
+				for( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
+					if ( this.attributes[loop].nodeName === name ) {
+						return this.attributes[loop].nodeValue;
+					}
+				}
+				
 				// This method should return an empty string, however most
 				// browsers return null
-				
-				if ( !this.hasAttribute( name ) ) {
-					return null;
-				}
 
-				return attributes[name];
+				return null;
 			},
 			appendChild: function( childNode ) {
 
 				this.childNodes.push( childNode );
 			},
-			cloneNode: function( deepClone ) {
+			cloneNode: function() {
 
 				var clone = document.createElement( elementName );
 
-				for ( var property in attributes ) {
-					clone.setAttribute( property, attributes[property] );
+				for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
+					var attribute = this.attributes[loop];
+					clone.setAttribute( attribute.nodeName, attribute.nodeValue );
+				}
+				for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
+					clone.appendChild( this.childNodes[loop].cloneNode() );
 				}
 				return clone;
 			},
@@ -121,10 +142,9 @@ this.document = {
 
 				var toString = elementName;
 
-				if ( attributes ) {
-					for ( var name in attributes ) {
-						toString += ' ' + name + '="' + attributes[name] + '"';
-					}
+				for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
+					var attribute = this.attributes[loop];
+					toString += ' ' + attribute.nodeName + '="' + attribute.nodeValue + '"';
 				}
 
 				return toString;

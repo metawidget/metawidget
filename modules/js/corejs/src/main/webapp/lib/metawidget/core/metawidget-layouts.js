@@ -248,11 +248,14 @@ metawidget.layout.TableLayout = function( config ) {
 			tr = tbody.childNodes[tbody.childNodes.length - 1];
 		}
 
-		if ( attributes.name !== undefined ) {
+		if ( attributes.name !== undefined || attributes.label !== undefined ) {
 			// Label
 
 			var th = document.createElement( 'th' );
-			th.setAttribute( 'id', idPrefix + '-label-cell' );
+			
+			if ( idPrefix !== undefined ) {
+				th.setAttribute( 'id', idPrefix + '-label-cell' );
+			}
 
 			if ( _columnStyleClasses !== undefined ) {
 				th.setAttribute( 'class', _columnStyleClasses[0] );
@@ -264,7 +267,9 @@ metawidget.layout.TableLayout = function( config ) {
 				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 			}
 
-			label.setAttribute( 'id', idPrefix + '-label' );
+			if ( idPrefix !== undefined ) {
+				label.setAttribute( 'id', idPrefix + '-label' );
+			}
 
 			if ( attributes.label !== undefined ) {
 				label.innerHTML = attributes.label + ':';

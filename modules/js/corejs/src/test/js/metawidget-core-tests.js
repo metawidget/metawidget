@@ -476,6 +476,33 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes.length ).toBe( 1 );
 	} );
 	
+	it( "supports stubs with labels", function() {
+
+		var element = document.createElement( 'div' );
+		var stub = document.createElement( 'stub' );
+		stub.setAttribute( 'label', 'Foo' );
+		stub.appendChild( document.createElement( 'input' ));
+		element.appendChild( stub );
+
+		var mw = new metawidget.Metawidget( element );
+		mw.buildWidgets();
+		
+		expect( element.childNodes[0].toString() ).toBe( 'table' );
+		expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub label="Foo"' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( element.childNodes.length ).toBe( 1 );
+	} );
+
 	it( "handles falsy values gracefully", function() {
 
 		// These values should produce an empty Metawidget

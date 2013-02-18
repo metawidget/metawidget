@@ -263,13 +263,23 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 				}
 			}
 
+			// Manually created components default to no section
+
 			if ( childAttributes === undefined ) {
-
-				// Manually created components default to no section
-
 				childAttributes = {
 					section: ''
 				};
+			}
+
+			// Stubs can supply their own metadata
+			
+			// TODO: test stubs can supply their own metadata
+			
+			if ( child.tagName === 'STUB' ) {
+				for( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+					var prop = child.attributes[loop];
+					childAttributes[prop.nodeName] = prop.nodeValue;
+				}
 			}
 
 			_pipeline.layoutWidget( child, childAttributes, _pipeline.element, this );

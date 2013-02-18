@@ -40,7 +40,7 @@ metawidget.Metawidget = function( element, config ) {
 	}
 
 	// Pipeline (private)
-	
+
 	var _pipeline = new metawidget.Pipeline( element );
 	_pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
@@ -456,11 +456,24 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 					continue;
 				}
 
+				// Stubs can supply their own metadata
+
+				var childAttributes = {
+					section: ''
+				};
+
+				// TODO: test stubs can supply their own metadata
+
+				if ( child.tagName === 'STUB' ) {
+					for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+						var prop = child.attributes[loop];
+						childAttributes[prop.nodeName] = prop.nodeValue;
+					}
+				}
+
 				// Manually created components default to no section
 
-				pipeline.layoutWidget( child, {
-					section: ''
-				}, pipeline.element, mw );
+				pipeline.layoutWidget( child, childAttributes, pipeline.element, mw );
 			}
 		}
 
