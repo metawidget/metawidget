@@ -81,8 +81,16 @@ angular.module( 'metawidget', [] )
 
 						// Cannot test against mw.toInspect, because is based on
 						// the splitPath.type
+						//
+						// Re-inspect for 'undefined becoming defined' and
+						// 'object being updated'. But *not* for 'undefined
+						// becoming primitive, and then primitive being
+						// updated'. Otherwise every keypress will recreate the
+						// widget
+						
+						// TODO: this 'undefined becoming primitive'
 
-						if ( newValue !== _oldToInspect ) {
+						if ( newValue !== _oldToInspect && typeof ( newValue ) === 'object' ) {
 							mw.invalidateInspection();
 							_buildWidgets();
 						}
@@ -236,6 +244,8 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			var child = this.overriddenNodes[0];
 			this.overriddenNodes.splice( 0, 1 );
 
+			console.log( child );
+
 			// Unused facets don't count
 
 			if ( child.tagName === 'FACET' ) {
@@ -249,15 +259,15 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 				var splitPath = metawidget.util.splitPath( child.getAttribute( 'ng-model' ) );
 				var toInspect = scope.$parent.$eval( splitPath.type );
 				var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
-				
+
 				if ( childInspectionResult !== undefined ) {
 					childAttributes = childInspectionResult[0];
 				}
 			}
-			
-			// Manually created components default to no section
 
 			if ( childAttributes === undefined ) {
+
+				// Manually created components default to no section
 
 				childAttributes = {
 					section: ''
