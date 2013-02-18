@@ -64,8 +64,9 @@ public class JaxbInspectorTest
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "required" );
 		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( FALSE, property.getAttribute( HIDDEN ) );
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
-		assertEquals( property.getAttributes().getLength(), 2 );
+		assertEquals( property.getAttributes().getLength(), 3 );
 
 		assertEquals( entity.getChildNodes().getLength(), 2 );
 	}

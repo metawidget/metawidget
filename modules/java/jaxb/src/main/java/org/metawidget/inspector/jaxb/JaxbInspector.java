@@ -73,6 +73,10 @@ public class JaxbInspector
 
 		if ( xmlElement != null ) {
 
+			// XmlElement overrides XmlTransient
+			
+			attributes.put( HIDDEN, FALSE );
+			
 			if ( xmlElement.required() ) {
 				attributes.put( REQUIRED, TRUE );
 			}
