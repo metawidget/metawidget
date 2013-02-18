@@ -575,27 +575,26 @@ public final class ClassUtils {
 		if ( cache == null ) {
 			cache = CollectionUtils.newWeakHashMap();
 			ORIGINAL_ANNOTATION_CACHE.put( method, cache );
-		} else {
-
-			// Must synchronize, as WeakHashMap is not Thread safe and WeakHashMap:383 contains an
-			// infinite while: while (e != null && !(e.hash == h && eq(k, e.get())))
-
-			synchronized ( cache ) {
-
-				// Use 'containsKey', because we may cache it as being 'null'
-
-				if ( cache.containsKey( annotationClass ) ) {
-					@SuppressWarnings( "unchecked" )
-					T annotation = (T) cache.get( annotationClass );
-					return annotation;
-				}
-			}
 		}
 
-		T annotation = _getOriginalAnnotation( method, annotationClass );
-		cache.put( annotationClass, annotation );
+		// Must synchronize, as WeakHashMap is not Thread safe and WeakHashMap:383 contains an
+		// infinite while: while (e != null && !(e.hash == h && eq(k, e.get())))
 
-		return annotation;
+		synchronized ( cache ) {
+
+			// Use 'containsKey', because we may cache it as being 'null'
+
+			if ( cache.containsKey( annotationClass ) ) {
+				@SuppressWarnings( "unchecked" )
+				T annotation = (T) cache.get( annotationClass );
+				return annotation;
+			}
+
+			T annotation = _getOriginalAnnotation( method, annotationClass );
+			cache.put( annotationClass, annotation );
+
+			return annotation;
+		}
 	}
 
 	/**
