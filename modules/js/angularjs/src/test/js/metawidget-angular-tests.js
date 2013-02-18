@@ -321,6 +321,24 @@ describe(
 				} );
 			} );
 			
+			it( "does not suppress undefined child inspection results", function() {
+
+				var mw = document.createElement( 'metawidget' );
+				var bar = document.createElement( 'span' );
+				bar.setAttribute( 'ng-model', 'fooBar' );
+				mw.appendChild( bar );
+
+				var body = document.createElement( 'body' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'metawidget' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<td colspan="2"><span ng-model="fooBar"' );
+					expect( mw.childNodes.length ).toBe( 1 );
+				} );
+			} );
 		} );
 
 describe( "The AngularInspectionResultProcessor", function() {

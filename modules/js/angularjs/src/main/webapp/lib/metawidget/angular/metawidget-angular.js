@@ -242,17 +242,22 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 				continue;
 			}
 
-			var childAttributes;
+			var childAttributes = undefined;
 
 			if ( child.hasAttribute( 'ng-model' ) ) {
 
 				var splitPath = metawidget.util.splitPath( child.getAttribute( 'ng-model' ) );
 				var toInspect = scope.$parent.$eval( splitPath.type );
-				childAttributes = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this )[0];
+				var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
+				
+				if ( childInspectionResult !== undefined ) {
+					childAttributes = childInspectionResult[0];
+				}
+			}
+			
+			// Manually created components default to no section
 
-			} else {
-
-				// Manually created components default to no section
+			if ( childAttributes === undefined ) {
 
 				childAttributes = {
 					section: ''

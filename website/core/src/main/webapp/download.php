@@ -110,6 +110,13 @@
 			These nightly releases are not stable, and should not be used in production environments. Thanks to <a href="http://jboss.org">JBoss</a> for hosting.
 		</p>
 
+		<h2 class="h2-underneath">Archived Releases</h2>
+
+		<p>
+			Archived versions of previous releases <a href="https://sourceforge.net/projects/metawidget/files/Metawidget">are also available</a>.
+		</p>
+		
+
 		<!-- Google Code for Download Conversion Page -->
 		<script type="text/javascript">
 		<!--
