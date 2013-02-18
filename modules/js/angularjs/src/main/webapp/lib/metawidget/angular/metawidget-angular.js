@@ -244,8 +244,6 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			var child = this.overriddenNodes[0];
 			this.overriddenNodes.splice( 0, 1 );
 
-			console.log( child );
-
 			// Unused facets don't count
 
 			if ( child.tagName === 'FACET' ) {
