@@ -575,11 +575,15 @@ public final class ClassUtils {
 		if ( cache == null ) {
 			cache = CollectionUtils.newWeakHashMap();
 			ORIGINAL_ANNOTATION_CACHE.put( method, cache );
-
-			// Use 'containsKey', because we may cache it as being 'null'
-
 		} else {
-			synchronized( cache ) {
+
+			// Must synchronize, as WeakHashMap is not Thread safe and WeakHashMap:383 contains an
+			// infinite while: while (e != null && !(e.hash == h && eq(k, e.get())))
+
+			synchronized ( cache ) {
+
+				// Use 'containsKey', because we may cache it as being 'null'
+
 				if ( cache.containsKey( annotationClass ) ) {
 					@SuppressWarnings( "unchecked" )
 					T annotation = (T) cache.get( annotationClass );

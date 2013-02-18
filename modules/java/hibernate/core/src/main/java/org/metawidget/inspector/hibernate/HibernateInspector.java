@@ -222,7 +222,15 @@ public class HibernateInspector
 
 		// Name
 
-		attributes.put( NAME, toInspect.getAttribute( NAME ) );
+		String name = toInspect.getAttribute( NAME );
+
+		// Some nodes (like meta) have no name
+
+		if ( "".equals( name )) {
+			return null;
+		}
+
+		attributes.put( NAME, name );
 
 		// Do not just copy 'type': Hibernate types are not the POJO type
 

@@ -3,9 +3,12 @@
 <hibernate-mapping package="org.metawidget.inspector.hibernate">
 
     <class name="Bar">
+    	<meta attribute="ignore-me"/>
         <id name="id"/>
         <property name="baz" type="clob" length="15"/>
         <property name="bazWithColumn" type="clob">
+        	<meta attribute="ignore-me-too"/>
+        	<generator class="native"/>
         	<column length="20" not-null="true"/>
         </property>
     </class>
