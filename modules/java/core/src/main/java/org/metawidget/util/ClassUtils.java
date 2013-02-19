@@ -562,8 +562,8 @@ public final class ClassUtils {
 	 * <p>
 	 * We work off <em>no</em> annotations being defined (rather than just annotationClass) because
 	 * we still want to support explicitly overriding methods in order to suppress annotations (such
-	 * as UiHidden). This isn't perfect, because the overridden method still has to define at least
-	 * one annotation.
+	 * as <code>UiHidden</code>). This isn't perfect, because the overridden method still has to
+	 * define at least one annotation.
 	 * <p>
 	 * This approach is important for proxied classes, which don't always retain annotations.
 	 */

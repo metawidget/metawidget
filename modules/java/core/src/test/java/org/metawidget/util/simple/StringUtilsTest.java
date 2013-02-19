@@ -70,6 +70,14 @@ public class StringUtilsTest
 		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown#foo", '#' ) );
 		assertEquals( "dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ) );
 		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ) );
+		assertEquals( "", StringUtils.camelCase( "" ) );
+		assertEquals( "a", StringUtils.camelCase( "A" ) );
+		assertEquals( "AZ", StringUtils.camelCase( "AZ" ) );
+		assertEquals( "aBC", StringUtils.camelCase( "A b c" ) );
+		assertEquals( "aBC", StringUtils.camelCase( "A B C" ) );
+		assertEquals( "AZBC", StringUtils.camelCase( "AZ B C" ) );
+		assertEquals( "SPOUSE", StringUtils.camelCase( "SPOUSE" ) );
+		assertEquals( "PERMANENTSTAFF", StringUtils.camelCase( "PERMANENT STAFF" ) );
 	}
 
 	public void testSubstringBefore()

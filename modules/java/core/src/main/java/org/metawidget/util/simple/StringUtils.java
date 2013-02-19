@@ -193,6 +193,7 @@ public final class StringUtils {
 
 		// Convert separators to camel case
 
+		boolean firstCharacter = true;
 		boolean lastWasSeparator = false;
 		char[] chars = text.toCharArray();
 
@@ -206,8 +207,9 @@ public final class StringUtils {
 				continue;
 			}
 
-			if ( builder.length() == 0 ) {
-				builder.append( Character.toLowerCase( c ) );
+			if ( firstCharacter ) {
+				// Do the first character below
+				firstCharacter = false;
 				continue;
 			}
 
@@ -218,6 +220,17 @@ public final class StringUtils {
 			}
 
 			builder.append( c );
+		}
+
+		// Do the first character. Special support in case the first *two* characters are
+		// capitalized
+
+		if ( chars.length > 0 ) {
+			if ( chars.length > 1 && ( Character.isLetter( chars[1] ) || Character.isDigit( chars[1] ) ) && Character.isUpperCase( chars[1] ) ) {
+				builder.insert( 0, chars[0] );
+			} else {
+				builder.insert( 0, Character.toLowerCase( chars[0] ) );
+			}
 		}
 
 		return builder.toString();
