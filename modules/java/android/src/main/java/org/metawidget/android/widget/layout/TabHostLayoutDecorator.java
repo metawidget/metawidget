@@ -125,6 +125,8 @@ public class TabHostLayoutDecorator
 			localizedSection = section;
 		}
 
+		// TODO: fails on Android 4?
+		
 		tabHost.addTab( tabHost.newTabSpec( localizedSection ).setIndicator( localizedSection ).setContent( tabContentFactory ) );
 
 		return newLayout;

@@ -284,6 +284,36 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( select.childNodes[3].innerHTML ).toBe( 'baz' );
 		expect( select.childNodes.length ).toBe( 4 );
 
+		select = widgetBuilder.buildWidget( {
+			lookup: "foo,bar,baz",
+			lookupLabels: "",
+			type: "array"
+		}, {} );
+
+		expect( select.toString() ).toBe( 'div' );
+		expect( select.childNodes[0].toString() ).toBe( 'label' );
+		expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" value="foo"' );
+		expect( select.childNodes[0].innerHTML ).toBe( 'foo' );
+		expect( select.childNodes[1].toString() ).toBe( 'label' );
+		expect( select.childNodes[1].childNodes[0].toString() ).toBe( 'input type="checkbox" value="bar"' );
+		expect( select.childNodes[1].innerHTML ).toBe( 'bar' );
+		expect( select.childNodes[2].toString() ).toBe( 'label' );
+		expect( select.childNodes[2].childNodes[0].toString() ).toBe( 'input type="checkbox" value="baz"' );
+		expect( select.childNodes[2].innerHTML ).toBe( 'baz' );
+		expect( select.childNodes.length ).toBe( 3 );
+
+		select = widgetBuilder.buildWidget( {
+			lookup: "foo",
+			lookupLabels: "Foo",
+			type: "array"
+		}, {} );
+
+		expect( select.toString() ).toBe( 'div' );
+		expect( select.childNodes[0].toString() ).toBe( 'label' );
+		expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" value="foo"' );
+		expect( select.childNodes[0].innerHTML ).toBe( 'Foo' );
+		expect( select.childNodes.length ).toBe( 1 );
+
 		var button = widgetBuilder.buildWidget( {
 			name: "clickMe",
 			type: "function"

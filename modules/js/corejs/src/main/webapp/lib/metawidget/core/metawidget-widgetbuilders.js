@@ -200,13 +200,45 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 	// Select box
 
 	if ( attributes.lookup !== undefined && attributes.lookup !== '' ) {
+
+		var lookupSplit = attributes.lookup.split( ',' );
+
+		// Multi-select
+
+		if ( attributes.type === 'array' ) {
+
+			var multiselect = document.createElement( 'div' );
+
+			for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
+
+				// Uses 'implicit label association':
+				// http://www.w3.org/TR/html4/interact/forms.html#h-17.9.1
+				
+				var label = document.createElement( 'label' );
+				var option = document.createElement( 'input' );
+				option.setAttribute( 'type', 'checkbox' );
+				option.setAttribute( 'value', lookupSplit[loop] );
+
+				if ( attributes.lookupLabels !== undefined && attributes.lookupLabels != '' ) {
+					label.innerHTML = attributes.lookupLabels.split( ',' )[loop];
+				} else {
+					label.innerHTML = lookupSplit[loop];
+				}
+
+				label.appendChild( option );
+				multiselect.appendChild( label );
+			}
+
+			return multiselect;
+		}
+
+		// Single-select
+
 		var select = document.createElement( 'select' );
 
 		if ( !attributes.required || attributes.required === 'false' ) {
 			select.appendChild( document.createElement( 'option' ) );
 		}
-
-		var lookupSplit = attributes.lookup.split( ',' );
 
 		for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
 			var option = document.createElement( 'option' );
