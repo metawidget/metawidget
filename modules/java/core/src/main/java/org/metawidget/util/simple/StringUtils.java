@@ -193,11 +193,14 @@ public final class StringUtils {
 
 		// Convert separators to camel case
 
-		boolean firstCharacter = true;
+		int firstCharacter = -1;
 		boolean lastWasSeparator = false;
 		char[] chars = text.toCharArray();
 
-		for ( char c : chars ) {
+		for ( int loop = 0, length = chars.length; loop < length; loop++ ) {
+
+			char c = chars[loop];
+
 			if ( c == separator ) {
 				lastWasSeparator = true;
 				continue;
@@ -207,9 +210,9 @@ public final class StringUtils {
 				continue;
 			}
 
-			if ( firstCharacter ) {
+			if ( firstCharacter == -1 ) {
 				// Do the first character below
-				firstCharacter = false;
+				firstCharacter = loop;
 				continue;
 			}
 
@@ -225,11 +228,12 @@ public final class StringUtils {
 		// Do the first character. Special support in case the first *two* characters are
 		// capitalized
 
-		if ( chars.length > 0 ) {
-			if ( chars.length > 1 && ( Character.isLetter( chars[1] ) || Character.isDigit( chars[1] ) ) && Character.isUpperCase( chars[1] ) ) {
-				builder.insert( 0, chars[0] );
+		if ( firstCharacter != -1 ) {
+			int nextCharacter = firstCharacter + 1;
+			if ( chars.length > nextCharacter && ( Character.isLetter( chars[nextCharacter] ) || Character.isDigit( chars[nextCharacter] ) ) && Character.isUpperCase( chars[nextCharacter] ) ) {
+				builder.insert( 0, chars[firstCharacter] );
 			} else {
-				builder.insert( 0, Character.toLowerCase( chars[0] ) );
+				builder.insert( 0, Character.toLowerCase( chars[firstCharacter] ) );
 			}
 		}
 

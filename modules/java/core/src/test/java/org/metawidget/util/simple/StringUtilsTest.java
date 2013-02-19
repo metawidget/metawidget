@@ -71,6 +71,7 @@ public class StringUtilsTest
 		assertEquals( "dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ) );
 		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ) );
 		assertEquals( "", StringUtils.camelCase( "" ) );
+		assertEquals( "", StringUtils.camelCase( "_" ) );
 		assertEquals( "a", StringUtils.camelCase( "A" ) );
 		assertEquals( "AZ", StringUtils.camelCase( "AZ" ) );
 		assertEquals( "aBC", StringUtils.camelCase( "A b c" ) );
@@ -78,6 +79,8 @@ public class StringUtilsTest
 		assertEquals( "AZBC", StringUtils.camelCase( "AZ B C" ) );
 		assertEquals( "SPOUSE", StringUtils.camelCase( "SPOUSE" ) );
 		assertEquals( "PERMANENTSTAFF", StringUtils.camelCase( "PERMANENT STAFF" ) );
+		assertEquals( "itembar", StringUtils.camelCase( "_item.bar" ) );
+		assertEquals( "itemBar", StringUtils.camelCase( "_item.bar", '.' ) );
 	}
 
 	public void testSubstringBefore()
