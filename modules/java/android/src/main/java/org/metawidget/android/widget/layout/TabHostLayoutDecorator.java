@@ -63,7 +63,11 @@ public class TabHostLayoutDecorator
 		TabHost tabHost;
 
 		if ( previousSectionView == null ) {
-			tabHost = new TabHost( metawidget.getContext() );
+
+			// Use the 'AttributeSet' version of the constructor, as it has a different codepath
+			// which initializes mTabLayoutId. This is required for 'addTab' to work
+
+			tabHost = new TabHost( metawidget.getContext(), null );
 			tabHost.setPadding( 0, 20, 0, 0 );
 
 			// LinearLayout to separate TabWidget and FrameLayout (as per
@@ -125,8 +129,6 @@ public class TabHostLayoutDecorator
 			localizedSection = section;
 		}
 
-		// TODO: fails on Android 4?
-		
 		tabHost.addTab( tabHost.newTabSpec( localizedSection ).setIndicator( localizedSection ).setContent( tabContentFactory ) );
 
 		return newLayout;

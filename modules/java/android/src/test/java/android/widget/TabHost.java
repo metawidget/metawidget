@@ -21,6 +21,7 @@ import java.util.List;
 import org.metawidget.util.CollectionUtils;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 
 /**
@@ -42,7 +43,15 @@ public class TabHost
 	// Constructors
 	//
 
-	public TabHost( Context context ) {
+	/**
+	 * This form of the Constructor (as opposed to the one that doesn't take an AttributeSet) is
+	 * needed to initialize mTabLayoutId. This is required for 'addTab' to work.
+	 *
+	 * @param attrs
+	 *            needed to initialize mTabLayoutId. Can be null
+	 */
+
+	public TabHost( Context context, AttributeSet attrs ) {
 
 		super( context );
 	}
