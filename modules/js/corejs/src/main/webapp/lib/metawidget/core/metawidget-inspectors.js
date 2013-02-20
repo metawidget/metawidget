@@ -130,8 +130,12 @@ metawidget.inspector.PropertyTypeInspector.prototype.inspect = function( toInspe
 			// Inspect the type of the property as best we can
 	
 			var value = toInspect[property];
-	
-			if ( value instanceof Date ) {
+
+			if ( value instanceof Array ) {
+							
+				inspectedProperty.type = 'array';
+
+			} else if ( value instanceof Date ) {
 	
 				// typeof never returns 'date'
 	

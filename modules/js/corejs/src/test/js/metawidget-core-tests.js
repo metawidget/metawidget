@@ -476,7 +476,7 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes.length ).toBe( 1 );
 	} );
 	
-	it( "supports stubs with labels", function() {
+	it( "supports stubs with their own metadata", function() {
 
 		var element = document.createElement( 'div' );
 		var stub = document.createElement( 'stub' );

@@ -291,7 +291,7 @@ describe(
 					expect( mw.childNodes.length ).toBe( 1 );
 				} );
 			} );
-			
+
 			it( "defensively copies overridden widgets", function() {
 
 				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
@@ -320,7 +320,7 @@ describe(
 					expect( mw.childNodes.length ).toBe( 1 );
 				} );
 			} );
-			
+
 			it( "does not suppress undefined child inspection results", function() {
 
 				var mw = document.createElement( 'metawidget' );
@@ -337,6 +337,47 @@ describe(
 
 					expect( mw.innerHTML ).toContain( '<td colspan="2"><span ng-model="fooBar"' );
 					expect( mw.childNodes.length ).toBe( 1 );
+				} );
+			} );
+
+			it( "supports arrays", function() {
+
+				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+				var controller = myApp.controller( 'TestController', function( $scope ) {
+
+					$scope.foo = {
+						bar: [ "Abc" ]
+					};
+
+					$scope.metawidgetConfig = {
+						inspector: function() {
+
+							return [ {
+								name: "bar",
+								type: "array",
+								lookup: "Abc,Def,Ghi"
+							} ]
+						}
+					};
+				} );
+
+				var mw = document.createElement( 'metawidget' );
+				mw.setAttribute( 'ng-model', 'foo' );
+				mw.setAttribute( 'config', 'metawidgetConfig' );
+
+				var body = document.createElement( 'body' );
+				body.setAttribute( 'ng-controller', 'TestController' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
+					expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="checkbox" value="Abc" ng-checked="_mwIsSelected(&quot;Abc&quot;,foo.bar)" ng-click="_mwUpdateSelection($event,&quot;foo.bar&quot;)" checked="checked"/>Abc</label>' );
+					expect( mw.innerHTML ).toContain( '<label><input type="checkbox" value="Def" ng-checked="_mwIsSelected(&quot;Def&quot;,foo.bar)" ng-click="_mwUpdateSelection($event,&quot;foo.bar&quot;)"/>Def</label>' );
+					expect( mw.innerHTML ).toContain( '<label><input type="checkbox" value="Ghi" ng-checked="_mwIsSelected(&quot;Ghi&quot;,foo.bar)" ng-click="_mwUpdateSelection($event,&quot;foo.bar&quot;)"/>Ghi</label>' );
+					expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
 				} );
 			} );
 		} );
@@ -369,9 +410,9 @@ describe( "The AngularWidgetProcessor", function() {
 
 		var injector = angular.bootstrap();
 
-		injector.invoke( function( $compile, $rootScope ) {
+		injector.invoke( function( $compile, $parse, $rootScope ) {
 
-			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $rootScope.$new() );
+			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, $rootScope.$new() );
 			var attributes = {
 				"name": "foo",
 				"required": "true",
@@ -431,9 +472,9 @@ describe( "The AngularWidgetProcessor", function() {
 
 		var injector = angular.bootstrap();
 
-		injector.invoke( function( $compile, $rootScope ) {
+		injector.invoke( function( $compile, $parse, $rootScope ) {
 
-			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $rootScope.$new() );
+			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, $rootScope.$new() );
 			var attributes = {
 				"name": "foo",
 			};

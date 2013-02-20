@@ -26,7 +26,7 @@ angular.module( 'metawidget', [] )
  * Angular directive to expose <tt>metawidget.angular.AngularMetawidget</tt>.
  */
 
-.directive( 'metawidget', [ '$compile', function( $compile ) {
+.directive( 'metawidget', [ '$compile', '$parse', function( $compile, $parse ) {
 
 	// Returns the Metawidget
 
@@ -66,7 +66,7 @@ angular.module( 'metawidget', [] )
 
 				// Set up an AngularMetawidget
 
-				var mw = new metawidget.angular.AngularMetawidget( element, attrs, transclude, scope, $compile );
+				var mw = new metawidget.angular.AngularMetawidget( element, attrs, transclude, scope, $compile, $parse );
 
 				// Observe
 				//
@@ -87,7 +87,7 @@ angular.module( 'metawidget', [] )
 						// becoming primitive, and then primitive being
 						// updated'. Otherwise every keypress will recreate the
 						// widget
-						
+
 						// TODO: this 'undefined becoming primitive'
 
 						if ( newValue !== _oldToInspect && typeof ( newValue ) === 'object' ) {
@@ -141,7 +141,7 @@ angular.module( 'metawidget', [] )
 
 metawidget.angular = metawidget.angular || {};
 
-metawidget.angular.AngularMetawidget = function( element, attrs, transclude, scope, $compile ) {
+metawidget.angular.AngularMetawidget = function( element, attrs, transclude, scope, $compile, $parse ) {
 
 	if ( ! ( this instanceof metawidget.angular.AngularMetawidget ) ) {
 		throw new Error( "Constructor called as a function" );
@@ -172,7 +172,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
 	_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 			new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-	_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, scope ) ];
+	_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, scope ) ];
 	_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 	_pipeline.configure( scope.$eval( 'config' ) );
 
@@ -272,11 +272,11 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			}
 
 			// Stubs can supply their own metadata
-			
-			// TODO: test stubs can supply their own metadata
-			
+
+			// TODO: test Angular stubs can supply their own metadata
+
 			if ( child.tagName === 'STUB' ) {
-				for( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+				for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
 					var prop = child.attributes[loop];
 					childAttributes[prop.nodeName] = prop.nodeValue;
 				}
@@ -360,7 +360,7 @@ metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
  * @returns {metawidget.angular.AngularWidgetProcessor}
  */
 
-metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, scope ) {
+metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, $parse, scope ) {
 
 	if ( ! ( this instanceof metawidget.angular.widgetprocessor.AngularWidgetProcessor ) ) {
 		throw new Error( "Constructor called as a function" );
@@ -386,10 +386,62 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 			binding += '.' + attributes.name;
 		}
 
+		// AngularJS doesn't support 'output' natively:
+		// https://github.com/angular/angular.js/issues/2038
+
 		if ( widget.tagName === 'OUTPUT' ) {
 			widget.innerHTML = '{{' + binding + '}}';
 		} else if ( widget.tagName === 'BUTTON' ) {
 			widget.setAttribute( 'ng-click', binding + '()' );
+		} else if ( attributes.type === 'array' && widget.tagName === 'DIV' ) {
+
+			// Custom support for multi-selects
+
+			scope.$parent._mwIsSelected = function( value, selected ) {
+
+				if ( selected === undefined ) {
+					return false;
+				}
+
+				return ( selected.indexOf( value ) !== -1 );
+			};
+
+			scope.$parent._mwUpdateSelection = function( $event, binding ) {
+
+				var selected = scope.$parent.$eval( binding );
+
+				if ( selected === undefined ) {
+					selected = [];
+					$parse( binding ).assign( scope.$parent, selected );
+				}
+
+				var checkbox = $event.target;
+				var indexOf = selected.indexOf( checkbox.value );
+
+				if ( checkbox.checked === true ) {
+					if ( indexOf === -1 ) {
+						selected.push( checkbox.value );
+					}
+				} else {
+					if ( indexOf !== -1 ) {
+						selected.splice( indexOf, 1 );
+					}
+				}
+			};
+
+			for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+				var label = widget.childNodes[loop];
+
+				if ( label.tagName === 'LABEL' && label.childNodes.length === 2 ) {
+					var checkbox = label.childNodes[0];
+
+					if ( checkbox.tagName === 'INPUT' && checkbox.getAttribute( 'type' ) === 'checkbox' ) {
+						checkbox.setAttribute( 'ng-checked', '_mwIsSelected("' + checkbox.getAttribute( 'value' ) + '",' + binding + ')' );
+						checkbox.setAttribute( 'ng-click', '_mwUpdateSelection($event,"' + binding + '")' );
+					}
+				}
+			}
+
 		} else {
 			widget.setAttribute( 'ng-model', binding );
 		}

@@ -131,7 +131,8 @@ describe( "The PropertyTypeInspector", function() {
 			object: {},
 			action: function() {
 
-			}
+			},
+			array: []
 		} );
 
 		expect( inspectionResult[0]._root ).toBe( 'true' );
@@ -146,6 +147,8 @@ describe( "The PropertyTypeInspector", function() {
 		expect( inspectionResult[4].type ).toBeUndefined();
 		expect( inspectionResult[5].name ).toBe( 'action' );
 		expect( inspectionResult[5].type ).toBe( 'function' );
+		expect( inspectionResult[6].name ).toBe( 'array' );
+		expect( inspectionResult[6].type ).toBe( 'array' );
 	} );
 
 	it( "ignores undefined objects", function() {

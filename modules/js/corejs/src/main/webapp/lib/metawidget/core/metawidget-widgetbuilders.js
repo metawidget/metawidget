@@ -218,14 +218,14 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 				var option = document.createElement( 'input' );
 				option.setAttribute( 'type', 'checkbox' );
 				option.setAttribute( 'value', lookupSplit[loop] );
+				label.appendChild( option );
 
 				if ( attributes.lookupLabels !== undefined && attributes.lookupLabels != '' ) {
-					label.innerHTML = attributes.lookupLabels.split( ',' )[loop];
+					label.appendChild( document.createTextNode( attributes.lookupLabels.split( ',' )[loop] ));
 				} else {
-					label.innerHTML = lookupSplit[loop];
+					label.appendChild( document.createTextNode( lookupSplit[loop] ));
 				}
 
-				label.appendChild( option );
 				multiselect.appendChild( label );
 			}
 

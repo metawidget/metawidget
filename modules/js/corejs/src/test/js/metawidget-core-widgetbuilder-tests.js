@@ -293,13 +293,13 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( select.toString() ).toBe( 'div' );
 		expect( select.childNodes[0].toString() ).toBe( 'label' );
 		expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" value="foo"' );
-		expect( select.childNodes[0].innerHTML ).toBe( 'foo' );
+		expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'foo' );
 		expect( select.childNodes[1].toString() ).toBe( 'label' );
 		expect( select.childNodes[1].childNodes[0].toString() ).toBe( 'input type="checkbox" value="bar"' );
-		expect( select.childNodes[1].innerHTML ).toBe( 'bar' );
+		expect( select.childNodes[1].childNodes[1].toString() ).toBe( 'bar' );
 		expect( select.childNodes[2].toString() ).toBe( 'label' );
 		expect( select.childNodes[2].childNodes[0].toString() ).toBe( 'input type="checkbox" value="baz"' );
-		expect( select.childNodes[2].innerHTML ).toBe( 'baz' );
+		expect( select.childNodes[2].childNodes[1].toString() ).toBe( 'baz' );
 		expect( select.childNodes.length ).toBe( 3 );
 
 		select = widgetBuilder.buildWidget( {
@@ -311,7 +311,7 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( select.toString() ).toBe( 'div' );
 		expect( select.childNodes[0].toString() ).toBe( 'label' );
 		expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" value="foo"' );
-		expect( select.childNodes[0].innerHTML ).toBe( 'Foo' );
+		expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
 		expect( select.childNodes.length ).toBe( 1 );
 
 		var button = widgetBuilder.buildWidget( {

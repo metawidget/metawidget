@@ -462,8 +462,6 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 					section: ''
 				};
 
-				// TODO: test stubs can supply their own metadata
-
 				if ( child.tagName === 'STUB' ) {
 					for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
 						var prop = child.attributes[loop];

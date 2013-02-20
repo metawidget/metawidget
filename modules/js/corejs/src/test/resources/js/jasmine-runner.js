@@ -154,7 +154,10 @@ this.document = {
 	createTextNode: function( data ) {
 
 		return {
-			nodeType: 3
+			nodeType: 3,
+			toString: function() {
+				return data;
+			}
 		}
 	}
 };
