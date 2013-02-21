@@ -126,6 +126,56 @@ describe( "The DivLayout", function() {
 		expect( container.childNodes[1].childNodes.length ).toBe( 1 );
 		expect( container.childNodes.length ).toBe( 2 );
 	} );
+
+	it( "supports alternate label suffixes", function() {
+
+		var layout = new metawidget.layout.DivLayout( {
+			labelSuffix: '#'
+		} );
+
+		var widget1 = document.createElement( 'input' );
+		widget1.setAttribute( 'id', 'widget1' );
+		var container = document.createElement( 'metawidget' );
+		var mw = {};
+
+		layout.layoutWidget( widget1, {
+			name: "widget1",
+		}, container, mw );
+
+		expect( container.childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1#' );
+		expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+		expect( container.childNodes.length ).toBe( 1 );
+	} );
+
+	it( "supports empty label suffixes", function() {
+
+		var layout = new metawidget.layout.DivLayout( {
+			labelSuffix: ''
+		} );
+
+		var widget1 = document.createElement( 'input' );
+		widget1.setAttribute( 'id', 'widget1' );
+		var container = document.createElement( 'metawidget' );
+		var mw = {};
+
+		layout.layoutWidget( widget1, {
+			name: "widget1",
+		}, container, mw );
+
+		expect( container.childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1"' );
+		expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1' );
+		expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+		expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+		expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+		expect( container.childNodes.length ).toBe( 1 );
+	} );
 } );
 
 describe( "The TableLayout", function() {
@@ -592,6 +642,7 @@ describe( "The FlatSectionLayoutDecorator", function() {
 		var layout = new metawidget.layout.HeadingTagLayoutDecorator( {
 			delegate: {
 				onStartBuild: function( mw ) {
+
 					onStartBuildCalled = true;
 				},
 
@@ -651,6 +702,7 @@ describe( "The NestedSectionLayoutDecorator", function() {
 		var layout = new metawidget.layout.DivLayoutDecorator( {
 			delegate: {
 				onStartBuild: function( mw ) {
+
 					onStartBuildCalled = true;
 				},
 

@@ -302,7 +302,7 @@ metawidget.util.stripSection = function( attributes ) {
 		return undefined;
 	}
 
-	var sections = section.split( ',' );
+	var sections = metawidget.util.splitArray( section );
 
 	switch ( sections.length ) {
 
@@ -315,7 +315,19 @@ metawidget.util.stripSection = function( attributes ) {
 			return sections[0];
 
 		case 2:
-			attributes.section = sections.slice( 1 ).join( ',' );
+			attributes.section = metawidget.util.joinArray( sections.slice( 1 ));
 			return sections[0];
 	}
 };
+
+// TODO: needs to be smarter about commas!
+
+metawidget.util.splitArray = function( array ) {
+
+	return array.split( ',' );
+}
+
+metawidget.util.joinArray = function( array ) {
+
+	return array.join( ',' );
+}

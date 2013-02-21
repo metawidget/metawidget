@@ -201,14 +201,19 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	if ( attributes.lookup !== undefined && attributes.lookup !== '' ) {
 
-		var lookupSplit = attributes.lookup.split( ',' );
+		var lookupSplit = metawidget.util.splitArray( attributes.lookup );
+		var lookupLabelsSplit = undefined;
+		
+		if ( attributes.lookupLabels !== undefined && attributes.lookupLabels != '' ) {
+			lookupLabelsSplit = metawidget.util.splitArray( attributes.lookupLabels );
+		}
 
 		// Multi-select and radio buttons
 
 		if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
 
 			var div = document.createElement( 'div' );
-
+			
 			for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
 
 				// Uses 'implicit label association':
@@ -225,8 +230,8 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 				option.setAttribute( 'value', lookupSplit[loop] );
 				label.appendChild( option );
 
-				if ( attributes.lookupLabels !== undefined && attributes.lookupLabels != '' ) {
-					label.appendChild( document.createTextNode( attributes.lookupLabels.split( ',' )[loop] ));
+				if ( lookupLabelsSplit !== undefined ) {
+					label.appendChild( document.createTextNode( lookupLabelsSplit[loop] ));
 				} else {
 					label.appendChild( document.createTextNode( lookupSplit[loop] ));
 				}
@@ -253,8 +258,8 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 			option.setAttribute( 'value', lookupSplit[loop] );
 
-			if ( attributes.lookupLabels !== undefined && attributes.lookupLabels != '' ) {
-				option.innerHTML = attributes.lookupLabels.split( ',' )[loop];
+			if ( lookupLabelsSplit !== undefined ) {
+				option.innerHTML = lookupLabelsSplit[loop];
 			} else {
 				option.innerHTML = lookupSplit[loop];
 			}

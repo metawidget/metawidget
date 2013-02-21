@@ -58,6 +58,7 @@ metawidget.layout.DivLayout = function( config ) {
 	}
 
 	var _divStyleClasses = config !== undefined && config.divStyleClasses !== undefined ? config.divStyleClasses.split( ',' ) : undefined;
+	var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
 
 	this.layoutWidget = function( widget, attributes, container, mw ) {
 
@@ -83,11 +84,11 @@ metawidget.layout.DivLayout = function( config ) {
 			label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 
 			if ( attributes.label !== undefined ) {
-				label.innerHTML = attributes.label + ':';
+				label.innerHTML = attributes.label + _labelSuffix;
 			} else {
-				label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
+				label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + _labelSuffix;
 			}
-
+			
 			labelDiv.appendChild( label );
 			outerDiv.appendChild( labelDiv );
 		}
@@ -448,11 +449,11 @@ metawidget.layout.createFlatSectionLayoutDecorator = function( config, decorator
 
 			// For each of the new sections...
 
-			var sections = attributes.section.split( ',' );
+			var sections = metawidget.util.splitArray( attributes.section );
 			var currentSections;
 
 			if ( container[decoratorName].currentSection !== undefined ) {
-				currentSections = container[decoratorName].currentSection.split( ',' );
+				currentSections = metawidget.util.splitArray( container[decoratorName].currentSection );
 			} else {
 				currentSections = [];
 			}
