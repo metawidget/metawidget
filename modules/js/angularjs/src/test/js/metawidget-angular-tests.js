@@ -292,6 +292,25 @@ describe(
 				} );
 			} );
 
+			it( "supports stubs with their own metadata", function() {
+
+				var mw = document.createElement( 'metawidget' );
+				var stub = document.createElement( 'stub' );
+				stub.setAttribute( 'label', 'Foo' );				
+				stub.appendChild( document.createElement( 'input' ) );
+				mw.appendChild( stub )
+				
+				var body = document.createElement( 'body' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'metawidget' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toBe( '<table><tbody><tr><th><label>Foo:</label></th><td><stub label="Foo" class="ng-scope"><input/></stub></td><td/></tr></tbody></table>' );
+				} );
+			} );
+			
 			it( "defensively copies overridden widgets", function() {
 
 				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
@@ -415,10 +434,10 @@ describe(
 				injector.invoke( function() {
 
 					expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-					expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="radio" value="Abc" ng-model="foo.bar" class="ng-pristine ng-valid" name="012"/>Abc</label>' );
-					expect( mw.innerHTML ).toContain( '<label><input type="radio" value="Def" ng-model="foo.bar" class="ng-pristine ng-valid" name="013"/>Def</label>' );
-					expect( mw.innerHTML ).toContain( '<label><input type="radio" value="Ghi" ng-model="foo.bar" class="ng-pristine ng-valid" name="014"/>Ghi</label>' );
-					expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
+					expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="radio" value="Abc" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+					expect( mw.innerHTML ).toContain( '"/>Abc</label><label><input type="radio" value="Def" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+					expect( mw.innerHTML ).toContain( '"/>Def</label><label><input type="radio" value="Ghi" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+					expect( mw.innerHTML ).toContain( '"/>Ghi</label></div></td><td/></tr></tbody></table>' );
 				} );
 			} );
 		} );

@@ -263,8 +263,6 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 			// Stubs can supply their own metadata
 
-			// TODO: test Angular stubs can supply their own metadata
-
 			if ( child.tagName === 'STUB' ) {
 				for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
 					var prop = child.attributes[loop];
