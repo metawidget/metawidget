@@ -68,7 +68,7 @@ describe(
 									scope.readOnly = true;
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 
 									// Test config *not* watched
 
@@ -78,7 +78,7 @@ describe(
 									scope.$digest();
 
 									expect( mw.innerHTML ).toContain( '<table' );
-									expect( mw.innerHTML ).toContain( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 								} );
 					} );
 
@@ -171,7 +171,7 @@ describe(
 									scope.readOnly = true;
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 									expect( inspectionCount ).toBe( 2 );
 									expect( buildingCount ).toBe( 2 );
 
@@ -515,7 +515,7 @@ describe( "The AngularWidgetProcessor", function() {
 
 			widget = document.createElement( 'output' );
 			processor.processWidget( widget, attributes, mw );
-			expect( widget.innerHTML ).toBe( '{{testPath.bar}}' );
+			expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath.bar' );
 
 			attributes = {
 				name: "bar",
@@ -523,7 +523,7 @@ describe( "The AngularWidgetProcessor", function() {
 			}
 			widget = document.createElement( 'output' );
 			processor.processWidget( widget, attributes, mw );
-			expect( widget.innerHTML ).toBe( "{{testPath.bar.join(&apos;, &apos;)}}" );
+			expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar.join(', ')" );
 
 			// Root-level
 
@@ -532,7 +532,7 @@ describe( "The AngularWidgetProcessor", function() {
 			};
 			widget = document.createElement( 'output' );
 			processor.processWidget( widget, attributes, mw );
-			expect( widget.innerHTML ).toBe( '{{testPath}}' );
+			expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath' );
 		} );
 	} );
 

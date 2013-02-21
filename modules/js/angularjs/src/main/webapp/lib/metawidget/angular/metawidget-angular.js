@@ -241,10 +241,17 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			}
 
 			var childAttributes = undefined;
+			var binding = undefined;
+			
+			if ( child.hasAttribute( 'ng-bind' )) {
+				binding = child.getAttribute( 'ng-bind' );
+			} else if ( child.hasAttribute( 'ng-model' )) {
+				binding = child.getAttribute( 'ng-model' );
+			}
 
-			if ( child.hasAttribute( 'ng-model' ) ) {
+			if ( binding !== null ) {
 
-				var splitPath = metawidget.util.splitPath( child.getAttribute( 'ng-model' ) );
+				var splitPath = metawidget.util.splitPath( binding );
 				var toInspect = scope.$parent.$eval( splitPath.type );
 				var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
 
@@ -401,14 +408,13 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		// https://github.com/angular/angular.js/issues/2038
 
 		if ( widget.tagName === 'OUTPUT' ) {
-
 			if ( attributes.type === 'array' ) {
 
 				// Special support for arrays
 
-				widget.innerHTML = '{{' + binding + ".join(', ')}}";
+				widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
 			} else {
-				widget.innerHTML = '{{' + binding + '}}';
+				widget.setAttribute( 'ng-bind', binding );
 			}
 
 		} else if ( widget.tagName === 'BUTTON' ) {

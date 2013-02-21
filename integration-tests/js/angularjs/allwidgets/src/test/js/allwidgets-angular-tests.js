@@ -164,7 +164,8 @@ describe( "AngularJS AllWidgets", function() {
 		expect( $( '#table-allWidgetsReadOnlyNestedWidgetsDontExpand-label' ).prop( 'for' ) ).toBe( 'allWidgetsReadOnlyNestedWidgetsDontExpand' );
 		expect( $( '#table-allWidgetsReadOnlyNestedWidgetsDontExpand-label' ).text() ).toBe( 'Read Only Nested Widgets Dont Expand:' );
 		expect( $( '#allWidgetsReadOnlyNestedWidgetsDontExpand' )[0].tagName ).toBe( 'OUTPUT' );
-		expect( $( '#allWidgetsReadOnlyNestedWidgetsDontExpand' ).text() ).toBe( '{"nestedTextbox1":"Nested Textbox 1","nestedTextbox2":"Nested Textbox 2"}' );
+		expect( $( '#allWidgetsReadOnlyNestedWidgetsDontExpand' ).attr( 'ng-bind' ) ).toBe( 'allWidgets.readOnlyNestedWidgetsDontExpand' );
+		expect( $( '#allWidgetsReadOnlyNestedWidgetsDontExpand' ).text() ).toBe( '[object Object]' );
 
 		expect( $( '#table-allWidgetsDate-label' ).prop( 'for' ) ).toBe( 'allWidgetsDate' );
 		expect( $( '#table-allWidgetsDate-label' ).text() ).toBe( 'Date:' );

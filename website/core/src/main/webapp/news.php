@@ -16,6 +16,8 @@
 		
 		<ul>
 			<li>JAXB support</li>
+			<li>Improvements to pure JavaScript, JQuery UI and Angular JS Metawidgets</li>
+			<li>Relicensed all examples as BSD (Metawidget itself remains LGPL)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
