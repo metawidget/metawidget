@@ -217,3 +217,31 @@ describe( "The combineInspectionResults function", function() {
 		expect( existingInspectionResult.length ).toBe( 3 );
 	} );
 } );
+
+describe( "The split and joinArray functions", function() {
+
+	it( "splits a string into an array", function() {
+
+		expect( metawidget.util.splitArray( 'foo,bar,baz' )[0] ).toBe( 'foo' );
+		expect( metawidget.util.splitArray( 'foo,bar,baz' )[1] ).toBe( 'bar' );
+		expect( metawidget.util.splitArray( 'foo,bar,baz' )[2] ).toBe( 'baz' );
+		expect( metawidget.util.splitArray( 'foo,bar,baz' ).length ).toBe( 3 );
+
+		expect( metawidget.util.splitArray( 'foo,bar\\,bar,baz' )[0] ).toBe( 'foo' );
+		expect( metawidget.util.splitArray( 'foo,bar\\,bar,baz' )[1] ).toBe( "bar,bar" );
+		expect( metawidget.util.splitArray( 'foo,bar\\,bar,baz' )[2] ).toBe( 'baz' );
+		expect( metawidget.util.splitArray( 'foo,bar\\,bar,baz' ).length ).toBe( 3 );
+
+		expect( metawidget.util.splitArray( 'foo,\\,bar\\,bar\\,,baz' )[0] ).toBe( 'foo' );
+		expect( metawidget.util.splitArray( 'foo,\\,bar\\,bar\\,,baz' )[1] ).toBe( ",bar,bar," );
+		expect( metawidget.util.splitArray( 'foo,\\,bar\\,bar\\,,baz' )[2] ).toBe( 'baz' );
+		expect( metawidget.util.splitArray( 'foo,\\,bar\\,bar\\,,baz' ).length ).toBe( 3 );
+	} );
+
+	it( "joins an array into a string", function() {
+
+		expect( metawidget.util.joinArray( [ 'foo', 'bar', 'baz' ] ) ).toBe( 'foo,bar,baz' );
+		expect( metawidget.util.joinArray( [ 'foo', 'bar,bar', 'baz' ] ) ).toBe( 'foo,bar\\,bar,baz' );
+		expect( metawidget.util.joinArray( [ 'foo', ',bar,bar,', 'baz' ] ) ).toBe( 'foo,\\,bar\\,bar\\,,baz' );
+	} );
+} );

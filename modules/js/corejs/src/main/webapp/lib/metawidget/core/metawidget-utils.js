@@ -315,19 +315,44 @@ metawidget.util.stripSection = function( attributes ) {
 			return sections[0];
 
 		case 2:
-			attributes.section = metawidget.util.joinArray( sections.slice( 1 ));
+			attributes.section = metawidget.util.joinArray( sections.slice( 1 ) );
 			return sections[0];
 	}
 };
 
-// TODO: needs to be smarter about commas!
+/**
+ * Similar to String.split(',') but recognizes escaped commas.
+ */
 
-metawidget.util.splitArray = function( array ) {
+metawidget.util.splitArray = function( toSplit ) {
 
-	return array.split( ',' );
-}
+	var array = [];
+
+	var regex = /(?:[^\,\\]+|\\.)+/g;
+	var matched;
+	while ( matched = regex.exec( toSplit ) ) {
+		array.push( matched[0].replace( /\\,/g, ',' ) );
+	}
+
+	return array;
+};
+
+/**
+ * Similar to Array.join(',') but escapes any commas.
+ */
 
 metawidget.util.joinArray = function( array ) {
 
-	return array.join( ',' );
-}
+	var toReturn = '';
+
+	for ( var loop = 0, length = array.length; loop < length; loop++ ) {
+
+		if ( toReturn.length != 0 ) {
+			toReturn += ',';
+		}
+
+		toReturn += array[loop].replace( /,/g, '\\,' );
+	}
+
+	return toReturn;
+};
