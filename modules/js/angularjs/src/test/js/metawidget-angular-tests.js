@@ -70,15 +70,15 @@ describe(
 
 									expect( mw.innerHTML ).toContain( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
 
-									// Test watching config
+									// Test config *not* watched
 
 									scope.metawidgetConfig = {
 										layout: new metawidget.layout.SimpleLayout()
 									};
 									scope.$digest();
 
-									expect( mw.innerHTML ).toBe( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
-									expect( mw.innerHTML ).toNotContain( '<table' );
+									expect( mw.innerHTML ).toContain( '<table' );
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" class="ng-scope ng-binding">Baz</output>' );
 								} );
 					} );
 

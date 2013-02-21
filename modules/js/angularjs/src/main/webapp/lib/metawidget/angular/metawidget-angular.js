@@ -45,6 +45,9 @@ angular.module( 'metawidget', [] )
 		scope: {
 			ngModel: '=',
 			readOnly: '=',
+
+			// Config cannot be 2-way ('=') because cannot 'watch' arrays
+
 			config: '&'
 		},
 
