@@ -366,6 +366,29 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		throw new Error( "Constructor called as a function" );
 	}
 
+	this.updateSelection = function( $event, binding ) {
+
+		var selected = scope.$parent.$eval( binding );
+
+		if ( selected === undefined ) {
+			selected = [];
+			$parse( binding ).assign( scope.$parent, selected );
+		}
+
+		var checkbox = $event.target;
+		var indexOf = selected.indexOf( checkbox.value );
+
+		if ( checkbox.checked === true ) {
+			if ( indexOf === -1 ) {
+				selected.push( checkbox.value );
+			}
+		} else {
+			if ( indexOf !== -1 ) {
+				selected.splice( indexOf, 1 );
+			}
+		}
+	};
+
 	this.processWidget = function( widget, attributes, mw ) {
 
 		// Ignore transcluded widgets. Compiling them again using $compile
@@ -390,54 +413,37 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		// https://github.com/angular/angular.js/issues/2038
 
 		if ( widget.tagName === 'OUTPUT' ) {
-			widget.innerHTML = '{{' + binding + '}}';
+
+			if ( attributes.type === 'array' ) {
+
+				// Special support for arrays
+
+				widget.innerHTML = '{{' + binding + ".join(', ')}}";
+			} else {
+				widget.innerHTML = '{{' + binding + '}}';
+			}
+
 		} else if ( widget.tagName === 'BUTTON' ) {
 			widget.setAttribute( 'ng-click', binding + '()' );
-		} else if ( attributes.type === 'array' && widget.tagName === 'DIV' ) {
+		} else if ( attributes.lookup !== undefined && attributes.lookup !== '' && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
-			// Custom support for multi-selects
+			// Special support for multi-selects and radio buttons
 
-			scope.$parent._mwIsSelected = function( value, selected ) {
-
-				if ( selected === undefined ) {
-					return false;
-				}
-
-				return ( selected.indexOf( value ) !== -1 );
-			};
-
-			scope.$parent._mwUpdateSelection = function( $event, binding ) {
-
-				var selected = scope.$parent.$eval( binding );
-
-				if ( selected === undefined ) {
-					selected = [];
-					$parse( binding ).assign( scope.$parent, selected );
-				}
-
-				var checkbox = $event.target;
-				var indexOf = selected.indexOf( checkbox.value );
-
-				if ( checkbox.checked === true ) {
-					if ( indexOf === -1 ) {
-						selected.push( checkbox.value );
-					}
-				} else {
-					if ( indexOf !== -1 ) {
-						selected.splice( indexOf, 1 );
-					}
-				}
-			};
+			scope.$parent._mwUpdateSelection = this.updateSelection;
 
 			for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 				var label = widget.childNodes[loop];
 
 				if ( label.tagName === 'LABEL' && label.childNodes.length === 2 ) {
-					var checkbox = label.childNodes[0];
+					var child = label.childNodes[0];
 
-					if ( checkbox.tagName === 'INPUT' && checkbox.getAttribute( 'type' ) === 'checkbox' ) {
-						checkbox.setAttribute( 'ng-checked', '_mwIsSelected("' + checkbox.getAttribute( 'value' ) + '",' + binding + ')' );
-						checkbox.setAttribute( 'ng-click', '_mwUpdateSelection($event,"' + binding + '")' );
+					if ( child.tagName === 'INPUT' ) {
+						if ( child.getAttribute( 'type' ) === 'radio' ) {
+							child.setAttribute( 'ng-model', binding );
+						} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
+							child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.getAttribute( 'value' ) + "')>=0" );
+							child.setAttribute( 'ng-click', "_mwUpdateSelection($event,'" + binding + "')" );
+						}
 					}
 				}
 			}

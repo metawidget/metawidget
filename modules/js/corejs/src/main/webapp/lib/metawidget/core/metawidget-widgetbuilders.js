@@ -203,11 +203,11 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 		var lookupSplit = attributes.lookup.split( ',' );
 
-		// Multi-select
+		// Multi-select and radio buttons
 
-		if ( attributes.type === 'array' ) {
+		if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
 
-			var multiselect = document.createElement( 'div' );
+			var div = document.createElement( 'div' );
 
 			for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
 
@@ -216,7 +216,12 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 				
 				var label = document.createElement( 'label' );
 				var option = document.createElement( 'input' );
-				option.setAttribute( 'type', 'checkbox' );
+				
+				if ( attributes.componentType !== undefined ) {
+					option.setAttribute( 'type', attributes.componentType );
+				} else {
+					option.setAttribute( 'type', 'checkbox' );
+				}
 				option.setAttribute( 'value', lookupSplit[loop] );
 				label.appendChild( option );
 
@@ -226,10 +231,10 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 					label.appendChild( document.createTextNode( lookupSplit[loop] ));
 				}
 
-				multiselect.appendChild( label );
+				div.appendChild( label );
 			}
 
-			return multiselect;
+			return div;
 		}
 
 		// Single-select

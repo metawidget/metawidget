@@ -314,6 +314,18 @@ describe( "The HtmlWidgetBuilder", function() {
 		expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
 		expect( select.childNodes.length ).toBe( 1 );
 
+		select = widgetBuilder.buildWidget( {
+			lookup: "foo",
+			lookupLabels: "Foo",
+			componentType: "radio"
+		}, {} );
+
+		expect( select.toString() ).toBe( 'div' );
+		expect( select.childNodes[0].toString() ).toBe( 'label' );
+		expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio" value="foo"' );
+		expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
+		expect( select.childNodes.length ).toBe( 1 );
+
 		var button = widgetBuilder.buildWidget( {
 			name: "clickMe",
 			type: "function"

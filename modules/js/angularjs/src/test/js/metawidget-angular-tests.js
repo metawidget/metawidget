@@ -340,7 +340,7 @@ describe(
 				} );
 			} );
 
-			it( "supports arrays", function() {
+			it( "supports multiselects", function() {
 
 				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 				var controller = myApp.controller( 'TestController', function( $scope ) {
@@ -374,9 +374,50 @@ describe(
 				injector.invoke( function() {
 
 					expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-					expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="checkbox" value="Abc" ng-checked="_mwIsSelected(&quot;Abc&quot;,foo.bar)" ng-click="_mwUpdateSelection($event,&quot;foo.bar&quot;)" checked="checked"/>Abc</label>' );
-					expect( mw.innerHTML ).toContain( '<label><input type="checkbox" value="Def" ng-checked="_mwIsSelected(&quot;Def&quot;,foo.bar)" ng-click="_mwUpdateSelection($event,&quot;foo.bar&quot;)"/>Def</label>' );
-					expect( mw.innerHTML ).toContain( '<label><input type="checkbox" value="Ghi" ng-checked="_mwIsSelected(&quot;Ghi&quot;,foo.bar)" ng-click="_mwUpdateSelection($event,&quot;foo.bar&quot;)"/>Ghi</label>' );
+					expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="checkbox" value="Abc" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
+					expect( mw.innerHTML ).toContain( '<label><input type="checkbox" value="Def" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
+					expect( mw.innerHTML ).toContain( '<label><input type="checkbox" value="Ghi" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
+					expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
+				} );
+			} );
+
+			it( "supports radio buttons", function() {
+
+				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+				var controller = myApp.controller( 'TestController', function( $scope ) {
+
+					$scope.foo = {
+						bar: "Def"
+					};
+
+					$scope.metawidgetConfig = {
+						inspector: function() {
+
+							return [ {
+								name: "bar",
+								componentType: "radio",
+								lookup: "Abc,Def,Ghi"
+							} ]
+						}
+					};
+				} );
+
+				var mw = document.createElement( 'metawidget' );
+				mw.setAttribute( 'ng-model', 'foo' );
+				mw.setAttribute( 'config', 'metawidgetConfig' );
+
+				var body = document.createElement( 'body' );
+				body.setAttribute( 'ng-controller', 'TestController' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
+					expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="radio" value="Abc" ng-model="foo.bar" class="ng-pristine ng-valid" name="012"/>Abc</label>' );
+					expect( mw.innerHTML ).toContain( '<label><input type="radio" value="Def" ng-model="foo.bar" class="ng-pristine ng-valid" name="013"/>Def</label>' );
+					expect( mw.innerHTML ).toContain( '<label><input type="radio" value="Ghi" ng-model="foo.bar" class="ng-pristine ng-valid" name="014"/>Ghi</label>' );
 					expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
 				} );
 			} );
@@ -392,8 +433,8 @@ describe( "The AngularInspectionResultProcessor", function() {
 
 			var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( $rootScope.$new() );
 			var inspectionResult = [ {
-				"name": "foo",
-				"value": "{{1+2}}"
+				name: "foo",
+				value: "{{1+2}}"
 			} ];
 
 			inspectionResult = processor.processInspectionResult( inspectionResult );
@@ -414,14 +455,14 @@ describe( "The AngularWidgetProcessor", function() {
 
 			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, $rootScope.$new() );
 			var attributes = {
-				"name": "foo",
-				"required": "true",
-				"minimumLength": "3",
-				"maximumLength": "97"
+				name: "foo",
+				required: "true",
+				minimumLength: "3",
+				maximumLength: "97"
 			};
 			var mw = {
-				"toInspect": {},
-				"path": "testPath"
+				toInspect: {},
+				path: "testPath"
 			};
 
 			// Inputs
@@ -442,7 +483,7 @@ describe( "The AngularWidgetProcessor", function() {
 			// Buttons
 
 			attributes = {
-				"name": "bar"
+				name: "bar"
 			};
 			widget = document.createElement( 'button' );
 			processor.processWidget( widget, attributes, mw );
@@ -456,6 +497,14 @@ describe( "The AngularWidgetProcessor", function() {
 			widget = document.createElement( 'output' );
 			processor.processWidget( widget, attributes, mw );
 			expect( widget.innerHTML ).toBe( '{{testPath.bar}}' );
+
+			attributes = {
+				name: "bar",
+				type: "array"
+			}
+			widget = document.createElement( 'output' );
+			processor.processWidget( widget, attributes, mw );
+			expect( widget.innerHTML ).toBe( "{{testPath.bar.join(&apos;, &apos;)}}" );
 
 			// Root-level
 
@@ -476,10 +525,10 @@ describe( "The AngularWidgetProcessor", function() {
 
 			var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, $rootScope.$new() );
 			var attributes = {
-				"name": "foo",
+				name: "foo",
 			};
 			var mw = {
-				"toInspect": {}
+				toInspect: {}
 			};
 
 			var widget = document.createElement( 'input' );
