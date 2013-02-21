@@ -4,6 +4,8 @@
 
 		<h2>Frequently Asked Questions - Licensing</h2>
 		
+		<h3>Metawidget (LGPL)</h3>
+		
 		<p>
 			Metawidget is Free Software.
 		</p>
@@ -61,7 +63,19 @@
 			a <a href="/support.php">small commercial support package</a> and we can make the required changes within that
 			time frame.
 		</p>
-	
+
+		<h3>Metawidget Examples (BSD)</h3>
+		
+		<p>
+			The Metawidget Examples are Free Software.
+		</p>
+		
+		<p>
+			They are licensed under the <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">BSD 2-Clause License</a>. This allows
+			redistribution and use in source and binary forms, with or without modification. You can freely copy code from the examples, modify it
+			and redistribute it. This is <em>not</em> the case for Metawidget itself, which is licensed under LGPL (see above).
+		</p>
+		
 	<?php require_once '../../include/body-end.php'; ?>		
 
 <?php require_once '../../include/page-end.php'; ?>

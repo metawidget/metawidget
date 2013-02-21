@@ -24,6 +24,7 @@ Full source code (including tests) is available under src\examples.
 Other Stuff
 -----------
 
-This software is distributed under the terms of the FSF Lesser GNU Public License (see lgpl.txt).
+These examples are distributed under the terms of the BSD 2-Clause License. Metawidget itself is
+distributed under the terms of the FSF Lesser GNU Public License (see lgpl.txt).
 
 This product includes software developed by the Apache Software Foundation (http://www.apache.org).
