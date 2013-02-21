@@ -110,7 +110,7 @@ describe( "The core Metawidget", function() {
 		expect( mw.overriddenNodes.length ).toBe( 0 );
 		mw.overriddenNodes.push( document.createElement( 'defensive' ) );
 		expect( mw.overriddenNodes.length ).toBe( 1 );
-		mw.buildWidgets();		
+		mw.buildWidgets();
 		expect( mw.overriddenNodes.length ).toBe( 0 );
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 	} );
@@ -155,10 +155,11 @@ describe( "The core Metawidget", function() {
 		element.appendChild( document.createTextNode( 'text2' ) );
 		var mw = new metawidget.Metawidget( element );
 		mw.onEndBuild = function() {
+
 			// Do not clean up overriddenNodes
 		};
 		mw.buildWidgets();
-		
+
 		expect( mw.overriddenNodes[0].toString() ).toBe( 'span' );
 		expect( mw.overriddenNodes.length ).toBe( 1 );
 	} );
@@ -255,7 +256,7 @@ describe( "The core Metawidget", function() {
 		var mw = new metawidget.Metawidget( element, {
 			inspector: {
 				inspect: function() {
-					
+
 					called.push( 'inspector.inspect' );
 					return [];
 				}
@@ -271,7 +272,10 @@ describe( "The core Metawidget", function() {
 				processInspectionResult: function() {
 
 					called.push( 'addedInspectionResultProcessor.processInspectionResult' );
-					return [ { name: "foo", type: "string" } ];
+					return [ {
+						name: "foo",
+						type: "string"
+					} ];
 				}
 			} ],
 			widgetBuilder: {
@@ -280,7 +284,7 @@ describe( "The core Metawidget", function() {
 					called.push( 'widgetBuilder.onStartBuild' );
 				},
 				buildWidget: function() {
-					
+
 					called.push( 'widgetBuilder.buildWidget' );
 					return document.createElement( 'span' );
 				},
@@ -295,7 +299,7 @@ describe( "The core Metawidget", function() {
 					called.push( 'widgetProcessor.onStartBuild' );
 				},
 				processWidget: function( widget ) {
-					
+
 					called.push( 'widgetProcessor.processWidget' );
 					return widget;
 				},
@@ -310,7 +314,7 @@ describe( "The core Metawidget", function() {
 					called.push( 'addedWidgetProcessor.onStartBuild' );
 				},
 				processWidget: function( widget ) {
-					
+
 					called.push( 'addedWidgetProcessor.processWidget' );
 					return widget;
 				},
@@ -329,7 +333,7 @@ describe( "The core Metawidget", function() {
 					called.push( 'layout.startContainerLayout' );
 				},
 				layoutWidget: function() {
-					
+
 					called.push( 'layout.layoutWidget' );
 				},
 				endContainerLayout: function() {
@@ -362,7 +366,7 @@ describe( "The core Metawidget", function() {
 		expect( called[14] ).toBe( 'widgetProcessor.onEndBuild' );
 		expect( called[15] ).toBe( 'addedWidgetProcessor.onEndBuild' );
 		expect( called[16] ).toBe( 'widgetBuilder.onEndBuild' );
-		
+
 		expect( called.length ).toBe( 17 );
 	} );
 
@@ -419,26 +423,26 @@ describe( "The core Metawidget", function() {
 		var element = document.createElement( 'div' );
 		var mw = new metawidget.Metawidget( element, {
 			widgetBuilder: function( attributes, mw ) {
-				
+
 				attributes.foo = 'baz';
 				widgetBuilt++;
-				
+
 				if ( attributes.readOnly === 'true' ) {
 					sawReadOnly++;
 				}
-				
+
 				return document.createElement( 'span' );
 			}
 		} );
 		mw.readOnly = true;
-		
+
 		mw.buildWidgets( inspectionResult );
 		expect( inspectionResult[0].foo ).toBe( "bar" );
 		expect( widgetBuilt ).toBe( 1 );
 		expect( sawReadOnly ).toBe( 1 );
-		
+
 		// _root nodes too
-		
+
 		inspectionResult = [ {
 			_root: "true",
 			foo: "bar"
@@ -447,7 +451,7 @@ describe( "The core Metawidget", function() {
 		mw.buildWidgets( inspectionResult );
 		expect( inspectionResult[0].foo ).toBe( "bar" );
 		expect( widgetBuilt ).toBe( 2 );
-		expect( sawReadOnly ).toBe( 2 );		
+		expect( sawReadOnly ).toBe( 2 );
 	} );
 
 	it( "inspects from parent", function() {
@@ -475,18 +479,18 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes.length ).toBe( 1 );
 	} );
-	
+
 	it( "supports stubs with their own metadata", function() {
 
 		var element = document.createElement( 'div' );
 		var stub = document.createElement( 'stub' );
 		stub.setAttribute( 'label', 'Foo' );
-		stub.appendChild( document.createElement( 'input' ));
+		stub.appendChild( document.createElement( 'input' ) );
 		element.appendChild( stub );
 
 		var mw = new metawidget.Metawidget( element );
 		mw.buildWidgets();
-		
+
 		expect( element.childNodes[0].toString() ).toBe( 'table' );
 		expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 		expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
@@ -506,14 +510,14 @@ describe( "The core Metawidget", function() {
 	it( "handles falsy values gracefully", function() {
 
 		// These values should produce an empty Metawidget
-		
+
 		testFalsy( undefined );
 		testFalsy( null );
 		testFalsy( {} );
 		testFalsy( [] );
-		
+
 		function testFalsy( falsyValue ) {
-			
+
 			var element = document.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 
@@ -535,7 +539,7 @@ describe( "The core Metawidget", function() {
 		testNotFalsy( false );
 
 		function testNotFalsy( nonFalsyValue ) {
-			
+
 			var element = document.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 
@@ -546,19 +550,52 @@ describe( "The core Metawidget", function() {
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2"' );
-			
+
 			var widget = element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
 			expect( widget.toString() ).toContain( 'input type="' );
-			
+
 			if ( widget.toString().indexOf( 'checkbox' ) !== -1 ) {
 				expect( widget.checked ).toBe( nonFalsyValue );
 			} else if ( nonFalsyValue + '' !== 'NaN' ) {
 				expect( widget.value ).toBe( nonFalsyValue );
 			}
-			
+
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes.length ).toBe( 1 );
 		}
+	} );
+
+	it( "supports arrays of configs", function() {
+
+		var called = [];
+
+		var element = document.createElement( 'div' );
+		var mw = new metawidget.Metawidget( element, [ {
+			inspector: {
+				inspect: function() {
+
+					called.push( 'inspector.inspect' );
+					return [ {
+						name: "foo",
+						type: "string"
+					} ];
+				}
+			}
+		}, {
+			layout: {
+				layoutWidget: function() {
+
+					called.push( 'layout.layoutWidget' );
+				}
+			}
+		} ] );
+
+		mw.buildWidgets();
+
+		expect( called[0] ).toBe( 'inspector.inspect' );
+		expect( called[1] ).toBe( 'layout.layoutWidget' );
+
+		expect( called.length ).toBe( 2 );
 	} );
 } );

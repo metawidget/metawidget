@@ -149,11 +149,25 @@ metawidget.Pipeline = function( element ) {
  * <li>widgetProcessors - an array of WidgetProcessors</li>
  * <li>layout - a Layout</li>
  * </ul>
+ * 
+ * @param config
+ *            the config object to use. This can be an array, in which case
+ *            multiple configs will be applied (in the order they appear in the
+ *            array)
  */
 
 metawidget.Pipeline.prototype.configure = function( config ) {
 
 	if ( config === undefined ) {
+		return;
+	}
+	
+	// Support arrays of configs
+	
+	if ( config instanceof Array ) {
+		for( var loop = 0, length = config.length; loop < length; loop++ ) {
+			this.configure( config[loop] );
+		}
 		return;
 	}
 	if ( config.inspector !== undefined ) {
