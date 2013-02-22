@@ -27,7 +27,9 @@ describe(
 						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 						var controller = myApp.controller( 'TestController', function( $scope ) {
 
-							$scope.foo = undefined;
+							$scope.foo = {
+								bar: "Bar"
+							};
 						} );
 
 						var mw = document.createElement( 'metawidget' );
@@ -44,37 +46,29 @@ describe(
 						injector
 								.invoke( function() {
 
-									expect( mw.innerHTML ).toBe( '<table id="table-foo"><tbody/></table>' );
-
-									// Test watching ngModel from undefined->defined
-
-									var scope = angular.element( body ).scope();
-									scope.foo = {
-										bar: "Bar"
-									};
-									scope.$digest();
-
 									expect( mw.innerHTML )
 											.toBe(
 													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+
+									// Test watching ngModel
+
+									var scope = angular.element( body ).scope();
+									scope.foo = {
+										baz: "Baz"
+									};
+									scope.$digest();
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
 
 									// Test watching readOnly
 
 									scope.readOnly = true;
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="foo.bar" class="ng-scope ng-binding">Bar</output>' );
-
-									// Test ngModel from defined->defined *not* watched
-
-									scope.foo = {
-										baz: "Baz"
-									};
-									scope.$digest();
-
-									expect( mw.innerHTML ).toNotContain( 'baz' );
-									expect( mw.innerHTML ).toNotContain( 'Baz' );
-									expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="foo.bar" class="ng-scope ng-binding"></output>' );
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 
 									// Test config *not* watched
 
@@ -84,14 +78,7 @@ describe(
 									scope.$digest();
 
 									expect( mw.innerHTML ).toContain( '<table' );
-									expect( mw.innerHTML ).toContain( '<output' );
-									
-									scope.$broadcast( 'reinspect', { element: mw } );
-									
-									expect( mw.innerHTML ).toContain( '<table' );
-									expect( mw.innerHTML ).toNotContain( 'foo.bar' );
-									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding"/>' );
-
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 								} );
 					} );
 
@@ -175,14 +162,17 @@ describe(
 									expect( inspectionCount ).toBe( 1 );
 									expect( buildingCount ).toBe( 1 );
 
-									// Test changing read-only
+									// Test changing two things at once
 
 									var scope = angular.element( body ).scope();
+									scope.foo = {
+										baz: "Baz"
+									};
 									scope.readOnly = true;
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="foo.bar" class="ng-scope ng-binding">Bar</output>' );
-									expect( inspectionCount ).toBe( 1 );
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
+									expect( inspectionCount ).toBe( 2 );
 									expect( buildingCount ).toBe( 2 );
 
 									// Test changing to the same value
@@ -197,9 +187,21 @@ describe(
 									scope.$digest();
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
-									expect( inspectionCount ).toBe( 1 );
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( inspectionCount ).toBe( 2 );
 									expect( buildingCount ).toBe( 3 );
+
+									// Test changing toInspect to a similar
+									// value
+
+									scope.foo = {
+										baz: "Baz"
+									};
+									scope.$digest();
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( inspectionCount ).toBe( 3 );
+									expect( buildingCount ).toBe( 4 );
 								} );
 					} );
 
@@ -447,6 +449,112 @@ describe(
 					expect( mw.innerHTML ).toContain( '"/>Ghi</label></div></td><td/></tr></tbody></table>' );
 				} );
 			} );
+
+			it(
+					"defensively creates parent objects",
+					function() {
+
+						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+						var inspectionCount = 0;
+						var controller = myApp.controller( 'TestController', function( $scope ) {
+
+							$scope.metawidgetConfig = {
+								inspector: function() {
+
+									return [ {
+										name: "bar",
+										type: "string"
+									} ];
+								},
+								inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+
+									inspectionCount++;
+									return inspectionResult;
+								} ]
+							}
+						} );
+
+						var mw = document.createElement( 'metawidget' );
+						mw.setAttribute( 'ng-model', 'foo' );
+						mw.setAttribute( 'config', 'metawidgetConfig' );
+
+						var body = document.createElement( 'body' );
+						body.setAttribute( 'ng-controller', 'TestController' );
+						body.appendChild( mw );
+
+						var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+						injector
+								.invoke( function() {
+
+									expect( mw.innerHTML )
+											.toBe(
+													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+
+									expect( inspectionCount ).toBe( 1 );
+
+									// Parent object should have been created
+
+									var scope = angular.element( body ).scope();
+									expect( scope.foo ).toBeDefined();
+									expect( scope.foo.bar ).toBeUndefined();
+
+									// So subsequent updates shouldn't reinspect
+
+									scope.foo.bar = '123';
+									scope.$digest();
+
+									expect( inspectionCount ).toBe( 1 );
+								} );
+					} );
+
+			it(
+					"does not watch primitives",
+					function() {
+
+						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+						var inspectionCount = 0;
+						var controller = myApp.controller( 'TestController', function( $scope ) {
+
+							$scope.foo = 'hello';
+
+							$scope.metawidgetConfig = {
+									inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+
+										inspectionCount++;
+										return inspectionResult;
+									} ]
+								}
+						} );
+
+						var mw = document.createElement( 'metawidget' );
+						mw.setAttribute( 'ng-model', 'foo' );
+						mw.setAttribute( 'config', 'metawidgetConfig' );
+
+						var body = document.createElement( 'body' );
+						body.setAttribute( 'ng-controller', 'TestController' );
+						body.appendChild( mw );
+
+						var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+						injector
+								.invoke( function() {
+
+									expect( mw.innerHTML )
+											.toBe(
+													'<table id="table-foo"><tbody><tr><td colspan="2"><input type="text" id="foo" ng-model="foo" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+
+									expect( inspectionCount ).toBe( 1 );
+
+									var scope = angular.element( body ).scope();
+									scope.foo = 'goodbye';
+									scope.$digest();
+
+									expect( inspectionCount ).toBe( 1 );
+								} );
+					} );
 		} );
 
 describe( "The AngularInspectionResultProcessor", function() {

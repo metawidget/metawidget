@@ -71,24 +71,29 @@ angular.module( 'metawidget', [] )
 
 				var mw = new metawidget.angular.AngularMetawidget( element, attrs, transclude, scope, $compile, $parse );
 
-				// Observe 'undefined becoming defined' (for lazy-loading) but
-				// not 'object being updated' - otherwise every keypress may
-				// recreate the widget
+				// Build
 
-				if ( scope.$eval( 'ngModel' ) === undefined ) {
+				var _oldToInspect = undefined;
+				_buildWidgets();
 
-					scope.ngModelDeregister = scope.$watch( 'ngModel', function( newValue, oldValue ) {
+				// Observe
 
-						// Cannot test against mw.toInspect, because is based on
-						// the splitPath.type
+				scope.$watch( 'ngModel', function( newValue, oldValue ) {
 
-						if ( newValue !== undefined ) {
-							scope.ngModelDeregister();
-							mw.invalidateInspection();
-							_buildWidgets();
-						}
-					} );
-				}
+					// Cannot test against mw.toInspect, because is based on
+					// the splitPath.type
+					//
+					// Re-inspect for 'undefined becoming defined' and
+					// 'object being updated'. But *not* for 'undefined
+					// becoming primitive, and then primitive being
+					// updated'. Otherwise every keypress will recreate the
+					// widget
+
+					if ( newValue !== _oldToInspect && typeof ( newValue ) === 'object' ) {
+						mw.invalidateInspection();
+						_buildWidgets();
+					}
+				} );
 
 				scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
@@ -101,24 +106,6 @@ angular.module( 'metawidget', [] )
 					}
 				} );
 
-				/**
-				 * It is too disruptive to automatically watch/reinspect upon
-				 * config/ngModel changes. It is also rare. But we want to
-				 * provide clients with a hook to force reinspection.
-				 */
-
-				scope.$parent.$on( 'reinspect', function( event, args ) {
-
-					if ( args.element === element[0] ) {
-						mw.invalidateInspection();
-						_buildWidgets();
-					}
-				} );
-
-				// Build
-
-				_buildWidgets();
-
 				//
 				// Private method
 				//
@@ -129,6 +116,7 @@ angular.module( 'metawidget', [] )
 					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
 					mw.readOnly = scope.$eval( 'readOnly' );
 					mw.buildWidgets();
+					_oldToInspect = scope.$eval( 'ngModel' );
 				}
 			};
 		}
@@ -248,7 +236,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			var binding = undefined;
 
 			// TODO: support ngBind too
-
+			
 			if ( child.hasAttribute( 'ng-bind' ) ) {
 				binding = child.getAttribute( 'ng-bind' );
 			} else if ( child.hasAttribute( 'ng-model' ) ) {
@@ -413,6 +401,8 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		// AngularJS doesn't support 'output' natively:
 		// https://github.com/angular/angular.js/issues/2038
 
+		var mayUpdateModel = false;
+
 		if ( widget.tagName === 'OUTPUT' ) {
 			if ( attributes.type === 'array' ) {
 
@@ -448,8 +438,21 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 				}
 			}
 
+			mayUpdateModel = true;
+
 		} else {
+
 			widget.setAttribute( 'ng-model', binding );
+			mayUpdateModel = true;
+		}
+
+		// If we create a control that may update the model, make sure the
+		// parent of its binding exists. This stops 'scope.$watch( 'ngModel' )'
+		// firing upon an initial keypress, because Angular creates both the
+		// binding and its parent just-in-time
+
+		if ( mayUpdateModel === true && mw.path !== undefined && attributes._root !== 'true' && scope.$eval( 'ngModel' ) === undefined ) {
+			$parse( 'ngModel' ).assign( scope, {} );
 		}
 
 		// Validation
