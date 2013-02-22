@@ -36,11 +36,10 @@ public class StringUtilsTest
 		assertEquals( "X", StringUtils.capitalize( "x" ) );
 		assertEquals( "URL", StringUtils.capitalize( "URL" ) );
 		assertEquals( "ID", StringUtils.capitalize( "ID" ) );
-
-		// See: https://community.jboss.org/thread/203202?start=0&tstart=0
-
 		assertEquals( "aFIELD", StringUtils.capitalize( "aFIELD" ) );
 		assertEquals( "aI", StringUtils.capitalize( "aI" ) );
+		assertEquals( "jAXBElementLongConverter", StringUtils.capitalize( "jAXBElementLongConverter" ) );
+		assertEquals( "JAXBElementLongConverter", StringUtils.capitalize( "JAXBElementLongConverter" ) );
 	}
 
 	public void testDecapitalize()
@@ -50,8 +49,25 @@ public class StringUtilsTest
 		assertEquals( "x", StringUtils.decapitalize( "X" ) );
 		assertEquals( "URL", StringUtils.decapitalize( "URL" ) );
 		assertEquals( "ID", StringUtils.decapitalize( "ID" ) );
+
+		// See: https://community.jboss.org/thread/203202?start=0&tstart=0
+
 		assertEquals( "aFIELD", StringUtils.decapitalize( "aFIELD" ) );
 		assertEquals( "aI", StringUtils.decapitalize( "aI" ) );
+	}
+
+	public void testCapitalizeDecapitalize()
+		throws Exception {
+
+		assertEquals( "fooBah", StringUtils.decapitalize( StringUtils.capitalize( "fooBah" ) ) );
+		assertEquals( "x", StringUtils.decapitalize( StringUtils.capitalize( "x" ) ) );
+		assertEquals( "URL", StringUtils.decapitalize( StringUtils.capitalize( "URL" ) ) );
+		assertEquals( "ID", StringUtils.decapitalize( StringUtils.capitalize( "ID" ) ) );
+
+		// These are only the inverse of each other because of the 'second character' clause
+
+		assertEquals( "aFIELD", StringUtils.decapitalize( StringUtils.capitalize( "aFIELD" ) ) );
+		assertEquals( "aI", StringUtils.decapitalize( StringUtils.capitalize( "aI" ) ) );
 	}
 
 	public void testCamelCase()

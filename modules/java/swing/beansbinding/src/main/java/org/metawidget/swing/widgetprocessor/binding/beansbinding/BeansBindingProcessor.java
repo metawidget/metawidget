@@ -290,22 +290,13 @@ public class BeansBindingProcessor
 		return binding;
 	}
 
-	//
-	// Private members
-	//
-
-	private <S, T> void registerConverter( Class<S> source, Class<T> target, Converter<S, T> converter ) {
-
-		mConverters.put( new ConvertFromTo<S, T>( source, target ), converter );
-	}
-
 	@SuppressWarnings( { "unchecked", "rawtypes" } )
-	private <SS, SV, TS extends Component, TV> void typesafeAdd( TS component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+	protected <SS, SV, TS extends Component, TV> Binding typesafeAdd( TS component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		String componentProperty = metawidget.getValueProperty( component );
 
 		if ( componentProperty == null ) {
-			return;
+			return null;
 		}
 
 		// Source property
@@ -323,41 +314,25 @@ public class BeansBindingProcessor
 
 		BeanProperty<SS, SV> propertySource = BeanProperty.create( sourceProperty );
 
-		Class<TV> target;
+		Class<TV> targetClass;
 
 		// Create binding
 
 		BeanProperty<TS, TV> propertyTarget = BeanProperty.create( componentProperty );
+
 		org.jdesktop.beansbinding.Binding<SS, SV, TS, TV> binding = Bindings.createAutoBinding( mUpdateStrategy, source, propertySource, component, propertyTarget );
-		target = (Class<TV>) propertyTarget.getWriteType( component );
+		targetClass = (Class<TV>) propertyTarget.getWriteType( component );
 
 		// Add a converter
 
-		Converter<SV, TV> converter = null;
-
-		if ( propertySource.isWriteable( source ) ) {
-			Class<SV> sourceClass = (Class<SV>) propertySource.getWriteType( source );
-			converter = getConverter( sourceClass, target );
-		} else if ( propertySource.isReadable( source ) ) {
-			// BeansBinding does not allow us to lookup the type
-			// of a non-writable property
-
-			SV value = propertySource.getValue( source );
-
-			if ( value != null ) {
-				Class<SV> sourceClass = (Class<SV>) value.getClass();
-				converter = getConverter( sourceClass, target );
-			}
-		} else {
-			throw WidgetProcessorException.newException( "Property '" + sourceProperty + "' has no getter and no setter (or parent is null)" );
-		}
+		Converter<SV, TV> converter = getConverter( propertySource, source, targetClass, attributes );
 
 		// Convenience converter for READ_ONLY fields (not just based on 'component instanceof
 		// JLabel', because the user may override a DONT_EXPAND to be a non-editable JTextField)
 		//
 		// See https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3460563
 
-		if ( converter == null && WidgetBuilderUtils.isReadOnly( attributes ) && target.equals( String.class ) ) {
+		if ( converter == null && WidgetBuilderUtils.isReadOnly( attributes ) && targetClass.equals( String.class ) ) {
 			converter = new ReadOnlyToStringConverter();
 		}
 
@@ -365,7 +340,7 @@ public class BeansBindingProcessor
 		binding = processBinding( binding, metawidget );
 
 		if ( binding == null ) {
-			return;
+			return null;
 		}
 
 		// Bind it
@@ -385,6 +360,49 @@ public class BeansBindingProcessor
 		}
 
 		state.bindings.add( (org.jdesktop.beansbinding.Binding<Object, SV, TS, TV>) binding );
+
+		return binding;
+	}
+
+	/**
+	 * Get a converter for the given source class. Clients can override this method to provide
+	 * customized converter implementations.
+	 *
+	 * @param attributes
+	 *            the attributes of the given business property. May be useful if you want to
+	 *            lookup, say, 'actual-class'
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	protected <SV, SS, TV> Converter<SV, TV> getConverter( BeanProperty<SS, SV> propertySource, SS source, Class<TV> targetClass, Map<String, String> attributes ) {
+
+		// Determine sourceClass
+
+		Class<SV> sourceClass = null;
+
+		if ( propertySource.isWriteable( source ) ) {
+			sourceClass = (Class<SV>) propertySource.getWriteType( source );
+		} else if ( propertySource.isReadable( source ) ) {
+			// BeansBinding does not allow us to lookup the type of a non-writable property
+			SV value = propertySource.getValue( source );
+
+			if ( value != null ) {
+				sourceClass = (Class<SV>) value.getClass();
+			}
+		} else {
+			throw WidgetProcessorException.newException( "Property '" + propertySource + "' has no getter and no setter (or parent is null)" );
+		}
+
+		return getConverter( sourceClass, targetClass );
+	}
+
+	//
+	// Private methods
+	//
+
+	private <S, T> void registerConverter( Class<S> source, Class<T> target, Converter<S, T> converter ) {
+
+		mConverters.put( new ConvertFromTo<S, T>( source, target ), converter );
 	}
 
 	/**

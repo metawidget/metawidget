@@ -353,7 +353,7 @@ public class BeansBindingProcessorTest
 			metawidget.getComponent( 0 );
 			fail();
 		} catch ( WidgetProcessorException e ) {
-			assertEquals( "Property 'bar' has no getter and no setter (or parent is null)", e.getMessage() );
+			assertEquals( "Property 'org.jdesktop.beansbinding.BeanProperty[bar]' has no getter and no setter (or parent is null)", e.getMessage() );
 		}
 	}
 

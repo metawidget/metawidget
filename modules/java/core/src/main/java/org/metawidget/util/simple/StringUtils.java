@@ -90,7 +90,9 @@ public final class StringUtils {
 	 * <p>
 	 * The rules for capitalizing are not clearly defined in <tt>java.beans.Introspector</tt>, but
 	 * we try to make <code>capitalize</code> the inverse of <code>decapitalize</code> (this
-	 * includes the 'second character' clause).
+	 * includes the 'second character' clause). For example, in Eclipse if you define a property
+	 * 'aB123' and then 'generate getters' Eclipse will generate a method called 'getaB123'
+	 * <em>not</em> 'getAB123'.
 	 */
 
 	public static String capitalize( String in ) {

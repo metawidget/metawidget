@@ -76,7 +76,7 @@ public class JGoodiesValidatorProcessor
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
 		}
 
-		Validator<?> validator = getValidator( component, attributes, path );
+		Validator<?> validator = getValidator( component, attributes, path, metawidget );
 
 		if ( validator == null ) {
 			// Do not attachValidator if no validator and not required
@@ -114,72 +114,89 @@ public class JGoodiesValidatorProcessor
 	 *            attributes of the widget to layout. Never null
 	 * @param path
 	 *            path to the business object property (of the form com.myapp.Foo/bar/baz)
+	 * @param metawidget
+	 *            the owning Metawidget. May be useful if you wish to look up other WidgetProcessors
+	 *            (such as
 	 */
 
-	protected Validator<?> getValidator( JComponent component, Map<String, String> attributes, String path ) {
+	protected Validator<?> getValidator( JComponent component, Map<String, String> attributes, String path, SwingMetawidget metawidget ) {
 
 		return null;
 	}
 
 	/**
 	 * Attach the given Validator to the given JComponent.
+	 * <p>
+	 * This method attaches the Validator, but largely delegates to <tt>validateChange</tt> for the
+	 * actual validation work. Clients can override this method to attach Validators to other
+	 * events, whilst still calling <tt>validateChange</tt> to perform the validation.
 	 */
 
-	protected void attachValidator( final JComponent component, final Validator<?> validator, String path, final SwingMetawidget metawidget ) {
+	protected void attachValidator( final JComponent component, final Validator<?> validator, final String path, final SwingMetawidget metawidget ) {
 
-		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 		component.addKeyListener( new KeyAdapter() {
 
 			@Override
 			public void keyReleased( KeyEvent event ) {
 
-				// JGoodies' API concentrates on bulk updates of sub-components in a component tree.
-				// For example the <code>ValidationComponentUtils.updateComponentTreeXXX</code> and
-				// <code>ValidationComponentUtils.visitComponentTree</code> methods take a top-level
-				// component and traverse it setting all validation messages for all sub-components.
-				//
-				// Because of this, when updating it is important to retain previous validation
-				// results, or their messages will be lost during the bulk update of new validation
-				// results
-
-				@SuppressWarnings( "unchecked" )
-				Map<JComponent, ValidationResult> validationResults = (Map<JComponent, ValidationResult>) metawidget.getClientProperty( JGoodiesValidatorProcessor.class );
-
-				if ( validationResults == null ) {
-					validationResults = CollectionUtils.newHashMap();
-					metawidget.putClientProperty( JGoodiesValidatorProcessor.class, validationResults );
-				}
-
-				// Fetch the value...
-
-				Object value = metawidget.getValue( names );
-
-				// ...run it through the Validator...
-
-				if ( validator != null ) {
-					@SuppressWarnings( "unchecked" )
-					Validator<Object> objectValidator = (Validator<Object>) validator;
-					ValidationResult validationResult = objectValidator.validate( value );
-
-					if ( validationResult == null ) {
-						validationResults.remove( component );
-					} else {
-						validationResults.put( component, validationResult );
-					}
-				}
-
-				// ...collate all ValidationResults...
-
-				ValidationResult validationResult = new ValidationResult();
-				for ( ValidationResult previousValidationResult : validationResults.values() ) {
-					validationResult.addAllFrom( previousValidationResult );
-				}
-
-				// ...and update the UI
-
-				updateComponent( component, validationResult, metawidget );
+				validateChange( component, validator, path, metawidget );
 			}
 		} );
+	}
+
+	/**
+	 * Execute the given Validator against the given JComponent.
+	 */
+
+	protected void validateChange( final JComponent component, final Validator<?> validator, String path, final SwingMetawidget metawidget ) {
+
+		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
+
+		// JGoodies' API concentrates on bulk updates of sub-components in a component tree.
+		// For example the <code>ValidationComponentUtils.updateComponentTreeXXX</code> and
+		// <code>ValidationComponentUtils.visitComponentTree</code> methods take a top-level
+		// component and traverse it setting all validation messages for all sub-components.
+		//
+		// Because of this, when updating it is important to retain previous validation
+		// results, or their messages will be lost during the bulk update of new validation
+		// results
+
+		@SuppressWarnings( "unchecked" )
+		Map<JComponent, ValidationResult> validationResults = (Map<JComponent, ValidationResult>) metawidget.getClientProperty( JGoodiesValidatorProcessor.class );
+
+		if ( validationResults == null ) {
+			validationResults = CollectionUtils.newHashMap();
+			metawidget.putClientProperty( JGoodiesValidatorProcessor.class, validationResults );
+		}
+
+		// Fetch the value...
+
+		Object value = metawidget.getValue( names );
+
+		// ...run it through the Validator...
+
+		if ( validator != null ) {
+			@SuppressWarnings( "unchecked" )
+			Validator<Object> objectValidator = (Validator<Object>) validator;
+			ValidationResult validationResult = objectValidator.validate( value );
+
+			if ( validationResult == null ) {
+				validationResults.remove( component );
+			} else {
+				validationResults.put( component, validationResult );
+			}
+		}
+
+		// ...collate all ValidationResults...
+
+		ValidationResult validationResult = new ValidationResult();
+		for ( ValidationResult previousValidationResult : validationResults.values() ) {
+			validationResult.addAllFrom( previousValidationResult );
+		}
+
+		// ...and update the UI
+
+		updateComponent( component, validationResult, metawidget );
 	}
 
 	/**
