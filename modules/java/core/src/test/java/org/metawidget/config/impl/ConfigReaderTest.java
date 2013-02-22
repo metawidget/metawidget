@@ -444,15 +444,10 @@ public class ConfigReaderTest
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<AllTypesInspector xmlns=\"java:org.metawidget.config\"/>";
+		xml += "<UPPERCASEInspector xmlns=\"java:org.metawidget.config.impl\"/>";
 		xml += "</metawidget>";
 
-		try {
-			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
-			fail();
-		} catch ( MetawidgetException e ) {
-			assertTrue( "XML node 'AllTypesInspector' should start with a lowercase letter".equals( e.getMessage() ) );
-		}
+		assertTrue( new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), UPPERCASEInspector.class ) instanceof UPPERCASEInspector );
 	}
 
 	public void testBadConfigImplementation() {
