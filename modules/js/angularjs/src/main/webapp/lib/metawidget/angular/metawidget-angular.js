@@ -71,34 +71,25 @@ angular.module( 'metawidget', [] )
 
 				var mw = new metawidget.angular.AngularMetawidget( element, attrs, transclude, scope, $compile, $parse );
 
-				// Observe
-				//
-				// Do not observe primitive types, such as 'string',
-				// otherwise every keypress will recreate the widget
+				// Observe 'undefined becoming defined' (for lazy-loading) but
+				// not 'object being updated' - otherwise every keypress may
+				// recreate the widget
 
-				var _oldToInspect = undefined;
-				var typeofNgModel = typeof ( scope.$eval( 'ngModel' ) );
+				if ( scope.$eval( 'ngModel' ) === undefined ) {
 
-				if ( typeofNgModel === 'object' || typeofNgModel === 'undefined' ) {
-					scope.$watch( 'ngModel', function( newValue, oldValue ) {
+					scope.ngModelDeregister = scope.$watch( 'ngModel', function( newValue, oldValue ) {
 
 						// Cannot test against mw.toInspect, because is based on
 						// the splitPath.type
-						//
-						// Re-inspect for 'undefined becoming defined' and
-						// 'object being updated'. But *not* for 'undefined
-						// becoming primitive, and then primitive being
-						// updated'. Otherwise every keypress will recreate the
-						// widget
 
-						// TODO: this 'undefined becoming primitive'
-
-						if ( newValue !== _oldToInspect && typeof ( newValue ) === 'object' ) {
+						if ( newValue !== undefined ) {
+							scope.ngModelDeregister();
 							mw.invalidateInspection();
 							_buildWidgets();
 						}
 					} );
 				}
+
 				scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
 					// Test against mw.readOnly, not oldValue, because it may
@@ -106,6 +97,20 @@ angular.module( 'metawidget', [] )
 
 					if ( newValue !== mw.readOnly ) {
 						// Do not mw.invalidateInspection()
+						_buildWidgets();
+					}
+				} );
+
+				/**
+				 * It is too disruptive to automatically watch/reinspect upon
+				 * config/ngModel changes. It is also rare. But we want to
+				 * provide clients with a hook to force reinspection.
+				 */
+
+				scope.$parent.$on( 'reinspect', function( event, args ) {
+
+					if ( args.element === element[0] ) {
+						mw.invalidateInspection();
 						_buildWidgets();
 					}
 				} );
@@ -121,7 +126,6 @@ angular.module( 'metawidget', [] )
 				function _buildWidgets() {
 
 					mw.path = attrs.ngModel;
-					_oldToInspect = scope.$parent.$eval( mw.path );
 					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
 					mw.readOnly = scope.$eval( 'readOnly' );
 					mw.buildWidgets();
@@ -242,10 +246,12 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 			var childAttributes = undefined;
 			var binding = undefined;
-			
-			if ( child.hasAttribute( 'ng-bind' )) {
+
+			// TODO: support ngBind too
+
+			if ( child.hasAttribute( 'ng-bind' ) ) {
 				binding = child.getAttribute( 'ng-bind' );
-			} else if ( child.hasAttribute( 'ng-model' )) {
+			} else if ( child.hasAttribute( 'ng-model' ) ) {
 				binding = child.getAttribute( 'ng-model' );
 			}
 

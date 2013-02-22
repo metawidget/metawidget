@@ -383,7 +383,9 @@ public class BeansBindingProcessor
 		if ( propertySource.isWriteable( source ) ) {
 			sourceClass = (Class<SV>) propertySource.getWriteType( source );
 		} else if ( propertySource.isReadable( source ) ) {
+
 			// BeansBinding does not allow us to lookup the type of a non-writable property
+
 			SV value = propertySource.getValue( source );
 
 			if ( value != null ) {

@@ -27,9 +27,7 @@ describe(
 						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 						var controller = myApp.controller( 'TestController', function( $scope ) {
 
-							$scope.foo = {
-								bar: "Bar"
-							};
+							$scope.foo = undefined;
 						} );
 
 						var mw = document.createElement( 'metawidget' );
@@ -46,29 +44,37 @@ describe(
 						injector
 								.invoke( function() {
 
-									expect( mw.innerHTML )
-											.toBe(
-													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+									expect( mw.innerHTML ).toBe( '<table id="table-foo"><tbody/></table>' );
 
-									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
-
-									// Test watching ngModel
+									// Test watching ngModel from undefined->defined
 
 									var scope = angular.element( body ).scope();
 									scope.foo = {
-										baz: "Baz"
+										bar: "Bar"
 									};
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
-									expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( mw.innerHTML )
+											.toBe(
+													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 
 									// Test watching readOnly
 
 									scope.readOnly = true;
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
+									expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="foo.bar" class="ng-scope ng-binding">Bar</output>' );
+
+									// Test ngModel from defined->defined *not* watched
+
+									scope.foo = {
+										baz: "Baz"
+									};
+									scope.$digest();
+
+									expect( mw.innerHTML ).toNotContain( 'baz' );
+									expect( mw.innerHTML ).toNotContain( 'Baz' );
+									expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="foo.bar" class="ng-scope ng-binding"></output>' );
 
 									// Test config *not* watched
 
@@ -78,7 +84,14 @@ describe(
 									scope.$digest();
 
 									expect( mw.innerHTML ).toContain( '<table' );
-									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
+									expect( mw.innerHTML ).toContain( '<output' );
+									
+									scope.$broadcast( 'reinspect', { element: mw } );
+									
+									expect( mw.innerHTML ).toContain( '<table' );
+									expect( mw.innerHTML ).toNotContain( 'foo.bar' );
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding"/>' );
+
 								} );
 					} );
 
@@ -162,17 +175,14 @@ describe(
 									expect( inspectionCount ).toBe( 1 );
 									expect( buildingCount ).toBe( 1 );
 
-									// Test changing two things at once
+									// Test changing read-only
 
 									var scope = angular.element( body ).scope();
-									scope.foo = {
-										baz: "Baz"
-									};
 									scope.readOnly = true;
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
-									expect( inspectionCount ).toBe( 2 );
+									expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="foo.bar" class="ng-scope ng-binding">Bar</output>' );
+									expect( inspectionCount ).toBe( 1 );
 									expect( buildingCount ).toBe( 2 );
 
 									// Test changing to the same value
@@ -187,21 +197,9 @@ describe(
 									scope.$digest();
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
-									expect( inspectionCount ).toBe( 2 );
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( inspectionCount ).toBe( 1 );
 									expect( buildingCount ).toBe( 3 );
-
-									// Test changing toInspect to a similar
-									// value
-
-									scope.foo = {
-										baz: "Baz"
-									};
-									scope.$digest();
-
-									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
-									expect( inspectionCount ).toBe( 3 );
-									expect( buildingCount ).toBe( 4 );
 								} );
 					} );
 
@@ -296,10 +294,10 @@ describe(
 
 				var mw = document.createElement( 'metawidget' );
 				var stub = document.createElement( 'stub' );
-				stub.setAttribute( 'label', 'Foo' );				
+				stub.setAttribute( 'label', 'Foo' );
 				stub.appendChild( document.createElement( 'input' ) );
 				mw.appendChild( stub )
-				
+
 				var body = document.createElement( 'body' );
 				body.appendChild( mw );
 
@@ -310,7 +308,7 @@ describe(
 					expect( mw.innerHTML ).toBe( '<table><tbody><tr><th><label>Foo:</label></th><td><stub label="Foo" class="ng-scope"><input/></stub></td><td/></tr></tbody></table>' );
 				} );
 			} );
-			
+
 			it( "defensively copies overridden widgets", function() {
 
 				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
@@ -359,46 +357,55 @@ describe(
 				} );
 			} );
 
-			it( "supports multiselects", function() {
+			it(
+					"supports multiselects",
+					function() {
 
-				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
-				var controller = myApp.controller( 'TestController', function( $scope ) {
+						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+						var controller = myApp.controller( 'TestController', function( $scope ) {
 
-					$scope.foo = {
-						bar: [ "Abc" ]
-					};
+							$scope.foo = {
+								bar: [ "Abc" ]
+							};
 
-					$scope.metawidgetConfig = {
-						inspector: function() {
+							$scope.metawidgetConfig = {
+								inspector: function() {
 
-							return [ {
-								name: "bar",
-								type: "array",
-								lookup: "Abc,Def,Ghi"
-							} ]
-						}
-					};
-				} );
+									return [ {
+										name: "bar",
+										type: "array",
+										lookup: "Abc,Def,Ghi"
+									} ]
+								}
+							};
+						} );
 
-				var mw = document.createElement( 'metawidget' );
-				mw.setAttribute( 'ng-model', 'foo' );
-				mw.setAttribute( 'config', 'metawidgetConfig' );
+						var mw = document.createElement( 'metawidget' );
+						mw.setAttribute( 'ng-model', 'foo' );
+						mw.setAttribute( 'config', 'metawidgetConfig' );
 
-				var body = document.createElement( 'body' );
-				body.setAttribute( 'ng-controller', 'TestController' );
-				body.appendChild( mw );
+						var body = document.createElement( 'body' );
+						body.setAttribute( 'ng-controller', 'TestController' );
+						body.appendChild( mw );
 
-				var injector = angular.bootstrap( body, [ 'test-app' ] );
+						var injector = angular.bootstrap( body, [ 'test-app' ] );
 
-				injector.invoke( function() {
+						injector
+								.invoke( function() {
 
-					expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-					expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="checkbox" value="Abc" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
-					expect( mw.innerHTML ).toContain( '<label><input type="checkbox" value="Def" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
-					expect( mw.innerHTML ).toContain( '<label><input type="checkbox" value="Ghi" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
-					expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
-				} );
-			} );
+									expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
+									expect( mw.innerHTML )
+											.toContain(
+													'<div id="fooBar" class="ng-scope"><label><input type="checkbox" value="Abc" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
+									expect( mw.innerHTML )
+											.toContain(
+													'<label><input type="checkbox" value="Def" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
+									expect( mw.innerHTML )
+											.toContain(
+													'<label><input type="checkbox" value="Ghi" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
+									expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
+								} );
+					} );
 
 			it( "supports radio buttons", function() {
 
