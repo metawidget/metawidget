@@ -120,9 +120,21 @@ metawidget.Metawidget = function( element, config ) {
 };
 
 /**
- * @class Pipeline.
- *        <p>
- *        Clients should override 'buildNestedMetawidget'.
+ * @class Convenience implementation for implementing pipelines (see
+ * http://metawidget.org/doc/reference/en/html/ch02.html).
+ * <p>
+ * Specifically, BasePipeline provides support for:
+ * </p>
+ * <ul>
+ * <li>Inspectors, InspectionResultProcessors, WidgetBuilders, WidgetProcessors and Layouts</li>
+ * <li>single/compound widgets</li>
+ * <li>stubs/stub attributes</li>
+ * <li>read-only/active widgets</li>
+ * <li>maximum inspection depth</li>
+ * </ul>
+ * <p>
+ * Clients should override 'buildNestedMetawidget'.
+ * </p>
  */
 
 metawidget.Pipeline = function( element ) {
@@ -289,6 +301,8 @@ metawidget.Pipeline.prototype.inspect = function( toInspect, type, names, mw ) {
  * Note: the Pipeline expects the JSON to be passed in externally, rather than
  * fetching it itself, because some JSON inspections may be asynchronous.
  * 
+ * @param inspectionResult
+ * 			array of metadata to base widgets on.
  * @param mw
  *            Metawidget instance that will be passed down the pipeline
  *            (WidgetBuilders, WidgetProcessors etc). Expected to have

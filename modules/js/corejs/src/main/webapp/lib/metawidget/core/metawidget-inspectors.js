@@ -25,9 +25,7 @@ var metawidget = metawidget || {};
 metawidget.inspector = metawidget.inspector || {};
 
 /**
- * @class CompositeInspector.
- * 
- * Delegates inspection to one or more sub-inspectors, then combines the
+ * @class Delegates inspection to one or more sub-inspectors, then combines the
  * resulting metadata using <tt>metawidget.util.combineInspectionResults</tt>.
  * <p>
  * The combining algorithm should be suitable for most use cases, but one
@@ -76,9 +74,7 @@ metawidget.inspector.CompositeInspector = function( config ) {
 };
 
 /**
- * @class PropertyTypeInspector
- * 
- * Inspects JavaScript objects for their property names and types.
+ * @class Inspects JavaScript objects for their property names and types.
  * <p>
  * In principal, ordering of property names within JavaScript objects is not
  * guaranteed. In practice, most browsers respect the original ordering that

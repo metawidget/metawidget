@@ -14,6 +14,7 @@
 	<modules>
 		<module>core</module>
 		<module>faces</module>
+		<module>freemarker</module>
 		<module>html</module>
 		<module>java</module>
 		<module>jsp</module>
