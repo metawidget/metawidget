@@ -71,7 +71,7 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jexl</artifactId>
 			<scope>runtime</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -86,7 +86,7 @@
 			<groupId>displaytag</groupId>
 			<artifactId>displaytag</artifactId>
 			<scope>runtime</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swingx</artifactId>
@@ -131,7 +131,12 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin</artifactId>
 			<scope>runtime</scope>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 </project>
