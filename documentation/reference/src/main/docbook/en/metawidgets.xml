@@ -230,6 +230,13 @@
 };</programlisting>
 					
 					<programlisting language="xml">&lt;metawidget ng-model="..." config="metawidgetConfig" /&gt;</programlisting>
+					
+					<para>
+						For advanced use cases, you can pass an array of configs. These will be applied in order:
+					</para>
+
+					<programlisting language="xml">&lt;metawidget ng-model="..."
+		configs="[metawidgetConfig1, metawidgetConfig2]" /&gt;</programlisting>
 
 				</section>
 
@@ -239,6 +246,35 @@
 					<para>
 						See <xref linkend="section-metawidgets-web-javascript-look"/>.
 					</para>
+				</section>
+
+				<section id="section-metawidgets-web-angular-binding">
+					<title>Two-Way Binding</title>
+					
+					<para>
+						<filename>metawidget-angular.js</filename> leverages Angular's native two-way binding.
+						The <parameter>ng-model</parameter>, <parameter>read-only</parameter>
+						and <parameter>config</parameter> attributes
+						of the <parameter>&lt;metawidget&gt;</parameter> tag are all automatically watched for updates.
+					</para>
+					
+					<para>
+						For example, if you set the <parameter>read-only</parameter> attribute to a variable in your
+						scope, then update that variable based on a button click (say, 'Edit'), Metawidget will
+						automatically re-render the widgets from read-only mode to editable mode. Equally, if
+						you set the <parameter>ng-model</parameter> to a variable that is asynchronously
+						loaded, Metawidget will automatically update as soon as the data becomes
+						available. For an example of both these techniques,
+						see the Angular version of the
+						<xref linkend="section-introduction-part2-web">Web Address Book</xref>.  
+					</para>
+					
+					<para>
+						Note the <parameter>configs</parameter> attribute of the <parameter>&lt;metawidget&gt;</parameter>
+						tag is <emphasis>not</emphasis> automatically watched for updates. This is because
+						Angular has problems watching array types.
+					</para>
+					
 				</section>
 
 			</section>
@@ -525,6 +561,13 @@
 	widgetProcessors: [...], // Configure WidgetProcessors
 	layout: ... // Configure Layout
 } );</programlisting>
+
+					<para>
+						For advanced use cases, you can pass an array of configs. These will be applied in order:
+					</para>
+
+					<programlisting language="java">var mw = new metawidget.Metawidget( myElement,
+				[metawidgetConfig1, metawidgetConfig2] );</programlisting>
 					
 				</section>
 

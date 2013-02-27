@@ -69,16 +69,16 @@ describe(
 									scope.$digest();
 
 									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
-
-									// Test config *not* watched
+									
+									// Test watching config
 
 									scope.metawidgetConfig = {
 										layout: new metawidget.layout.SimpleLayout()
 									};
 									scope.$digest();
 
-									expect( mw.innerHTML ).toContain( '<table' );
-									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
+									expect( mw.innerHTML ).toBe( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
+									expect( mw.innerHTML ).toNotContain( '<table' );
 								} );
 					} );
 
@@ -136,7 +136,7 @@ describe(
 									buildingCount++;
 									return widget;
 								} ]
-							}
+							};
 						} );
 
 						var mw = document.createElement( 'metawidget' );
@@ -202,6 +202,105 @@ describe(
 									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 									expect( inspectionCount ).toBe( 3 );
 									expect( buildingCount ).toBe( 4 );
+									
+									// TODO: test changing config
+								} );
+					} );
+
+			it(
+					"supports arrays of configs",
+					function() {
+
+						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+						var inspectionCount = 0;
+						var buildingCount = 0;
+						var controller = myApp.controller( 'TestController', function( $scope ) {
+
+							$scope.foo = {
+								bar: "Bar"
+							};
+
+							$scope.metawidgetConfig1 = {
+								inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+
+									inspectionCount++;
+									return inspectionResult;
+								} ]
+							};
+							$scope.metawidgetConfig2 = {								
+								addWidgetProcessors: [ function( widget, attributes, mw ) {
+
+									buildingCount++;
+									return widget;
+								} ]
+							};
+						} );
+
+						var mw = document.createElement( 'metawidget' );
+						mw.setAttribute( 'ng-model', 'foo' );
+						mw.setAttribute( 'read-only', 'readOnly' );
+						mw.setAttribute( 'configs', '[metawidgetConfig1,metawidgetConfig2]' );
+
+						var body = document.createElement( 'body' );
+						body.setAttribute( 'ng-controller', 'TestController' );
+						body.appendChild( mw );
+
+						var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+						injector
+								.invoke( function() {
+
+									expect( mw.innerHTML )
+											.toBe(
+													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+
+									expect( inspectionCount ).toBe( 1 );
+									expect( buildingCount ).toBe( 1 );
+
+									// Test changing two things at once
+
+									var scope = angular.element( body ).scope();
+									scope.foo = {
+										baz: "Baz"
+									};
+									scope.readOnly = true;
+									scope.$digest();
+
+									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
+									expect( inspectionCount ).toBe( 2 );
+									expect( buildingCount ).toBe( 2 );
+
+									// Test changing to the same value
+
+									scope.toInspect = scope.toInspect;
+									scope.readOnly = scope.readOnly;
+									scope.$digest();
+
+									// Test rebuilding but not reinspecting
+
+									scope.readOnly = false;
+									scope.$digest();
+									scope.$digest();
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( inspectionCount ).toBe( 2 );
+									expect( buildingCount ).toBe( 3 );
+
+									// Test changing toInspect to a similar
+									// value
+
+									scope.foo = {
+										baz: "Baz"
+									};
+									scope.$digest();
+
+									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( inspectionCount ).toBe( 3 );
+									expect( buildingCount ).toBe( 4 );
+									
+									// TODO: test changing config
 								} );
 					} );
 
@@ -298,7 +397,7 @@ describe(
 				var stub = document.createElement( 'stub' );
 				stub.setAttribute( 'label', 'Foo' );
 				stub.appendChild( document.createElement( 'input' ) );
-				mw.appendChild( stub )
+				mw.appendChild( stub );
 
 				var body = document.createElement( 'body' );
 				body.appendChild( mw );
@@ -377,7 +476,7 @@ describe(
 										name: "bar",
 										type: "array",
 										lookup: "Abc,Def,Ghi"
-									} ]
+									} ];
 								}
 							};
 						} );

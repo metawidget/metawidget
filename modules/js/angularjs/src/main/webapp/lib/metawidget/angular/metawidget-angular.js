@@ -45,10 +45,11 @@ angular.module( 'metawidget', [] )
 		scope: {
 			ngModel: '=',
 			readOnly: '=',
-
+			config: '=',
+			
 			// Config cannot be 2-way ('=') because cannot 'watch' arrays
-
-			config: '&'
+			
+			configs: '&'
 		},
 
 		/**
@@ -102,6 +103,14 @@ angular.module( 'metawidget', [] )
 
 					if ( newValue !== mw.readOnly ) {
 						// Do not mw.invalidateInspection()
+						_buildWidgets();
+					}
+				} );
+				
+				scope.$watch( 'config', function( newValue, oldValue ) {
+
+					if ( newValue !== oldValue ) {
+						mw.configure( newValue );
 						_buildWidgets();
 					}
 				} );
@@ -162,7 +171,6 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 	_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, scope ) ];
 	_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
-	_pipeline.configure( scope.config() );
 
 	// toInspect, path and readOnly set by _buildWidgets()
 
@@ -173,6 +181,15 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 		_lastInspectionResult = undefined;
 	};
 
+	this.configure = function( config ) {
+		
+		_pipeline.configure( config );
+		this.invalidateInspection();
+	};
+
+	this.configure( scope.$eval( 'config' ));
+	this.configure( scope.configs() );
+	
 	this.buildWidgets = function( inspectionResult ) {
 
 		// Rebuild the transcluded tree at the start of each build.
