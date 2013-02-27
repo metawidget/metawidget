@@ -14,53 +14,44 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.html.layout;
+package org.metawidget.statically.freemarker.layout;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
-import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.statically.StaticXmlStub;
+import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
-import org.metawidget.statically.html.StaticXmlMetawidget;
-import org.metawidget.statically.html.widgetbuilder.HtmlTable;
-import org.metawidget.statically.html.widgetbuilder.HtmlTableBody;
-import org.metawidget.statically.html.widgetbuilder.HtmlTableCell;
-import org.metawidget.statically.html.widgetbuilder.HtmlTableHeader;
-import org.metawidget.statically.html.widgetbuilder.HtmlTableRow;
-import org.metawidget.statically.html.widgetbuilder.HtmlTag;
-import org.metawidget.util.WidgetBuilderUtils;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Layout to arrange widgets using a FreeMarker template.
- * 
+ *
  * @author Richard Kennard
  */
 
-public class FreemarkerLayout implements
-		AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticXmlMetawidget> {
+public class FreemarkerLayout
+	implements AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticXmlMetawidget> {
 
 	//
 	// Private members
 	//
 
-	private String mTableStyle;
+	private String	mTableStyle;
 
-	private String mTableStyleClass;
+	private String	mTableStyleClass;
 
-	private String mLabelColumnClass;
+	private String	mLabelColumnClass;
 
-	private String mComponentColumnClass;
+	private String	mComponentColumnClass;
 
-	private String mRequiredColumnClass;
+	private String	mRequiredColumnClass;
 
 	//
 	// Constructor
 	//
 
-	public FreemarkerLayout(FreemarkerLayoutConfig config) {
+	public FreemarkerLayout( FreemarkerLayoutConfig config ) {
 
 		mTableStyle = config.getTableStyle();
 		mTableStyleClass = config.getTableStyleClass();
@@ -73,33 +64,33 @@ public class FreemarkerLayout implements
 	// Public methods
 	//
 
-	public void onStartBuild(StaticXmlMetawidget metawidget) {
+	public void onStartBuild( StaticXmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
-	public void startContainerLayout(StaticXmlWidget container,
-			StaticXmlMetawidget metawidget) {
+	public void startContainerLayout( StaticXmlWidget container,
+			StaticXmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
 
-	public void layoutWidget(StaticXmlWidget widget, String elementName,
+	public void layoutWidget( StaticXmlWidget widget, String elementName,
 			Map<String, String> attributes, StaticXmlWidget container,
-			StaticXmlMetawidget metawidget) {
+			StaticXmlMetawidget metawidget ) {
 
-		State state = getState();
-		
+		State state = getState( metawidget );
+
 		state.widgets.add( widget );
-		state.widgets.add( attributes );
+		state.attributes.add( attributes );
 	}
 
-	public void endContainerLayout(StaticXmlWidget container,
-			StaticXmlMetawidget metawidget) {
+	public void endContainerLayout( StaticXmlWidget container,
+			StaticXmlMetawidget metawidget ) {
 
 	}
 
-	public void onEndBuild(StaticXmlMetawidget metawidget) {
+	public void onEndBuild( StaticXmlMetawidget metawidget ) {
 
 		// Do nothing
 	}
@@ -108,15 +99,13 @@ public class FreemarkerLayout implements
 	// Private methods
 	//
 
-	/* package private */State getState(UIComponent metawidget) {
+	/* package private */State getState( StaticXmlMetawidget metawidget ) {
 
-		State state = (State) ((StaticXmlMetawidget) metawidget)
-				.getClientProperty(FreemarkerLayout.class);
+		State state = (State) metawidget.getClientProperty( FreemarkerLayout.class );
 
-		if (state == null) {
+		if ( state == null ) {
 			state = new State();
-			((StaticXmlMetawidget) metawidget).putClientProperty(
-					FreemarkerLayout.class, state);
+			metawidget.putClientProperty( FreemarkerLayout.class, state );
 		}
 
 		return state;
@@ -132,8 +121,8 @@ public class FreemarkerLayout implements
 
 	/* package private */static class State {
 
-		/* package private */List<StaticXmlWidget> widgets = CollectionUtils.newArrayList();
+		/* package private */List<StaticXmlWidget>		widgets		= CollectionUtils.newArrayList();
 
-		/* package private */List<Map<String, String>> attributes = CollectionUtils.newArrayList();
+		/* package private */List<Map<String, String>>	attributes	= CollectionUtils.newArrayList();
 	}
 }

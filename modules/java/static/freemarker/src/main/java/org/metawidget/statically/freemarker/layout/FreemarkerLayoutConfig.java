@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.statically.html.layout;
+package org.metawidget.statically.freemarker.layout;
 
 import org.metawidget.util.simple.ObjectUtils;
 
@@ -24,159 +24,164 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Ryan Bradley
  */
 
-public class HtmlTableLayoutConfig {
+public class FreemarkerLayoutConfig {
 
-    //
-    // Private members
-    //
+	//
+	// Private members
+	//
 
-    private String mTableStyle;
+	private String	mTableStyle;
 
-    private String mTableStyleClass;
+	private String	mTableStyleClass;
 
-    private String mLabelColumnStyleClass;
+	private String	mLabelColumnStyleClass;
 
-    private String mComponentColumnStyleClass;
+	private String	mComponentColumnStyleClass;
 
-    private String mRequiredColumnStyleClass;
+	private String	mRequiredColumnStyleClass;
 
-    //
-    // Public methods
-    //
+	//
+	// Public methods
+	//
 
-    /**
-     * CSS style to apply to table.
-     * 
-     * @return this, as part of a fluent interface
-     */
+	/**
+	 * CSS style to apply to table.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
 
-    public HtmlTableLayoutConfig setTableStyle( String tableStyle ) {
+	public HtmlTableLayoutConfig setTableStyle( String tableStyle ) {
 
-        mTableStyle = tableStyle;
+		mTableStyle = tableStyle;
 
-        return this;
-    }
+		return this;
+	}
 
-    /**
-     * CSS style class to apply to table.
-     * 
-     * @return this, as part of a fluent interface
-     */
+	/**
+	 * CSS style class to apply to table.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
 
-    public HtmlTableLayoutConfig setTableStyleClass( String tableClass ) {
+	public HtmlTableLayoutConfig setTableStyleClass( String tableClass ) {
 
-        mTableStyleClass = tableClass;
+		mTableStyleClass = tableClass;
 
-        return this;
-    }
+		return this;
+	}
 
-    /**
-     * CSS style class to apply to the label table column.
-     * 
-     * @return this, as part of a fluent interface
-     */
+	/**
+	 * CSS style class to apply to the label table column.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
 
-    public HtmlTableLayoutConfig setLabelColumnStyleClass( String labelColumnStyleClass ) {
+	public HtmlTableLayoutConfig setLabelColumnStyleClass( String labelColumnStyleClass ) {
 
-        mLabelColumnStyleClass = labelColumnStyleClass;
+		mLabelColumnStyleClass = labelColumnStyleClass;
 
-        return this;
-    }
+		return this;
+	}
 
-    /**
-     * CSS style class to apply to the component table column.
-     * 
-     * @return this, as part of a fluent interface
-     */
+	/**
+	 * CSS style class to apply to the component table column.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
 
-    public HtmlTableLayoutConfig setComponentColumnStyleClass( String componentColumnStyleClass ) {
+	public HtmlTableLayoutConfig setComponentColumnStyleClass( String componentColumnStyleClass ) {
 
-        mComponentColumnStyleClass = componentColumnStyleClass;
+		mComponentColumnStyleClass = componentColumnStyleClass;
 
-        return this;
-    }
+		return this;
+	}
 
-    /**
-     * CSS style class to apply to the required table column.
-     * 
-     * @return this, as part of a fluent interface
-     */
+	/**
+	 * CSS style class to apply to the required table column.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
 
-    public HtmlTableLayoutConfig setRequiredColumnStyleClass( String requiredColumnStyleClass ) {
+	public HtmlTableLayoutConfig setRequiredColumnStyleClass( String requiredColumnStyleClass ) {
 
-        mRequiredColumnStyleClass = requiredColumnStyleClass;
+		mRequiredColumnStyleClass = requiredColumnStyleClass;
 
-        return this;
-    }
+		return this;
+	}
 
-    @Override
-    public boolean equals( Object that ) {
+	@Override
+	public boolean equals( Object that ) {
 
-        if ( this == that ) {
-            return true;
-        }
+		if ( this == that ) {
+			return true;
+		}
 
-        if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
-            return false;
-        }
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
+			return false;
+		}
 
-        if ( !ObjectUtils.nullSafeEquals( mTableStyle, ( (HtmlTableLayoutConfig) that ).mTableStyle ) ) {
-            return false;
-        }
+		if ( !ObjectUtils.nullSafeEquals( mTableStyle, ( (HtmlTableLayoutConfig) that ).mTableStyle ) ) {
+			return false;
+		}
 
-        if ( !ObjectUtils.nullSafeEquals( mTableStyleClass, ( (HtmlTableLayoutConfig) that ).mTableStyleClass ) ) {
-            return false;
-        }
+		if ( !ObjectUtils.nullSafeEquals( mTableStyleClass, ( (HtmlTableLayoutConfig) that ).mTableStyleClass ) ) {
+			return false;
+		}
 
-        if ( !ObjectUtils.nullSafeEquals( mLabelColumnStyleClass, ( (HtmlTableLayoutConfig) that ).mLabelColumnStyleClass ) ) {
-            return false;
-        }
+		if ( !ObjectUtils.nullSafeEquals( mLabelColumnStyleClass, ( (HtmlTableLayoutConfig) that ).mLabelColumnStyleClass ) ) {
+			return false;
+		}
 
-        if ( !ObjectUtils.nullSafeEquals( mComponentColumnStyleClass,  ( (HtmlTableLayoutConfig) that ).mComponentColumnStyleClass ) ) {
-            return false;
-        }
+		if ( !ObjectUtils.nullSafeEquals( mComponentColumnStyleClass, ( (HtmlTableLayoutConfig) that ).mComponentColumnStyleClass ) ) {
+			return false;
+		}
 
-        if ( !ObjectUtils.nullSafeEquals( mRequiredColumnStyleClass, ( (HtmlTableLayoutConfig) that ).mRequiredColumnStyleClass ) ) {
-            return false;
-        }
+		if ( !ObjectUtils.nullSafeEquals( mRequiredColumnStyleClass, ( (HtmlTableLayoutConfig) that ).mRequiredColumnStyleClass ) ) {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public int hashCode() {
+	@Override
+	public int hashCode() {
 
-        int hashCode = 1;
-        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyle );
-        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyleClass );
-        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelColumnStyleClass );
-        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mComponentColumnStyleClass );
-        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRequiredColumnStyleClass );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelColumnStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mComponentColumnStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRequiredColumnStyleClass );
 
-        return hashCode;
-    }
+		return hashCode;
+	}
 
-    //
-    // Protected methods
-    //
+	//
+	// Protected methods
+	//
 
-    protected String getTableStyle() {
-        return mTableStyle;
-    }
+	protected String getTableStyle() {
 
-    protected String getTableStyleClass() {
-        return mTableStyleClass;
-    }
+		return mTableStyle;
+	}
 
-    protected String getLabelColumnStyleClass() {
-        return mLabelColumnStyleClass;
-    }
+	protected String getTableStyleClass() {
 
-    protected String getComponentColumnStyleClass() {
-        return mComponentColumnStyleClass;
-    }
+		return mTableStyleClass;
+	}
 
-    protected String getRequiredColumnStyleClass() {
-        return mRequiredColumnStyleClass;
-    }
+	protected String getLabelColumnStyleClass() {
+
+		return mLabelColumnStyleClass;
+	}
+
+	protected String getComponentColumnStyleClass() {
+
+		return mComponentColumnStyleClass;
+	}
+
+	protected String getRequiredColumnStyleClass() {
+
+		return mRequiredColumnStyleClass;
+	}
 }

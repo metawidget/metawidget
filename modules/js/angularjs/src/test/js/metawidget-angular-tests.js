@@ -69,7 +69,7 @@ describe(
 									scope.$digest();
 
 									expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
-									
+
 									// Test watching config
 
 									scope.metawidgetConfig = {
@@ -203,7 +203,18 @@ describe(
 									expect( inspectionCount ).toBe( 3 );
 									expect( buildingCount ).toBe( 4 );
 									
-									// TODO: test changing config
+									// Test changing config
+									
+									scope.metawidgetConfig = {
+										layout: new metawidget.layout.SimpleLayout()
+									};
+									
+									scope.$digest();
+
+									expect( mw.innerHTML ).toBe( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+									expect( mw.innerHTML ).toNotContain( '<table' );
+									expect( inspectionCount ).toBe( 4 );
+									expect( buildingCount ).toBe( 5 );
 								} );
 					} );
 
@@ -227,7 +238,7 @@ describe(
 									return inspectionResult;
 								} ]
 							};
-							$scope.metawidgetConfig2 = {								
+							$scope.metawidgetConfig2 = {
 								addWidgetProcessors: [ function( widget, attributes, mw ) {
 
 									buildingCount++;
@@ -299,8 +310,17 @@ describe(
 									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 									expect( inspectionCount ).toBe( 3 );
 									expect( buildingCount ).toBe( 4 );
+
+									// Test changing configs is *not* watched
 									
-									// TODO: test changing config
+									scope.metawidgetConfig1 = {
+										layout: new metawidget.layout.SimpleLayout()
+									};
+									
+									scope.$digest();
+
+									expect( inspectionCount ).toBe( 3 );
+									expect( buildingCount ).toBe( 4 );
 								} );
 					} );
 
@@ -609,51 +629,47 @@ describe(
 								} );
 					} );
 
-			it(
-					"does not watch primitives",
-					function() {
+			it( "does not watch primitives", function() {
 
-						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
-						var inspectionCount = 0;
-						var controller = myApp.controller( 'TestController', function( $scope ) {
+				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+				var inspectionCount = 0;
+				var controller = myApp.controller( 'TestController', function( $scope ) {
 
-							$scope.foo = 'hello';
+					$scope.foo = 'hello';
 
-							$scope.metawidgetConfig = {
-									inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+					$scope.metawidgetConfig = {
+						inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
 
-										inspectionCount++;
-										return inspectionResult;
-									} ]
-								}
-						} );
+							inspectionCount++;
+							return inspectionResult;
+						} ]
+					}
+				} );
 
-						var mw = document.createElement( 'metawidget' );
-						mw.setAttribute( 'ng-model', 'foo' );
-						mw.setAttribute( 'config', 'metawidgetConfig' );
+				var mw = document.createElement( 'metawidget' );
+				mw.setAttribute( 'ng-model', 'foo' );
+				mw.setAttribute( 'config', 'metawidgetConfig' );
 
-						var body = document.createElement( 'body' );
-						body.setAttribute( 'ng-controller', 'TestController' );
-						body.appendChild( mw );
+				var body = document.createElement( 'body' );
+				body.setAttribute( 'ng-controller', 'TestController' );
+				body.appendChild( mw );
 
-						var injector = angular.bootstrap( body, [ 'test-app' ] );
+				var injector = angular.bootstrap( body, [ 'test-app' ] );
 
-						injector
-								.invoke( function() {
+				injector.invoke( function() {
 
-									expect( mw.innerHTML )
-											.toBe(
-													'<table id="table-foo"><tbody><tr><td colspan="2"><input type="text" id="foo" ng-model="foo" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+					expect( mw.innerHTML ).toBe(
+							'<table id="table-foo"><tbody><tr><td colspan="2"><input type="text" id="foo" ng-model="foo" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 
-									expect( inspectionCount ).toBe( 1 );
+					expect( inspectionCount ).toBe( 1 );
 
-									var scope = angular.element( body ).scope();
-									scope.foo = 'goodbye';
-									scope.$digest();
+					var scope = angular.element( body ).scope();
+					scope.foo = 'goodbye';
+					scope.$digest();
 
-									expect( inspectionCount ).toBe( 1 );
-								} );
-					} );
+					expect( inspectionCount ).toBe( 1 );
+				} );
+			} );
 		} );
 
 describe( "The AngularInspectionResultProcessor", function() {

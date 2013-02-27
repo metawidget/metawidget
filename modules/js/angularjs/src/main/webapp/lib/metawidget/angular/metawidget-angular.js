@@ -177,12 +177,10 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	var _lastInspectionResult = undefined;
 
 	this.invalidateInspection = function() {
-
 		_lastInspectionResult = undefined;
 	};
 
-	this.configure = function( config ) {
-		
+	this.configure = function( config ) {		
 		_pipeline.configure( config );
 		this.invalidateInspection();
 	};
