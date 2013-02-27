@@ -16,8 +16,11 @@
 
 package org.metawidget.statically;
 
+import java.io.Writer;
 import java.util.Map;
 
+import org.metawidget.iface.MetawidgetException;
+import org.metawidget.statically.StaticUtils.IndentedWriter;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -35,6 +38,8 @@ public abstract class StaticXmlMetawidget
 	//
 
 	private Map<String, String>	mAttributes;
+
+	private String				mTextContent;
 
 	//
 	// Public methods
@@ -75,16 +80,35 @@ public abstract class StaticXmlMetawidget
 
 	public String getTextContent() {
 
-		// Metawidgets should never have text content
-
-		throw new UnsupportedOperationException();
+		return mTextContent;
 	}
 
 	public void setTextContent( String textContent ) {
 
-		// Metawidgets should never have text content
+		mTextContent = textContent;
+	}
 
-		throw new UnsupportedOperationException();
+	@Override
+	public void write( Writer writer, int initialIndent ) {
+
+		super.write( writer, initialIndent );
+
+		// FreemarkerLayout will setTextContent directly
+
+		if ( mTextContent != null ) {
+
+			Writer writerToUse = writer;
+
+			if ( initialIndent >= 0 ) {
+				writerToUse = new IndentedWriter( writer, initialIndent );
+			}
+
+			try {
+				writerToUse.write( mTextContent );
+			} catch ( Exception e ) {
+				throw MetawidgetException.newException( e );
+			}
+		}
 	}
 
 	public String getNamespaceURI() {

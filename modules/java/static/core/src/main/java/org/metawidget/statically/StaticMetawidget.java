@@ -258,8 +258,12 @@ public abstract class StaticMetawidget
 		mPipeline.setLayout( (Layout) layout );
 	}
 
+	/**
+	 * Clients should override the version that takes <tt>initialIndent</tt> instead.
+	 */
+
 	@Override
-	public void write( Writer writer ) {
+	public final void write( Writer writer ) {
 
 		write( writer, -1 );
 	}

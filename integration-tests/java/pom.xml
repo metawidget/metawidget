@@ -26,6 +26,7 @@
 		<module>spring/quirks</module>
 		<module>static/faces/allwidgets</module>
 		<module>static/html/allwidgets</module>
+		<module>static/html/quirks</module>
 		<module>static/jsp/allwidgets</module>
 		<module>static/spring/allwidgets</module>
 		<module>struts/allwidgets</module>
