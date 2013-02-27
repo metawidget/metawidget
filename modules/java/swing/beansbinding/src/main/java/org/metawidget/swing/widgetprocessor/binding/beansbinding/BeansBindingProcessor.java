@@ -398,6 +398,18 @@ public class BeansBindingProcessor
 		return getConverter( sourceClass, targetClass );
 	}
 
+	protected State getState( SwingMetawidget metawidget ) {
+
+		State state = (State) metawidget.getClientProperty( BeansBindingProcessor.class );
+
+		if ( state == null ) {
+			state = new State();
+			metawidget.putClientProperty( BeansBindingProcessor.class, state );
+		}
+
+		return state;
+	}
+
 	//
 	// Private methods
 	//
@@ -438,18 +450,6 @@ public class BeansBindingProcessor
 		return null;
 	}
 
-	private State getState( SwingMetawidget metawidget ) {
-
-		State state = (State) metawidget.getClientProperty( BeansBindingProcessor.class );
-
-		if ( state == null ) {
-			state = new State();
-			metawidget.putClientProperty( BeansBindingProcessor.class, state );
-		}
-
-		return state;
-	}
-
 	//
 	// Inner class
 	//
@@ -458,11 +458,11 @@ public class BeansBindingProcessor
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */static class State {
+	protected static class State {
 
-		/* package private */Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
+		public Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
 
-		/* package private */Set<SwingMetawidget>														nestedMetawidgets;
+		public Set<SwingMetawidget>															nestedMetawidgets;
 	}
 
 	/* package private */static final class ConvertFromTo<S, T> {
