@@ -209,7 +209,11 @@
 							<ul>
 								<li>Android</li>
 								<li>Google Web Toolkit (GWT)</li>
-								<li>HTML 5 (POH5)</li>
+								<li>HTML 5 (POH5)
+									<ul>
+										<li>Freemarker</li>
+									</ul>
+								</li>
 								<li>JavaScript
 									<ul>
 										<li>AngularJS</li>

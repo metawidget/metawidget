@@ -30,82 +30,32 @@ public class FreemarkerLayoutConfig {
 	// Private members
 	//
 
-	private String	mTableStyle;
+	private String	mDirectoryForTemplateLoading;
 
-	private String	mTableStyleClass;
-
-	private String	mLabelColumnStyleClass;
-
-	private String	mComponentColumnStyleClass;
-
-	private String	mRequiredColumnStyleClass;
+	private String	mTemplate;
 
 	//
 	// Public methods
 	//
 
 	/**
-	 * CSS style to apply to table.
-	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlTableLayoutConfig setTableStyle( String tableStyle ) {
+	public FreemarkerLayoutConfig setDirectoryForTemplateLoading( String directoryForTemplateLoading ) {
 
-		mTableStyle = tableStyle;
-
+		mDirectoryForTemplateLoading = directoryForTemplateLoading;
 		return this;
 	}
 
 	/**
-	 * CSS style class to apply to table.
-	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HtmlTableLayoutConfig setTableStyleClass( String tableClass ) {
 
-		mTableStyleClass = tableClass;
+	public FreemarkerLayoutConfig setTemplate( String template ) {
 
-		return this;
-	}
-
-	/**
-	 * CSS style class to apply to the label table column.
-	 *
-	 * @return this, as part of a fluent interface
-	 */
-
-	public HtmlTableLayoutConfig setLabelColumnStyleClass( String labelColumnStyleClass ) {
-
-		mLabelColumnStyleClass = labelColumnStyleClass;
-
-		return this;
-	}
-
-	/**
-	 * CSS style class to apply to the component table column.
-	 *
-	 * @return this, as part of a fluent interface
-	 */
-
-	public HtmlTableLayoutConfig setComponentColumnStyleClass( String componentColumnStyleClass ) {
-
-		mComponentColumnStyleClass = componentColumnStyleClass;
-
-		return this;
-	}
-
-	/**
-	 * CSS style class to apply to the required table column.
-	 *
-	 * @return this, as part of a fluent interface
-	 */
-
-	public HtmlTableLayoutConfig setRequiredColumnStyleClass( String requiredColumnStyleClass ) {
-
-		mRequiredColumnStyleClass = requiredColumnStyleClass;
-
+		mTemplate = template;
 		return this;
 	}
 
@@ -120,23 +70,11 @@ public class FreemarkerLayoutConfig {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mTableStyle, ( (HtmlTableLayoutConfig) that ).mTableStyle ) ) {
+		if ( !ObjectUtils.nullSafeEquals( mDirectoryForTemplateLoading, ( (FreemarkerLayoutConfig) that ).mDirectoryForTemplateLoading ) ) {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mTableStyleClass, ( (HtmlTableLayoutConfig) that ).mTableStyleClass ) ) {
-			return false;
-		}
-
-		if ( !ObjectUtils.nullSafeEquals( mLabelColumnStyleClass, ( (HtmlTableLayoutConfig) that ).mLabelColumnStyleClass ) ) {
-			return false;
-		}
-
-		if ( !ObjectUtils.nullSafeEquals( mComponentColumnStyleClass, ( (HtmlTableLayoutConfig) that ).mComponentColumnStyleClass ) ) {
-			return false;
-		}
-
-		if ( !ObjectUtils.nullSafeEquals( mRequiredColumnStyleClass, ( (HtmlTableLayoutConfig) that ).mRequiredColumnStyleClass ) ) {
+		if ( !ObjectUtils.nullSafeEquals( mTemplate, ( (FreemarkerLayoutConfig) that ).mTemplate ) ) {
 			return false;
 		}
 
@@ -147,11 +85,8 @@ public class FreemarkerLayoutConfig {
 	public int hashCode() {
 
 		int hashCode = 1;
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyle );
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyleClass );
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelColumnStyleClass );
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mComponentColumnStyleClass );
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRequiredColumnStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDirectoryForTemplateLoading );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTemplate );
 
 		return hashCode;
 	}
@@ -160,28 +95,13 @@ public class FreemarkerLayoutConfig {
 	// Protected methods
 	//
 
-	protected String getTableStyle() {
+	protected String getDirectoryForTemplateLoading() {
 
-		return mTableStyle;
+		return mDirectoryForTemplateLoading;
 	}
 
-	protected String getTableStyleClass() {
+	protected String getTemplate() {
 
-		return mTableStyleClass;
-	}
-
-	protected String getLabelColumnStyleClass() {
-
-		return mLabelColumnStyleClass;
-	}
-
-	protected String getComponentColumnStyleClass() {
-
-		return mComponentColumnStyleClass;
-	}
-
-	protected String getRequiredColumnStyleClass() {
-
-		return mRequiredColumnStyleClass;
+		return mTemplate;
 	}
 }

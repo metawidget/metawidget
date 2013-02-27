@@ -16,13 +16,21 @@
 
 package org.metawidget.statically.freemarker.layout;
 
+import java.io.File;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
 import org.metawidget.layout.iface.AdvancedLayout;
+import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.statically.StaticXmlMetawidget;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.util.CollectionUtils;
+
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
 
 /**
  * Layout to arrange widgets using a FreeMarker template.
@@ -37,27 +45,28 @@ public class FreemarkerLayout
 	// Private members
 	//
 
-	private String	mTableStyle;
-
-	private String	mTableStyleClass;
-
-	private String	mLabelColumnClass;
-
-	private String	mComponentColumnClass;
-
-	private String	mRequiredColumnClass;
+	private Template	mTemplate;
 
 	//
 	// Constructor
 	//
 
+	/**
+	 * Configure the FreemarkerLayout using the given
+	 * <tt>config.getDirectoryForTemplateLoading()</tt> and <tt>config.getTemplate()</tt> (see
+	 * <tt>freemarker.template.Configuration</tt>).
+	 */
+
 	public FreemarkerLayout( FreemarkerLayoutConfig config ) {
 
-		mTableStyle = config.getTableStyle();
-		mTableStyleClass = config.getTableStyleClass();
-		mLabelColumnClass = config.getLabelColumnStyleClass();
-		mComponentColumnClass = config.getComponentColumnStyleClass();
-		mRequiredColumnClass = config.getRequiredColumnStyleClass();
+		try {
+			Configuration configuration = new Configuration();
+			configuration.setDirectoryForTemplateLoading( new File( config.getDirectoryForTemplateLoading() ) );
+			configuration.setObjectWrapper( new DefaultObjectWrapper() );
+			mTemplate = configuration.getTemplate( config.getTemplate() );
+		} catch ( Exception e ) {
+			throw LayoutException.newException( e );
+		}
 	}
 
 	//
@@ -69,25 +78,36 @@ public class FreemarkerLayout
 		// Do nothing
 	}
 
-	public void startContainerLayout( StaticXmlWidget container,
-			StaticXmlMetawidget metawidget ) {
+	public void startContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
-		// Do nothing
+		container.putClientProperty( FreemarkerLayout.class, null );
 	}
 
-	public void layoutWidget( StaticXmlWidget widget, String elementName,
-			Map<String, String> attributes, StaticXmlWidget container,
-			StaticXmlMetawidget metawidget ) {
+	public void layoutWidget( StaticXmlWidget widget, String elementName, Map<String, String> attributes, StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
-		State state = getState( metawidget );
+		Map<String, Object> map = CollectionUtils.newHashMap();
+		map.put( "xml", widget );
+		map.put( "label", metawidget.getLabelString( attributes ) );
+		map.put( "attributes", attributes );
 
-		state.widgets.add( widget );
-		state.attributes.add( attributes );
+		getState( container ).widgets.add( map );
 	}
 
-	public void endContainerLayout( StaticXmlWidget container,
-			StaticXmlMetawidget metawidget ) {
+	public void endContainerLayout( StaticXmlWidget container, StaticXmlMetawidget metawidget ) {
 
+		Map<String, Object> rootMap = CollectionUtils.newHashMap();
+		rootMap.put( "widgets", getState( container ).widgets );
+
+		Writer writer = new StringWriter();
+
+		try {
+			mTemplate.process( rootMap, writer );
+			writer.flush();
+		} catch ( Exception e ) {
+			throw LayoutException.newException( e );
+		}
+
+		container.setTextContent( writer.toString() );
 	}
 
 	public void onEndBuild( StaticXmlMetawidget metawidget ) {
@@ -99,13 +119,13 @@ public class FreemarkerLayout
 	// Private methods
 	//
 
-	/* package private */State getState( StaticXmlMetawidget metawidget ) {
+	/* package private */State getState( StaticXmlWidget container ) {
 
-		State state = (State) metawidget.getClientProperty( FreemarkerLayout.class );
+		State state = (State) container.getClientProperty( FreemarkerLayout.class );
 
 		if ( state == null ) {
 			state = new State();
-			metawidget.putClientProperty( FreemarkerLayout.class, state );
+			container.putClientProperty( FreemarkerLayout.class, state );
 		}
 
 		return state;
@@ -121,8 +141,6 @@ public class FreemarkerLayout
 
 	/* package private */static class State {
 
-		/* package private */List<StaticXmlWidget>		widgets		= CollectionUtils.newArrayList();
-
-		/* package private */List<Map<String, String>>	attributes	= CollectionUtils.newArrayList();
+		/* package private */List<Map<String, Object>>	widgets	= CollectionUtils.newArrayList();
 	}
 }
