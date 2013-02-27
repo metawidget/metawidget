@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:processor="java:org.metawidget.statically.html.widgetprocessor"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
+						java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd"
+	version="1.0">
+
+	<staticHtmlMetawidget xmlns="java:org.metawidget.statically.html">
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>	
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<staticPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.statically"/>
+							</propertyStyle>
+						</propertyTypeInspector>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<staticPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.statically"/>
+							</propertyStyle>
+						</metawidgetAnnotationInspector>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		
+		<widgetProcessors>
+			<array>
+				<processor:hiddenFieldProcessor/>
+				<processor:cssStyleProcessor/>
+				<processor:idProcessor/>
+				<processor:nameProcessor/>
+			</array>
+		</widgetProcessors>
+		
+		<layout>
+			<freemarkerLayout xmlns="java:org.metawidget.statically.freemarker.layout" config="FreemarkerLayoutConfig">
+				<directoryForTemplateLoading>
+					<string>./src/main/resources/org/metawidget/integrationtest/statically/html/quirks</string>
+				</directoryForTemplateLoading>
+				<template>
+					<string>template.ftl</string>
+				</template>
+			</freemarkerLayout>
+		</layout>
+		
+	</staticHtmlMetawidget>
+
+</metawidget>
