@@ -47,7 +47,7 @@ public class StaticHtmlQuirksTest
 				"\t\t\t\t<td><input id=\"age\" name=\"age\" type=\"number\"/></td>\r\n" +
 				"\t\t\t\t<td></td>\r\n" +
 				"\t\t\t</tr><tr>\r\n" +
-				"\t\t\t\t<th>Retired:</th>\r\n" +
+				"\t\t\t\t<th>Retired yet?:</th>\r\n" +
 				"\t\t\t\t<td><input id=\"retired\" name=\"retired\" type=\"checkbox\"/></td>\r\n" +
 				"\t\t\t\t<td></td>\r\n" +
 				"\t\t\t</tr>\r\n" +
@@ -71,7 +71,7 @@ public class StaticHtmlQuirksTest
 				"\t\t\t\t\t<td><input id=\"age\" name=\"age\" type=\"number\"/></td>\r\n" +
 				"\t\t\t\t\t<td></td>\r\n" +
 				"\t\t\t\t</tr><tr>\r\n" +
-				"\t\t\t\t\t<th>Retired:</th>\r\n" +
+				"\t\t\t\t\t<th>Retired yet?:</th>\r\n" +
 				"\t\t\t\t\t<td><input id=\"retired\" name=\"retired\" type=\"checkbox\"/></td>\r\n" +
 				"\t\t\t\t\t<td></td>\r\n" +
 				"\t\t\t\t</tr>\r\n" +

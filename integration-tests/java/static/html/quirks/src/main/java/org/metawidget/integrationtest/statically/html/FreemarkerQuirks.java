@@ -17,6 +17,7 @@
 package org.metawidget.integrationtest.statically.html;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLabel;
 
 public class FreemarkerQuirks {
 
@@ -56,6 +57,7 @@ public class FreemarkerQuirks {
 	}
 
 	@UiComesAfter( "age" )
+	@UiLabel( "Retired yet?" )
 	public boolean isRetired() {
 
 		return mRetired;
