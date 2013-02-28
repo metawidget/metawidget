@@ -459,6 +459,53 @@ describe(
 				} );
 			} );
 
+			it( "supports normalized attribute names", function() {
+
+				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+				var controller = myApp.controller( 'TestController', function( $scope ) {
+
+					$scope.foo = {
+						bar: "Bar",
+						baz: "Baz"
+					};
+				} );
+
+				// x-ng-bind
+				
+				var mw = document.createElement( 'metawidget' );
+				var bar = document.createElement( 'span' );
+				bar.setAttribute( 'x-ng-bind', 'foo.bar' );
+				mw.appendChild( bar );
+
+				var body = document.createElement( 'body' );
+				body.setAttribute( 'ng-controller', 'TestController' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<label id="table-bar-label">Bar:</label>' );
+					expect( mw.innerHTML ).toContain( '<span x-ng-bind="foo.bar" class="ng-scope ng-binding">Bar</span>' );
+					expect( mw.childNodes.length ).toBe( 1 );
+				} );
+
+				// ng:model
+				
+				var baz = document.createElement( 'span' );
+				baz.setAttribute( 'ng:model', 'foo.baz' );
+				mw.appendChild( baz );
+
+				injector = angular.bootstrap( body, [ 'test-app' ] );
+				
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toContain( '<label id="table-baz-label">Baz:</label>' );
+					expect( mw.innerHTML ).toContain( '<span ng:model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+					expect( mw.childNodes.length ).toBe( 1 );
+				} );
+			} );
+
 			it( "does not suppress undefined child inspection results", function() {
 
 				var mw = document.createElement( 'metawidget' );

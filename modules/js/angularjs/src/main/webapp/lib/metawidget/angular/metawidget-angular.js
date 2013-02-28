@@ -46,9 +46,9 @@ angular.module( 'metawidget', [] )
 			ngModel: '=',
 			readOnly: '=',
 			config: '=',
-			
+
 			// Config cannot be 2-way ('=') because cannot 'watch' arrays
-			
+
 			configs: '&'
 		},
 
@@ -106,7 +106,7 @@ angular.module( 'metawidget', [] )
 						_buildWidgets();
 					}
 				} );
-				
+
 				scope.$watch( 'config', function( newValue, oldValue ) {
 
 					if ( newValue !== oldValue ) {
@@ -177,17 +177,19 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	var _lastInspectionResult = undefined;
 
 	this.invalidateInspection = function() {
+
 		_lastInspectionResult = undefined;
 	};
 
-	this.configure = function( config ) {		
+	this.configure = function( config ) {
+
 		_pipeline.configure( config );
 		this.invalidateInspection();
 	};
 
-	this.configure( scope.$eval( 'config' ));
+	this.configure( scope.$eval( 'config' ) );
 	this.configure( scope.configs() );
-	
+
 	this.buildWidgets = function( inspectionResult ) {
 
 		// Rebuild the transcluded tree at the start of each build.
@@ -248,24 +250,23 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			}
 
 			var childAttributes = undefined;
-			var binding = undefined;
 
-			// TODO: support ngBind too
-			
-			if ( child.hasAttribute( 'ng-bind' ) ) {
-				binding = child.getAttribute( 'ng-bind' );
-			} else if ( child.hasAttribute( 'ng-model' ) ) {
-				binding = child.getAttribute( 'ng-model' );
-			}
+			// Lookup binding attribute (be sure to normalize it)
 
-			if ( binding !== null ) {
+			for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+				var attribute = child.attributes[loop];
+				var normalizedName = attrs.$normalize( attribute.name );
 
-				var splitPath = metawidget.util.splitPath( binding );
-				var toInspect = scope.$parent.$eval( splitPath.type );
-				var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
+				if ( normalizedName === 'ngBind' || normalizedName === 'ngModel' ) {
+					var splitPath = metawidget.util.splitPath( attribute.value );
+					var toInspect = scope.$parent.$eval( splitPath.type );
+					var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
 
-				if ( childInspectionResult !== undefined ) {
-					childAttributes = childInspectionResult[0];
+					if ( childInspectionResult !== undefined ) {
+						childAttributes = childInspectionResult[0];
+					}
+					
+					break;
 				}
 			}
 

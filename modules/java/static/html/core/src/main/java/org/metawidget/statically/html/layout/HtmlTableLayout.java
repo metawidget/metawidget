@@ -40,8 +40,6 @@ import org.metawidget.util.WidgetBuilderUtils;
  * @author Ryan Bradley
  */
 
-// TODO: FreemarkerLayout
-
 public class HtmlTableLayout
 	extends HtmlLayout
 	implements AdvancedLayout<StaticXmlWidget, StaticXmlWidget, StaticHtmlMetawidget> {

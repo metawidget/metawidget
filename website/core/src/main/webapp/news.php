@@ -16,10 +16,10 @@
 		
 		<ul>
 			<li>JAXB support</li>
-			<li>FreeMarker support</li>
+			<li><a href="http://blog.kennardconsulting.com/2013/02/metawidget-meets-freemarker.html">FreeMarker support</a></li>
 			<li>Improvements to pure JavaScript, JQuery UI and Angular JS Metawidgets</li>
 			<li>Additional hooks in BeansBindingProcessor and JGoodiesValidatorProcessor</li>
-			<li>Relicensed all examples as BSD (Metawidget itself remains LGPL)</li>
+			<li><a href="http://metawidget.org/doc/faq/licensing.php">Relicensed all examples as BSD (Metawidget itself remains LGPL)</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
