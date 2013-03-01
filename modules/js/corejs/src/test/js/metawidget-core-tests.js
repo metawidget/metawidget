@@ -488,6 +488,8 @@ describe( "The core Metawidget", function() {
 		stub.appendChild( document.createElement( 'input' ) );
 		element.appendChild( stub );
 
+		// TableLayout
+
 		var mw = new metawidget.Metawidget( element );
 		mw.buildWidgets();
 
@@ -504,6 +506,24 @@ describe( "The core Metawidget", function() {
 		expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 		expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( element.childNodes.length ).toBe( 1 );
+
+		// DivLayout
+
+		element = document.createElement( 'div' );
+		element.appendChild( stub );
+		mw = new metawidget.Metawidget( element, {
+			layout: new metawidget.layout.DivLayout()
+		} );
+		mw.buildWidgets();
+
+		expect( element.childNodes[0].toString() ).toBe( 'div' );
+		expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+		expect( element.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+		expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+		expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub label="Foo"' );
+		expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 		expect( element.childNodes.length ).toBe( 1 );
 	} );
 

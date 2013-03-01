@@ -129,11 +129,7 @@
 		</ul>
 	</div>
 
-	<?php require_once 'include/body-start.php'; ?>
-
-		<div id="quick-start" style="position: absolute; right: 3px">
-			<?php require_once 'include/quickstart.php' ?>
-		</div>
+	<?php $useQuickStart = true; require_once 'include/body-start.php'; ?>
 
 		<h2 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: bold; margin-right: 175px">
 			Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match

@@ -414,11 +414,6 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 			binding += '.' + attributes.name;
 		}
 
-		// AngularJS doesn't support 'output' natively:
-		// https://github.com/angular/angular.js/issues/2038
-
-		var mayUpdateModel = false;
-
 		if ( widget.tagName === 'OUTPUT' ) {
 			if ( attributes.type === 'array' ) {
 
@@ -453,22 +448,8 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 					}
 				}
 			}
-
-			mayUpdateModel = true;
-
 		} else {
-
 			widget.setAttribute( 'ng-model', binding );
-			mayUpdateModel = true;
-		}
-
-		// If we create a control that may update the model, make sure the
-		// parent of its binding exists. This stops 'scope.$watch( 'ngModel' )'
-		// firing upon an initial keypress, because Angular creates both the
-		// binding and its parent just-in-time
-
-		if ( mayUpdateModel === true && mw.path !== undefined && attributes._root !== 'true' && scope.$eval( 'ngModel' ) === undefined ) {
-			$parse( 'ngModel' ).assign( scope, {} );
 		}
 
 		// Validation

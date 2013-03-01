@@ -57,7 +57,9 @@ metawidget.layout.DivLayout = function( config ) {
 		throw new Error( 'Constructor called as a function' );
 	}
 
-	var _divStyleClasses = config !== undefined && config.divStyleClasses !== undefined ? config.divStyleClasses.split( ',' ) : undefined;
+	var _divStyleClasses = config !== undefined ? config.divStyleClasses : undefined;
+	var _labelStyleClass = config !== undefined ? config.labelStyleClass : undefined;
+	var _labelRequiredStyleClass = config !== undefined ? config.labelRequiredStyleClass : undefined;
 	var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
 
 	this.layoutWidget = function( widget, attributes, container, mw ) {
@@ -67,28 +69,46 @@ metawidget.layout.DivLayout = function( config ) {
 		}
 
 		var outerDiv = document.createElement( 'div' );
-		if ( _divStyleClasses !== undefined ) {
+		if ( _divStyleClasses !== undefined && _divStyleClasses[0] !== undefined ) {
 			outerDiv.setAttribute( 'class', _divStyleClasses[0] );
 		}
 
 		// Label
 
-		if ( attributes.name !== undefined ) {
+		if ( attributes.name !== undefined || attributes.label !== undefined ) {
 
 			var labelDiv = document.createElement( 'div' );
-			if ( _divStyleClasses !== undefined ) {
+			if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
 				labelDiv.setAttribute( 'class', _divStyleClasses[1] );
 			}
 
 			var label = document.createElement( 'label' );
-			label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+			if ( widget.getAttribute( 'id' ) !== null ) {
+				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+			}
+
+			if ( _labelStyleClass !== undefined ) {
+				label.setAttribute( 'class', _labelStyleClass );
+			}
+
+			// For Twitter Bootstrap
+
+			if ( _labelRequiredStyleClass !== undefined && attributes.readOnly !== 'true' && attributes.required === 'true' ) {
+				var existingClass = label.getAttribute( 'class' );
+				
+				if ( existingClass === null ) {
+					label.setAttribute( 'class', _labelRequiredStyleClass );
+				} else {				
+					label.setAttribute( 'class', existingClass + ' ' + _labelRequiredStyleClass );
+				}
+			}
 
 			if ( attributes.label !== undefined ) {
 				label.innerHTML = attributes.label + _labelSuffix;
 			} else {
 				label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + _labelSuffix;
 			}
-			
+
 			labelDiv.appendChild( label );
 			outerDiv.appendChild( labelDiv );
 		}
@@ -96,7 +116,7 @@ metawidget.layout.DivLayout = function( config ) {
 		// Widget
 
 		var widgetDiv = document.createElement( 'div' );
-		if ( _divStyleClasses !== undefined ) {
+		if ( _divStyleClasses !== undefined && _divStyleClasses[2] !== undefined ) {
 			widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
 		}
 
@@ -119,7 +139,7 @@ metawidget.layout.TableLayout = function( config ) {
 	}
 
 	var _tableStyleClass = config !== undefined ? config.tableStyleClass : undefined;
-	var _columnStyleClasses = config !== undefined && config.columnStyleClasses !== undefined ? config.columnStyleClasses.split( ',' ) : undefined;
+	var _columnStyleClasses = config !== undefined ? config.columnStyleClasses : undefined;
 	var _headerStyleClass = config !== undefined ? config.headerStyleClass : undefined;
 	var _footerStyleClass = config !== undefined ? config.footerStyleClass : undefined;
 	var _numberOfColumns = config !== undefined && config.numberOfColumns ? config.numberOfColumns : 1;
@@ -253,12 +273,12 @@ metawidget.layout.TableLayout = function( config ) {
 			// Label
 
 			var th = document.createElement( 'th' );
-			
+
 			if ( idPrefix !== undefined ) {
 				th.setAttribute( 'id', idPrefix + '-label-cell' );
 			}
 
-			if ( _columnStyleClasses !== undefined ) {
+			if ( _columnStyleClasses !== undefined && _columnStyleClasses[0] !== undefined ) {
 				th.setAttribute( 'class', _columnStyleClasses[0] );
 			}
 
@@ -290,7 +310,7 @@ metawidget.layout.TableLayout = function( config ) {
 			td.setAttribute( 'id', idPrefix + '-cell' );
 		}
 
-		if ( _columnStyleClasses !== undefined ) {
+		if ( _columnStyleClasses !== undefined && _columnStyleClasses[1] !== undefined ) {
 			td.setAttribute( 'class', _columnStyleClasses[1] );
 		}
 
@@ -307,7 +327,7 @@ metawidget.layout.TableLayout = function( config ) {
 
 		td = document.createElement( 'td' );
 
-		if ( _columnStyleClasses !== undefined ) {
+		if ( _columnStyleClasses !== undefined && _columnStyleClasses[2] !== undefined ) {
 			td.setAttribute( 'class', _columnStyleClasses[2] );
 		}
 

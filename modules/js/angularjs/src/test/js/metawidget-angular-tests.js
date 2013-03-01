@@ -616,66 +616,6 @@ describe(
 				} );
 			} );
 
-			it(
-					"defensively creates parent objects",
-					function() {
-
-						var myApp = angular.module( 'test-app', [ 'metawidget' ] );
-						var inspectionCount = 0;
-						var controller = myApp.controller( 'TestController', function( $scope ) {
-
-							$scope.metawidgetConfig = {
-								inspector: function() {
-
-									return [ {
-										name: "bar",
-										type: "string"
-									} ];
-								},
-								inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
-
-									inspectionCount++;
-									return inspectionResult;
-								} ]
-							}
-						} );
-
-						var mw = document.createElement( 'metawidget' );
-						mw.setAttribute( 'ng-model', 'foo' );
-						mw.setAttribute( 'config', 'metawidgetConfig' );
-
-						var body = document.createElement( 'body' );
-						body.setAttribute( 'ng-controller', 'TestController' );
-						body.appendChild( mw );
-
-						var injector = angular.bootstrap( body, [ 'test-app' ] );
-
-						injector
-								.invoke( function() {
-
-									expect( mw.innerHTML )
-											.toBe(
-													'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
-
-									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
-
-									expect( inspectionCount ).toBe( 1 );
-
-									// Parent object should have been created
-
-									var scope = angular.element( body ).scope();
-									expect( scope.foo ).toBeDefined();
-									expect( scope.foo.bar ).toBeUndefined();
-
-									// So subsequent updates shouldn't reinspect
-
-									scope.foo.bar = '123';
-									scope.$digest();
-
-									expect( inspectionCount ).toBe( 1 );
-								} );
-					} );
-
 			it( "does not watch primitives", function() {
 
 				var myApp = angular.module( 'test-app', [ 'metawidget' ] );

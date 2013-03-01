@@ -83,6 +83,12 @@
 			</thead>
 			<tbody>
 				<tr>
+					<th>PlayMetawidget</th>
+					<td>
+						Play is a very popular Web framework, particulary amongst the Scala community.
+					</td> 
+				</tr>
+				<tr>
 					<th>WicketMetawidget</th>
 					<td>
 						Wicket is a very popular Web framework, particulary as an alternative to JSF.
