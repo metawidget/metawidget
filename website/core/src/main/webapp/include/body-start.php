@@ -132,6 +132,6 @@
 					</a>					
 				</div>
 			</td>
-			<td id="content-text">
+			<td id="content-text"><div style="position: relative">
 				<?php if ( $floater ) echo '<img id="floater" src="/media/'.$floater.'" alt=""/>'; ?>				
 				<?php if ( $useQuickStart ) { echo '<div id="quick-start">'; require_once 'quickstart.php'; echo '</div>'; } ?>

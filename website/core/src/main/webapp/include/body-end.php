@@ -1,4 +1,4 @@
-			</td>		
+			</div></td>		
 		</tr>
 	</table>
 	

@@ -112,6 +112,13 @@ public class BeansBindingProcessorTest
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		spinner.setValue( spinner.getModel().getNextValue() );
 		assertEquals( 45, foo.getBar() );
+
+		try {
+			metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
+			assertTrue( false );
+		} catch( WidgetProcessorException e  ) {
+			assertEquals( "Should not call save() when using READ_WRITE", e.getMessage() );
+		}
 	}
 
 	public void testXmlBinding()

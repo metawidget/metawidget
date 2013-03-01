@@ -198,6 +198,10 @@ public class BeansBindingProcessor
 
 	public void save( SwingMetawidget metawidget ) {
 
+		if ( UpdateStrategy.READ_WRITE.equals( mUpdateStrategy )) {
+			throw WidgetProcessorException.newException( "Should not call save() when using " + UpdateStrategy.READ_WRITE );
+		}
+
 		State state = getState( metawidget );
 
 		// Our bindings

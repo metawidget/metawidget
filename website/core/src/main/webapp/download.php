@@ -61,7 +61,7 @@
 		</ul>
 		
 		<p>
-			Note it is recommended you first
+			Note it is recommended you
 			<a href="http://metawidget.sourceforge.net/doc/reference/en/html/ch01s02.html">follow the tutorial</a> before downloading from the CDNs.
 		</p>
 
