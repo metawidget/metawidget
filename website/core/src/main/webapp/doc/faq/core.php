@@ -81,9 +81,10 @@
 		<h3><a name="usage">Who uses Metawidget?</a></h3>
 
 		<p>
-			The GWT, HTML 5, Java Server Faces, Spring, Struts and Swing Metawidgets are all deployed
-			in production systems. Large clients include <a href="http://redhat.com">Red Hat</a> and
-			<a href="http://telefonica.com">Telefonica</a>. For more information on organizations deploying
+			The AngularJS, GWT, HTML 5, Java Server Faces, Spring, Struts and Swing Metawidgets are all deployed
+			in production systems. Large clients include <a href="http://redhat.com">Red Hat</a>,
+			<a href="http://telefonica.com">Telefonica</a> and <a href="http://scisys.co.uk">SCISYS</a>.
+			For more information on organizations deploying
 			Metawidget, see <a href="http://metawidget.org/documentation.php">our white papers</a>.
 		</p>
 
