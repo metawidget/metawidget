@@ -396,7 +396,6 @@ public class BeansBindingProcessor
 				sourceClass = (Class<SV>) value.getClass();
 			}
 
-			// TODO: test this code path
 			return null;
 		} else {
 			throw WidgetProcessorException.newException( "Property '" + propertySource + "' has no getter and no setter (or parent is null)" );

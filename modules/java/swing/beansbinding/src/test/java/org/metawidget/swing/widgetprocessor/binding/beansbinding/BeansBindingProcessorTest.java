@@ -116,7 +116,7 @@ public class BeansBindingProcessorTest
 		try {
 			metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 			assertTrue( false );
-		} catch( WidgetProcessorException e  ) {
+		} catch ( WidgetProcessorException e ) {
 			assertEquals( "Should not call save() when using READ_WRITE", e.getMessage() );
 		}
 	}
@@ -495,6 +495,23 @@ public class BeansBindingProcessorTest
 		assertEquals( 36l, ( (JSpinner) metawidget.getComponent( "bar" ) ).getValue() );
 	}
 
+	public void testNonWritableNullFoo() {
+
+		NonWritableNullFoo foo = new NonWritableNullFoo();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
+		metawidget.setWidgetBuilder( new SwingWidgetBuilder() );
+		metawidget.setToInspect( foo );
+
+		assertEquals( "", ( (JTextField) metawidget.getComponent( "nonWritable" ) ).getText() );
+		( (JTextField) metawidget.getComponent( "nonWritable" ) ).setText( "123" );
+		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
+		assertEquals( null, foo.getNonWritable() );
+		metawidget.setReadOnly( true );
+		assertEquals( "", ( (JTextField) metawidget.getComponent( "nonWritable" ) ).getText() );
+	}
+
 	//
 	// Inner class
 	//
@@ -581,6 +598,18 @@ public class BeansBindingProcessorTest
 		//
 
 		public float	bar;
+	}
+
+	protected static class NonWritableNullFoo {
+
+		//
+		// Public methods
+		//
+
+		public Double getNonWritable() {
+
+			return null;
+		}
 	}
 
 	protected static class UppercaseFoo {
