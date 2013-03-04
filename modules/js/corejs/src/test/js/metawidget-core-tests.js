@@ -308,19 +308,62 @@ describe( "The core Metawidget", function() {
 					called.push( 'widgetProcessor.onEndBuild' );
 				}
 			} ],
-			addWidgetProcessors: [ {
+			prependWidgetProcessors: [ {
 				onStartBuild: function() {
 
-					called.push( 'addedWidgetProcessor.onStartBuild' );
+					called.push( 'prependedWidgetProcessor1.onStartBuild' );
 				},
 				processWidget: function( widget ) {
 
-					called.push( 'addedWidgetProcessor.processWidget' );
+					called.push( 'prependedWidgetProcessor1.processWidget' );
 					return widget;
 				},
 				onEndBuild: function() {
 
-					called.push( 'addedWidgetProcessor.onEndBuild' );
+					called.push( 'prependedWidgetProcessor1.onEndBuild' );
+				}
+			}, {
+				onStartBuild: function() {
+
+					called.push( 'prependedWidgetProcessor2.onStartBuild' );
+				},
+				processWidget: function( widget ) {
+
+					called.push( 'prependedWidgetProcessor2.processWidget' );
+					return widget;
+				},
+				onEndBuild: function() {
+
+					called.push( 'prependedWidgetProcessor2.onEndBuild' );
+				}
+			} ],
+			addWidgetProcessors: [ {
+				onStartBuild: function() {
+
+					called.push( 'addedWidgetProcessor1.onStartBuild' );
+				},
+				processWidget: function( widget ) {
+
+					called.push( 'addedWidgetProcessor1.processWidget' );
+					return widget;
+				},
+				onEndBuild: function() {
+
+					called.push( 'addedWidgetProcessor1.onEndBuild' );
+				}
+			}, {
+				onStartBuild: function() {
+
+					called.push( 'addedWidgetProcessor2.onStartBuild' );
+				},
+				processWidget: function( widget ) {
+
+					called.push( 'addedWidgetProcessor2.processWidget' );
+					return widget;
+				},
+				onEndBuild: function() {
+
+					called.push( 'addedWidgetProcessor2.onEndBuild' );
 				}
 			} ],
 			layout: {
@@ -353,21 +396,30 @@ describe( "The core Metawidget", function() {
 		expect( called[1] ).toBe( 'inspectionResultProcessor.processInspectionResult' );
 		expect( called[2] ).toBe( 'addedInspectionResultProcessor.processInspectionResult' );
 		expect( called[3] ).toBe( 'widgetBuilder.onStartBuild' );
-		expect( called[4] ).toBe( 'widgetProcessor.onStartBuild' );
-		expect( called[5] ).toBe( 'addedWidgetProcessor.onStartBuild' );
-		expect( called[6] ).toBe( 'layout.onStartBuild' );
-		expect( called[7] ).toBe( 'layout.startContainerLayout' );
-		expect( called[8] ).toBe( 'widgetBuilder.buildWidget' );
-		expect( called[9] ).toBe( 'widgetProcessor.processWidget' );
-		expect( called[10] ).toBe( 'addedWidgetProcessor.processWidget' );
-		expect( called[11] ).toBe( 'layout.layoutWidget' );
-		expect( called[12] ).toBe( 'layout.endContainerLayout' );
-		expect( called[13] ).toBe( 'layout.onEndBuild' );
-		expect( called[14] ).toBe( 'widgetProcessor.onEndBuild' );
-		expect( called[15] ).toBe( 'addedWidgetProcessor.onEndBuild' );
-		expect( called[16] ).toBe( 'widgetBuilder.onEndBuild' );
+		expect( called[4] ).toBe( 'prependedWidgetProcessor1.onStartBuild' );
+		expect( called[5] ).toBe( 'prependedWidgetProcessor2.onStartBuild' );
+		expect( called[6] ).toBe( 'widgetProcessor.onStartBuild' );
+		expect( called[7] ).toBe( 'addedWidgetProcessor1.onStartBuild' );
+		expect( called[8] ).toBe( 'addedWidgetProcessor2.onStartBuild' );
+		expect( called[9] ).toBe( 'layout.onStartBuild' );
+		expect( called[10] ).toBe( 'layout.startContainerLayout' );
+		expect( called[11] ).toBe( 'widgetBuilder.buildWidget' );
+		expect( called[12] ).toBe( 'prependedWidgetProcessor1.processWidget' );
+		expect( called[13] ).toBe( 'prependedWidgetProcessor2.processWidget' );
+		expect( called[14] ).toBe( 'widgetProcessor.processWidget' );
+		expect( called[15] ).toBe( 'addedWidgetProcessor1.processWidget' );
+		expect( called[16] ).toBe( 'addedWidgetProcessor2.processWidget' );
+		expect( called[17] ).toBe( 'layout.layoutWidget' );
+		expect( called[18] ).toBe( 'layout.endContainerLayout' );
+		expect( called[19] ).toBe( 'layout.onEndBuild' );
+		expect( called[20] ).toBe( 'prependedWidgetProcessor1.onEndBuild' );
+		expect( called[21] ).toBe( 'prependedWidgetProcessor2.onEndBuild' );
+		expect( called[22] ).toBe( 'widgetProcessor.onEndBuild' );
+		expect( called[23] ).toBe( 'addedWidgetProcessor1.onEndBuild' );
+		expect( called[24] ).toBe( 'addedWidgetProcessor2.onEndBuild' );
+		expect( called[25] ).toBe( 'widgetBuilder.onEndBuild' );
 
-		expect( called.length ).toBe( 17 );
+		expect( called.length ).toBe( 26 );
 	} );
 
 	it( "will stop the build if the inspection returns null", function() {

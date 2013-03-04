@@ -207,6 +207,11 @@ metawidget.Pipeline.prototype.configure = function( config ) {
 	// Support adding to the existing array of WidgetProcessors (it may be
 	// hard for clients to redefine the originals)
 
+	if ( config.prependWidgetProcessors !== undefined ) {
+		for ( var loop = 0, length = config.prependWidgetProcessors.length; loop < length; loop++ ) {
+			this.widgetProcessors.splice( loop, 0, config.prependWidgetProcessors[loop] );
+		}
+	}
 	if ( config.addWidgetProcessors !== undefined ) {
 		for ( var loop = 0, length = config.addWidgetProcessors.length; loop < length; loop++ ) {
 			this.widgetProcessors.push( config.addWidgetProcessors[loop] );
