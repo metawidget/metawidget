@@ -495,21 +495,52 @@ public class BeansBindingProcessorTest
 		assertEquals( 36l, ( (JSpinner) metawidget.getComponent( "bar" ) ).getValue() );
 	}
 
-	public void testNonWritableNullFoo() {
+	public void testNonWritable() {
 
-		NonWritableNullFoo foo = new NonWritableNullFoo();
+		// NonWritable and null (should ignore Converter)
+
+		NonWritable nonWritable = new NonWritable( null );
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
+		BeansBindingProcessorConfig beansBindingProcessorConfig = new BeansBindingProcessorConfig();
+		beansBindingProcessorConfig.setConverter( Long.class, String.class, new Converter<Long, String>() {
+
+			@Override
+			public String convertForward( Long aLong ) {
+
+				return String.valueOf( aLong + 100 );
+			}
+
+			@Override
+			public Long convertReverse( String aString ) {
+
+				throw new UnsupportedOperationException();
+			}
+		} );
+
+		BeansBindingProcessor beansBindingProcessor = new BeansBindingProcessor( beansBindingProcessorConfig );
+		metawidget.addWidgetProcessor( beansBindingProcessor );
 		metawidget.setWidgetBuilder( new SwingWidgetBuilder() );
-		metawidget.setToInspect( foo );
+		metawidget.setToInspect( nonWritable );
 
 		assertEquals( "", ( (JTextField) metawidget.getComponent( "nonWritable" ) ).getText() );
 		( (JTextField) metawidget.getComponent( "nonWritable" ) ).setText( "123" );
 		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
-		assertEquals( null, foo.getNonWritable() );
+		assertEquals( null, nonWritable.getNonWritable() );
 		metawidget.setReadOnly( true );
 		assertEquals( "", ( (JTextField) metawidget.getComponent( "nonWritable" ) ).getText() );
+
+		// NonWritable and not-null (should use Converter)
+
+		nonWritable = new NonWritable( 3l );
+		metawidget.setToInspect( nonWritable );
+
+		assertEquals( "103", ( (JTextField) metawidget.getComponent( "nonWritable" ) ).getText() );
+		( (JTextField) metawidget.getComponent( "nonWritable" ) ).setText( "4" );
+		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
+		assertEquals( (Long) 3l, nonWritable.getNonWritable() );
+		metawidget.setReadOnly( true );
+		assertEquals( "4", ( (JTextField) metawidget.getComponent( "nonWritable" ) ).getText() );
 	}
 
 	//
@@ -600,15 +631,30 @@ public class BeansBindingProcessorTest
 		public float	bar;
 	}
 
-	protected static class NonWritableNullFoo {
+	protected static class NonWritable {
+
+		//
+		// Private members
+		//
+
+		private Long	mLong;
+
+		//
+		// Constructor
+		//
+
+		public NonWritable( Long aLong ) {
+
+			mLong = aLong;
+		}
 
 		//
 		// Public methods
 		//
 
-		public Double getNonWritable() {
+		public Long getNonWritable() {
 
-			return null;
+			return mLong;
 		}
 	}
 

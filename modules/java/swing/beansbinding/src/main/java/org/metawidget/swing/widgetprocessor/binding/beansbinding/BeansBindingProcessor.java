@@ -198,7 +198,7 @@ public class BeansBindingProcessor
 
 	public void save( SwingMetawidget metawidget ) {
 
-		if ( UpdateStrategy.READ_WRITE.equals( mUpdateStrategy )) {
+		if ( UpdateStrategy.READ_WRITE.equals( mUpdateStrategy ) ) {
 			throw WidgetProcessorException.newException( "Should not call save() when using " + UpdateStrategy.READ_WRITE );
 		}
 
@@ -394,9 +394,9 @@ public class BeansBindingProcessor
 
 			if ( value != null ) {
 				sourceClass = (Class<SV>) value.getClass();
+			} else {
+				return null;
 			}
-
-			return null;
 		} else {
 			throw WidgetProcessorException.newException( "Property '" + propertySource + "' has no getter and no setter (or parent is null)" );
 		}
