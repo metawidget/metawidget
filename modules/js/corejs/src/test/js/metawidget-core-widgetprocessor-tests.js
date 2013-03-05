@@ -100,10 +100,7 @@ describe( "The SimpleBindingProcessor", function() {
 				bar: "barValue",
 				baz: "bazValue",
 				boolean: true,
-				select: false,
-				nested: {
-					"nestedFoo": "nestedFooValue"
-				}
+				select: false
 			},
 			path: "testPath"
 		};
@@ -175,17 +172,30 @@ describe( "The SimpleBindingProcessor", function() {
 		processor.processWidget( widget, attributes, mw );
 		expect( widget.toString() ).toBe( 'output' );
 		expect( widget.innerHTML ).toBe( mw.toInspect );
-
-		// Nested widgets
-
-		mw.path = 'object.nested';
-		attributes = {
-			name: "nestedFoo"
-		};
-		widget = document.createElement( 'input' );
-		widget.setAttribute( 'type', 'text' );
-		processor.processWidget( widget, attributes, mw );
-		expect( widget.toString() ).toBe( 'input type="text"' );
-		expect( widget.value ).toBe( 'nestedFooValue' );
 	} );
+	
+	it( "supports nested widgets", function() {
+
+		var element = document.createElement( 'div' );
+		var mw = new metawidget.Metawidget( element, {
+			layout: new metawidget.layout.SimpleLayout()
+		} );
+
+		mw.toInspect = {
+			nested: {
+				"nestedFoo": "nestedFooValue"
+			}
+		};
+		mw.buildWidgets();
+
+		expect( element.childNodes[0].toString() ).toBe( 'div id="nested"' );
+		expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="nestedNestedFoo" name="nestedNestedFoo"' );
+		expect( element.childNodes[0].childNodes[0].value ).toBe( 'nestedFooValue' );
+		expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+		expect( element.childNodes.length ).toBe( 1 );
+		
+		element.childNodes[0].childNodes[0].value = 'nestedFooValue1';
+		mw.getWidgetProcessor( function( testInstanceOf ) { return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } ).save( mw );
+		expect( mw.toInspect.nested.nestedFoo ).toBe( 'nestedFooValue1' );
+	} );	
 } );

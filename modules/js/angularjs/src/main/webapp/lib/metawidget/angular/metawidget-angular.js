@@ -47,7 +47,7 @@ angular.module( 'metawidget', [] )
 			readOnly: '=',
 			config: '=',
 
-			// Config cannot be 2-way ('=') because cannot 'watch' arrays
+			// Configs cannot be 2-way ('=') because cannot 'watch' arrays
 
 			configs: '&'
 		},
@@ -81,7 +81,7 @@ angular.module( 'metawidget', [] )
 
 				scope.$watch( 'ngModel', function( newValue, oldValue ) {
 
-					// Cannot test against mw.toInspect, because is based on
+					// Cannot test against mw.toInspect, because is pointed at
 					// the splitPath.type
 					//
 					// Re-inspect for 'undefined becoming defined' and
@@ -109,6 +109,9 @@ angular.module( 'metawidget', [] )
 
 				scope.$watch( 'config', function( newValue, oldValue ) {
 
+					// Watch for config changes. These are rare, but otherwise
+					// we'd need to provide a way to externally trigger _buildWidgets
+					
 					if ( newValue !== oldValue ) {
 						mw.configure( newValue );
 						_buildWidgets();
@@ -121,11 +124,12 @@ angular.module( 'metawidget', [] )
 
 				function _buildWidgets() {
 
+					_oldToInspect = scope.$eval( 'ngModel' );
+
 					mw.path = attrs.ngModel;
 					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
 					mw.readOnly = scope.$eval( 'readOnly' );
 					mw.buildWidgets();
-					_oldToInspect = scope.$eval( 'ngModel' );
 				}
 			};
 		}
@@ -163,6 +167,13 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 		return nestedMetawidget;
 	};
 
+	var _lastInspectionResult = undefined;
+
+	this.invalidateInspection = function() {
+
+		_lastInspectionResult = undefined;
+	};
+
 	// Configure defaults
 
 	_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
@@ -172,15 +183,6 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 	_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, scope ) ];
 	_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
-	// toInspect, path and readOnly set by _buildWidgets()
-
-	var _lastInspectionResult = undefined;
-
-	this.invalidateInspection = function() {
-
-		_lastInspectionResult = undefined;
-	};
-
 	this.configure = function( config ) {
 
 		_pipeline.configure( config );
@@ -189,6 +191,8 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 
 	this.configure( scope.$eval( 'config' ) );
 	this.configure( scope.configs() );
+
+	// toInspect, path and readOnly set by _buildWidgets()
 
 	this.buildWidgets = function( inspectionResult ) {
 
@@ -228,12 +232,14 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			_lastInspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 
+		// Build widgets
+		
 		_pipeline.buildWidgets( _lastInspectionResult, this );
 	};
 
 	/**
-	 * Overridden to inspect unused nodes by evaluating their 'ng-model'
-	 * attribute.
+	 * Overridden to inspect unused nodes by evaluating their 'ng-bind'
+	 * or 'ng-model' attribute.
 	 */
 
 	this.onEndBuild = function() {
@@ -278,7 +284,7 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 				};
 			}
 
-			// Stubs can supply their own metadata
+			// Stubs can supply their own metadata (such as 'label')
 
 			if ( child.tagName === 'STUB' ) {
 				for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
@@ -371,8 +377,14 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		throw new Error( "Constructor called as a function" );
 	}
 
+	/**
+	 * Special support for multi-select checkboxes.
+	 */
+	
 	this.updateSelection = function( $event, binding ) {
 
+		// Lookup the bound array (if any)...
+		
 		var selected = scope.$parent.$eval( binding );
 
 		if ( selected === undefined ) {
@@ -380,6 +392,8 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 			$parse( binding ).assign( scope.$parent, selected );
 		}
 
+		// ...and either add our checkbox's value into it...
+		
 		var checkbox = $event.target;
 		var indexOf = selected.indexOf( checkbox.value );
 
@@ -387,10 +401,13 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 			if ( indexOf === -1 ) {
 				selected.push( checkbox.value );
 			}
-		} else {
-			if ( indexOf !== -1 ) {
-				selected.splice( indexOf, 1 );
-			}
+			return;
+		}
+		
+		// ...or remove our checkbox's value from it
+		
+		if ( indexOf !== -1 ) {
+			selected.splice( indexOf, 1 );
 		}
 	};
 
@@ -417,7 +434,7 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 		if ( widget.tagName === 'OUTPUT' ) {
 			if ( attributes.type === 'array' ) {
 
-				// Special support for arrays
+				// Special support for outputting arrays
 
 				widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
 			} else {
@@ -430,8 +447,6 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 
 			// Special support for multi-selects and radio buttons
 
-			scope.$parent._mwUpdateSelection = this.updateSelection;
-
 			for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 				var label = widget.childNodes[loop];
 
@@ -443,6 +458,7 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 							child.setAttribute( 'ng-model', binding );
 						} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
 							child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.getAttribute( 'value' ) + "')>=0" );
+							scope.$parent._mwUpdateSelection = this.updateSelection;
 							child.setAttribute( 'ng-click', "_mwUpdateSelection($event,'" + binding + "')" );
 						}
 					}
@@ -470,6 +486,8 @@ metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, 
 			widget.removeAttribute( 'maxlength' );
 		}
 
+		// Compile so that 'ng-model', 'ng-required' etc become active
+		
 		$compile( widget )( scope.$parent );
 
 		return widget;

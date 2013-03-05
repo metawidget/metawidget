@@ -31,7 +31,7 @@
 						<title>BeansBindingProcessor</title>
 						
 						<para>
-							<classname>BeansBindingProcessor</classname> binds properties using Beans Binding (JSR 295). It supports the various
+							<classname>BeansBindingProcessor</classname> binds properties using Beans Binding (JSR-295). It supports the various
 							Beans Binding update strategies:
 						</para>
 						
@@ -69,6 +69,15 @@
 							is the correct one. This issue has been reported <ulink url="https://issues.sonatype.org/browse/MVNCENTRAL-51">here</ulink>.
 						</important>
 						
+						<tip>
+							<title>Consider BetterBeansBinding</title>
+							BeansBinding 1.2.1 has
+							<ulink url="http://blog.marcnuri.com/blog/default/java/BeansBinding-Performance-Issue-37">known performance issues</ulink>
+							when working with large numbers of widgets. Consider a more recent JSR-295 implementation
+							such as
+							<ulink url="http://betterbeansbinding.kenai.com">BetterBeansBinding</ulink>.
+						</tip>
+
 					</section>
 				
 					<section id="section-widgetprocessors-desktop-swing-binding-beanutilsbinding">

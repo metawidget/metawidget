@@ -54,7 +54,8 @@ metawidget.Metawidget = function( element, config ) {
 		nestedMetawidget.readOnly = mw.readOnly || attributes.readOnly === 'true';
 
 		// Attach ourselves as a property of the tag, rather than try to
-		// 'extend' the built-in HTML tags
+		// 'extend' the built-in HTML tags. This is used by SimpleBindingProcessor,
+		// among others
 
 		nestedWidget.metawidget = nestedMetawidget;
 		nestedMetawidget.buildWidgets();
@@ -115,6 +116,8 @@ metawidget.Metawidget = function( element, config ) {
 			inspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 
+		// Build widgets
+		
 		_pipeline.buildWidgets( inspectionResult, this );
 	};
 };
@@ -204,7 +207,7 @@ metawidget.Pipeline.prototype.configure = function( config ) {
 		this.widgetProcessors = config.widgetProcessors.slice( 0 );
 	}
 
-	// Support adding to the existing array of WidgetProcessors (it may be
+	// Support prepending/adding to the existing array of WidgetProcessors (it may be
 	// hard for clients to redefine the originals)
 
 	if ( config.prependWidgetProcessors !== undefined ) {
@@ -489,7 +492,7 @@ metawidget.Pipeline.prototype.buildWidgets = function( inspectionResult, mw ) {
 					continue;
 				}
 
-				// Stubs can supply their own metadata
+				// Stubs can supply their own metadata (such as 'label')
 
 				var childAttributes = {
 					section: ''

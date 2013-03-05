@@ -151,7 +151,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw 
 			continue;
 		}
 
-		widget = document.getElementById( widget.id );
+		// TODO: widget = document.getElementById( widget.id );
 
 		if ( widget.getAttribute( 'type' ) === 'checkbox' ) {
 			toInspect[name] = widget.checked;

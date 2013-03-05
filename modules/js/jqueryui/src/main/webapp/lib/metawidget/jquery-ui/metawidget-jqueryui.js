@@ -282,7 +282,8 @@ $.widget( "metawidget.metawidget", {
 			var nestedPath = metawidget.util.appendPath( attributes, mw );
 
 			// Attach ourselves as a property of the tag, rather than try to
-			// 'extend' the built-in HTML tags
+			// 'extend' the built-in HTML tags. This is used by SimpleBindingProcessor,
+			// among others
 
 			nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
 
@@ -335,6 +336,8 @@ $.widget( "metawidget.metawidget", {
 			inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 		}
 
+		// Build widgets
+		
 		this._pipeline.buildWidgets( inspectionResult, this );
 	},
 
