@@ -1,4 +1,4 @@
-// Metawidget (licensed under LGPL)
+// Metawidget ${project.version} (licensed under LGPL)
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -57,7 +57,7 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
 			var widgetBuilder = _widgetBuilders[loop];
 
-			if ( widgetBuilder.onStartBuild ) {
+			if ( widgetBuilder.onStartBuild !== undefined ) {
 				widgetBuilder.onStartBuild();
 			}
 		}
@@ -70,13 +70,13 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 			var widget;
 			var widgetBuilder = _widgetBuilders[loop];
 
-			if ( widgetBuilder.buildWidget ) {
+			if ( widgetBuilder.buildWidget !== undefined ) {
 				widget = widgetBuilder.buildWidget( attributes, mw );
 			} else {
 				widget = widgetBuilder( attributes, mw );
 			}
 
-			if ( widget ) {
+			if ( widget !== undefined ) {
 				return widget;
 			}
 		}
@@ -88,7 +88,7 @@ metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
 			var widgetBuilder = _widgetBuilders[loop];
 
-			if ( widgetBuilder.onEndBuild ) {
+			if ( widgetBuilder.onEndBuild !== undefined ) {
 				widgetBuilder.onEndBuild();
 			}
 		}
@@ -246,7 +246,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 		var select = document.createElement( 'select' );
 
-		if ( !attributes.required || attributes.required === 'false' ) {
+		if ( attributes.required === undefined || attributes.required === 'false' ) {
 			select.appendChild( document.createElement( 'option' ) );
 		}
 
@@ -274,7 +274,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 	if ( attributes.type === 'function' ) {
 		var button = document.createElement( 'button' );
 
-		if ( attributes.label ) {
+		if ( attributes.label !== undefined ) {
 			button.innerHTML = attributes.label;
 		} else {
 			button.innerHTML = metawidget.util.uncamelCase( attributes.name );
@@ -286,7 +286,7 @@ metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( att
 
 	if ( attributes.type === 'number' ) {
 
-		if ( attributes.minimumValue && attributes.maximumValue ) {
+		if ( attributes.minimumValue !== undefined && attributes.maximumValue !== undefined ) {
 			var range = document.createElement( 'input' );
 			range.setAttribute( 'type', 'range' );
 			range.setAttribute( 'min', attributes.minimumValue );

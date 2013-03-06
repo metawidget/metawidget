@@ -35,26 +35,23 @@
 		</fileSet>
 		<fileSet>
 			<directory>/modules/js/angularjs/target/metawidget-angularjs</directory>
-			<excludes>
-				<exclude>META-INF/**</exclude>
-				<exclude>WEB-INF/**</exclude>
-			</excludes>
+			<includes>
+				<include>**/*.js</include>
+			</includes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>/modules/js/corejs/target/metawidget-corejs</directory>
-			<excludes>
-				<exclude>META-INF/**</exclude>
-				<exclude>WEB-INF/**</exclude>
-			</excludes>
+			<includes>
+				<include>**/*.js</include>
+			</includes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>/modules/js/jqueryui/target/metawidget-jqueryui</directory>
-			<excludes>
-				<exclude>META-INF/**</exclude>
-				<exclude>WEB-INF/**</exclude>
-			</excludes>
+			<includes>
+				<include>**/*.js</include>
+			</includes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 	</fileSets>

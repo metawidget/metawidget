@@ -1,4 +1,4 @@
-// Metawidget (licensed under LGPL)
+// Metawidget ${project.version} (licensed under LGPL)
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -98,7 +98,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 		var typeAndNames = metawidget.util.splitPath( mw.path );
 		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
 
-		if ( attributes._root !== 'true' && toInspect ) {
+		if ( attributes._root !== 'true' && toInspect !== undefined ) {
 			value = toInspect[attributes.name];
 		} else {
 			value = toInspect;
@@ -106,7 +106,7 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 
 		var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
 
-		if ( isBindable && widget.hasAttribute( 'id' ) ) {
+		if ( isBindable === true && widget.hasAttribute( 'id' ) ) {
 
 			// Standard HTML works off 'name', not 'id', for binding
 
@@ -114,18 +114,21 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = func
 		}
 
 		// Check 'not undefined', rather than 'if value', in case value is a boolean of false
+		//
+		// Note: this is a general convention throughout Metawidget, as JavaScript has a
+		// surprisingly large number of 'falsy' values)
 		
 		if ( value !== undefined ) {
 			if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
 				widget.innerHTML = value;
 			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
 				widget.checked = value;
-			} else if ( isBindable ) {
+			} else if ( isBindable === true ) {
 				widget.value = value;
 			}
 		}
 
-		if ( isBindable || widget.metawidget ) {
+		if ( isBindable === true || widget.metawidget !== undefined ) {
 			mw._simpleBindingProcessorBindings[attributes.name] = widget;
 		}
 	}
@@ -146,17 +149,16 @@ metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw 
 
 		var widget = mw._simpleBindingProcessorBindings[name];
 
-		if ( widget.metawidget ) {
+		if ( widget.metawidget !== undefined ) {
 			this.save( widget.metawidget );
 			continue;
 		}
 
-		// TODO: widget = document.getElementById( widget.id );
-
 		if ( widget.getAttribute( 'type' ) === 'checkbox' ) {
 			toInspect[name] = widget.checked;
-		} else {
-			toInspect[name] = widget.value;
+			continue;
 		}
+		
+		toInspect[name] = widget.value;
 	}
 };

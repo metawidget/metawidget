@@ -37,6 +37,12 @@
 					<!-- Configure as a pure JavaScript project -->
 					<configuration>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<webResources>
+							<resource>
+								<directory>src/main/webapp</directory>
+								<filtering>true</filtering>
+							</resource>
+						</webResources>
 					</configuration>
 				</plugin>
 				<!-- Run maven-surefire-plugin as an integration test, so that our -->

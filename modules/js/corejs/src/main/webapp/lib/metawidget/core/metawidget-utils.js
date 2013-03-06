@@ -1,4 +1,4 @@
-// Metawidget (licensed under LGPL)
+// Metawidget ${project.version} (licensed under LGPL)
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -347,7 +347,7 @@ metawidget.util.joinArray = function( array ) {
 
 	for ( var loop = 0, length = array.length; loop < length; loop++ ) {
 
-		if ( toReturn.length != 0 ) {
+		if ( toReturn.length !== 0 ) {
 			toReturn += ',';
 		}
 
