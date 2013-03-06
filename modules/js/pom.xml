@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.modules</groupId>
 		<artifactId>modules-parent</artifactId>
-		<version>3.2-SNAPSHOT</version>
+		<version>3.2</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
