@@ -23,10 +23,14 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<!-- Filter license.txt -->
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
@@ -36,12 +40,15 @@
 							<removeIncluded>true</removeIncluded>
 							<output>${project.build.directory}/${project.build.finalName}/lib/metawidget/core/metawidget-core.min.js</output>
 							<includes>
-								<include>${project.build.directory}/${project.build.finalName}/lib/metawidget/version.txt</include>
-								<include>${basedir}/${project.build.directory}/${project.build.finalName}/**/*.js</include>
+								<include>${project.build.directory}/classes/license.txt</include>
+								<include>**/*.js</include>
 							</includes>
 						</aggregation>
 					</aggregations>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>

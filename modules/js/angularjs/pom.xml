@@ -12,6 +12,13 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<!-- Filter license.txt -->
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>		
 		<plugins>
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
@@ -22,7 +29,7 @@
 							<removeIncluded>true</removeIncluded>
 							<output>${project.build.directory}/${project.build.finalName}/lib/metawidget/angular/metawidget-angular.min.js</output>
 							<includes>
-								<include>${project.build.directory}/${project.build.finalName}/lib/metawidget/version.txt</include>
+								<include>${project.build.directory}/classes/license.txt</include>
 								<include>**/*.js</include>
 							</includes>
 						</aggregation>
