@@ -107,6 +107,8 @@ describe( "The splitPath function", function() {
 		expect( metawidget.util.splitPath( 'foo' ).type ).toBe( 'foo' );
 		expect( metawidget.util.splitPath( 'foo' ).names ).toBeUndefined();
 
+		// Dot notation
+		
 		expect( metawidget.util.splitPath( 'foo.bar' ).type ).toBe( 'foo' );
 		expect( metawidget.util.splitPath( 'foo.bar' ).names[0] ).toBe( 'bar' );
 		expect( metawidget.util.splitPath( 'foo.bar' ).names.length ).toBe( 1 );
@@ -115,6 +117,43 @@ describe( "The splitPath function", function() {
 		expect( metawidget.util.splitPath( 'foo.bar.baz' ).names[0] ).toBe( 'bar' );
 		expect( metawidget.util.splitPath( 'foo.bar.baz' ).names[1] ).toBe( 'baz' );
 		expect( metawidget.util.splitPath( 'foo.bar.baz' ).names.length ).toBe( 2 );
+		
+		// Square bracket notation
+		
+		expect( metawidget.util.splitPath( 'foo[bar]' ).type ).toBe( 'foo' );
+		expect( metawidget.util.splitPath( 'foo[bar]' ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( 'foo[bar]' ).names.length ).toBe( 1 );
+
+		expect( metawidget.util.splitPath( 'foo[bar][baz]' ).type ).toBe( 'foo' );
+		expect( metawidget.util.splitPath( 'foo[bar][baz]' ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( 'foo[bar][baz]' ).names[1] ).toBe( 'baz' );
+		expect( metawidget.util.splitPath( 'foo[bar][baz]' ).names.length ).toBe( 2 );
+
+		// Mixed notation
+		
+		expect( metawidget.util.splitPath( 'foo.bar[baz]' ).type ).toBe( 'foo' );
+		expect( metawidget.util.splitPath( 'foo[bar].baz' ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( 'foo[bar].baz' ).names[1] ).toBe( 'baz' );
+		expect( metawidget.util.splitPath( 'foo[bar].baz' ).names.length ).toBe( 2 );
+
+		// Automatic unwrapping
+		
+		expect( metawidget.util.splitPath( "foo['bar'].baz" ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( 'foo["bar"].baz' ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( "foo[ 'bar' ].baz" ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( 'foo[ "bar" ].baz' ).names[0] ).toBe( 'bar' );
+
+		// Error notation (should handle gracefully?)
+		
+		expect( metawidget.util.splitPath( 'foo.bar.[baz]' ).type ).toBe( 'foo' );
+		expect( metawidget.util.splitPath( 'foo[bar].[baz]' ).names[0] ).toBe( 'bar' );
+		expect( metawidget.util.splitPath( 'foo[bar].[baz]' ).names[1] ).toBe( 'baz' );
+		expect( metawidget.util.splitPath( 'foo[bar].[baz]' ).names.length ).toBe( 2 );
+
+		// Workarounds (when you don't want the strings unwrapped)
+		
+		expect( metawidget.util.splitPath( "foo[('bar')]" ).names[0] ).toBe( "('bar')" );
+		expect( metawidget.util.splitPath( 'foo[("bar")]' ).names[0] ).toBe( '("bar")' );
 	} );
 } );
 

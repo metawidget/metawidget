@@ -139,8 +139,8 @@ metawidget.util.isSpanAllColumns = function( attributes ) {
 };
 
 /**
- * Splits the given path into its type and an array of names (e.g. 'foo.bar.baz'
- * into type 'foo' and names ['bar','baz']).
+ * Splits the given path into its type and an array of names (e.g.
+ * 'foo.bar['baz']' into type 'foo' and names ['bar','baz']).
  * 
  * @returns an object with properties 'type' and 'names' (provided there is at
  *          least 1 name)
@@ -151,11 +151,33 @@ metawidget.util.splitPath = function( path ) {
 	var splitPath = {};
 
 	if ( path !== undefined ) {
-		var pathArray = path.split( '.' );
+		
+		// Match at every '.' and '[' boundary
+		
+		var pathArray = path.match( /([^\.\[\]]*)/g );
 		splitPath.type = pathArray[0];
 
-		if ( pathArray.length > 1 ) {
-			splitPath.names = pathArray.slice( 1 );
+		for( var loop = 1, length = pathArray.length; loop < length; loop++ ) {
+		
+			// Ignore empty matches
+			
+			if ( pathArray[loop] === '' ) {
+				continue;
+			}
+			
+			if ( splitPath.names === undefined ) {
+				splitPath.names = [];
+			}
+
+			// Strip surrounding spaces and quotes (eg. foo[ 'bar' ])
+			
+			var stripQuotes = pathArray[loop].match( /^(?:\s*(?:\'|\"))([^\']*)(?:(?:\'|\")\s*)$/ );
+			
+			if ( stripQuotes !== null && stripQuotes[1] !== undefined ) {
+				pathArray[loop] = stripQuotes[1];
+			}
+			
+			splitPath.names.push( pathArray[loop] );
 		}
 	}
 
