@@ -265,7 +265,7 @@
 								<li>Scala</li>
 								<li>Seam</li>
 								<li>Swing AppFramework</li>
-								<li>Xml Schema (XSD)</li>
+								<li>XML Schema (XSD)</li>
 								<li><a href="contributing.php">...help us add more!</a></li>
 							</ul>
 						</td>

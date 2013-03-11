@@ -60,6 +60,10 @@
 			Note it is <em>not</em> a goal of Metawidget that the widgets look the same on every UI framework: every UI has
 			different features, and Metawidget takes advantage of this.
 		</p>
+		
+		<p>
+			See also the <a href="motivation.php">motivation FAQ</a>.
+		</p>
 
 		<h3><a name="why">Why is it called Metawidget?</a></h3>
 

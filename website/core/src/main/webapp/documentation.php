@@ -13,7 +13,9 @@
 
 		<ul>
 			<li><a href="elevator.php">Elevator Pitch Cartoon</a></li>
+			<li><a href="/gettingstarted.php">Getting Started</a></li>
 			<li><a href="doc/faq/core.php">Core FAQ</a></li>
+			<li><a href="doc/faq/motivation.php">Motivation FAQ</a></li>
 			<li><a href="doc/faq/comparison.php">Comparison FAQ</a></li>
 			<li><a href="doc/faq/licensing.php">Licensing FAQ</a></li>
 			<li><a href="wallchart.php">Wallchart</a></li>

@@ -9,10 +9,10 @@
 				<td><a href="/elevator.php">Elevator Pitch Cartoon</a></td>
 			</tr>
 			<tr>
-				<td><a href="/gettingstarted.php">Getting Started</a></td>
+				<td><a href="/doc/faq/core.php">Core FAQ</a></td>
 			</tr>
 			<tr>
-				<td><a href="/doc/faq/core.php">Core FAQ</a></td>
+				<td><a href="/doc/faq/motivation.php">Motivation FAQ</a></td>
 			</tr>
 			<tr>
 				<td><a href="/doc/faq/comparison.php">Comparison FAQ</a></td>

@@ -26,6 +26,10 @@ h3 {
 	margin-bottom: 0px;
 }
 
+.h3-underneath {
+	margin-top: 25px;
+}
+
 h3 a  {
 	color: black;
 }
