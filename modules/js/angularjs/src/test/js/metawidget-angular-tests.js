@@ -202,13 +202,13 @@ describe(
 									expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 									expect( inspectionCount ).toBe( 3 );
 									expect( buildingCount ).toBe( 4 );
-									
+
 									// Test changing config
-									
+
 									scope.metawidgetConfig = {
 										layout: new metawidget.layout.SimpleLayout()
 									};
-									
+
 									scope.$digest();
 
 									expect( mw.innerHTML ).toBe( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
@@ -312,11 +312,11 @@ describe(
 									expect( buildingCount ).toBe( 4 );
 
 									// Test changing configs is *not* watched
-									
+
 									scope.metawidgetConfig1 = {
 										layout: new metawidget.layout.SimpleLayout()
 									};
-									
+
 									scope.$digest();
 
 									expect( inspectionCount ).toBe( 3 );
@@ -471,7 +471,7 @@ describe(
 				} );
 
 				// x-ng-bind
-				
+
 				var mw = document.createElement( 'metawidget' );
 				var bar = document.createElement( 'span' );
 				bar.setAttribute( 'x-ng-bind', 'foo.bar' );
@@ -491,13 +491,13 @@ describe(
 				} );
 
 				// ng:model
-				
+
 				var baz = document.createElement( 'span' );
 				baz.setAttribute( 'ng:model', 'foo.baz' );
 				mw.appendChild( baz );
 
 				injector = angular.bootstrap( body, [ 'test-app' ] );
-				
+
 				injector.invoke( function() {
 
 					expect( mw.innerHTML ).toContain( '<label id="table-baz-label">Baz:</label>' );
@@ -655,6 +655,42 @@ describe(
 					scope.$digest();
 
 					expect( inspectionCount ).toBe( 1 );
+				} );
+			} );
+
+			it( "provides access to attached element", function() {
+
+				var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+				var attachedElement = [];
+				var controller = myApp.controller( 'TestController', function( $scope ) {
+
+					$scope.metawidgetConfig = {
+						inspector: function() {
+
+							return [];
+						},
+						inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+
+							attachedElement.push( mw.getElement() );
+							return inspectionResult;
+						} ]
+					}
+				} );
+
+				var mw = document.createElement( 'metawidget' );
+				mw.setAttribute( 'config', 'metawidgetConfig' );
+
+				var body = document.createElement( 'body' );
+				body.setAttribute( 'ng-controller', 'TestController' );
+				body.appendChild( mw );
+
+				var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+				injector.invoke( function() {
+
+					expect( mw.innerHTML ).toBe( '<table><tbody/></table>' );
+					expect( attachedElement[0] ).toBe( mw );
+					expect( attachedElement.length ).toBe( 1 );
 				} );
 			} );
 		} );

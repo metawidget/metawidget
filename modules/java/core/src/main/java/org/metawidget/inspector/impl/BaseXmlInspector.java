@@ -696,6 +696,10 @@ public abstract class BaseXmlInspector
 			declaredType = property.getAttribute( typeAttribute );
 			topLevelElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, declaredType );
 
+			// TODO: test this being null
+
+			elementWithNamedChildren = null;
+
 			if ( topLevelElement == null ) {
 				break;
 			}

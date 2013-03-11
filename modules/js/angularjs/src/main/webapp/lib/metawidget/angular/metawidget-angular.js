@@ -296,6 +296,15 @@ metawidget.angular.AngularMetawidget = function( element, attrs, transclude, sco
 			_pipeline.layoutWidget( child, childAttributes, _pipeline.element, this );
 		}
 	};
+	
+	/**
+	 * Returns the element this Metawidget is attached to.
+	 */
+	
+	this.getElement = function() {
+		
+		return _pipeline.element;
+	};
 };
 
 /**
