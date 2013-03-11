@@ -575,9 +575,9 @@ public abstract class BaseXmlInspector
 		// Validate type
 
 		String topLevelTypeAttribute = getTopLevelTypeAttribute();
-		Element entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, typeToInspect );
+		Element topLevelElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, typeToInspect );
 
-		if ( entityElement == null ) {
+		if ( topLevelElement == null ) {
 
 			if ( traverseAgainstObject == null && !mInferInheritanceHierarchy ) {
 				return new ValueAndDeclaredType( null, declaredType );
@@ -598,24 +598,26 @@ public abstract class BaseXmlInspector
 				}
 			}
 
-			while ( entityElement == null && ( actualClass = actualClass.getSuperclass() ) != null ) {
+			while ( topLevelElement == null && ( actualClass = actualClass.getSuperclass() ) != null ) {
 
-				entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, actualClass.getName() );
+				topLevelElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, actualClass.getName() );
 			}
 
-			if ( entityElement == null ) {
+			if ( topLevelElement == null ) {
 				return new ValueAndDeclaredType( null, declaredType );
 			}
 		}
 
+		Element elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( topLevelElement );
+
 		if ( namesToInspect == null ) {
-			return new ValueAndDeclaredType( entityElement, declaredType );
+			return new ValueAndDeclaredType( elementWithNamedChildren, declaredType );
 		}
 
 		int length = namesToInspect.length;
 
 		if ( length == 0 ) {
-			return new ValueAndDeclaredType( entityElement, declaredType );
+			return new ValueAndDeclaredType( elementWithNamedChildren, declaredType );
 		}
 
 		// Traverse names
@@ -623,45 +625,51 @@ public abstract class BaseXmlInspector
 		String extendsAttribute = getExtendsAttribute();
 		String nameAttribute = getNameAttribute();
 		String typeAttribute = getTypeAttribute();
+		String referenceAttribute = getReferenceAttribute();
 
 		for ( int loop = 0; loop < length; loop++ ) {
 			String name = namesToInspect[loop];
-			Element property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
+			Element property = XmlUtils.getChildWithAttributeValue( elementWithNamedChildren, nameAttribute, name );
 
-			if ( property == null ) {
-				// XML structure may not support 'extends'
+			// XML structure may support 'extends'
 
-				if ( extendsAttribute == null ) {
-					return new ValueAndDeclaredType( null, null );
-				}
-
-				// Property may be defined in an 'extends'
+			if ( property == null && extendsAttribute != null ) {
 
 				while ( true ) {
-					if ( !entityElement.hasAttribute( extendsAttribute ) ) {
-						return new ValueAndDeclaredType( null, null );
+					if ( !elementWithNamedChildren.hasAttribute( extendsAttribute ) ) {
+						break;
 					}
 
-					String childExtends = entityElement.getAttribute( extendsAttribute );
-					entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, childExtends );
+					String childExtends = elementWithNamedChildren.getAttribute( extendsAttribute );
+					elementWithNamedChildren = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, childExtends );
 
-					if ( entityElement == null ) {
-						return new ValueAndDeclaredType( null, null );
+					if ( elementWithNamedChildren == null ) {
+						break;
 					}
 
-					property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
+					property = XmlUtils.getChildWithAttributeValue( elementWithNamedChildren, nameAttribute, name );
 
 					if ( property != null ) {
 						break;
 					}
 				}
+			}
 
-				// This check is unnecessary. However it stops a 'potential null pointer access'
-				// warning in Eclipse!
+			// XML structure may support 'reference'
+
+			if ( property == null && referenceAttribute != null ) {
+
+				property = XmlUtils.getChildWithAttributeValue( elementWithNamedChildren, referenceAttribute, name );
 
 				if ( property == null ) {
-					throw new NullPointerException( "property" );
+					break;
 				}
+
+				property = XmlUtils.getChildWithAttributeValue( mRoot, nameAttribute, name );
+			}
+
+			if ( property == null ) {
+				return new ValueAndDeclaredType( null, null );
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) ) {
@@ -669,18 +677,37 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( !property.hasAttribute( typeAttribute ) ) {
-				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+
+				// Special support for nested elements with named children
+
+				declaredType = null;
+				elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( property );
+
+				if ( XmlUtils.getChildWithAttribute( elementWithNamedChildren, nameAttribute ) == null ) {
+
+					if ( referenceAttribute == null || XmlUtils.getChildWithAttribute( elementWithNamedChildren, referenceAttribute ) == null ) {
+						throw InspectorException.newException( "Property " + name + " in entity " + topLevelElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+					}
+				}
+
+				continue;
 			}
 
 			declaredType = property.getAttribute( typeAttribute );
-			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, declaredType );
+			topLevelElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, declaredType );
 
-			if ( entityElement == null ) {
+			if ( topLevelElement == null ) {
+				break;
+			}
+
+			elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( topLevelElement );
+
+			if ( elementWithNamedChildren == null ) {
 				break;
 			}
 		}
 
-		return new ValueAndDeclaredType( entityElement, declaredType );
+		return new ValueAndDeclaredType( elementWithNamedChildren, declaredType );
 	}
 
 	/**
@@ -722,5 +749,29 @@ public abstract class BaseXmlInspector
 	protected String getExtendsAttribute() {
 
 		return null;
+	}
+
+	/**
+	 * The attribute on child elements that identifies a reference to another element (if any)
+	 */
+
+	protected String getReferenceAttribute() {
+
+		return null;
+	}
+
+	/**
+	 * Traverse from the given top-level element (as per <code>getTopLevelTypeAttribute</code>) to
+	 * the element which contains named children (as per <code>getNameAttribute</code>). In many
+	 * cases this is one and the same, so by default this method simply returns the given element.
+	 * <p>
+	 * Subclasses can override this method if they need to do some intermediate traversal.
+	 *
+	 * @return the element containing named children, or null if no such element
+	 */
+
+	protected Element traverseFromTopLevelTypeToNamedChildren( Element topLevel ) {
+
+		return topLevel;
 	}
 }

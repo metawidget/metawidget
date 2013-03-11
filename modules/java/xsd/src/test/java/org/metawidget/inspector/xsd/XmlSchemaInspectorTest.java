@@ -34,22 +34,6 @@ import org.w3c.dom.Element;
 public class XmlSchemaInspectorTest
 	extends TestCase {
 
-	//
-	// Private members
-	//
-
-	private Inspector	mInspector;
-
-	//
-	// Public methods
-	//
-
-	@Override
-	public void setUp() {
-
-		mInspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/shiporder.xsd" ) ) );
-	}
-
 	@SuppressWarnings( "unused" )
 	public void testMissingFile() {
 
@@ -63,7 +47,8 @@ public class XmlSchemaInspectorTest
 
 	public void testProperties() {
 
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "shiporder" ) );
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/shiporder.xsd" ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "shiporder" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
 
@@ -79,7 +64,8 @@ public class XmlSchemaInspectorTest
 		Element property = (Element) entity.getFirstChild();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "orderperson", property.getAttribute( NAME ) );
-		assertEquals( property.getAttributes().getLength(), 1 );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -90,6 +76,188 @@ public class XmlSchemaInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "item", property.getAttribute( NAME ) );
 		assertEquals( property.getAttributes().getLength(), 1 );
+
+		assertEquals( property.getNextSibling(), null );
+	}
+
+	public void testDividedProperties() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/shiporder-divided.xsd" ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "shiporder" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertFalse( entity.hasAttribute( NAME ) );
+		assertEquals( "shiporder", entity.getAttribute( TYPE ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "orderperson", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "shipto", property.getAttribute( NAME ) );
+		assertEquals( property.getAttributes().getLength(), 1 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "item", property.getAttribute( NAME ) );
+		assertEquals( property.getAttributes().getLength(), 1 );
+
+		assertEquals( property.getNextSibling(), null );
+	}
+
+	public void testNamedProperties() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/shiporder-named.xsd" ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "shiporder" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertFalse( entity.hasAttribute( NAME ) );
+		assertEquals( "shiporder", entity.getAttribute( TYPE ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "orderperson", property.getAttribute( NAME ) );
+		assertEquals( "stringtype", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "shipto", property.getAttribute( NAME ) );
+		assertEquals( "shiptotype", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "item", property.getAttribute( NAME ) );
+		assertEquals( "itemtype", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( property.getNextSibling(), null );
+	}
+
+	public void testNestedProperties() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/shiporder.xsd" ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "shiporder", "shipto" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "shipto", entity.getAttribute( NAME ) );
+		assertEquals( "", entity.getAttribute( TYPE ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "name", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "address", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "city", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "country", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( property.getNextSibling(), null );
+	}
+
+	public void testDividedNestedProperties() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/shiporder-divided.xsd" ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "shiporder", "shipto" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "shipto", entity.getAttribute( NAME ) );
+		assertEquals( "", entity.getAttribute( TYPE ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "name", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "address", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "city", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "country", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( property.getNextSibling(), null );
+	}
+
+	public void testQuirks() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/quirks.xsd" ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "quirks" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "quirks", entity.getAttribute( TYPE ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "name", property.getAttribute( NAME ) );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
 
 		assertEquals( property.getNextSibling(), null );
 	}
