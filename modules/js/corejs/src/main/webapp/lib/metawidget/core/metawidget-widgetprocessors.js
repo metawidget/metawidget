@@ -14,151 +14,169 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-'use strict';
+/**
+ * @namespace Metawidget for pure JavaScript environments.
+ */
 
 var metawidget = metawidget || {};
 
-/**
- * @namespace WidgetProcessors.
- */
+( function() {
 
-metawidget.widgetprocessor = metawidget.widgetprocessor || {};
+	'use strict';
 
-/**
- * @class WidgetProcessor that sets the HTML 'id' attribute.
- */
+	/**
+	 * @namespace WidgetProcessors.
+	 */
 
-metawidget.widgetprocessor.IdProcessor = function() {
+	metawidget.widgetprocessor = metawidget.widgetprocessor || {};
 
-	if ( ! ( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
-		throw new Error( 'Constructor called as a function' );
-	}
-};
+	/**
+	 * @class WidgetProcessor that sets the HTML 'id' attribute.
+	 */
 
-metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+	metawidget.widgetprocessor.IdProcessor = function() {
 
-	// Dangerous to reassign an id. For example, some JQuery UI widgets assign
-	// temporary ids when they wrap widgets
-
-	if ( !widget.hasAttribute( 'id' )) {
-		var id = metawidget.util.getId( attributes, mw );
-		
-		if ( id !== undefined ) {
-			widget.setAttribute( 'id', id );
+		if ( ! ( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
+			throw new Error( 'Constructor called as a function' );
 		}
-	}
+	};
 
-	return widget;
-};
+	metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
-/**
- * @class WidgetProcessor that sets the HTML 5 'required' attribute.
- */
+		// Dangerous to reassign an id. For example, some JQuery UI widgets
+		// assign
+		// temporary ids when they wrap widgets
 
-metawidget.widgetprocessor.RequiredAttributeProcessor = function() {
+		if ( !widget.hasAttribute( 'id' ) ) {
+			var id = metawidget.util.getId( attributes, mw );
 
-	if ( ! ( this instanceof metawidget.widgetprocessor.RequiredAttributeProcessor ) ) {
-		throw new Error( 'Constructor called as a function' );
-	}
-};
-
-metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, attributes, mw ) {
-
-	if ( attributes.required === 'true' ) {
-		widget.setAttribute( 'required', 'required' );
-	}
-
-	return widget;
-};
-
-/**
- * @class Simple data/action binding implementation. Frameworks that supply their own
- * data-binding mechanisms (such as Angular JS) should override this with their own WidgetProcessor.
- */
-
-metawidget.widgetprocessor.SimpleBindingProcessor = function() {
-
-	if ( ! ( this instanceof metawidget.widgetprocessor.SimpleBindingProcessor ) ) {
-		throw new Error( 'Constructor called as a function' );
-	}
-};
-
-metawidget.widgetprocessor.SimpleBindingProcessor.prototype.onStartBuild = function( mw ) {
-
-	mw._simpleBindingProcessorBindings = {};
-};
-
-metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
-
-	if ( widget.tagName === 'BUTTON' ) {
-		widget.onclick = function() { try { return mw.toInspect[attributes.name](); } catch( e ) { alert( e ); }};
-	} else {
-
-		var value;
-		var typeAndNames = metawidget.util.splitPath( mw.path );
-		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
-
-		if ( attributes._root !== 'true' && toInspect !== undefined ) {
-			value = toInspect[attributes.name];
-		} else {
-			value = toInspect;
-		}
-
-		var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
-
-		if ( isBindable === true && widget.hasAttribute( 'id' ) ) {
-
-			// Standard HTML works off 'name', not 'id', for binding
-
-			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
-		}
-
-		// Check 'not undefined', rather than 'if value', in case value is a boolean of false
-		//
-		// Note: this is a general convention throughout Metawidget, as JavaScript has a
-		// surprisingly large number of 'falsy' values)
-		
-		if ( value !== undefined ) {
-			if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
-				widget.innerHTML = value;
-			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
-				widget.checked = value;
-			} else if ( isBindable === true ) {
-				widget.value = value;
+			if ( id !== undefined ) {
+				widget.setAttribute( 'id', id );
 			}
 		}
 
-		if ( isBindable === true || widget.metawidget !== undefined ) {
-			mw._simpleBindingProcessorBindings[attributes.name] = widget;
+		return widget;
+	};
+
+	/**
+	 * @class WidgetProcessor that sets the HTML 5 'required' attribute.
+	 */
+
+	metawidget.widgetprocessor.RequiredAttributeProcessor = function() {
+
+		if ( ! ( this instanceof metawidget.widgetprocessor.RequiredAttributeProcessor ) ) {
+			throw new Error( 'Constructor called as a function' );
 		}
-	}
+	};
 
-	return widget;
-};
+	metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
-/**
- * Save the bindings associated with the given Metawidget.
- */
-
-metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw ) {
-
-	var typeAndNames = metawidget.util.splitPath( mw.path );
-	var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
-	
-	for ( var name in mw._simpleBindingProcessorBindings ) {
-
-		var widget = mw._simpleBindingProcessorBindings[name];
-
-		if ( widget.metawidget !== undefined ) {
-			this.save( widget.metawidget );
-			continue;
+		if ( attributes.required === 'true' ) {
+			widget.setAttribute( 'required', 'required' );
 		}
 
-		if ( widget.getAttribute( 'type' ) === 'checkbox' ) {
-			toInspect[name] = widget.checked;
-			continue;
+		return widget;
+	};
+
+	/**
+	 * @class Simple data/action binding implementation. Frameworks that supply
+	 *        their own data-binding mechanisms (such as Angular JS) should
+	 *        override this with their own WidgetProcessor.
+	 */
+
+	metawidget.widgetprocessor.SimpleBindingProcessor = function() {
+
+		if ( ! ( this instanceof metawidget.widgetprocessor.SimpleBindingProcessor ) ) {
+			throw new Error( 'Constructor called as a function' );
 		}
-		
-		toInspect[name] = widget.value;
-	}
-};
+	};
+
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.onStartBuild = function( mw ) {
+
+		mw._simpleBindingProcessorBindings = {};
+	};
+
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+
+		if ( widget.tagName === 'BUTTON' ) {
+			widget.onclick = function() {
+
+				try {
+					return mw.toInspect[attributes.name]();
+				} catch ( e ) {
+					alert( e );
+				}
+			};
+		} else {
+
+			var value;
+			var typeAndNames = metawidget.util.splitPath( mw.path );
+			var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
+
+			if ( attributes._root !== 'true' && toInspect !== undefined ) {
+				value = toInspect[attributes.name];
+			} else {
+				value = toInspect;
+			}
+
+			var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
+
+			if ( isBindable === true && widget.hasAttribute( 'id' ) ) {
+
+				// Standard HTML works off 'name', not 'id', for binding
+
+				widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
+			}
+
+			// Check 'not undefined', rather than 'if value', in case value is a
+			// boolean of false
+			//
+			// Note: this is a general convention throughout Metawidget, as
+			// JavaScript has a
+			// surprisingly large number of 'falsy' values)
+
+			if ( value !== undefined ) {
+				if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
+					widget.innerHTML = value;
+				} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
+					widget.checked = value;
+				} else if ( isBindable === true ) {
+					widget.value = value;
+				}
+			}
+
+			if ( isBindable === true || widget.metawidget !== undefined ) {
+				mw._simpleBindingProcessorBindings[attributes.name] = widget;
+			}
+		}
+
+		return widget;
+	};
+
+	/**
+	 * Save the bindings associated with the given Metawidget.
+	 */
+
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw ) {
+
+		var typeAndNames = metawidget.util.splitPath( mw.path );
+		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
+
+		for ( var name in mw._simpleBindingProcessorBindings ) {
+
+			var widget = mw._simpleBindingProcessorBindings[name];
+
+			if ( widget.metawidget !== undefined ) {
+				this.save( widget.metawidget );
+				continue;
+			}
+
+			if ( widget.getAttribute( 'type' ) === 'checkbox' ) {
+				toInspect[name] = widget.checked;
+				continue;
+			}
+
+			toInspect[name] = widget.value;
+		}
+	};
+} )();

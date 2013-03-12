@@ -14,23 +14,26 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-'use strict';
+( function() {
 
-describe( "JQuery UI REST", function() {
+	'use strict';
 
-	it( "tests REST functionality", function() {
+	describe( "JQuery UI REST", function() {
 
-		expect( $( '#save' ).text() ).toBe( 'Save' );
-		expect( $( '#name' ).attr( 'type' ) ).toBe( 'text' );
-		$( '#name' ).val( 'Name1' );
-		expect( $( '#age' ).attr( 'class' ) ).toContain( 'ui-spinner' );
-		$( '#age input' ).val( '42' );
-		
-		$( '#save' ).click();
-		
-		expect( $( '#name' )[0].tagName ).toBe( 'OUTPUT' );
-		expect( $( '#name' ).text() ).toBe( 'Name1' );
-		expect( $( '#age' )[0].tagName ).toBe( 'OUTPUT' );
-		expect( $( '#age' ).text() ).toBe( '42' );
+		it( "tests REST functionality", function() {
+
+			expect( $( '#save' ).text() ).toBe( 'Save' );
+			expect( $( '#name' ).attr( 'type' ) ).toBe( 'text' );
+			$( '#name' ).val( 'Name1' );
+			expect( $( '#age' ).attr( 'class' ) ).toContain( 'ui-spinner' );
+			$( '#age input' ).val( '42' );
+
+			$( '#save' ).click();
+
+			expect( $( '#name' )[0].tagName ).toBe( 'OUTPUT' );
+			expect( $( '#name' ).text() ).toBe( 'Name1' );
+			expect( $( '#age' )[0].tagName ).toBe( 'OUTPUT' );
+			expect( $( '#age' ).text() ).toBe( '42' );
+		} );
 	} );
-} );
+} )();

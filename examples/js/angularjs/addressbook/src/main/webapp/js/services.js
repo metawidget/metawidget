@@ -27,166 +27,169 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-'use strict';
+( function() {
 
-/* Services */
+	'use strict';
 
-angular.module( 'addressBookServices', [] )
+	/* Services */
 
-/**
- * Simulate database.
- */
+	angular.module( 'addressBookServices', [] )
 
-.factory( 'contacts', function( $http ) {
+	/**
+	 * Simulate database.
+	 */
 
-	// Return a promise
+	.factory( 'contacts', function( $http ) {
 
-	return $http.get( 'js/contacts.json' );
-} )
+		// Return a promise
 
-/**
- * App-specific Metawidget configuration.
- */
+		return $http.get( 'js/contacts.json' );
+	} )
 
-.factory( 'metawidgetConfig', function() {
+	/**
+	 * App-specific Metawidget configuration.
+	 */
 
-	return {
+	.factory( 'metawidgetConfig', function() {
 
-		// For the body of the form
+		return {
 
-		form: {
-			inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
+			// For the body of the form
 
-				var contact = [ {
-					"name": "id",
-					"hidden": "true"
-				}, {
-					"name": "title",
-					"lookup": "Mr,Mrs,Miss,Dr,Cpt",
-					"required": "true"
-				}, {
-					"name": "firstname",
-					"type": "string",
-					"required": "true"
-				}, {
-					"name": "surname",
-					"type": "string",
-					"required": "true"
-				}, {
-					"name": "gender",
-					"lookup": "Male,Female"
-				}, {
-					"name": "address",
-					"section": "Contact Details"
-				}, {
-					"name": "communications"
-				}, {
-					"name": "notes",
-					"type": "string",
-					"large": "true",
-					"section": "Other"
-				}, {
-					"name": "type",
-					"hidden": "true"
-				} ];
+			form: {
+				inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
-				var personalContact = contact.slice( 0 );
-				personalContact.splice( 5, 0, {
-					"name": "dateOfBirth",
-					"type": "date"
-				} );
-				var businessContact = contact.slice( 0 );
-				businessContact.splice( 4, 0, {
-					"name": "company",
-					"type": "string"
-				} );
-				businessContact.splice( 8, 0, {
-					"name": "numberOfStaff",
-					"type": "number",
-					"minimumValue": "0",
-					"maximumValue": "100",
-					"section": "Other"
-				} );
+					var contact = [ {
+						"name": "id",
+						"hidden": "true"
+					}, {
+						"name": "title",
+						"lookup": "Mr,Mrs,Miss,Dr,Cpt",
+						"required": "true"
+					}, {
+						"name": "firstname",
+						"type": "string",
+						"required": "true"
+					}, {
+						"name": "surname",
+						"type": "string",
+						"required": "true"
+					}, {
+						"name": "gender",
+						"lookup": "Male,Female"
+					}, {
+						"name": "address",
+						"section": "Contact Details"
+					}, {
+						"name": "communications"
+					}, {
+						"name": "notes",
+						"type": "string",
+						"large": "true",
+						"section": "Other"
+					}, {
+						"name": "type",
+						"hidden": "true"
+					} ];
 
-				switch ( type ) {
-					case 'search':
-						return [ {
-							"name": "firstname"
-						}, {
-							"name": "surname"
-						}, {
-							"name": "type",
-							"lookup": "personal,business",
-							"lookupLabels": "Personal,Business"
-						} ];
+					var personalContact = contact.slice( 0 );
+					personalContact.splice( 5, 0, {
+						"name": "dateOfBirth",
+						"type": "date"
+					} );
+					var businessContact = contact.slice( 0 );
+					businessContact.splice( 4, 0, {
+						"name": "company",
+						"type": "string"
+					} );
+					businessContact.splice( 8, 0, {
+						"name": "numberOfStaff",
+						"type": "number",
+						"minimumValue": "0",
+						"maximumValue": "100",
+						"section": "Other"
+					} );
 
-					case 'current':
-						
-						if ( names === undefined ) {
-							if ( toInspect !== undefined && toInspect.type === 'business' ) {
-								return businessContact;
-							}
-							return personalContact;
-						}
-						
-						if ( names.length === 1 && names[0] === 'address' ) {
+					switch ( type ) {
+						case 'search':
 							return [ {
-								"name": "street",
-								"type": "string"
+								"name": "firstname"
 							}, {
-								"name": "city",
-								"type": "string"
+								"name": "surname"
 							}, {
-								"name": "state",
-								"lookup": "Anytown,Cyberton,Lostville,Whereverton"
-							}, {
-								"name": "postcode",
-								"type": "string"
+								"name": "type",
+								"lookup": "personal,business",
+								"lookupLabels": "Personal,Business"
 							} ];
-						}
-				}
-			}, new metawidget.inspector.PropertyTypeInspector() ] ),
-			layout: new metawidget.layout.HeadingTagLayoutDecorator( {
-				delegate: new metawidget.layout.TableLayout( {
-					"tableStyleClass": "table-form",
-					"columnStyleClasses": [ "table-label-column", "table-component-column", "table-required-column" ],
-					"footerStyleClass": "buttons"
+
+						case 'current':
+
+							if ( names === undefined ) {
+								if ( toInspect !== undefined && toInspect.type === 'business' ) {
+									return businessContact;
+								}
+								return personalContact;
+							}
+
+							if ( names.length === 1 && names[0] === 'address' ) {
+								return [ {
+									"name": "street",
+									"type": "string"
+								}, {
+									"name": "city",
+									"type": "string"
+								}, {
+									"name": "state",
+									"lookup": "Anytown,Cyberton,Lostville,Whereverton"
+								}, {
+									"name": "postcode",
+									"type": "string"
+								} ];
+							}
+					}
+				}, new metawidget.inspector.PropertyTypeInspector() ] ),
+				layout: new metawidget.layout.HeadingTagLayoutDecorator( {
+					delegate: new metawidget.layout.TableLayout( {
+						"tableStyleClass": "table-form",
+						"columnStyleClasses": [ "table-label-column", "table-component-column", "table-required-column" ],
+						"footerStyleClass": "buttons"
+					} )
 				} )
-			} )
-		},
+			},
 
-		// For the button bar
+			// For the button bar
 
-		buttons: {
-			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
+			buttons: {
+				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-				if ( type === 'crudActions' ) {
-					return [ {
-						"name": "edit",
-						"hidden": "{{!readOnly}}"
-					}, {
-						"name": "save",
-						"hidden": "{{readOnly}}"
-					}, {
-						"name": "delete",
-						"hidden": "{{readOnly || !current.id}}"
-					} ];
-				}
-			} ] ),
-			layout: new metawidget.layout.SimpleLayout()
-		},
+					if ( type === 'crudActions' ) {
+						return [ {
+							"name": "edit",
+							"hidden": "{{!readOnly}}"
+						}, {
+							"name": "save",
+							"hidden": "{{readOnly}}"
+						}, {
+							"name": "delete",
+							"hidden": "{{readOnly || !current.id}}"
+						} ];
+					}
+				} ] ),
+				layout: new metawidget.layout.SimpleLayout()
+			},
 
-		simple: {
-			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
+			simple: {
+				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-				if ( type === 'communication' && names.length === 1 && names[0] === 'type' ) {
-					return [ {
-						"_root": 'true',
-						"lookup": "Telephone,Mobile,Fax,E-mail"
-					} ];
-				}
-			} ] ),
-			layout: new metawidget.layout.SimpleLayout()
-		}
-	};
-} );
+					if ( type === 'communication' && names.length === 1 && names[0] === 'type' ) {
+						return [ {
+							"_root": 'true',
+							"lookup": "Telephone,Mobile,Fax,E-mail"
+						} ];
+					}
+				} ] ),
+				layout: new metawidget.layout.SimpleLayout()
+			}
+		};
+	} );
+} )();

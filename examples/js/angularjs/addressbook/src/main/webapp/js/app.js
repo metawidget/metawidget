@@ -27,15 +27,21 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-'use strict';
+( function() {
 
-/* App Module */
+	'use strict';
 
-angular.module( 'addressBook', [ 'metawidget', 'addressBookServices' ])
-  .config(['$routeProvider', function( $routeProvider ) {
-	  $routeProvider.
-      	when('/contact/:contactId', {templateUrl: 'partials/contact-detail.html', controller: ContactController}).
-      	when('', {templateUrl: 'partials/contact-none.html'}).
-      	otherwise({redirectTo: ''});
-  }])
-;
+	/* App Module */
+
+	angular.module( 'addressBook', [ 'metawidget', 'addressBookServices' ] ).config( [ '$routeProvider', function( $routeProvider ) {
+
+		$routeProvider.when( '/contact/:contactId', {
+			templateUrl: 'partials/contact-detail.html',
+			controller: ContactController
+		} ).when( '', {
+			templateUrl: 'partials/contact-none.html'
+		} ).otherwise( {
+			redirectTo: ''
+		} );
+	} ] );
+} )();

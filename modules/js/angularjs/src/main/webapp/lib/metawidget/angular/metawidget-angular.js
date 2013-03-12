@@ -14,491 +14,499 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-'use strict';
+( function() {
 
-/**
- * AngularJS Metawidget module.
- */
-
-angular.module( 'metawidget', [] )
-
-/**
- * Angular directive to expose <tt>metawidget.angular.AngularMetawidget</tt>.
- */
-
-.directive( 'metawidget', [ '$compile', '$parse', function( $compile, $parse ) {
-
-	// Returns the Metawidget
-
-	return {
-
-		/**
-		 * Metawidget is (E)lement level.
-		 */
-
-		restrict: 'E',
-
-		/**
-		 * Metawidget isolated scope.
-		 */
-
-		scope: {
-			ngModel: '=',
-			readOnly: '=',
-			config: '=',
-
-			// Configs cannot be 2-way ('=') because cannot 'watch' arrays
-
-			configs: '&'
-		},
-
-		/**
-		 * Metawidget must transclude, so that transcluded DOM doesn't have to
-		 * reference 'ng-model'.
-		 */
-
-		transclude: true,
-
-		/**
-		 * Angular compile function. Configures an Angular-specific Metawidget
-		 * and invokes buildWidgets on it.
-		 */
-
-		compile: function compile( element, attrs, transclude ) {
-
-			return function( scope, element, attrs ) {
-
-				// Set up an AngularMetawidget
-
-				var mw = new metawidget.angular.AngularMetawidget( element, attrs, transclude, scope, $compile, $parse );
-
-				// Build
-
-				var _oldToInspect = undefined;
-				_buildWidgets();
-
-				// Observe
-
-				scope.$watch( 'ngModel', function( newValue, oldValue ) {
-
-					// Cannot test against mw.toInspect, because is pointed at
-					// the splitPath.type
-					//
-					// Re-inspect for 'undefined becoming defined' and
-					// 'object being updated'. But *not* for 'undefined
-					// becoming primitive, and then primitive being
-					// updated'. Otherwise every keypress will recreate the
-					// widget
-
-					if ( newValue !== _oldToInspect && typeof ( newValue ) === 'object' ) {
-						mw.invalidateInspection();
-						_buildWidgets();
-					}
-				} );
-
-				scope.$watch( 'readOnly', function( newValue, oldValue ) {
-
-					// Test against mw.readOnly, not oldValue, because it may
-					// have been reset already by _buildWidgets
-
-					if ( newValue !== mw.readOnly ) {
-						// Do not mw.invalidateInspection()
-						_buildWidgets();
-					}
-				} );
-
-				scope.$watch( 'config', function( newValue, oldValue ) {
-
-					// Watch for config changes. These are rare, but otherwise
-					// we'd need to provide a way to externally trigger _buildWidgets
-					
-					if ( newValue !== oldValue ) {
-						mw.configure( newValue );
-						_buildWidgets();
-					}
-				} );
-
-				//
-				// Private method
-				//
-
-				function _buildWidgets() {
-
-					_oldToInspect = scope.$eval( 'ngModel' );
-
-					mw.path = attrs.ngModel;
-					mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
-					mw.readOnly = scope.$eval( 'readOnly' );
-					mw.buildWidgets();
-				}
-			};
-		}
-	};
-} ] );
-
-/**
- * @namespace Metawidget for AngularJS environments.
- */
-
-metawidget.angular = metawidget.angular || {};
-
-metawidget.angular.AngularMetawidget = function( element, attrs, transclude, scope, $compile, $parse ) {
-
-	if ( ! ( this instanceof metawidget.angular.AngularMetawidget ) ) {
-		throw new Error( "Constructor called as a function" );
-	}
-
-	// Pipeline (private)
-
-	var _pipeline = new metawidget.Pipeline( element[0] );
-	_pipeline.buildNestedMetawidget = function( attributes, mw ) {
-
-		var nestedMetawidget = document.createElement( 'metawidget' );
-		nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
-		if ( attributes.readOnly === 'true' ) {
-			nestedMetawidget.setAttribute( 'read-only', 'true' );
-		} else {
-			nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
-		}
-		if ( attrs.config !== undefined ) {
-			nestedMetawidget.setAttribute( 'config', attrs.config );
-		}
-
-		return nestedMetawidget;
-	};
-
-	var _lastInspectionResult = undefined;
-
-	this.invalidateInspection = function() {
-
-		_lastInspectionResult = undefined;
-	};
-
-	// Configure defaults
-
-	_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-	_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
-	_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
-			new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-	_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, scope ) ];
-	_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
-
-	this.configure = function( config ) {
-
-		_pipeline.configure( config );
-		this.invalidateInspection();
-	};
-
-	this.configure( scope.$eval( 'config' ) );
-	this.configure( scope.configs() );
-
-	// toInspect, path and readOnly set by _buildWidgets()
-
-	this.buildWidgets = function( inspectionResult ) {
-
-		// Rebuild the transcluded tree at the start of each build.
-		//
-		// Rebuilding only at the start of the <em>initial</em>
-		// build was sufficient for {{...}} expressions, but not
-		// 'ng-click' triggers.
-
-		var cloned = transclude( scope.$parent, function( clone ) {
-
-			return clone;
-		} );
-
-		this.overriddenNodes = [];
-
-		for ( var loop = 0; loop < cloned.length; loop++ ) {
-			var cloneNode = cloned[loop];
-
-			// Must check nodeType *and* other attributes,
-			// because Angular wraps everything (even text
-			// nodes) with a 'span class='ng-scope'' tag
-			//
-			// https://github.com/angular/angular.js/issues/1059
-
-			if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {
-				this.overriddenNodes.push( cloneNode );
-			}
-		}
-
-		// Inspect (if necessary)
-
-		if ( inspectionResult !== undefined ) {
-			_lastInspectionResult = inspectionResult;
-		} else if ( _lastInspectionResult === undefined ) {
-			var splitPath = metawidget.util.splitPath( this.path );
-			_lastInspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
-		}
-
-		// Build widgets
-		
-		_pipeline.buildWidgets( _lastInspectionResult, this );
-	};
+	'use strict';
 
 	/**
-	 * Overridden to inspect unused nodes by evaluating their 'ng-bind'
-	 * or 'ng-model' attribute.
+	 * AngularJS Metawidget module.
 	 */
 
-	this.onEndBuild = function() {
+	angular.module( 'metawidget', [] )
 
-		while ( this.overriddenNodes.length > 0 ) {
+	/**
+	 * Angular directive to expose <tt>metawidget.angular.AngularMetawidget</tt>.
+	 */
 
-			var child = this.overriddenNodes[0];
-			this.overriddenNodes.splice( 0, 1 );
+	.directive( 'metawidget', [ '$compile', '$parse', function( $compile, $parse ) {
 
-			// Unused facets don't count
+		// Returns the Metawidget
 
-			if ( child.tagName === 'FACET' ) {
-				continue;
-			}
+		return {
 
-			var childAttributes = undefined;
+			/**
+			 * Metawidget is (E)lement level.
+			 */
 
-			// Lookup binding attribute (be sure to normalize it)
+			restrict: 'E',
 
-			for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
-				var attribute = child.attributes[loop];
-				var normalizedName = attrs.$normalize( attribute.name );
+			/**
+			 * Metawidget isolated scope.
+			 */
 
-				if ( normalizedName === 'ngBind' || normalizedName === 'ngModel' ) {
-					var splitPath = metawidget.util.splitPath( attribute.value );
-					var toInspect = scope.$parent.$eval( splitPath.type );
-					var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
+			scope: {
+				ngModel: '=',
+				readOnly: '=',
+				config: '=',
 
-					if ( childInspectionResult !== undefined ) {
-						childAttributes = childInspectionResult[0];
+				// Configs cannot be 2-way ('=') because cannot 'watch' arrays
+
+				configs: '&'
+			},
+
+			/**
+			 * Metawidget must transclude, so that transcluded DOM doesn't have
+			 * to reference 'ng-model'.
+			 */
+
+			transclude: true,
+
+			/**
+			 * Angular compile function. Configures an Angular-specific
+			 * Metawidget and invokes buildWidgets on it.
+			 */
+
+			compile: function compile( element, attrs, transclude ) {
+
+				return function( scope, element, attrs ) {
+
+					// Set up an AngularMetawidget
+
+					var mw = new metawidget.angular.AngularMetawidget( element, attrs, transclude, scope, $compile, $parse );
+
+					// Build
+
+					var _oldToInspect = undefined;
+					_buildWidgets();
+
+					// Observe
+
+					scope.$watch( 'ngModel', function( newValue, oldValue ) {
+
+						// Cannot test against mw.toInspect, because is pointed
+						// at
+						// the splitPath.type
+						//
+						// Re-inspect for 'undefined becoming defined' and
+						// 'object being updated'. But *not* for 'undefined
+						// becoming primitive, and then primitive being
+						// updated'. Otherwise every keypress will recreate the
+						// widget
+
+						if ( newValue !== _oldToInspect && typeof ( newValue ) === 'object' ) {
+							mw.invalidateInspection();
+							_buildWidgets();
+						}
+					} );
+
+					scope.$watch( 'readOnly', function( newValue, oldValue ) {
+
+						// Test against mw.readOnly, not oldValue, because it
+						// may
+						// have been reset already by _buildWidgets
+
+						if ( newValue !== mw.readOnly ) {
+							// Do not mw.invalidateInspection()
+							_buildWidgets();
+						}
+					} );
+
+					scope.$watch( 'config', function( newValue, oldValue ) {
+
+						// Watch for config changes. These are rare, but
+						// otherwise
+						// we'd need to provide a way to externally trigger
+						// _buildWidgets
+
+						if ( newValue !== oldValue ) {
+							mw.configure( newValue );
+							_buildWidgets();
+						}
+					} );
+
+					//
+					// Private method
+					//
+
+					function _buildWidgets() {
+
+						_oldToInspect = scope.$eval( 'ngModel' );
+
+						mw.path = attrs.ngModel;
+						mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
+						mw.readOnly = scope.$eval( 'readOnly' );
+						mw.buildWidgets();
 					}
-					
-					break;
-				}
-			}
-
-			// Manually created components default to no section
-
-			if ( childAttributes === undefined ) {
-				childAttributes = {
-					section: ''
 				};
 			}
+		};
+	} ] );
 
-			// Stubs can supply their own metadata (such as 'label')
+	/**
+	 * @namespace Metawidget for AngularJS environments.
+	 */
 
-			if ( child.tagName === 'STUB' ) {
-				for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
-					var prop = child.attributes[loop];
-					childAttributes[prop.nodeName] = prop.nodeValue;
+	metawidget.angular = metawidget.angular || {};
+
+	metawidget.angular.AngularMetawidget = function( element, attrs, transclude, scope, $compile, $parse ) {
+
+		if ( ! ( this instanceof metawidget.angular.AngularMetawidget ) ) {
+			throw new Error( "Constructor called as a function" );
+		}
+
+		// Pipeline (private)
+
+		var _pipeline = new metawidget.Pipeline( element[0] );
+		_pipeline.buildNestedMetawidget = function( attributes, mw ) {
+
+			var nestedMetawidget = document.createElement( 'metawidget' );
+			nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
+			if ( attributes.readOnly === 'true' ) {
+				nestedMetawidget.setAttribute( 'read-only', 'true' );
+			} else {
+				nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
+			}
+			if ( attrs.config !== undefined ) {
+				nestedMetawidget.setAttribute( 'config', attrs.config );
+			}
+
+			return nestedMetawidget;
+		};
+
+		var _lastInspectionResult = undefined;
+
+		this.invalidateInspection = function() {
+
+			_lastInspectionResult = undefined;
+		};
+
+		// Configure defaults
+
+		_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
+		_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
+		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, scope ) ];
+		_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
+
+		this.configure = function( config ) {
+
+			_pipeline.configure( config );
+			this.invalidateInspection();
+		};
+
+		this.configure( scope.$eval( 'config' ) );
+		this.configure( scope.configs() );
+
+		// toInspect, path and readOnly set by _buildWidgets()
+
+		this.buildWidgets = function( inspectionResult ) {
+
+			// Rebuild the transcluded tree at the start of each build.
+			//
+			// Rebuilding only at the start of the <em>initial</em>
+			// build was sufficient for {{...}} expressions, but not
+			// 'ng-click' triggers.
+
+			var cloned = transclude( scope.$parent, function( clone ) {
+
+				return clone;
+			} );
+
+			this.overriddenNodes = [];
+
+			for ( var loop = 0; loop < cloned.length; loop++ ) {
+				var cloneNode = cloned[loop];
+
+				// Must check nodeType *and* other attributes,
+				// because Angular wraps everything (even text
+				// nodes) with a 'span class='ng-scope'' tag
+				//
+				// https://github.com/angular/angular.js/issues/1059
+
+				if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {
+					this.overriddenNodes.push( cloneNode );
 				}
 			}
 
-			_pipeline.layoutWidget( child, childAttributes, _pipeline.element, this );
-		}
-	};
-	
-	/**
-	 * Returns the element this Metawidget is attached to.
-	 */
-	
-	this.getElement = function() {
-		
-		return _pipeline.element;
-	};
-};
+			// Inspect (if necessary)
 
-/**
- * @namespace InspectionResultProcessors for AngularJS environments.
- */
+			if ( inspectionResult !== undefined ) {
+				_lastInspectionResult = inspectionResult;
+			} else if ( _lastInspectionResult === undefined ) {
+				var splitPath = metawidget.util.splitPath( this.path );
+				_lastInspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
+			}
 
-metawidget.angular.inspectionresultprocessor = metawidget.angular.inspectionresultprocessor || {};
+			// Build widgets
 
-/**
- * @class InspectionResultProcessor to evaluate Angular expressions.
- * 
- * @param scope
- *            scope of the Metawidget directive
- * @param buildWidgets
- *            a function to use to rebuild the widgets following a $watch
- * @returns {metawidget.angular.AngularInspectionResultProcessor}
- */
+			_pipeline.buildWidgets( _lastInspectionResult, this );
+		};
 
-metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( scope ) {
+		/**
+		 * Overridden to inspect unused nodes by evaluating their 'ng-bind' or
+		 * 'ng-model' attribute.
+		 */
 
-	if ( ! ( this instanceof metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor ) ) {
-		throw new Error( "Constructor called as a function" );
-	}
+		this.onEndBuild = function() {
 
-	this.processInspectionResult = function( inspectionResult, mw ) {
+			while ( this.overriddenNodes.length > 0 ) {
 
-		for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+				var child = this.overriddenNodes[0];
+				this.overriddenNodes.splice( 0, 1 );
 
-			// For each attribute in the inspection result...
+				// Unused facets don't count
 
-			var attributes = inspectionResult[loop];
-
-			for ( var attribute in attributes ) {
-
-				// ...that looks like an expression...
-
-				var expression = attributes[attribute];
-
-				if ( expression.length < 4 || expression.slice( 0, 2 ) !== '{{' || expression.slice( expression.length - 2, expression.length ) !== '}}' ) {
+				if ( child.tagName === 'FACET' ) {
 					continue;
 				}
 
-				// ...evaluate it...
+				var childAttributes = undefined;
 
-				expression = expression.slice( 2, expression.length - 2 );
-				attributes[attribute] = scope.$parent.$eval( expression ) + '';
+				// Lookup binding attribute (be sure to normalize it)
 
-				// ...and watch it for future changes
+				for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+					var attribute = child.attributes[loop];
+					var normalizedName = attrs.$normalize( attribute.name );
 
-				scope.$parent.$watch( expression, function( newValue, oldValue ) {
+					if ( normalizedName === 'ngBind' || normalizedName === 'ngModel' ) {
+						var splitPath = metawidget.util.splitPath( attribute.value );
+						var toInspect = scope.$parent.$eval( splitPath.type );
+						var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
 
-					if ( newValue !== oldValue ) {
-						mw.buildWidgets();
+						if ( childInspectionResult !== undefined ) {
+							childAttributes = childInspectionResult[0];
+						}
+
+						break;
 					}
-				} );
+				}
+
+				// Manually created components default to no section
+
+				if ( childAttributes === undefined ) {
+					childAttributes = {
+						section: ''
+					};
+				}
+
+				// Stubs can supply their own metadata (such as 'label')
+
+				if ( child.tagName === 'STUB' ) {
+					for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+						var prop = child.attributes[loop];
+						childAttributes[prop.nodeName] = prop.nodeValue;
+					}
+				}
+
+				_pipeline.layoutWidget( child, childAttributes, _pipeline.element, this );
 			}
-		}
+		};
 
-		return inspectionResult;
+		/**
+		 * Returns the element this Metawidget is attached to.
+		 */
+
+		this.getElement = function() {
+
+			return _pipeline.element;
+		};
 	};
-};
-
-/**
- * @namespace WidgetProcessors for AngularJS environments.
- */
-
-metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
-
-/**
- * @class WidgetProcessor to add Angular bindings and validation, and compile
- *        the widget.
- * 
- * @returns {metawidget.angular.AngularWidgetProcessor}
- */
-
-metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, $parse, scope ) {
-
-	if ( ! ( this instanceof metawidget.angular.widgetprocessor.AngularWidgetProcessor ) ) {
-		throw new Error( "Constructor called as a function" );
-	}
 
 	/**
-	 * Special support for multi-select checkboxes.
+	 * @namespace InspectionResultProcessors for AngularJS environments.
 	 */
-	
-	this.updateSelection = function( $event, binding ) {
 
-		// Lookup the bound array (if any)...
-		
-		var selected = scope.$parent.$eval( binding );
+	metawidget.angular.inspectionresultprocessor = metawidget.angular.inspectionresultprocessor || {};
 
-		if ( selected === undefined ) {
-			selected = [];
-			$parse( binding ).assign( scope.$parent, selected );
+	/**
+	 * @class InspectionResultProcessor to evaluate Angular expressions.
+	 * 
+	 * @param scope
+	 *            scope of the Metawidget directive
+	 * @param buildWidgets
+	 *            a function to use to rebuild the widgets following a $watch
+	 * @returns {metawidget.angular.AngularInspectionResultProcessor}
+	 */
+
+	metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( scope ) {
+
+		if ( ! ( this instanceof metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor ) ) {
+			throw new Error( "Constructor called as a function" );
 		}
 
-		// ...and either add our checkbox's value into it...
-		
-		var checkbox = $event.target;
-		var indexOf = selected.indexOf( checkbox.value );
+		this.processInspectionResult = function( inspectionResult, mw ) {
 
-		if ( checkbox.checked === true ) {
-			if ( indexOf === -1 ) {
-				selected.push( checkbox.value );
+			for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+
+				// For each attribute in the inspection result...
+
+				var attributes = inspectionResult[loop];
+
+				for ( var attribute in attributes ) {
+
+					// ...that looks like an expression...
+
+					var expression = attributes[attribute];
+
+					if ( expression.length < 4 || expression.slice( 0, 2 ) !== '{{' || expression.slice( expression.length - 2, expression.length ) !== '}}' ) {
+						continue;
+					}
+
+					// ...evaluate it...
+
+					expression = expression.slice( 2, expression.length - 2 );
+					attributes[attribute] = scope.$parent.$eval( expression ) + '';
+
+					// ...and watch it for future changes
+
+					scope.$parent.$watch( expression, function( newValue, oldValue ) {
+
+						if ( newValue !== oldValue ) {
+							mw.buildWidgets();
+						}
+					} );
+				}
 			}
-			return;
-		}
-		
-		// ...or remove our checkbox's value from it
-		
-		if ( indexOf !== -1 ) {
-			selected.splice( indexOf, 1 );
-		}
+
+			return inspectionResult;
+		};
 	};
 
-	this.processWidget = function( widget, attributes, mw ) {
+	/**
+	 * @namespace WidgetProcessors for AngularJS environments.
+	 */
 
-		// Ignore transcluded widgets. Compiling them again using $compile
-		// seemed to trigger 'ng-click' listeners twice?
+	metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
 
-		if ( widget.overridden !== undefined ) {
-			return widget;
+	/**
+	 * @class WidgetProcessor to add Angular bindings and validation, and
+	 *        compile the widget.
+	 * 
+	 * @returns {metawidget.angular.AngularWidgetProcessor}
+	 */
+
+	metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, $parse, scope ) {
+
+		if ( ! ( this instanceof metawidget.angular.widgetprocessor.AngularWidgetProcessor ) ) {
+			throw new Error( "Constructor called as a function" );
 		}
 
-		// Binding
-		//
-		// Scope the binding to scope.$parent, not scope, so that bindings look
-		// more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
+		/**
+		 * Special support for multi-select checkboxes.
+		 */
 
-		var binding = mw.path;
+		this.updateSelection = function( $event, binding ) {
 
-		if ( attributes._root !== 'true' ) {
-			binding += '.' + attributes.name;
-		}
+			// Lookup the bound array (if any)...
 
-		if ( widget.tagName === 'OUTPUT' ) {
-			if ( attributes.type === 'array' ) {
+			var selected = scope.$parent.$eval( binding );
 
-				// Special support for outputting arrays
-
-				widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
-			} else {
-				widget.setAttribute( 'ng-bind', binding );
+			if ( selected === undefined ) {
+				selected = [];
+				$parse( binding ).assign( scope.$parent, selected );
 			}
 
-		} else if ( widget.tagName === 'BUTTON' ) {
-			widget.setAttribute( 'ng-click', binding + '()' );
-		} else if ( attributes.lookup !== undefined && attributes.lookup !== '' && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
+			// ...and either add our checkbox's value into it...
 
-			// Special support for multi-selects and radio buttons
+			var checkbox = $event.target;
+			var indexOf = selected.indexOf( checkbox.value );
 
-			for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
-				var label = widget.childNodes[loop];
+			if ( checkbox.checked === true ) {
+				if ( indexOf === -1 ) {
+					selected.push( checkbox.value );
+				}
+				return;
+			}
 
-				if ( label.tagName === 'LABEL' && label.childNodes.length === 2 ) {
-					var child = label.childNodes[0];
+			// ...or remove our checkbox's value from it
 
-					if ( child.tagName === 'INPUT' ) {
-						if ( child.getAttribute( 'type' ) === 'radio' ) {
-							child.setAttribute( 'ng-model', binding );
-						} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
-							child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.getAttribute( 'value' ) + "')>=0" );
-							scope.$parent._mwUpdateSelection = this.updateSelection;
-							child.setAttribute( 'ng-click', "_mwUpdateSelection($event,'" + binding + "')" );
+			if ( indexOf !== -1 ) {
+				selected.splice( indexOf, 1 );
+			}
+		};
+
+		this.processWidget = function( widget, attributes, mw ) {
+
+			// Ignore transcluded widgets. Compiling them again using $compile
+			// seemed to trigger 'ng-click' listeners twice?
+
+			if ( widget.overridden !== undefined ) {
+				return widget;
+			}
+
+			// Binding
+			//
+			// Scope the binding to scope.$parent, not scope, so that bindings
+			// look
+			// more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
+
+			var binding = mw.path;
+
+			if ( attributes._root !== 'true' ) {
+				binding += '.' + attributes.name;
+			}
+
+			if ( widget.tagName === 'OUTPUT' ) {
+				if ( attributes.type === 'array' ) {
+
+					// Special support for outputting arrays
+
+					widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
+				} else {
+					widget.setAttribute( 'ng-bind', binding );
+				}
+
+			} else if ( widget.tagName === 'BUTTON' ) {
+				widget.setAttribute( 'ng-click', binding + '()' );
+			} else if ( attributes.lookup !== undefined && attributes.lookup !== '' && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
+
+				// Special support for multi-selects and radio buttons
+
+				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+					var label = widget.childNodes[loop];
+
+					if ( label.tagName === 'LABEL' && label.childNodes.length === 2 ) {
+						var child = label.childNodes[0];
+
+						if ( child.tagName === 'INPUT' ) {
+							if ( child.getAttribute( 'type' ) === 'radio' ) {
+								child.setAttribute( 'ng-model', binding );
+							} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
+								child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.getAttribute( 'value' ) + "')>=0" );
+								scope.$parent._mwUpdateSelection = this.updateSelection;
+								child.setAttribute( 'ng-click', "_mwUpdateSelection($event,'" + binding + "')" );
+							}
 						}
 					}
 				}
+			} else {
+				widget.setAttribute( 'ng-model', binding );
 			}
-		} else {
-			widget.setAttribute( 'ng-model', binding );
-		}
 
-		// Validation
+			// Validation
 
-		if ( attributes.required !== undefined ) {
-			widget.setAttribute( 'ng-required', attributes.required );
-		}
+			if ( attributes.required !== undefined ) {
+				widget.setAttribute( 'ng-required', attributes.required );
+			}
 
-		if ( attributes.minimumLength !== undefined ) {
-			widget.setAttribute( 'ng-minlength', attributes.minimumLength );
-		}
+			if ( attributes.minimumLength !== undefined ) {
+				widget.setAttribute( 'ng-minlength', attributes.minimumLength );
+			}
 
-		if ( attributes.maximumLength !== undefined ) {
-			widget.setAttribute( 'ng-maxlength', attributes.maximumLength );
+			if ( attributes.maximumLength !== undefined ) {
+				widget.setAttribute( 'ng-maxlength', attributes.maximumLength );
 
-			// (maxlength set by WidgetBuilder)
+				// (maxlength set by WidgetBuilder)
 
-			widget.removeAttribute( 'maxlength' );
-		}
+				widget.removeAttribute( 'maxlength' );
+			}
 
-		// Compile so that 'ng-model', 'ng-required' etc become active
-		
-		$compile( widget )( scope.$parent );
+			// Compile so that 'ng-model', 'ng-required' etc become active
 
-		return widget;
+			$compile( widget )( scope.$parent );
+
+			return widget;
+		};
 	};
-};
+} )();
