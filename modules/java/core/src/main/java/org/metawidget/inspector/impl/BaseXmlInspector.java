@@ -610,7 +610,7 @@ public abstract class BaseXmlInspector
 
 		Element elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( topLevelElement );
 
-		if ( namesToInspect == null ) {
+		if ( namesToInspect == null || elementWithNamedChildren == null ) {
 			return new ValueAndDeclaredType( elementWithNamedChildren, declaredType );
 		}
 
@@ -696,18 +696,14 @@ public abstract class BaseXmlInspector
 			declaredType = property.getAttribute( typeAttribute );
 			topLevelElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, declaredType );
 
-			// TODO: test this being null
-
-			elementWithNamedChildren = null;
-
 			if ( topLevelElement == null ) {
-				break;
+				return new ValueAndDeclaredType( null, declaredType );
 			}
 
 			elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( topLevelElement );
 
 			if ( elementWithNamedChildren == null ) {
-				break;
+				return new ValueAndDeclaredType( null, declaredType );
 			}
 		}
 

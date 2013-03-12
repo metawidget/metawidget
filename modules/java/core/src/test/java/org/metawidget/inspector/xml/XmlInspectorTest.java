@@ -663,6 +663,120 @@ public class XmlInspectorTest
 		assertTrue( concurrencyFailures.isEmpty() );
 	}
 
+	public void testTraversalToNullTopLevelElement() {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"Foo\">";
+		xml += "<property name=\"bar\" type=\"Bar\"/>";
+		xml += "<property name=\"baz\" type=\"Baz\"/>";
+		xml += "</entity>";
+		xml += "<entity type=\"Baz\">";
+		xml += "<property name=\"abc\" type=\"Abc\"/>";
+		xml += "</entity>";
+		xml += "<entity type=\"Abc\">";
+		xml += "<property name=\"def\" type=\"Def\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		// Top level
+
+		XmlInspectorConfig config = new XmlInspectorConfig();
+		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "Foo" ) );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "Foo", entity.getAttribute( TYPE ) );
+		assertEquals( 1, entity.getAttributes().getLength() );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( NAME ) );
+		assertEquals( "Bar", property.getAttribute( TYPE ) );
+		assertEquals( 2, property.getAttributes().getLength() );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( NAME ) );
+		assertEquals( "Baz", property.getAttribute( TYPE ) );
+		assertEquals( 2, property.getAttributes().getLength() );
+
+		assertEquals( 2, entity.getChildNodes().getLength() );
+
+		// Missing type
+
+		document = XmlUtils.documentFromString( mInspector.inspect( null, "Foo", "bar" ) );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "bar", entity.getAttribute( NAME ) );
+		assertEquals( "Bar", entity.getAttribute( TYPE ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
+
+		// Missing type after traverse from top
+
+		document = XmlUtils.documentFromString( mInspector.inspect( null, "Foo", "baz" ) );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "baz", entity.getAttribute( NAME ) );
+		assertEquals( "Baz", entity.getAttribute( TYPE ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+		assertEquals( 1, entity.getChildNodes().getLength() );
+
+		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) ) {
+
+			@Override
+			protected Element traverseFromTopLevelTypeToNamedChildren( Element topLevel ) {
+
+				return null;
+			}
+		};
+
+		document = XmlUtils.documentFromString( mInspector.inspect( null, "Foo" ) );
+		assertEquals( null, document );
+
+		document = XmlUtils.documentFromString( mInspector.inspect( null, "Foo", "baz" ) );
+		assertEquals( null, document );
+
+		// Missing type after traverse from top (one level down)
+
+		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		document = XmlUtils.documentFromString( mInspector.inspect( null, "Foo", "baz", "abc" ) );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "abc", entity.getAttribute( NAME ) );
+		assertEquals( "Abc", entity.getAttribute( TYPE ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+		assertEquals( 1, entity.getChildNodes().getLength() );
+
+		mInspector = new XmlInspector( config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) ) {
+
+			@Override
+			protected Element traverseFromTopLevelTypeToNamedChildren( Element topLevel ) {
+
+				if ( "Abc".equals( topLevel.getAttribute( TYPE ))) {
+					return null;
+				}
+
+				return topLevel;
+			}
+		};
+
+		document = XmlUtils.documentFromString( mInspector.inspect( null, "Foo", "baz", "abc" ) );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "abc", entity.getAttribute( NAME ) );
+		assertEquals( "Abc", entity.getAttribute( TYPE ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+		assertEquals( 0, entity.getChildNodes().getLength() );
+	}
+
 	//
 	// Inner class
 	//
