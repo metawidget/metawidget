@@ -27,13 +27,37 @@ import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
 
 /**
- * Inspector to look for metadata in XML Schema files.
+ * Inspector to look for metadata in XML Schema (XSD) files.
  *
  * @author Richard Kennard
  */
 
 public class XmlSchemaInspector
 	extends BaseXmlInspector {
+
+	//
+	// Private statics
+	//
+
+	private static final String	COMPLEX_TYPE	= "complexType";
+
+	private static final String	SIMPLE_TYPE		= "simpleType";
+
+	private static final String	COMPLEX_CONTENT	= "complexContent";
+
+	private static final String	SIMPLE_CONTENT	= "simpleContent";
+
+	private static final String	REF				= "ref";
+
+	private static final String	BASE			= "base";
+
+	private static final String	SEQUENCE		= "sequence";
+
+	private static final String	EXTENSION		= "extension";
+
+	private static final String	RESTRICTION		= "restriction";
+
+	private static final String	VALUE			= "value";
 
 	//
 	// Constructor
@@ -61,7 +85,7 @@ public class XmlSchemaInspector
 	@Override
 	protected String getReferenceAttribute() {
 
-		return "ref";
+		return REF;
 	}
 
 	@Override
@@ -71,7 +95,7 @@ public class XmlSchemaInspector
 
 		Element complexType;
 
-		if ( "complexType".equals( topLevel.getLocalName() )) {
+		if ( COMPLEX_TYPE.equals( topLevel.getLocalName() ) ) {
 
 			complexType = topLevel;
 
@@ -81,20 +105,20 @@ public class XmlSchemaInspector
 
 			if ( complexType == null ) {
 
-				if ( !topLevel.hasAttribute( "type" )) {
+				if ( !topLevel.hasAttribute( TYPE ) ) {
 					return null;
 				}
 
 				// Top-level elements can be empty and just pointed to a top-level complexType
 
-				complexType = XmlUtils.getChildWithAttributeValue( topLevel.getOwnerDocument().getDocumentElement(), "name", topLevel.getAttribute( "type" ) );
+				complexType = XmlUtils.getChildWithAttributeValue( topLevel.getOwnerDocument().getDocumentElement(), NAME, topLevel.getAttribute( TYPE ) );
 
 				if ( complexType == null ) {
 					return null;
 				}
 			}
 
-			if ( !"complexType".equals( complexType.getLocalName() ) ) {
+			if ( !COMPLEX_TYPE.equals( complexType.getLocalName() ) ) {
 				throw InspectorException.newException( "Unexpected child node '" + complexType.getLocalName() + "'" );
 			}
 		}
@@ -107,11 +131,55 @@ public class XmlSchemaInspector
 			return null;
 		}
 
-		if ( !"sequence".equals( sequence.getLocalName() ) ) {
+		if ( !SEQUENCE.equals( sequence.getLocalName() ) && !COMPLEX_CONTENT.equals( sequence.getLocalName() ) ) {
 			throw InspectorException.newException( "Unexpected child node '" + sequence.getLocalName() + "'" );
 		}
 
 		return sequence;
+	}
+
+	@Override
+	protected void inspectTraits( Element toInspect, Element toAddTo ) {
+
+		Element toInspectToUse = toInspect;
+
+		// Inherited type
+
+		if ( COMPLEX_CONTENT.equals( toInspectToUse.getLocalName() ) ) {
+
+			toInspectToUse = XmlUtils.getChildNamed( toInspectToUse, "extension" );
+
+			if ( toInspectToUse == null ) {
+				throw InspectorException.newException( "Expected complexContent to have an extension" );
+			}
+
+			String base = toInspectToUse.getAttribute( BASE );
+
+			if ( base == null ) {
+				throw InspectorException.newException( "Expected extension to have a base" );
+			}
+
+			// Look up the base element...
+
+			Element baseElement = XmlUtils.getChildWithAttributeValue( toInspectToUse.getOwnerDocument().getDocumentElement(), getTopLevelTypeAttribute(), base );
+			Element baseSequence = XmlUtils.getFirstChildElement( baseElement );
+
+			if ( !SEQUENCE.equals( baseSequence.getLocalName() ) ) {
+				throw InspectorException.newException( "Unexpected child node '" + baseSequence.getLocalName() + "'" );
+			}
+
+			inspectTraits( baseSequence, toAddTo );
+
+			// ...then continue with our own sequence
+
+			toInspectToUse = XmlUtils.getFirstChildElement( toInspectToUse );
+
+			if ( !SEQUENCE.equals( toInspectToUse.getLocalName() ) ) {
+				throw InspectorException.newException( "Unexpected child node '" + toInspectToUse.getLocalName() + "'" );
+			}
+		}
+
+		super.inspectTraits( toInspectToUse, toAddTo );
 	}
 
 	@Override
@@ -123,28 +191,115 @@ public class XmlSchemaInspector
 
 		Element toInspectToUse = toInspect;
 
-		if ( toInspectToUse.hasAttribute( "ref" )) {
-			String name = toInspectToUse.getAttribute( "ref" );
+		if ( toInspectToUse.hasAttribute( REF ) ) {
+			String name = toInspectToUse.getAttribute( REF );
 			attributes.put( NAME, name );
 			toInspectToUse = XmlUtils.getChildWithAttributeValue( toInspectToUse.getOwnerDocument().getDocumentElement(), getTopLevelTypeAttribute(), name );
 		} else {
 			attributes.put( NAME, toInspectToUse.getAttribute( NAME ) );
 		}
 
+		inspectElement( toInspectToUse, attributes );
+		return attributes;
+	}
+
+	//
+	// Private methods
+	//
+
+	private void inspectElement( Element element, Map<String, String> attributes ) {
+
 		// Type
 
-		if ( toInspectToUse.hasAttribute( TYPE ) ) {
-			attributes.put( TYPE, toInspectToUse.getAttribute( TYPE ) );
+		if ( element.hasAttribute( TYPE ) ) {
+			attributes.put( TYPE, element.getAttribute( TYPE ) );
+		} else {
+
+			// Type inferred from complexType or simpleType
+
+			Element complexType = XmlUtils.getChildNamed( element, COMPLEX_TYPE );
+
+			if ( complexType != null ) {
+				Element simpleContent = XmlUtils.getChildNamed( complexType, SIMPLE_CONTENT );
+
+				if ( simpleContent != null ) {
+					inspectExtension( simpleContent, attributes );
+					inspectRestriction( simpleContent, attributes );
+				}
+			} else {
+
+				Element simpleType = XmlUtils.getChildNamed( element, SIMPLE_TYPE );
+
+				if ( simpleType != null ) {
+					inspectRestriction( simpleType, attributes );
+				}
+			}
 		}
 
 		// Required
 
-		String notNull = toInspectToUse.getAttribute( "minOccurs" );
+		String notNull = element.getAttribute( "minOccurs" );
 
 		if ( !"".equals( notNull ) && Integer.parseInt( notNull ) > 0 ) {
 			attributes.put( REQUIRED, TRUE );
 		}
+	}
 
-		return attributes;
+	private void inspectExtension( Element parent, Map<String, String> attributes ) {
+
+		Element extension = XmlUtils.getChildNamed( parent, EXTENSION );
+
+		if ( extension == null ) {
+			return;
+		}
+
+		attributes.put( TYPE, extension.getAttribute( BASE ) );
+	}
+
+	private void inspectRestriction( Element parent, Map<String, String> attributes ) {
+
+		Element restriction = XmlUtils.getChildNamed( parent, RESTRICTION );
+
+		if ( restriction == null ) {
+			return;
+		}
+
+		attributes.put( TYPE, restriction.getAttribute( BASE ) );
+
+		// Minimum/maximum length
+
+		Element minLength = XmlUtils.getChildNamed( restriction, "minLength" );
+
+		if ( minLength != null ) {
+			attributes.put( MINIMUM_LENGTH, minLength.getAttribute( VALUE ) );
+		}
+
+		Element maxLength = XmlUtils.getChildNamed( restriction, "maxLength" );
+
+		if ( maxLength != null ) {
+			attributes.put( MAXIMUM_LENGTH, maxLength.getAttribute( VALUE ) );
+		}
+
+		// Minimum/maximum value
+
+		Element minInclusive = XmlUtils.getChildNamed( restriction, "minInclusive" );
+
+		if ( minInclusive != null ) {
+			attributes.put( MINIMUM_VALUE, minInclusive.getAttribute( VALUE ) );
+		}
+
+		Element maxInclusive = XmlUtils.getChildNamed( restriction, "maxInclusive" );
+
+		if ( maxInclusive != null ) {
+			attributes.put( MAXIMUM_VALUE, maxInclusive.getAttribute( VALUE ) );
+		}
+
+		// Fraction digits
+
+		Element fractionDigits = XmlUtils.getChildNamed( restriction, "fractionDigits" );
+
+		if ( fractionDigits != null ) {
+			attributes.put( MAXIMUM_FRACTIONAL_DIGITS, fractionDigits.getAttribute( VALUE ) );
+		}
 	}
 }

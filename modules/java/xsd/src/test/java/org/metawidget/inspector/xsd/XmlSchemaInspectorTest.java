@@ -259,6 +259,100 @@ public class XmlSchemaInspectorTest
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "age", property.getAttribute( NAME ) );
+		assertEquals( "xs:integer", property.getAttribute( TYPE ) );
+		assertEquals( "0", property.getAttribute( MINIMUM_VALUE ) );
+		assertEquals( "100", property.getAttribute( MAXIMUM_VALUE ) );
+		assertEquals( property.getAttributes().getLength(), 4 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "dollars", property.getAttribute( NAME ) );
+		assertEquals( "xs:integer", property.getAttribute( TYPE ) );
+		assertEquals( "2", property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) );
+		assertEquals( property.getAttributes().getLength(), 3 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "password", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( "5", property.getAttribute( MINIMUM_LENGTH ) );
+		assertEquals( "8", property.getAttribute( MAXIMUM_LENGTH ) );
+		assertEquals( property.getAttributes().getLength(), 4 );
+
+		assertEquals( property.getNextSibling(), null );
+	}
+
+	public void testInheritance() {
+
+		// Supertype
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/personinfo.xsd" ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "personinfo" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "personinfo", entity.getAttribute( TYPE ) );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "firstname", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "lastname", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( property.getNextSibling(), null );
+
+		// Subtype
+
+		inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/personinfo.xsd" ) ) );
+		document = XmlUtils.documentFromString( inspector.inspect( null, "fullpersoninfo" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "fullpersoninfo", entity.getAttribute( TYPE ) );
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "firstname", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "lastname", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "address", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "city", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "country", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
 		assertEquals( property.getNextSibling(), null );
 	}
 

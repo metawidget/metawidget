@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Inspectors: XML Schema (XSD) support.
+ * Inspectors: Web Services Description Language (WSDL) support.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.inspector.xsd;
+package org.metawidget.inspector.wsdl;

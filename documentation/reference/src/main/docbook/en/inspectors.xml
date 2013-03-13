@@ -1173,6 +1173,24 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				
 			</section>
 
+			<section id="section-inspectors-xml-xsdinspector">
+				<title>XmlSchemaInspector</title>
+				
+				<para>
+					<classname>XmlSchemaInspector</classname> inspects XML Schema (XSD) files.
+				</para>
+				
+			</section>
+
+			<section id="section-inspectors-xml-wsdlinspector">
+				<title>WsdlInspector</title>
+				
+				<para>
+					<classname>WsdlInspector</classname> inspects Web Services Description Language (WSDL) files.
+				</para>
+				
+			</section>
+
 		</section>
 
 	</chapter>

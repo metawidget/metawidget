@@ -37,6 +37,7 @@
 		<module>swing</module>
 		<module>swt</module>
 		<module>vaadin</module>
+		<module>wsdl</module>
 		<module>xsd</module>
 	</modules>
 

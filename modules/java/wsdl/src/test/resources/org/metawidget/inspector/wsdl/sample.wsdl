@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns="http://www.w3.org/ns/wsdl" xmlns:tns="http://www.tmsws.com/wsdl20sample" xmlns:whttp="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsoap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://www.tmsws.com/wsdl20sample">
+
+	<!-- Abstract type -->
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.tmsws.com/wsdl20sample" targetNamespace="http://www.example.com/wsdl20sample">
+
+			<xs:element name="request">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="header" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="name" type="xs:string" use="required" />
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="body" type="xs:anyType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="method" type="xs:string" use="required" />
+					<xs:attribute name="uri" type="xs:anyURI" use="required" />
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="response">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="header" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="name" use="required" />
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="body" type="xs:anyType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="status-code" type="xs:anySimpleType" use="required" />
+					<xs:attribute name="response-phrase" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</types>
+
+	<!-- Abstract interfaces -->
+	<interface name="RESTfulInterface">
+		<fault name="ClientError" element="tns:response" />
+		<fault name="ServerError" element="tns:response" />
+		<fault name="Redirection" element="tns:response" />
+		<operation name="Get" pattern="http://www.w3.org/ns/wsdl/in-out">
+			<input messageLabel="In" element="tns:request" />
+			<output messageLabel="Out" element="tns:response" />
+		</operation>
+		<operation name="Post" pattern="http://www.w3.org/ns/wsdl/in-out">
+			<input messageLabel="In" element="tns:request" />
+			<output messageLabel="Out" element="tns:response" />
+		</operation>
+		<operation name="Put" pattern="http://www.w3.org/ns/wsdl/in-out">
+			<input messageLabel="In" element="tns:request" />
+			<output messageLabel="Out" element="tns:response" />
+		</operation>
+		<operation name="Delete" pattern="http://www.w3.org/ns/wsdl/in-out">
+			<input messageLabel="In" element="tns:request" />
+			<output messageLabel="Out" element="tns:response" />
+		</operation>
+	</interface>
+
+	<!-- Concrete Binding Over HTTP -->
+	<binding name="RESTfulInterfaceHttpBinding" interface="tns:RESTfulInterface" type="http://www.w3.org/ns/wsdl/http">
+		<operation ref="tns:Get" whttp:method="GET" />
+		<operation ref="tns:Post" whttp:method="POST" whttp:inputSerialization="application/x-www-form-urlencoded" />
+		<operation ref="tns:Put" whttp:method="PUT" whttp:inputSerialization="application/x-www-form-urlencoded" />
+		<operation ref="tns:Delete" whttp:method="DELETE" />
+	</binding>
+
+	<!-- Concrete Binding with SOAP -->
+	<binding name="RESTfulInterfaceSoapBinding" interface="tns:RESTfulInterface" type="http://www.w3.org/ns/wsdl/soap" wsoap:protocol="http://www.w3.org/2003/05/soap/bindings/HTTP/" wsoap:mepDefault="http://www.w3.org/2003/05/soap/mep/request-response">
+		<operation ref="tns:Get" />
+		<operation ref="tns:Post" />
+		<operation ref="tns:Put" />
+		<operation ref="tns:Delete" />
+	</binding>
+
+
+	<!-- Web Service offering endpoints for both bindings -->
+	<service name="RESTfulService" interface="tns:RESTfulInterface">
+		<endpoint name="RESTfulServiceHttpEndpoint" binding="tns:RESTfulInterfaceHttpBinding" address="http://www.example.com/rest/" />
+		<endpoint name="RESTfulServiceSoapEndpoint" binding="tns:RESTfulInterfaceSoapBinding" address="http://www.example.com/soap/" />
+	</service>
+</description>

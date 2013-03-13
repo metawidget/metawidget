@@ -265,6 +265,7 @@
 								<li>Scala</li>
 								<li>Seam</li>
 								<li>Swing AppFramework</li>
+								<li>Web Services Description Language (WSDL)</li>
 								<li>XML Schema (XSD)</li>
 								<li><a href="contributing.php">...help us add more!</a></li>
 							</ul>

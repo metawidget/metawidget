@@ -5,6 +5,29 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="name" minOccurs="1" />
+				<xs:element name="age">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="0" />
+							<xs:maxInclusive value="100" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dollars">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:fractionDigits value="2" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="password">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="5" />
+							<xs:maxLength value="8" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
