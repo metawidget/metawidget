@@ -14,37 +14,33 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-( function() {
+/* Controllers */
+
+function RestTestController( $scope, $http ) {
 
 	'use strict';
 
-	/* Controllers */
+	$scope.numberOfRestCalls = 0;
 
-	function RestTestController( $scope, $http ) {
+	$scope.restTest = {
+		"save": function() {
 
-		$scope.numberOfRestCalls = 0;
+			$scope.readOnly = true;
+		}
+	};
 
-		$scope.restTest = {
-			"save": function() {
+	$scope.metawidgetConfig = {
 
-				$scope.readOnly = true;
-			}
-		};
+		inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
 
-		$scope.metawidgetConfig = {
+			// Shouldn't get called again when we reset 'readOnly'
 
-			inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
+			$http.get( 'rest/metadata/get' ).then( function( result ) {
 
-				// Shouldn't get called again when we reset 'readOnly'
-
-				$http.get( 'rest/metadata/get' ).then( function( result ) {
-
-					inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
-					$scope.numberOfRestCalls++;
-					mw.buildWidgets( inspectionResult );
-				} );
-			} ]
-		};
-	}
-	;
-} )();
+				inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
+				$scope.numberOfRestCalls++;
+				mw.buildWidgets( inspectionResult );
+			} );
+		} ]
+	};
+}

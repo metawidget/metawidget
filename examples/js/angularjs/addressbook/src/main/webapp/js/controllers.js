@@ -27,202 +27,201 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-( function() {
+/* Controllers */
+
+function ContactsController( $scope, $location, contacts, metawidgetConfig ) {
 
 	'use strict';
 
-	/* Controllers */
+	// Load all contacts
 
-	function ContactsController( $scope, $location, contacts, metawidgetConfig ) {
+	contacts.then( function( result ) {
 
-		// Load all contacts
+		$scope.contacts = result.data;
+	} );
 
-		contacts.then( function( result ) {
+	// Prepare search boxes
 
-			$scope.contacts = result.data;
-		} );
+	$scope.metawidgetConfig = metawidgetConfig;
+	$scope.search = {
+		firstname: '',
+		surname: '',
+		type: ''
+	};
 
-		// Prepare search boxes
+	$scope.searchActions = {
 
-		$scope.metawidgetConfig = metawidgetConfig;
-		$scope.search = {
-			firstname: '',
-			surname: '',
-			type: ''
-		};
+		// Copy search criteria into Angular filter
 
-		$scope.searchActions = {
+		search: function() {
 
-			// Copy search criteria into Angular filter
-
-			search: function() {
-
-				$scope.filter = {};
-				if ( $scope.search.firstname !== '' ) {
-					$scope.filter.firstname = $scope.search.firstname;
-				}
-				if ( $scope.search.surname !== '' ) {
-					$scope.filter.surname = $scope.search.surname;
-				}
-				if ( $scope.search.type !== '' ) {
-					$scope.filter.type = $scope.search.type;
-				}
-			},
-
-			createPersonal: function() {
-
-				$location.path( '/contact/personal' );
-			},
-
-			createBusiness: function() {
-
-				$location.path( '/contact/business' );
+			$scope.filter = {};
+			if ( $scope.search.firstname !== '' ) {
+				$scope.filter.firstname = $scope.search.firstname;
 			}
-		};
+			if ( $scope.search.surname !== '' ) {
+				$scope.filter.surname = $scope.search.surname;
+			}
+			if ( $scope.search.type !== '' ) {
+				$scope.filter.type = $scope.search.type;
+			}
+		},
+
+		createPersonal: function() {
+
+			$location.path( '/contact/personal' );
+		},
+
+		createBusiness: function() {
+
+			$location.path( '/contact/business' );
+		}
+	};
+}
+
+function ContactController( $scope, $routeParams, $location, contacts, metawidgetConfig ) {
+
+	'use strict';
+
+	// Constructor
+
+	switch ( $routeParams.contactId ) {
+		case 'personal':
+		case 'business':
+			$scope.readOnly = false;
+			$scope.current = {};
+			$scope.current.title = "Mr";
+			$scope.current.type = $routeParams.contactId;
+			if ( $scope.current.type === 'personal' ) {
+				$scope.dialogTitle = 'Personal Contact';
+			} else {
+				$scope.dialogTitle = 'Business Contact';
+			}
+			break;
+
+		default:
+			$scope.readOnly = true;
+			contacts.then( function( result ) {
+
+				var contactId = parseInt( $routeParams.contactId );
+
+				for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
+					if ( result.data[loop].id === contactId ) {
+						// Return a copy of the entry, in case the user hits
+						// cancel
+						$scope.current = angular.fromJson( angular.toJson( result.data[loop] ) );
+						$scope.dialogTitle = $scope.current.title + ' ' + $scope.current.firstname + ' ' + $scope.current.surname + ' - ';
+
+						if ( $scope.current.type === 'personal' ) {
+							$scope.dialogTitle += 'Personal Contact';
+						} else {
+							$scope.dialogTitle += 'Business Contact';
+						}
+						break;
+					}
+				}
+			} );
 	}
 
-	function ContactController( $scope, $routeParams, $location, contacts, metawidgetConfig ) {
+	$scope.metawidgetConfig = metawidgetConfig;
 
-		// Constructor
+	// CRUD operations
 
-		switch ( $routeParams.contactId ) {
-			case 'personal':
-			case 'business':
-				$scope.readOnly = false;
-				$scope.current = {};
-				$scope.current.title = "Mr";
-				$scope.current.type = $routeParams.contactId;
-				if ( $scope.current.type === 'personal' ) {
-					$scope.dialogTitle = 'Personal Contact';
-				} else {
-					$scope.dialogTitle = 'Business Contact';
-				}
-				break;
+	$scope.crudActions = {
 
-			default:
-				$scope.readOnly = true;
-				contacts.then( function( result ) {
+		edit: function() {
 
-					var contactId = parseInt( $routeParams.contactId );
+			$scope.readOnly = false;
+		},
 
+		save: function() {
+
+			if ( $scope.current.firstname === undefined ) {
+				alert( 'Firstname is required' );
+				return;
+			}
+
+			if ( $scope.current.surname === undefined ) {
+				alert( 'Surname is required' );
+				return;
+			}
+
+			contacts.then( function( result ) {
+
+				if ( $scope.current.id === undefined ) {
+
+					// Save new
+
+					var nextId = 0;
 					for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
-						if ( result.data[loop].id === contactId ) {
-							// Return a copy of the entry, in case the user hits
-							// cancel
-							$scope.current = angular.fromJson( angular.toJson( result.data[loop] ) );
-							$scope.dialogTitle = $scope.current.title + ' ' + $scope.current.firstname + ' ' + $scope.current.surname + ' - ';
-
-							if ( $scope.current.type === 'personal' ) {
-								$scope.dialogTitle += 'Personal Contact';
-							} else {
-								$scope.dialogTitle += 'Business Contact';
-							}
-							break;
+						if ( result.data[loop].id > nextId ) {
+							nextId = result.data[loop].id;
 						}
 					}
-				} );
-		}
+					$scope.current.id = nextId + 1;
+					result.data.push( $scope.current );
+				} else {
 
-		$scope.metawidgetConfig = metawidgetConfig;
-
-		// CRUD operations
-
-		$scope.crudActions = {
-
-			edit: function() {
-
-				$scope.readOnly = false;
-			},
-
-			save: function() {
-
-				if ( $scope.current.firstname === undefined ) {
-					alert( 'Firstname is required' );
-					return;
-				}
-
-				if ( $scope.current.surname === undefined ) {
-					alert( 'Surname is required' );
-					return;
-				}
-
-				contacts.then( function( result ) {
-
-					if ( $scope.current.id === undefined ) {
-
-						// Save new
-
-						var nextId = 0;
-						for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
-							if ( result.data[loop].id > nextId ) {
-								nextId = result.data[loop].id;
-							}
-						}
-						$scope.current.id = nextId + 1;
-						result.data.push( $scope.current );
-					} else {
-
-						// Update existing
-
-						for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
-							if ( result.data[loop].id === $scope.current.id ) {
-								result.data.splice( loop, 1, $scope.current );
-								break;
-							}
-						}
-					}
-					$location.path( '' );
-				} );
-			},
-
-			"delete": function() {
-
-				contacts.then( function( result ) {
+					// Update existing
 
 					for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
 						if ( result.data[loop].id === $scope.current.id ) {
-							result.data.splice( loop, 1 );
+							result.data.splice( loop, 1, $scope.current );
 							break;
 						}
 					}
-					$location.path( '' );
-				} );
-			},
-
-			cancel: function() {
-
+				}
 				$location.path( '' );
-			}
-		};
+			} );
+		},
 
-		// Communications table
+		"delete": function() {
 
-		$scope.communication = {
-			type: "",
-			value: ""
-		};
+			contacts.then( function( result ) {
 
-		$scope.addCommunication = function() {
+				for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
+					if ( result.data[loop].id === $scope.current.id ) {
+						result.data.splice( loop, 1 );
+						break;
+					}
+				}
+				$location.path( '' );
+			} );
+		},
 
-			if ( $scope.communication.type === '' ) {
-				alert( 'Communication type is required' );
-				return;
-			}
+		cancel: function() {
 
-			if ( $scope.communication.value === '' ) {
-				alert( 'Communication value is required' );
-				return;
-			}
+			$location.path( '' );
+		}
+	};
 
-			$scope.current.communications = $scope.current.communications || [];
-			$scope.current.communications.push( angular.fromJson( angular.toJson( $scope.communication ) ) );
-			$scope.communication.type = '';
-			$scope.communication.value = '';
-		};
+	// Communications table
 
-		$scope.removeCommunication = function( index ) {
+	$scope.communication = {
+		type: "",
+		value: ""
+	};
 
-			$scope.current.communications.splice( index, 1 );
-		};
-	}
-} )();
+	$scope.addCommunication = function() {
+
+		if ( $scope.communication.type === '' ) {
+			alert( 'Communication type is required' );
+			return;
+		}
+
+		if ( $scope.communication.value === '' ) {
+			alert( 'Communication value is required' );
+			return;
+		}
+
+		$scope.current.communications = $scope.current.communications || [];
+		$scope.current.communications.push( angular.fromJson( angular.toJson( $scope.communication ) ) );
+		$scope.communication.type = '';
+		$scope.communication.value = '';
+	};
+
+	$scope.removeCommunication = function( index ) {
+
+		$scope.current.communications.splice( index, 1 );
+	};
+}

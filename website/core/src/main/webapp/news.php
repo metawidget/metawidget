@@ -15,7 +15,8 @@
 		</p>
 		
 		<ul>
-			<li>Xml Schema (XSD) support</li>
+			<li>XML Schema (XSD) support</li>
+			<li>Improvements to pure JavaScript, JQuery UI and Angular JS Metawidgets</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

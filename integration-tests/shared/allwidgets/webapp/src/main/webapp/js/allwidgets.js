@@ -26,7 +26,7 @@ var metawidget = metawidget || {};
 
 	metawidget.test = metawidget.test || {};
 
-	var allWidgets = {
+	metawidget.test.allWidgets = {
 		textbox: "Textbox",
 		limitedTextbox: "Limited Textbox",
 		textarea: "Textarea",
