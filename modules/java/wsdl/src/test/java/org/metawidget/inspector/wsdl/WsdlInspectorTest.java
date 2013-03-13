@@ -74,7 +74,7 @@ public class WsdlInspectorTest
 		try {
 			new WsdlInspector( new XmlSchemaInspectorConfig().setInputStream( new ByteArrayInputStream( wsdl.getBytes() ) ) );
 		} catch ( Exception e ) {
-			assertEquals( "No schema element", e.getMessage() );
+			assertEquals( "No types/schema element", e.getMessage() );
 		}
 	}
 

@@ -27,6 +27,9 @@ import org.w3c.dom.Element;
 
 /**
  * Inspector to look for metadata in Web Services Description Language (WSDL) files.
+ * <p>
+ * It extracts the XML Schema from the <parameter>&lt;schema&gt;</parameter> element of the WSDL and
+ * parses it for useful metadata.
  *
  * @author Richard Kennard
  */
@@ -65,7 +68,7 @@ public class WsdlInspector
 		Element schema = XmlUtils.getChildNamed( types, "schema" );
 
 		if ( schema == null ) {
-			throw InspectorException.newException( "No schema element" );
+			throw InspectorException.newException( "No types/schema element" );
 		}
 
 		return schema;

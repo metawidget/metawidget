@@ -1186,7 +1186,9 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				<title>WsdlInspector</title>
 				
 				<para>
-					<classname>WsdlInspector</classname> inspects Web Services Description Language (WSDL) files.
+					<classname>WsdlInspector</classname> inspects Web Services Description Language (WSDL) files. It extracts
+					the XML Schema from the <parameter>&lt;schema&gt;</parameter> element of the WSDL and parses it for
+					useful metadata.
 				</para>
 				
 			</section>
