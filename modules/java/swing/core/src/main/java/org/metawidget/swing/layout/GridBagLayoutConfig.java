@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.simple.ObjectUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Configures a GridBagLayout prior to use. Once instantiated, Layouts are immutable.
@@ -46,7 +47,7 @@ public class GridBagLayoutConfig {
 
 	private boolean	mSupportMnemonics	= true;
 
-	private String	mLabelSuffix		= ":";
+	private String	mLabelSuffix		= StringUtils.SEPARATOR_COLON;
 
 	private int		mRequiredAlignment	= SwingConstants.CENTER;
 

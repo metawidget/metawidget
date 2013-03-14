@@ -98,7 +98,7 @@ public class BeansBindingProcessor
 		registerConverter( Double.class, String.class, new NumberConverter<Double>( Double.class ) );
 		registerConverter( Boolean.class, String.class, new BooleanConverter() );
 
-		// Custom converters
+		// Custom converters (defensive copy)
 
 		if ( config.getConverters() != null ) {
 			mConverters.putAll( config.getConverters() );

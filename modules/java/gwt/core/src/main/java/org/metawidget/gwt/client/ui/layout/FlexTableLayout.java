@@ -158,7 +158,7 @@ public class FlexTableLayout
 
 			// Note: GWT Labels are not real HTML labels, and have no 'for' attribute
 
-			Label label = new Label( labelText + ":" );
+			Label label = new Label( labelText + StringUtils.SEPARATOR_COLON );
 			String styleName = getStyleName( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED, metawidget );
 
 			if ( styleName != null ) {

@@ -42,7 +42,7 @@ public class GridLayoutConfig {
 
 	private Font	mLabelFont;
 
-	private String	mLabelSuffix		= ":";
+	private String	mLabelSuffix		= StringUtils.SEPARATOR_COLON;
 
 	private int		mRequiredAlignment	= SWT.CENTER;
 

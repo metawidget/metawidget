@@ -72,7 +72,7 @@ public abstract class HtmlLayout
 
 		String labelText = metawidget.getLabelString( attributes );
 		if ( labelText != null && labelText.length() > 0 ) {
-			label.setTextContent( labelText + ":" );
+			label.setTextContent( labelText + StringUtils.SEPARATOR_COLON );
 		}
 
 		return label;

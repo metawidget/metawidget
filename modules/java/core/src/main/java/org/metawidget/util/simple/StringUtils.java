@@ -49,6 +49,10 @@ public final class StringUtils {
 
 	public static final String	SEPARATOR_COMMA					= String.valueOf( SEPARATOR_COMMA_CHAR );
 
+	public static final char	SEPARATOR_COLON_CHAR			= ':';
+
+	public static final String	SEPARATOR_COLON					= String.valueOf( SEPARATOR_COLON_CHAR );
+
 	public static final String	RESOURCE_KEY_NOT_FOUND_PREFIX	= "???";
 
 	public static final String	RESOURCE_KEY_NOT_FOUND_SUFFIX	= "???";

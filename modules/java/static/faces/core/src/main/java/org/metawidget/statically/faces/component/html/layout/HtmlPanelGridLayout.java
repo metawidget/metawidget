@@ -125,7 +125,7 @@ public class HtmlPanelGridLayout
 				label.putAttribute( "for", id );
 			}
 			String labelText = metawidget.getLabelString( attributes );
-			label.putAttribute( "value", labelText + ":" );
+			label.putAttribute( "value", labelText + StringUtils.SEPARATOR_COLON );
 			panelGrid.getChildren().add( label );
 
 			if ( !( widget instanceof EditableValueHolder ) || metawidget.isReadOnly() || WidgetBuilderUtils.isReadOnly( attributes ) ) {

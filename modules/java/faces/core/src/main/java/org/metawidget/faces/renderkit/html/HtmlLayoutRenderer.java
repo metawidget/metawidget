@@ -150,7 +150,7 @@ public abstract class HtmlLayoutRenderer
 		State state = getState( metawidget );
 
 		if ( state.labelSuffix == null ) {
-			state.labelSuffix = ":";
+			state.labelSuffix = StringUtils.SEPARATOR_COLON;
 		}
 
 		// (any embedded expressions should have gotten evaluated by FacesInspectionResultProcessor)

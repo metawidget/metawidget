@@ -23,6 +23,7 @@ import java.util.Map;
 import org.metawidget.statically.StaticUtils.IndentedWriter;
 import org.metawidget.statically.StaticUtils.LeadingSpaceWriter;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
@@ -241,7 +242,7 @@ public abstract class BaseStaticXmlWidget
 
 		if ( mPrefix != null ) {
 			writer.append( mPrefix );
-			writer.append( ':' );
+			writer.append( StringUtils.SEPARATOR_COLON_CHAR );
 		}
 
 		writer.append( mTagName );
@@ -269,7 +270,7 @@ public abstract class BaseStaticXmlWidget
 
 		if ( mPrefix != null ) {
 			writer.append( mPrefix );
-			writer.append( ':' );
+			writer.append( StringUtils.SEPARATOR_COLON_CHAR );
 		}
 
 		writer.append( mTagName );

@@ -156,7 +156,7 @@ public class UIStub
 				continue;
 			}
 
-			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, ':' );
+			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, StringUtils.SEPARATOR_COLON_CHAR );
 
 			if ( nameAndValueList.size() != 2 || nameAndValueList.get( 1 ).length() == 0 ) {
 				throw new FacesException( "Unrecognized value '" + nameAndValue + "'" );

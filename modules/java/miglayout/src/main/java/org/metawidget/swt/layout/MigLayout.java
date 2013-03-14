@@ -225,9 +225,9 @@ public class MigLayout
 			// Required
 
 			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !metawidget.isReadOnly() ) {
-				label.setText( labelText + "*:" );
+				label.setText( labelText + "*" + StringUtils.SEPARATOR_COLON );
 			} else {
-				label.setText( labelText + ":" );
+				label.setText( labelText + StringUtils.SEPARATOR_COLON );
 			}
 
 			CC labelConstraints = new CC();

@@ -126,7 +126,7 @@ public class GroupLayout
 					labelTextToUse += "*";
 				}
 
-				label.setText( labelTextToUse + ":" );
+				label.setText( labelTextToUse + StringUtils.SEPARATOR_COLON );
 
 				// Mnemonic
 

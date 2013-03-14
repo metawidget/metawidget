@@ -179,7 +179,7 @@ public class Communication
 
 		if ( mType != null && !"".equals( mType ) ) {
 			toReturn.append( mType );
-			toReturn.append( ':' );
+			toReturn.append( StringUtils.SEPARATOR_COLON_CHAR );
 		}
 
 		if ( mValue != null ) {

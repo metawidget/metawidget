@@ -69,7 +69,7 @@ public abstract class StubTag
 		}
 
 		for ( String nameAndValue : CollectionUtils.fromString( attributes, ';' ) ) {
-			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, ':' );
+			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, StringUtils.SEPARATOR_COLON_CHAR );
 
 			if ( nameAndValueList.size() != 2 ) {
 				throw new JspException( "Unrecognized value '" + nameAndValue + "'" );

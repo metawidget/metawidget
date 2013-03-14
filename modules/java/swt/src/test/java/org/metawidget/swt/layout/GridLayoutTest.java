@@ -226,7 +226,7 @@ public class GridLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( ":" ) ) );
+		metawidget.setMetawidgetLayout( new GridLayout( new GridLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( StringUtils.SEPARATOR_COLON ) ) );
 		metawidget.setToInspect( new WideFoo() );
 
 		assertTrue( "Abc:".equals( ( (Label) metawidget.getChildren()[0] ).getText() ) );

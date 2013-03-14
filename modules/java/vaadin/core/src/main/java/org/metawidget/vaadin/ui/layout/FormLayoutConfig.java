@@ -30,7 +30,7 @@ public class FormLayoutConfig {
 	// Private members
 	//
 
-	private String	mLabelSuffix		= ":";
+	private String	mLabelSuffix		= StringUtils.SEPARATOR_COLON;
 
 	//
 	// Public methods

@@ -41,7 +41,7 @@ import org.metawidget.util.simple.SimpleLayoutUtils.StrippedMnemonicAndFirstInde
  * Layout to arrange widgets using <code>net.miginfocom.swing.MigLayout</code>.
  * <p>
  * Widgets are arranged in a table, with one column for labels and another for the widget.
- *
+ * 
  * @author Stefan Ackerman
  */
 
@@ -243,9 +243,9 @@ public class MigLayout
 			String labelTextToUse = stripMnemonic.getStrippedMnemonic();
 
 			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !WidgetBuilderUtils.isReadOnly( attributes ) && !metawidget.isReadOnly() ) {
-				label.setText( labelTextToUse + "*:" );
+				label.setText( labelTextToUse + "*" + StringUtils.SEPARATOR_COLON );
 			} else {
-				label.setText( labelTextToUse + ":" );
+				label.setText( labelTextToUse + StringUtils.SEPARATOR_COLON );
 			}
 
 			// Mnemonic

@@ -3,7 +3,7 @@
 
 	<xs:element name="quirks">
 		<xs:complexType>
-			<xs:sequence>
+			<xs:all>
 				<xs:element name="name" minOccurs="1" />
 				<xs:element name="age">
 					<xs:simpleType>
@@ -28,7 +28,7 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-			</xs:sequence>
+			</xs:all>
 		</xs:complexType>
 	</xs:element>
 

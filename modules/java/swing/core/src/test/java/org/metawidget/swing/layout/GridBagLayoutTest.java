@@ -54,6 +54,7 @@ import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.MetawidgetTestUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
@@ -230,7 +231,7 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ).setLabelSuffix( ":" ) ) ) ) );
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ).setLabelSuffix( StringUtils.SEPARATOR_COLON ) ) ) ) );
 		metawidget.setToInspect( new Foo() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -323,7 +324,7 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( ":" ) ) );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( StringUtils.SEPARATOR_COLON ) ) );
 		metawidget.setToInspect( new WideFoo() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );

@@ -75,7 +75,7 @@ public class SpringTableLayout
 		metawidget.getWidgetProcessor( PathProcessor.class ).processWidget( label, elementName, attributes, (StaticSpringMetawidget) metawidget );
 		String labelText = metawidget.getLabelString( attributes );
 		if ( labelText != null && labelText.length() > 0 ) {
-			label.setTextContent( labelText + ":" );
+			label.setTextContent( labelText + StringUtils.SEPARATOR_COLON );
 		}
 
 		labelCell.getChildren().remove( 0 );

@@ -18,6 +18,7 @@ package org.metawidget.test.model.annotatedaddressbook;
 
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.util.simple.ObjectUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Simulation of Address Book.
@@ -155,7 +156,7 @@ public class Communication
 
 		if ( mType != null && !"".equals( mType ) ) {
 			toReturn.append( mType );
-			toReturn.append( ':' );
+			toReturn.append( StringUtils.SEPARATOR_COLON_CHAR );
 		}
 
 		if ( mValue != null ) {

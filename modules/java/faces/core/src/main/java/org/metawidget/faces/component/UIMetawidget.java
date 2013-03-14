@@ -1114,7 +1114,7 @@ public abstract class UIMetawidget
 		// see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=813. A workaround is
 		// to assign the function's return value to a temporary, request-scoped variable using c:set
 
-		if ( binding.indexOf( ' ' ) == -1 && binding.indexOf( ':' ) == -1 && binding.indexOf( '(' ) == -1 ) {
+		if ( binding.indexOf( ' ' ) == -1 && binding.indexOf( StringUtils.SEPARATOR_COLON_CHAR ) == -1 && binding.indexOf( '(' ) == -1 ) {
 			int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 			if ( lastIndexOf != -1 ) {

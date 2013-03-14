@@ -51,6 +51,8 @@ public class XmlSchemaInspector
 
 	private static final String	BASE			= "base";
 
+	private static final String	ALL				= "all";
+
 	private static final String	SEQUENCE		= "sequence";
 
 	private static final String	EXTENSION		= "extension";
@@ -131,7 +133,7 @@ public class XmlSchemaInspector
 			return null;
 		}
 
-		if ( !SEQUENCE.equals( sequence.getLocalName() ) && !COMPLEX_CONTENT.equals( sequence.getLocalName() ) ) {
+		if ( !SEQUENCE.equals( sequence.getLocalName() ) && !ALL.equals( sequence.getLocalName() ) && !COMPLEX_CONTENT.equals( sequence.getLocalName() ) ) {
 			throw InspectorException.newException( "Unexpected child node '" + sequence.getLocalName() + "'" );
 		}
 
