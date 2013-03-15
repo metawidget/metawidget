@@ -15,7 +15,7 @@
 		</p>
 		
 		<ul>
-			<li>XML Schema (XSD) support</li>
+			<li><a href="http://blog.kennardconsulting.com/2013/03/xml-schema-wsdl-and-soap-ui-generator.html">XML Schema, WSDL and SOAP Support</a></li>
 			<li>Improvements to pure JavaScript, JQuery UI and Angular JS Metawidgets</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
