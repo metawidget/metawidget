@@ -29,7 +29,7 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class XmlSchemaJavaTypeMappingProcessor<M>
+public class XmlSchemaToJavaTypeMappingProcessor<M>
 	extends TypeMappingInspectionResultProcessor<M> {
 
 	//

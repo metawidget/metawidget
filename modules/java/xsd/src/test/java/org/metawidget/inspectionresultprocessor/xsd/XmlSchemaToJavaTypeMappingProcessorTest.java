@@ -18,21 +18,18 @@ package org.metawidget.inspectionresultprocessor.xsd;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspectionresultprocessor.type.TypeMappingInspectionResultProcessorConfig;
-import org.metawidget.util.MetawidgetTestUtils;
-
 /**
  * @author Richard Kennard
  */
 
-public class XmlSchemaJavaTypeMappingProcessorTest
+public class XmlSchemaToJavaTypeMappingProcessorTest
 	extends TestCase {
 
 	//
 	// Public methods
 	//
 
-	public void testNoComesAfter()
+	public void testMapping()
 		throws Exception {
 
 		// Set up
@@ -49,7 +46,7 @@ public class XmlSchemaJavaTypeMappingProcessorTest
 
 		// Run processor
 
-		XmlSchemaJavaTypeMappingProcessor<Object> processor = new XmlSchemaJavaTypeMappingProcessor<Object>();
+		XmlSchemaToJavaTypeMappingProcessor<Object> processor = new XmlSchemaToJavaTypeMappingProcessor<Object>();
 		String outputXml = processor.processInspectionResult( inputXml, null, null, null );
 
 		// Test result
@@ -65,12 +62,5 @@ public class XmlSchemaJavaTypeMappingProcessorTest
 		validateXml += "</inspection-result>";
 
 		assertEquals( validateXml, outputXml );
-	}
-
-	public void testConfig() {
-
-		MetawidgetTestUtils.testEqualsAndHashcode( TypeMappingInspectionResultProcessorConfig.class, new TypeMappingInspectionResultProcessorConfig() {
-			// Subclass
-		} );
 	}
 }

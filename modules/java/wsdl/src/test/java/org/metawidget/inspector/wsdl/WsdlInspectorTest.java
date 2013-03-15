@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 import junit.framework.TestCase;
 
 import org.metawidget.config.impl.SimpleResourceResolver;
-import org.metawidget.inspectionresultprocessor.xsd.XmlSchemaJavaTypeMappingProcessor;
+import org.metawidget.inspectionresultprocessor.xsd.XmlSchemaToJavaTypeMappingProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.xsd.XmlSchemaInspectorConfig;
 import org.metawidget.swing.SwingMetawidget;
@@ -255,7 +255,7 @@ public class WsdlInspectorTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new WsdlInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/wsdl/endorsementSearch.wsdl" ) ) ));
-		metawidget.addInspectionResultProcessor( new XmlSchemaJavaTypeMappingProcessor<SwingMetawidget>() );
+		metawidget.addInspectionResultProcessor( new XmlSchemaToJavaTypeMappingProcessor<SwingMetawidget>() );
 		metawidget.setPath( "GetEndorsingBoarder" );
 
 		assertEquals( "Manufacturer:", ((JLabel) metawidget.getComponent( 0 )).getText() );
