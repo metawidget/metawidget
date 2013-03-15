@@ -45,8 +45,6 @@ public class XmlSchemaToJavaTypeMappingProcessor<M>
 	@Override
 	protected void configureDefaults( Map<String, String> typeMappings ) {
 
-		// TODO: test all these!
-
 		// Primitive datatypes as defined by section 3.2 of XML Schema Part 2: Datatypes Second
 		// Edition
 
