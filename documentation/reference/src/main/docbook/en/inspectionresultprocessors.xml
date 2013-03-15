@@ -329,4 +329,31 @@ public class ContactController {
 
 		</section>
 		
+		<section id="section-inspectionresultprocessors-js">
+			<title>JavaToJavaScriptTypeMappingProcessor</title>
+			
+			<para>
+				<classname>TypeMappingInspectionResultProcessor</classname> to map types from
+				Java types to JavaScript types.
+			</para>
+		</section>
+
+		<section id="section-inspectionresultprocessors-typemapping">
+			<title>TypeMappingInspectionResultProcessor</title>
+			
+			<para>
+				<classname>InspectionResultProcessor</classname> to map types from one domain into another. Can be configured
+				to map, say, <parameter>type="string"</parameter> to <parameter>type="java.lang.String"</parameter>. Consider
+				using one of its pre-configured subclasses for common use cases.
+			</para>
+		</section>
+
+		<section id="section-inspectionresultprocessors-xsd">
+			<title>XmlSchemaToJavaTypeMappingProcessor</title>
+			
+			<para>
+				<classname>TypeMappingInspectionResultProcessor</classname> to map types from XML Schemas to Java types.
+			</para>
+		</section>
+
 	</chapter>

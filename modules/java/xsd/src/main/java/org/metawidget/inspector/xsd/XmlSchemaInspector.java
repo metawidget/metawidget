@@ -28,7 +28,10 @@ import org.w3c.dom.Element;
 
 /**
  * Inspector to look for metadata in XML Schema (XSD) files.
- *
+ * <p>
+ * If
+ * <code>XmlSchemaInspector</tt> is used for a Java environment, consider using it in conjunction with <code>XmlSchemaToJavaTypeMappingProcessor</code>.
+ * 
  * @author Richard Kennard
  */
 

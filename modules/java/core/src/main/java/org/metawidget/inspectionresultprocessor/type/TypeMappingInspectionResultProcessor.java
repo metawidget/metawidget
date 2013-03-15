@@ -25,7 +25,10 @@ import org.metawidget.util.CollectionUtils;
 
 /**
  * <code>InspectionResultProcessor</code> to map types from one domain into another.
- *
+ * <p>
+ * Can be configured to map, say, <code>type="string"</code> to <code>type="java.lang.String"</code>
+ * . Consider using one of its pre-configured subclasses for common use cases.
+ * 
  * @author Richard Kennard
  */
 
@@ -72,7 +75,7 @@ public class TypeMappingInspectionResultProcessor<M>
 	 * Subclasses can override this method to configure default type mappings.
 	 * <p>
 	 * Does nothing by default.
-	 *
+	 * 
 	 * @param typeMappings
 	 *            to add to. Never null
 	 */

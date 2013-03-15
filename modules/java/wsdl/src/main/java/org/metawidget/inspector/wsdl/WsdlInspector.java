@@ -30,7 +30,10 @@ import org.w3c.dom.Element;
  * <p>
  * It extracts the XML Schema from the <parameter>&lt;schema&gt;</parameter> element of the WSDL and
  * parses it for useful metadata.
- *
+ * <p>
+ * If
+ * <code>WsdlInspector</tt> is used for a Java environment, consider using it in conjunction with <code>XmlSchemaToJavaTypeMappingProcessor</code>.
+ * 
  * @author Richard Kennard
  */
 
