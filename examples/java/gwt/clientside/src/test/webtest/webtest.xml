@@ -15,7 +15,9 @@
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='generate-column']"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div[@class='instructions']"/> 
 				
-				<sleep seconds="5"/>
+				<!-- Sleep for a while to accomodate slow build servers -->
+				
+				<sleep seconds="20"/>
 				<verifyXPath xpath="count(/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button)" text="3"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button[1]" text="Sample #1"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button[2]" text="Sample #2"/>

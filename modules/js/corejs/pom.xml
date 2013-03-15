@@ -14,8 +14,8 @@
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-core</artifactId>
-			<version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
-		</dependency>			
+			<version>${project.version}</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -54,7 +54,13 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
+				<!-- For JavaToJavaScriptTypeMappingProcessor -->
+				<configuration>
+					<packagingExcludes>WEB-INF/**</packagingExcludes>
+					<attachClasses>true</attachClasses>
+				</configuration>
 			</plugin>
+			<!-- For JavaScriptTestCase -->
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
@@ -70,7 +76,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>			
 			<plugin>
 				<groupId>nl.windgazer</groupId>
 				<artifactId>jsdoctk-plugin</artifactId>
