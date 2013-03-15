@@ -18,9 +18,8 @@ package org.metawidget.inspectionresultprocessor.js;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import org.metawidget.inspectionresultprocessor.type.TypeMappingInspectionResultProcessor;
 import org.metawidget.util.ClassUtils;
@@ -28,6 +27,9 @@ import org.metawidget.util.ClassUtils;
 /**
  * <code>TypeMappingInspectionResultProcessor</code> to map types from Java types to JavaScript
  * types.
+ * <p>
+ * For Maven users, this module can be included using the <code>classes</code> classifier (e.g.
+ * <code>org.metawidget.modules.js:metawidget-corejs:classes</code>).
  *
  * @author Richard Kennard
  */
@@ -62,7 +64,11 @@ public class JavaToJavaScriptTypeMappingProcessor<M>
 			if ( clazz != null ) {
 				if ( Number.class.isAssignableFrom( clazz ) ) {
 					attributes.put( TYPE, "number" );
-				} else if ( clazz.isArray() || Set.class.isAssignableFrom( clazz ) || List.class.isAssignableFrom( clazz ) ) {
+				} else if ( Boolean.class.isAssignableFrom( clazz ) ) {
+					attributes.put( TYPE, "boolean" );
+				} else if ( Character.class.isAssignableFrom( clazz ) ) {
+					attributes.put( TYPE, "string" );
+				} else if ( clazz.isArray() || Collection.class.isAssignableFrom( clazz )) {
 					attributes.put( TYPE, "array" );
 				}
 			}

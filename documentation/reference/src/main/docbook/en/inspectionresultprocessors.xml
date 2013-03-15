@@ -336,6 +336,11 @@ public class ContactController {
 				<classname>TypeMappingInspectionResultProcessor</classname> to map types from
 				Java types to JavaScript types.
 			</para>
+			
+			<para>
+				For Maven users, this module can be included using the <parameter>classes</parameter> classifier (e.g.
+				<parameter>org.metawidget.modules.js:metawidget-corejs:classes</parameter>).
+			</para>
 		</section>
 
 		<section id="section-inspectionresultprocessors-typemapping">

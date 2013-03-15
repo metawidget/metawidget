@@ -42,6 +42,8 @@ public class JavaToJavaScriptTypeMappingProcessorTest
 		inputXml += "<property name=\"baz\" type=\"java.util.HashSet\"/>";
 		inputXml += "<property name=\"abc\" type=\"[B\"/>";
 		inputXml += "<property name=\"def\" type=\"java.util.LinkedList\"/>";
+		inputXml += "<property name=\"ghi\" type=\"java.lang.Boolean\"/>";
+		inputXml += "<property name=\"jkl\" type=\"java.lang.Character\"/>";
 		inputXml += "</entity></inspection-result>";
 
 		// Run processor
@@ -58,6 +60,8 @@ public class JavaToJavaScriptTypeMappingProcessorTest
 		validateXml += "<property name=\"baz\" type=\"array\"/>";
 		validateXml += "<property name=\"abc\" type=\"array\"/>";
 		validateXml += "<property name=\"def\" type=\"array\"/>";
+		validateXml += "<property name=\"ghi\" type=\"boolean\"/>";
+		validateXml += "<property name=\"jkl\" type=\"string\"/>";
 		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 
