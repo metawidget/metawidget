@@ -33,6 +33,7 @@ import java.io.Serializable;
 
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.util.simple.ObjectUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Models a Communication of a Contact.

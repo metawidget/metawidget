@@ -38,6 +38,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.simple.SimpleLayoutUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Base class for all JSF HTML layout renderers. This implementation recognizes the following

@@ -56,6 +56,7 @@ import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.SwtMetawidgetTests;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard

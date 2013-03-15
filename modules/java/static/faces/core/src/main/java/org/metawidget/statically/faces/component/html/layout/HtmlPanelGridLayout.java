@@ -31,6 +31,7 @@ import org.metawidget.statically.faces.component.html.HtmlWidget;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.WidgetBuilderUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using a panelGrid.

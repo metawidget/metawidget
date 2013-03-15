@@ -18,6 +18,8 @@ package org.metawidget.inspectionresultprocessor.xsd;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Map;
 
 import org.metawidget.inspectionresultprocessor.type.TypeMappingInspectionResultProcessor;
@@ -25,7 +27,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * <code>TypeMappingInspectionResultProcessor</code> to map types from XML Schemas to Java types.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -44,7 +46,7 @@ public class XmlSchemaToJavaTypeMappingProcessor<M>
 	protected void configureDefaults( Map<String, String> typeMappings ) {
 
 		// TODO: test all these!
-		
+
 		// Primitive datatypes as defined by section 3.2 of XML Schema Part 2: Datatypes Second
 		// Edition
 

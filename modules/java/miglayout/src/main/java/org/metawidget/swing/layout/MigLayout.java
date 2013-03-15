@@ -36,12 +36,13 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils.StrippedMnemonicAndFirstIndex;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using <code>net.miginfocom.swing.MigLayout</code>.
  * <p>
  * Widgets are arranged in a table, with one column for labels and another for the widget.
- * 
+ *
  * @author Stefan Ackerman
  */
 

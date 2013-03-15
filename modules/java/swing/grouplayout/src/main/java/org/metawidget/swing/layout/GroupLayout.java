@@ -37,6 +37,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils.StrippedMnemonicAndFirstIndex;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using <code>javax.swing.GroupLayout</code>.

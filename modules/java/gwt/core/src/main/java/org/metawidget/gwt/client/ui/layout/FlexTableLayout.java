@@ -26,6 +26,7 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.util.simple.SimpleLayoutUtils;
+import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlexTable;

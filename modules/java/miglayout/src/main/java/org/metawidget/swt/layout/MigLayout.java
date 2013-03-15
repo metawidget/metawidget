@@ -34,6 +34,7 @@ import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using <code>net.miginfocom.swing.MigLayout</code>.

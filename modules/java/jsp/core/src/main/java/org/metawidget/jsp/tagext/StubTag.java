@@ -24,6 +24,7 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Base Stub for JSP environments.

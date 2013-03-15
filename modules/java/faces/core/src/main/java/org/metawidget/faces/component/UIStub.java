@@ -28,6 +28,7 @@ import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionListener;
 
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Stub for Java Server Faces environments.

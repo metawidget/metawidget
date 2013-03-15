@@ -21,6 +21,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.simple.ObjectUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Configures a GridLayoutConfig prior to use. Once instantiated, Layouts are immutable.

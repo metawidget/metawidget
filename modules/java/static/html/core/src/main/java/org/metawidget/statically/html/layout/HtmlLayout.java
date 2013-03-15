@@ -26,6 +26,7 @@ import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.widgetbuilder.HtmlLabel;
 import org.metawidget.statically.html.widgetbuilder.HtmlTag;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard

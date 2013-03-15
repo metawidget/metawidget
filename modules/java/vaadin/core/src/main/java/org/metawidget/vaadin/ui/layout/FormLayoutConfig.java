@@ -17,6 +17,7 @@
 package org.metawidget.vaadin.ui.layout;
 
 import org.metawidget.util.simple.ObjectUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Configures a FormLayout prior to use. Once instantiated, Layouts are immutable.

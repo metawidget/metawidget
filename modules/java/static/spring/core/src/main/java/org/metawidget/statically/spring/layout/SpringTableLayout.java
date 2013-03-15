@@ -28,6 +28,7 @@ import org.metawidget.statically.spring.StaticSpringMetawidget;
 import org.metawidget.statically.spring.widgetbuilder.FormHiddenTag;
 import org.metawidget.statically.spring.widgetbuilder.FormLabelTag;
 import org.metawidget.statically.spring.widgetprocessor.PathProcessor;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using an HTML table and Spring &lt;form:label&gt; tags.
