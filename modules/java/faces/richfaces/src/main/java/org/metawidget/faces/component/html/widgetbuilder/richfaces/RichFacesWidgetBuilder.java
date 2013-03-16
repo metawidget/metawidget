@@ -249,7 +249,7 @@ public class RichFacesWidgetBuilder
 	// Inner class
 	//
 
-	/* package private */static interface RichFacesVersionSpecificSupport
+	/* package private */interface RichFacesVersionSpecificSupport
 		extends WidgetBuilder<UIComponent, UIMetawidget> {
 
 		HtmlInputNumberSlider createInputNumberSlider();

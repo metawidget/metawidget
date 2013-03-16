@@ -49,5 +49,5 @@ public interface StaticWidget {
 	 * General-purpose storage area, rather like <code>JComponent.getClientProperty</code>.
 	 */
 
-	public <T> T getClientProperty( Object key );
+	<T> T getClientProperty( Object key );
 }

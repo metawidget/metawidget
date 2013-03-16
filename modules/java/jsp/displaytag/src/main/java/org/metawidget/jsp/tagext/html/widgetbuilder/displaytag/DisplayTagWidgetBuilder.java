@@ -111,9 +111,9 @@ public class DisplayTagWidgetBuilder
 				NodeList elements = root.getFirstChild().getChildNodes();
 				addColumnTags( tableTag, attributes, elements, metawidgetTag );
 
-			} else {
-				// If there is no type, DisplayTag will make a best guess
 			}
+
+			// If there is no type, DisplayTag will make a best guess
 
 			return tableTag;
 		} catch ( Exception e ) {
