@@ -590,7 +590,7 @@ public final class ClassUtils {
 				return annotation;
 			}
 
-			T annotation = _getOriginalAnnotation( method, annotationClass );
+			T annotation = internalGetOriginalAnnotation( method, annotationClass );
 			cache.put( annotationClass, annotation );
 
 			return annotation;
@@ -751,7 +751,7 @@ public final class ClassUtils {
 	 * <code>method.getAnnotation</code>, so we cache it.
 	 */
 
-	private static <T extends Annotation> T _getOriginalAnnotation( Method method, Class<T> annotationClass ) {
+	private static <T extends Annotation> T internalGetOriginalAnnotation( Method method, Class<T> annotationClass ) {
 
 		Method methodToUse = method;
 		String name = methodToUse.getName();

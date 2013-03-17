@@ -22,7 +22,7 @@ package org.metawidget.util.simple;
  * @author Richard Kennard
  */
 
-public class PathUtils {
+public final class PathUtils {
 
 	//
 	// Public statics

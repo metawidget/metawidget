@@ -22,7 +22,7 @@ import org.metawidget.iface.MetawidgetException;
  * Any exception that occurs during widget processing.
  */
 
-public class WidgetProcessorException
+public final class WidgetProcessorException
 	extends MetawidgetException {
 
 	//

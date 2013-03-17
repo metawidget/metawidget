@@ -19,7 +19,6 @@ package org.metawidget.inspector.xsd;
 import java.io.InputStream;
 
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
-import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures an XmlSchemaInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -42,25 +41,5 @@ public class XmlSchemaInspectorConfig
 	public XmlSchemaInspectorConfig setInputStream( InputStream stream ) {
 
 		return (XmlSchemaInspectorConfig) super.setInputStream( stream );
-	}
-
-	@Override
-	public boolean equals( Object that ) {
-
-		if ( this == that ) {
-			return true;
-		}
-
-		if ( !ObjectUtils.nullSafeClassEquals( this, that )) {
-			return false;
-		}
-
-		return super.equals( that );
-	}
-
-	@Override
-	public int hashCode() {
-
-		return super.hashCode();
 	}
 }

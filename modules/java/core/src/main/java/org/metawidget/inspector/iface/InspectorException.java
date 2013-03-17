@@ -22,7 +22,7 @@ import org.metawidget.iface.MetawidgetException;
  * Any exception that occurs during inspection.
  */
 
-public class InspectorException
+public final class InspectorException
 	extends MetawidgetException {
 
 	//

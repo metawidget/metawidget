@@ -51,7 +51,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Richard Kennard
  */
 
-public class XmlUtils {
+public final class XmlUtils {
 
 	//
 	// Public statics

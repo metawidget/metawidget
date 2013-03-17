@@ -22,7 +22,7 @@ import org.metawidget.iface.MetawidgetException;
  * Any exception that occurs during layout.
  */
 
-public class LayoutException
+public final class LayoutException
 	extends MetawidgetException {
 
 	//

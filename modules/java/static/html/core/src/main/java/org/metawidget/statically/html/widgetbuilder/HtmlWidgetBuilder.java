@@ -118,8 +118,7 @@ public class HtmlWidgetBuilder
 
 				if ( char.class.equals( clazz ) ) {
 					attributes.put( MAXIMUM_LENGTH, "1" );
-					HtmlInput characterInput = createHtmlInputText( attributes );
-					return characterInput;
+					return createHtmlInputText( attributes );
 				}
 
 				HtmlInput inputNumber = createHtmlInputNumber();
@@ -165,8 +164,7 @@ public class HtmlWidgetBuilder
 
 			if ( Character.class.equals( clazz ) ) {
 				attributes.put( MAXIMUM_LENGTH, "1" );
-				HtmlInput characterInput = createHtmlInputText( attributes );
-				return characterInput;
+				return createHtmlInputText( attributes );
 			}
 
 			// Date

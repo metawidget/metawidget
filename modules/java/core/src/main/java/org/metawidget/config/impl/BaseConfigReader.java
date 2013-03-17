@@ -54,7 +54,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Base implementation of <code>ConfigReader</code>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -159,7 +159,7 @@ public class BaseConfigReader
 	 * <p>
 	 * This version further caches any immutable objects, in the same way as
 	 * <code>configure( InputStream, Object )</code> (see the JavaDoc for that method).
-	 * 
+	 *
 	 * @param resource
 	 *            resource name that will be looked up using openResource
 	 * @param toConfigure
@@ -274,7 +274,7 @@ public class BaseConfigReader
 	 * </code>
 	 * <p>
 	 * ...will call <code>setOpaque</code> on the given <code>JPanel</code>.
-	 * 
+	 *
 	 * @param stream
 	 *            XML input as a stream
 	 * @param toConfigure
@@ -395,7 +395,7 @@ public class BaseConfigReader
 	/**
 	 * Create the given native type based on the recorded text (as returned by
 	 * <code>SAX.endRecording</code>)
-	 * 
+	 *
 	 * @param namespace
 	 *            the Class of the object under construction
 	 */
@@ -515,7 +515,7 @@ public class BaseConfigReader
 	 * Create a native that is 'lazily resolved' based on the method it is being applied to. Most
 	 * natives are explicitly typed (ie. boolean, int etc.) but it is too onerous to do that for
 	 * everything (ie. we support array instead of string-array, int-array etc.)
-	 * 
+	 *
 	 * @param nativeValue
 	 *            never null
 	 * @param toResolveTo
@@ -545,8 +545,7 @@ public class BaseConfigReader
 
 		else if ( toResolveTo.isEnum() && nativeValue instanceof String ) {
 			try {
-				Object enumValue = Enum.valueOf( (Class<? extends Enum>) toResolveTo, (String) nativeValue );
-				return enumValue;
+				return Enum.valueOf( (Class<? extends Enum>) toResolveTo, (String) nativeValue );
 			} catch ( IllegalArgumentException e ) {
 				// Could not be converted, is not compatible
 
@@ -561,7 +560,7 @@ public class BaseConfigReader
 
 	/**
 	 * Lookup a class based on the URI namespace and the local name of the XML tag.
-	 * 
+	 *
 	 * @param uri
 	 *            the URI namespace, to be used as the package name
 	 * @param localName
@@ -1179,21 +1178,21 @@ public class BaseConfigReader
 				}
 			} catch ( RuntimeException e ) {
 				throw e;
-			} catch ( Exception e ) {
+			} catch ( InvocationTargetException e ) {
+
 				// Prevent InvocationTargetException 'masking' the error
 
-				if ( e instanceof InvocationTargetException ) {
-					Throwable t = ( (InvocationTargetException) e ).getTargetException();
+				Throwable t = e.getTargetException();
 
-					// getTargetException may return a StackOverflowError
+				// getTargetException may return a StackOverflowError
 
-					if ( !( t instanceof Exception ) ) {
-						throw new RuntimeException( t );
-					}
-
-					e = (Exception) t;
+				if ( !( t instanceof Exception ) ) {
+					throw new RuntimeException( t );
 				}
 
+				throw new SAXException( (Exception) t );
+
+			} catch ( Exception e ) {
 				throw new SAXException( e );
 			}
 		}

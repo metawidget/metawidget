@@ -32,7 +32,6 @@ package org.metawidget.example.faces.addressbook.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 
 /**
  * Converts Enums to/from a String representation.
