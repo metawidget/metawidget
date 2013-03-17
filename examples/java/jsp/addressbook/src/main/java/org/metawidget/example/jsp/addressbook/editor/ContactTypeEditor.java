@@ -60,8 +60,7 @@ public class ContactTypeEditor
 	}
 
 	@Override
-	public void setAsText( String text )
-		throws IllegalArgumentException {
+	public void setAsText( String text ) {
 
 		if ( text == null || "".equals( text ) ) {
 			setValue( null );

@@ -1553,8 +1553,7 @@ public abstract class UIMetawidget
 			return ( source instanceof UIViewRoot );
 		}
 
-		public void processEvent( SystemEvent event )
-			throws AbortProcessingException {
+		public void processEvent( SystemEvent event ) {
 
 			// Don't do unnecessary work if none of our child components are to be rendered anyway
 			// (work around for https://issues.apache.org/jira/browse/MYFACES-3293)

@@ -77,12 +77,6 @@ public class SwtMetawidget
 	private Map<String, Facet>		mFacets					= CollectionUtils.newHashMap();
 
 	/**
-	 * Set of existing, manually added components.
-	 */
-
-	private Set<Control>			mExistingControls		= CollectionUtils.newHashSet();
-
-	/**
 	 * List of existing, manually added, but unused by Metawidget controls.
 	 * <p>
 	 * This is a List, not a Set, for consistency during endBuild.
@@ -592,7 +586,7 @@ public class SwtMetawidget
 
 		mControlsToDispose.clear();
 		mExistingUnusedControls = CollectionUtils.newArrayList( getChildren() );
-		mExistingControls = CollectionUtils.newHashSet( mExistingUnusedControls );
+		Set<Control> existingControls = CollectionUtils.newHashSet( mExistingUnusedControls );
 
 		// Detect facets
 
@@ -618,7 +612,7 @@ public class SwtMetawidget
 			// just-in-time, such as Labels
 
 			for ( Control control : getChildren() ) {
-				if ( !mExistingControls.remove( control ) ) {
+				if ( !existingControls.remove( control ) ) {
 					mControlsToDispose.add( control );
 				}
 			}

@@ -34,7 +34,6 @@ import java.util.Collection;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 
 import org.metawidget.util.CollectionUtils;
 
@@ -51,14 +50,12 @@ public class CollectionConverter
 	// Public methods
 	//
 
-	public Object getAsObject( FacesContext context, UIComponent component, String value )
-		throws ConverterException {
+	public Object getAsObject( FacesContext context, UIComponent component, String value ) {
 
 		throw new UnsupportedOperationException();
 	}
 
-	public String getAsString( FacesContext context, UIComponent component, Object value )
-		throws ConverterException {
+	public String getAsString( FacesContext context, UIComponent component, Object value ) {
 
 		return CollectionUtils.toString( (Collection<?>) value, ", ", false, false );
 	}

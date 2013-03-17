@@ -28,7 +28,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AbortProcessingException;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.AjaxBehaviorListener;
 
@@ -163,8 +162,7 @@ public class AjaxProcessor
 		// Public methods
 		//
 
-		public void processAjaxBehavior( AjaxBehaviorEvent event )
-			throws AbortProcessingException {
+		public void processAjaxBehavior( AjaxBehaviorEvent event ) {
 
 			mListenerMethod.invoke( FacesContext.getCurrentInstance().getELContext(), new Object[] { event } );
 		}
