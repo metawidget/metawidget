@@ -52,7 +52,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <T> ArrayList<T> newArrayList() {
+	public static <T> ArrayList<T> newArrayList() {
 
 		return new ArrayList<T>();
 	}
@@ -61,7 +61,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <T> ArrayList<T> newArrayList( Collection<T> collection ) {
+	public static <T> ArrayList<T> newArrayList( Collection<T> collection ) {
 
 		return new ArrayList<T>( collection );
 	}
@@ -70,7 +70,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <T> ArrayList<T> newArrayList( int capacity ) {
+	public static <T> ArrayList<T> newArrayList( int capacity ) {
 
 		return new ArrayList<T>( capacity );
 	}
@@ -79,7 +79,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <T> ArrayList<T> newArrayList( T... array ) {
+	public static <T> ArrayList<T> newArrayList( T... array ) {
 
 		if ( array == null ) {
 			return new ArrayList<T>();
@@ -92,7 +92,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> HashSet<K> newHashSet() {
+	public static <K> HashSet<K> newHashSet() {
 
 		return new HashSet<K>();
 	}
@@ -101,7 +101,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> HashSet<K> newHashSet( Collection<K> set ) {
+	public static <K> HashSet<K> newHashSet( Collection<K> set ) {
 
 		return new HashSet<K>( set );
 	}
@@ -110,7 +110,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> HashSet<K> newHashSet( K... array ) {
+	public static <K> HashSet<K> newHashSet( K... array ) {
 
 		return new HashSet<K>( Arrays.asList( array ) );
 	}
@@ -119,7 +119,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K> Stack<K> newStack() {
+	public static <K> Stack<K> newStack() {
 
 		return new Stack<K>();
 	}
@@ -128,7 +128,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> HashMap<K, V> newHashMap() {
+	public static <K, V> HashMap<K, V> newHashMap() {
 
 		return new HashMap<K, V>();
 	}
@@ -137,7 +137,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> HashMap<K, V> newHashMap( Map<K, V> map ) {
+	public static <K, V> HashMap<K, V> newHashMap( Map<K, V> map ) {
 
 		return new HashMap<K, V>( map );
 	}
@@ -146,7 +146,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> HashMap<K, V> newHashMap( int size ) {
+	public static <K, V> HashMap<K, V> newHashMap( int size ) {
 
 		return new HashMap<K, V>( size );
 	}
@@ -156,7 +156,7 @@ public final class CollectionUtils {
 	 * values.
 	 */
 
-	public static final <K, V> Map<K, V> newHashMap( List<K> keys, List<V> values ) {
+	public static <K, V> Map<K, V> newHashMap( List<K> keys, List<V> values ) {
 
 		if ( keys.size() != values.size() ) {
 			throw WidgetBuilderException.newException( "Keys list must be same size as values list" );
@@ -177,7 +177,7 @@ public final class CollectionUtils {
 	 * WeakHashMap is preferrable if <code>K</code> is of type <code>Class</code>.
 	 */
 
-	public static final <K, V> WeakHashMap<K, V> newWeakHashMap() {
+	public static <K, V> WeakHashMap<K, V> newWeakHashMap() {
 
 		return new WeakHashMap<K, V>();
 	}
@@ -186,7 +186,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> LinkedHashMap<K, V> newLinkedHashMap() {
+	public static <K, V> LinkedHashMap<K, V> newLinkedHashMap() {
 
 		return new LinkedHashMap<K, V>();
 	}
@@ -195,7 +195,7 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> LinkedHashMap<K, V> newLinkedHashMap( Map<K, V> map ) {
+	public static <K, V> LinkedHashMap<K, V> newLinkedHashMap( Map<K, V> map ) {
 
 		return new LinkedHashMap<K, V>( map );
 	}
@@ -204,12 +204,12 @@ public final class CollectionUtils {
 	 * Type-safe initializer.
 	 */
 
-	public static final <K, V> TreeMap<K, V> newTreeMap() {
+	public static <K, V> TreeMap<K, V> newTreeMap() {
 
 		return new TreeMap<K, V>();
 	}
 
-	public static final <K, V> TreeMap<K, V> newTreeMap( Comparator<K> comparator ) {
+	public static <K, V> TreeMap<K, V> newTreeMap( Comparator<K> comparator ) {
 
 		return new TreeMap<K, V>( comparator );
 	}

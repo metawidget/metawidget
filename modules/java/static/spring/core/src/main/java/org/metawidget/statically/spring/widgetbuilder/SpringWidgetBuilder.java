@@ -53,7 +53,7 @@ public class SpringWidgetBuilder
 
 	private static final Log			LOG					= LogUtils.getLog( SpringWidgetBuilder.class );
 
-	private final static String			MAX_LENGTH			= "maxlength";
+	private static final String			MAX_LENGTH			= "maxlength";
 
 	private static final List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
 

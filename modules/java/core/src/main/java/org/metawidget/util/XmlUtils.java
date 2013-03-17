@@ -1135,7 +1135,7 @@ public class XmlUtils {
 			@Override
 			public String toString() {
 
-				return "characters " + String.valueOf( mCharacters );
+				return "characters " + mCharacters;
 			}
 		}
 
@@ -1173,7 +1173,7 @@ public class XmlUtils {
 			@Override
 			public String toString() {
 
-				return "ignorableWhitespace " + String.valueOf( mCharacters );
+				return "ignorableWhitespace " + mCharacters;
 			}
 		}
 

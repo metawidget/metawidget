@@ -69,7 +69,7 @@ public class RichFacesWidgetBuilder
 	// Private statics
 	//
 
-	private final static RichFacesVersionSpecificSupport	VERSION_SPECIFIC_WIDGET_BUILDER;
+	private static final RichFacesVersionSpecificSupport	VERSION_SPECIFIC_WIDGET_BUILDER;
 
 	static {
 

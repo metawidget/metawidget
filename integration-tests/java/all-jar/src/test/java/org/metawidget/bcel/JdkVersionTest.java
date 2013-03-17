@@ -69,9 +69,9 @@ public class JdkVersionTest
 	// Private statics
 	//
 
-	private final static int	JDK_50_MAJOR_VERSION	= 49;
+	private static final int	JDK_50_MAJOR_VERSION	= 49;
 
-	private final static int	JDK_60_MAJOR_VERSION	= 50;
+	private static final int	JDK_60_MAJOR_VERSION	= 50;
 
 	//
 	// Public methods

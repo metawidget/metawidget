@@ -46,7 +46,7 @@ public class FacesInspectionResultProcessor
 	// Private statics
 	//
 
-	private final static String	UNDERSCORE_THIS_ATTRIBUTE	= "_this";
+	private static final String	UNDERSCORE_THIS_ATTRIBUTE	= "_this";
 
 	//
 	// Private members

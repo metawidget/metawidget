@@ -73,7 +73,7 @@ public class HeadingTagLayoutDecorator
 			label.setValue( localizedSection );
 		}
 
-		label.setStyleName( "h" + String.valueOf( level + 1 ));
+		label.setStyleName( "h" + ( level + 1 ));
 
 		// Add to parent container
 

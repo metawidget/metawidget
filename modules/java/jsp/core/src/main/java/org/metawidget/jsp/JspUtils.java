@@ -334,7 +334,7 @@ public final class JspUtils {
 
 		@Override
 		public void initialize( Servlet servlet, ServletRequest request, ServletResponse response, String errorPageUrl, boolean needsSession, int bufferSize, boolean autoFlush )
-			throws IOException, IllegalStateException, IllegalArgumentException {
+			throws IOException {
 
 			mContext.initialize( servlet, request, response, errorPageUrl, needsSession, bufferSize, autoFlush );
 		}

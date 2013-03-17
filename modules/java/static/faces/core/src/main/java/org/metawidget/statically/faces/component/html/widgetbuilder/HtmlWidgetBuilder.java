@@ -50,7 +50,7 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private final static String	MAX_LENGTH	= "maxLength";
+	private static final String	MAX_LENGTH	= "maxLength";
 
 	//
 	// Private methods

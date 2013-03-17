@@ -40,8 +40,7 @@ public class NestedWidgetsEditor
 	}
 
 	@Override
-	public void setAsText( String text )
-		throws IllegalArgumentException {
+	public void setAsText( String text ) {
 
 		String[] values = ArrayUtils.fromString( text );
 

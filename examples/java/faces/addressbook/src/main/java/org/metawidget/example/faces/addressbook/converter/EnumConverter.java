@@ -66,8 +66,7 @@ public abstract class EnumConverter<T extends Enum<T>>
 	// Public methods
 	//
 
-	public final Object getAsObject( FacesContext context, UIComponent component, String value )
-		throws ConverterException {
+	public final Object getAsObject( FacesContext context, UIComponent component, String value ) {
 
 		if ( value == null || "".equals( value ) ) {
 			return null;
@@ -76,8 +75,7 @@ public abstract class EnumConverter<T extends Enum<T>>
 		return Enum.valueOf( mClass, value );
 	}
 
-	public final String getAsString( FacesContext context, UIComponent component, Object object )
-		throws ConverterException {
+	public final String getAsString( FacesContext context, UIComponent component, Object object ) {
 
 		if ( object == null ) {
 			return "";
