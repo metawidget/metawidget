@@ -189,6 +189,24 @@ public class XmlUtilsTest
 		assertEquals( "<inspection-result><foo fooAttr=\"1\"><bar barAttr=\"2\" data=\"bar2\"/></foo><foo fooAttr=\"2\"><bar barAttr=\"3\" data=\"bar3\"/></foo></inspection-result>", XmlUtils.documentToString( documentMaster, false ) );
 	}
 
+	public void testNodeToJson() {
+
+		// Normal case
+
+		Document document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" barAttr=\"2\" data=\"bar2\"/><baz bazAttr=\"3\"/></entity></inspection-result>" );
+		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"barAttr\":\"2\",\"data\":\"bar2\",\"name\":\"bar\"},{\"bazAttr\":\"3\"}]", XmlUtils.elementToJson( document.getDocumentElement() ));
+
+		// Nested elements are ignored, root attributes are optional
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" barAttr=\"2\" data=\"bar2\"><baz bazAttr=\"3\"/></property></entity></inspection-result>" );
+		assertEquals( "[{\"barAttr\":\"2\",\"data\":\"bar2\",\"name\":\"bar\"}]", XmlUtils.elementToJson( document.getDocumentElement() ));
+
+		// Empty elements are okay
+
+		document = XmlUtils.documentFromString( "<inspection-result/>" );
+		assertEquals( "[]", XmlUtils.elementToJson( document.getDocumentElement() ));
+	}
+
 	//
 	// Private members
 	//

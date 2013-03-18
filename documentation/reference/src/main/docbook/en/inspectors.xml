@@ -1178,7 +1178,9 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				
 				<para>
 					<classname>XmlSchemaInspector</classname> inspects XML Schema (XSD) files. If used for a
-					Java environment, consider using in conjunction with <code>XmlSchemaToJavaTypeMappingProcessor</code>.					
+					Java environment, consider using in conjunction with <classname>XmlSchemaToJavaTypeMappingProcessor</classname>.
+					For returning results to JavaScript environments, consider <classname>JavaToJavaScriptTypeMappingProcessor</classname>
+					and <classname>XmlUtils.elementToJson</classname>.				
 				</para>
 				
 			</section>
@@ -1194,7 +1196,8 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				
 				<para>
 					If <classname>WsdlInspector</classname> is used for a Java environment, consider using it
-					in conjunction with <code>XmlSchemaToJavaTypeMappingProcessor</code>.				
+					in conjunction with <classname>XmlSchemaToJavaTypeMappingProcessor</classname>. For returning results to JavaScript
+					environments, consider <classname>JavaToJavaScriptTypeMappingProcessor</classname> and <classname>XmlUtils.elementToJson</classname>.				
 				</para>
 				
 			</section>

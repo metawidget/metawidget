@@ -6,13 +6,12 @@
 		
 		<p>
 			Metawidget uses a combination of
-			<a href="http://cobertura.sourceforge.net" target="_blank">Cobertura</a>,
 			<a href="http://eclemma.org/jacoco" target="_blank">Jacoco</a>,
 			<a href="http://jenkins-ci.org" target="_blank">Jenkins</a>,
 			<a href="http://www.junit.org" target="_blank">JUnit</a>,
 			<a href="http://sonarsource.org" target="_blank">Sonar</a> and
 			<a href="http://webtest.canoo.com" target="_blank">WebTest</a>
-			to monitor code coverage and other project quality metrics.
+			and other tools to monitor code coverage and project quality metrics.
 		</p>
 
 		<p>

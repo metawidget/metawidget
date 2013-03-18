@@ -263,13 +263,18 @@
 
 				var childAttributes = undefined;
 
-				// Lookup binding attribute (be sure to normalize it)
+				// Lookup binding attribute
+				//
+				// Note: be sure to normalize it
+				// Note: be sure to lowercase it too, because HTML attribute
+				// names are case-insensitive and Angular's template mechanism
+				// lowercases them
 
 				for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
 					var attribute = child.attributes[loop];
-					var normalizedName = attrs.$normalize( attribute.name );
+					var normalizedName = attrs.$normalize( attribute.name ).toLowerCase();
 
-					if ( normalizedName === 'ngBind' || normalizedName === 'ngModel' ) {
+					if ( normalizedName === 'ngbind' || normalizedName === 'ngmodel' ) {
 						var splitPath = metawidget.util.splitPath( attribute.value );
 						var toInspect = scope.$parent.$eval( splitPath.type );
 						var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );

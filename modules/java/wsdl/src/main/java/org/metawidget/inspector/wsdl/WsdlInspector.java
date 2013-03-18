@@ -32,7 +32,9 @@ import org.w3c.dom.Element;
  * parses it for useful metadata.
  * <p>
  * If
- * <code>WsdlInspector</tt> is used for a Java environment, consider using it in conjunction with <code>XmlSchemaToJavaTypeMappingProcessor</code>.
+ * <code>WsdlInspector</tt> is used for a Java environment, consider using it in conjunction with <code>XmlSchemaToJavaTypeMappingProcessor</code>
+ * . For returning results to JavaScript environments, consider
+ * <code>JavaToJavaScriptTypeMappingProcessor</code> and <code>XmlUtils.elementToJson</code>.
  * 
  * @author Richard Kennard
  */

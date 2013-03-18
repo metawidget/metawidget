@@ -30,6 +30,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -559,6 +560,102 @@ public final class XmlUtils {
 
 			master.appendChild( XmlUtils.importElement( master.getOwnerDocument(), childToAdd ) );
 		}
+	}
+
+	/**
+	 * Convert the given Element to a String of JSON.
+	 * <p>
+	 * This utility method is intended for converting <code>inspection-result</code> DOMs into JSON.
+	 * As such, it makes some design choices:
+	 * <ul>
+	 * <li>the JSON is returned as an array of objects, one for each child element of the DOM root
+	 * element</li>
+	 * <li>within each object, each property represents an attribute name/value pair from the
+	 * original child element</li>
+	 * <li>the names of child elements are ignored</li>
+	 * <li>nested child elements are ignored</li>
+	 * <li>attribute name/value pairs from the root element (if any) are given an additional
+	 * property '_root' with value 'true'</li>
+	 * </ul>
+	 * These choices mean the final JSON is directly compatible with the JavaScript versions of
+	 * Metawidget. It can therefore be returned by REST services (see
+	 * http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
+	 */
+
+	public static String elementToJson( Element inspectionResult ) {
+
+		StringBuilder jsonBuilder = new StringBuilder();
+		Element entity = XmlUtils.getFirstChildElement( inspectionResult );
+
+		// Write out the root of the inspectionResult...
+
+		if ( entity != null ) {
+			String properties = attributesToJson( entity.getAttributes() );
+
+			if ( properties.length() > 0 ) {
+
+				jsonBuilder.append( "{\"_root\":\"true\"," );
+				jsonBuilder.append( properties );
+				jsonBuilder.append( "}" );
+			}
+
+			// ...then for each child property...
+
+			Element property = XmlUtils.getFirstChildElement( entity );
+
+			while ( property != null ) {
+
+				// ...and for each attribute of that property...
+
+				properties = attributesToJson( property.getAttributes() );
+
+				// ...write it out...
+
+				if ( properties.length() > 0 ) {
+
+					if ( jsonBuilder.length() > 0 ) {
+						jsonBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
+					}
+
+					jsonBuilder.append( "{" );
+					jsonBuilder.append( properties );
+					jsonBuilder.append( "}" );
+				}
+
+				property = XmlUtils.getNextSiblingElement( property );
+			}
+		}
+
+		// ...inside an array
+
+		return "[" + jsonBuilder.toString() + "]";
+	}
+
+	//
+	// Private methods
+	//
+
+	private static String attributesToJson( NamedNodeMap attributes ) {
+
+		StringBuilder propertyBuilder = new StringBuilder();
+
+		for ( int loop = 0, length = attributes.getLength(); loop < length; loop++ ) {
+
+			Node attribute = attributes.item( loop );
+
+			String nodeName = StringUtils.camelCase( attribute.getNodeName(), '-' );
+			String nodeValue = attribute.getNodeValue();
+
+			if ( propertyBuilder.length() > 0 ) {
+				propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
+			}
+
+			propertyBuilder.append( "\"" + nodeName + "\"" );
+			propertyBuilder.append( StringUtils.SEPARATOR_COLON_CHAR );
+			propertyBuilder.append( "\"" + nodeValue + "\"" );
+		}
+
+		return propertyBuilder.toString();
 	}
 
 	//

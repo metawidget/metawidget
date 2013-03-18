@@ -507,6 +507,22 @@
 						expect( mw.innerHTML ).toContain( '<span ng:model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 						expect( mw.childNodes.length ).toBe( 1 );
 					} );
+
+					// ngmodel (Angular's template mechanism lowercases
+					// attribute names)
+
+					var baz = document.createElement( 'span' );
+					baz.setAttribute( 'ngmodel', 'foo.baz' );
+					mw.appendChild( baz );
+
+					injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<label id="table-baz-label">Baz:</label>' );
+						expect( mw.innerHTML ).toContain( '<span ngmodel="foo.baz" class="ng-scope"/>' );
+						expect( mw.childNodes.length ).toBe( 1 );
+					} );
 				} );
 
 				it( "does not suppress undefined child inspection results", function() {
