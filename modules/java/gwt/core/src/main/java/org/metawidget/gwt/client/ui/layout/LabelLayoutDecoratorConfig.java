@@ -61,9 +61,9 @@ public class LabelLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public LabelLayoutDecoratorConfig setStyleName( String StyleName ) {
+	public LabelLayoutDecoratorConfig setStyleName( String styleName ) {
 
-		mStyleName = StyleName;
+		mStyleName = styleName;
 
 		return this;
 	}

@@ -63,9 +63,9 @@ public class TabFolderLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabFolderLayoutDecoratorConfig setTabLocation( int TabLocation ) {
+	public TabFolderLayoutDecoratorConfig setTabLocation( int tabLocation ) {
 
-		mTabLocation = TabLocation;
+		mTabLocation = tabLocation;
 
 		return this;
 	}

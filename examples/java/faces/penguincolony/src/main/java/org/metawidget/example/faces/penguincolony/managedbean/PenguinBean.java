@@ -111,9 +111,9 @@ public class PenguinBean {
 		return mPenguinCurrent;
 	}
 
-	public void setCurrent( Penguin PenguinCurrent ) {
+	public void setCurrent( Penguin current ) {
 
-		mPenguinCurrent = PenguinCurrent;
+		mPenguinCurrent = current;
 	}
 
 	@UiHidden

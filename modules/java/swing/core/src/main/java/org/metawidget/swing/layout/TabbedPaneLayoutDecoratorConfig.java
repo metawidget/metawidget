@@ -64,9 +64,9 @@ public class TabbedPaneLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabbedPaneLayoutDecoratorConfig setTabPlacement( int TabPlacement ) {
+	public TabbedPaneLayoutDecoratorConfig setTabPlacement( int tabPlacement ) {
 
-		mTabPlacement = TabPlacement;
+		mTabPlacement = tabPlacement;
 
 		return this;
 	}

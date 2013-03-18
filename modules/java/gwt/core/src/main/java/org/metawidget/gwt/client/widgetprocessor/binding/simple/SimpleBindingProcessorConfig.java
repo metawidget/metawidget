@@ -56,7 +56,7 @@ public class SimpleBindingProcessorConfig {
 	 * @return this, as part of a fluent interface
 	 */
 
-	public <T> SimpleBindingProcessorConfig setAdapter( Class<T> forClass, SimpleBindingProcessorAdapter<T> Adapter ) {
+	public <T> SimpleBindingProcessorConfig setAdapter( Class<T> forClass, SimpleBindingProcessorAdapter<T> adapter ) {
 
 		if ( mAdapters == null ) {
 			
@@ -66,7 +66,7 @@ public class SimpleBindingProcessorConfig {
 			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>();
 		}
 
-		mAdapters.put( forClass, Adapter );
+		mAdapters.put( forClass, adapter );
 
 		return this;
 	}

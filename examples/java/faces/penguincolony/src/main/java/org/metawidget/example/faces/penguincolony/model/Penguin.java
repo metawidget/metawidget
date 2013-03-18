@@ -175,9 +175,9 @@ public class Penguin {
 		return mDescribeHobby;
 	}
 
-	public void setDescribeHobby( String DescribeHobby ) {
+	public void setDescribeHobby( String describeHobby ) {
 
-		mDescribeHobby = DescribeHobby;
+		mDescribeHobby = describeHobby;
 	}
 
 	@UiHidden
