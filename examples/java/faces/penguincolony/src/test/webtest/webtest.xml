@@ -5,7 +5,7 @@
 	<target name="all">
 		<webtest name="test-penguincolony">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
-				<option name="ThrowExceptionOnScriptError" value="false"/>			
+				<option name="ThrowExceptionOnScriptError" value="false"/>
 			</config>
 			<steps>
 				<groovy>

@@ -215,6 +215,12 @@ public class XmlUtilsTest
 		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"bazAttr\":\"3\",\"comesAfter\":\"bar\"}]", XmlUtils.elementToJson( document.getDocumentElement(), null, new String[] { HIDDEN }, false ) );
 		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"bazAttr\":\"3\"}]", XmlUtils.elementToJson( document.getDocumentElement(), new String[] { COMES_AFTER }, new String[] { HIDDEN }, false ) );
 		assertEquals( "[{\"bazAttr\":\"3\"}]", XmlUtils.elementToJson( document.getDocumentElement(), new String[] { COMES_AFTER }, new String[] { HIDDEN }, true ) );
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" hidden=\"false\" barAttr=\"2\" data=\"bar2\"/><baz bazAttr=\"3\" comes-after=\"bar\"/></entity></inspection-result>" );
+		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"barAttr\":\"2\",\"data\":\"bar2\",\"hidden\":\"false\",\"name\":\"bar\"},{\"bazAttr\":\"3\",\"comesAfter\":\"bar\"}]", XmlUtils.elementToJson( document.getDocumentElement(), null, new String[] { HIDDEN }, false ) );
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" hidden=\"true\" barAttr=\"2\" data=\"bar2\"/><baz bazAttr=\"3\" comes-after=\"bar\"/></entity></inspection-result>" );
+		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"bazAttr\":\"3\",\"comesAfter\":\"bar\"}]", XmlUtils.elementToJson( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
 	}
 
 	//

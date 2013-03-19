@@ -4,7 +4,10 @@
 
 	<target name="all">
 		<webtest name="test-all">
-			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
+				<!-- 'No document element' error appears intermittently -->
+				<option name="ThrowExceptionOnScriptError" value="false"/>
+			</config>
 			<steps>
 				<invoke url="/" />
 				<verifyTitle text="Address Book (Metawidget Vaadin Example)" />

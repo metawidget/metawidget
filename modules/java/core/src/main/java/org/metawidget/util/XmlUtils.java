@@ -16,6 +16,8 @@
 
 package org.metawidget.util;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -588,12 +590,16 @@ public final class XmlUtils {
 	}
 
 	/**
-	 * @param excludeAttributes	exclude the given attributes from the JSON
-	 * @param excludeElementWithAttributes exclude any elements, that have one of the given attributes, from the JSON
-	 * @param excludeRootAttributes exclude attributes from the root node
+	 * @param excludeAttributes
+	 *            exclude the given attributes from the JSON
+	 * @param excludeElementWithAttributes
+	 *            exclude any elements, that have one of the given attributes equal to 'true', from
+	 *            the JSON
+	 * @param excludeRootAttributes
+	 *            exclude attributes from the root node
 	 * @return
 	 */
-	public static String elementToJson( Element inspectionResult, String[] excludeAttributes, String[] excludeElementWithAttributes, boolean excludeRootAttributes ) {
+	public static String elementToJson( Element inspectionResult, String[] excludeAttributes, String[] excludeElementWithTrueAttributes, boolean excludeRootAttributes ) {
 
 		StringBuilder jsonBuilder = new StringBuilder();
 		Element entity = XmlUtils.getFirstChildElement( inspectionResult );
@@ -621,7 +627,7 @@ public final class XmlUtils {
 
 				// ...and for each attribute of that property...
 
-				String properties = attributesToJson( property.getAttributes(), excludeAttributes, excludeElementWithAttributes );
+				String properties = attributesToJson( property.getAttributes(), excludeAttributes, excludeElementWithTrueAttributes );
 
 				// ...write it out...
 
@@ -649,7 +655,7 @@ public final class XmlUtils {
 	// Private methods
 	//
 
-	private static String attributesToJson( NamedNodeMap attributes, String[] excludeAttributes, String[] excludeElementWithAttributes ) {
+	private static String attributesToJson( NamedNodeMap attributes, String[] excludeAttributes, String[] excludeElementWithTrueAttributes ) {
 
 		StringBuilder propertyBuilder = new StringBuilder();
 
@@ -658,8 +664,9 @@ public final class XmlUtils {
 			Node attribute = attributes.item( loop );
 
 			String elementName = attribute.getNodeName();
+			String nodeValue = attribute.getNodeValue();
 
-			if ( ArrayUtils.contains( excludeElementWithAttributes, elementName ) ) {
+			if ( ArrayUtils.contains( excludeElementWithTrueAttributes, elementName ) && TRUE.equals( nodeValue ) ) {
 				return "";
 			}
 
@@ -668,7 +675,6 @@ public final class XmlUtils {
 			}
 
 			elementName = StringUtils.camelCase( elementName, '-' );
-			String nodeValue = attribute.getNodeValue();
 
 			if ( propertyBuilder.length() > 0 ) {
 				propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
