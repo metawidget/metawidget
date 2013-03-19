@@ -52,6 +52,30 @@ public class SwingTutorialTest
 	extends TestCase {
 
 	//
+	// Public statics
+	//
+
+	public static void main( String[] args ) {
+
+		// Data model
+
+		Person person = new Person();
+
+		// Metawidget
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( person );
+
+		// JFrame
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+
+	//
 	// Public methods
 	//
 

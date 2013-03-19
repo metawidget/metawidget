@@ -16,6 +16,8 @@
 
 package org.metawidget.statically.faces.component.html.richfaces;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.awt.Color;
 import java.io.StringWriter;
 import java.util.Date;
@@ -27,6 +29,9 @@ import org.hibernate.validator.Max;
 import org.hibernate.validator.Min;
 import org.hibernate.validator.Range;
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
+import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputText;
+import org.metawidget.statically.faces.component.html.widgetbuilder.richfaces.RichFacesWidgetBuilder;
+import org.metawidget.util.CollectionUtils;
 
 public class RichFacesWidgetBuilderTest
 	extends TestCase {
@@ -98,6 +103,40 @@ public class RichFacesWidgetBuilderTest
 		assertEquals( "http://java.sun.com/jsf/html", namespaces.get( "h" ) );
 		assertEquals( "http://richfaces.org/rich", namespaces.get( "rich" ) );
 		assertEquals( 2, namespaces.size() );
+	}
+
+	public void testNonRichFacesWidgets() {
+
+		RichFacesWidgetBuilder widgetBuilder = new RichFacesWidgetBuilder();
+
+		// Not for us?
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( HIDDEN, TRUE );
+		assertEquals( null, widgetBuilder.buildWidget( null, attributes, null ));
+
+		attributes.clear();
+		attributes.put( LOOKUP, "Foo" );
+		assertEquals( null, widgetBuilder.buildWidget( null, attributes, null ));
+
+		attributes.clear();
+		attributes.put( TYPE, "LoginScreen" );
+		assertEquals( null, widgetBuilder.buildWidget( null, attributes, null ));
+
+		attributes.clear();
+		attributes.put( TYPE, boolean.class.getName() );
+		assertEquals( null, widgetBuilder.buildWidget( null, attributes, null ));
+
+		attributes.clear();
+		attributes.put( TYPE, char.class.getName() );
+		assertEquals( null, widgetBuilder.buildWidget( null, attributes, null ));
+
+		// Read-only Color
+
+		attributes.clear();
+		attributes.put( TYPE, Color.class.getName() );
+		attributes.put( READ_ONLY, TRUE );
+		assertTrue( widgetBuilder.buildWidget( null, attributes, null ) instanceof HtmlOutputText );
 	}
 
 	//

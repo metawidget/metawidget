@@ -18,9 +18,11 @@ package org.metawidget.integrationtest.swt.tutorial;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
+import net.miginfocom.layout.CC;
+import net.miginfocom.layout.LC;
+import net.miginfocom.swt.MigLayout;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -67,13 +69,21 @@ public class SwtTutorialTest
 
 	public static void main( String[] args ) {
 
-		Display display = new Display();
-		Shell shell = new Shell( display, SWT.DIALOG_TRIM | SWT.RESIZE );
-		shell.setLayout( new FillLayout() );
+		// Data model
 
-		SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.NONE );
-		metawidget.setConfig( "org/metawidget/example/swt/tutorial/metawidget.xml" );
-		metawidget.setToInspect( new PersonAtTutorialEnd() );
+		Person person = new Person();
+
+		// Metawidget
+
+		Display display = new Display();
+		Shell shell = new Shell( display );
+		shell.setLayout( new MigLayout( new LC().fill().debug( 500 ) ) );
+
+		SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.None );
+		metawidget.setLayoutData( new CC().height( "200px" ).width( "200px" ) );
+		metawidget.setToInspect( person );
+
+		// Shell
 
 		shell.setVisible( true );
 		shell.open();
