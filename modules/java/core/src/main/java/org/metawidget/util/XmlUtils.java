@@ -268,7 +268,7 @@ public final class XmlUtils {
 				continue;
 			}
 
-			if ( name.equals( node.getNodeName() ) ) {
+			if ( name.equals( node.getLocalName() ) ) {
 				return (Element) node;
 			}
 		}

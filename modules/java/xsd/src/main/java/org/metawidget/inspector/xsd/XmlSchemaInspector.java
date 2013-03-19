@@ -18,6 +18,7 @@ package org.metawidget.inspector.xsd;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
@@ -33,7 +34,7 @@ import org.w3c.dom.Element;
  * <code>XmlSchemaInspector</tt> is used for a Java environment, consider using it in conjunction with <code>XmlSchemaToJavaTypeMappingProcessor</code>
  * . For returning results to JavaScript environments, consider
  * <code>JavaToJavaScriptTypeMappingProcessor</code> and <code>XmlUtils.elementToJson</code>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -63,6 +64,8 @@ public class XmlSchemaInspector
 	private static final String	EXTENSION		= "extension";
 
 	private static final String	RESTRICTION		= "restriction";
+
+	private static final String	ENUMERATION		= "enumeration";
 
 	private static final String	VALUE			= "value";
 
@@ -97,6 +100,10 @@ public class XmlSchemaInspector
 
 	@Override
 	protected Element traverseFromTopLevelTypeToNamedChildren( Element topLevel ) {
+
+		if ( SIMPLE_TYPE.equals( topLevel.getLocalName() ) ) {
+			return topLevel;
+		}
 
 		// Skip over 'complexType'...
 
@@ -142,6 +149,14 @@ public class XmlSchemaInspector
 			throw InspectorException.newException( "Unexpected child node '" + sequence.getLocalName() + "'" );
 		}
 
+		// Choice
+
+		Element choice = XmlUtils.getChildNamed( sequence, "choice" );
+
+		if ( choice != null ) {
+			return choice;
+		}
+
 		return sequence;
 	}
 
@@ -150,20 +165,34 @@ public class XmlSchemaInspector
 
 		Element toInspectToUse = toInspect;
 
+		// Simple type
+
+		if ( SIMPLE_TYPE.equals( toInspectToUse.getLocalName() ) ) {
+
+			Map<String, String> attributes = CollectionUtils.newHashMap();
+			inspectRestriction( toInspectToUse, attributes );
+
+			for ( Map.Entry<String, String> entry : attributes.entrySet() ) {
+				toAddTo.setAttribute( entry.getKey(), entry.getValue() );
+			}
+
+			return;
+		}
+
 		// Inherited type
 
 		if ( COMPLEX_CONTENT.equals( toInspectToUse.getLocalName() ) ) {
 
-			toInspectToUse = XmlUtils.getChildNamed( toInspectToUse, "extension" );
+			toInspectToUse = XmlUtils.getChildNamed( toInspectToUse, EXTENSION );
 
 			if ( toInspectToUse == null ) {
-				throw InspectorException.newException( "Expected complexContent to have an extension" );
+				throw InspectorException.newException( "Expected " + COMPLEX_CONTENT + " to have an " + EXTENSION );
 			}
 
 			String base = toInspectToUse.getAttribute( BASE );
 
 			if ( base == null ) {
-				throw InspectorException.newException( "Expected extension to have a base" );
+				throw InspectorException.newException( "Expected " + EXTENSION + " to have a " + BASE );
 			}
 
 			// Look up the base element...
@@ -194,16 +223,59 @@ public class XmlSchemaInspector
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		// Redirect to ref (if any)
-
 		Element toInspectToUse = toInspect;
 
-		if ( toInspectToUse.hasAttribute( REF ) ) {
-			String name = toInspectToUse.getAttribute( REF );
-			attributes.put( NAME, name );
-			toInspectToUse = XmlUtils.getChildWithAttributeValue( toInspectToUse.getOwnerDocument().getDocumentElement(), getTopLevelTypeAttribute(), name );
-		} else {
-			attributes.put( NAME, toInspectToUse.getAttribute( NAME ) );
+		while ( true ) {
+
+			if ( toInspectToUse == null ) {
+				return null;
+			}
+
+			// All bets are off for xs:any
+
+			if ( "any".equals( toInspectToUse.getLocalName() ) ) {
+				return null;
+			}
+
+			// Redirect to ref (if any)
+
+			if ( toInspectToUse.hasAttribute( REF ) ) {
+				String name = toInspectToUse.getAttribute( REF );
+
+				if ( !attributes.containsKey( NAME ) ) {
+					attributes.put( NAME, name );
+				}
+				toInspectToUse = XmlUtils.getChildWithAttributeValue( toInspectToUse.getOwnerDocument().getDocumentElement(), getTopLevelTypeAttribute(), name );
+				continue;
+			}
+
+			// Redirect to type (if any)
+
+			if ( !toInspectToUse.hasChildNodes() && toInspectToUse.hasAttribute( TYPE ) ) {
+
+				// Current toInspectToUse may have minOccurs, etc.
+
+				inspectElement( toInspectToUse, attributes );
+
+				if ( !attributes.containsKey( NAME ) ) {
+					attributes.put( NAME, toInspectToUse.getAttribute( NAME ) );
+				}
+				Element typeToUse = XmlUtils.getChildWithAttributeValue( toInspectToUse.getOwnerDocument().getDocumentElement(), getTopLevelTypeAttribute(), toInspectToUse.getAttribute( TYPE ) );
+
+				if ( typeToUse == null ) {
+					break;
+				}
+
+				toInspectToUse = typeToUse;
+				continue;
+			}
+
+			// Normal node
+
+			if ( !attributes.containsKey( NAME ) && toInspectToUse.hasAttribute( NAME ) ) {
+				attributes.put( NAME, toInspectToUse.getAttribute( NAME ) );
+			}
+			break;
 		}
 
 		inspectElement( toInspectToUse, attributes );
@@ -222,7 +294,7 @@ public class XmlSchemaInspector
 			attributes.put( TYPE, element.getAttribute( TYPE ) );
 		} else {
 
-			// Type inferred from complexType or simpleType
+			// Type inferred from nested complexType or simpleType
 
 			Element complexType = XmlUtils.getChildNamed( element, COMPLEX_TYPE );
 
@@ -233,6 +305,10 @@ public class XmlSchemaInspector
 					inspectExtension( simpleContent, attributes );
 					inspectRestriction( simpleContent, attributes );
 				}
+			} else if ( SIMPLE_TYPE.equals( element.getLocalName() ) ) {
+
+				inspectRestriction( element, attributes );
+
 			} else {
 
 				Element simpleType = XmlUtils.getChildNamed( element, SIMPLE_TYPE );
@@ -260,7 +336,9 @@ public class XmlSchemaInspector
 			return;
 		}
 
-		attributes.put( TYPE, extension.getAttribute( BASE ) );
+		if ( extension.hasAttribute( BASE ) ) {
+			attributes.put( TYPE, extension.getAttribute( BASE ) );
+		}
 	}
 
 	private void inspectRestriction( Element parent, Map<String, String> attributes ) {
@@ -271,7 +349,9 @@ public class XmlSchemaInspector
 			return;
 		}
 
-		attributes.put( TYPE, restriction.getAttribute( BASE ) );
+		if ( restriction.hasAttribute( BASE ) ) {
+			attributes.put( TYPE, restriction.getAttribute( BASE ) );
+		}
 
 		// Minimum/maximum length
 
@@ -307,6 +387,21 @@ public class XmlSchemaInspector
 
 		if ( fractionDigits != null ) {
 			attributes.put( MAXIMUM_FRACTIONAL_DIGITS, fractionDigits.getAttribute( VALUE ) );
+		}
+
+		// Lookup
+
+		Element enumeration = XmlUtils.getChildNamed( restriction, ENUMERATION );
+
+		if ( enumeration != null ) {
+			List<String> lookup = CollectionUtils.newArrayList();
+
+			while ( enumeration != null ) {
+				lookup.add( enumeration.getAttribute( VALUE ) );
+				enumeration = XmlUtils.getSiblingNamed( enumeration, ENUMERATION );
+			}
+
+			attributes.put( LOOKUP, CollectionUtils.toString( lookup ) );
 		}
 	}
 }

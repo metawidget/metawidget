@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.util.XmlUtils.CachingContentHandler;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -40,6 +41,27 @@ public class XmlUtilsTest
 	//
 	// Public methods
 	//
+
+	public void testChildNamed() {
+
+		Document document = XmlUtils.documentFromString( "<root xmlns:xs=\"foo\">Blah<node1/>Blah<xs:node2/>Blah<xs:node3/>Blah</root>" );
+		Element root = document.getDocumentElement();
+
+		Element element = XmlUtils.getFirstChildElement( root );
+		assertEquals( "node1", element.getNodeName() );
+		element = XmlUtils.getNextSiblingElement( element );
+		assertEquals( "xs:node2", element.getNodeName() );
+		element = XmlUtils.getNextSiblingElement( element );
+		assertEquals( "xs:node3", element.getNodeName() );
+		assertEquals( null, XmlUtils.getNextSiblingElement( element ) );
+
+		// Test getChildNamed and getSiblingNamed are using getLocalName(), not getNodeName()
+
+		element = XmlUtils.getChildNamed( root, "node2" );
+		assertEquals( "xs:node2", element.getNodeName() );
+		element = XmlUtils.getSiblingNamed( element, "node3" );
+		assertEquals( "xs:node3", element.getNodeName() );
+	}
 
 	public void testCachingContentHandler()
 		throws Exception {

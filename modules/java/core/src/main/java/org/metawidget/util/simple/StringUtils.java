@@ -70,6 +70,10 @@ public final class StringUtils {
 
 	public static String decapitalize( String in ) {
 
+		if ( in.length() == 0 ) {
+			return in;
+		}
+
 		// Nothing to do?
 
 		char firstChar = in.charAt( 0 );

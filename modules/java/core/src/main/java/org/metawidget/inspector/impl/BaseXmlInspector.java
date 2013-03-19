@@ -324,7 +324,7 @@ public abstract class BaseXmlInspector
 
 					// Nothing of consequence to return?
 
-					if ( !entity.hasChildNodes() ) {
+					if ( !entity.hasChildNodes() && parentAttributes == null ) {
 						return null;
 					}
 				}
@@ -662,7 +662,7 @@ public abstract class BaseXmlInspector
 				property = XmlUtils.getChildWithAttributeValue( elementWithNamedChildren, referenceAttribute, name );
 
 				if ( property == null ) {
-					break;
+					return new ValueAndDeclaredType( null, null );
 				}
 
 				property = XmlUtils.getChildWithAttributeValue( mRoot, nameAttribute, name );

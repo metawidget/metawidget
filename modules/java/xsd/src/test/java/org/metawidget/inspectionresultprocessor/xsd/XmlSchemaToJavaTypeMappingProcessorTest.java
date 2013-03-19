@@ -44,7 +44,7 @@ public class XmlSchemaToJavaTypeMappingProcessorTest
 		inputXml += "<property name=\"04\" type=\"float\"/>";
 		inputXml += "<property name=\"05\" type=\"double\"/>";
 		inputXml += "<property name=\"06\" type=\"duration\"/>";
-		inputXml += "<property name=\"07\" type=\"dateTime\"/>";
+		inputXml += "<property name=\"07\" type=\"xsd:dateTime\"/>";
 		inputXml += "<property name=\"08\" type=\"time\"/>";
 		inputXml += "<property name=\"09\" type=\"date\"/>";
 		inputXml += "<property name=\"10\" type=\"normalizedString\"/>";

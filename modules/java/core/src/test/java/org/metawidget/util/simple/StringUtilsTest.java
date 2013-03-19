@@ -45,6 +45,7 @@ public class StringUtilsTest
 	public void testDecapitalize()
 		throws Exception {
 
+		assertEquals( "", StringUtils.decapitalize( "" ) );
 		assertEquals( "fooBah", StringUtils.decapitalize( "FooBah" ) );
 		assertEquals( "x", StringUtils.decapitalize( "X" ) );
 		assertEquals( "URL", StringUtils.decapitalize( "URL" ) );

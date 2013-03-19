@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-core</artifactId>
-			<version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
+			<version>${project.version}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
@@ -24,6 +24,12 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.swing</groupId>
+			<artifactId>metawidget-swing</artifactId>
+			<version>${project.version}</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

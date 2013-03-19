@@ -17,11 +17,21 @@
 package org.metawidget.inspector.xsd;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
 import junit.framework.TestCase;
 
 import org.metawidget.config.impl.SimpleResourceResolver;
+import org.metawidget.inspectionresultprocessor.xsd.XmlSchemaToJavaTypeMappingProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -134,7 +144,7 @@ public class XmlSchemaInspectorTest
 		Element property = (Element) entity.getFirstChild();
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "orderperson", property.getAttribute( NAME ) );
-		assertEquals( "stringtype", property.getAttribute( TYPE ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
 		property = (Element) property.getNextSibling();
@@ -359,18 +369,17 @@ public class XmlSchemaInspectorTest
 	public void testRealWorld() {
 
 		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt.xsd" ) ) );
+
+		// From top-level
+
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "AccountRequestAcknowledgementV01" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
-
-		// Entity
 
 		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertFalse( entity.hasAttribute( NAME ) );
 		assertEquals( "AccountRequestAcknowledgementV01", entity.getAttribute( TYPE ) );
-
-		// Properties
 
 		Element property = (Element) entity.getFirstChild();
 		assertEquals( PROPERTY, property.getNodeName() );
@@ -391,7 +400,168 @@ public class XmlSchemaInspectorTest
 		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
 		assertEquals( property.getAttributes().getLength(), 3 );
 
-		//assertEquals( property.getNextSibling(), null );
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "AcctSvcrId", property.getAttribute( NAME ) );
+		assertEquals( "BranchAndFinancialInstitutionIdentification4", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		// From path
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "AccountRequestAcknowledgementV01", "Refs", "MsgId" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "MsgId", entity.getAttribute( NAME ) );
+		assertEquals( "MessageIdentification1", entity.getAttribute( TYPE ) );
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "Id", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( "1", property.getAttribute( MINIMUM_LENGTH ) );
+		assertEquals( "35", property.getAttribute( MAXIMUM_LENGTH ) );
+		assertEquals( property.getAttributes().getLength(), 4 );
+
+		// From non-existent
+
+		assertEquals( null, XmlUtils.documentFromString( inspector.inspect( null, "AccountRequestAcknowledgementV02" ) ) );
+		assertEquals( null, XmlUtils.documentFromString( inspector.inspect( null, "AccountRequestAcknowledgementV02", "Foo" ) ) );
+	}
+
+	public void testSwingMetawidget() {
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt.xsd" ) ) ) );
+		metawidget.addInspectionResultProcessor( new XmlSchemaToJavaTypeMappingProcessor<SwingMetawidget>() );
+		metawidget.setPath( "AccountRequestAcknowledgementV01" );
+
+		assertEquals( "Refs:", ( (JLabel) metawidget.getComponent( 0 ) ).getText() );
+		SwingMetawidget refsMetawidget = (SwingMetawidget) metawidget.getComponent( "Refs" );
+
+		// Test xs:enumeration
+
+		assertEquals( "Req Tp:", ( (JLabel) refsMetawidget.getComponent( 0 ) ).getText() );
+		JComboBox reqTp = ( (JComboBox) refsMetawidget.getComponent( "ReqTp" ) );
+		assertEquals( null, reqTp.getItemAt( 0 ) );
+		assertEquals( "OPEN", reqTp.getItemAt( 1 ) );
+		assertEquals( "MNTN", reqTp.getItemAt( 2 ) );
+		assertEquals( "CLSG", reqTp.getItemAt( 3 ) );
+		assertEquals( "VIEW", reqTp.getItemAt( 4 ) );
+
+		// Test nesting
+
+		assertEquals( "Msg Id:", ( (JLabel) refsMetawidget.getComponent( 2 ) ).getText() );
+		SwingMetawidget msgIdMetawidget = (SwingMetawidget) refsMetawidget.getComponent( "MsgId" );
+
+		assertEquals( "Id:", ( (JLabel) msgIdMetawidget.getComponent( 0 ) ).getText() );
+		assertTrue( msgIdMetawidget.getComponent( "Id" ) instanceof JTextField );
+		assertEquals( "Cre Dt Tm:", ( (JLabel) msgIdMetawidget.getComponent( 2 ) ).getText() );
+		assertTrue( msgIdMetawidget.getComponent( "CreDtTm" ) instanceof JTextField );
+		assertEquals( 5, msgIdMetawidget.getComponentCount() );
+
+		assertEquals( "Acct Id:", ( (JLabel) metawidget.getComponent( 2 ) ).getText() );
+		SwingMetawidget acctIdMetawidget = (SwingMetawidget) metawidget.getComponent( "AcctId" );
+
+		assertEquals( "Id:", ( (JLabel) acctIdMetawidget.getComponent( 0 ) ).getText() );
+		SwingMetawidget idMetawidget = (SwingMetawidget) acctIdMetawidget.getComponent( "Id" );
+
+		assertEquals( "IBAN:", ( (JLabel) idMetawidget.getComponent( 0 ) ).getText() );
+		assertTrue( idMetawidget.getComponent( "IBAN" ) instanceof JTextField );
+
+		// Test xs:any
+
+		SwingMetawidget dgtlSgntrMetawidget = (SwingMetawidget) metawidget.getComponent( "DgtlSgntr" );
+		SwingMetawidget sgntrMetawidget = (SwingMetawidget) dgtlSgntrMetawidget.getComponent( "Sgntr" );
+		assertEquals( 0, sgntrMetawidget.getComponentCount() );
+	}
+
+	public static void main( String[] args ) {
+
+		final SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new XmlSchemaInspector(
+				new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt.xsd" ) ) ) );
+		metawidget.addInspectionResultProcessor( new XmlSchemaToJavaTypeMappingProcessor<SwingMetawidget>() );
+		metawidget.setPath( "AccountRequestAcknowledgementV01" );
+
+		JFrame frame = new JFrame( "Metawidget WSDL" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( new JScrollPane( metawidget ) );
+		frame.setSize( 400, 210 );
+		metawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+		frame.setVisible( true );
+	}
+
+	public void testBankAccount() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/bank-account.xsd" ) ) );
+
+		// From top-level
+
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "accountSummary" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertFalse( entity.hasAttribute( NAME ) );
+		assertEquals( "accountSummary", entity.getAttribute( TYPE ) );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "timestamp", property.getAttribute( NAME ) );
+		assertEquals( "xsd:dateTime", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "currency", property.getAttribute( NAME ) );
+		assertEquals( "xsd:string", property.getAttribute( TYPE ) );
+		assertEquals( "AUD,BRL,CAD,CNY,EUR,GBP,INR,JPY,RUR,USD", property.getAttribute( LOOKUP ) );
+		assertEquals( property.getAttributes().getLength(), 3 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "balance", property.getAttribute( NAME ) );
+		assertEquals( "xsd:decimal", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "interest", property.getAttribute( NAME ) );
+		assertEquals( "xsd:decimal", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( property.getNextSibling(), null );
+
+		// From path
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "accountSummary", "timestamp" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "timestamp", entity.getAttribute( NAME ) );
+		assertEquals( "xsd:dateTime", entity.getAttribute( TYPE ) );
+		assertEquals( entity.getAttributes().getLength(), 2 );
+
+		assertTrue( !entity.hasChildNodes() );
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "accountSummary", "currency" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "currency", entity.getAttribute( NAME ) );
+		assertEquals( "iso3currency", entity.getAttribute( TYPE ) );
+		assertEquals( "AUD,BRL,CAD,CNY,EUR,GBP,INR,JPY,RUR,USD", entity.getAttribute( LOOKUP ) );
+		assertEquals( entity.getAttributes().getLength(), 3 );
+
+		assertTrue( !entity.hasChildNodes() );
 	}
 
 	public void testConfig() {
