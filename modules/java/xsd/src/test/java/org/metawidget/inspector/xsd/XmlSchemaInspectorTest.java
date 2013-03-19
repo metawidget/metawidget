@@ -356,6 +356,44 @@ public class XmlSchemaInspectorTest
 		assertEquals( property.getNextSibling(), null );
 	}
 
+	public void testRealWorld() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt.xsd" ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "AccountRequestAcknowledgementV01" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		// Entity
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertFalse( entity.hasAttribute( NAME ) );
+		assertEquals( "AccountRequestAcknowledgementV01", entity.getAttribute( TYPE ) );
+
+		// Properties
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "Refs", property.getAttribute( NAME ) );
+		assertEquals( "References5", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "AcctId", property.getAttribute( NAME ) );
+		assertEquals( "AccountForAction1", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "OrgId", property.getAttribute( NAME ) );
+		assertEquals( "OrganisationIdentification6", property.getAttribute( TYPE ) );
+		assertEquals( TRUE, property.getAttribute( REQUIRED ) );
+		assertEquals( property.getAttributes().getLength(), 3 );
+
+		//assertEquals( property.getNextSibling(), null );
+	}
+
 	public void testConfig() {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( XmlSchemaInspectorConfig.class, new XmlSchemaInspectorConfig() {

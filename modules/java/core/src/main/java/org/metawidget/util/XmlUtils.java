@@ -584,19 +584,33 @@ public final class XmlUtils {
 
 	public static String elementToJson( Element inspectionResult ) {
 
+		return elementToJson( inspectionResult, null, null, false );
+	}
+
+	/**
+	 * @param excludeAttributes	exclude the given attributes from the JSON
+	 * @param excludeElementWithAttributes exclude any elements, that have one of the given attributes, from the JSON
+	 * @param excludeRootAttributes exclude attributes from the root node
+	 * @return
+	 */
+	public static String elementToJson( Element inspectionResult, String[] excludeAttributes, String[] excludeElementWithAttributes, boolean excludeRootAttributes ) {
+
 		StringBuilder jsonBuilder = new StringBuilder();
 		Element entity = XmlUtils.getFirstChildElement( inspectionResult );
 
 		// Write out the root of the inspectionResult...
 
 		if ( entity != null ) {
-			String properties = attributesToJson( entity.getAttributes() );
 
-			if ( properties.length() > 0 ) {
+			if ( !excludeRootAttributes ) {
+				String properties = attributesToJson( entity.getAttributes(), excludeAttributes, null );
 
-				jsonBuilder.append( "{\"_root\":\"true\"," );
-				jsonBuilder.append( properties );
-				jsonBuilder.append( "}" );
+				if ( properties.length() > 0 ) {
+
+					jsonBuilder.append( "{\"_root\":\"true\"," );
+					jsonBuilder.append( properties );
+					jsonBuilder.append( "}" );
+				}
 			}
 
 			// ...then for each child property...
@@ -607,7 +621,7 @@ public final class XmlUtils {
 
 				// ...and for each attribute of that property...
 
-				properties = attributesToJson( property.getAttributes() );
+				String properties = attributesToJson( property.getAttributes(), excludeAttributes, excludeElementWithAttributes );
 
 				// ...write it out...
 
@@ -635,7 +649,7 @@ public final class XmlUtils {
 	// Private methods
 	//
 
-	private static String attributesToJson( NamedNodeMap attributes ) {
+	private static String attributesToJson( NamedNodeMap attributes, String[] excludeAttributes, String[] excludeElementWithAttributes ) {
 
 		StringBuilder propertyBuilder = new StringBuilder();
 
@@ -643,14 +657,24 @@ public final class XmlUtils {
 
 			Node attribute = attributes.item( loop );
 
-			String nodeName = StringUtils.camelCase( attribute.getNodeName(), '-' );
+			String elementName = attribute.getNodeName();
+
+			if ( ArrayUtils.contains( excludeElementWithAttributes, elementName ) ) {
+				return "";
+			}
+
+			if ( ArrayUtils.contains( excludeAttributes, elementName ) ) {
+				continue;
+			}
+
+			elementName = StringUtils.camelCase( elementName, '-' );
 			String nodeValue = attribute.getNodeValue();
 
 			if ( propertyBuilder.length() > 0 ) {
 				propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
 			}
 
-			propertyBuilder.append( "\"" + nodeName + "\"" );
+			propertyBuilder.append( "\"" + elementName + "\"" );
 			propertyBuilder.append( StringUtils.SEPARATOR_COLON_CHAR );
 			propertyBuilder.append( "\"" + nodeValue + "\"" );
 		}

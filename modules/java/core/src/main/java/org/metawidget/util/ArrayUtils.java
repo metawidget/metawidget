@@ -146,10 +146,20 @@ public final class ArrayUtils {
 		return newArray;
 	}
 
+	/**
+	 * @return true if the given array contains the given element. False if it does not, or if the
+	 *         given array is null.
+	 */
+
 	public static <T> boolean contains( T[] array, T contains ) {
 
 		return ( indexOf( array, contains ) != -1 );
 	}
+
+	/**
+	 * @return true if the given array contains the given element. False if it does not, or if the
+	 *         given array is null.
+	 */
 
 	public static <T> int indexOf( T[] array, T contains ) {
 

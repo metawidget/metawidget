@@ -6,6 +6,7 @@
 		<webtest name="test-faces">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
+				<!-- Sleep for slow build servers -->
 				<sleep seconds="10" />
 				<invoke url="/" />
 

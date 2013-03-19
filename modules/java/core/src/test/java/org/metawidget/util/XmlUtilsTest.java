@@ -16,6 +16,8 @@
 
 package org.metawidget.util;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -129,7 +131,7 @@ public class XmlUtilsTest
 		try {
 			cachingContentHandler.replay( newSimpleContentHandler );
 			fail();
-		} catch( SAXException e  ) {
+		} catch ( SAXException e ) {
 			assertEquals( "Not ready to replay - ContentHandler delegate is non-null. Either endDocument must be triggered, or releaseDelegate must be called explicitly", e.getMessage() );
 		}
 
@@ -178,7 +180,7 @@ public class XmlUtilsTest
 		try {
 			XmlUtils.combineElements( documentMaster.getDocumentElement(), documentToAdd.getDocumentElement(), "fooAttr", "barAttr" );
 			fail();
-		} catch( Exception e ) {
+		} catch ( Exception e ) {
 			assertEquals( "Child node #1 has no @barAttr: <bar bazAttr=\"3\"/>", e.getMessage() );
 		}
 
@@ -194,17 +196,25 @@ public class XmlUtilsTest
 		// Normal case
 
 		Document document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" barAttr=\"2\" data=\"bar2\"/><baz bazAttr=\"3\"/></entity></inspection-result>" );
-		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"barAttr\":\"2\",\"data\":\"bar2\",\"name\":\"bar\"},{\"bazAttr\":\"3\"}]", XmlUtils.elementToJson( document.getDocumentElement() ));
+		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"barAttr\":\"2\",\"data\":\"bar2\",\"name\":\"bar\"},{\"bazAttr\":\"3\"}]", XmlUtils.elementToJson( document.getDocumentElement() ) );
 
 		// Nested elements are ignored, root attributes are optional
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" barAttr=\"2\" data=\"bar2\"><baz bazAttr=\"3\"/></property></entity></inspection-result>" );
-		assertEquals( "[{\"barAttr\":\"2\",\"data\":\"bar2\",\"name\":\"bar\"}]", XmlUtils.elementToJson( document.getDocumentElement() ));
+		assertEquals( "[{\"barAttr\":\"2\",\"data\":\"bar2\",\"name\":\"bar\"}]", XmlUtils.elementToJson( document.getDocumentElement() ) );
 
 		// Empty elements are okay
 
 		document = XmlUtils.documentFromString( "<inspection-result/>" );
-		assertEquals( "[]", XmlUtils.elementToJson( document.getDocumentElement() ));
+		assertEquals( "[]", XmlUtils.elementToJson( document.getDocumentElement() ) );
+
+		// Secure case
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" hidden=\"true\" barAttr=\"2\" data=\"bar2\"/><baz bazAttr=\"3\" comes-after=\"bar\"/></entity></inspection-result>" );
+		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"barAttr\":\"2\",\"data\":\"bar2\",\"hidden\":\"true\",\"name\":\"bar\"},{\"bazAttr\":\"3\"}]", XmlUtils.elementToJson( document.getDocumentElement(), new String[] { COMES_AFTER }, null, false ) );
+		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"bazAttr\":\"3\",\"comesAfter\":\"bar\"}]", XmlUtils.elementToJson( document.getDocumentElement(), null, new String[] { HIDDEN }, false ) );
+		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"bazAttr\":\"3\"}]", XmlUtils.elementToJson( document.getDocumentElement(), new String[] { COMES_AFTER }, new String[] { HIDDEN }, false ) );
+		assertEquals( "[{\"bazAttr\":\"3\"}]", XmlUtils.elementToJson( document.getDocumentElement(), new String[] { COMES_AFTER }, new String[] { HIDDEN }, true ) );
 	}
 
 	//
