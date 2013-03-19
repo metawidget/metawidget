@@ -1,0 +1,21 @@
+<project name="JaCoCo Merge" default="merge" basedir="../../.." xmlns:jacoco="antlib:org.jacoco.ant">
+
+	<!--
+		To obtain merged unit test coverage, run this Ant task after
+		'mvn clean install' and
+		'mvn sonar:sonar -Dsonar.jacoco.reportPath=target/jacoco.exec'
+		but before
+		'mvn sonar:sonar -Dsonar.dynamicAnalysis=reuseReports'
+		Also, configure Sonar to use 'sonar.jacoco.reportPath' of
+		'/Jenkins/jobs/Metawidget/workspace/target/jacoco.exec'
+	-->
+
+	<target name="merge">
+		<jacoco:merge destfile="./target/jacoco.exec">
+			<fileset dir="." includes="**/jacoco.exec" />
+		</jacoco:merge>
+	</target>
+
+	<!-- Note: this task has no bearing on integration test coverage -->
+
+</project>

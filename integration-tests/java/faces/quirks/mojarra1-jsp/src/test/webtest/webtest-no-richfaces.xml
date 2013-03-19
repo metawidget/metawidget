@@ -6,6 +6,7 @@
 		<webtest name="test-faces">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
+				<sleep seconds="10" />
 				<invoke url="/" />
 
 				<verifyXPath xpath="/html/body/form/table[1]/@id" text="form:quirksMetawidget"/>
