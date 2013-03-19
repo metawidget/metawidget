@@ -130,6 +130,8 @@
 				<clickButton label="Refresh"/>
 				<verifyCheckbox htmlid="form:quirksIntegers:2" checked="true"/>
 				
+				<!-- Sleep for slow build servers -->
+				<sleep seconds="10" />
 				<not>
 					<verifyText text="rror"/>
 				</not>				
