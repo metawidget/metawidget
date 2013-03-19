@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0" elementFormDefault="qualified">
+
+	<xsd:element name="accountSummary">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="timestamp" />
+				<xsd:element ref="currency" />
+				<xsd:element ref="balance" />
+				<xsd:element ref="interest" />
+			</xsd:sequence>
+			<xsd:attribute name="version" use="required">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[1-9]+[0-9]*\.[0-9]+" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="timestamp" type="xsd:dateTime" />
+
+	<xsd:element name="currency" type="iso3currency" />
+
+	<xsd:element name="balance" type="xsd:decimal" />
+
+	<xsd:element name="interest">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:decimal">
+					<xsd:attribute name="rounding" use="required" type="roundingDirection" />
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="iso3currency">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AUD" /><!-- Australian Dollar -->
+			<xsd:enumeration value="BRL" /><!-- Brazilian Real -->
+			<xsd:enumeration value="CAD" /><!-- Canadian Dollar -->
+			<xsd:enumeration value="CNY" /><!-- Chinese Yen -->
+			<xsd:enumeration value="EUR" /><!-- Euro -->
+			<xsd:enumeration value="GBP" /><!-- British Pound -->
+			<xsd:enumeration value="INR" /><!-- Indian Rupee -->
+			<xsd:enumeration value="JPY" /><!-- Japanese Yen -->
+			<xsd:enumeration value="RUR" /><!-- Russian Rouble -->
+			<xsd:enumeration value="USD" /><!-- US Dollar -->
+			<xsd:length value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="roundingDirection">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="up" />
+			<xsd:enumeration value="down" />
+			<xsd:enumeration value="nearest" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>
