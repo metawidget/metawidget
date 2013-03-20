@@ -366,9 +366,42 @@ public class XmlSchemaInspectorTest
 		assertEquals( property.getNextSibling(), null );
 	}
 
-	public void testRealWorld() {
+	public void testRealWorld1() {
 
-		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt.xsd" ) ) );
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt-007.xsd" ) ) );
+
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "Authorisation1" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "Authorisation1", entity.getAttribute( TYPE ) );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "MinAmtPerTx", property.getAttribute( NAME ) );
+		assertEquals( "ActiveCurrencyAndAmount_SimpleType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "MaxAmtPerTx", property.getAttribute( NAME ) );
+		assertEquals( "ActiveCurrencyAndAmount_SimpleType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "MaxAmtByPrd", property.getAttribute( NAME ) );
+		assertEquals( "MaximumAmountByPeriod1", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( null, property.getNextSibling() );
+	}
+
+	public void testRealWorld2() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt-010.xsd" ) ) );
 
 		// From top-level
 
@@ -431,10 +464,24 @@ public class XmlSchemaInspectorTest
 		assertEquals( null, XmlUtils.documentFromString( inspector.inspect( null, "AccountRequestAcknowledgementV02", "Foo" ) ) );
 	}
 
+	public void testRealWorld3() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/trading-partner.xsd" ) ) );
+
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "PlasticCardInformationGroup_ComplexType", "AuthorizationResponseInformation" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "AuthorizationResponseGroup_ComplexType", entity.getAttribute( TYPE ) );
+		assertEquals( entity.getChildNodes().getLength(), 0 );
+	}
+
 	public void testSwingMetawidget() {
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt.xsd" ) ) ) );
+		metawidget.setInspector( new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt-010.xsd" ) ) ) );
 		metawidget.addInspectionResultProcessor( new XmlSchemaToJavaTypeMappingProcessor<SwingMetawidget>() );
 		metawidget.setPath( "AccountRequestAcknowledgementV01" );
 

@@ -6,7 +6,8 @@
 		<webtest name="test-all">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
-				<groovy>
+				<!-- Accomodate slow build servers -->
+				<groovy>				
 					import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
 					step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
 				</groovy>			

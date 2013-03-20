@@ -145,8 +145,10 @@ public class XmlSchemaInspector
 			return null;
 		}
 
-		if ( !SEQUENCE.equals( sequence.getLocalName() ) && !ALL.equals( sequence.getLocalName() ) && !COMPLEX_CONTENT.equals( sequence.getLocalName() ) ) {
-			throw InspectorException.newException( "Unexpected child node '" + sequence.getLocalName() + "'" );
+		String sequenceLocalName = sequence.getLocalName();
+
+		if ( !SEQUENCE.equals( sequenceLocalName ) && !ALL.equals( sequenceLocalName ) && !COMPLEX_CONTENT.equals( sequenceLocalName ) && !"attributeGroup".equals( sequenceLocalName ) ) {
+			throw InspectorException.newException( "Unexpected child node '" + sequenceLocalName + "'" );
 		}
 
 		// Choice
@@ -171,11 +173,7 @@ public class XmlSchemaInspector
 
 			Map<String, String> attributes = CollectionUtils.newHashMap();
 			inspectRestriction( toInspectToUse, attributes );
-
-			for ( Map.Entry<String, String> entry : attributes.entrySet() ) {
-				toAddTo.setAttribute( entry.getKey(), entry.getValue() );
-			}
-
+			XmlUtils.setMapAsAttributes( toAddTo, attributes );
 			return;
 		}
 
@@ -268,6 +266,20 @@ public class XmlSchemaInspector
 
 				toInspectToUse = typeToUse;
 				continue;
+			}
+
+			// Complex type may just contain a simple content
+
+			if ( COMPLEX_TYPE.equals( toInspectToUse.getLocalName() ) ) {
+
+				Element simpleContent = XmlUtils.getChildNamed( toInspectToUse, SIMPLE_CONTENT );
+
+				if ( simpleContent != null ) {
+					inspectExtension( simpleContent, attributes );
+					inspectRestriction( simpleContent, attributes );
+				}
+
+				return attributes;
 			}
 
 			// Normal node

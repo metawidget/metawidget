@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="urn:us:gov:treas:fms:TRS:TradingPartner:v2.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:us:gov:treas:fms:TRS:TradingPartner:v2.3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.3">
+	<xsd:element name="TRS_TradingPartner_Agreement">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="0">
+					<xsd:element ref="TRS_BusinessTransaction" />
+					<xsd:element ref="TRS_FinancialTransaction" />
+					<xsd:element ref="TRS_Summary" />
+				</xsd:choice>
+				<xsd:element ref="Program_Data" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:simpleType name="OrganizationCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="OrganizationCode_ComplexType">
+		<xsd:simpleContent>
+			<xsd:extension base="OrganizationCode_SimpleType">
+				<xsd:attribute name="OrganizationCodeLevel" type="xsd:integer" use="required">
+					<xsd:annotation>
+						<xsd:documentation>Identifies the level of the Organization Code.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:element name="OrganizationCode" type="OrganizationCode_ComplexType">
+		<xsd:annotation>
+			<xsd:documentation>Represents the code associated with an internal organization code provided to a trading partner from an agency.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="OrganizationStructureCollection_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="OrganizationCode" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="Count" type="xsd:integer" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A count of the number of OrganizationCode elements contained within this collection.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:element name="OrganizationStructureCollection" type="OrganizationStructureCollection_ComplexType" />
+	<xsd:complexType name="PlasticCardInformationGroup_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="InterchangeInformation" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element ref="AuthorizationResponseInformation" minOccurs="0" />
+			<xsd:element ref="MerchantInformation" minOccurs="0" />
+			<xsd:element ref="AdditionalPlasticCardInformation" minOccurs="0" />
+			<xsd:element ref="PlasticTransactionEntryDetail" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="PlasticCardInformationGroup" type="PlasticCardInformationGroup_ComplexType" />
+	<xsd:simpleType name="SingleCharacterIndicator_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1" />
+			<xsd:maxLength value="1" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SixCharacterCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="6" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TwoCharacterCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TwoCharacterIndicator_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ThreeCharacterCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AmountLength_SimpleType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="20" />
+			<xsd:fractionDigits value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SignIndicator_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="-" />
+			<xsd:enumeration value="+" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InterchangeCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="9" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="InterchangeCode" type="InterchangeCode_SimpleType">
+		<xsd:annotation>
+			<xsd:documentation>A code the identifies the type of transaction that the interchange fee applies to and dictates the interchange fee amount applied to the transaction.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="InterchangeReimbursmentFeeAmount" type="AmountLength_SimpleType">
+		<xsd:annotation>
+			<xsd:documentation>The amount that the merchant must pay to the network carrier (i.e. Visa, Mastercard, AMEX, Discover) representing the true cost of a plastic card transaction.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="InterchangeReimbursmentFeeAmountSignIndicator" type="SignIndicator_SimpleType" />
+	<xsd:complexType name="InterchangeReimbursmentFeeInformation_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="InterchangeCode" />
+			<xsd:element ref="InterchangeReimbursmentFeeAmount" />
+			<xsd:element ref="InterchangeReimbursmentFeeAmountSignIndicator" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="InterchangeReimbursmentFeeInformation" type="InterchangeReimbursmentFeeInformation_ComplexType" />
+	<xsd:simpleType name="InterchangeAdjustmentReasonCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="InterchangeAdjustmentReasonCode" type="InterchangeAdjustmentReasonCode_SimpleType" />
+	<xsd:element name="InterchangeAdjustmentAmount" type="AmountLength_SimpleType">
+		<xsd:annotation>
+			<xsd:documentation>The amount that the merchant must pay to the network carrier (i.e. Visa, Mastercard, AMEX, Discover) representing the true cost of a plastic card transaction.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="InterchangeAdjustmentAmountSignIndicator" type="SignIndicator_SimpleType" />
+	<xsd:complexType name="InterchangeAdjustmentInformation_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="InterchangeAdjustmentReasonCode" />
+			<xsd:element ref="InterchangeAdjustmentAmount" />
+			<xsd:element ref="InterchangeAdjustmentAmountSignIndicator" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="InterchangeAdjustmentInformation" type="InterchangeAdjustmentInformation_ComplexType" />
+	<xsd:simpleType name="OriginalInterchangeIndicator_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="InterchangeInformation_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="InterchangeReimbursmentFeeInformation" />
+			<xsd:element ref="InterchangeAdjustmentInformation" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="OriginalInterchangeIndicator" type="OriginalInterchangeIndicator_SimpleType" use="required" />
+	</xsd:complexType>
+	<xsd:element name="InterchangeInformation" type="InterchangeInformation_ComplexType" />
+	<xsd:simpleType name="AuthorizationCharactersiticsIndicator_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AuthorizationCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="6" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AuthorizationSource_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AVSResponseCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="AuthorizationResponseGroup_AttributeGroup">
+		<xsd:attribute name="AuthorizationCharacteristicsIndicator" type="AuthorizationCharactersiticsIndicator_SimpleType" use="required" />
+		<xsd:attribute name="AuthorizationCode" type="AuthorizationCode_SimpleType" use="required" />
+		<xsd:attribute name="AuthorizationSource" type="AuthorizationSource_SimpleType" use="required" />
+		<xsd:attribute name="AVSResponseCode" type="AVSResponseCode_SimpleType" use="required" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="AuthorizationResponseGroup_ComplexType">
+		<xsd:attributeGroup ref="AuthorizationResponseGroup_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="AuthorizationResponseInformation" type="AuthorizationResponseGroup_ComplexType" />
+	<xsd:simpleType name="MerchantStoreNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="9" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MerchantCategoryCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MerchantNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="18" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="Merchant_AttributeGroup">
+		<xsd:attribute name="MerchantStoreNumber" type="MerchantStoreNumber_SimpleType" use="required" />
+		<xsd:attribute name="MerchantCategoryCode" type="MerchantCategoryCode_SimpleType" use="optional" />
+		<xsd:attribute name="MerchantNumber" type="MerchantNumber_SimpleType" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="MerchantInformation_ComplexType">
+		<xsd:attributeGroup ref="Merchant_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="MerchantInformation" type="MerchantInformation_ComplexType" />
+	<xsd:simpleType name="CardProductType_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ClientBatchNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="6" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CardNetworkType_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CardProductCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NetworkResponseField_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChargebackReferenceNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="12" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CardResponseCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DraftLocatorNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="11" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChargebackRecordNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="12" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="AdditionalPlasticCardInformationGroup_AttributeGroup">
+		<xsd:attribute name="CardProductType" type="CardProductType_SimpleType" use="optional" />
+		<xsd:attribute name="ClientBatchNumber" type="ClientBatchNumber_SimpleType" use="optional" />
+		<xsd:attribute name="CashBackAmount" type="AmountLength_SimpleType" use="optional" />
+		<xsd:attribute name="CardNetworkType" type="CardNetworkType_SimpleType" use="optional" />
+		<xsd:attribute name="CardProductCode" type="CardProductCode_SimpleType" use="optional" />
+		<xsd:attribute name="NetworkResponseField" type="NetworkResponseField_SimpleType" use="optional" />
+		<xsd:attribute name="ChargebackReferenceNumber" type="ChargebackReferenceNumber_SimpleType" use="optional" />
+		<xsd:attribute name="CardResponseCode" type="CardResponseCode_SimpleType" use="optional" />
+		<xsd:attribute name="ChargebackRecordNumber" type="ChargebackRecordNumber_SimpleType" use="optional" />
+		<xsd:attribute name="DraftLocatorNumber" type="DraftLocatorNumber_SimpleType" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="AdditionalPlasticCardInformationGroup_ComplexType">
+		<xsd:attributeGroup ref="AdditionalPlasticCardInformationGroup_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="AdditionalPlasticCardInformation" type="AdditionalPlasticCardInformationGroup_ComplexType" />
+	<xsd:simpleType name="CATIndicator_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="POSEntryMode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RegisterNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="EmployeeIdentifier_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="9" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TerminalNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TimeZone_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="PlasticTransactionEntryDetailGroup_AttributeGroup">
+		<xsd:attribute name="CATIndicator" type="CATIndicator_SimpleType" use="optional" />
+		<xsd:attribute name="POSEntryMode" type="POSEntryMode_SimpleType" use="optional" />
+		<xsd:attribute name="RegisterNumber" type="RegisterNumber_SimpleType" use="optional" />
+		<xsd:attribute name="EmployeeIdentifier" type="EmployeeIdentifier_SimpleType" use="optional" />
+		<xsd:attribute name="TerminalNumber" type="TerminalNumber_SimpleType" use="optional" />
+		<xsd:attribute name="TransactionTimeZone" type="TimeZone_SimpleType" use="required" />
+		<xsd:attribute name="TransactionTime" type="xsd:time" use="required" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="PlasticTransactionEntryDetailGroup_ComplexType">
+		<xsd:attributeGroup ref="PlasticTransactionEntryDetailGroup_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="PlasticTransactionEntryDetail" type="PlasticTransactionEntryDetailGroup_ComplexType" />
+	<xsd:simpleType name="FedwireDataElementName_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FedwireDataElementValue_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="9000" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="FedwireDataElement_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="FedwireDataElementValue" />
+		</xsd:sequence>
+		<xsd:attribute name="ProcessingID" type="Identifier_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>An identifier that uniquely identifies each instance of this element within the context of the parent element.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="FedwireDataElementName" type="FedwireDataElementName_SimpleType" use="required" />
+		<xsd:attribute name="HasPrivacyData" type="Boolean_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>Indicator that the Fedwire Data Element contains privacy data.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="IsUnstructuredData" type="Boolean_SimpleType" use="optional" />
+	</xsd:complexType>
+	<xsd:element name="FedwireDataElementValue" type="FedwireDataElementValue_SimpleType" />
+	<xsd:element name="FedwireDataElement" type="FedwireDataElement_ComplexType" />
+	<xsd:simpleType name="FedwireTagLabel_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="6" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FedwireTagName_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FedwireSectionValueDelimiter_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="4" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FedwireMessageSectionValue_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="432" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="FedwireMessageSection_AttributeGroup">
+		<xsd:attribute name="ProcessingID" type="Identifier_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>An identifier that uniquely identifies each instance of this element within the context of the parent element.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="FedwireTagLabel" type="FedwireTagLabel_SimpleType" use="required" />
+		<xsd:attribute name="FedwireTagName" type="FedwireTagName_SimpleType" use="required" />
+		<xsd:attribute name="FedwireMessageSectionValue" type="FedwireMessageSectionValue_SimpleType" use="optional" />
+		<xsd:attribute name="FedwireSectionValueDelimiter" type="FedwireSectionValueDelimiter_SimpleType" />
+		<xsd:attribute name="DataElementCount" type="xsd:integer" use="required" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="FedwireMessageSection_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="FedwireDataElement" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="FedwireMessageSection_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="FedwireMessageSection" type="FedwireMessageSection_ComplexType">
+		<xsd:annotation>
+			<xsd:documentation>Represents a section of a Fedwire message associated to a particular Fedwire tag label. Each instance of the section includes the Fedwire tag label and the corresponding Fedwire message text for that tag. An optional delimiter value can be provided to identify how each specific data element in the Fedwire message separated.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:attributeGroup name="FedwireMessageGroup_AttributeGroup">
+		<xsd:attribute name="ProcessingID" type="Identifier_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>An identifier that uniquely identifies each instance of this element within the context of the parent element.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="FedwireMessageSectionCount" type="xsd:integer" use="required" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="FedwireMessageGroup_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="FedwireMessageSection" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="FedwireMessageGroup_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="FedwireMessageGroup" type="FedwireMessageGroup_ComplexType">
+		<xsd:annotation>
+			<xsd:documentation>Represents the raw Fedwire message that the financial transaction is originated from. This group is a collection of separate sections of the message identified by a Fedwire tag label and a corresponding string value that represents that actual Fedwire message text associated with the tag label.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:simpleType name="Identifier_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="VoucherNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="6" />
+			<xsd:maxLength value="6" />
+			<xsd:pattern value="[0-9]{6}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TraceNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="8" />
+			<xsd:maxLength value="8" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Boolean_SimpleType">
+		<xsd:restriction base="xsd:boolean">
+			<xsd:pattern value="1|0" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Sequence_SimpleType">
+		<xsd:restriction base="xsd:nonNegativeInteger" />
+	</xsd:simpleType>
+	<xsd:simpleType name="ACHServiceClassCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="ACHBatch_AttributeGroup">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>An unique identifier used for the ACH Batch.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ServiceClassCode" type="ACHServiceClassCode_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A general classification of dollar entries to be exchanged.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ACHTraceNumber" type="ACHTraceNumber_SimpleType" use="required" />
+		<xsd:attribute name="ContentElementCount" type="Count_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The count of items in the ACH Batch Content Elements container.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
+	<xsd:complexType name="ACHBatch_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="ACHContentString" />
+			<xsd:element ref="ACHContentElement" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="ACHBatch_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="ACHBatchContentElements" type="ACHContentElement_ComplexType" />
+	<xsd:attributeGroup name="Addendum_AttributeGroup">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A unique identifier used for the addendum record within the ACH Entry.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="Sequence" type="Sequence_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A sequence number used to order the addendum records in the ACH Entry.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="TypeCode" type="AddendumTypeCode_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A code that specifically identifies the type, format and contents of the Addendum record.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ACHTraceNumber" type="ACHTraceNumber_SimpleType" use="required" />
+		<xsd:attribute name="ContentElementCount" type="Count_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The count of items in the ACH Addendum Content Elements container.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
+	<xsd:complexType name="Addendum_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="ACHContentString" />
+			<xsd:element ref="ACHContentElement" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="Addendum_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="AddendumContentElements" type="ACHContentElement_ComplexType" />
+	<xsd:attributeGroup name="ACHEntry_AttributeGroup">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A unique identifier used for the ACH Entry.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="TransactionCode" type="ACHTransactionCode_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A code that identifies various types of debit and credit transactions. Portions of the code value can also be used to identify the account type associated with the transaction.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="EntryDate" type="Date_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The intended settlement date, as provided by the Originator.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="EntryDescription" type="ACHEntryDescription_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A description of the purpose of the entry or transaction. Reversal transactions will be identified with a value of "REVERSAL".</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="StandardEntryClassCode" type="ACHStandardEntryClassCode_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>An acronym to specifically identify the type of entry or transaction.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="AddendumCount" type="Count_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The count of the records in the Addendum node.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ACHTraceNumber" type="ACHTraceNumber_SimpleType" use="required" />
+		<xsd:attribute name="ContentElementCount" type="Count_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The count of items in the ACH Entry Content Elements container.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
+	<xsd:complexType name="ACHEntry_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="ACHContentString" />
+			<xsd:element ref="ACHContentElement" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element ref="ACHBatch" />
+			<xsd:element ref="Addendum" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="ACHEntry_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="ACHEntryContentElements" type="ACHContentElement_ComplexType" />
+	<xsd:simpleType name="ACHStandardEntryClassCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ACHEntryDescription_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ACHTransactionCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ACHTraceNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ACHContentString_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="94" />
+			<xsd:minLength value="94" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AddendumTypeCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ACHContentElement_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="ACHContentElementValue" />
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>An identifier used to provide the placement of the element in the rebuilt content string.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ACHContentElementName" type="ACHContentElementName_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The NACHA defined data element name.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ACHContentElementSize" type="ACHContentElementSize_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The length of the element as defined by NACHA.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ACHContentElementPadCharacter" type="ACHContentElementPadCharacter_SimpleType" use="optional" />
+		<xsd:attribute name="HasPrivacyData" type="Boolean_SimpleType" use="required" />
+	</xsd:complexType>
+	<xsd:element name="ACHContentElementValue" type="ACHContentElementValue_SimpleType" />
+	<xsd:element name="ACHContentElement" type="ACHContentElement_ComplexType" />
+	<xsd:simpleType name="ACHContentElementName_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ACHContentElementSize_SimpleType">
+		<xsd:restriction base="xsd:nonNegativeInteger" />
+	</xsd:simpleType>
+	<xsd:simpleType name="ACHContentElementValue_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ACHContentElementPadCharacter_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Date_SimpleType">
+		<xsd:restriction base="xsd:date" />
+	</xsd:simpleType>
+	<xsd:simpleType name="Count_SimpleType">
+		<xsd:restriction base="xsd:nonNegativeInteger" />
+	</xsd:simpleType>
+	<xsd:complexType name="ACH_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="ACHEntry" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="ACHEntry" type="ACHEntry_ComplexType" />
+	<xsd:element name="ACHBatch" type="ACHBatch_ComplexType" />
+	<xsd:element name="Addendum" type="Addendum_ComplexType" />
+	<xsd:complexType name="ACHContentString_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="ContentString" />
+		</xsd:sequence>
+		<xsd:attribute name="HasPrivacyData" type="Boolean_SimpleType" use="required" />
+	</xsd:complexType>
+	<xsd:element name="ContentString" type="ACHContentString_SimpleType" />
+	<xsd:element name="ACHContentString" type="ACHContentString_ComplexType" />
+	<xsd:simpleType name="CurrencyCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ForeignCurrencyAmount_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="22" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ExchangeRate_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ConversionMethodCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Fixed-Variable" />
+			<xsd:enumeration value="Variable-Fixed" />
+			<xsd:enumeration value="Fixed-Fixed" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ForeignCurrency_ComplexType">
+		<xsd:attribute name="Amount" type="ForeignCurrencyAmount_SimpleType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>The transaction amount.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="OriginalCurrencyCode" type="CurrencyCode_SimpleType" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>This code is the standard 3-letter ISO 4217 currency codes. See the ISO site for an explanation of each code: http://www.iso.ch/iso/en/catsupport/maralist.html#4217. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ExchangeRate" type="ExchangeRate_SimpleType" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>An exchange rate is the market price for which one currency can be exchanged for another.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ConversionMethodCode" type="ConversionMethodCode_SimpleType" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>The reference code for the data record.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ForeignCheckIndicator" type="Boolean_SimpleType" use="optional" />
+	</xsd:complexType>
+	<xsd:element name="ForeignCurrency" type="ForeignCurrency_ComplexType" />
+	<xsd:simpleType name="PhoneNumber_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="10" />
+			<xsd:pattern value="[0-9]{10}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Comment_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="200" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PartyName_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Group_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ContactType_SimpleType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="Initiator" />
+			<xsd:enumeration value="Authorizer" />
+			<xsd:enumeration value="Other" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Contact_ComplexType">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required" />
+		<xsd:attribute name="Name" type="PartyName_SimpleType" use="required" />
+		<xsd:attribute name="GroupName" type="Group_SimpleType" use="optional" />
+		<xsd:attribute name="Comment" type="Comment_SimpleType" use="optional" />
+		<xsd:attribute name="ContactType" type="ContactType_SimpleType" use="required" />
+		<xsd:attribute name="PhoneNumber" type="PhoneNumber_SimpleType" use="optional" />
+	</xsd:complexType>
+	<xsd:element name="Contact" type="Contact_ComplexType" />
+	<xsd:simpleType name="PARSCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RevenueSourceCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="6" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CategoryCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BusinessLineSubFunctionCode_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="3" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="AccountCode_AttributeGroup">
+		<xsd:attribute name="RevenueSourceCode" type="RevenueSourceCode_SimpleType" use="optional" />
+		<xsd:attribute name="BusinessLineSubFunctionCode" type="BusinessLineSubFunctionCode_SimpleType" use="optional" />
+		<xsd:attribute name="CategoryCode" type="CategoryCode_SimpleType" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="AccountCode_ComplexType">
+		<xsd:attributeGroup ref="AccountCode_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="AccountCode" type="AccountCode_ComplexType" />
+	<xsd:simpleType name="PartyType_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="ThirdParty_AttributeGroup">
+		<xsd:attribute name="PartyName" type="PartyName_SimpleType" use="required" />
+		<xsd:attribute name="PartyType" type="PartyType_SimpleType" use="required" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="ThirdParty_ComplexType">
+		<xsd:attributeGroup ref="ThirdParty_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="ThirdParty" type="ThirdParty_ComplexType" />
+	<xsd:simpleType name="AgencyAccountIdentifier_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="TRS_BusinessTransaction_AttributeGroup">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required" />
+		<xsd:attribute name="GroupID" type="Identifier_SimpleType" use="optional" />
+		<xsd:attribute name="BillDate" type="xsd:date" use="optional" />
+		<xsd:attribute name="ReceiptDate" type="xsd:date" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="TRS_BusinessTransaction_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="AccountCode" minOccurs="0" />
+			<xsd:element ref="Contact" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="TRS_BusinessTransaction_AttributeGroup" />
+		<xsd:attribute name="BusinessDate" type="xsd:date" use="optional" />
+	</xsd:complexType>
+	<xsd:element name="TRS_BusinessTransaction" type="TRS_BusinessTransaction_ComplexType" />
+	<xsd:attributeGroup name="TRS_FinancialTransaction_AttributeGroup">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required" />
+		<xsd:attribute name="GroupID" type="Identifier_SimpleType" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="TRS_FinancialTransaction_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="ThirdParty" minOccurs="0" />
+			<xsd:element ref="ForeignCurrency" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>A container for describing foreign currency.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice>
+				<xsd:element ref="PlasticCardInformationGroup" minOccurs="0" />
+				<xsd:element ref="FedwireMessageGroup" minOccurs="0" />
+				<xsd:element ref="ACHEntry" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>A container to hold information neccesary to relate the ACH Entry to the Receiver.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="TRS_FinancialTransaction_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="TRS_FinancialTransaction" type="TRS_FinancialTransaction_ComplexType" />
+	<xsd:attributeGroup name="TRS_Summary_AttributeGroup">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required" />
+		<xsd:attribute name="PARSCode" type="PARSCode_SimpleType" use="optional" />
+		<xsd:attribute name="BusinessDate" type="xsd:date" use="optional" />
+		<xsd:attribute name="AgencyAccountIdentifier" type="AgencyAccountIdentifier_SimpleType" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="TRS_Summary_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="OrganizationStructureCollection" minOccurs="0" />
+			<xsd:element ref="AccountCode" minOccurs="0" />
+			<xsd:element ref="ForeignCurrency" minOccurs="0" />
+			<xsd:element ref="Contact" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="TRS_Summary_AttributeGroup" />
+		<xsd:attribute name="ReceiptsFromDate" type="xsd:date" use="optional" />
+		<xsd:attribute name="ReceiptsToDate" type="xsd:date" use="optional" />
+	</xsd:complexType>
+	<xsd:element name="TRS_Summary" type="TRS_Summary_ComplexType" />
+	<xsd:attributeGroup name="ProgramData_AttributeGroup">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required" />
+		<xsd:attribute name="UserDataCount" type="xsd:integer" use="required" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="ProgramData_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="UserData" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="ProgramData_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="Program_Data" type="ProgramData_ComplexType" />
+	<xsd:simpleType name="UserDataLabel_SimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="UserData_AttributeGroup">
+		<xsd:attribute name="ID" type="Identifier_SimpleType" use="required" />
+		<xsd:attribute name="SourceLabel" type="UserDataLabel_SimpleType" use="required" />
+		<xsd:attribute name="AgencyLabel" type="UserDataLabel_SimpleType" use="optional" />
+		<xsd:attribute name="HasPrivacyData" type="xsd:boolean" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:complexType name="UserData_ComplexType">
+		<xsd:sequence>
+			<xsd:element ref="UserDataContent" />
+		</xsd:sequence>
+		<xsd:attributeGroup ref="UserData_AttributeGroup" />
+	</xsd:complexType>
+	<xsd:element name="UserData" type="UserData_ComplexType" />
+	<xsd:simpleType name="UserDataContent_SimpleType">
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+	<xsd:element name="UserDataContent" type="UserDataContent_SimpleType" />
+</xsd:schema>
