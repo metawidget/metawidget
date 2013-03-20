@@ -6,6 +6,10 @@
 		<webtest name="test-all">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
+				<groovy>
+					import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+					step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+				</groovy>			
 				<invoke url="file://${basedir}/../../../war/index.html" />
 				<verifyTitle text="Client Side (Metawidget GWT Example)" />
 				
@@ -15,9 +19,6 @@
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='generate-column']"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div[@class='instructions']"/> 
 				
-				<!-- Sleep for a while to accomodate slow build servers -->
-				
-				<sleep seconds="20"/>
 				<verifyXPath xpath="count(/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button)" text="3"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button[1]" text="Sample #1"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button[2]" text="Sample #2"/>
