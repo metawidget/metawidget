@@ -6,8 +6,6 @@
 		<webtest name="test-faces">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
 			<steps>
-				<!-- Sleep for slow build servers -->
-				<sleep seconds="10" />
 				<invoke url="/" />
 
 				<verifyXPath xpath="/html/body/form/table[1]/@id" text="form:quirksMetawidget"/>
@@ -130,8 +128,6 @@
 				<clickButton label="Refresh"/>
 				<verifyCheckbox htmlid="form:quirksIntegers:2" checked="true"/>
 				
-				<!-- Sleep for slow build servers -->
-				<sleep seconds="10" />
 				<not>
 					<verifyText text="rror"/>
 				</not>				
