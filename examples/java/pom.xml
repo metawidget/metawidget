@@ -16,7 +16,7 @@
 		<module>faces/addressbook2</module>
 		<module>faces/penguincolony</module>
 		<module>gwt/addressbook</module>
-		<!-- Fix for slow build servers: <module>gwt/clientside</module>-->
+		<!-- Support for slow build servers: <module>gwt/clientside</module> -->
 		<module>jsp/addressbook</module>
 		<module>spring/addressbook</module>
 		<module>struts/addressbook</module>
@@ -32,7 +32,7 @@
 		<!-- For building examples 'standalone' against snapshot releases -->
 		<repository>
 			<id>jboss-snapshots-repository</id>
-			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>		
+			<url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
 		</repository>
 	</repositories>
 
