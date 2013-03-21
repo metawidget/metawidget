@@ -92,20 +92,32 @@ public class XmlSchemaInspector
 		return NAME;
 	}
 
+	/**
+	 * Overridden to introduce a reference attribute <code>ref=</code>.
+	 */
+
 	@Override
 	protected String getReferenceAttribute() {
 
 		return REF;
 	}
 
+	/**
+	 * Overridden because, with XML Schema, the named children are often nested a couple of levels
+	 * deep under the top-level element. For example
+	 * <code>xs:element/xs:complexType/xs:sequence</code>.
+	 */
+
 	@Override
 	protected Element traverseFromTopLevelTypeToNamedChildren( Element topLevel ) {
+
+		// 'simpleType' is a top-level element
 
 		if ( SIMPLE_TYPE.equals( topLevel.getLocalName() ) ) {
 			return topLevel;
 		}
 
-		// Skip over 'complexType'...
+		// 'complexType' needs to be traversed into
 
 		Element complexType;
 
@@ -115,15 +127,20 @@ public class XmlSchemaInspector
 
 		} else {
 
+			// The most usual case is an 'element' containing a 'complexType' which needs to be
+			// traversed into
+
 			complexType = XmlUtils.getFirstChildElement( topLevel );
 
 			if ( complexType == null ) {
+
+				// If no 'complexType' child, perhaps top-level 'element' has a @type...
 
 				if ( !topLevel.hasAttribute( TYPE ) ) {
 					return null;
 				}
 
-				// Top-level elements can be empty and just pointed to a top-level complexType
+				// ...if so, start over with this new type
 
 				complexType = XmlUtils.getChildWithAttributeValue( topLevel.getOwnerDocument().getDocumentElement(), NAME, topLevel.getAttribute( TYPE ) );
 
@@ -132,12 +149,14 @@ public class XmlSchemaInspector
 				}
 			}
 
+			// Either way, should be at a 'complexType' by now
+
 			if ( !COMPLEX_TYPE.equals( complexType.getLocalName() ) ) {
 				throw InspectorException.newException( "Unexpected child node '" + complexType.getLocalName() + "'" );
 			}
 		}
 
-		// ...and 'sequence' elements
+		// Within 'complexType', 'sequence' needs to be traversed into
 
 		Element sequence = XmlUtils.getFirstChildElement( complexType );
 
@@ -145,13 +164,20 @@ public class XmlSchemaInspector
 			return null;
 		}
 
+		// Skip over 'annotation' (if any)
+
 		String sequenceLocalName = sequence.getLocalName();
+
+		if ( "annotation".equals( sequenceLocalName )) {
+			sequence = XmlUtils.getNextSiblingElement( sequence );
+			sequenceLocalName = sequence.getLocalName();
+		}
 
 		if ( !SEQUENCE.equals( sequenceLocalName ) && !ALL.equals( sequenceLocalName ) && !SIMPLE_CONTENT.equals( sequenceLocalName ) && !COMPLEX_CONTENT.equals( sequenceLocalName ) && !"attributeGroup".equals( sequenceLocalName ) ) {
 			throw InspectorException.newException( "Unexpected child node '" + sequenceLocalName + "'" );
 		}
 
-		// Choice
+		// Within 'sequence', 'choice' needs to be traversed into
 
 		Element choice = XmlUtils.getChildNamed( sequence, "choice" );
 

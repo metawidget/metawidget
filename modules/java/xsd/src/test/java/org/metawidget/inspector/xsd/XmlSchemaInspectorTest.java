@@ -411,6 +411,30 @@ public class XmlSchemaInspectorTest
 		assertEquals( "ActiveCurrencyAndAmount", entity.getAttribute( TYPE ) );
 
 		assertEquals( 0, entity.getChildNodes().getLength() );
+
+		// Test xs:annotation
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "AccountIdentification4Choice" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "AccountIdentification4Choice", entity.getAttribute( TYPE ) );
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "IBAN", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "Othr", property.getAttribute( NAME ) );
+		assertEquals( "GenericAccountIdentification1", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( 2, entity.getChildNodes().getLength() );
 	}
 
 	public void testRealWorld2() {

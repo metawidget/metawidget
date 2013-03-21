@@ -9,6 +9,9 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="AccountIdentification4Choice">
+		<xs:annotation>
+			<xs:documentation>Pick a kind of account</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
 			<xs:choice>
 				<xs:element name="IBAN" type="IBAN2007Identifier" />
