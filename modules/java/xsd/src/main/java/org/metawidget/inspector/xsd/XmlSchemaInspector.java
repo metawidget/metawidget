@@ -147,7 +147,7 @@ public class XmlSchemaInspector
 
 		String sequenceLocalName = sequence.getLocalName();
 
-		if ( !SEQUENCE.equals( sequenceLocalName ) && !ALL.equals( sequenceLocalName ) && !COMPLEX_CONTENT.equals( sequenceLocalName ) && !"attributeGroup".equals( sequenceLocalName ) ) {
+		if ( !SEQUENCE.equals( sequenceLocalName ) && !ALL.equals( sequenceLocalName ) && !SIMPLE_CONTENT.equals( sequenceLocalName ) && !COMPLEX_CONTENT.equals( sequenceLocalName ) && !"attributeGroup".equals( sequenceLocalName ) ) {
 			throw InspectorException.newException( "Unexpected child node '" + sequenceLocalName + "'" );
 		}
 
@@ -167,7 +167,7 @@ public class XmlSchemaInspector
 
 		Element toInspectToUse = toInspect;
 
-		// Simple type
+		// Simple type (inherit @type attribute)
 
 		if ( SIMPLE_TYPE.equals( toInspectToUse.getLocalName() ) ) {
 
@@ -177,7 +177,18 @@ public class XmlSchemaInspector
 			return;
 		}
 
-		// Inherited type
+		// Simple content (inherit @type attribute)
+
+		if ( SIMPLE_CONTENT.equals( toInspectToUse.getLocalName() ) ) {
+
+			Map<String, String> attributes = CollectionUtils.newHashMap();
+			inspectExtension( toInspectToUse, attributes );
+			inspectRestriction( toInspectToUse, attributes );
+			XmlUtils.setMapAsAttributes( toAddTo, attributes );
+			return;
+		}
+
+		// Complex content (inherit @type attribute)
 
 		if ( COMPLEX_CONTENT.equals( toInspectToUse.getLocalName() ) ) {
 

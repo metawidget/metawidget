@@ -370,6 +370,8 @@ public class XmlSchemaInspectorTest
 
 		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt-007.xsd" ) ) );
 
+		// Test normal
+
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "Authorisation1" ) );
 
 		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
@@ -397,6 +399,18 @@ public class XmlSchemaInspectorTest
 		assertEquals( property.getAttributes().getLength(), 2 );
 
 		assertEquals( null, property.getNextSibling() );
+
+		// Test xs:attribute
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "ActiveCurrencyAndAmount" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "ActiveCurrencyAndAmount", entity.getAttribute( TYPE ) );
+
+		assertEquals( 0, entity.getChildNodes().getLength() );
 	}
 
 	public void testRealWorld2() {

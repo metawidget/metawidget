@@ -111,13 +111,13 @@ public class WsdlInspectorTest
 
 		assertEquals( property.getNextSibling(), null );
 
-		// Header
+		// Header (not sure what this needs to return)
 
 		try {
 			document = XmlUtils.documentFromString( inspector.inspect( null, "request", "header" ) );
 			assertTrue( false );
 		} catch ( Exception e ) {
-			assertEquals( "Unexpected child node 'simpleContent'", e.getMessage() );
+			assertEquals( "Property header in entity  has no @type attribute in the XML, so cannot navigate to request/header", e.getMessage() );
 		}
 
 		// Response

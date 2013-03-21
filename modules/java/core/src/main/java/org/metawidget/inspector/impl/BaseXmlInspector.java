@@ -324,7 +324,7 @@ public abstract class BaseXmlInspector
 
 					// Nothing of consequence to return?
 
-					if ( !entity.hasChildNodes() && parentAttributes == null ) {
+					if ( !entity.hasChildNodes() && entity.getAttributes().getLength() == 0 && parentAttributes == null ) {
 						return null;
 					}
 				}
