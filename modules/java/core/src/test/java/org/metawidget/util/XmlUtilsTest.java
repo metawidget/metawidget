@@ -243,6 +243,11 @@ public class XmlUtilsTest
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" hidden=\"true\" barAttr=\"2\" data=\"bar2\"/><baz bazAttr=\"3\" comes-after=\"bar\"/></entity></inspection-result>" );
 		assertEquals( "[{\"_root\":\"true\",\"type\":\"1\"},{\"bazAttr\":\"3\",\"comesAfter\":\"bar\"}]", XmlUtils.elementToJson( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
+
+		// Test commas in content
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" lookup=\"foo\\,bar,baz\"/>></inspection-result>" );
+		assertEquals( "[{\"_root\":\"true\",\"lookup\":\"foo\\\\,bar,baz\",\"type\":\"1\"}]", XmlUtils.elementToJson( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
 	}
 
 	//

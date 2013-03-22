@@ -682,6 +682,11 @@ public final class XmlUtils {
 
 			propertyBuilder.append( "\"" + elementName + "\"" );
 			propertyBuilder.append( StringUtils.SEPARATOR_COLON_CHAR );
+
+			// (escape commas for lookups)
+
+			nodeValue = nodeValue.replaceAll( "\\\\,", "\\\\\\\\," );
+
 			propertyBuilder.append( "\"" + nodeValue + "\"" );
 		}
 
