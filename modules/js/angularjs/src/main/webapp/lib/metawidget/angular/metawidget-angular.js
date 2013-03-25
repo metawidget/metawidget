@@ -443,8 +443,7 @@
 			// Binding
 			//
 			// Scope the binding to scope.$parent, not scope, so that bindings
-			// look
-			// more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
+			// look more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
 
 			var binding = mw.path;
 
@@ -507,9 +506,22 @@
 				widget.removeAttribute( 'maxlength' );
 			}
 
+			var wrapper = document.createElement( 'stub' );
+			wrapper.appendChild( widget );
+
 			// Compile so that 'ng-model', 'ng-required' etc become active
 
 			$compile( widget )( scope.$parent );
+
+			// If the widget has been acted on by a custom directive which added
+			// a sibling node, return a wrapped node. Otherwise return the
+			// original widget
+			
+			// TODO: test this
+
+			if ( wrapper.childNodes.length > 1 ) {
+				return wrapper;
+			}
 
 			return widget;
 		};
