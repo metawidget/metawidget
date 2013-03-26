@@ -84,8 +84,7 @@
 					scope.$watch( 'ngModel', function( newValue, oldValue ) {
 
 						// Cannot test against mw.toInspect, because is pointed
-						// at
-						// the splitPath.type
+						// at the splitPath.type
 						//
 						// Re-inspect for 'undefined becoming defined' and
 						// 'object being updated'. But *not* for 'undefined
@@ -102,8 +101,7 @@
 					scope.$watch( 'readOnly', function( newValue, oldValue ) {
 
 						// Test against mw.readOnly, not oldValue, because it
-						// may
-						// have been reset already by _buildWidgets
+						// may have been reset already by _buildWidgets
 
 						if ( newValue !== mw.readOnly ) {
 							// Do not mw.invalidateInspection()
@@ -114,9 +112,8 @@
 					scope.$watch( 'config', function( newValue, oldValue ) {
 
 						// Watch for config changes. These are rare, but
-						// otherwise
-						// we'd need to provide a way to externally trigger
-						// _buildWidgets
+						// otherwise we'd need to provide a way to externally
+						// trigger _buildWidgets
 
 						if ( newValue !== oldValue ) {
 							mw.configure( newValue );
@@ -266,6 +263,7 @@
 				// Lookup binding attribute
 				//
 				// Note: be sure to normalize it
+				//
 				// Note: be sure to lowercase it too, because HTML attribute
 				// names are case-insensitive and Angular's template mechanism
 				// lowercases them
@@ -511,15 +509,20 @@
 
 			// Compile so that 'ng-model', 'ng-required' etc become active
 
-			$compile( widget )( scope.$parent );
+			$compile( wrapper )( scope.$parent );
 
 			// If the widget has been acted on by a custom directive which added
 			// a sibling node, return a wrapped node. Otherwise return the
 			// original widget
-			
-			// TODO: test this
 
 			if ( wrapper.childNodes.length > 1 ) {
+				
+				// Support label 'for'
+				
+				if ( widget.hasAttribute( 'id' )) {
+					wrapper.setAttribute( 'id', widget.getAttribute( 'id' ) + '-wrapper' );
+				}
+				
 				return wrapper;
 			}
 
