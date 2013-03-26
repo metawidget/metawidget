@@ -261,8 +261,7 @@ var metawidget = metawidget || {};
 				var option = document.createElement( 'option' );
 
 				// HtmlUnit needs an 'option' to have a 'value', even if the
-				// same as
-				// the innerHTML
+				// same as the innerHTML
 
 				option.setAttribute( 'value', lookupSplit[loop] );
 

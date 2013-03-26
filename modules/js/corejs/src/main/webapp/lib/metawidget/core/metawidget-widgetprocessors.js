@@ -44,8 +44,7 @@ var metawidget = metawidget || {};
 	metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widget, attributes, mw ) {
 
 		// Dangerous to reassign an id. For example, some JQuery UI widgets
-		// assign
-		// temporary ids when they wrap widgets
+		// assign temporary ids when they wrap widgets
 
 		if ( !widget.hasAttribute( 'id' ) ) {
 			var id = metawidget.util.getId( attributes, mw );
@@ -132,8 +131,7 @@ var metawidget = metawidget || {};
 			// boolean of false
 			//
 			// Note: this is a general convention throughout Metawidget, as
-			// JavaScript has a
-			// surprisingly large number of 'falsy' values)
+			// JavaScript has a surprisingly large number of 'falsy' values)
 
 			if ( value !== undefined ) {
 				if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {

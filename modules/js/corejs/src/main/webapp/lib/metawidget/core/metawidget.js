@@ -58,8 +58,7 @@ var metawidget = metawidget || {};
 
 			// Attach ourselves as a property of the tag, rather than try to
 			// 'extend' the built-in HTML tags. This is used by
-			// SimpleBindingProcessor,
-			// among others
+			// SimpleBindingProcessor, among others
 
 			nestedWidget.metawidget = nestedMetawidget;
 			nestedMetawidget.buildWidgets();
@@ -200,8 +199,7 @@ var metawidget = metawidget || {};
 		}
 
 		// Support adding to the existing array of InspectionResultProcessors
-		// (it
-		// may be hard for clients to redefine the originals)
+		// (it may be hard for clients to redefine the originals)
 
 		if ( config.addInspectionResultProcessors !== undefined ) {
 			for ( var loop = 0, length = config.addInspectionResultProcessors.length; loop < length; loop++ ) {
@@ -216,8 +214,7 @@ var metawidget = metawidget || {};
 		}
 
 		// Support prepending/adding to the existing array of WidgetProcessors
-		// (it may be
-		// hard for clients to redefine the originals)
+		// (it may be hard for clients to redefine the originals)
 
 		if ( config.prependWidgetProcessors !== undefined ) {
 			for ( var loop = 0, length = config.prependWidgetProcessors.length; loop < length; loop++ ) {
@@ -423,8 +420,7 @@ var metawidget = metawidget || {};
 			}
 
 			// Try to keep the exact nature of the 'readOnly' mechanism (i.e.
-			// set on
-			// attribute, or set on overall Metawidget) out of the
+			// set on attribute, or set on overall Metawidget) out of the
 			// WidgetBuilders/WidgetProcessors/Layouts. This is because not
 			// everybody will need/want a Metawidget-level 'setReadOnly'
 

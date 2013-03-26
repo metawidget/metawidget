@@ -148,8 +148,8 @@ var metawidget = metawidget || {};
 					var typeOfProperty = typeof ( value );
 
 					// type 'object' doesn't convey much, and can override a
-					// more
-					// descriptive inspection result from a previous Inspector
+					// more descriptive inspection result from a previous
+					// Inspector
 
 					if ( typeOfProperty !== 'object' ) {
 						inspectedProperty.type = typeOfProperty;
