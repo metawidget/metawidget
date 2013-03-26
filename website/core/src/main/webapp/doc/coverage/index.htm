@@ -1,0 +1,954 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="gwt:property" content="locale=en_GB">
+<meta http-equiv="X-UA-Compatible" content="IE=9">
+<link rel="shortcut icon" type="image/x-icon" href="#">
+
+<link rel="alternate" title="Sonar Alerts on Metawidget" href="#">
+
+<title>Sonar - Metawidget</title>
+
+<link href="sonar/sonar.css" media="all" rel="stylesheet" type="text/css"><script src="sonar/sonar.js" type="text/javascript"></script>
+<!--[if lte IE 8]><script src="/javascripts/protovis-msie.js?1357544762" type="text/javascript"></script><![endif]-->
+<script>var baseUrl = '';
+var $j = jQuery.noConflict();
+$j(document).ready(function () {$j('.open-modal').modal()});
+</script>
+</head>
+<body>
+
+
+
+<div id="container">
+<div id="hd">
+<div id="nav-left">
+<ul>
+<li>
+<a href="#">Dashboards</a>
+</li>
+<script>
+if (supports_html5_storage()) {
+var sonarRecentHistory = new Sonar.RecentHistory();
+}
+</script>
+<li>
+<a href="#" onclick="if (sonarRecentHistory) { sonarRecentHistory.populateRecentHistoryPanel(); }; showDropdownMenu('projects-menu'); return false;" class="link-more">Projects</a>
+<div id="projects-menu" class="dropdown-menu" style="max-width: none; display: none;">
+<div id="recent-history" style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+<h2>Recent Projects</h2>
+<ul id="recent-history-list">
+</ul>
+</div>
+<div>
+<ul>
+
+<li><a href="#">All Projects</a></li>
+
+</ul>
+</div>
+</div>
+</li>
+<script>
+if (sonarRecentHistory == null) {
+$j('#recent-history').detach();
+}
+
+else {
+sonarRecentHistory.add('org.metawidget:metawidget-parent',
+'Metawidget',
+'/images/q/TRK.png');
+}
+
+</script>
+<li>
+<a href="#">Measures</a>
+</li>
+<li>
+<a href="#">Reviews</a>
+</li>
+</ul>
+</div>
+<div id="nav">
+<ul>
+<li>
+<input size="15" name="search" id="searchInput" onfocus="autocompleteResources()" value="Search" type="text">
+<img src="sonar/loading-small.gif" id="searchingResources" style="display:none">
+</li>
+
+<li><a href="#">Log in</a></li>
+
+<li>
+<a href="#" onclick="showDropdownMenu('admin-panel'); return false;" class="link-more">Settings</a>
+<div id="admin-panel" class="dropdown-menu" style="display: none">
+<ul>
+<li><a href="#">Quality Profiles</a></li>
+
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div id="searchResourcesResults" class="autocomplete" style="display:none"></div>
+</div>
+
+
+<div id="crumbs">
+<ul id="crumbs-ops">
+
+<li>
+</li>
+
+
+</ul>
+<ul id="bc">
+
+
+<li>
+<img alt="" src="sonar/TRK.png" title="" height="16" width="16">&nbsp;
+<a href="#">Metawidget</a></li>
+
+</ul>
+</div>
+
+<div id="body">
+
+<div id="sidebar">
+<ul class="sidebar blue-sidebar">
+
+
+<li class="active">
+<a href="#">Dashboard</a>
+</li>
+
+<li class="">
+<a href="#">Hotspots</a>
+</li>
+
+<li class="">
+<a href="#">Reviews</a>
+</li>
+
+<li class="">
+<a href="#">Time Machine</a>
+</li>
+
+<li class="spacer"></li>
+<li class="sidebar-title">Tools</li>
+<li class="">
+<a href="#">Components</a>
+</li>
+<li class="">
+<a href="#">Violations Drilldown</a>
+</li>
+
+<li class="">
+<a href="#">Design</a>
+</li>
+
+<li class="">
+<a href="#">Libraries</a>
+</li>
+
+<li class="">
+<a href="#">Clouds</a>
+</li>
+
+<li class="">
+<a href="#">Compare</a>
+</li>
+
+
+
+<li id="logo">
+<center><a href="http://www.sonarsource.org/" target="SonarSource"><img alt="Embrace Quality" class="png" src="sonar/sonar.png" title="Embrace Quality"></a></center>
+</li>
+</ul>
+</div>
+
+<div id="content" class="with_sidebar">
+
+<div class="print"><h2>Metawidget</h2></div>
+
+<div class="error" id="error" style="display:none">
+<span id="errormsg"></span> &nbsp;&nbsp;[<a href="#" onclick="javascript:$('error').hide();return false;">hide</a>]
+</div>
+<div class="notice" id="info" style="display:none">
+<span id="infomsg"></span> &nbsp;&nbsp;[<a href="#" onclick="javascript:$('info').hide();return false;">hide</a>]
+</div>
+<div class="warning" id="warning" style="display:none">
+<span id="warningmsg"></span> &nbsp;&nbsp;[<a href="#" onclick="javascript:$('warning').hide();return false;">hide</a>]
+</div>
+<div id="dashboard">
+
+<div class="line-block">
+
+
+<div id="snapshot_title" class="page_title">
+<h4>
+Version 3.3-SNAPSHOT - 26 Mar 2013 20:22
+<form method="GET" action="/dashboard/index/1" style="display: inline" class="spacer-left">
+<input name="did" value="1" type="hidden">
+<select id="select-comparison" name="period" onchange="submit()" class="small">
+<option selected="selected" value="">Time changes...</option>
+<option value="1">Δ since previous analysis (2013 Mar 26)</option><option value="2">Δ over 5 days</option><option value="3">Δ over 30 days</option></select>
+</form>
+
+</h4>
+</div>
+
+</div>
+
+
+<div style="width: 100%;display: block; float: none">
+
+<!-- the right margin with 1px is a trick for IE. See SONAR-2637 -->
+<div class="dashboard-column-wrapper" style="width: 50%;margin: 0 -1px 0 0;">
+<div class="dashboard-column" id="dashboard-column-1" style="margin: 0 5px 0 0px;">
+
+
+
+<div class="block" id="block_1">
+
+<div class="size" style="height:100%;">
+
+<div class="widget">
+
+<table width="100%">
+<tbody><tr>
+<td nowrap="nowrap" valign="top" width="48%">
+<div class="dashbox">
+
+<h3>Lines of code</h3>
+<p>
+<span class="big"><a href="#">38,341</span></a></span>
+<img alt="-2-black-small" src="sonar/-2-black-small.png"></p>
+
+<p><a href="#"></p>
+
+
+
+<p>
+<a href="#"></p>
+
+
+<p><a href="#"></p>
+
+
+</div>
+</td>
+<td width="10"> </td>
+<td valign="top">
+<div class="dashbox">
+
+<h3>Classes</h3>
+<p>
+<span class="big"><a href="#">727</span></a></span>
+<img alt="-2-black-small" src="sonar/-2-black-small.png"></p>
+<p><a href="#">235</span> packages</a> </p>
+
+<p><a href="#"></p>
+
+<p><a href="#">501</span> accessors</a> </p>
+
+
+</div>
+</td>
+</tr>
+</tbody></table>
+
+<div class="clear"></div>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="block" id="block_2">
+
+<div class="comments_duplications" style="height:100%;">
+
+<div class="widget">
+
+<table width="100%">
+<tbody><tr>
+<td nowrap="nowrap" valign="top" width="50%">
+
+<div class="dashbox">
+<h3>Comments</h3>
+<p>
+<span class="big"><a href="#">35.2%</span></a></span>
+</p>
+<p>
+<a href="#">20,864</span> lines</a>
+<img alt="-2-black-small" src="sonar/-2-black-small.png"></p>
+
+<p>
+<a href="#">46.8%</span> docu. API</a>
+</p>
+<p>
+<a href="#">1,259</span> undocu. API</a>
+<img alt="-2-green-small" src="sonar/-2-green-small.png"></p>
+<p>
+
+</p>
+</div>
+
+</td>
+<td nowrap="nowrap" valign="top" width="50%">
+
+<div class="dashbox">
+<h3>Duplications</h3>
+<p>
+<span class="big"><a href="#">0.4%</span></a></span>
+</p>
+<p>
+<a href="#">342</span> lines</a>
+</p>
+<p>
+<a href="#">14</span> blocks</a>
+</p>
+<p>
+<a href="#">11</span> files</a>
+</p>
+</div>
+
+</td>
+</tr>
+</tbody></table>
+
+<div class="clear"></div>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="block" id="block_3">
+
+<div class="complexity" style="height:100%;">
+
+<div class="widget">
+
+<table class="width100">
+<tbody>
+<tr>
+<td valign="top" width="50%">
+<div class="dashbox">
+<h3>Complexity</h3>
+
+<p>
+<span class="big"><a href="#">3.3</span></a></span> /method</p>
+
+
+
+<p>
+<span class="big"><a href="#">13.4</span></a></span> /class</p>
+
+
+<p>
+<span class="big"><a href="#">12.3</span></a></span> /file</p>
+
+
+<p>
+Total: <a href="#"></p>
+
+</div>
+</td>
+<td nowrap="nowrap" valign="top" width="50%">
+
+<div class="dashbox" id="cmp_charts">
+<script type="text/javascript">
+//<![CDATA[
+function selectComplexity(metric) {
+$$('#cmp_charts .chart').each(function(chart) {
+chart.hide();
+});
+$('chart_' + metric).show();
+}
+</script>
+<style>
+#cmp_charts form {
+font-size: 93%;padding-left: 30px;
+}
+#cmp_charts form label {
+padding-right: 5px;
+}
+</style>
+
+
+<div id="chart_function_complexity_distribution" class="chart" style="display: block">
+<img alt="Methods distribution /complexity" id="chart_img_function_complexity_distribution" src="sonar/chart.png" title="Methods distribution /complexity"></div>
+
+
+
+
+<div id="chart_file_complexity_distribution" class="chart" style="display: none">
+<img alt="Files distribution /complexity" id="chart_img_file_complexity_distribution" src="sonar/chart_002.png" title="Files distribution /complexity"></div>
+
+
+
+<form>
+
+<input name="cmp_dist" value="function_complexity_distribution" id="cmp_dist_function_complexity_distribution" onclick="selectComplexity('function_complexity_distribution');" checked="checked" type="radio"> <label for="cmp_dist_function_complexity_distribution">Methods</label>
+
+<input name="cmp_dist" value="file_complexity_distribution" id="cmp_dist_file_complexity_distribution" onclick="selectComplexity('file_complexity_distribution');" type="radio"> <label for="cmp_dist_file_complexity_distribution">Files</label>
+
+</form>
+</div>
+
+</td>
+</tr>
+</tbody>
+</table>
+<div class="clear"></div>
+
+<div class="clear"></div>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="block" id="block_4">
+
+<div class="events" style="height:100%;">
+
+<div class="widget">
+
+<script type="text/javascript">
+function changeCategory(categoryId, widgetId) {
+var eventTableMaxSize = 8;
+$$('#events_' + widgetId + ' tr.event').invoke('hide');
+var elements;
+if (categoryId=='all') {
+elements = $$('#events_' + widgetId + ' tr.event');
+} else {
+elements = $$('#events_' + widgetId + ' tr.cat_' + categoryId);
+}
+var elementsToDisplay = elements.slice(0,eventTableMaxSize);
+if (elementsToDisplay.size()==0) {
+$('events_' + widgetId).hide();
+$('show_more_events_' + widgetId).hide();
+$('no_event_message_' + widgetId).show();
+} else {
+$('events_' + widgetId).show();
+$('no_event_message_' + widgetId).hide();
+elementsToDisplay.invoke('show');
+if (elements.size() > eventTableMaxSize) {
+$('show_more_events_' + widgetId).show();
+} else {
+$('show_more_events_' + widgetId).hide();
+}
+}
+}
+function showAllEvents(widgetId) {
+var selectedCategory = $('select_category_' + widgetId).value;
+if (selectedCategory=='all') {
+$$('#events_' + widgetId + ' tr.event').invoke('show');
+} else {
+$$('#events_' + widgetId + ' tr.cat_' + selectedCategory).invoke('show');
+}
+$('show_more_events_' + widgetId).hide();
+}
+</script>
+<h3>Events &nbsp;&nbsp;
+<select class="small" id="select_category_4" onchange="changeCategory(this.value, 4);">
+<option selected="selected" value="all">All</option>
+
+<option value="alert">Alert</option>
+
+<option value="other">Other</option>
+
+<option value="profile">Profile</option>
+
+<option value="version">Version</option>
+
+</select>
+</h3>
+<table id="events_4" class="spaced data">
+<thead>
+<tr>
+<th colspan="4"></th>
+</tr>
+</thead>
+<tbody>
+
+<tr style="" class="even event cat_version">
+<td x="Tue Mar 26 20:22:03 +1100 2013">26 Mar 2013</td>
+<td>Version</td>
+<td>3.3-SNAPSHOT</td>
+<td>
+
+</td>
+</tr>
+
+</tbody>
+</table>
+<div id="no_event_message_4" style="margin: 5px; display: none;">
+<span class="empty_widget">No event</span>
+</div>
+<a style="display: none;" href="#" onclick="showAllEvents(4);" id="show_more_events_4" class="action">Show more</a>
+<script type="text/javascript">
+changeCategory('all', 4);
+</script>
+
+<div class="clear"></div>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="block" id="block_5">
+
+<div class="description" style="height:100%;">
+
+<div class="widget box">
+
+<p class="marginbottom10">Metawidget is a smart User Interface widget that populates itself,
+		either statically or at runtime,
+		with UI components to match the properties of your business objects.</p>
+
+<table class="width100 marginbottom10">
+<tbody>
+<tr>
+<td width="25%">Key: </td>
+<td id="resource_key" width="75%">org.metawidget:metawidget-parent</td>
+</tr>
+
+<tr>
+<td>Language: </td>
+<td id="resource_language">Java</td>
+</tr>
+
+
+<tr>
+<td>Profile:</td>
+<td><span id="resource_profile"><a href="#">1</span>)</td>
+</tr>
+
+
+<tr>
+<td>Alerts: </td>
+<td><img alt="Rss-12x12" src="sonar/rss-12x12.png"> <a href="#">RSS Feed</a></td>
+</tr>
+
+
+<tr>
+<td valign="top">Links: </td>
+<td id="resource_links">
+
+<div>
+
+<img alt="Developer connection" src="sonar/scm_dev.png" title="Developer connection"><a href="#" onclick="$('link_616').toggle();return false;">Developer connection</a>
+<div id="link_616" style="padding-left: 20px; display:none">scm:git:git@github.com:metawidget/metawidget.git</div>
+
+</div>
+
+<div>
+
+<a href="http://metawidget.org/" class="nolink" onclick="window.open(this.href);return false;"><img alt="Home" src="sonar/homepage.png" title="Home"></a><a href="http://metawidget.org/" onclick="window.open(this.href);return false;">Home</a>
+</div>
+
+<div>
+
+<a href="https://sourceforge.net/tracker/?group_id=208482" class="nolink" onclick="window.open(this.href);return false;"><img alt="Issues" src="sonar/issue.png" title="Issues"></a><a href="https://sourceforge.net/tracker/?group_id=208482" onclick="window.open(this.href);return false;">Issues</a>
+</div>
+
+<div>
+
+<a href="http://github.com/metawidget/metawidget" class="nolink" onclick="window.open(this.href);return false;"><img alt="Sources" src="sonar/scm.png" title="Sources"></a><a href="http://github.com/metawidget/metawidget" onclick="window.open(this.href);return false;">Sources</a>
+</div>
+
+</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+</div>
+</div>
+
+<!-- the right margin with 1px is a trick for IE. See SONAR-2637 -->
+<div class="dashboard-column-wrapper" style="width: 50%;margin: 0 -1px 0 0;">
+<div class="dashboard-column" id="dashboard-column-2" style="margin: 0 0px 0 5px;">
+
+
+
+<div class="block" id="block_6">
+
+<div class="rules" style="height:100%;">
+
+<div class="widget">
+
+<table width="100%">
+<tbody><tr>
+<td valign="top">
+<div class="dashbox">
+<h3>Violations</h3>
+<div class="marginbottom10">
+<span class="big">
+<a href="#">940</span></a></span>
+<img alt="-2-green-small" src="sonar/-2-green-small.png">
+</div>
+
+<h3>Rules compliance</h3>
+<div>
+<span class="big">
+<a href="#">94.0%</span></a></span>
+</div>
+
+</div>
+</td>
+<td nowrap="nowrap" valign="top">
+
+<table class="clear width100">
+<tbody><tr>
+<td><img alt="Blocker" src="sonar/BLOCKER.png"></td>
+<td> &nbsp;<a href="#">Blocker</a></td>
+<td style="padding: 0 10px;" align="right">
+<span id="m_blocker_violations">0</span></td>
+<td>
+<img alt="" src="sonar/transparent.gif" title="" width="16"></td>
+<td style="padding-bottom:2px; padding-top:2px;" align="left">
+
+
+<div class="barchart" style="width: 70px"><div style="width: 0%;background-color:#777;"></div></div>
+
+
+</td>
+</tr>
+<tr>
+<td><img alt="Critical" src="sonar/CRITICAL.png"></td>
+<td> &nbsp;<a href="#">Critical</a></td>
+<td style="padding: 0 10px;" align="right">
+<span id="m_critical_violations">0</span></td>
+<td>
+<img alt="" src="sonar/transparent.gif" title="" width="16"></td>
+<td style="padding-bottom:2px; padding-top:2px;" align="left">
+
+
+<div class="barchart" style="width: 70px"><div style="width: 0%;background-color:#777;"></div></div>
+
+
+</td>
+</tr>
+<tr>
+<td><img alt="Major" src="sonar/MAJOR.png"></td>
+<td> &nbsp;<a href="#">Major</a></td>
+<td style="padding: 0 10px;" align="right">
+<span id="m_major_violations">677</span></td>
+<td>
+<img alt="-2-green-small" src="sonar/-2-green-small.png"></td>
+<td style="padding-bottom:2px; padding-top:2px;" align="left">
+
+
+<div class="barchart" style="width: 70px"><div style="width: 100%;background-color:#777;"></div></div>
+
+
+</td>
+</tr>
+<tr>
+<td><img alt="Minor" src="sonar/MINOR.png"></td>
+<td> &nbsp;<a href="#">Minor</a></td>
+<td style="padding: 0 10px;" align="right">
+<span id="m_minor_violations">263</span></td>
+<td>
+<img alt="-2-green-small" src="sonar/-2-green-small.png"></td>
+<td style="padding-bottom:2px; padding-top:2px;" align="left">
+
+
+<div class="barchart" style="width: 70px"><div style="width: 38%;background-color:#777;"></div></div>
+
+
+</td>
+</tr>
+<tr>
+<td><img alt="Info" src="sonar/INFO.png"></td>
+<td> &nbsp;<a href="#">Info</a></td>
+<td style="padding: 0 10px;" align="right">
+<span id="m_info_violations">0</span></td>
+<td>
+<img alt="" src="sonar/transparent.gif" title="" width="16"></td>
+<td style="padding-bottom:2px; padding-top:2px;" align="left">
+
+
+<div class="barchart" style="width: 70px"><div style="width: 0%;background-color:#777;"></div></div>
+
+
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<div class="clear"></div>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="block" id="block_9">
+
+<div class="package_design" style="height:100%;">
+
+<div class="widget">
+
+<table width="100%">
+<tbody>
+<tr>
+
+<td valign="top" width="50%">
+<div class="dashbox">
+<p class="title">Package tangle index</p>
+<p>
+<span class="big"><a href="#">9.6%</span></a></span> </p>
+
+<p>
+&gt; <a href="#">15</span> cycles</a> </p>
+
+</div>
+</td>
+<td valign="top" width="50%">
+
+<div class="dashbox">
+<p class="title">Dependencies to cut</p>
+<p>
+<a href="#">12</span> between packages</a>
+</p>
+<p>
+<a href="#">25</span> between files</a>
+</p>
+</div>
+
+</td>
+
+</tr>
+</tbody>
+</table>
+
+<div class="clear"></div>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="block" id="block_10">
+
+<div class="code_coverage" style="height:100%;">
+
+<div class="widget">
+
+<table width="100%">
+<tbody><tr>
+<td nowrap="nowrap" valign="top" width="50%">
+<div class="dashbox">
+<p class="title">Unit tests coverage</p>
+<p>
+<span class="big"><a href="#">67.6%</span></a></span>
+<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+
+<p>
+<a href="#">68.0%</span> line coverage</a>
+<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+
+
+<p>
+<a href="#">66.7%</span> branch coverage</a>
+<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+
+
+</div>
+</td>
+<td nowrap="nowrap" valign="top" width="50%">
+
+<div class="dashbox">
+<h3>Unit test success</h3>
+<p><span class="big">
+<a href="#">100.0%</span></a></span>
+</p>
+<p>
+<a href="#">0</span> failures</a>
+</p>
+<p>
+<a href="#">0</span> errors</a>
+</p>
+<p>
+<a href="#">612</span> tests</a>
+<img alt="2-black-small" src="sonar/2-black-small.png"></p>
+
+<p>
+<a href="#">3:53 min</span></a>
+<img alt="-2-black-small" src="sonar/-2-black-small.png"></p>
+</div>
+
+</td>
+</tr>
+</tbody></table>
+
+<div class="clear"></div>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+
+
+<div class="block" id="block_38">
+
+<div class="it-coverage" style="height:100%;">
+
+<div class="widget">
+<table width="100%">
+<tbody><tr>
+<td nowrap="nowrap" valign="top" width="50%">
+<div class="dashbox">
+<p class="title">Integration tests coverage</p>
+<p>
+<span class="big"><a href="#">40.5%</span></a></span>
+<img alt="2-green-small" src="sonar/2-green-small.png"></p>
+
+<p>
+<a href="#">42.7%</span> line coverage</a>
+<img alt="2-green-small" src="sonar/2-green-small.png"></p>
+
+
+<p>
+<a href="#">35.9%</span> branch coverage</a>
+<img alt="2-green-small" src="sonar/2-green-small.png"></p>
+
+</div>
+</td>
+<td nowrap="nowrap" valign="top" width="50%">
+<div class="dashbox">
+<p class="title">Overall coverage</p>
+<p>
+<span class="big"><a href="#">80.2%</span></a></span>
+<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+
+<p>
+<a href="#">81.6%</span> line coverage</a>
+<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+
+
+<p>
+<a href="#">77.4%</span> branch coverage</a>
+<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+
+</div>
+</td>
+</tr>
+<tr>
+<td nowrap="nowrap" valign="top" width="50%">
+<div class="dashbox">
+</div>
+</td>
+<td nowrap="nowrap" valign="top" width="50%">
+<div class="dashbox">
+</div>
+</td>
+</tr>
+</tbody></table>
+
+<div class="clear"></div>
+</div>
+
+<div style="clear: both;"></div>
+</div>
+</div>
+
+
+
+
+</div>
+</div>
+
+</div>
+<div style="clear: both;"></div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div id="footer">
+
+<div id="ftlinks">
+Powered by <a href="http://www.sonarsource.com/" target="SonarSource">SonarSource</a> - Open Source
+<a href="http://www.sonarsource.org/documentation/license/" target="license">LGPL</a> - v.3.4.1 -
+<a href="http://sonar-plugins.codehaus.org/" target="plugins">Plugins</a> -
+<a href="http://sonar.codehaus.org/documentation" target="sonar_doc">Documentation</a> -
+<a href="http://sonar.codehaus.org/support/" target="support">Ask a question</a>
+
+<br><span class="yellowHighlight" id="evaluation_warning">Embedded database should be used for evaluation purpose only</span>
+
+<!--[if lte IE 6]><br/><span class="ie6-warn">Your web browser is outdated. This website may not display correctly.</span><![endif]-->
+</div>
+</div>
+
+
+
+<script>
+
+
+
+</script>
+
+
+</body></html>
