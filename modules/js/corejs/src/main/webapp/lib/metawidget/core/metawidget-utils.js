@@ -222,20 +222,10 @@ var metawidget = metawidget || {};
 		if ( names !== undefined ) {
 			for ( var loop = 0, length = names.length; loop < length; loop++ ) {
 
-				var name = names[loop];
-				var indexOf = name.indexOf( '[' );
-				var arrayIndex = undefined;
+				toInspect = toInspect[names[loop]];
 
-				if ( indexOf !== -1 ) {
-					arrayIndex = name.substring( indexOf + 1, name.length - 1 );
-					name = name.substring( 0, indexOf );
-				}
-
-				toInspect = toInspect[name];
-
-				if ( arrayIndex !== undefined ) {
-					toInspect = toInspect[arrayIndex];
-				}
+				// We don't need to worry about array indexes here: they should
+				// have been parsed out by splitPath
 
 				if ( toInspect === undefined ) {
 					return undefined;

@@ -131,6 +131,12 @@
 			expect( metawidget.util.splitPath( 'foo[bar][baz]' ).names[1] ).toBe( 'baz' );
 			expect( metawidget.util.splitPath( 'foo[bar][baz]' ).names.length ).toBe( 2 );
 
+			// Array notation
+			
+			expect( metawidget.util.splitPath( 'foo[1]' ).type ).toBe( 'foo' );
+			expect( metawidget.util.splitPath( 'foo[1]' ).names[0] ).toBe( '1' );
+			expect( metawidget.util.splitPath( 'foo[1]' ).names.length ).toBe( 1 );
+
 			// Mixed notation
 
 			expect( metawidget.util.splitPath( 'foo.bar[baz]' ).type ).toBe( 'foo' );
@@ -212,11 +218,13 @@
 			expect( metawidget.util.traversePath( object1 ) ).toBe( object1 );
 			expect( metawidget.util.traversePath( object1, [ 'array' ] ).length ).toBe( 2 );
 			expect( metawidget.util.traversePath( object1, [ 'array', 'foo' ] ) ).toBeUndefined();
-			expect( metawidget.util.traversePath( object1, [ 'array[0]', 'foo' ] ) ).toBe( 'bar' );
-			expect( metawidget.util.traversePath( object1, [ 'array[0]', 'baz' ] ) ).toBeUndefined();
-			expect( metawidget.util.traversePath( object1, [ 'array[1]', 'foo' ] ) ).toBeUndefined()
-			expect( metawidget.util.traversePath( object1, [ 'array[1]', 'baz' ] ) ).toBe( 'Baz' );
-			expect( metawidget.util.traversePath( object1, [ 'array[2]' ] ) ).toBeUndefined();
+			expect( metawidget.util.traversePath( object1, [ 'array', '0' ] ) ).toBe( object2 );
+			expect( metawidget.util.traversePath( object1, [ 'array', '0', 'foo' ] ) ).toBe( 'bar' );
+			expect( metawidget.util.traversePath( object1, [ 'array', '0', 'baz' ] ) ).toBeUndefined();
+			expect( metawidget.util.traversePath( object1, [ 'array', '1' ] ) ).toBe( object3 );
+			expect( metawidget.util.traversePath( object1, [ 'array', '1', 'foo' ] ) ).toBeUndefined()
+			expect( metawidget.util.traversePath( object1, [ 'array', '1', 'baz' ] ) ).toBe( 'Baz' );
+			expect( metawidget.util.traversePath( object1, [ 'array', '2' ] ) ).toBeUndefined();
 		} );
 	} );
 
