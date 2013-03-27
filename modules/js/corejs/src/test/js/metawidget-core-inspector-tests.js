@@ -134,7 +134,9 @@
 				action: function() {
 
 				},
-				array: []
+				array: [],
+				bool: true,
+				num: 46
 			} );
 
 			expect( inspectionResult[0]._root ).toBe( 'true' );
@@ -151,6 +153,11 @@
 			expect( inspectionResult[5].type ).toBe( 'function' );
 			expect( inspectionResult[6].name ).toBe( 'array' );
 			expect( inspectionResult[6].type ).toBe( 'array' );
+			expect( inspectionResult[7].name ).toBe( 'bool' );
+			expect( inspectionResult[7].type ).toBe( 'boolean' );
+			expect( inspectionResult[8].name ).toBe( 'num' );
+			expect( inspectionResult[8].type ).toBe( 'number' );
+			expect( inspectionResult.length ).toBe( 9 );
 		} );
 
 		it( "ignores undefined objects", function() {
