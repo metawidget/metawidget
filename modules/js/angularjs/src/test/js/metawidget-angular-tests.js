@@ -713,75 +713,147 @@
 					} );
 				} );
 
-				it( "wraps nodes that have directives that add a sibling element", function() {
+				it(
+						"wraps nodes that have directives that add a sibling element",
+						function() {
 
-					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
-					var attachedElement = [];
-					var controller = myApp.controller( 'TestController', function( $scope ) {
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var attachedElement = [];
+							var controller = myApp.controller( 'TestController', function( $scope ) {
 
-						$scope.model = {
-							"foo": "fooValue",
-							"bar": "barValue"
-						}
-					} );
-
-					myApp.directive( 'input', function() {
-
-						return {
-							restrict: 'E',
-							scope: {
-								ngModel: '=',
-							},							
-							compile: function compile( element, attrs, transclude ) {
-
-								if ( attrs.ngModel === 'model.foo' ) {
-									element.after( '<div class="input-sibling"></div>' );
+								$scope.model = {
+									"foo": "fooValue",
+									"bar": "barValue"
 								}
-							}
-						}
-					} );
-					
-					var body = document.createElement( 'body' );
-					body.setAttribute( 'ng-controller', 'TestController' );
+							} );
 
-					var mw = document.createElement( 'metawidget' );
-					mw.setAttribute( 'ng-model', 'model' );					
-					body.appendChild( mw );
+							myApp.directive( 'input', function() {
 
-					var injector = angular.bootstrap( body, [ 'test-app' ] );
+								return {
+									restrict: 'E',
+									scope: {
+										ngModel: '=',
+									},
+									compile: function compile( element, attrs, transclude ) {
 
-					injector.invoke( function() {
+										if ( attrs.ngModel === 'model.foo' ) {
+											element.after( '<div class="input-sibling"></div>' );
+										}
+									}
+								}
+							} );
 
-						expect( mw.innerHTML ).toBe( '<table id="table-model"><tbody><tr id="table-modelFoo-row"><th id="table-modelFoo-label-cell"><label for="modelFoo-wrapper" id="table-modelFoo-label">Foo:</label></th><td id="table-modelFoo-cell"><stub class="ng-scope" id="modelFoo-wrapper"><input type="text" id="modelFoo" ng-model="model.foo" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/><div class="input-sibling"/></stub></td><td/></tr><tr id="table-modelBar-row"><th id="table-modelBar-label-cell"><label for="modelBar" id="table-modelBar-label">Bar:</label></th><td id="table-modelBar-cell"><input type="text" id="modelBar" ng-model="model.bar" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
-						expect( mw.innerHTML ).toContain( '<stub class="ng-scope" id="modelFoo-wrapper"><input type="text" id="modelFoo" ng-model="model.foo" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/><div class="input-sibling"/></stub>' );
-						expect( mw.innerHTML ).toContain( '<td id="table-modelBar-cell"><input type="text" id="modelBar" ng-model="model.bar" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/></td>' );
-						expect( mw.innerHTML ).toContain( '<stub class="ng-scope" id="modelFoo' );
-						expect( mw.innerHTML ).toNotContain( '<stub class="ng-scope" id="modelBar' );
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+
+							var mw = document.createElement( 'metawidget' );
+							mw.setAttribute( 'ng-model', 'model' );
+							body.appendChild( mw );
+
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML )
+												.toBe(
+														'<table id="table-model"><tbody><tr id="table-modelFoo-row"><th id="table-modelFoo-label-cell"><label for="modelFoo-wrapper" id="table-modelFoo-label">Foo:</label></th><td id="table-modelFoo-cell"><stub class="ng-scope" id="modelFoo-wrapper"><input type="text" id="modelFoo" ng-model="model.foo" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/><div class="input-sibling"/></stub></td><td/></tr><tr id="table-modelBar-row"><th id="table-modelBar-label-cell"><label for="modelBar" id="table-modelBar-label">Bar:</label></th><td id="table-modelBar-cell"><input type="text" id="modelBar" ng-model="model.bar" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+										expect( mw.innerHTML )
+												.toContain(
+														'<stub class="ng-scope" id="modelFoo-wrapper"><input type="text" id="modelFoo" ng-model="model.foo" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/><div class="input-sibling"/></stub>' );
+										expect( mw.innerHTML ).toContain(
+												'<td id="table-modelBar-cell"><input type="text" id="modelBar" ng-model="model.bar" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/></td>' );
+										expect( mw.innerHTML ).toContain( '<stub class="ng-scope" id="modelFoo' );
+										expect( mw.innerHTML ).toNotContain( '<stub class="ng-scope" id="modelBar' );
+									} );
+						} );
+			} );
+
+	describe(
+			"The AngularInspectionResultProcessor",
+			function() {
+
+				it( "executes Angular expressions inside inspection results", function() {
+
+					var injector = angular.bootstrap();
+
+					injector.invoke( function( $rootScope ) {
+
+						var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( $rootScope.$new() );
+						var inspectionResult = [ {
+							name: "foo",
+							value: "{{1+2}}"
+						} ];
+
+						inspectionResult = processor.processInspectionResult( inspectionResult );
+
+						expect( inspectionResult[0].name ).toBe( 'foo' );
+						expect( inspectionResult[0].value ).toBe( '3' );
 					} );
 				} );
+
+				it(
+						"watches expressions and invalidates inspection results",
+						function() {
+
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var controller = myApp.controller( 'TestController', function( $scope ) {
+
+								$scope.readOnlyz = true;
+								
+								$scope.foo = {
+									edit: function() {},
+									save: function() {}
+								};
+
+								$scope.metawidgetConfig = {
+									inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
+
+										return [ {
+											name: "edit",
+											"hidden": "{{!readOnlyz}}"
+										}, {
+											name: "save",
+											"hidden": "{{readOnlyz}}"
+										} ];
+									} ] )
+								};
+							} );
+
+							var mw = document.createElement( 'metawidget' );
+							mw.setAttribute( 'ng-model', 'foo' );
+							mw.setAttribute( 'config', 'metawidgetConfig' );
+
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+							body.appendChild( mw );
+
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML )
+												.toBe(
+														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"><label for="fooEdit" id="table-fooEdit-label">Edit:</label></th><td id="table-fooEdit-cell"><button id="fooEdit" ng-click="foo.edit()">Edit</button></td><td/></tr></tbody></table>' );
+
+										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()">Edit</button>' );
+
+										var scope = angular.element( body ).scope();
+										scope.readOnlyz = false;
+										scope.$digest();
+										
+										expect( mw.innerHTML ).toNotContain( 'fooEdit' );
+										expect( mw.innerHTML ).toContain( '<button id="fooSave" ng-click="foo.save()">Save</button>' );
+
+										scope.readOnlyz = true;
+										scope.$digest();
+										
+										expect( mw.innerHTML ).toNotContain( 'fooSave' );
+										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()">Edit</button>' );
+									} );
+						} );
 			} );
-
-	describe( "The AngularInspectionResultProcessor", function() {
-
-		it( "executes Angular expressions inside inspection results", function() {
-
-			var injector = angular.bootstrap();
-
-			injector.invoke( function( $rootScope ) {
-
-				var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( $rootScope.$new() );
-				var inspectionResult = [ {
-					name: "foo",
-					value: "{{1+2}}"
-				} ];
-
-				inspectionResult = processor.processInspectionResult( inspectionResult );
-
-				expect( inspectionResult[0].name ).toBe( 'foo' );
-				expect( inspectionResult[0].value ).toBe( '3' );
-			} );
-		} );
-	} );
 
 	describe( "The AngularWidgetProcessor", function() {
 

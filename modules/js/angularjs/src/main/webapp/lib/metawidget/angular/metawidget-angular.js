@@ -366,6 +366,7 @@
 					scope.$parent.$watch( expression, function( newValue, oldValue ) {
 
 						if ( newValue !== oldValue ) {
+							mw.invalidateInspection();
 							mw.buildWidgets();
 						}
 					} );
