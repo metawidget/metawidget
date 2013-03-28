@@ -7,6 +7,13 @@ This folder contains full source code (including tests) for Metawidget. To build
 	
 This will require you to have the Android SDK installed, as some portions of Metawidget are Android-based. You will also require at least -Xmx2048m -XX:MaxPermSize=512m of RAM.
 
+To build individual modules, change to that module's root first. For example:
+	
+	cd /src/modules/java/vaadin/core
+	mvn clean install
+	
+This will build just the individual module to its target folder, for example /src/modules/java/vaadin/core/target.
+	
 Steps that can be run after the build include:
 
 	mvn -f examples/pom.xml install -Dappserver=jetty
