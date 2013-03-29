@@ -24,32 +24,38 @@
 
 			var inspector = new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
 
-				return [ {
-					name: "foo",
-					override: "base",
-					type: "fooType"
-				}, {
-					name: "bar"
-				} ];
+				return {
+					properties: {
+						"foo": {
+							override: "base",
+							type: "fooType"
+						},
+						"bar": {
+							"type": "string"
+						}
+					}
+				};
 			}, function( toInspect, type ) {
 
-				return [ {
-					name: "baz"
-				}, {
-					name: "foo",
-					override: "overridden",
-					required: "fooRequired"
-				} ];
+				return {
+					properties: {
+						"baz": {},
+						"foo": {
+							override: "overridden",
+							required: "fooRequired"							
+						}
+					}
+				};
 			} ] );
 
 			var inspectionResult = inspector.inspect();
 
-			expect( inspectionResult[0].name ).toBe( 'foo' );
-			expect( inspectionResult[0].type ).toBe( 'fooType' );
-			expect( inspectionResult[0].override ).toBe( 'overridden' );
-			expect( inspectionResult[0].required ).toBe( 'fooRequired' );
-			expect( inspectionResult[1].name ).toBe( 'bar' );
-			expect( inspectionResult[2].name ).toBe( 'baz' );
+			expect( inspectionResult.name ).toBeUndefined();
+			expect( inspectionResult.type ).toBeUndefined();
+			expect( inspectionResult.properties.foo.override ).toBe( 'overridden' );
+			expect( inspectionResult.properties.foo.required ).toBe( 'fooRequired' );
+			expect( inspectionResult.properties.bar.type ).toBe( 'string' );
+			expect( inspectionResult.properties.baz ).toBeDefined();
 		} );
 
 		it( "defensively copies inspectors", function() {
@@ -58,49 +64,47 @@
 
 			var inspectors = [ function( toInspect, type ) {
 
-				return [ {
+				return {
 					name: "foo"
-				} ];
+				};
 			} ];
 
 			var inspector = new metawidget.inspector.CompositeInspector( inspectors );
 			var inspectionResult = inspector.inspect();
-			expect( inspectionResult[0].name ).toBe( 'foo' );
+			expect( inspectionResult.name ).toBe( 'foo' );
 
-			expect( inspectors.length ).toBe( 1 );
-			inspectors.splice( 0, 1 );
-			expect( inspectors.length ).toBe( 0 );
+			inspectionResult.name = undefined;
 			inspectionResult = inspector.inspect();
-			expect( inspectionResult[0].name ).toBe( 'foo' );
+			expect( inspectionResult.name ).toBe( 'foo' );
 
 			// Via config
 
 			var config = {
 				inspectors: [ function( toInspect, type ) {
 
-					return [ {
+					return {
 						name: "foo"
-					} ];
+					};
 				} ]
 			};
 
 			inspector = new metawidget.inspector.CompositeInspector( config );
 			inspectionResult = inspector.inspect();
-			expect( inspectionResult[0].name ).toBe( 'foo' );
+			expect( inspectionResult.name ).toBe( 'foo' );
 
 			expect( config.inspectors.length ).toBe( 1 );
 			config.inspectors.splice( 0, 1 );
 			expect( config.inspectors.length ).toBe( 0 );
 			inspectionResult = inspector.inspect();
-			expect( inspectionResult[0].name ).toBe( 'foo' );
+			expect( inspectionResult.name ).toBe( 'foo' );
 		} );
 
 		it( "defensively copies inspection results", function() {
 
-			var originalResult = [ {
+			var originalResult = {
 				name: "foo",
 				type: "fooType"
-			} ];
+			};
 
 			var inspector = new metawidget.inspector.CompositeInspector( [ function( toInspect, type ) {
 
@@ -109,15 +113,15 @@
 
 			var inspectionResult = inspector.inspect();
 
-			expect( inspectionResult[0].name ).toBe( 'foo' );
-			expect( inspectionResult[0].type ).toBe( 'fooType' );
+			expect( inspectionResult.name ).toBe( 'foo' );
+			expect( inspectionResult.type ).toBe( 'fooType' );
 
-			inspectionResult[0].type = 'barType';
+			inspectionResult.type = 'barType';
 
 			inspectionResult = inspector.inspect();
 
-			expect( inspectionResult[0].name ).toBe( 'foo' );
-			expect( inspectionResult[0].type ).toBe( 'fooType' );
+			expect( inspectionResult.name ).toBe( 'foo' );
+			expect( inspectionResult.type ).toBe( 'fooType' );
 		} );
 	} );
 
@@ -139,25 +143,15 @@
 				num: 46
 			} );
 
-			expect( inspectionResult[0]._root ).toBe( 'true' );
-			expect( inspectionResult[0].type ).toBe( 'object' );
-			expect( inspectionResult[1].name ).toBe( 'foo' );
-			expect( inspectionResult[1].type ).toBe( 'string' );
-			expect( inspectionResult[2].name ).toBe( 'bar' );
-			expect( inspectionResult[2].type ).toBe( 'string' );
-			expect( inspectionResult[3].name ).toBe( 'date' );
-			expect( inspectionResult[3].type ).toBe( 'date' );
-			expect( inspectionResult[4].name ).toBe( 'object' );
-			expect( inspectionResult[4].type ).toBeUndefined();
-			expect( inspectionResult[5].name ).toBe( 'action' );
-			expect( inspectionResult[5].type ).toBe( 'function' );
-			expect( inspectionResult[6].name ).toBe( 'array' );
-			expect( inspectionResult[6].type ).toBe( 'array' );
-			expect( inspectionResult[7].name ).toBe( 'bool' );
-			expect( inspectionResult[7].type ).toBe( 'boolean' );
-			expect( inspectionResult[8].name ).toBe( 'num' );
-			expect( inspectionResult[8].type ).toBe( 'number' );
-			expect( inspectionResult.length ).toBe( 9 );
+			expect( inspectionResult.type ).toBe( 'object' );
+			expect( inspectionResult.properties.foo.type ).toBe( 'string' );
+			expect( inspectionResult.properties.bar.type ).toBe( 'string' );
+			expect( inspectionResult.properties.date.type ).toBe( 'date' );
+			expect( inspectionResult.properties.object.type ).toBeUndefined();
+			expect( inspectionResult.properties.action.type ).toBe( 'function' );
+			expect( inspectionResult.properties.array.type ).toBe( 'array' );
+			expect( inspectionResult.properties.bool.type ).toBe( 'boolean' );
+			expect( inspectionResult.properties.num.type ).toBe( 'number' );
 		} );
 
 		it( "ignores undefined objects", function() {
@@ -166,21 +160,22 @@
 
 			expect( inspector.inspect() ).toBeUndefined();
 			expect( inspector.inspect( undefined ) ).toBeUndefined();
-			expect( inspector.inspect( {} )[0]._root ).toBe( 'true' );
-			expect( inspector.inspect( {}, 'foo' )[0]._root ).toBe( 'true' );
-			expect( inspector.inspect( {}, 'foo', [ 'bar' ] )[0]._root ).toBe( 'true' );
-			expect( inspector.inspect( {}, 'foo', [ 'bar' ] )[0].name ).toBe( 'bar' );
-			expect( inspector.inspect( {}, 'foo', [ 'bar' ] ).length ).toBe( 1 );
+			expect( inspector.inspect( {} ).name ).toBeUndefined();
+			expect( inspector.inspect( {} ).type ).toBe( 'object' );
+			expect( inspector.inspect( {}, 'foo' ).name ).toBeUndefined();
+			expect( inspector.inspect( {}, 'foo' ).type ).toBe( 'object' );
+			expect( inspector.inspect( {}, 'foo', [ 'bar' ] ).name ).toBe( 'bar' );
+			expect( inspector.inspect( {}, 'foo', [ 'bar' ] ).type ).toBeUndefined();
 		} );
 
 		it( "does not ignore empty strings", function() {
 
 			var inspector = new metawidget.inspector.PropertyTypeInspector();
 
-			expect( inspector.inspect( '' )[0].type ).toBe( 'string' );
+			expect( inspector.inspect( '' ).type ).toBe( 'string' );
 			expect( inspector.inspect( {
 				'foo': ''
-			}, 'ignore', [ 'foo' ] )[0].type ).toBe( 'string' );
+			}, 'ignore', [ 'foo' ] ).type ).toBe( 'string' );
 		} );
 
 		it( "inspects parent name", function() {
@@ -189,26 +184,17 @@
 
 			expect( inspector.inspect( {
 				'foo': ''
-			}, 'ignore', [ 'foo' ] )[0]._root ).toBe( 'true' );
-			expect( inspector.inspect( {
-				'foo': ''
-			}, 'ignore', [ 'foo' ] )[0].name ).toBe( 'foo' );
+			}, 'ignore', [ 'foo' ] ).name ).toBe( 'foo' );
 
-			expect( inspector.inspect( {
-				'foo': ''
-			}, 'ignore' )[0]._root ).toBe( 'true' );
 			for ( var prop in inspector.inspect( {
 				'foo': ''
-			}, 'ignore', [] )[0] ) {
+			}, 'ignore', [] ) ) {
 				expect( prop ).toNotBe( 'name' );
 			}
 
-			expect( inspector.inspect( {
-				'foo': ''
-			}, 'ignore', [] )[0]._root ).toBe( 'true' );
 			for ( var prop in inspector.inspect( {
 				'foo': ''
-			}, 'ignore', [] )[0] ) {
+			}, 'ignore', [] ) ) {
 				expect( prop ).toNotBe( 'name' );
 			}
 		} );

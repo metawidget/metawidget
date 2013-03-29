@@ -237,11 +237,12 @@ var metawidget = metawidget || {};
 	};
 
 	/**
-	 * Combines the given first array with the given second array.
+	 * Combines the given first inspection result with the given second
+	 * inspection result.
 	 * <p>
-	 * Array elements are expected to be objects. They are combined based on
-	 * their 'name' property (or their '_root' property). If no elements match,
-	 * new elements are appended to the end of the array.
+	 * Inspection results are expected to be JSON Schema objects. They are
+	 * combined based on their 'name' property. If no elements match, new
+	 * elements are appended.
 	 */
 
 	metawidget.util.combineInspectionResults = function( existingInspectionResult, newInspectionResult ) {
@@ -249,61 +250,21 @@ var metawidget = metawidget || {};
 		// Inspector may return undefined
 
 		if ( newInspectionResult === undefined ) {
-			return existingInspectionResult;
+			return;
 		}
 
-		// If this is the first result...
-
-		if ( existingInspectionResult.length === 0 ) {
-
-			// ...copy it
-
-			for ( var loop = 0, length = newInspectionResult.length; loop < length; loop++ ) {
-
-				var newAttributes = newInspectionResult[loop];
-				var existingAttributes = {};
-
-				for ( var attribute in newAttributes ) {
-					existingAttributes[attribute] = newAttributes[attribute];
-				}
-
-				existingInspectionResult.push( existingAttributes );
+		for( var prop in newInspectionResult ) {
+			
+			var value = newInspectionResult[prop];
+						
+			if ( value instanceof Object ) {
+				existingInspectionResult[prop] = existingInspectionResult[prop] || {};
+				metawidget.util.combineInspectionResults( existingInspectionResult[prop], value );
+				continue;
 			}
 
-		} else {
-
-			// ...otherwise merge it
-
-			outer: for ( var loop1 = 0, length1 = newInspectionResult.length; loop1 < length1; loop1++ ) {
-
-				var newAttributes = newInspectionResult[loop1];
-
-				for ( var loop2 = 0, length2 = existingInspectionResult.length; loop2 < length2; loop2++ ) {
-					var existingAttributes = existingInspectionResult[loop2];
-
-					if ( existingAttributes.name === newAttributes.name || ( existingAttributes._root === 'true' && newAttributes._root === 'true' ) ) {
-
-						for ( var attribute in newAttributes ) {
-							existingAttributes[attribute] = newAttributes[attribute];
-						}
-
-						continue outer;
-					}
-				}
-
-				// If no existing attributes matched, push a new one
-
-				var existingAttributes = {};
-
-				for ( var attribute in newAttributes ) {
-					existingAttributes[attribute] = newAttributes[attribute];
-				}
-
-				existingInspectionResult.push( existingAttributes );
-			}
+			existingInspectionResult[prop] = value;
 		}
-
-		return existingInspectionResult;
 	};
 
 	/**

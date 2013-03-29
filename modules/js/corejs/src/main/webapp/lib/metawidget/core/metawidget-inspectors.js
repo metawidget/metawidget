@@ -65,7 +65,7 @@ var metawidget = metawidget || {};
 
 		this.inspect = function( toInspect, type, names ) {
 
-			var compositeInspectionResult = [];
+			var compositeInspectionResult = {};
 
 			for ( var ins = 0, insLength = _inspectors.length; ins < insLength; ins++ ) {
 
@@ -78,7 +78,7 @@ var metawidget = metawidget || {};
 					inspectionResult = inspector( toInspect, type, names );
 				}
 
-				compositeInspectionResult = metawidget.util.combineInspectionResults( compositeInspectionResult, inspectionResult );
+				metawidget.util.combineInspectionResults( compositeInspectionResult, inspectionResult );
 			}
 
 			return compositeInspectionResult;
@@ -108,15 +108,13 @@ var metawidget = metawidget || {};
 
 		toInspect = metawidget.util.traversePath( toInspect, names );
 
+		var inspectionResult = {};
+
 		// Inspect root node. Important if the Metawidget is
 		// pointed directly at a primitive type
 
-		var inspectionResult = [ {
-			_root: 'true'
-		} ];
-
 		if ( names !== undefined && names.length > 0 ) {
-			inspectionResult[0].name = names[names.length - 1];
+			inspectionResult.name = names[names.length - 1];
 		} else {
 
 			// Nothing useful to return?
@@ -128,49 +126,52 @@ var metawidget = metawidget || {};
 
 		if ( toInspect !== undefined ) {
 
-			inspectionResult[0].type = typeof ( toInspect );
+			inspectionResult.type = typeof ( toInspect );
+			inspectionResult.properties = {};
 
 			for ( var property in toInspect ) {
-
-				var inspectedProperty = {};
-				inspectedProperty.name = property;
 
 				// Inspect the type of the property as best we can
 
 				var value = toInspect[property];
+				var typeOfProperty;
 
 				if ( value instanceof Array ) {
 
 					// typeof never returns 'array', even though JavaScript has
 					// a built-in Array type
 
-					inspectedProperty.type = 'array';
+					typeOfProperty = 'array';
 
 				} else if ( value instanceof Date ) {
 
 					// typeof never returns 'date', even though JavaScript has a
 					// built-in Date type
 
-					inspectedProperty.type = 'date';
+					typeOfProperty = 'date';
+
 				} else {
 
-					var typeOfProperty = typeof ( value );
+					typeOfProperty = typeof ( value );
 
 					// type 'object' doesn't convey much, and can override a
 					// more descriptive inspection result from a previous
 					// Inspector. If you leave it off, Metawidget's default
 					// behaviour is to recurse into the object anyway
 
-					if ( typeOfProperty !== 'object' ) {
+					if ( typeOfProperty === 'object' ) {
 
-						// JSON Schema primitive types are: 'array', 'boolean',
-						// 'integer', 'number', 'null', 'object' and 'string'
-
-						inspectedProperty.type = typeOfProperty;
+						inspectionResult.properties[property] = {};
+						continue;
 					}
 				}
 
-				inspectionResult.push( inspectedProperty );
+				// JSON Schema primitive types are: 'array', 'boolean',
+				// 'integer', 'number', 'null', 'object' and 'string'
+
+				inspectionResult.properties[property] = {
+					type: typeOfProperty
+				};
 			}
 		}
 

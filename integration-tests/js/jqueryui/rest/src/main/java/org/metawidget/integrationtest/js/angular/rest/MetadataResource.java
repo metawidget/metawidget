@@ -32,10 +32,10 @@ public class MetadataResource {
 	public String getMetadata() {
 
 		StringBuilder metadata = new StringBuilder();
-		metadata.append( "[" );
-		metadata.append( "{ \"name\": \"name\", \"type\": \"string\" }," );
-		metadata.append( "{ \"name\": \"age\", \"type\": \"number\" }" );
-		metadata.append( "]" );
+		metadata.append( "{ \"properties\": {" );
+		metadata.append( "\"name\": { \"type\": \"string\" }," );
+		metadata.append( "\"age\": { \"type\": \"number\" }" );
+		metadata.append( "}}" );
 
 		return metadata.toString();
 	}

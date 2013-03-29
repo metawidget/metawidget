@@ -567,20 +567,9 @@ public final class XmlUtils {
 	/**
 	 * Convert the given Element to a String of JSON.
 	 * <p>
-	 * This utility method is intended for converting <code>inspection-result</code> DOMs into JSON.
-	 * As such, it makes some design choices:
-	 * <ul>
-	 * <li>the JSON is returned as an array of objects, one for each child element of the DOM root
-	 * element</li>
-	 * <li>within each object, each property represents an attribute name/value pair from the
-	 * original child element</li>
-	 * <li>the names of child elements are ignored</li>
-	 * <li>nested child elements are ignored</li>
-	 * <li>attribute name/value pairs from the root element (if any) are given an additional
-	 * property '_root' with value 'true'</li>
-	 * </ul>
-	 * These choices mean the final JSON is directly compatible with the JavaScript versions of
-	 * Metawidget. It can therefore be returned by REST services (see
+	 * This utility method is intended for converting <code>inspection-result</code> DOMs into JSON
+	 * Schemas. This is directly compatible with the JavaScript versions of Metawidget. It can
+	 * therefore be returned by REST services (see
 	 * http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
 	 */
 
@@ -597,8 +586,11 @@ public final class XmlUtils {
 	 *            the JSON
 	 * @param excludeRootAttributes
 	 *            exclude attributes from the root node
-	 * @return
 	 */
+
+	// TODO: output as JSON schema
+	// TODO: change collections into enum [] arrays
+
 	public static String elementToJson( Element inspectionResult, String[] excludeAttributes, String[] excludeElementWithTrueAttributes, boolean excludeRootAttributes ) {
 
 		StringBuilder jsonBuilder = new StringBuilder();

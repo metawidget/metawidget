@@ -59,68 +59,78 @@
 			form: {
 				inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
-					var contact = [ {
-						"name": "id",
-						"hidden": "true"
-					}, {
-						"name": "title",
-						"lookup": "Mr,Mrs,Miss,Dr,Cpt",
-						"required": "true"
-					}, {
-						"name": "firstname",
-						"type": "string",
-						"required": "true"
-					}, {
-						"name": "surname",
-						"type": "string",
-						"required": "true"
-					}, {
-						"name": "gender",
-						"lookup": "Male,Female"
-					}, {
-						"name": "address",
-						"section": "Contact Details"
-					}, {
-						"name": "communications"
-					}, {
-						"name": "notes",
-						"type": "string",
-						"large": "true",
-						"section": "Other"
-					}, {
-						"name": "type",
-						"hidden": "true"
-					} ];
+					var contact = {
+						"properties": {
+							"id": {
+								"hidden": "true"
+							},
+							"title": {
+								"lookup": "Mr,Mrs,Miss,Dr,Cpt",
+								"required": "true"
+							},
+							"firstname": {
+								"type": "string",
+								"required": "true"
+							},
+							"surname": {
+								"type": "string",
+								"required": "true"
+							},
+							"gender": {
+								"lookup": "Male,Female"
+							},
+							"address": {
+								"section": "Contact Details"
+							},
+							"communications": {},
+							"notes": {
+								"type": "string",
+								"large": "true",
+								"section": "Other"
+							},
+							"type": {
+								"hidden": "true"
+							}
+						}
+					};
 
-					var personalContact = contact.slice( 0 );
-					personalContact.splice( 5, 0, {
-						"name": "dateOfBirth",
+					var personalContact = {
+						properties: {}
+					};
+					for ( var propertyName in contact.properties ) {
+						personalContact.properties[propertyName] = contact.properties[propertyName];
+					}
+					personalContact.properties.dateOfBirth = {
 						"type": "date"
-					} );
-					var businessContact = contact.slice( 0 );
-					businessContact.splice( 4, 0, {
-						"name": "company",
+					};
+					var businessContact = {
+						properties: {}
+					};
+					for ( var propertyName in contact.properties ) {
+						businessContact.properties[propertyName] = contact.properties[propertyName];
+					}
+					businessContact.properties.company = {
 						"type": "string"
-					} );
-					businessContact.splice( 8, 0, {
-						"name": "numberOfStaff",
+					};
+					businessContact.properties.numberOfStaff = {
 						"type": "number",
 						"minimum": "0",
 						"maximum": "100",
 						"section": "Other"
-					} );
+					};
 
 					switch ( type ) {
 						case 'search':
-							return [ {
-								"name": "firstname"
-							}, {
-								"name": "surname"
-							}, {
-								"name": "type",
-								"lookup": "personal,business",
-								"lookupLabels": "Personal,Business"
-							} ];
+							return {
+								"properties": {
+									"firstname": {},
+									"surname": {},
+									"type": {
+										"lookup": "personal,business",
+										"lookupLabels": "Personal,Business"
+									}
+								}
+							}
 
 						case 'current':
 
@@ -132,19 +142,22 @@
 							}
 
 							if ( names.length === 1 && names[0] === 'address' ) {
-								return [ {
-									"name": "street",
-									"type": "string"
-								}, {
-									"name": "city",
-									"type": "string"
-								}, {
-									"name": "state",
-									"lookup": "Anytown,Cyberton,Lostville,Whereverton"
-								}, {
-									"name": "postcode",
-									"type": "string"
-								} ];
+								return {
+									"properties": {
+										"street": {
+											"type": "string"
+										},
+										"city": {
+											"type": "string"
+										},
+										"state": {
+											"lookup": "Anytown,Cyberton,Lostville,Whereverton"
+										},
+										"postcode": {
+											"type": "string"
+										}
+									}
+								};
 							}
 					}
 				}, new metawidget.inspector.PropertyTypeInspector() ] ),
@@ -163,16 +176,19 @@
 				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
 					if ( type === 'crudActions' ) {
-						return [ {
-							"name": "edit",
-							"hidden": "{{!readOnly}}"
-						}, {
-							"name": "save",
-							"hidden": "{{readOnly}}"
-						}, {
-							"name": "delete",
-							"hidden": "{{readOnly || !current.id}}"
-						} ];
+						return {
+							"properties": {
+								"edit": {
+									"hidden": "{{!readOnly}}"
+								},
+								"save": {
+									"hidden": "{{readOnly}}"
+								},
+								"delete": {
+									"hidden": "{{readOnly || !current.id}}"
+								}
+							}
+						};
 					}
 				} ] ),
 				layout: new metawidget.layout.SimpleLayout()
@@ -182,10 +198,9 @@
 				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
 					if ( type === 'communication' && names.length === 1 && names[0] === 'type' ) {
-						return [ {
-							"_root": 'true',
+						return {
 							"lookup": "Telephone,Mobile,Fax,E-mail"
-						} ];
+						};
 					}
 				} ] ),
 				layout: new metawidget.layout.SimpleLayout()

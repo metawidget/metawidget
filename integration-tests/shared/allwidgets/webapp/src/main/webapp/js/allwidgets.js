@@ -63,84 +63,88 @@ var metawidget = metawidget || {};
 		readOnly: "Read Only Value"
 	};
 
-	metawidget.test.allWidgetsMetadata = [ {
-		name: "textbox",
-		type: "string",
-		lookup: "",
-		masked: "",
-		large: "",
-		maxLength: "",
-		required: "true"
-	}, {
-		name: "limitedTextbox",
-		type: "string",
-		maxLength: "20"
-	}, {
-		name: "textarea",
-		type: "string",
-		large: "true"
-	}, {
-		name: "password",
-		type: "string",
-		masked: "true"
-	}, {
-		name: "number",
-		type: "number"
-	}, {
-		name: "rangedNumber",
-		type: "number",
-		minimum: "1",
-		maximum: "100",
-	}, {
-		name: "toBeStubbed"
-	}, {
-		name: "boolean",
-		type: "boolean"
-	}, {
-		name: "dropdown",
-		lookup: "foo1,dropdown1,bar1",
-		lookupLabels: ""
-	}, {
-		name: "dropdownWithLabels",
-		lookup: "foo2,dropdown2,bar2,baz2",
-		lookupLabels: "Foo #2,Dropdown #2,Bar #2,Baz #2"
-	}, {
-		name: "notNullDropdown",
-		lookup: "-1,0,1",
-		required: "true"
-	}, {
-		name: "nestedWidgets"
-	}, {
-		name: "readOnlyNestedWidgets",
-		readOnly: "true"
-	}, {
-		name: "nestedWidgetsDontExpand",
-		dontExpand: "true"
-	}, {
-		name: "readOnlyNestedWidgetsDontExpand",
-		readOnly: "true",
-		dontExpand: "true"
-	}, {
-		name: "date",
-		type: "date"
-	}, {
-		name: "hidden",
-		hidden: "true",
-		type: "string"
-	}, {
-		name: "readOnly",
-		readOnly: "true",
-		type: "string",
-		section: "Section Break"
-	} ];
+	metawidget.test.allWidgetsMetadata = {
+		"properties": {
+			"textbox": {
+				type: "string",
+				lookup: "",
+				masked: "",
+				large: "",
+				maxLength: "",
+				required: "true"
+			},
+			"limitedTextbox": {
+				type: "string",
+				maxLength: "20"
+			},
+			"textarea": {
+				type: "string",
+				large: "true"
+			},
+			"password": {
+				type: "string",
+				masked: "true"
+			},
+			"number": {
+				type: "number"
+			},
+			"rangedNumber": {
+				type: "number",
+				minimum: "1",
+				maximum: "100"
+			},
+			"toBeStubbed": {},
+			"boolean": {
+				type: "boolean"
+			},
+			"dropdown": {
+				lookup: "foo1,dropdown1,bar1",
+				lookupLabels: ""
+			},
+			"dropdownWithLabels": {
+				lookup: "foo2,dropdown2,bar2,baz2",
+				lookupLabels: "Foo #2,Dropdown #2,Bar #2,Baz #2"
+			},
+			"notNullDropdown": {
+				lookup: "-1,0,1",
+				required: "true"
+			},
+			"nestedWidgets": {
+			},
+			"readOnlyNestedWidgets": {
+				readOnly: "true"
+			},
+			"nestedWidgetsDontExpand": {
+				dontExpand: "true"
+			},
+			"readOnlyNestedWidgetsDontExpand": {
+				readOnly: "true",
+				dontExpand: "true"
+			},
+			"date": {
+				type: "date"
+			},
+			"hidden": {
+				hidden: "true",
+				type: "string"
+			},
+			"readOnly": {
+				readOnly: "true",
+				type: "string",
+				section: "Section Break"
+			},
+		}
+	};
 
-	metawidget.test.nestedWidgetsMetadata = [ {
-		name: "furtherNestedWidgets"
-	}, {
-		name: "nestedTextbox1",
-		type: "string"
-	}, {
-		name: "nestedTextbox2",
-		type: "string"
-	} ];
+	metawidget.test.nestedWidgetsMetadata = {
+		"properties": {
+			"furtherNestedWidgets": {},
+			"nestedTextbox1": {
+				type: "string"
+			},
+			"nestedTextbox2": {
+				type: "string"
+			}
+		}
+	};
 } )();

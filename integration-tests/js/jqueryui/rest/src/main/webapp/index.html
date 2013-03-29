@@ -27,7 +27,7 @@
 
 					$.ajax( 'rest/metadata/get' ).done( function ( data ) {
 
-						inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, JSON.parse( data ));
+						metawidget.util.combineInspectionResults( inspectionResult, JSON.parse( data ));
 				    	mw._refresh( inspectionResult );
 					} );
 				} ]

@@ -364,5 +364,5 @@ var metawidget = metawidget || {};
 				return text;
 			}
 		};
-	}
+	};
 } )();

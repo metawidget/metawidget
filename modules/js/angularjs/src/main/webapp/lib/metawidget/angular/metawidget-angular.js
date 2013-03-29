@@ -275,12 +275,7 @@
 					if ( normalizedName === 'ngbind' || normalizedName === 'ngmodel' ) {
 						var splitPath = metawidget.util.splitPath( attribute.value );
 						var toInspect = scope.$parent.$eval( splitPath.type );
-						var childInspectionResult = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
-
-						if ( childInspectionResult !== undefined ) {
-							childAttributes = childInspectionResult[0];
-						}
-
+						childAttributes = _pipeline.inspect( toInspect, splitPath.type, splitPath.names, this );
 						break;
 					}
 				}
@@ -340,37 +335,39 @@
 
 		this.processInspectionResult = function( inspectionResult, mw ) {
 
-			for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
+			// For each property in the inspection result...
 
-				// For each attribute in the inspection result...
-
-				var attributes = inspectionResult[loop];
-
-				for ( var attribute in attributes ) {
-
-					// ...that looks like an expression...
-
-					var expression = attributes[attribute];
-
-					if ( expression.length < 4 || expression.slice( 0, 2 ) !== '{{' || expression.slice( expression.length - 2, expression.length ) !== '}}' ) {
-						continue;
-					}
-
-					// ...evaluate it...
-
-					expression = expression.slice( 2, expression.length - 2 );
-					attributes[attribute] = scope.$parent.$eval( expression ) + '';
-
-					// ...and watch it for future changes
-
-					scope.$parent.$watch( expression, function( newValue, oldValue ) {
-
-						if ( newValue !== oldValue ) {
-							mw.invalidateInspection();
-							mw.buildWidgets();
-						}
-					} );
+			for ( var propertyName in inspectionResult ) {
+				
+				// ...including recursing into 'properties'...
+				
+				var expression = inspectionResult[propertyName];
+				
+				if ( expression instanceof Object ) {
+					this.processInspectionResult( expression, mw );
+					continue;
 				}
+
+				// ...if the value looks like an expression...
+
+				if ( expression.length < 4 || expression.slice( 0, 2 ) !== '{{' || expression.slice( expression.length - 2, expression.length ) !== '}}' ) {
+					continue;
+				}
+
+				// ...evaluate it...
+
+				expression = expression.slice( 2, expression.length - 2 );
+				inspectionResult[propertyName] = scope.$parent.$eval( expression ) + '';
+
+				// ...and watch it for future changes
+
+				scope.$parent.$watch( expression, function( newValue, oldValue ) {
+
+					if ( newValue !== oldValue ) {
+						mw.invalidateInspection();
+						mw.buildWidgets();
+					}
+				} );
 			}
 
 			return inspectionResult;

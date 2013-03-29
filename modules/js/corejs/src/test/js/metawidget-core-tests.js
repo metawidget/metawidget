@@ -215,9 +215,11 @@
 			var mw = new metawidget.Metawidget( element, {
 				inspector: function( toInspect, type, names ) {
 
-					return [ {
-						name: "foo"
-					} ];
+					return {
+						properties: {
+							foo: {}
+						}
+					};
 				}
 			} );
 			mw.buildWidgets();
@@ -261,24 +263,25 @@
 					inspect: function() {
 
 						called.push( 'inspector.inspect' );
-						return [];
+						return {};
 					}
 				},
 				inspectionResultProcessors: [ {
 					processInspectionResult: function() {
 
 						called.push( 'inspectionResultProcessor.processInspectionResult' );
-						return [];
+						return {};
 					}
 				} ],
 				addInspectionResultProcessors: [ {
 					processInspectionResult: function() {
 
 						called.push( 'addedInspectionResultProcessor.processInspectionResult' );
-						return [ {
-							name: "foo",
-							type: "string"
-						} ];
+						return {
+							properties: {
+								foo: "string"
+							}
+						};
 					}
 				} ],
 				widgetBuilder: {
@@ -651,10 +654,13 @@
 					inspect: function() {
 
 						called.push( 'inspector.inspect' );
-						return [ {
-							name: "foo",
-							type: "string"
-						} ];
+						return {
+							properties: {
+								foo: {
+									type: "string"
+								}
+							}
+						};
 					}
 				}
 			}, {

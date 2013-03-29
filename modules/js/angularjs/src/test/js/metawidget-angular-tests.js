@@ -558,11 +558,14 @@
 								$scope.metawidgetConfig = {
 									inspector: function() {
 
-										return [ {
-											name: "bar",
-											type: "array",
-											lookup: "Abc,Def,Ghi"
-										} ];
+										return {
+											"properties": {
+												"bar": {
+													type: "array",
+													lookup: "Abc,Def,Ghi"
+												}
+											}
+										};
 									}
 								};
 							} );
@@ -606,11 +609,14 @@
 						$scope.metawidgetConfig = {
 							inspector: function() {
 
-								return [ {
-									name: "bar",
-									componentType: "radio",
-									lookup: "Abc,Def,Ghi"
-								} ]
+								return {
+									"properties": {
+										"bar": {
+											componentType: "radio",
+											lookup: "Abc,Def,Ghi"
+										}
+									}
+								};
 							}
 						};
 					} );
@@ -686,7 +692,7 @@
 						$scope.metawidgetConfig = {
 							inspector: function() {
 
-								return [];
+								return {};
 							},
 							inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
 
@@ -809,13 +815,16 @@
 								$scope.metawidgetConfig = {
 									inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-										return [ {
-											name: "edit",
-											"hidden": "{{!readOnlyz}}"
-										}, {
-											name: "save",
-											"hidden": "{{readOnlyz}}"
-										} ];
+										return {
+											properties: {
+												edit: {
+													"hidden": "{{!readOnlyz}}"
+												},
+												save: {
+													"hidden": "{{readOnlyz}}"
+												}
+											}
+										}
 									} ] )
 								};
 							} );

@@ -1036,15 +1036,21 @@ public class Main {
 					Suppose we want the <parameter>name</parameter> property to be a required field. Such
 					metadata cannot be represented using standard JavaScript Object Notation (JSON) so
 					Metawidget needs a way to gather the additional information. There are several ways to do this, but the simplest
-					for now is to add a custom <emphasis>Inspector</emphasis> (text to add is highlighted):
+					for now is to add a custom <emphasis>Inspector</emphasis> (text to add is highlighted) and return
+					a JSON Schema:
 				</para>
 				
 				<programlisting language="xml">var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' )<symbol>, {
 	
 	inspector: function( toInspect, type, names ) {
 
-		return [
-			{ name: "name", type: "string", required: "true" }
+		return {
+			properties: {
+				name: {
+					type: "string",
+					required: "true"
+				}
+			}
 		];
 	}
 }</symbol> );</programlisting>

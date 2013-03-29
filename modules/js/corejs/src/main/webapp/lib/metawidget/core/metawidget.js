@@ -337,58 +337,54 @@ var metawidget = metawidget || {};
 		// Build top-level widget...
 
 		if ( inspectionResult !== undefined ) {
-			for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
 
-				var attributes = inspectionResult[loop];
+			var copiedAttributes = _forceReadOnly( inspectionResult, mw, 'properties' );
+			copiedAttributes._root = 'true';
+			var widget = _buildWidget( this, copiedAttributes, mw );
 
-				if ( attributes._root !== 'true' ) {
-					continue;
-				}
-
-				var copiedAttributes = _forceReadOnly( attributes, mw );
-				var widget = _buildWidget( this, copiedAttributes, mw );
-
-				if ( widget !== undefined ) {
-					widget = _processWidget( this, widget, copiedAttributes, mw );
-
-					if ( widget !== undefined ) {
-						this.layoutWidget( widget, copiedAttributes, this.element, mw );
-						return;
-					}
-				}
-
-				break;
-			}
-
-			// ...or try compound widget
-
-			for ( var loop = 0, length = inspectionResult.length; loop < length; loop++ ) {
-
-				var attributes = inspectionResult[loop];
-
-				if ( attributes._root === 'true' ) {
-					continue;
-				}
-
-				var copiedAttributes = _forceReadOnly( attributes, mw );
-				var widget = _buildWidget( this, copiedAttributes, mw );
-
-				if ( widget === undefined ) {
-					if ( this.maximumInspectionDepth <= 0 ) {
-						return;
-					}
-
-					widget = this.buildNestedMetawidget( copiedAttributes, mw );
-
-					if ( widget === undefined ) {
-						return;
-					}
-				}
-
+			if ( widget !== undefined ) {
+				
 				widget = _processWidget( this, widget, copiedAttributes, mw );
 
 				if ( widget !== undefined ) {
 					this.layoutWidget( widget, copiedAttributes, this.element, mw );
+				}
+				
+			} else {
+
+				// ...or try compound widget
+				
+				// TODO: displayOrder
+	
+				for ( var propertyName in inspectionResult.properties ) {
+	
+					copiedAttributes = _forceReadOnly( inspectionResult.properties[propertyName], mw );
+	
+					// Push name into the copiedAttributes. JSON Schema is not very
+					// regular, in that top-level elements can have a 'name'
+					// property but child elements cannot
+	
+					copiedAttributes.name = propertyName;
+					var widget = _buildWidget( this, copiedAttributes, mw );
+	
+					if ( widget === undefined ) {
+	
+						if ( this.maximumInspectionDepth <= 0 ) {
+							continue;
+						}
+	
+						widget = this.buildNestedMetawidget( copiedAttributes, mw );
+	
+						if ( widget === undefined ) {
+							continue;
+						}
+					}
+	
+					widget = _processWidget( this, widget, copiedAttributes, mw );
+	
+					if ( widget !== undefined ) {
+						this.layoutWidget( widget, copiedAttributes, this.element, mw );
+					}
 				}
 			}
 		}
@@ -398,7 +394,6 @@ var metawidget = metawidget || {};
 		// inspection
 
 		_endBuild( this, mw );
-
 		return;
 
 		//
@@ -411,11 +406,16 @@ var metawidget = metawidget || {};
 		 * Metawidget is readOnly.
 		 */
 
-		function _forceReadOnly( attributes, mw ) {
+		function _forceReadOnly( attributes, mw, excludes ) {
 
 			var copiedAttributes = {};
 
 			for ( var name in attributes ) {
+
+				if ( excludes !== undefined && excludes.indexOf( name ) !== -1 ) {
+					continue;
+				}
+
 				copiedAttributes[name] = attributes[name];
 			}
 

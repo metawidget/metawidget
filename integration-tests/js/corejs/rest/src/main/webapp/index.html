@@ -30,7 +30,7 @@
 					xhr.onreadystatechange = function () {
 					    if ( xhr.readyState == 4 && xhr.status == 200 ) {
 					    	
-					    	inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, JSON.parse( xhr.responseText ));
+					    	metawidget.util.combineInspectionResults( inspectionResult, JSON.parse( xhr.responseText ));
 					    	mw.buildWidgets( inspectionResult );
 					    }
 					}

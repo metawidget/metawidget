@@ -37,7 +37,7 @@ function RestTestController( $scope, $http ) {
 
 			$http.get( 'rest/metadata/get' ).then( function( result ) {
 
-				inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
+				metawidget.util.combineInspectionResults( inspectionResult, result.data );
 				$scope.numberOfRestCalls++;
 				mw.buildWidgets( inspectionResult );
 			} );
