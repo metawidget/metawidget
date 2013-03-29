@@ -674,10 +674,25 @@ public final class XmlUtils {
 				continue;
 			}
 
-			elementName = StringUtils.camelCase( elementName, '-' );
+			// JSON Schema alignment
 
-			if ( propertyBuilder.length() > 0 ) {
-				propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
+			if ( MINIMUM_VALUE.equals( elementName ) ) {
+				elementName = "minimum";
+			} else if ( MAXIMUM_VALUE.equals( elementName ) ) {
+				elementName = "maximum";
+			} else if ( MINIMUM_LENGTH.equals( elementName ) ) {
+				elementName = "minLength";
+			} else if ( MAXIMUM_VALUE.equals( elementName ) ) {
+				elementName = "maxLength";
+			} else {
+
+				// Best guess everything else (e.g. 'foo-bar' becomes 'fooBar')
+
+				elementName = StringUtils.camelCase( elementName, '-' );
+
+				if ( propertyBuilder.length() > 0 ) {
+					propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
+				}
 			}
 
 			propertyBuilder.append( "\"" + elementName + "\"" );

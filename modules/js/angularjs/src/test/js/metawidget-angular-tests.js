@@ -867,8 +867,8 @@
 				var attributes = {
 					name: "foo",
 					required: "true",
-					minimumLength: "3",
-					maximumLength: "97"
+					minLength: "3",
+					maxLength: "97"
 				};
 				var mw = {
 					toInspect: {},

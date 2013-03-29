@@ -187,8 +187,8 @@
 			}, {} ).innerHTML ).toContain( '<input class="ui-spinner-input"' );
 			expect( widgetBuilder.buildWidget( {
 				type: "number",
-				minimumValue: 10,
-				maximumValue: 90
+				minimum: 10,
+				maximum: 90
 			}, {} ).innerHTML ).toContain( '<a class="ui-slider-handle' );
 			expect( widgetBuilder.buildWidget( {
 				type: "date"

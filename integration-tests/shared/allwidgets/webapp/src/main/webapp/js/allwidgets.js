@@ -69,12 +69,12 @@ var metawidget = metawidget || {};
 		lookup: "",
 		masked: "",
 		large: "",
-		maximumLength: "",
+		maxLength: "",
 		required: "true"
 	}, {
 		name: "limitedTextbox",
 		type: "string",
-		maximumLength: "20"
+		maxLength: "20"
 	}, {
 		name: "textarea",
 		type: "string",
@@ -89,8 +89,8 @@ var metawidget = metawidget || {};
 	}, {
 		name: "rangedNumber",
 		type: "number",
-		minimumValue: "1",
-		maximumValue: "100",
+		minimum: "1",
+		maximum: "100",
 	}, {
 		name: "toBeStubbed"
 	}, {

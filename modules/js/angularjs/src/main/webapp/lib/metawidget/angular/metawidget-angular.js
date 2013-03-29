@@ -493,12 +493,12 @@
 				widget.setAttribute( 'ng-required', attributes.required );
 			}
 
-			if ( attributes.minimumLength !== undefined ) {
-				widget.setAttribute( 'ng-minlength', attributes.minimumLength );
+			if ( attributes.minLength !== undefined ) {
+				widget.setAttribute( 'ng-minlength', attributes.minLength );
 			}
 
-			if ( attributes.maximumLength !== undefined ) {
-				widget.setAttribute( 'ng-maxlength', attributes.maximumLength );
+			if ( attributes.maxLength !== undefined ) {
+				widget.setAttribute( 'ng-maxlength', attributes.maxLength );
 
 				// (maxlength set by WidgetBuilder)
 

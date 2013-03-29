@@ -26,6 +26,7 @@
 		<module>jaxb</module>
 		<module>jbpm</module>
 		<module>jpa</module>
+		<module>json</module>
 		<module>jsp</module>
 		<module>miglayout</module>
 		<module>oval</module>

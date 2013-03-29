@@ -105,8 +105,8 @@
 					businessContact.splice( 8, 0, {
 						"name": "numberOfStaff",
 						"type": "number",
-						"minimumValue": "0",
-						"maximumValue": "100",
+						"minimum": "0",
+						"maximum": "100",
 						"section": "Other"
 					} );
 

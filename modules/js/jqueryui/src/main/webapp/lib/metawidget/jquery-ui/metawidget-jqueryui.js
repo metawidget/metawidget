@@ -67,7 +67,7 @@ var metawidget = metawidget || {};
 
 		if ( attributes.type === 'number' ) {
 
-			if ( attributes.minimumValue && attributes.maximumValue ) {
+			if ( attributes.minimum && attributes.maximum ) {
 				var slider = document.createElement( 'div' );
 				$( slider ).slider();
 				return slider;

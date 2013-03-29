@@ -359,8 +359,8 @@
 
 			expect( widgetBuilder.buildWidget( {
 				type: "number",
-				minimumValue: "2",
-				maximumValue: "4"
+				minimum: "2",
+				maximum: "4"
 			}, {} ).toString() ).toBe( 'input type="range" min="2" max="4"' );
 
 			expect( widgetBuilder.buildWidget( {
@@ -384,7 +384,7 @@
 			expect( widgetBuilder.buildWidget( {
 				type: "string",
 				masked: "true",
-				maximumLength: "30"
+				maxLength: "30"
 			}, {} ).toString() ).toBe( 'input type="password" maxlength="30"' );
 
 			expect( widgetBuilder.buildWidget( {
@@ -400,7 +400,7 @@
 
 			expect( widgetBuilder.buildWidget( {
 				type: "string",
-				maximumLength: "32"
+				maxLength: "32"
 			}, {} ).toString() ).toBe( 'input type="text" maxlength="32"' );
 
 			expect( widgetBuilder.buildWidget( {

@@ -298,11 +298,11 @@ var metawidget = metawidget || {};
 	
 			if ( attributes.type === 'number' ) {
 	
-				if ( attributes.minimumValue !== undefined && attributes.maximumValue !== undefined ) {
+				if ( attributes.minimum !== undefined && attributes.maximum !== undefined ) {
 					var range = document.createElement( 'input' );
 					range.setAttribute( 'type', 'range' );
-					range.setAttribute( 'min', attributes.minimumValue );
-					range.setAttribute( 'max', attributes.maximumValue );
+					range.setAttribute( 'min', attributes.minimum );
+					range.setAttribute( 'max', attributes.maximum );
 					return range;
 				}
 	
@@ -335,8 +335,8 @@ var metawidget = metawidget || {};
 					var password = document.createElement( 'input' );
 					password.setAttribute( 'type', 'password' );
 	
-					if ( attributes.maximumLength !== undefined ) {
-						password.setAttribute( 'maxlength', attributes.maximumLength );
+					if ( attributes.maxLength !== undefined ) {
+						password.setAttribute( 'maxlength', attributes.maxLength );
 					}
 	
 					return password;
@@ -349,8 +349,8 @@ var metawidget = metawidget || {};
 				var text = document.createElement( 'input' );
 				text.setAttribute( 'type', 'text' );
 	
-				if ( attributes.maximumLength !== undefined ) {
-					text.setAttribute( 'maxlength', attributes.maximumLength );
+				if ( attributes.maxLength !== undefined ) {
+					text.setAttribute( 'maxlength', attributes.maxLength );
 				}
 	
 				return text;

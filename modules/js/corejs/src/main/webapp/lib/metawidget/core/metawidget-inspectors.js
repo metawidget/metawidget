@@ -26,6 +26,11 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @namespace Inspectors.
+	 *            <p>
+	 *            Inspectors return inspection results as an <em>array</em> of
+	 *            objects. JSON Schmea is not used, because JavaScript
+	 *            implementations allow for implementation dependent iteration
+	 *            order of objects with named properties.
 	 */
 
 	metawidget.inspector = metawidget.inspector || {};
@@ -136,11 +141,15 @@ var metawidget = metawidget || {};
 
 				if ( value instanceof Array ) {
 
+					// typeof never returns 'array', even though JavaScript has
+					// a built-in Array type
+
 					inspectedProperty.type = 'array';
 
 				} else if ( value instanceof Date ) {
 
-					// typeof never returns 'date'
+					// typeof never returns 'date', even though JavaScript has a
+					// built-in Date type
 
 					inspectedProperty.type = 'date';
 				} else {
@@ -149,9 +158,14 @@ var metawidget = metawidget || {};
 
 					// type 'object' doesn't convey much, and can override a
 					// more descriptive inspection result from a previous
-					// Inspector
+					// Inspector. If you leave it off, Metawidget's default
+					// behaviour is to recurse into the object anyway
 
 					if ( typeOfProperty !== 'object' ) {
+
+						// JSON Schema primitive types are: 'array', 'boolean',
+						// 'integer', 'number', 'null', 'object' and 'string'
+
 						inspectedProperty.type = typeOfProperty;
 					}
 				}

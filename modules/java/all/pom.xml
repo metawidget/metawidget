@@ -53,6 +53,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-json</artifactId>
+			<version>${project.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-miglayout</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -69,6 +74,16 @@
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-seam</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-wsdl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-xsd</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -214,16 +229,6 @@
 		<dependency>
 			<groupId>org.metawidget.modules.vaadin</groupId>
 			<artifactId>metawidget-vaadin</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-wsdl</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-xsd</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
