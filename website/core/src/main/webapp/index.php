@@ -260,6 +260,7 @@
 								<li>JBoss Forge</li>
 								<li>JBoss jBPM</li>
 								<li>JavaScript Object Notation (JSON)</li>
+								<li>JSON Schema</li>
 								<li>OVal</li>
 								<li>Representational State Transfer (REST)</li>
 								<li>Scala</li>

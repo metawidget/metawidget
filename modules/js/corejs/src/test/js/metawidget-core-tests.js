@@ -679,5 +679,81 @@
 
 			expect( called.length ).toBe( 2 );
 		} );
+
+		it( "sorts properties by propertyOrder", function() {
+
+			// Test sorting in reverse
+
+			var element = document.createElement( 'div' );
+			var toInspect = {
+				baz: "Baz",
+				bar: "Bar",
+				foo: "Foo"
+			};
+
+			var mw = new metawidget.Metawidget( element, {
+				inspector: function() {
+
+					return {
+						properties: {
+							"baz": {
+								"propertyOrder": 3,
+								"type": "string"
+							},
+							"bar": {
+								"propertyOrder": 2,
+								"type": "string"
+							},
+							"foo": {
+								"propertyOrder": 1,
+								"type": "string"
+							}
+						}
+					}
+				},
+
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+			mw.toInspect = toInspect;
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+			expect( element.childNodes[1].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
+			expect( element.childNodes[2].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes.length ).toBe( 3 );
+
+			// Test a different sort in case VM coincidentally sorts in reverse
+
+			var mw = new metawidget.Metawidget( element, {
+				inspector: function() {
+
+					return {
+						properties: {
+							"baz": {
+								"propertyOrder": 2,
+								"type": "string"
+							},
+							"bar": {
+								"propertyOrder": 3,
+								"type": "string"
+							},
+							"foo": {
+								"propertyOrder": 1,
+								"type": "string"
+							}
+						}
+					}
+				},
+
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+			mw.toInspect = toInspect;
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+			expect( element.childNodes[1].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes[2].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
+			expect( element.childNodes.length ).toBe( 3 );
+		} );
 	} );
 } )();

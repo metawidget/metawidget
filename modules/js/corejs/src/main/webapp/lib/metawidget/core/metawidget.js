@@ -343,45 +343,39 @@ var metawidget = metawidget || {};
 			var widget = _buildWidget( this, copiedAttributes, mw );
 
 			if ( widget !== undefined ) {
-				
+
 				widget = _processWidget( this, widget, copiedAttributes, mw );
 
 				if ( widget !== undefined ) {
 					this.layoutWidget( widget, copiedAttributes, this.element, mw );
 				}
-				
+
 			} else {
 
 				// ...or try compound widget
-				
-				// TODO: displayOrder
-	
-				for ( var propertyName in inspectionResult.properties ) {
-	
-					copiedAttributes = _forceReadOnly( inspectionResult.properties[propertyName], mw );
-	
-					// Push name into the copiedAttributes. JSON Schema is not very
-					// regular, in that top-level elements can have a 'name'
-					// property but child elements cannot
-	
-					copiedAttributes.name = propertyName;
+
+				var inspectionResultProperties = _sortByPropertyOrder( inspectionResult.properties );
+
+				for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
+
+					copiedAttributes = _forceReadOnly( inspectionResultProperties[loop], mw );
 					var widget = _buildWidget( this, copiedAttributes, mw );
-	
+
 					if ( widget === undefined ) {
-	
+
 						if ( this.maximumInspectionDepth <= 0 ) {
 							continue;
 						}
-	
+
 						widget = this.buildNestedMetawidget( copiedAttributes, mw );
-	
+
 						if ( widget === undefined ) {
 							continue;
 						}
 					}
-	
+
 					widget = _processWidget( this, widget, copiedAttributes, mw );
-	
+
 					if ( widget !== undefined ) {
 						this.layoutWidget( widget, copiedAttributes, this.element, mw );
 					}
@@ -399,6 +393,54 @@ var metawidget = metawidget || {};
 		//
 		// Private methods
 		//
+
+		/**
+		 * Sort the given object's properties by 'propertyOrder' (if any)
+		 */
+
+		function _sortByPropertyOrder( toSort ) {
+
+			// Extract the given object's properties into an array...
+
+			var sorted = [];
+
+			for ( var propertyName in toSort ) {
+
+				var properties = toSort[propertyName];
+				sorted.push( properties );
+
+				properties.name = propertyName;
+				properties._syntheticOrder = sorted.length;
+			}
+
+			// ...sort the array...
+
+			sorted.sort( function( a, b ) {
+
+				if ( a.propertyOrder === undefined ) {
+					if ( b.propertyOrder === undefined ) {
+						return ( a._syntheticOrder - b._syntheticOrder );
+					}
+					return 1;
+				}
+
+				if ( b.propertyOrder === undefined ) {
+					return -1;
+				}
+
+				var diff = ( a.propertyOrder - b.propertyOrder );
+
+				if ( diff === 0 ) {
+					return ( a._syntheticOrder - b._syntheticOrder );
+				}
+
+				return diff;
+			} );
+
+			// ...and return it
+
+			return sorted;
+		}
 
 		/**
 		 * Defensively copies the attributes (in case something like
