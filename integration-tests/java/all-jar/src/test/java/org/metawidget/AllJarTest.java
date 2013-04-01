@@ -16,11 +16,16 @@
 
 package org.metawidget;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import junit.framework.TestCase;
+
+import org.metawidget.util.IOUtils;
 
 /**
  * @author Richard Kennard
@@ -117,5 +122,27 @@ public class AllJarTest
 		assertEquals( 4, hadTlds );
 		assertEquals( 2, hadXsds );
 		assertEquals( 12, hadXmls );
+	}
+
+	/**
+	 * Test JavaScript files appear minified.
+	 */
+
+	public void testJavaScript()
+		throws Exception {
+
+		ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
+		IOUtils.streamBetween( new FileInputStream( new File( "../../../modules/js/corejs/target/metawidget-corejs/lib/metawidget/core/metawidget-core.min.js" ) ), streamOut );
+		String contents = streamOut.toString();
+
+		assertTrue( contents.contains( "(licensed under LGPL)" ) );
+		assertTrue( contents.contains( "var metawidget=metawidget||{};" ) );
+		assertTrue( contents.contains( "minified" ) );
+		assertTrue( !contents.contains( "${" ) );
+		assertTrue( !contents.contains( "loop" ) );
+		assertTrue( !contents.contains( "config." ) );
+		assertTrue( !contents.contains( "function _" ) );
+		assertTrue( !contents.contains( "mw" ) );
+
 	}
 }
