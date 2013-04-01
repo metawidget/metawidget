@@ -144,8 +144,8 @@ public class SwtMetawidget
 	/**
 	 * Sets the Object to inspect.
 	 * <p>
-	 * If <code>setPath</code> has not been set, or points to a previous <code>setToInspect</code>,
-	 * sets it to point to the given Object.
+	 * If <code>setInspectionPath</code> has not been set, or points to a previous
+	 * <code>setToInspect</code>, sets it to point to the given Object.
 	 */
 
 	public void setToInspect( Object toInspect ) {
@@ -196,6 +196,8 @@ public class SwtMetawidget
 	/**
 	 * Sets the path to be inspected.
 	 */
+
+	// REFACTOR: shouldn't this be setPath?
 
 	public void setInspectionPath( String inspectionPath ) {
 

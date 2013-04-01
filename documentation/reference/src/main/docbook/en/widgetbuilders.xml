@@ -611,7 +611,7 @@
 							</tr>
 							<tr>
 								<td><programlisting type="xml">&lt;select&gt;</programlisting></td>
-								<td><parameter>lookup</parameter></td>
+								<td><parameter>enum</parameter></td>
 							</tr>					
 							<tr>
 								<td><programlisting type="xml">&lt;stub&gt;</programlisting></td>
@@ -660,7 +660,7 @@
 							<tr>
 								<td><programlisting language="xml">output</programlisting></td>
 								<td>
-									<parameter>read-only</parameter> and <parameter>lookup</parameter>,
+									<parameter>read-only</parameter> and <parameter>enum</parameter>,
 									<parameter>type: "string"</parameter>,
 									<parameter>type: "boolean"</parameter>,
 									<parameter>type: "number"</parameter> or

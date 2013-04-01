@@ -66,7 +66,7 @@ public class JsonInspector
 	}
 
 	//
-	// Protected methods
+	// Public methods
 	//
 
 	public final String inspect( Object toInspect, String type, String... names ) {
@@ -139,5 +139,14 @@ public class JsonInspector
 		// Return the DOM
 
 		return documentRoot;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected JsonObject getRoot() {
+
+		return mRoot;
 	}
 }
