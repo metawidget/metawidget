@@ -249,6 +249,9 @@ public class XmlUtilsTest
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" lookup=\"foo\\,bar,baz\"/>></inspection-result>" );
 		assertEquals( "{\"enum\":[\"foo,bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
 
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" lookup=\"1,2,3,4,5\"/>></inspection-result>" );
+		assertEquals( "{\"enum\":[\"1\",\"2\",\"3\",\"4\",\"5\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
+
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" lookup-labels=\"foo&quot;bar,baz\"/>></inspection-result>" );
 		assertEquals( "{\"enumTitles\":[\"foo\\\"bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
 

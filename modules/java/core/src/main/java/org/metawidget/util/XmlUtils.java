@@ -718,9 +718,7 @@ public final class XmlUtils {
 
 			if ( treatAsArray ) {
 				propertyBuilder.append( "[" );
-				String asArray = ArrayUtils.toString( ArrayUtils.fromString( nodeValue ), "\"", true, true );
-				asArray = asArray.replaceAll( "([^\\\\])\"(.+)", "$1\",\"$2" );
-				propertyBuilder.append( asArray );
+				propertyBuilder.append( arrayToJsonSchema( nodeValue ));
 				propertyBuilder.append( "]" );
 			} else {
 				propertyBuilder.append( "\"" );
@@ -730,6 +728,15 @@ public final class XmlUtils {
 		}
 
 		return propertyBuilder.toString();
+	}
+
+	private static String arrayToJsonSchema( String array ) {
+
+		String toReturn = ArrayUtils.toString( ArrayUtils.fromString( array ), "\"", true, true );
+		toReturn = toReturn.replaceAll( "([^\\\\])\"", "$1\",\"" );
+		toReturn = toReturn.substring( 0, toReturn.length() - 2 );
+
+		return toReturn;
 	}
 
 	//
