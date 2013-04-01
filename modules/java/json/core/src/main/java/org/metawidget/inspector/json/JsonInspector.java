@@ -82,7 +82,7 @@ public class JsonInspector
 
 	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
-		JsonObject root = mRoot;
+		JsonObject root = getRoot();
 
 		// Traverse names
 

@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -42,10 +43,45 @@ public class XmlUtilsTest
 	// Public methods
 	//
 
+	public void testMapAsAttributes() {
+
+		// setMapAsAttributes
+
+		Document document = XmlUtils.documentFromString( "<root foo=\"bar\"/>" );
+		Element root = document.getDocumentElement();
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( "foo", null );
+		attributes.put( "baz", "abc" );
+
+		XmlUtils.setMapAsAttributes( root, null );
+
+		assertEquals( "bar", root.getAttribute( "foo" ) );
+		assertTrue( !root.hasAttribute( "baz" ) );
+
+		XmlUtils.setMapAsAttributes( root, attributes );
+
+		assertTrue( !root.hasAttribute( "foo" ) );
+		assertEquals( "abc", root.getAttribute( "baz" ) );
+
+		// getAttributesAsMap
+
+		attributes.remove( "foo" );
+		assertEquals( attributes, XmlUtils.getAttributesAsMap( root ));
+
+		attributes.remove( "foo" );
+		root.removeAttribute( "baz" );
+		assertTrue( XmlUtils.getAttributesAsMap( root ).isEmpty() );
+	}
+
 	public void testChildNamed() {
+
+		assertEquals( null, XmlUtils.getChildNamed( null, (String[]) null ) );
 
 		Document document = XmlUtils.documentFromString( "<root xmlns:xs=\"foo\">Blah<node1/>Blah<xs:node2/>Blah<xs:node3/>Blah</root>" );
 		Element root = document.getDocumentElement();
+
+		assertEquals( null, XmlUtils.getChildNamed( root, "node4" ) );
 
 		Element element = XmlUtils.getFirstChildElement( root );
 		assertEquals( "node1", element.getNodeName() );
@@ -61,6 +97,33 @@ public class XmlUtilsTest
 		assertEquals( "xs:node2", element.getNodeName() );
 		element = XmlUtils.getSiblingNamed( element, "node3" );
 		assertEquals( "xs:node3", element.getNodeName() );
+	}
+
+	public void testChildWithAttribute() {
+
+		assertEquals( null, XmlUtils.getChildWithAttribute( null, null ) );
+
+		Document document = XmlUtils.documentFromString( "<root xmlns:xs=\"fooNamespace\">Blah<node1 foo=\"bar\"/>Blah<xs:node2/>Blah<xs:node3/>Blah</root>" );
+		Element root = document.getDocumentElement();
+
+		assertEquals( null, XmlUtils.getChildNamed( root, "baz" ) );
+
+		Element element = XmlUtils.getChildWithAttribute( root, "foo" );
+		assertEquals( "node1", element.getNodeName() );
+		assertEquals( null, XmlUtils.getChildWithAttribute( element, "noChild" ));
+	}
+
+	public void testChildWithAttributeValue() {
+
+		assertEquals( null, XmlUtils.getChildWithAttributeValue( null, null, null ) );
+
+		Document document = XmlUtils.documentFromString( "<root xmlns:xs=\"fooNamespace\">Blah<node1 foo=\"bar\"/>Blah<xs:node2/>Blah<xs:node3/>Blah</root>" );
+		Element root = document.getDocumentElement();
+
+		assertEquals( null, XmlUtils.getChildWithAttributeValue( root, "foo", "baz" ) );
+
+		Element element = XmlUtils.getChildWithAttributeValue( root, "foo", "bar" );
+		assertEquals( "node1", element.getNodeName() );
 	}
 
 	public void testCachingContentHandler()
@@ -173,6 +236,8 @@ public class XmlUtilsTest
 	}
 
 	public void testToFromString() {
+
+		assertEquals( "", XmlUtils.documentToString( null, false ) );
 
 		Document document = XmlUtils.documentFromString( "<foo id=\"1\"><bar id=\"2\">Baz</bar></foo>" );
 		assertEquals( "<foo id=\"1\"><bar id=\"2\">Baz</bar></foo>", XmlUtils.documentToString( document, false ) );

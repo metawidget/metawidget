@@ -37,6 +37,8 @@ import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.google.gson.JsonObject;
+
 /**
  * @author Richard Kennard
  */
@@ -88,6 +90,22 @@ public class JsonSchemaInspectorTest
 		assertEquals( property.getAttributes().getLength(), 2 );
 
 		assertEquals( property.getNextSibling(), null );
+	}
+
+	public void testBadFile() {
+
+		try {
+			String json = "{ properties: { \"good\": { \"goodProp\": true }, \"badProp\": \"bad\"}}";
+			JsonSchemaInspector inspector = new JsonSchemaInspector( new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( json.getBytes() ) ) );
+			inspector.inspect( null, "fooObject" );
+			fail();
+		} catch ( InspectorException e ) {
+			assertEquals( "'badProp' is not a " + JsonObject.class, e.getMessage() );
+		}
+
+		String json = "{ }";
+		JsonSchemaInspector inspector = new JsonSchemaInspector( new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( json.getBytes() ) ) );
+		assertEquals( null, inspector.inspect( null, "fooObject", "path1" ) );
 	}
 
 	public void testTraversal() {
