@@ -125,18 +125,29 @@ public class AllJarTest
 	}
 
 	/**
-	 * Test JavaScript files appear minified.
+	 * Test JavaScript files appear minified (not just aggregated)
 	 */
 
 	public void testJavaScript()
 		throws Exception {
 
+		testJavaScript( "angularjs/target/metawidget-angularjs/lib/metawidget/angular/metawidget-angular.min.js" );
+		testJavaScript( "corejs/target/metawidget-corejs/lib/metawidget/core/metawidget-core.min.js" );
+		testJavaScript( "jqueryui/target/metawidget-jqueryui/lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" );
+	}
+
+	//
+	// Private methods
+	//
+
+	public void testJavaScript( String filename )
+		throws Exception {
+
 		ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-		IOUtils.streamBetween( new FileInputStream( new File( "../../../modules/js/corejs/target/metawidget-corejs/lib/metawidget/core/metawidget-core.min.js" ) ), streamOut );
+		IOUtils.streamBetween( new FileInputStream( new File( "../../../modules/js/" + filename ) ), streamOut );
 		String contents = streamOut.toString();
 
 		assertTrue( contents.contains( "(licensed under LGPL)" ) );
-		assertTrue( contents.contains( "var metawidget=metawidget||{};" ) );
 		assertTrue( contents.contains( "minified" ) );
 		assertTrue( !contents.contains( "${" ) );
 		assertTrue( !contents.contains( "loop" ) );
@@ -145,4 +156,5 @@ public class AllJarTest
 		assertTrue( !contents.contains( "mw" ) );
 
 	}
+
 }

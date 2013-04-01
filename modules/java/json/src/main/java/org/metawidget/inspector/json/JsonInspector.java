@@ -82,19 +82,32 @@ public class JsonInspector
 
 	public Element inspectAsDom( Object toInspect, String type, String... names ) {
 
+		JsonObject root = mRoot;
+
+		// Traverse names
+
+		for( String name : names ) {
+
+			if ( !root.has( name )) {
+				return null;
+			}
+
+			root = root.getAsJsonObject( name );
+		}
+
 		// Start the DOM
 
 		Document document = XmlUtils.newDocument();
-		Element root = document.createElementNS( NAMESPACE, ROOT );
-		root.setAttribute( VERSION, "1.0" );
-		document.appendChild( root );
+		Element documentRoot = document.createElementNS( NAMESPACE, ROOT );
+		documentRoot.setAttribute( VERSION, "1.0" );
+		document.appendChild( documentRoot );
 		Element entity = document.createElementNS( NAMESPACE, ENTITY );
 		entity.setAttribute( TYPE, type );
-		root.appendChild( entity );
+		documentRoot.appendChild( entity );
 
 		// Write all JSON values into it
 
-		for ( Map.Entry<String, JsonElement> entry : mRoot.entrySet() ) {
+		for ( Map.Entry<String, JsonElement> entry : root.entrySet() ) {
 
 			JsonElement element = entry.getValue();
 
@@ -125,6 +138,6 @@ public class JsonInspector
 
 		// Return the DOM
 
-		return root;
+		return documentRoot;
 	}
 }

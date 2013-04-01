@@ -90,6 +90,50 @@ public class JsonInspectorTest
 		assertEquals( property.getNextSibling(), null );
 	}
 
+	public void testTraversal() {
+
+		String json = "{ \"path1\": { \"foo\": \"Foo\", \"bar\": 42 }, \"path2\": { \"baz\": true }}";
+		JsonInspector inspector = new JsonInspector( new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( json.getBytes() ) ) );
+
+		// Path1
+
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "fooObject", "path1" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertFalse( entity.hasAttribute( NAME ) );
+		assertEquals( "fooObject", entity.getAttribute( TYPE ) );
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "foo", property.getAttribute( NAME ) );
+		assertEquals( String.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "bar", property.getAttribute( NAME ) );
+		assertEquals( int.class.getName(), property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+		assertEquals( property.getNextSibling(), null );
+
+		// Path2
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "fooObject", "path2" ) );
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertFalse( entity.hasAttribute( NAME ) );
+		assertEquals( "fooObject", entity.getAttribute( TYPE ) );
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "baz", property.getAttribute( NAME ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+		assertEquals( property.getNextSibling(), null );
+
+		// Bad path
+
+		assertEquals( null, XmlUtils.documentFromString( inspector.inspect( null, "fooObject", "badPath" ) ) );
+	}
+
 	public void testConfig() {
 
 		MetawidgetTestUtils.testEqualsAndHashcode( JsonInspectorConfig.class, new JsonInspectorConfig() {
