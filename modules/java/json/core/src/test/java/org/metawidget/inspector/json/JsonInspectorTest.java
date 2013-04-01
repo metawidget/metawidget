@@ -48,7 +48,7 @@ public class JsonInspectorTest
 
 	public void testNormalUse() {
 
-		String json = "{ \"foo\": \"Foo\", \"bar\": 42, \"baz\": true, \"abc\": [ 1, 2, 3 ] }";
+		String json = "{ \"foo\": \"Foo\", \"bar\": 42, \"baz\": true, \"abc\": [ 1, 2, 3 ], \"def\": { \"one\": 1, \"two\": 2 }}";
 		JsonInspector inspector = new JsonInspector( new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( json.getBytes() ) ) );
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "fooObject" ) );
 
@@ -85,6 +85,12 @@ public class JsonInspectorTest
 		assertEquals( PROPERTY, property.getNodeName() );
 		assertEquals( "abc", property.getAttribute( NAME ) );
 		assertEquals( "array", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "def", property.getAttribute( NAME ) );
+		assertEquals( Object.class.getName(), property.getAttribute( TYPE ) );
 		assertEquals( property.getAttributes().getLength(), 2 );
 
 		assertEquals( property.getNextSibling(), null );

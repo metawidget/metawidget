@@ -131,6 +131,8 @@ public class JsonInspector
 				}
 			} else if ( element.isJsonArray() ) {
 				child.setAttribute( TYPE, "array" );
+			} else {
+				child.setAttribute( TYPE, Object.class.getName() );
 			}
 
 			entity.appendChild( child );
