@@ -52,8 +52,8 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-json</artifactId>
+			<groupId>org.metawidget.modules.json</groupId>
+			<artifactId>metawidget-jsonschema</artifactId>
 			<version>${project.version}</version>
 		</dependency>		
 		<dependency>
