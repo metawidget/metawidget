@@ -49,7 +49,9 @@ var metawidget = metawidget || {};
 
 			var nestedWidget = document.createElement( 'div' );
 
-			// Duck-type our 'pipeline' as the 'config' of the nested Metawidget
+			// Duck-type our 'pipeline' as the 'config' of the nested
+			// Metawidget. This neatly passes everything down, including a
+			// decremented 'maximumInspectionDepth'
 
 			var nestedMetawidget = new metawidget.Metawidget( nestedWidget, _pipeline );
 			nestedMetawidget.toInspect = mw.toInspect;
@@ -339,15 +341,15 @@ var metawidget = metawidget || {};
 		if ( inspectionResult !== undefined ) {
 
 			var copiedAttributes = _forceReadOnly( inspectionResult, mw, 'properties' );
-			copiedAttributes._root = 'true';
-			var widget = _buildWidget( this, copiedAttributes, mw );
+			var elementName = "entity";
+			var widget = _buildWidget( this, elementName, copiedAttributes, mw );
 
 			if ( widget !== undefined ) {
 
-				widget = _processWidget( this, widget, copiedAttributes, mw );
+				widget = _processWidget( this, widget, elementName, copiedAttributes, mw );
 
 				if ( widget !== undefined ) {
-					this.layoutWidget( widget, copiedAttributes, this.element, mw );
+					this.layoutWidget( widget, elementName, copiedAttributes, this.element, mw );
 				}
 
 			} else {
@@ -359,7 +361,15 @@ var metawidget = metawidget || {};
 				for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
 
 					copiedAttributes = _forceReadOnly( inspectionResultProperties[loop], mw );
-					var widget = _buildWidget( this, copiedAttributes, mw );
+					var elementName;
+
+					if ( copiedAttributes.type === 'function' ) {
+						elementName = "action";
+					} else {
+						elementName = "property";
+					}
+
+					var widget = _buildWidget( this, elementName, copiedAttributes, mw );
 
 					if ( widget === undefined ) {
 
@@ -374,10 +384,10 @@ var metawidget = metawidget || {};
 						}
 					}
 
-					widget = _processWidget( this, widget, copiedAttributes, mw );
+					widget = _processWidget( this, widget, elementName, copiedAttributes, mw );
 
 					if ( widget !== undefined ) {
-						this.layoutWidget( widget, copiedAttributes, this.element, mw );
+						this.layoutWidget( widget, elementName, copiedAttributes, this.element, mw );
 					}
 				}
 			}
@@ -497,25 +507,25 @@ var metawidget = metawidget || {};
 			}
 		}
 
-		function _buildWidget( pipeline, attributes, mw ) {
+		function _buildWidget( pipeline, elementName, attributes, mw ) {
 
 			if ( pipeline.widgetBuilder.buildWidget !== undefined ) {
-				return pipeline.widgetBuilder.buildWidget( attributes, mw );
+				return pipeline.widgetBuilder.buildWidget( elementName, attributes, mw );
 			}
 
-			return pipeline.widgetBuilder( attributes, mw );
+			return pipeline.widgetBuilder( elementName, attributes, mw );
 		}
 
-		function _processWidget( pipeline, widget, attributes, mw ) {
+		function _processWidget( pipeline, widget, elementName, attributes, mw ) {
 
 			for ( var loop = 0, length = pipeline.widgetProcessors.length; loop < length; loop++ ) {
 
 				var widgetProcessor = pipeline.widgetProcessors[loop];
 
 				if ( widgetProcessor.processWidget !== undefined ) {
-					widget = widgetProcessor.processWidget( widget, attributes, mw );
+					widget = widgetProcessor.processWidget( widget, elementName, attributes, mw );
 				} else {
-					widget = widgetProcessor( widget, attributes, mw );
+					widget = widgetProcessor( widget, elementName, attributes, mw );
 				}
 
 				if ( widget === undefined ) {
@@ -557,7 +567,7 @@ var metawidget = metawidget || {};
 
 					// Manually created components default to no section
 
-					pipeline.layoutWidget( child, childAttributes, pipeline.element, mw );
+					pipeline.layoutWidget( child, "property", childAttributes, pipeline.element, mw );
 				}
 			}
 
@@ -586,14 +596,14 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.Pipeline.prototype.layoutWidget = function( widget, attributes, container, mw ) {
+	metawidget.Pipeline.prototype.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 		if ( this.layout.layoutWidget !== undefined ) {
-			this.layout.layoutWidget( widget, attributes, container, mw );
+			this.layout.layoutWidget( widget, elementName, attributes, container, mw );
 			return;
 		}
 
-		this.layout( widget, attributes, container, mw );
+		this.layout( widget, elementName, attributes, container, mw );
 	};
 
 	/**

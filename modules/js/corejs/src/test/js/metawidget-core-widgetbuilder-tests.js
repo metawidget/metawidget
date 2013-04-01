@@ -45,7 +45,7 @@
 
 		it( "composes WidgetBuilders", function() {
 
-			var widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ function( attributes, mw ) {
+			var widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ function( elementName, attributes, mw ) {
 
 				if ( attributes.widgetBuilder == '1' ) {
 					return {
@@ -53,25 +53,25 @@
 					};
 				}
 
-			}, function( attributes, mw ) {
+			}, function( elementName, attributes, mw ) {
 
 				if ( attributes.widgetBuilder == '2' ) {
 					return {
 						name: "widgetBuilder2"
 					};
 				}
-			}, function( attributes, mw ) {
+			}, function( elementName, attributes, mw ) {
 
 				return {
 					name: "widgetBuilder3"
 				};
 			} ] );
 
-			expect( widgetBuilder.buildWidget( {} ).name ).toBe( 'widgetBuilder3' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {} ).name ).toBe( 'widgetBuilder3' );
+			expect( widgetBuilder.buildWidget( "property", {
 				widgetBuilder: "1"
 			} ).name ).toBe( 'widgetBuilder1' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				widgetBuilder: "2"
 			} ).name ).toBe( 'widgetBuilder2' );
 		} );
@@ -151,7 +151,7 @@
 			var mw = {
 				path: "foo.bar"
 			};
-			expect( widgetBuilder.buildWidget( attributes, mw ) ).toBeUndefined();
+			expect( widgetBuilder.buildWidget( "property", attributes, mw ) ).toBeUndefined();
 
 			var widget1 = document.createElement( 'widget1' );
 			widget1.setAttribute( 'id', 'abcDefGhi' );
@@ -160,7 +160,7 @@
 			var widget3 = document.createElement( 'widget3' );
 			widget3.setAttribute( 'id', 'fooBarBaz' );
 			mw.overriddenNodes = [ widget1, widget2, widget3 ];
-			expect( widgetBuilder.buildWidget( attributes, mw ) ).toBe( widget3 );
+			expect( widgetBuilder.buildWidget( "property", attributes, mw ) ).toBe( widget3 );
 		} );
 	} );
 
@@ -170,45 +170,45 @@
 
 			var widgetBuilder = new metawidget.widgetbuilder.ReadOnlyWidgetBuilder();
 
-			expect( widgetBuilder.buildWidget( {}, {} ) ).toBeUndefined();
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {}, {} ) ).toBeUndefined();
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true"
 			}, {} ) ).toBeUndefined();
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
 				masked: "true",
 				type: "string"
 			}, {} ).toString() ).toBe( 'stub' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
 				type: "function"
 			}, {} ).toString() ).toBe( 'stub' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
-				lookup: "foo,bar,baz"
+				enum: [ "foo", "bar", "baz" ]
 			}, {} ).toString() ).toBe( 'output' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
 				type: "string"
 			}, {} ).toString() ).toBe( 'output' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
 				type: "boolean"
 			}, {} ).toString() ).toBe( 'output' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
 				type: "number"
 			}, {} ).toString() ).toBe( 'output' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
 				type: "date"
 			}, {} ).toString() ).toBe( 'output' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				hidden: "true",
 				readOnly: "true",
 				type: "string"
 			}, {} ).toString() ).toBe( 'stub' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
 				dontExpand: "true"
 			}, {} ).toString() ).toBe( 'output' );
@@ -221,13 +221,13 @@
 
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
-			expect( widgetBuilder.buildWidget( {}, {} ) ).toBeUndefined();
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {}, {} ) ).toBeUndefined();
+			expect( widgetBuilder.buildWidget( "property", {
 				hidden: "true"
 			}, {} ).toString() ).toBe( 'stub' );
 
-			var select = widgetBuilder.buildWidget( {
-				lookup: "foo,bar,baz",
+			var select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo", "bar", "baz" ],
 				required: "true"
 			}, {} );
 
@@ -240,9 +240,9 @@
 			expect( select.childNodes[2].innerHTML ).toBe( 'baz' );
 			expect( select.childNodes.length ).toBe( 3 );
 
-			select = widgetBuilder.buildWidget( {
-				lookup: "foo,bar,baz",
-				lookupLabels: "Foo,Bar,Baz",
+			select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo", "bar", "baz" ],
+				enumTitles: [ "Foo", "Bar", "Baz" ],
 				required: "true"
 			}, {} );
 
@@ -255,8 +255,8 @@
 			expect( select.childNodes[2].innerHTML ).toBe( 'Baz' );
 			expect( select.childNodes.length ).toBe( 3 );
 
-			select = widgetBuilder.buildWidget( {
-				lookup: "foo,bar,baz",
+			select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo", "bar", "baz" ]
 			}, {} );
 
 			expect( select.toString() ).toBe( 'select' );
@@ -270,9 +270,9 @@
 			expect( select.childNodes[3].innerHTML ).toBe( 'baz' );
 			expect( select.childNodes.length ).toBe( 4 );
 
-			select = widgetBuilder.buildWidget( {
-				lookup: "foo,bar,baz",
-				lookupLabels: ""
+			select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo", "bar", "baz" ],
+				enumTitles: []
 			}, {} );
 
 			expect( select.toString() ).toBe( 'select' );
@@ -286,9 +286,9 @@
 			expect( select.childNodes[3].innerHTML ).toBe( 'baz' );
 			expect( select.childNodes.length ).toBe( 4 );
 
-			select = widgetBuilder.buildWidget( {
-				lookup: "foo,bar,baz",
-				lookupLabels: "",
+			select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo", "bar", "baz" ],
+				enumTitles: [],
 				type: "array"
 			}, {} );
 
@@ -304,9 +304,9 @@
 			expect( select.childNodes[2].childNodes[1].toString() ).toBe( 'baz' );
 			expect( select.childNodes.length ).toBe( 3 );
 
-			select = widgetBuilder.buildWidget( {
-				lookup: "foo",
-				lookupLabels: "Foo",
+			select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo" ],
+				enumTitles: [ "Foo" ],
 				type: "array"
 			}, {} );
 
@@ -316,9 +316,9 @@
 			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
 			expect( select.childNodes.length ).toBe( 1 );
 
-			select = widgetBuilder.buildWidget( {
-				lookup: "foo",
-				lookupLabels: "Foo",
+			select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo" ],
+				enumTitles: [ "Foo" ],
 				componentType: "radio"
 			}, {} );
 
@@ -328,7 +328,7 @@
 			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
 			expect( select.childNodes.length ).toBe( 1 );
 
-			var button = widgetBuilder.buildWidget( {
+			var button = widgetBuilder.buildWidget( "property", {
 				name: "clickMe",
 				type: "function"
 			}, {} );
@@ -337,9 +337,11 @@
 			expect( button.innerHTML ).toBe( 'Click Me' );
 			expect( button.getAttribute( 'class' ) ).toBe( null );
 
-			widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder( { buttonStyleClass: "btn" } );
-			
-			button = widgetBuilder.buildWidget( {
+			widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder( {
+				buttonStyleClass: "btn"
+			} );
+
+			button = widgetBuilder.buildWidget( "property", {
 				name: "clickMe",
 				type: "function"
 			}, {} );
@@ -348,62 +350,62 @@
 			expect( button.innerHTML ).toBe( 'Click Me' );
 			expect( button.getAttribute( 'class' ) ).toBe( 'btn' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "number"
 			}, {} ).toString() ).toBe( 'input type="number"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "number",
 				min: "2"
 			}, {} ).toString() ).toBe( 'input type="number"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "number",
 				minimum: "2",
 				maximum: "4"
 			}, {} ).toString() ).toBe( 'input type="range" min="2" max="4"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "boolean"
 			}, {} ).toString() ).toBe( 'input type="checkbox"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "date"
 			}, {} ).toString() ).toBe( 'input type="date"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "string",
 				large: "true"
 			}, {} ).toString() ).toBe( 'textarea' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "string",
 				masked: "true",
 			}, {} ).toString() ).toBe( 'input type="password"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "string",
 				masked: "true",
 				maxLength: "30"
 			}, {} ).toString() ).toBe( 'input type="password" maxlength="30"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "string",
-				lookup: "",
+				enum: undefined,
 				masked: "",
 				large: ""
 			}, {} ).toString() ).toBe( 'input type="text"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "string"
 			}, {} ).toString() ).toBe( 'input type="text"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "string",
 				maxLength: "32"
 			}, {} ).toString() ).toBe( 'input type="text" maxlength="32"' );
 
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				dontExpand: "true"
 			}, {} ).toString() ).toBe( 'input type="text"' );
 		} );

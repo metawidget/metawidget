@@ -163,9 +163,13 @@
 			} else {
 				nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
 			}
-			if ( attrs.config !== undefined ) {
-				nestedMetawidget.setAttribute( 'config', attrs.config );
-			}
+			
+			// Duck-type our 'pipeline' as the 'config' of the nested
+			// Metawidget. This neatly passes everything down, including a
+			// decremented 'maximumInspectionDepth'
+			
+			scope.$parent._pipeline = _pipeline;
+			nestedMetawidget.setAttribute( 'configs', '_pipeline' );
 
 			return nestedMetawidget;
 		};
@@ -288,7 +292,7 @@
 					};
 				}
 
-				// Stubs can supply their own metadata (such as 'label')
+				// Stubs can supply their own metadata (such as 'title')
 
 				if ( child.tagName === 'STUB' ) {
 					for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
@@ -297,7 +301,7 @@
 					}
 				}
 
-				_pipeline.layoutWidget( child, childAttributes, _pipeline.element, this );
+				_pipeline.layoutWidget( child, "property", childAttributes, _pipeline.element, this );
 			}
 		};
 
@@ -338,11 +342,11 @@
 			// For each property in the inspection result...
 
 			for ( var propertyName in inspectionResult ) {
-				
+
 				// ...including recursing into 'properties'...
-				
+
 				var expression = inspectionResult[propertyName];
-				
+
 				if ( expression instanceof Object ) {
 					this.processInspectionResult( expression, mw );
 					continue;
@@ -350,6 +354,10 @@
 
 				// ...if the value looks like an expression...
 
+				if ( expression === undefined || expression.slice === undefined ) {
+					continue;
+				}
+				
 				if ( expression.length < 4 || expression.slice( 0, 2 ) !== '{{' || expression.slice( expression.length - 2, expression.length ) !== '}}' ) {
 					continue;
 				}
@@ -427,7 +435,7 @@
 			}
 		};
 
-		this.processWidget = function( widget, attributes, mw ) {
+		this.processWidget = function( widget, elementName, attributes, mw ) {
 
 			// Ignore transcluded widgets. Compiling them again using $compile
 			// seemed to trigger 'ng-click' listeners twice?
@@ -443,7 +451,7 @@
 
 			var binding = mw.path;
 
-			if ( attributes._root !== 'true' ) {
+			if ( elementName !== 'entity' ) {
 				binding += '.' + attributes.name;
 			}
 
@@ -459,7 +467,7 @@
 
 			} else if ( widget.tagName === 'BUTTON' ) {
 				widget.setAttribute( 'ng-click', binding + '()' );
-			} else if ( attributes.lookup !== undefined && attributes.lookup !== '' && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
+			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
 				// Special support for multi-selects and radio buttons
 
@@ -514,13 +522,13 @@
 			// original widget
 
 			if ( wrapper.childNodes.length > 1 ) {
-				
+
 				// Support label 'for'
-				
-				if ( widget.hasAttribute( 'id' )) {
+
+				if ( widget.hasAttribute( 'id' ) ) {
 					wrapper.setAttribute( 'id', widget.getAttribute( 'id' ) + '-wrapper' );
 				}
-				
+
 				return wrapper;
 			}
 

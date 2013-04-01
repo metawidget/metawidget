@@ -18,155 +18,175 @@
 
 	'use strict';
 
-	describe(
-			"The JQuery UI Metawidget",
-			function() {
+	describe( "The JQuery UI Metawidget", function() {
 
-				beforeEach( function() {
+		beforeEach( function() {
 
-					var element = document.createElement( 'metawidget' );
-					element.setAttribute( 'id', 'metawidget' );
-					document.body.appendChild( element );
-				} );
+			var element = document.createElement( 'metawidget' );
+			element.setAttribute( 'id', 'metawidget' );
+			document.body.appendChild( element );
+		} );
 
-				afterEach( function() {
+		afterEach( function() {
 
-					document.body.removeChild( $( '#metawidget' )[0] );
-				} );
+			document.body.removeChild( $( '#metawidget' )[0] );
+		} );
 
-				it(
-						"populates itself with widgets to match the properties of business objects",
-						function() {
+		/*
+		 * it( "populates itself with widgets to match the properties of
+		 * business objects", function() {
+		 *  // Defaults
+		 *  $( '#metawidget' ).metawidget(); $( '#metawidget' ).metawidget(
+		 * "buildWidgets", { foo: "Foo" } );
+		 * 
+		 * var element = $( '#metawidget' )[0];
+		 * 
+		 * expect( element.childNodes[0].outerHTML ) .toBe( '<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label
+		 * for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input
+		 * type="text" id="foo" name="foo"/></td><td/></tr></tbody></table>' );
+		 *  // Configured
+		 *  $( '#metawidget' ).metawidget( "option", "layout", new
+		 * metawidget.layout.SimpleLayout() );
+		 * 
+		 * expect( element.childNodes[0].outerHTML ).toBe( '<input type="text"
+		 * id="foo" name="foo"/>' ); expect( element.childNodes[0].value ).toBe(
+		 * 'Foo' ); } );
+		 * 
+		 * it( "supports sub names", function() {
+		 *  // Just type
+		 *  $( '#metawidget' ).metawidget(); $( '#metawidget' ).metawidget(
+		 * "buildWidgets", { foo: { bar: "Bar" } }, "object" );
+		 * 
+		 * var element = $( '#metawidget' )[0];
+		 * 
+		 * expect( element.childNodes[0].outerHTML ) .toBe( '<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label
+		 * for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><div
+		 * id="foo"><table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label
+		 * for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input
+		 * type="text" id="fooBar" name="fooBar"/></td><td/></tr></tbody></table></div></td><td/></tr></tbody></table>' );
+		 *  // Type and sub name
+		 *  $( '#metawidget' ).metawidget(); $( '#metawidget' ).metawidget(
+		 * "buildWidgets", { foo: { bar: "Bar" } }, "object.foo" );
+		 * 
+		 * var element = $( '#metawidget' )[0];
+		 * 
+		 * expect( element.childNodes[0].outerHTML ) .toBe( '<table
+		 * id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label
+		 * for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input
+		 * type="text" id="fooBar" name="fooBar"/></td><td/></tr></tbody></table>' ); } );
+		 * 
+		 * it( "defensively copies overridden widgets", function() {
+		 * 
+		 * var element = $( '#metawidget' )[0]; var bar =
+		 * document.createElement( 'span' ); bar.setAttribute( 'id', 'bar' );
+		 * element.appendChild( bar ); var baz = document.createElement( 'span' );
+		 * baz.setAttribute( 'id', 'baz' ); element.appendChild( baz );
+		 *  $( '#metawidget' ).metawidget(); var mw = $( '#metawidget' ).data(
+		 * 'metawidget' );
+		 *  $( '#metawidget' ).metawidget( "buildWidgets", { foo: "Foo", bar:
+		 * "Bar" } );
+		 * 
+		 * expect( element.innerHTML ).toContain( '<td id="table-foo-cell"><input
+		 * type="text" id="foo" name="foo"/></td>' ); expect(
+		 * element.innerHTML ).toContain( '<td id="table-bar-cell"><span
+		 * id="bar"/></td>' ); expect( element.innerHTML ).toContain( '<td colspan="2"><span
+		 * id="baz"/></td>' ); expect(
+		 * element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+		 * expect( element.childNodes.length ).toBe( 1 );
+		 * 
+		 * expect( mw.overriddenNodes.length ).toBe( 0 );
+		 * mw.overriddenNodes.push( document.createElement( 'defensive' ) );
+		 * expect( mw.overriddenNodes.length ).toBe( 1 ); mw.buildWidgets();
+		 * expect( mw.overriddenNodes.length ).toBe( 0 ); expect(
+		 * element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 ); } );
+		 * 
+		 * it( "can be used purely for layout", function() {
+		 * 
+		 * var element = $( '#metawidget' )[0]; var bar =
+		 * document.createElement( 'span' ); bar.setAttribute( 'id', 'bar' );
+		 * element.appendChild( bar ); var baz = document.createElement( 'span' );
+		 * baz.setAttribute( 'id', 'baz' ); element.appendChild( baz ); var
+		 * ignore = document.createTextNode( 'ignore' ); element.appendChild(
+		 * ignore );
+		 *  $( '#metawidget' ).metawidget(); $( '#metawidget' ).metawidget(
+		 * "buildWidgets" );
+		 * 
+		 * expect( element.innerHTML ).toContain( '<td colspan="2"><span
+		 * id="bar"/></td>' ); expect( element.innerHTML ).toContain( '<td colspan="2"><span
+		 * id="baz"/></td>' ); expect( element.innerHTML ).toNotContain(
+		 * 'ignore' ); expect( element.childNodes.length ).toBe( 1 ); } );
+		 * 
+		 * it( "ignores embedded text nodes", function() {
+		 * 
+		 * var element = document.getElementById( 'metawidget' );
+		 * element.appendChild( document.createTextNode( 'text1' ) );
+		 * element.appendChild( document.createElement( 'span' ) );
+		 * element.appendChild( document.createTextNode( 'text2' ) );
+		 *  $( '#metawidget' ).metawidget(); var mw = $( '#metawidget' ).data(
+		 * 'metawidget' ); mw.onEndBuild = function() {
+		 *  // Do not clean up overriddenNodes }; $( '#metawidget' ).metawidget(
+		 * 'buildWidgets' );
+		 * 
+		 * expect( mw.overriddenNodes[0].tagName ).toBe( 'SPAN' ); expect(
+		 * mw.overriddenNodes.length ).toBe( 1 ); } );
+		 */
 
-							// Defaults
+		it( "guards against infinite recursion", function() {
 
-							$( '#metawidget' ).metawidget();
-							$( '#metawidget' ).metawidget( "buildWidgets", {
-								foo: "Foo"
-							} );
+			var element = $( '#metawidget' )[0];
+			$( '#metawidget' ).metawidget( {
+				inspector: function() {
 
-							var element = $( '#metawidget' )[0];
-
-							expect( element.childNodes[0].outerHTML )
-									.toBe(
-											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td><td/></tr></tbody></table>' );
-
-							// Configured
-
-							$( '#metawidget' ).metawidget( "option", "layout", new metawidget.layout.SimpleLayout() );
-
-							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
-							expect( element.childNodes[0].value ).toBe( 'Foo' );
-						} );
-
-				it(
-						"supports sub names",
-						function() {
-
-							// Just type
-
-							$( '#metawidget' ).metawidget();
-							$( '#metawidget' ).metawidget( "buildWidgets", {
-								foo: {
-									bar: "Bar"
-								}
-							}, "object" );
-
-							var element = $( '#metawidget' )[0];
-
-							expect( element.childNodes[0].outerHTML )
-									.toBe(
-											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><div id="foo"><table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" name="fooBar"/></td><td/></tr></tbody></table></div></td><td/></tr></tbody></table>' );
-
-							// Type and sub name
-
-							$( '#metawidget' ).metawidget();
-							$( '#metawidget' ).metawidget( "buildWidgets", {
-								foo: {
-									bar: "Bar"
-								}
-							}, "object.foo" );
-
-							var element = $( '#metawidget' )[0];
-
-							expect( element.childNodes[0].outerHTML )
-									.toBe(
-											'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" name="fooBar"/></td><td/></tr></tbody></table>' );
-						} );
-
-				it( "defensively copies overridden widgets", function() {
-
-					var element = $( '#metawidget' )[0];
-					var bar = document.createElement( 'span' );
-					bar.setAttribute( 'id', 'bar' );
-					element.appendChild( bar );
-					var baz = document.createElement( 'span' );
-					baz.setAttribute( 'id', 'baz' );
-					element.appendChild( baz );
-
-					$( '#metawidget' ).metawidget();
-					var mw = $( '#metawidget' ).data( 'metawidget' );
-
-					$( '#metawidget' ).metawidget( "buildWidgets", {
-						foo: "Foo",
-						bar: "Bar"
-					} );
-
-					expect( element.innerHTML ).toContain( '<td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td>' );
-					expect( element.innerHTML ).toContain( '<td id="table-bar-cell"><span id="bar"/></td>' );
-					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
-					expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
-					expect( element.childNodes.length ).toBe( 1 );
-
-					expect( mw.overriddenNodes.length ).toBe( 0 );
-					mw.overriddenNodes.push( document.createElement( 'defensive' ) );
-					expect( mw.overriddenNodes.length ).toBe( 1 );
-					mw.buildWidgets();
-					expect( mw.overriddenNodes.length ).toBe( 0 );
-					expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
-				} );
-
-				it( "can be used purely for layout", function() {
-
-					var element = $( '#metawidget' )[0];
-					var bar = document.createElement( 'span' );
-					bar.setAttribute( 'id', 'bar' );
-					element.appendChild( bar );
-					var baz = document.createElement( 'span' );
-					baz.setAttribute( 'id', 'baz' );
-					element.appendChild( baz );
-					var ignore = document.createTextNode( 'ignore' );
-					element.appendChild( ignore );
-
-					$( '#metawidget' ).metawidget();
-					$( '#metawidget' ).metawidget( "buildWidgets" );
-
-					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="bar"/></td>' );
-					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
-					expect( element.innerHTML ).toNotContain( 'ignore' );
-					expect( element.childNodes.length ).toBe( 1 );
-				} );
-
-				it( "ignores embedded text nodes", function() {
-
-					var element = document.getElementById( 'metawidget' );
-					element.appendChild( document.createTextNode( 'text1' ) );
-					element.appendChild( document.createElement( 'span' ) );
-					element.appendChild( document.createTextNode( 'text2' ) );
-
-					$( '#metawidget' ).metawidget();
-					var mw = $( '#metawidget' ).data( 'metawidget' );
-					mw.onEndBuild = function() {
-
-						// Do not clean up overriddenNodes
+					return {
+						"properties": {
+							"foo": {}
+						}
 					};
-					$( '#metawidget' ).metawidget( 'buildWidgets' );
-
-					expect( mw.overriddenNodes[0].tagName ).toBe( 'SPAN' );
-					expect( mw.overriddenNodes.length ).toBe( 1 );
-				} );
-
+				}
 			} );
+
+			var toInspect = {}
+			toInspect.foo = toInspect;
+
+			$( '#metawidget' ).metawidget( "buildWidgets", toInspect );
+
+			expect( element.childNodes[0].tagName ).toBe( 'TABLE' );
+			expect( element.childNodes[0].childNodes[0].tagName ).toBe( 'TBODY' );
+
+			var childNode = element.childNodes[0].childNodes[0];
+			var idMiddle = '';
+
+			for ( var loop = 0; loop < 10; loop++ ) {
+
+				expect( childNode.childNodes[0].tagName ).toBe( 'TR' );
+				expect( childNode.childNodes[0].id ).toBe( 'table-foo' + idMiddle + '-row' );
+				expect( childNode.childNodes[0].childNodes[0].tagName ).toBe( 'TH' );
+				expect( childNode.childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-foo' + idMiddle + '-label-cell' );
+				expect( childNode.childNodes[0].childNodes[0].childNodes[0].tagName ).toBe( 'LABEL' );
+				expect( childNode.childNodes[0].childNodes[0].childNodes[0].getAttribute( 'for' ) ).toBe( 'foo' + idMiddle );
+				expect( childNode.childNodes[0].childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-foo' + idMiddle + '-label' );
+				expect( childNode.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+				expect( childNode.childNodes[0].childNodes[1].tagName ).toBe( 'TD' );
+				expect( childNode.childNodes[0].childNodes[1].getAttribute( 'id' ) ).toBe( 'table-foo' + idMiddle + '-cell' );
+				expect( childNode.childNodes[0].childNodes[1].childNodes[0].tagName ).toBe( 'DIV' );
+				expect( childNode.childNodes[0].childNodes[1].childNodes[0].getAttribute( 'id' ) ).toBe( 'foo' + idMiddle );
+				expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].tagName ).toBe( 'TABLE' );
+				expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-foo' + idMiddle );
+				expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].tagName ).toBe( 'TBODY' );
+				expect( childNode.childNodes[0].childNodes.length ).toBe( 3 );
+				expect( childNode.childNodes.length ).toBe( 1 );
+
+				idMiddle += 'Foo';
+				childNode = childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0];
+			}
+
+			expect( childNode.childNodes.length ).toBe( 0 );
+
+			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 1 );
+		} );
+
+	} );
 
 	describe( "The JQueryUIWidgetBuilder", function() {
 
@@ -174,23 +194,23 @@
 
 			var widgetBuilder = new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder();
 
-			expect( widgetBuilder.buildWidget( {}, {} ) ).toBeUndefined();
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {}, {} ) ).toBeUndefined();
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true"
 			}, {} ) ).toBeUndefined();
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				hidden: "true"
 			}, {} ) ).toBeUndefined();
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "false",
 				type: "number"
 			}, {} ).innerHTML ).toContain( '<input class="ui-spinner-input"' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "number",
 				minimum: 10,
 				maximum: 90
 			}, {} ).innerHTML ).toContain( '<a class="ui-slider-handle' );
-			expect( widgetBuilder.buildWidget( {
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "date"
 			}, {} ).outerHTML ).toContain( 'class="hasDatepicker"/>' );
 		} );
@@ -223,7 +243,7 @@
 				name: "slider"
 			}
 			$( widget ).slider();
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "property", attributes, mw );
 			expect( $( widget ).slider( 'value' ) ).toBe( 42 );
 
 			// Spinner
@@ -233,7 +253,7 @@
 				name: "spinner"
 			}
 			$( widget ).spinner();
-			processor.processWidget( $( widget ).spinner( 'widget' )[0], attributes, mw );
+			processor.processWidget( $( widget ).spinner( 'widget' )[0], "property", attributes, mw );
 			expect( $( widget ).spinner( 'value' ) ).toBe( 43 );
 
 			// Nested widgets
@@ -244,7 +264,7 @@
 			};
 			widget = document.createElement( 'div' );
 			$( widget ).slider();
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "property", attributes, mw );
 			expect( $( widget ).slider( 'value' ) ).toBe( 44 );
 		} );
 	} );
@@ -272,29 +292,29 @@
 
 							layout.onStartBuild( mw );
 							layout.startContainerLayout( container, mw );
-							layout.layoutWidget( document.createElement( 'widget1' ), {
+							layout.layoutWidget( document.createElement( 'widget1' ), "property", {
 								"name": "widget1",
 							}, container, mw );
-							layout.layoutWidget( document.createElement( 'widget2.1' ), {
+							layout.layoutWidget( document.createElement( 'widget2.1' ), "property", {
 								"name": "widget2.1",
 								"section": "Section 1"
 							}, container, mw );
-							layout.layoutWidget( document.createElement( 'widget2.2' ), {
+							layout.layoutWidget( document.createElement( 'widget2.2' ), "property", {
 								"name": "widget2.2",
 							}, container, mw );
-							layout.layoutWidget( document.createElement( 'widget2.3.1' ), {
+							layout.layoutWidget( document.createElement( 'widget2.3.1' ), "property", {
 								"name": "widget2.3.1",
-								"section": "Section 1,Section 1.1"
+								"section": [ "Section 1", "Section 1.1" ]
 							}, container, mw );
-							layout.layoutWidget( document.createElement( 'widget3' ), {
+							layout.layoutWidget( document.createElement( 'widget3' ), "property", {
 								"name": "widget3",
 								"section": "Section 2"
 							}, container, mw );
-							layout.layoutWidget( document.createElement( 'widget4' ), {
+							layout.layoutWidget( document.createElement( 'widget4' ), "property", {
 								"name": "widget4",
 								"section": ""
 							}, container, mw );
-							layout.layoutWidget( document.createElement( 'widget5' ), {
+							layout.layoutWidget( document.createElement( 'widget5' ), "property", {
 								"name": "widget5"
 							}, container, mw );
 							layout.endContainerLayout( container, mw );

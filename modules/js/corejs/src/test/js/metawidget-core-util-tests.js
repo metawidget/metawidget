@@ -61,19 +61,19 @@
 
 		it( "creates an Id for an attribute", function() {
 
-			expect( metawidget.util.getId( {}, {} ) ).toBeUndefined();
-			expect( metawidget.util.getId( {
+			expect( metawidget.util.getId( "property", {}, {} ) ).toBeUndefined();
+			expect( metawidget.util.getId( "property", {
 				name: "baz"
 			}, {} ) ).toBe( "baz" );
-			expect( metawidget.util.getId( {}, {
+			expect( metawidget.util.getId( "property", {}, {
 				path: "foo.bar"
 			} ) ).toBe( "fooBar" );
-			expect( metawidget.util.getId( {
+			expect( metawidget.util.getId( "property", {
 				name: "baz"
 			}, {
 				path: "foo.bar"
 			} ) ).toBe( "fooBarBaz" );
-			expect( metawidget.util.getId( {}, {
+			expect( metawidget.util.getId( "property", {}, {
 				path: 'object'
 			} ) ).toBeUndefined();
 		} );
@@ -132,7 +132,7 @@
 			expect( metawidget.util.splitPath( 'foo[bar][baz]' ).names.length ).toBe( 2 );
 
 			// Array notation
-			
+
 			expect( metawidget.util.splitPath( 'foo[1]' ).type ).toBe( 'foo' );
 			expect( metawidget.util.splitPath( 'foo[1]' ).names[0] ).toBe( '1' );
 			expect( metawidget.util.splitPath( 'foo[1]' ).names.length ).toBe( 1 );
@@ -232,66 +232,82 @@
 
 		it( "combines inspection results", function() {
 
-			var existingInspectionResult = [ {
-				_root: 'true',
+			var existingInspectionResult = {
 				name: 'abc',
-				foo: 'foo'
-			}, {
-				name: 'bar',
-				baz: 'baz'
-			} ];
-			var newInspectionResult = [ {
-				_root: 'true',
+				foo: 'foo',
+				properties: {
+					'bar': {
+						baz: 'baz'
+					},
+					'anArray': [ '0', '1', '2' ]
+				}
+			};
+			var newInspectionResult = {
 				name: 'new abc',
-				def: 'def'
-			}, {
-				name: 'bar',
-				mno: 'mno'
-			}, {
-				name: 'ghi',
-				jkl: 'jkl'
-			} ];
+				def: 'def',
+				properties: {
+					'bar': {
+						mno: 'mno'
+					},
+					'ghi': {
+						jkl: 'jkl'
+					},
+					'anotherArray': [ '3', '4' ]
+				}
+			};
 
 			metawidget.util.combineInspectionResults( existingInspectionResult, newInspectionResult );
 
-			expect( existingInspectionResult[0]._root ).toBe( 'true' );
-			expect( existingInspectionResult[0].name ).toBe( 'new abc' );
-			expect( existingInspectionResult[0].foo ).toBe( 'foo' );
-			expect( existingInspectionResult[0].def ).toBe( 'def' );
-			expect( existingInspectionResult[1].name ).toBe( 'bar' );
-			expect( existingInspectionResult[1].baz ).toBe( 'baz' );
-			expect( existingInspectionResult[1].mno ).toBe( 'mno' );
-			expect( existingInspectionResult[2].name ).toBe( 'ghi' );
-			expect( existingInspectionResult[2].jkl ).toBe( 'jkl' );
-			expect( existingInspectionResult.length ).toBe( 3 );
+			expect( existingInspectionResult.name ).toBe( 'new abc' );
+			expect( existingInspectionResult.foo ).toBe( 'foo' );
+			expect( existingInspectionResult.def ).toBe( 'def' );
+			expect( existingInspectionResult.properties.bar.baz ).toBe( 'baz' );
+			expect( existingInspectionResult.properties.bar.mno ).toBe( 'mno' );
+			expect( existingInspectionResult.properties.ghi.jkl ).toBe( 'jkl' );
+			expect( existingInspectionResult.properties.anArray[0] ).toBe( '0' );
+			expect( existingInspectionResult.properties.anArray[1] ).toBe( '1' );
+			expect( existingInspectionResult.properties.anArray[2] ).toBe( '2' );
+			expect( existingInspectionResult.properties.anArray.length ).toBe( 3 );
+			expect( existingInspectionResult.properties.anotherArray[0] ).toBe( '3' );
+			expect( existingInspectionResult.properties.anotherArray[1] ).toBe( '4' );
+			expect( existingInspectionResult.properties.anotherArray.length ).toBe( 2 );
 		} );
 	} );
 
-	describe( "The split and joinArray functions", function() {
+	describe( "The stripSection function", function() {
 
-		it( "splits a string into an array", function() {
+		it( "strips section names", function() {
 
-			expect( metawidget.util.splitArray( 'foo,bar,baz' )[0] ).toBe( 'foo' );
-			expect( metawidget.util.splitArray( 'foo,bar,baz' )[1] ).toBe( 'bar' );
-			expect( metawidget.util.splitArray( 'foo,bar,baz' )[2] ).toBe( 'baz' );
-			expect( metawidget.util.splitArray( 'foo,bar,baz' ).length ).toBe( 3 );
+			var attributes = {
+				section: ''
+			}
+			expect( metawidget.util.stripSection( attributes ) ).toBe( '' );
+			expect( attributes.section ).toBeUndefined();
 
-			expect( metawidget.util.splitArray( 'foo,bar\\,bar,baz' )[0] ).toBe( 'foo' );
-			expect( metawidget.util.splitArray( 'foo,bar\\,bar,baz' )[1] ).toBe( "bar,bar" );
-			expect( metawidget.util.splitArray( 'foo,bar\\,bar,baz' )[2] ).toBe( 'baz' );
-			expect( metawidget.util.splitArray( 'foo,bar\\,bar,baz' ).length ).toBe( 3 );
+			var attributes = {
+				section: []
+			}
+			expect( metawidget.util.stripSection( attributes ) ).toBe( '' );
+			expect( attributes.section ).toBeUndefined();
 
-			expect( metawidget.util.splitArray( 'foo,\\,bar\\,bar\\,,baz' )[0] ).toBe( 'foo' );
-			expect( metawidget.util.splitArray( 'foo,\\,bar\\,bar\\,,baz' )[1] ).toBe( ",bar,bar," );
-			expect( metawidget.util.splitArray( 'foo,\\,bar\\,bar\\,,baz' )[2] ).toBe( 'baz' );
-			expect( metawidget.util.splitArray( 'foo,\\,bar\\,bar\\,,baz' ).length ).toBe( 3 );
-		} );
+			attributes = {
+				section: 'Foo'
+			}
+			expect( metawidget.util.stripSection( attributes ) ).toBe( 'Foo' );
+			expect( attributes.section ).toBeUndefined();
 
-		it( "joins an array into a string", function() {
+			attributes = {
+				section: [ 'Foo' ]
+			}
+			expect( metawidget.util.stripSection( attributes ) ).toBe( 'Foo' );
+			expect( attributes.section ).toBeUndefined();
 
-			expect( metawidget.util.joinArray( [ 'foo', 'bar', 'baz' ] ) ).toBe( 'foo,bar,baz' );
-			expect( metawidget.util.joinArray( [ 'foo', 'bar,bar', 'baz' ] ) ).toBe( 'foo,bar\\,bar,baz' );
-			expect( metawidget.util.joinArray( [ 'foo', ',bar,bar,', 'baz' ] ) ).toBe( 'foo,\\,bar\\,bar\\,,baz' );
+			attributes = {
+				section: [ 'Foo', 'Bar' ]
+			}
+			expect( metawidget.util.stripSection( attributes ) ).toBe( 'Foo' );
+			expect( attributes.section[0] ).toBe( 'Bar' );
+			expect( attributes.section.length ).toBe( 1 );
 		} );
 	} );
 } )();

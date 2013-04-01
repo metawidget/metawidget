@@ -41,13 +41,13 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+	metawidget.widgetprocessor.IdProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
 		// Dangerous to reassign an id. For example, some JQuery UI widgets
 		// assign temporary ids when they wrap widgets
 
 		if ( !widget.hasAttribute( 'id' ) ) {
-			var id = metawidget.util.getId( attributes, mw );
+			var id = metawidget.util.getId( elementName, attributes, mw );
 
 			if ( id !== undefined ) {
 				widget.setAttribute( 'id', id );
@@ -68,7 +68,7 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+	metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
 		if ( attributes.required === 'true' ) {
 			widget.setAttribute( 'required', 'required' );
@@ -95,7 +95,7 @@ var metawidget = metawidget || {};
 		mw._simpleBindingProcessorBindings = {};
 	};
 
-	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
 		if ( widget.tagName === 'BUTTON' ) {
 			widget.onclick = function() {
@@ -112,7 +112,7 @@ var metawidget = metawidget || {};
 			var typeAndNames = metawidget.util.splitPath( mw.path );
 			var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
 
-			if ( attributes._root !== 'true' && toInspect !== undefined ) {
+			if ( elementName !== 'entity' && toInspect !== undefined ) {
 				value = toInspect[attributes.name];
 			} else {
 				value = toInspect;

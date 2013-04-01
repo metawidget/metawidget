@@ -44,7 +44,7 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, attributes, container, mw ) {
+	metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 		if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 			return;
@@ -68,7 +68,7 @@ var metawidget = metawidget || {};
 		var _labelRequiredStyleClass = config !== undefined ? config.labelRequiredStyleClass : undefined;
 		var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
 
-		this.layoutWidget = function( widget, attributes, container, mw ) {
+		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 			if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 				return;
@@ -81,7 +81,7 @@ var metawidget = metawidget || {};
 
 			// Label
 
-			if ( attributes.name !== undefined || attributes.label !== undefined ) {
+			if ( attributes.name !== undefined || attributes.title !== undefined ) {
 
 				var labelDiv = document.createElement( 'div' );
 				if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
@@ -109,8 +109,8 @@ var metawidget = metawidget || {};
 					}
 				}
 
-				if ( attributes.label !== undefined ) {
-					label.innerHTML = attributes.label + _labelSuffix;
+				if ( attributes.title !== undefined ) {
+					label.innerHTML = attributes.title + _labelSuffix;
 				} else {
 					label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + _labelSuffix;
 				}
@@ -155,7 +155,7 @@ var metawidget = metawidget || {};
 
 			var table = document.createElement( 'table' );
 			if ( mw.path !== undefined ) {
-				var id = metawidget.util.getId( {}, mw );
+				var id = metawidget.util.getId( "property", {}, mw );
 				if ( id !== undefined ) {
 					table.setAttribute( 'id', 'table-' + id );
 				}
@@ -221,7 +221,7 @@ var metawidget = metawidget || {};
 			table.appendChild( document.createElement( 'tbody' ) );
 		},
 
-		this.layoutWidget = function( widget, attributes, container, mw ) {
+		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 			// Do not render empty stubs
 
@@ -248,7 +248,7 @@ var metawidget = metawidget || {};
 				}
 
 				if ( idPrefix !== undefined ) {
-					if ( attributes._root !== 'true' ) {
+					if ( elementName !== 'entity' ) {
 						if ( idPrefix.charAt( idPrefix.length - 1 ) !== '-' ) {
 							idPrefix += metawidget.util.capitalize( attributes.name );
 						} else {
@@ -275,7 +275,7 @@ var metawidget = metawidget || {};
 				tr = tbody.childNodes[tbody.childNodes.length - 1];
 			}
 
-			if ( attributes.name !== undefined || attributes.label !== undefined ) {
+			if ( attributes.name !== undefined || attributes.title !== undefined ) {
 				// Label
 
 				var th = document.createElement( 'th' );
@@ -298,8 +298,8 @@ var metawidget = metawidget || {};
 					label.setAttribute( 'id', idPrefix + '-label' );
 				}
 
-				if ( attributes.label !== undefined ) {
-					label.innerHTML = attributes.label + ':';
+				if ( attributes.title !== undefined ) {
+					label.innerHTML = attributes.title + ':';
 				} else {
 					label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
 				}
@@ -437,7 +437,7 @@ var metawidget = metawidget || {};
 
 		metawidget.layout._createSectionLayoutDecorator( config, decorator, decoratorName );
 
-		decorator.layoutWidget = function( widget, attributes, container, mw ) {
+		decorator.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 			// If our delegate is itself a NestedSectionLayoutDecorator, strip
 			// the section
@@ -449,7 +449,7 @@ var metawidget = metawidget || {};
 				var section = metawidget.util.stripSection( attributes );
 
 				if ( section === undefined || section === container[decoratorName].currentSection ) {
-					return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+					return decorator.getDelegate().layoutWidget( widget, elementName, attributes, container, mw );
 				}
 
 				// End nested LayoutDecorator's current section
@@ -470,16 +470,21 @@ var metawidget = metawidget || {};
 				// Stay where we are?
 
 				if ( attributes.section === undefined || attributes.section === container[decoratorName].currentSection ) {
-					return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+					return decorator.getDelegate().layoutWidget( widget, elementName, attributes, container, mw );
 				}
 
 				// For each of the new sections...
 
-				var sections = metawidget.util.splitArray( attributes.section );
+				var sections = attributes.section;
+
+				if ( ! ( sections instanceof Array ) ) {
+					sections = [ sections ];
+				}
+
 				var currentSections;
 
 				if ( container[decoratorName].currentSection !== undefined ) {
-					currentSections = metawidget.util.splitArray( container[decoratorName].currentSection );
+					currentSections = container[decoratorName].currentSection;
 				} else {
 					currentSections = [];
 				}
@@ -500,20 +505,19 @@ var metawidget = metawidget || {};
 					// ...add a heading
 					//
 					// Note: we cannot stop/start the delegate layout here. It
-					// is
-					// tempting, but remember addSectionWidget needs to use
+					// is tempting, but remember addSectionWidget needs to use
 					// the delegate. If you stop/add section heading/start the
 					// delegate, who is laying out the section heading?
 
 					decorator.addSectionWidget( section, level, attributes, container, mw );
 				}
 
-				container[decoratorName].currentSection = attributes.section;
+				container[decoratorName].currentSection = sections;
 			}
 
 			// Add component as normal
 
-			decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+			decorator.getDelegate().layoutWidget( widget, elementName, attributes, container, mw );
 		};
 	};
 
@@ -534,12 +538,11 @@ var metawidget = metawidget || {};
 		metawidget.layout._createSectionLayoutDecorator( config, decorator, decoratorName );
 
 		// Tag this NestedSectionLayoutDecorator so that
-		// FlatSectionLayoutDecorator
-		// can recognize it
+		// FlatSectionLayoutDecorator can recognize it
 
 		decorator.nestedSectionLayoutDecorator = true;
 
-		decorator.layoutWidget = function( widget, attributes, container, mw ) {
+		decorator.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 			// Stay where we are?
 
@@ -547,9 +550,9 @@ var metawidget = metawidget || {};
 
 			if ( section === undefined || section === container[decoratorName].currentSection ) {
 				if ( container[decoratorName].currentSectionWidget ) {
-					return decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
+					return decorator.getDelegate().layoutWidget( widget, elementName, attributes, container[decoratorName].currentSectionWidget, mw );
 				}
-				return decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+				return decorator.getDelegate().layoutWidget( widget, elementName, attributes, container, mw );
 			}
 
 			// End current section
@@ -565,7 +568,7 @@ var metawidget = metawidget || {};
 			// No new section?
 
 			if ( section === '' ) {
-				decorator.getDelegate().layoutWidget( widget, attributes, container, mw );
+				decorator.getDelegate().layoutWidget( widget, elementName, attributes, container, mw );
 				return;
 			}
 
@@ -576,7 +579,7 @@ var metawidget = metawidget || {};
 
 			// Add component to new section
 
-			decorator.getDelegate().layoutWidget( widget, attributes, container[decoratorName].currentSectionWidget, mw );
+			decorator.getDelegate().layoutWidget( widget, elementName, attributes, container[decoratorName].currentSectionWidget, mw );
 		};
 
 		var _superEndContainerLayout = decorator.endContainerLayout;
@@ -612,7 +615,7 @@ var metawidget = metawidget || {};
 		var h1 = document.createElement( 'h' + ( level + 1 ) );
 		h1.innerHTML = section;
 
-		this.getDelegate().layoutWidget( h1, {
+		this.getDelegate().layoutWidget( h1, "property", {
 			wide: 'true'
 		}, container, mw );
 	};
@@ -635,7 +638,7 @@ var metawidget = metawidget || {};
 
 		var div = document.createElement( 'div' );
 		div.setAttribute( 'title', section );
-		this.getDelegate().layoutWidget( div, {
+		this.getDelegate().layoutWidget( div, "property", {
 			wide: 'true'
 		}, container, mw );
 

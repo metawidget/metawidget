@@ -80,7 +80,7 @@ var metawidget = metawidget || {};
 	 * mw.path.
 	 */
 
-	metawidget.util.getId = function( attributes, mw ) {
+	metawidget.util.getId = function( elementName, attributes, mw ) {
 
 		if ( mw.path !== undefined ) {
 			var splitPath = mw.path.split( '.' );
@@ -89,7 +89,7 @@ var metawidget = metawidget || {};
 				splitPath = splitPath.slice( 1 );
 			}
 
-			if ( attributes.name && attributes._root !== 'true' ) {
+			if ( attributes.name && elementName !== 'entity' ) {
 				splitPath.push( attributes.name );
 			} else if ( splitPath.length == 0 ) {
 				return undefined;
@@ -253,17 +253,24 @@ var metawidget = metawidget || {};
 			return;
 		}
 
-		for( var prop in newInspectionResult ) {
-			
-			var value = newInspectionResult[prop];
-						
-			if ( value instanceof Object ) {
-				existingInspectionResult[prop] = existingInspectionResult[prop] || {};
-				metawidget.util.combineInspectionResults( existingInspectionResult[prop], value );
+		// Combine based on propertyName
+
+		for ( var propertyName in newInspectionResult ) {
+
+			var value = newInspectionResult[propertyName];
+
+			if ( value instanceof Array ) {
+				existingInspectionResult[propertyName] = value.slice( 0 );
 				continue;
 			}
 
-			existingInspectionResult[prop] = value;
+			if ( value instanceof Object && !( value instanceof Array )) {
+				existingInspectionResult[propertyName] = existingInspectionResult[propertyName] || {};
+				metawidget.util.combineInspectionResults( existingInspectionResult[propertyName], value );
+				continue;
+			}
+
+			existingInspectionResult[propertyName] = value;
 		}
 	};
 
@@ -281,58 +288,25 @@ var metawidget = metawidget || {};
 			return undefined;
 		}
 
-		var sections = metawidget.util.splitArray( section );
+		if ( !( section instanceof Array )) {
+			delete attributes.section;
+			return section;
+		}
 
-		switch ( sections.length ) {
+		switch ( section.length ) {
 
 			// (empty String means 'end current section')
 			case 0:
+				delete attributes.section;
 				return '';
 
 			case 1:
 				delete attributes.section;
-				return sections[0];
+				return section[0];
 
 			case 2:
-				attributes.section = metawidget.util.joinArray( sections.slice( 1 ) );
-				return sections[0];
+				attributes.section = section.slice( 1 );
+				return section[0];
 		}
-	};
-
-	/**
-	 * Similar to String.split(',') but recognizes escaped commas.
-	 */
-
-	metawidget.util.splitArray = function( toSplit ) {
-
-		var array = [];
-
-		var regex = /(?:[^\,\\]+|\\.)+/g;
-		var matched;
-		while ( matched = regex.exec( toSplit ) ) {
-			array.push( matched[0].replace( /\\,/g, ',' ) );
-		}
-
-		return array;
-	};
-
-	/**
-	 * Similar to Array.join(',') but escapes any commas.
-	 */
-
-	metawidget.util.joinArray = function( array ) {
-
-		var toReturn = '';
-
-		for ( var loop = 0, length = array.length; loop < length; loop++ ) {
-
-			if ( toReturn.length !== 0 ) {
-				toReturn += ',';
-			}
-
-			toReturn += array[loop].replace( /,/g, '\\,' );
-		}
-
-		return toReturn;
 	};
 } )();

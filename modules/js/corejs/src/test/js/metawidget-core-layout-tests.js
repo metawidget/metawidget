@@ -28,8 +28,8 @@
 			var widget2 = document.createElement( 'widget2' );
 			var container = document.createElement( 'metawidget' );
 
-			layout.layoutWidget( widget1, {}, container );
-			layout.layoutWidget( widget2, {}, container );
+			layout.layoutWidget( widget1, "property", {}, container );
+			layout.layoutWidget( widget2, "property", {}, container );
 
 			expect( container.childNodes[0] ).toBe( widget1 );
 			expect( container.childNodes[1] ).toBe( widget2 );
@@ -44,15 +44,15 @@
 			var widget1 = document.createElement( 'widget1' );
 			var container = document.createElement( 'metawidget' );
 
-			layout.layoutWidget( stub, {}, container );
-			layout.layoutWidget( widget1, {}, container );
+			layout.layoutWidget( stub, "property", {}, container );
+			layout.layoutWidget( widget1, "property", {}, container );
 
 			expect( container.childNodes[0] ).toBe( widget1 );
 			expect( container.childNodes.length ).toBe( 1 );
 
 			stub.appendChild( document.createElement( 'widget2' ) );
 
-			layout.layoutWidget( stub, {}, container );
+			layout.layoutWidget( stub, "property", {}, container );
 
 			expect( container.childNodes[1] ).toBe( stub );
 			expect( container.childNodes.length ).toBe( 2 );
@@ -76,12 +76,12 @@
 				path: "testPath"
 			};
 
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				name: "widget1",
 			}, container, mw );
-			layout.layoutWidget( widget2, {
+			layout.layoutWidget( widget2, "property", {
 				name: "widget2",
-				label: "widgetLabel 2"
+				title: "widgetLabel 2"
 			}, container, mw );
 
 			expect( container.childNodes[0].toString() ).toBe( 'div class="outerStyle"' );
@@ -109,8 +109,8 @@
 			var widget1 = document.createElement( 'widget1' );
 			var container = document.createElement( 'metawidget' );
 
-			layout.layoutWidget( stub, {}, container );
-			layout.layoutWidget( widget1, {}, container );
+			layout.layoutWidget( stub, "property", {}, container );
+			layout.layoutWidget( widget1, "property", {}, container );
 
 			expect( container.childNodes[0].toString() ).toBe( 'div' );
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
@@ -120,7 +120,7 @@
 
 			stub.appendChild( document.createElement( 'widget2' ) );
 
-			layout.layoutWidget( stub, {}, container );
+			layout.layoutWidget( stub, "property", {}, container );
 
 			expect( container.childNodes[1].toString() ).toBe( 'div' );
 			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
@@ -140,7 +140,7 @@
 			var container = document.createElement( 'metawidget' );
 			var mw = {};
 
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				name: "widget1",
 			}, container, mw );
 
@@ -165,7 +165,7 @@
 			var container = document.createElement( 'metawidget' );
 			var mw = {};
 
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				name: "widget1",
 			}, container, mw );
 
@@ -194,12 +194,12 @@
 				path: "testPath"
 			};
 
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				name: "widget1",
 			}, container, mw );
-			layout.layoutWidget( widget2, {
+			layout.layoutWidget( widget2, "property", {
 				name: "widget2",
-				label: "widgetLabel 2"
+				title: "widgetLabel 2"
 			}, container, mw );
 
 			expect( container.childNodes[0].toString() ).toBe( 'div' );
@@ -234,12 +234,12 @@
 				path: "testPath"
 			};
 
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				name: "widget1"
 			}, container, mw );
-			layout.layoutWidget( widget2, {
+			layout.layoutWidget( widget2, "property", {
 				name: "widget2",
-				label: "widgetLabel 2",
+				title: "widgetLabel 2",
 				required: "true"
 			}, container, mw );
 
@@ -279,15 +279,15 @@
 				path: "testPath"
 			};
 
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				name: "widget1"
 			}, container, mw );
-			layout.layoutWidget( widget2, {
+			layout.layoutWidget( widget2, "property", {
 				name: "widget2",
-				label: "widgetLabel 2",
+				title: "widgetLabel 2",
 				required: "true"
 			}, container, mw );
-			layout.layoutWidget( widget3, {
+			layout.layoutWidget( widget3, "property", {
 				name: "widget3",
 				readOnly: "true",
 				required: "true"
@@ -332,13 +332,13 @@
 			};
 
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				"name": "widget1",
 				"required": "true"
 			}, container, mw );
-			layout.layoutWidget( widget2, {
+			layout.layoutWidget( widget2, "property", {
 				"name": "widget2",
-				"label": "widgetLabel 2"
+				"title": "widgetLabel 2"
 			}, container, mw );
 
 			expect( container.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
@@ -395,7 +395,7 @@
 			};
 
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				"name": "widget1",
 			}, container, mw );
 
@@ -432,9 +432,7 @@
 			var mw = {};
 
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( widget1, {
-				"_root": "true",
-			}, container, mw );
+			layout.layoutWidget( widget1, "entity", {}, container, mw );
 
 			expect( container.childNodes[0].toString() ).toBe( 'table' );
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
@@ -457,8 +455,8 @@
 			var container = document.createElement( 'metawidget' );
 
 			layout.startContainerLayout( container, {} );
-			layout.layoutWidget( stub, {}, container, {} );
-			layout.layoutWidget( widget1, {}, container, {} );
+			layout.layoutWidget( stub, "property", {}, container, {} );
+			layout.layoutWidget( widget1, "property", {}, container, {} );
 
 			expect( container.childNodes[0].toString() ).toBe( 'table' );
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
@@ -473,7 +471,7 @@
 
 			stub.appendChild( document.createElement( 'widget2' ) );
 
-			layout.layoutWidget( stub, {}, container, {} );
+			layout.layoutWidget( stub, "property", {}, container, {} );
 
 			expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
 			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td colspan="2"' );
@@ -497,19 +495,19 @@
 			};
 
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), {
+			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 				"required": "true"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2' ), {
+			layout.layoutWidget( document.createElement( 'widget2' ), "property", {
 				"name": "widget2",
-				"label": "widgetLabel 2"
+				"title": "widgetLabel 2"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget3' ), {
+			layout.layoutWidget( document.createElement( 'widget3' ), "property", {
 				"name": "widget3",
 				"large": "true"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget4' ), {
+			layout.layoutWidget( document.createElement( 'widget4' ), "property", {
 				"name": "widget4"
 			}, container, mw );
 
@@ -568,12 +566,12 @@
 			var mw = {};
 
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				name: "widget1",
 			}, container, mw );
-			layout.layoutWidget( widget2, {
+			layout.layoutWidget( widget2, "property", {
 				name: "widget2",
-				label: "widgetLabel 2"
+				title: "widgetLabel 2"
 			}, container, mw );
 
 			expect( container.childNodes[0].toString() ).toBe( 'table' );
@@ -617,10 +615,10 @@
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( widget1, {
+			layout.layoutWidget( widget1, "property", {
 				"name": "widget1",
 			}, container, mw );
-			layout.layoutWidget( widget2, {
+			layout.layoutWidget( widget2, "property", {
 				"name": "widget2",
 				"section": "New Section"
 			}, container, mw );
@@ -662,29 +660,29 @@
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), {
+			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.1' ), {
+			layout.layoutWidget( document.createElement( 'widget2.1' ), "property", {
 				"name": "widget2.1",
 				"section": "Section 1"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.2' ), {
+			layout.layoutWidget( document.createElement( 'widget2.2' ), "property", {
 				"name": "widget2.2",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.3.1' ), {
+			layout.layoutWidget( document.createElement( 'widget2.3.1' ), "property", {
 				"name": "widget2.3.1",
-				"section": "Section 1,Section 1.1"
+				"section": [ "Section 1", "Section 1.1" ]
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget3' ), {
+			layout.layoutWidget( document.createElement( 'widget3' ), "property", {
 				"name": "widget3",
 				"section": "Section 2"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget4' ), {
+			layout.layoutWidget( document.createElement( 'widget4' ), "property", {
 				"name": "widget4",
 				"section": ""
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget5' ), {
+			layout.layoutWidget( document.createElement( 'widget5' ), "property", {
 				"name": "widget5"
 			}, container, mw );
 
@@ -715,29 +713,29 @@
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), {
+			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.1' ), {
+			layout.layoutWidget( document.createElement( 'widget2.1' ), "property", {
 				"name": "widget2.1",
 				"section": "Section 1"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.2' ), {
+			layout.layoutWidget( document.createElement( 'widget2.2' ), "property", {
 				"name": "widget2.2",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.3.1' ), {
+			layout.layoutWidget( document.createElement( 'widget2.3.1' ), "property", {
 				"name": "widget2.3.1",
-				"section": "Section 1,Section 1.1"
+				"section": [ "Section 1", "Section 1.1" ]
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget3' ), {
+			layout.layoutWidget( document.createElement( 'widget3' ), "property", {
 				"name": "widget3",
 				"section": "Section 2"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget4' ), {
+			layout.layoutWidget( document.createElement( 'widget4' ), "property", {
 				"name": "widget4",
 				"section": ""
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget5' ), {
+			layout.layoutWidget( document.createElement( 'widget5' ), "property", {
 				"name": "widget5"
 			}, container, mw );
 
@@ -770,29 +768,29 @@
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), {
+			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.1' ), {
+			layout.layoutWidget( document.createElement( 'widget2.1' ), "property", {
 				"name": "widget2.1",
 				"section": "Section 1"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.2' ), {
+			layout.layoutWidget( document.createElement( 'widget2.2' ), "property", {
 				"name": "widget2.2",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.3.1' ), {
+			layout.layoutWidget( document.createElement( 'widget2.3.1' ), "property", {
 				"name": "widget2.3.1",
-				"section": "Section 1,Section 1.1"
+				"section": [ "Section 1", "Section 1.1" ]
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget3' ), {
+			layout.layoutWidget( document.createElement( 'widget3' ), "property", {
 				"name": "widget3",
 				"section": "Section 2"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget4' ), {
+			layout.layoutWidget( document.createElement( 'widget4' ), "property", {
 				"name": "widget4",
 				"section": ""
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget5' ), {
+			layout.layoutWidget( document.createElement( 'widget5' ), "property", {
 				"name": "widget5"
 			}, container, mw );
 
@@ -834,7 +832,7 @@
 						startContainerLayoutCalled = true;
 					},
 
-					layoutWidget: function( widget, attributes, container, mw ) {
+					layoutWidget: function( widget, elementName, attributes, container, mw ) {
 
 						layoutWidgetCalled = true;
 					},
@@ -858,7 +856,7 @@
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), {
+			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
 			layout.endContainerLayout( container, mw );
@@ -894,7 +892,7 @@
 						startContainerLayoutCalled = true;
 					},
 
-					layoutWidget: function( widget, attributes, container, mw ) {
+					layoutWidget: function( widget, elementName, attributes, container, mw ) {
 
 						layoutWidgetCalled = true;
 					},
@@ -918,7 +916,7 @@
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), {
+			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
 			layout.endContainerLayout( container, mw );

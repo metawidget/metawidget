@@ -472,15 +472,19 @@
 
 		it( "defensively copies attributes", function() {
 
-			var inspectionResult = [ {
-				foo: "bar"
-			} ];
+			var inspectionResult = {
+				properties: {
+					prop1: {
+						"foo": "bar"
+					}
+				}
+			};
 
 			var widgetBuilt = 0;
 			var sawReadOnly = 0;
 			var element = document.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
-				widgetBuilder: function( attributes, mw ) {
+				widgetBuilder: function( elementName, attributes, mw ) {
 
 					attributes.foo = 'baz';
 					widgetBuilt++;
@@ -495,19 +499,19 @@
 			mw.readOnly = true;
 
 			mw.buildWidgets( inspectionResult );
-			expect( inspectionResult[0].foo ).toBe( "bar" );
+			expect( inspectionResult.properties.prop1.name ).toBeUndefined();
+			expect( inspectionResult.properties.prop1.foo ).toBe( "bar" );
 			expect( widgetBuilt ).toBe( 1 );
 			expect( sawReadOnly ).toBe( 1 );
 
-			// _root nodes too
+			// root nodes too
 
-			inspectionResult = [ {
-				_root: "true",
+			inspectionResult = {
 				foo: "bar"
-			} ];
+			};
 
 			mw.buildWidgets( inspectionResult );
-			expect( inspectionResult[0].foo ).toBe( "bar" );
+			expect( inspectionResult.foo ).toBe( "bar" );
 			expect( widgetBuilt ).toBe( 2 );
 			expect( sawReadOnly ).toBe( 2 );
 		} );
@@ -542,7 +546,7 @@
 
 			var element = document.createElement( 'div' );
 			var stub = document.createElement( 'stub' );
-			stub.setAttribute( 'label', 'Foo' );
+			stub.setAttribute( 'title', 'Foo' );
 			stub.appendChild( document.createElement( 'input' ) );
 			element.appendChild( stub );
 
@@ -558,7 +562,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub label="Foo"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub title="Foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
@@ -580,7 +584,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
 			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
-			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub label="Foo"' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub title="Foo"' );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes.length ).toBe( 1 );
 		} );

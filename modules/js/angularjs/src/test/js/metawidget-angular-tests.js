@@ -418,7 +418,7 @@
 
 					var mw = document.createElement( 'metawidget' );
 					var stub = document.createElement( 'stub' );
-					stub.setAttribute( 'label', 'Foo' );
+					stub.setAttribute( 'title', 'Foo' );
 					stub.appendChild( document.createElement( 'input' ) );
 					mw.appendChild( stub );
 
@@ -429,7 +429,7 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toBe( '<table><tbody><tr><th><label>Foo:</label></th><td><stub label="Foo" class="ng-scope"><input/></stub></td><td/></tr></tbody></table>' );
+						expect( mw.innerHTML ).toBe( '<table><tbody><tr><th><label>Foo:</label></th><td><stub title="Foo" class="ng-scope"><input/></stub></td><td/></tr></tbody></table>' );
 					} );
 				} );
 
@@ -562,7 +562,7 @@
 											"properties": {
 												"bar": {
 													type: "array",
-													lookup: "Abc,Def,Ghi"
+													enum: [ "Abc", "Def", "Ghi" ]
 												}
 											}
 										};
@@ -613,7 +613,7 @@
 									"properties": {
 										"bar": {
 											componentType: "radio",
-											lookup: "Abc,Def,Ghi"
+											enum: [ "Abc", "Def", "Ghi" ]
 										}
 									}
 								};
@@ -638,6 +638,72 @@
 						expect( mw.innerHTML ).toContain( '"/>Abc</label><label><input type="radio" value="Def" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
 						expect( mw.innerHTML ).toContain( '"/>Def</label><label><input type="radio" value="Ghi" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
 						expect( mw.innerHTML ).toContain( '"/>Ghi</label></div></td><td/></tr></tbody></table>' );
+					} );
+				} );
+
+				it( "guards against infinite recursion", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									"properties": {
+										"foo": {}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'root' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.childNodes[0].tagName ).toBe( 'TABLE' );
+						expect( mw.childNodes[0].childNodes[0].tagName ).toBe( 'TBODY' );
+
+						var childNode = mw.childNodes[0].childNodes[0];
+						var idMiddle = 'Foo';
+
+						for ( var loop = 0; loop < 10; loop++ ) {
+
+							expect( childNode.childNodes[0].tagName ).toBe( 'TR' );
+							expect( childNode.childNodes[0].id ).toBe( 'table-root' + idMiddle + '-row' );
+							expect( childNode.childNodes[0].childNodes[0].tagName ).toBe( 'TH' );
+							expect( childNode.childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-label-cell' );
+							expect( childNode.childNodes[0].childNodes[0].childNodes[0].tagName ).toBe( 'LABEL' );
+							expect( childNode.childNodes[0].childNodes[0].childNodes[0].getAttribute( 'for' ) ).toBe( 'root' + idMiddle );
+							expect( childNode.childNodes[0].childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-label' );
+							expect( childNode.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+							expect( childNode.childNodes[0].childNodes[1].tagName ).toBe( 'TD' );
+							expect( childNode.childNodes[0].childNodes[1].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-cell' );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].tagName ).toBe( 'METAWIDGET' );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].getAttribute( 'id' ) ).toBe( 'root' + idMiddle );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].tagName ).toBe( 'TABLE' );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].tagName ).toBe( 'TBODY' );
+							expect( childNode.childNodes[0].childNodes.length ).toBe( 3 );
+							expect( childNode.childNodes.length ).toBe( 1 );
+
+							idMiddle += 'Foo';
+							childNode = childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0];
+						}
+
+						expect( childNode.childNodes.length ).toBe( 0 );
+
+						expect( mw.childNodes[0].childNodes.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
 
@@ -786,15 +852,19 @@
 					injector.invoke( function( $rootScope ) {
 
 						var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( $rootScope.$new() );
-						var inspectionResult = [ {
-							name: "foo",
-							value: "{{1+2}}"
-						} ];
+						var inspectionResult = {
+							properties: {
+								"foo": {
+									value: "{{1+2}}",
+									ignore: 3,
+									missing: undefined
+								}
+							}
+						};
 
 						inspectionResult = processor.processInspectionResult( inspectionResult );
 
-						expect( inspectionResult[0].name ).toBe( 'foo' );
-						expect( inspectionResult[0].value ).toBe( '3' );
+						expect( inspectionResult.properties.foo.value ).toBe( '3' );
 					} );
 				} );
 
@@ -806,10 +876,14 @@
 							var controller = myApp.controller( 'TestController', function( $scope ) {
 
 								$scope.readOnlyz = true;
-								
+
 								$scope.foo = {
-									edit: function() {},
-									save: function() {}
+									edit: function() {
+
+									},
+									save: function() {
+
+									}
 								};
 
 								$scope.metawidgetConfig = {
@@ -851,13 +925,13 @@
 										var scope = angular.element( body ).scope();
 										scope.readOnlyz = false;
 										scope.$digest();
-										
+
 										expect( mw.innerHTML ).toNotContain( 'fooEdit' );
 										expect( mw.innerHTML ).toContain( '<button id="fooSave" ng-click="foo.save()">Save</button>' );
 
 										scope.readOnlyz = true;
 										scope.$digest();
-										
+
 										expect( mw.innerHTML ).toNotContain( 'fooSave' );
 										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()">Edit</button>' );
 									} );
@@ -887,7 +961,7 @@
 				// Inputs
 
 				var widget = document.createElement( 'input' );
-				processor.processWidget( widget, attributes, mw );
+				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-model' ) ).toBe( 'testPath.foo' );
 				expect( widget.getAttribute( 'ng-required' ) ).toBe( 'true' );
 				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( '3' );
@@ -896,7 +970,7 @@
 				// Textareas (same as inputs, not same as outputs)
 
 				widget = document.createElement( 'textarea' );
-				processor.processWidget( widget, attributes, mw );
+				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-model' ) ).toBe( 'testPath.foo' );
 
 				// Buttons
@@ -905,7 +979,7 @@
 					name: "bar"
 				};
 				widget = document.createElement( 'button' );
-				processor.processWidget( widget, attributes, mw );
+				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-click' ) ).toBe( 'testPath.bar()' );
 				expect( widget.getAttribute( 'ng-required' ) ).toBe( null );
 				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
@@ -914,7 +988,7 @@
 				// Outputs
 
 				widget = document.createElement( 'output' );
-				processor.processWidget( widget, attributes, mw );
+				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath.bar' );
 
 				attributes = {
@@ -922,16 +996,13 @@
 					type: "array"
 				}
 				widget = document.createElement( 'output' );
-				processor.processWidget( widget, attributes, mw );
+				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar.join(', ')" );
 
 				// Root-level
 
-				attributes = {
-					_root: 'true'
-				};
 				widget = document.createElement( 'output' );
-				processor.processWidget( widget, attributes, mw );
+				processor.processWidget( widget, 'entity', {}, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath' );
 			} );
 		} );
@@ -951,12 +1022,12 @@
 				};
 
 				var widget = document.createElement( 'input' );
-				processor.processWidget( widget, attributes, mw );
+				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-model' ) ).toBeDefined();
 
 				widget = document.createElement( 'input' );
 				widget.overridden = true;
-				processor.processWidget( widget, attributes, mw );
+				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-model' ) ).toBe( null );
 			} );
 		} );

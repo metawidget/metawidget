@@ -573,9 +573,9 @@ public final class XmlUtils {
 	 * http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
 	 */
 
-	public static String elementToJson( Element inspectionResult ) {
+	public static String elementToJsonSchema( Element inspectionResult ) {
 
-		return elementToJson( inspectionResult, null, null, false );
+		return elementToJsonSchema( inspectionResult, null, null, false );
 	}
 
 	/**
@@ -588,66 +588,76 @@ public final class XmlUtils {
 	 *            exclude attributes from the root node
 	 */
 
-	// TODO: output as JSON schema
-	// TODO: change collections into enum [] arrays
-
-	public static String elementToJson( Element inspectionResult, String[] excludeAttributes, String[] excludeElementWithTrueAttributes, boolean excludeRootAttributes ) {
+	public static String elementToJsonSchema( Element inspectionResult, String[] excludeAttributes, String[] excludeElementWithTrueAttributes, boolean excludeRootAttributes ) {
 
 		StringBuilder jsonBuilder = new StringBuilder();
 		Element entity = XmlUtils.getFirstChildElement( inspectionResult );
 
-		// Write out the root of the inspectionResult...
-
 		if ( entity != null ) {
 
-			if ( !excludeRootAttributes ) {
-				String properties = attributesToJson( entity.getAttributes(), excludeAttributes, null );
-
-				if ( properties.length() > 0 ) {
-
-					jsonBuilder.append( "{\"_root\":\"true\"," );
-					jsonBuilder.append( properties );
-					jsonBuilder.append( "}" );
-				}
-			}
-
-			// ...then for each child property...
+			// For each child property...
 
 			Element property = XmlUtils.getFirstChildElement( entity );
 
 			while ( property != null ) {
 
-				// ...and for each attribute of that property...
+				if ( property.hasAttribute( NAME ) ) {
 
-				String properties = attributesToJson( property.getAttributes(), excludeAttributes, excludeElementWithTrueAttributes );
+					// ...and for each attribute of that property...
 
-				// ...write it out...
+					String properties = attributesToJsonSchema( property.getAttributes(), excludeAttributes, excludeElementWithTrueAttributes );
 
-				if ( properties.length() > 0 ) {
+					// ...write it out
 
-					if ( jsonBuilder.length() > 0 ) {
-						jsonBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
+					if ( properties.length() > 0 ) {
+
+						if ( jsonBuilder.length() > 0 ) {
+							jsonBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
+						}
+
+						jsonBuilder.append( '\"' );
+						jsonBuilder.append( property.getAttribute( NAME ) );
+						jsonBuilder.append( "\":{" );
+						jsonBuilder.append( properties );
+						jsonBuilder.append( '}' );
 					}
-
-					jsonBuilder.append( "{" );
-					jsonBuilder.append( properties );
-					jsonBuilder.append( "}" );
 				}
 
 				property = XmlUtils.getNextSiblingElement( property );
 			}
+
+			if ( jsonBuilder.length() > 0 ) {
+				jsonBuilder.insert( 0, "\"properties\":{" );
+				jsonBuilder.append( '}' );
+			}
+
+			// ...then write out the root of the inspectionResult...
+
+			if ( !excludeRootAttributes ) {
+
+				String properties = attributesToJsonSchema( entity.getAttributes(), excludeAttributes, null );
+
+				if ( properties.length() > 0 ) {
+
+					if ( jsonBuilder.length() > 0 ) {
+						jsonBuilder.insert( 0, "," );
+					}
+
+					jsonBuilder.insert( 0, properties );
+				}
+			}
 		}
 
-		// ...inside an array
+		// ...all inside an Object
 
-		return "[" + jsonBuilder.toString() + "]";
+		return "{" + jsonBuilder.toString() + "}";
 	}
 
 	//
 	// Private methods
 	//
 
-	private static String attributesToJson( NamedNodeMap attributes, String[] excludeAttributes, String[] excludeElementWithTrueAttributes ) {
+	private static String attributesToJsonSchema( NamedNodeMap attributes, String[] excludeAttributes, String[] excludeElementWithTrueAttributes ) {
 
 		StringBuilder propertyBuilder = new StringBuilder();
 
@@ -668,33 +678,55 @@ public final class XmlUtils {
 
 			// JSON Schema alignment
 
+			if ( NAME.equals( elementName ) ) {
+				continue;
+			}
+
+			boolean treatAsArray = false;
+
 			if ( MINIMUM_VALUE.equals( elementName ) ) {
 				elementName = "minimum";
 			} else if ( MAXIMUM_VALUE.equals( elementName ) ) {
 				elementName = "maximum";
 			} else if ( MINIMUM_LENGTH.equals( elementName ) ) {
 				elementName = "minLength";
-			} else if ( MAXIMUM_VALUE.equals( elementName ) ) {
+			} else if ( MAXIMUM_LENGTH.equals( elementName ) ) {
 				elementName = "maxLength";
+			} else if ( LABEL.equals( elementName ) ) {
+				elementName = "title";
+			} else if ( LOOKUP.equals( elementName ) ) {
+				elementName = "enum";
+				treatAsArray = true;
+			} else if ( LOOKUP_LABELS.equals( elementName ) ) {
+				elementName = "enumTitles";
+				treatAsArray = true;
+			} else if ( SECTION.equals( elementName ) ) {
+				treatAsArray = true;
 			} else {
 
 				// Best guess everything else (e.g. 'foo-bar' becomes 'fooBar')
 
 				elementName = StringUtils.camelCase( elementName, '-' );
+			}
 
-				if ( propertyBuilder.length() > 0 ) {
-					propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
-				}
+			if ( propertyBuilder.length() > 0 ) {
+				propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
 			}
 
 			propertyBuilder.append( "\"" + elementName + "\"" );
 			propertyBuilder.append( StringUtils.SEPARATOR_COLON_CHAR );
 
-			// (escape commas for lookups)
-
-			nodeValue = nodeValue.replaceAll( "\\\\,", "\\\\\\\\," );
-
-			propertyBuilder.append( "\"" + nodeValue + "\"" );
+			if ( treatAsArray ) {
+				propertyBuilder.append( "[" );
+				String asArray = ArrayUtils.toString( ArrayUtils.fromString( nodeValue ), "\"", true, true );
+				asArray = asArray.replaceAll( "([^\\\\])\"(.+)", "$1\",\"$2" );
+				propertyBuilder.append( asArray );
+				propertyBuilder.append( "]" );
+			} else {
+				propertyBuilder.append( "\"" );
+				propertyBuilder.append( nodeValue );
+				propertyBuilder.append( "\"" );
+			}
 		}
 
 		return propertyBuilder.toString();

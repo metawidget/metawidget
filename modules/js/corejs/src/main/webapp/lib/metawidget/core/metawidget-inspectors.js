@@ -27,10 +27,7 @@ var metawidget = metawidget || {};
 	/**
 	 * @namespace Inspectors.
 	 *            <p>
-	 *            Inspectors return inspection results as an <em>array</em> of
-	 *            objects. JSON Schmea is not used, because JavaScript
-	 *            implementations allow for implementation dependent iteration
-	 *            order of objects with named properties.
+	 *            Inspectors return inspection results using JSON Schema.
 	 */
 
 	metawidget.inspector = metawidget.inspector || {};
@@ -90,9 +87,9 @@ var metawidget = metawidget || {};
 	 *        <p>
 	 *        In principal, ordering of property names within JavaScript objects
 	 *        is not guaranteed. In practice, most browsers respect the original
-	 *        ordering that properties were defined in. However you may want to
-	 *        precede PropertyTypeInspector with a custom Inspector that imposes
-	 *        a defined ordering.
+	 *        order that properties were defined in. However you may want to
+	 *        combine PropertyTypeInspector with a custom Inspector that imposes
+	 *        a defined ordering using 'propertyOrder' attributes.
 	 */
 
 	metawidget.inspector.PropertyTypeInspector = function() {

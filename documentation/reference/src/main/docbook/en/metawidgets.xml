@@ -587,6 +587,16 @@
 } );</programlisting>
 				</section>
 
+				<section id="section-metawidgets-web-javascript-inspectionresults">
+					<title>Inspection Results</title>
+					
+					<para>
+						Internally, <filename>metawidget.js</filename> uses
+						<ulink url="http://json-schema.org">JSON Schema</ulink> as its
+						inspection result format.
+					</para>
+				</section>
+				
 			</section>
 
 			<section id="section-metawidgets-web-jsp">

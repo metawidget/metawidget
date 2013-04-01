@@ -51,7 +51,7 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
+	metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder.prototype.buildWidget = function( elementName, attributes, mw ) {
 
 		// Not for us?
 
@@ -110,13 +110,13 @@ var metawidget = metawidget || {};
 		mw._jQueryUIBindingProcessorBindings = {};
 	};
 
-	metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWidget = function( widget, attributes, mw ) {
+	metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
 		var value;
 		var typeAndNames = metawidget.util.splitPath( mw.path );
 		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
 
-		if ( attributes._root !== 'true' && toInspect ) {
+		if ( elementName !== 'entity' && toInspect ) {
 			value = toInspect[attributes.name];
 		} else {
 			value = toInspect;
@@ -216,9 +216,9 @@ var metawidget = metawidget || {};
 
 		if ( tabs === undefined ) {
 			tabs = document.createElement( 'div' );
-			tabs.setAttribute( 'id', metawidget.util.getId( attributes, mw ) + '-tabs' );
+			tabs.setAttribute( 'id', metawidget.util.getId( "property", attributes, mw ) + '-tabs' );
 			tabs.appendChild( document.createElement( 'ul' ) );
-			this.getDelegate().layoutWidget( tabs, {
+			this.getDelegate().layoutWidget( tabs, "property", {
 				wide: "true"
 			}, container, mw );
 
@@ -283,16 +283,20 @@ var metawidget = metawidget || {};
 			this._pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
 				var nestedWidget = document.createElement( 'div' );
-				var nestedMetawidget = $( nestedWidget ).metawidget( mw.options );
+
+				// Duck-type our 'pipeline' as the 'config' of the nested
+				// Metawidget. This neatly passes everything down, including a
+				// decremented 'maximumInspectionDepth'
+
+				var nestedMetawidget = $( nestedWidget ).metawidget( mw._pipeline );
 
 				nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || attributes.readOnly === 'true' );
 				var nestedToInspect = mw.toInspect;
 				var nestedPath = metawidget.util.appendPath( attributes, mw );
 
 				// Attach ourselves as a property of the tag, rather than try to
-				// 'extend' the built-in HTML tags. This is used by
-				// SimpleBindingProcessor,
-				// among others
+				// 'extend' the built-in HTML tags. This is used
+				// by SimpleBindingProcessor, among others
 
 				nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
 
@@ -320,8 +324,6 @@ var metawidget = metawidget || {};
 				element.removeChild( childNode );
 				this._overriddenNodes.push( childNode );
 			}
-
-			this._refresh();
 		},
 
 		/**
@@ -358,7 +360,6 @@ var metawidget = metawidget || {};
 
 			this._superApply( arguments );
 			this._pipeline.configure( this.options );
-			this._refresh();
 		},
 
 		/**
@@ -372,6 +373,7 @@ var metawidget = metawidget || {};
 			}
 
 			this._super( key, value );
+			this._refresh();
 		},
 
 		/**

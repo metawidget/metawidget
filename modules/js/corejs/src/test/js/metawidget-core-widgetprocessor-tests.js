@@ -26,7 +26,7 @@
 
 			var widget = document.createElement( 'input' );
 			var mw = {};
-			processor.processWidget( widget, {
+			processor.processWidget( widget, "property", {
 				name: "foo"
 			}, mw );
 			expect( widget.toString() ).toBe( 'input id="foo"' );
@@ -35,7 +35,7 @@
 
 			widget = document.createElement( 'input' );
 			mw.path = 'foo.bar';
-			processor.processWidget( widget, {
+			processor.processWidget( widget, "property", {
 				name: "baz"
 			}, mw );
 			expect( widget.toString() ).toBe( 'input id="fooBarBaz"' );
@@ -44,9 +44,7 @@
 
 			widget = document.createElement( 'input' );
 			mw.path = 'foo.bar';
-			processor.processWidget( widget, {
-				_root: "true"
-			}, mw );
+			processor.processWidget( widget, "entity", {}, mw );
 			expect( widget.toString() ).toBe( 'input id="fooBar"' );
 		} );
 
@@ -57,7 +55,7 @@
 			var widget = document.createElement( 'input' );
 			widget.setAttribute( 'id', 'do-not-touch' );
 			var mw = {};
-			processor.processWidget( widget, {
+			processor.processWidget( widget, "property", {
 				name: "foo"
 			}, mw );
 			expect( widget.toString() ).toBe( 'input id="do-not-touch"' );
@@ -73,15 +71,15 @@
 			var widget = document.createElement( 'input' );
 			var mw = {};
 
-			processor.processWidget( widget, {}, mw );
+			processor.processWidget( widget, "property", {}, mw );
 			expect( widget.hasAttribute( 'required' ) ).toBe( false );
 
-			processor.processWidget( widget, {
+			processor.processWidget( widget, "property", {
 				required: "false"
 			}, mw );
 			expect( widget.hasAttribute( 'required' ) ).toBe( false );
 
-			processor.processWidget( widget, {
+			processor.processWidget( widget, "property", {
 				required: "true"
 			}, mw );
 			expect( widget.getAttribute( 'required' ) ).toBe( 'required' );
@@ -113,7 +111,7 @@
 
 			var widget = document.createElement( 'input' );
 			widget.setAttribute( 'id', 'fooId' );
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'input id="fooId" name="fooId"' );
 			expect( widget.value ).toBe( 'fooValue' );
 
@@ -123,14 +121,14 @@
 				name: "bar"
 			};
 			widget = document.createElement( 'button' );
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'button' );
 			expect( widget.onclick.toString() ).toContain( 'return mw.toInspect[attributes.name]();' );
 
 			// Outputs
 
 			widget = document.createElement( 'output' );
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( 'barValue' );
 
@@ -140,7 +138,7 @@
 				name: "baz"
 			};
 			widget = document.createElement( 'textarea' );
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'textarea' );
 			expect( widget.innerHTML ).toBe( 'bazValue' );
 
@@ -151,7 +149,7 @@
 			};
 			widget = document.createElement( 'input' );
 			widget.setAttribute( 'type', 'checkbox' );
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'input type="checkbox"' );
 			expect( widget.checked ).toBe( true );
 
@@ -161,17 +159,14 @@
 				name: "select"
 			};
 			widget = document.createElement( 'select' );
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'select' );
 			expect( widget.value ).toBe( false );
 
 			// Root-level
 
-			attributes = {
-				_root: "true"
-			};
 			widget = document.createElement( 'output' );
-			processor.processWidget( widget, attributes, mw );
+			processor.processWidget( widget, "entity", {}, mw );
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( mw.toInspect );
 		} );

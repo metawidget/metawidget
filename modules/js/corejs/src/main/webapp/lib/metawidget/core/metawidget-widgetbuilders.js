@@ -69,7 +69,7 @@ var metawidget = metawidget || {};
 			}
 		};
 
-		this.buildWidget = function( attributes, mw ) {
+		this.buildWidget = function( elementName, attributes, mw ) {
 
 			for ( var loop = 0, length = _widgetBuilders.length; loop < length; loop++ ) {
 
@@ -77,9 +77,9 @@ var metawidget = metawidget || {};
 				var widgetBuilder = _widgetBuilders[loop];
 
 				if ( widgetBuilder.buildWidget !== undefined ) {
-					widget = widgetBuilder.buildWidget( attributes, mw );
+					widget = widgetBuilder.buildWidget( elementName, attributes, mw );
 				} else {
-					widget = widgetBuilder( attributes, mw );
+					widget = widgetBuilder( elementName, attributes, mw );
 				}
 
 				if ( widget !== undefined ) {
@@ -116,13 +116,13 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
+	metawidget.widgetbuilder.OverriddenWidgetBuilder.prototype.buildWidget = function( elementName, attributes, mw ) {
 
 		if ( mw.overriddenNodes === undefined ) {
 			return;
 		}
 
-		var overrideId = metawidget.util.getId( attributes, mw );
+		var overrideId = metawidget.util.getId( elementName, attributes, mw );
 
 		for ( var loop = 0, length = mw.overriddenNodes.length; loop < length; loop++ ) {
 
@@ -146,7 +146,7 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function( attributes, mw ) {
+	metawidget.widgetbuilder.ReadOnlyWidgetBuilder.prototype.buildWidget = function( elementName, attributes, mw ) {
 
 		// Not read-only?
 
@@ -160,7 +160,7 @@ var metawidget = metawidget || {};
 			return document.createElement( 'stub' );
 		}
 
-		if ( attributes.lookup !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date' ) {
+		if ( attributes['enum'] !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date' ) {
 
 			if ( attributes.masked === 'true' ) {
 
@@ -194,110 +194,103 @@ var metawidget = metawidget || {};
 		if ( ! ( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
-		
+
 		var _buttonStyleClass = config !== undefined ? config.buttonStyleClass : undefined;
 
-		this.buildWidget = function( attributes, mw ) {
+		this.buildWidget = function( elementName, attributes, mw ) {
 
 			// Hidden
-	
+
 			if ( attributes.hidden === 'true' ) {
 				return document.createElement( 'stub' );
 			}
-	
+
 			// Select box
-	
-			if ( attributes.lookup !== undefined && attributes.lookup !== '' ) {
-	
-				var lookupSplit = metawidget.util.splitArray( attributes.lookup );
-				var lookupLabelsSplit = undefined;
-	
-				if ( attributes.lookupLabels !== undefined && attributes.lookupLabels != '' ) {
-					lookupLabelsSplit = metawidget.util.splitArray( attributes.lookupLabels );
-				}
-	
+
+			if ( attributes['enum'] !== undefined ) {
+
 				// Multi-select and radio buttons
-	
+
 				if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
-	
+
 					var div = document.createElement( 'div' );
-	
-					for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
-	
+
+					for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
+
 						// Uses 'implicit label association':
 						// http://www.w3.org/TR/html4/interact/forms.html#h-17.9.1
-	
+
 						var label = document.createElement( 'label' );
 						var option = document.createElement( 'input' );
-	
+
 						if ( attributes.componentType !== undefined ) {
 							option.setAttribute( 'type', attributes.componentType );
 						} else {
 							option.setAttribute( 'type', 'checkbox' );
 						}
-						option.setAttribute( 'value', lookupSplit[loop] );
+						option.setAttribute( 'value', attributes['enum'][loop] );
 						label.appendChild( option );
-	
-						if ( lookupLabelsSplit !== undefined ) {
-							label.appendChild( document.createTextNode( lookupLabelsSplit[loop] ) );
+
+						if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
+							label.appendChild( document.createTextNode( attributes.enumTitles[loop] ) );
 						} else {
-							label.appendChild( document.createTextNode( lookupSplit[loop] ) );
+							label.appendChild( document.createTextNode( attributes['enum'][loop] ) );
 						}
-	
+
 						div.appendChild( label );
 					}
-	
+
 					return div;
 				}
-	
+
 				// Single-select
-	
+
 				var select = document.createElement( 'select' );
-	
+
 				if ( attributes.required === undefined || attributes.required === 'false' ) {
 					select.appendChild( document.createElement( 'option' ) );
 				}
-	
-				for ( var loop = 0, length = lookupSplit.length; loop < length; loop++ ) {
+
+				for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
 					var option = document.createElement( 'option' );
-	
+
 					// HtmlUnit needs an 'option' to have a 'value', even if the
 					// same as the innerHTML
-	
-					option.setAttribute( 'value', lookupSplit[loop] );
-	
-					if ( lookupLabelsSplit !== undefined ) {
-						option.innerHTML = lookupLabelsSplit[loop];
+
+					option.setAttribute( 'value', attributes['enum'][loop] );
+
+					if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
+						option.innerHTML = attributes.enumTitles[loop];
 					} else {
-						option.innerHTML = lookupSplit[loop];
+						option.innerHTML = attributes['enum'][loop];
 					}
-	
+
 					select.appendChild( option );
 				}
 				return select;
 			}
-	
+
 			// Button
-	
+
 			if ( attributes.type === 'function' ) {
 				var button = document.createElement( 'button' );
-	
-				if ( attributes.label !== undefined ) {
-					button.innerHTML = attributes.label;
+
+				if ( attributes.title !== undefined ) {
+					button.innerHTML = attributes.title;
 				} else {
 					button.innerHTML = metawidget.util.uncamelCase( attributes.name );
 				}
-				
+
 				if ( _buttonStyleClass !== undefined ) {
 					button.setAttribute( 'class', _buttonStyleClass );
-				}				
+				}
 				return button;
 			}
-	
+
 			// Number
-	
+
 			if ( attributes.type === 'number' ) {
-	
+
 				if ( attributes.minimum !== undefined && attributes.maximum !== undefined ) {
 					var range = document.createElement( 'input' );
 					range.setAttribute( 'type', 'range' );
@@ -305,59 +298,59 @@ var metawidget = metawidget || {};
 					range.setAttribute( 'max', attributes.maximum );
 					return range;
 				}
-	
+
 				var number = document.createElement( 'input' );
 				number.setAttribute( 'type', 'number' );
 				return number;
 			}
-	
+
 			// Boolean
-	
+
 			if ( attributes.type === 'boolean' ) {
 				var checkbox = document.createElement( 'input' );
 				checkbox.setAttribute( 'type', 'checkbox' );
 				return checkbox;
 			}
-	
+
 			// Date
-	
+
 			if ( attributes.type === 'date' ) {
 				var date = document.createElement( 'input' );
 				date.setAttribute( 'type', 'date' );
 				return date;
 			}
-	
+
 			// String
-	
+
 			if ( attributes.type === 'string' ) {
-	
+
 				if ( attributes.masked === 'true' ) {
 					var password = document.createElement( 'input' );
 					password.setAttribute( 'type', 'password' );
-	
+
 					if ( attributes.maxLength !== undefined ) {
 						password.setAttribute( 'maxlength', attributes.maxLength );
 					}
-	
+
 					return password;
 				}
-	
+
 				if ( attributes.large === 'true' ) {
 					return document.createElement( 'textarea' );
 				}
-	
+
 				var text = document.createElement( 'input' );
 				text.setAttribute( 'type', 'text' );
-	
+
 				if ( attributes.maxLength !== undefined ) {
 					text.setAttribute( 'maxlength', attributes.maxLength );
 				}
-	
+
 				return text;
 			}
-	
+
 			// Not simple, but don't expand
-	
+
 			if ( attributes.dontExpand === 'true' ) {
 				var text = document.createElement( 'input' );
 				text.setAttribute( 'type', 'text' );

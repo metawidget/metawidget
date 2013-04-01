@@ -22,6 +22,15 @@
 		</ul>
 		
 		<p>
+			This release contains breaking changes. We apologise for the disruption and provide
+			this <a href="#">Metawidget 3.2 to 3.3 Migration Guide</a>.
+			- JSON Schema
+			- properties property, not array
+			- elementName added to WidgetBuilder.buildWidget, WidgetProcessor.processWidget, Layout.layoutWidget
+			- label->title, lookup->enum, lookupLabels->enumTitles, minimumValue->minimum, maximumValue->maximum, minimumLength->minLength, maximumLength->maxLength
+		</p>
+
+		<p>
 			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
 		</p>
 

@@ -129,7 +129,7 @@
 			expect( element( '#table-current tbody tr:eq(3) td output' ).attr( 'id' ) ).toBe( 'currentGender' );
 			expect( element( '#table-current tbody tr:eq(3) td:eq(1)' ).text() ).toBe( '' );
 			expect( element( '#currentGender' ).text() ).toBe( 'Male' );
-			expect( element( '#table-current tbody tr:eq(4) th' ).text() ).toBe( 'Date Of Birth:' );
+			expect( element( '#table-current tbody tr:eq(4) th' ).text() ).toBe( 'Date of Birth:' );
 			expect( element( '#table-current tbody tr:eq(4) th label' ).attr( 'for' ) ).toBe( 'currentDateOfBirth' );
 			expect( element( '#table-current tbody tr:eq(4) td output' ).attr( 'id' ) ).toBe( 'currentDateOfBirth' );
 

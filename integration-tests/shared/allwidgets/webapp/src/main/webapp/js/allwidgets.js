@@ -67,7 +67,7 @@ var metawidget = metawidget || {};
 		"properties": {
 			"textbox": {
 				type: "string",
-				lookup: "",
+				enum: undefined,
 				masked: "",
 				large: "",
 				maxLength: "",
@@ -98,19 +98,18 @@ var metawidget = metawidget || {};
 				type: "boolean"
 			},
 			"dropdown": {
-				lookup: "foo1,dropdown1,bar1",
-				lookupLabels: ""
+				enum: [ "foo1", "dropdown1", "bar1" ],
+				enumTitles: []
 			},
 			"dropdownWithLabels": {
-				lookup: "foo2,dropdown2,bar2,baz2",
-				lookupLabels: "Foo #2,Dropdown #2,Bar #2,Baz #2"
+				enum: [ "foo2", "dropdown2", "bar2", "baz2" ],
+				enumTitles: [ "Foo #2", "Dropdown #2", "Bar #2", "Baz #2" ]
 			},
 			"notNullDropdown": {
-				lookup: "-1,0,1",
+				enum: [ "-1", "0", "1" ],
 				required: "true"
 			},
-			"nestedWidgets": {
-			},
+			"nestedWidgets": {},
 			"readOnlyNestedWidgets": {
 				readOnly: "true"
 			},

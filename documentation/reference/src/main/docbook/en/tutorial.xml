@@ -1036,8 +1036,8 @@ public class Main {
 					Suppose we want the <parameter>name</parameter> property to be a required field. Such
 					metadata cannot be represented using standard JavaScript Object Notation (JSON) so
 					Metawidget needs a way to gather the additional information. There are several ways to do this, but the simplest
-					for now is to add a custom <emphasis>Inspector</emphasis> (text to add is highlighted) and return
-					a JSON Schema:
+					for now is to add a custom <emphasis>Inspector</emphasis> (text to add is highlighted) that returns
+					a <ulink url="http://json-schema.org">JSON Schema</ulink>:
 				</para>
 				
 				<programlisting language="xml">var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' )<symbol>, {
@@ -1095,8 +1095,13 @@ public class Main {
 	inspector: <symbol>new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(),</symbol>
 		function( toInspect, type, names ) {
 		
-				return [
-					{ name: "name", <symbol><emphasis role="strike">type: "string",</emphasis></symbol><co id="co-introduction-javascript-part1-compositeinspector" linkends="ca-introduction-javascript-part1-compositeinspector" /> required: "true" }
+				return {
+					properties: {					
+						name: {
+							<symbol><emphasis role="strike">type: "string",</emphasis></symbol><co id="co-introduction-javascript-part1-compositeinspector" linkends="ca-introduction-javascript-part1-compositeinspector" />
+							required: "true"
+						}
+					}
 				];
 			}
 		}
@@ -1144,12 +1149,24 @@ public class Main {
 
 				<programlisting language="java">function( toInspect, type, names ) {
 		
-	return [
-		{ name: "name", required: "true" }<symbol>,
-		{ name: "notes", type: "string", large: "true" },
-		{ name: "employer", type: "string", section: "Work" },
-		{ name: "department", type: "string" }</symbol>
-	];
+	return {
+		properties:
+			name: {
+				required: "true"
+			},
+			<symbol>notes: {
+				type: "string",
+				large: "true"
+			},
+			employer: {
+				type: "string",
+				section: "Work"
+			},
+			department: {
+				type: "string"
+			}</symbol>
+		}
+	};
 }</programlisting>
 				
 				<para>
@@ -1175,12 +1192,24 @@ public class Main {
 	inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(),
 		function( toInspect, type, names ) {
 				
-			return [
-				{ name: "name", required: "true" },
-				{ name: "notes", type: "string", large: "true" },
-				{ name: "employer", type: "string", section: "Work" },
-				{ name: "department", type: "string" }
-			];
+			return {
+				properties:
+					name: {
+						required: "true"
+					},
+					notes: {
+						type: "string",
+						large: "true"
+					},
+					employer: {
+						type: "string",
+						section: "Work"
+					},
+					department: {
+						type: "string"
+					}
+				}
+			};
 		} ] )<symbol>,
 		
 	layout: new metawidget.layout.HeadingTagLayoutDecorator(
@@ -1240,12 +1269,24 @@ public class Main {
 				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(),
 					function( toInspect, type, names ) {
 							
-						return [
-							{ name: "name", required: "true" },
-							{ name: "notes", type: "string", large: "true" },
-							{ name: "employer", type: "string", section: "Work" },
-							{ name: "department", type: "string" }
-						];
+						return {
+							properties:
+								name: {
+									required: "true"
+								},
+								notes: {
+									type: "string",
+									large: "true"
+								},
+								employer: {
+									type: "string",
+									section: "Work"
+								},
+								department: {
+									type: "string"
+								}
+							}
+						};
 					} ] ),
 					
 				layout: new metawidget.<symbol>jqueryui.layout.TabLayoutDecorator</symbol>(
@@ -1344,14 +1385,27 @@ public class Main {
 				</para>
 
 				<programlisting language="java">function( toInspect, type, names ) {
-				
-	return [
-		{ name: "name", required: "true" },
-		<symbol>{ name: "retired", hidden: "true" },</symbol>
-		{ name: "notes", type: "string", large: "true" },
-		{ name: "employer", type: "string", section: "Work" },
-		{ name: "department", type: "string" }
-	];
+	return {
+		properties:
+			name: {
+				required: "true"
+			},
+			<symbol>retired: {
+				hidden: "true"
+			},</symbol>			
+			notes: {
+				type: "string",
+				large: "true"
+			},
+			employer: {
+				type: "string",
+				section: "Work"
+			},
+			department: {
+				type: "string"
+			}
+		}
+	};
 }</programlisting>
 
 				<para>

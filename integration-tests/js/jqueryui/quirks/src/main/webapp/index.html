@@ -19,14 +19,32 @@
 				
 				inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 				                                      	
-																			return [
-																				{ "name": "foo", "type": "string" },
-																				{ "name": "bar", "type": "string", "section": "Section 1" },
-																				{ "name": "baz", "type": "string" },
-																				{ "name": "abc", "type": "string", "section": "Section 1,Section 1.1" },
-																				{ "name": "def", "type": "string", "section": "Section 2" },
-																				{ "name": "ghi", "type": "string", "section": "" }
-																			];
+																			return {
+																				"properties": {
+																					"foo": {
+																						"type": "string"
+																					},
+																					"bar": {
+																						"type": "string",
+																						"section": "Section 1"
+																					},
+																					"baz": {
+																						"type": "string"
+																					},
+																					"abc": {
+																						"type": "string",
+																						"section": [ "Section 1", "Section 1.1" ]
+																					},
+																					"def": {
+																						"type": "string",
+																						"section": "Section 2"
+																					},
+																					"ghi": {
+																						"type": "string",
+																						"section": ""
+																					}
+																				}
+																			};
 				                                      					} ] ),
 				                                      					
 				layout: new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.jqueryui.layout.TabLayoutDecorator( new metawidget.layout.TableLayout() ))

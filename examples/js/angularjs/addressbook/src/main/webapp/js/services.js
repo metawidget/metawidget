@@ -65,28 +65,36 @@
 								"hidden": "true"
 							},
 							"title": {
-								"lookup": "Mr,Mrs,Miss,Dr,Cpt",
-								"required": "true"
+								"enum": [ "Mr", "Mrs", "Miss", "Dr", "Cpt" ],
+								"required": "true",
+								"propertyOrder": "1"
 							},
 							"firstname": {
 								"type": "string",
-								"required": "true"
+								"required": "true",
+								"propertyOrder": "2"
 							},
 							"surname": {
 								"type": "string",
-								"required": "true"
+								"required": "true",
+								"propertyOrder": "3"
 							},
 							"gender": {
-								"lookup": "Male,Female"
+								"enum": [ "Male", "Female" ],
+								"propertyOrder": "10"
 							},
 							"address": {
-								"section": "Contact Details"
+								"section": "Contact Details",
+								"propertyOrder": "20"
 							},
-							"communications": {},
+							"communications": {
+								"propertyOrder": "21"
+							},
 							"notes": {
 								"type": "string",
 								"large": "true",
-								"section": "Other"
+								"section": "Other",
+								"propertyOrder": "30"
 							},
 							"type": {
 								"hidden": "true"
@@ -101,7 +109,9 @@
 						personalContact.properties[propertyName] = contact.properties[propertyName];
 					}
 					personalContact.properties.dateOfBirth = {
-						"type": "date"
+						"type": "date",
+						"title": "Date of Birth",
+						"propertyOrder": "11"
 					};
 					var businessContact = {
 						properties: {}
@@ -110,13 +120,15 @@
 						businessContact.properties[propertyName] = contact.properties[propertyName];
 					}
 					businessContact.properties.company = {
-						"type": "string"
+						"type": "string",
+						"propertyOrder": "4"
 					};
 					businessContact.properties.numberOfStaff = {
 						"type": "number",
 						"minimum": "0",
 						"maximum": "100",
-						"section": "Other"
+						"section": "Other",
+						"propertyOrder": "29"
 					};
 
 					switch ( type ) {
@@ -126,8 +138,8 @@
 									"firstname": {},
 									"surname": {},
 									"type": {
-										"lookup": "personal,business",
-										"lookupLabels": "Personal,Business"
+										"enum": [ "personal", "business" ],
+										"enumTitles": [ "Personal", "Business" ]
 									}
 								}
 							}
@@ -151,7 +163,7 @@
 											"type": "string"
 										},
 										"state": {
-											"lookup": "Anytown,Cyberton,Lostville,Whereverton"
+											"enum": [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
 										},
 										"postcode": {
 											"type": "string"
@@ -199,7 +211,7 @@
 
 					if ( type === 'communication' && names.length === 1 && names[0] === 'type' ) {
 						return {
-							"lookup": "Telephone,Mobile,Fax,E-mail"
+							"enum": [ "Telephone", "Mobile", "Fax", "E-mail" ]
 						};
 					}
 				} ] ),
