@@ -153,8 +153,5 @@ public class AllJarTest
 		assertTrue( !contents.contains( "loop" ) );
 		assertTrue( !contents.contains( "config." ) );
 		assertTrue( !contents.contains( "function _" ) );
-		assertTrue( !contents.contains( "mw" ) );
-
 	}
-
 }
