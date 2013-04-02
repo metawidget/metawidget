@@ -565,30 +565,15 @@ public final class XmlUtils {
 	}
 
 	/**
-	 * Convert the given Element to a String of JSON.
+	 * Convert the given Element to a JSON Schema String.
 	 * <p>
-	 * This utility method is intended for converting <code>inspection-result</code> DOMs into JSON
-	 * Schemas. This is directly compatible with the JavaScript versions of Metawidget. It can
-	 * therefore be returned by REST services (see
-	 * http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
+	 * If converting <code>inspection-result</code> DOMs into JSON Schemas, consider using this
+	 * method in conjunction with <code>JsonSchemaMappingProcessor</code>. The result is directly
+	 * compatible with the JavaScript versions of Metawidget. It can therefore be returned by REST
+	 * services (see http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
 	 */
 
 	public static String elementToJsonSchema( Element inspectionResult ) {
-
-		return elementToJsonSchema( inspectionResult, null, null, false );
-	}
-
-	/**
-	 * @param excludeAttributes
-	 *            exclude the given attributes from the JSON
-	 * @param excludeElementWithAttributes
-	 *            exclude any elements, that have one of the given attributes equal to 'true', from
-	 *            the JSON
-	 * @param excludeRootAttributes
-	 *            exclude attributes from the root node
-	 */
-
-	public static String elementToJsonSchema( Element inspectionResult, String[] excludeAttributes, String[] excludeElementWithTrueAttributes, boolean excludeRootAttributes ) {
 
 		StringBuilder jsonBuilder = new StringBuilder();
 		Element entity = XmlUtils.getFirstChildElement( inspectionResult );
@@ -597,7 +582,6 @@ public final class XmlUtils {
 
 			// For each child property...
 
-			String[] excludeAttributesPlusName = ArrayUtils.add( excludeAttributes, NAME );
 			Element property = XmlUtils.getFirstChildElement( entity );
 
 			while ( property != null ) {
@@ -606,7 +590,7 @@ public final class XmlUtils {
 
 					// ...and for each attribute of that property...
 
-					String properties = attributesToJsonSchema( property.getAttributes(), excludeAttributesPlusName, excludeElementWithTrueAttributes );
+					String properties = attributesToJsonSchema( property.getAttributes(), true );
 
 					// ...write it out
 
@@ -634,18 +618,15 @@ public final class XmlUtils {
 
 			// ...then write out the root of the inspectionResult...
 
-			if ( !excludeRootAttributes ) {
+			String properties = attributesToJsonSchema( entity.getAttributes(), false );
 
-				String properties = attributesToJsonSchema( entity.getAttributes(), excludeAttributes, null );
+			if ( properties.length() > 0 ) {
 
-				if ( properties.length() > 0 ) {
-
-					if ( jsonBuilder.length() > 0 ) {
-						jsonBuilder.insert( 0, "," );
-					}
-
-					jsonBuilder.insert( 0, properties );
+				if ( jsonBuilder.length() > 0 ) {
+					jsonBuilder.insert( 0, "," );
 				}
+
+				jsonBuilder.insert( 0, properties );
 			}
 		}
 
@@ -658,7 +639,7 @@ public final class XmlUtils {
 	// Private methods
 	//
 
-	private static String attributesToJsonSchema( NamedNodeMap attributes, String[] excludeAttributes, String[] excludeElementWithTrueAttributes ) {
+	private static String attributesToJsonSchema( NamedNodeMap attributes, boolean excludeName ) {
 
 		StringBuilder propertyBuilder = new StringBuilder();
 
@@ -669,42 +650,13 @@ public final class XmlUtils {
 			String elementName = attribute.getNodeName();
 			String nodeValue = attribute.getNodeValue();
 
-			if ( ArrayUtils.contains( excludeElementWithTrueAttributes, elementName ) && TRUE.equals( nodeValue ) ) {
-				return "";
-			}
-
-			if ( ArrayUtils.contains( excludeAttributes, elementName ) ) {
+			if ( excludeName && NAME.equals( elementName ) ) {
 				continue;
 			}
 
-			// JSON Schema alignment
+			// Best guess element names (e.g. 'foo-bar' becomes 'fooBar')
 
-			boolean treatAsArray = false;
-
-			if ( MINIMUM_VALUE.equals( elementName ) ) {
-				elementName = "minimum";
-			} else if ( MAXIMUM_VALUE.equals( elementName ) ) {
-				elementName = "maximum";
-			} else if ( MINIMUM_LENGTH.equals( elementName ) ) {
-				elementName = "minLength";
-			} else if ( MAXIMUM_LENGTH.equals( elementName ) ) {
-				elementName = "maxLength";
-			} else if ( LABEL.equals( elementName ) ) {
-				elementName = "title";
-			} else if ( LOOKUP.equals( elementName ) ) {
-				elementName = "enum";
-				treatAsArray = true;
-			} else if ( LOOKUP_LABELS.equals( elementName ) ) {
-				elementName = "enumTitles";
-				treatAsArray = true;
-			} else if ( SECTION.equals( elementName ) ) {
-				treatAsArray = true;
-			} else {
-
-				// Best guess everything else (e.g. 'foo-bar' becomes 'fooBar')
-
-				elementName = StringUtils.camelCase( elementName, '-' );
-			}
+			elementName = StringUtils.camelCase( elementName, '-' );
 
 			if ( propertyBuilder.length() > 0 ) {
 				propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
@@ -713,9 +665,9 @@ public final class XmlUtils {
 			propertyBuilder.append( "\"" + elementName + "\"" );
 			propertyBuilder.append( StringUtils.SEPARATOR_COLON_CHAR );
 
-			if ( treatAsArray ) {
+			if ( "enum".equals( elementName ) || "enumTitles".equals( elementName ) || SECTION.equals( elementName ) ) {
 				propertyBuilder.append( "[" );
-				propertyBuilder.append( arrayToJsonSchema( nodeValue ));
+				propertyBuilder.append( arrayToJsonSchema( nodeValue ) );
 				propertyBuilder.append( "]" );
 			} else {
 				propertyBuilder.append( "\"" );

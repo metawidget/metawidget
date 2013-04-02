@@ -16,8 +16,6 @@
 
 package org.metawidget.util;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -295,38 +293,19 @@ public class XmlUtilsTest
 		document = XmlUtils.documentFromString( "<inspection-result/>" );
 		assertEquals( "{}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
-		// Secure case
-
-		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" hidden=\"true\" barAttr=\"2\" data=\"bar2\"/><ignore name=\"baz\" bazAttr=\"3\" comes-after=\"bar\"/></entity></inspection-result>" );
-		assertEquals( "{\"type\":\"1\",\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"hidden\":\"true\"},\"baz\":{\"bazAttr\":\"3\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { COMES_AFTER }, null, false ) );
-		assertEquals( "{\"type\":\"1\",\"properties\":{\"baz\":{\"bazAttr\":\"3\",\"comesAfter\":\"bar\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), null, new String[] { HIDDEN }, false ) );
-		assertEquals( "{\"type\":\"1\",\"properties\":{\"baz\":{\"bazAttr\":\"3\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { COMES_AFTER }, new String[] { HIDDEN }, false ) );
-		assertEquals( "{\"properties\":{\"baz\":{\"bazAttr\":\"3\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { COMES_AFTER }, new String[] { HIDDEN }, true ) );
-
-		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" hidden=\"false\" barAttr=\"2\" data=\"bar2\"/><ignore name=\"baz\" bazAttr=\"3\" comes-after=\"bar\"/></entity></inspection-result>" );
-		assertEquals( "{\"type\":\"1\",\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"hidden\":\"false\"},\"baz\":{\"bazAttr\":\"3\",\"comesAfter\":\"bar\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), null, new String[] { HIDDEN }, false ) );
-
-		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\"><property name=\"bar\" hidden=\"true\" barAttr=\"2\" data=\"bar2\"/><ignore name=\"baz\" bazAttr=\"3\" comes-after=\"bar\"/></entity></inspection-result>" );
-		assertEquals( "{\"type\":\"1\",\"properties\":{\"baz\":{\"bazAttr\":\"3\",\"comesAfter\":\"bar\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
-
 		// Test arrays
 
-		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" lookup=\"foo\\,bar,baz\"/>></inspection-result>" );
-		assertEquals( "{\"enum\":[\"foo,bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum=\"foo\\,bar,baz\"/>></inspection-result>" );
+		assertEquals( "{\"enum\":[\"foo,bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
-		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" lookup=\"1,2,3,4,5\"/>></inspection-result>" );
-		assertEquals( "{\"enum\":[\"1\",\"2\",\"3\",\"4\",\"5\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum=\"1,2,3,4,5\"/>></inspection-result>" );
+		assertEquals( "{\"enum\":[\"1\",\"2\",\"3\",\"4\",\"5\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
-		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" lookup-labels=\"foo&quot;bar,baz\"/>></inspection-result>" );
-		assertEquals( "{\"enumTitles\":[\"foo\\\"bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum-titles=\"foo&quot;bar,baz\"/>></inspection-result>" );
+		assertEquals( "{\"enumTitles\":[\"foo\\\"bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" section=\"foo\"/>></inspection-result>" );
-		assertEquals( "{\"section\":[\"foo\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement(), new String[] { HIDDEN }, new String[] { HIDDEN }, false ) );
-
-		// Test mappings
-
-		document = XmlUtils.documentFromString( "<inspection-result><entity minimum-value=\"0\" maximum-value=\"1\" minimum-length=\"2\" maximum-length=\"3\" label=\"Foo\"/></inspection-result>" );
-		assertEquals( "{\"title\":\"Foo\",\"maxLength\":\"3\",\"maximum\":\"1\",\"minLength\":\"2\",\"minimum\":\"0\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"section\":[\"foo\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 	}
 
 	//

@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.json;
+package org.metawidget.inspector.json.schema;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -31,7 +31,8 @@ import org.eclipse.swt.widgets.Text;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.json.schema.JsonSchemaInspector;
+import org.metawidget.inspector.json.JsonInspector;
+import org.metawidget.inspector.json.JsonInspectorConfig;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
