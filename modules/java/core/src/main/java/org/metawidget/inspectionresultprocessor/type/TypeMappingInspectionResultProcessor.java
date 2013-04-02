@@ -28,7 +28,7 @@ import org.metawidget.util.CollectionUtils;
  * <p>
  * Can be configured to map, say, <code>type="string"</code> to <code>type="java.lang.String"</code>
  * . Consider using one of its pre-configured subclasses for common use cases.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -41,49 +41,26 @@ public class TypeMappingInspectionResultProcessor<M>
 
 	private Map<String, String>	mTypeMappings	= CollectionUtils.newHashMap();
 
+	private boolean				mRemoveUnmappedTypes;
+
 	//
 	// Constructor
 	//
 
 	public TypeMappingInspectionResultProcessor( TypeMappingInspectionResultProcessorConfig config ) {
 
-		this();
-
 		// Defensive copy
 
 		if ( config.getTypeMappings() != null ) {
 			mTypeMappings.putAll( config.getTypeMappings() );
 		}
-	}
 
-	/**
-	 * Protected constructor for subclasses who just define defaults.
-	 */
-
-	protected TypeMappingInspectionResultProcessor() {
-
-		// Defaults
-
-		configureDefaults( mTypeMappings );
+		mRemoveUnmappedTypes = config.isRemoveUnmappedTypes();
 	}
 
 	//
 	// Protected methods
 	//
-
-	/**
-	 * Subclasses can override this method to configure default type mappings.
-	 * <p>
-	 * Does nothing by default.
-	 * 
-	 * @param typeMappings
-	 *            to add to. Never null
-	 */
-
-	protected void configureDefaults( Map<String, String> typeMappings ) {
-
-		// Do nothing by default
-	}
 
 	@Override
 	protected void processAttributes( Map<String, String> attributes, M metawidget ) {
@@ -100,6 +77,13 @@ public class TypeMappingInspectionResultProcessor<M>
 
 		if ( mTypeMappings.containsKey( type ) ) {
 			attributes.put( TYPE, mTypeMappings.get( type ) );
+			return;
+		}
+
+		// Remove (if configured)
+
+		if ( mRemoveUnmappedTypes ) {
+			attributes.put( TYPE, null );
 		}
 	}
 }

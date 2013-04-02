@@ -36,6 +36,8 @@ public class TypeMappingInspectionResultProcessorConfig {
 
 	private Map<String, String>	mTypeMappings;
 
+	private boolean				mRemoveUnmappedTypes;
+
 	//
 	// Public methods
 	//
@@ -44,13 +46,28 @@ public class TypeMappingInspectionResultProcessorConfig {
 	 * @return this, as part of a fluent interface
 	 */
 
-	public <S, T> TypeMappingInspectionResultProcessorConfig setTypeMapping( String from, String to ) {
+	public TypeMappingInspectionResultProcessorConfig setTypeMapping( String from, String to ) {
 
 		if ( mTypeMappings == null ) {
 			mTypeMappings = CollectionUtils.newHashMap();
 		}
 
 		mTypeMappings.put( from, to );
+
+		return this;
+	}
+
+	/**
+	 * Whether to remove types that are not explicitly mapped. This can be useful if the 'raw' type
+	 * contains potentially sensitive information (e.g. fully qualified class names can expose the
+	 * internal architecture of a system to a client)
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public TypeMappingInspectionResultProcessorConfig setRemoveUnmappedTypes( boolean removeUnmappedTypes ) {
+
+		mRemoveUnmappedTypes = removeUnmappedTypes;
 
 		return this;
 	}
@@ -70,6 +87,10 @@ public class TypeMappingInspectionResultProcessorConfig {
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mRemoveUnmappedTypes, ( (TypeMappingInspectionResultProcessorConfig) that ).mRemoveUnmappedTypes ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -78,6 +99,7 @@ public class TypeMappingInspectionResultProcessorConfig {
 
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTypeMappings );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRemoveUnmappedTypes );
 
 		return hashCode;
 	}
@@ -86,8 +108,13 @@ public class TypeMappingInspectionResultProcessorConfig {
 	// Protected methods
 	//
 
-	protected Map<String,String> getTypeMappings() {
+	protected Map<String, String> getTypeMappings() {
 
 		return mTypeMappings;
+	}
+
+	protected boolean isRemoveUnmappedTypes() {
+
+		return mRemoveUnmappedTypes;
 	}
 }

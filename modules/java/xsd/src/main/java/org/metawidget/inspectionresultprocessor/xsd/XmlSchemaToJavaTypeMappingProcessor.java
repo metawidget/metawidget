@@ -18,8 +18,6 @@ package org.metawidget.inspectionresultprocessor.xsd;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Map;
 
 import org.metawidget.inspectionresultprocessor.type.TypeMappingInspectionResultProcessor;
@@ -35,47 +33,22 @@ public class XmlSchemaToJavaTypeMappingProcessor<M>
 	extends TypeMappingInspectionResultProcessor<M> {
 
 	//
-	// Protected methods
+	// Constructor
 	//
 
-	/**
-	 * Overridden to configure standard Java types by default.
-	 */
+	public XmlSchemaToJavaTypeMappingProcessor() {
 
-	@Override
-	protected void configureDefaults( Map<String, String> typeMappings ) {
-
-		// Primitive datatypes as defined by section 3.2 of XML Schema Part 2: Datatypes Second
-		// Edition
-
-		typeMappings.put( "string", String.class.getName() );
-		// boolean->boolean
-		typeMappings.put( "decimal", BigDecimal.class.getName() );
-		// float->float
-		// double->double
-		typeMappings.put( "duration", long.class.getName() );
-		typeMappings.put( "dateTime", Date.class.getName() );
-		typeMappings.put( "time", Date.class.getName() );
-		typeMappings.put( "date", Date.class.getName() );
-
-		// Derived datatypes as defined by section 3.3 of XML Schema Part 2: Datatypes Second
-		// Edition
-
-		typeMappings.put( "normalizedString", String.class.getName() );
-		typeMappings.put( "integer", int.class.getName() );
-		typeMappings.put( "nonPositiveInteger", int.class.getName() );
-		typeMappings.put( "negativeInteger", int.class.getName() );
-		// long->long
-		// int->int
-		// short->short
-		// byte->byte
-		typeMappings.put( "nonNegativeInteger", int.class.getName() );
-		typeMappings.put( "unsignedLong", long.class.getName() );
-		typeMappings.put( "unsignedInt", int.class.getName() );
-		typeMappings.put( "unsignedShort", short.class.getName() );
-		typeMappings.put( "unsignedByte", byte.class.getName() );
-		typeMappings.put( "positiveInteger", int.class.getName() );
+		this( new XmlSchemaToJavaTypeMappingProcessorConfig() );
 	}
+
+	public XmlSchemaToJavaTypeMappingProcessor( XmlSchemaToJavaTypeMappingProcessorConfig config ) {
+
+		super( config );
+	}
+
+	//
+	// Protected methods
+	//
 
 	/**
 	 * Overridden to strip off XML Schema namespaces.

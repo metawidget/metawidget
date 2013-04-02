@@ -52,14 +52,6 @@
 					</aggregations>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<!-- For JavaToJavaScriptTypeMappingProcessor -->
-				<configuration>
-					<packagingExcludes>WEB-INF/**</packagingExcludes>
-					<attachClasses>true</attachClasses>
-				</configuration>
-			</plugin>
 			<!-- For JavaScriptTestCase -->
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
