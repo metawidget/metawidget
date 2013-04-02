@@ -597,6 +597,7 @@ public final class XmlUtils {
 
 			// For each child property...
 
+			String[] excludeAttributesPlusName = ArrayUtils.add( excludeAttributes, NAME );
 			Element property = XmlUtils.getFirstChildElement( entity );
 
 			while ( property != null ) {
@@ -605,7 +606,7 @@ public final class XmlUtils {
 
 					// ...and for each attribute of that property...
 
-					String properties = attributesToJsonSchema( property.getAttributes(), excludeAttributes, excludeElementWithTrueAttributes );
+					String properties = attributesToJsonSchema( property.getAttributes(), excludeAttributesPlusName, excludeElementWithTrueAttributes );
 
 					// ...write it out
 
@@ -677,10 +678,6 @@ public final class XmlUtils {
 			}
 
 			// JSON Schema alignment
-
-			if ( NAME.equals( elementName ) ) {
-				continue;
-			}
 
 			boolean treatAsArray = false;
 
