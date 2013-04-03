@@ -109,11 +109,7 @@ var metawidget = metawidget || {};
 					}
 				}
 
-				if ( attributes.title !== undefined ) {
-					label.innerHTML = attributes.title + _labelSuffix;
-				} else {
-					label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + _labelSuffix;
-				}
+				label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + _labelSuffix;
 
 				labelDiv.appendChild( label );
 				outerDiv.appendChild( labelDiv );
@@ -298,11 +294,7 @@ var metawidget = metawidget || {};
 					label.setAttribute( 'id', idPrefix + '-label' );
 				}
 
-				if ( attributes.title !== undefined ) {
-					label.innerHTML = attributes.title + ':';
-				} else {
-					label.innerHTML = metawidget.util.uncamelCase( attributes.name ) + ':';
-				}
+				label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + ':';
 
 				th.appendChild( label );
 				tr.appendChild( th );

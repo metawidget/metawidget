@@ -275,11 +275,7 @@ var metawidget = metawidget || {};
 			if ( attributes.type === 'function' ) {
 				var button = document.createElement( 'button' );
 
-				if ( attributes.title !== undefined ) {
-					button.innerHTML = attributes.title;
-				} else {
-					button.innerHTML = metawidget.util.uncamelCase( attributes.name );
-				}
+				button.innerHTML = metawidget.util.getLabelString( attributes, mw );				
 
 				if ( _buttonStyleClass !== undefined ) {
 					button.setAttribute( 'class', _buttonStyleClass );

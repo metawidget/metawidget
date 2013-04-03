@@ -30,12 +30,26 @@ var metawidget = metawidget || {};
 
 	metawidget.util = metawidget.util || {};
 
-	/**
-	 * Uncamel cases the given name (e.g. from 'fooBarBaz' to 'Foo Bar Baz').
-	 */
+	metawidget.util.getLabelString = function( attributes, mw ) {
+		
+		// Explicit title
 
-	metawidget.util.uncamelCase = function( name ) {
+		if ( attributes.title !== undefined ) {
+			return attributes.title;
+		}
+		
+		// Localize if possible
+		
+		var name = attributes.name;
+		
+		if ( mw.bundle !== undefined ) {
+			if ( mw.bundle[name] !== undefined ) {
+				return mw.bundle[name];
+			}
+		}		
 
+		// Default name, uncamel case (e.g. from 'fooBarBaz' to 'Foo Bar Baz')
+	
 		return name.charAt( 0 ).toUpperCase() + name.slice( 1 ).replace( /([^ ])([A-Z0-9])/g, function( $1, $2, $3 ) {
 
 			return $2 + ' ' + $3;

@@ -18,20 +18,20 @@
 
 	'use strict';
 
-	describe( "The uncamelCase function", function() {
+	describe( "The getLabelString function", function() {
 
 		it( "uncamel cases strings", function() {
 
-			expect( metawidget.util.uncamelCase( 'foo' ) ).toBe( 'Foo' );
-			expect( metawidget.util.uncamelCase( 'fooBar' ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.uncamelCase( 'FooBar' ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.uncamelCase( 'FooBar1' ) ).toBe( 'Foo Bar 1' );
+			expect( metawidget.util.getLabelString( { name: 'foo' }, {} ) ).toBe( 'Foo' );
+			expect( metawidget.util.getLabelString( { name: 'fooBar' }, {} ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.getLabelString( { name: 'FooBar' }, {} ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.getLabelString( { name: 'FooBar1' }, {} ) ).toBe( 'Foo Bar 1' );
 		} );
 
 		it( "doesn't mangle strings that are already uncamel-cased", function() {
 
-			expect( metawidget.util.uncamelCase( 'Foo Bar' ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.uncamelCase( 'Foo barBaz Abc' ) ).toBe( 'Foo bar Baz Abc' );
+			expect( metawidget.util.getLabelString( { name: 'Foo Bar' }, {} ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.getLabelString( { name: 'Foo barBaz Abc' }, {} ) ).toBe( 'Foo bar Baz Abc' );
 		} );
 	} );
 

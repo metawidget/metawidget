@@ -759,5 +759,39 @@
 			expect( element.childNodes[2].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
 			expect( element.childNodes.length ).toBe( 3 );
 		} );
+
+		it( "supports internationalization", function() {
+
+			// Defaults
+
+			var element = document.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element );
+
+			mw.toInspect = {
+				foo: function() {
+
+				}
+			};
+			mw.bundle = {
+				foo: "Foo Label"
+			};
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'table' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-foo-row"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-foo-label-cell"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo Label:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'button id="foo"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Foo Label' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 1 );
+		} );
+
 	} );
 } )();
