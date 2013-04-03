@@ -80,6 +80,6 @@ public abstract class VaadinFlatSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored( Component component ) {
 
-		return ( component instanceof Stub && !( (Stub) component ).getComponentIterator().hasNext() );
+		return ( component instanceof Stub && !( (Stub) component ).iterator().hasNext() );
 	}
 }

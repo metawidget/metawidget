@@ -37,146 +37,156 @@ import com.vaadin.ui.Component;
  */
 
 public class MinimumMaximumValidatorProcessor
-	implements WidgetProcessor<Component, VaadinMetawidget> {
+    implements WidgetProcessor<Component, VaadinMetawidget> {
 
-	//
-	// Public methods
-	//
+    //
+    // Public methods
+    //
 
-	public Component processWidget( Component component, String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
+    public Component processWidget( Component component, String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
-		// If field has a minimum or maximum value...
+        // If field has a minimum or maximum value...
 
-		if ( !( component instanceof AbstractField ) ) {
-			return component;
-		}
+        if ( !( component instanceof AbstractField ) ) {
+            return component;
+        }
 
-		String minimumValue = attributes.get( MINIMUM_VALUE );
-		String maximumValue = attributes.get( MAXIMUM_VALUE );
+        String minimumValue = attributes.get( MINIMUM_VALUE );
+        String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-		if ( ( minimumValue == null || "".equals( minimumValue ) ) && ( maximumValue == null || "".equals( maximumValue ) ) ) {
-			return component;
-		}
+        if ( ( minimumValue == null || "".equals( minimumValue ) ) && ( maximumValue == null || "".equals( maximumValue ) ) ) {
+            return component;
+        }
 
-		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
+        Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
 
-		if ( clazz == null ) {
-			return component;
-		}
+        if ( clazz == null ) {
+            return component;
+        }
 
-		if ( !clazz.isPrimitive() && !Number.class.isAssignableFrom( clazz ) ) {
-			return component;
-		}
+        if ( !clazz.isPrimitive() && !Number.class.isAssignableFrom( clazz ) ) {
+            return component;
+        }
 
-		if ( char.class.equals( clazz ) || boolean.class.equals( clazz ) ) {
-			return component;
-		}
+        if ( char.class.equals( clazz ) || boolean.class.equals( clazz ) ) {
+            return component;
+        }
 
-		// ...apply a validator
+        // ...apply a validator
 
-		( (AbstractField) component ).addValidator( new MinimumMaximumValidator( clazz, minimumValue, maximumValue ) );
+        ( (AbstractField) component ).addValidator( new MinimumMaximumValidator( clazz, minimumValue, maximumValue ) );
 
-		return component;
-	}
+        return component;
+    }
 
-	//
-	// Inner Class
-	//
+    //
+    // Inner Class
+    //
 
-	private static class MinimumMaximumValidator
-		extends AbstractValidator {
+    private static class MinimumMaximumValidator
+        extends AbstractValidator {
 
-		//
-		// Private statics
-		//
+        //
+        // Private statics
+        //
 
-		private Class<?>	mNumberType;
+        private Class<?>	mNumberType;
 
-		private Object		mMinimum;
+        private Object		mMinimum;
 
-		private Object		mMaximum;
+        private Object		mMaximum;
 
-		//
-		// Constructor
-		//
+        //
+        // Constructor
+        //
 
-		public MinimumMaximumValidator( Class<?> numberType, String minimum, String maximum ) {
+        public MinimumMaximumValidator( Class<?> numberType, String minimum, String maximum ) {
 
-			super( "" );
+            super( "" );
 
-			mNumberType = numberType;
-			mMinimum = ClassUtils.parseNumber( numberType, minimum );
-			mMaximum = ClassUtils.parseNumber( numberType, maximum );
+            mNumberType = numberType;
+            mMinimum = ClassUtils.parseNumber( numberType, minimum );
+            mMaximum = ClassUtils.parseNumber( numberType, maximum );
 
-			if ( mMinimum == null ) {
-				setErrorMessage( "Must be less than " + mMaximum );
-			} else if ( mMaximum == null ) {
-				setErrorMessage( "Must be greater than " + mMinimum );
-			} else {
-				setErrorMessage( "Must be between " + mMinimum + " and " + mMaximum );
-			}
+            if ( mMinimum == null ) {
+                setErrorMessage( "Must be less than " + mMaximum );
+            } else if ( mMaximum == null ) {
+                setErrorMessage( "Must be greater than " + mMinimum );
+            } else {
+                setErrorMessage( "Must be between " + mMinimum + " and " + mMaximum );
+            }
 
-		}
+        }
 
-		//
-		// Public Methods
-		//
+        //
+        // Public Methods
+        //
 
-		public boolean isValid( Object value ) {
+        public boolean isValid( Object value ) {
 
-			if ( value == null ) {
-				return !mNumberType.isPrimitive();
-			}
+            if ( value == null ) {
+                return !mNumberType.isPrimitive();
+            }
 
-			// Range check
+            // Range check
 
-			if ( byte.class.equals( mNumberType ) || Byte.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Byte) value < (Byte) mMinimum ) {
-					return false;
-				}
-				if ( mMaximum != null && (Byte) value > (Byte) mMaximum ) {
-					return false;
-				}
-			} else if ( short.class.equals( mNumberType ) || Short.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Short) value < (Short) mMinimum ) {
-					return false;
-				}
-				if ( mMaximum != null && (Short) value > (Short) mMaximum ) {
-					return false;
-				}
-			} else if ( int.class.equals( mNumberType ) || Integer.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && ((Number) value).intValue() < (Integer) mMinimum ) {
-					return false;
-				}
-				if ( mMaximum != null && ((Number) value).intValue() > (Integer) mMaximum ) {
-					return false;
-				}
-			} else if ( long.class.equals( mNumberType ) || Long.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Long) value < (Long) mMinimum ) {
-					return false;
-				}
-				if ( mMaximum != null && (Long) value > (Long) mMaximum ) {
-					return false;
-				}
-			} else if ( float.class.equals( mNumberType ) || Float.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Float) value < (Float) mMinimum ) {
-					return false;
-				}
-				if ( mMaximum != null && (Float) value > (Float) mMaximum ) {
-					return false;
-				}
-			} else if ( double.class.equals( mNumberType ) || Double.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && (Double) value < (Double) mMinimum ) {
-					return false;
-				}
-				if ( mMaximum != null && (Double) value > (Double) mMaximum ) {
-					return false;
-				}
-			} else {
-				throw WidgetProcessorException.newException( mNumberType + " cannot be validated within min/max" );
-			}
+            if ( byte.class.equals( mNumberType ) || Byte.class.equals( mNumberType ) ) {
+                if ( mMinimum != null && (Byte) value < (Byte) mMinimum ) {
+                    return false;
+                }
+                if ( mMaximum != null && (Byte) value > (Byte) mMaximum ) {
+                    return false;
+                }
+            } else if ( short.class.equals( mNumberType ) || Short.class.equals( mNumberType ) ) {
+                if ( mMinimum != null && (Short) value < (Short) mMinimum ) {
+                    return false;
+                }
+                if ( mMaximum != null && (Short) value > (Short) mMaximum ) {
+                    return false;
+                }
+            } else if ( int.class.equals( mNumberType ) || Integer.class.equals( mNumberType ) ) {
+                if ( mMinimum != null && ((Number) value).intValue() < (Integer) mMinimum ) {
+                    return false;
+                }
+                if ( mMaximum != null && ((Number) value).intValue() > (Integer) mMaximum ) {
+                    return false;
+                }
+            } else if ( long.class.equals( mNumberType ) || Long.class.equals( mNumberType ) ) {
+                if ( mMinimum != null && (Long) value < (Long) mMinimum ) {
+                    return false;
+                }
+                if ( mMaximum != null && (Long) value > (Long) mMaximum ) {
+                    return false;
+                }
+            } else if ( float.class.equals( mNumberType ) || Float.class.equals( mNumberType ) ) {
+                if ( mMinimum != null && (Float) value < (Float) mMinimum ) {
+                    return false;
+                }
+                if ( mMaximum != null && (Float) value > (Float) mMaximum ) {
+                    return false;
+                }
+            } else if ( double.class.equals( mNumberType ) || Double.class.equals( mNumberType ) ) {
+                if ( mMinimum != null && (Double) value < (Double) mMinimum ) {
+                    return false;
+                }
+                if ( mMaximum != null && (Double) value > (Double) mMaximum ) {
+                    return false;
+                }
+            } else {
+                throw WidgetProcessorException.newException( mNumberType + " cannot be validated within min/max" );
+            }
 
-			return true;
-		}
-	}
+            return true;
+        }
+
+        @Override
+        protected boolean isValidValue(Object value) {
+            return isValid(value);
+        }
+
+        @Override
+        public Class<?> getType() {
+            return mNumberType;
+        }
+    }
 }

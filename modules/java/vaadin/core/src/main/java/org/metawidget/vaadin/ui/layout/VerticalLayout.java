@@ -54,13 +54,13 @@ public class VerticalLayout
 
 		// Do not render empty stubs
 
-		if ( component instanceof Stub && !( (Stub) component ).getComponentIterator().hasNext() ) {
+		if ( component instanceof Stub && !( (Stub) component ).iterator().hasNext() ) {
 			return;
 		}
 
 		// Add it
 
-		com.vaadin.ui.VerticalLayout layout = (com.vaadin.ui.VerticalLayout)  container.getComponentIterator().next();
+		com.vaadin.ui.VerticalLayout layout = (com.vaadin.ui.VerticalLayout)  container.iterator().next();
 		component.setWidth( "100%" );
 		layout.addComponent( component );
 	}

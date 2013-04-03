@@ -61,7 +61,7 @@ public class VaadinWidgetBuilderTest
 			widgetBuilder.buildWidget( PROPERTY, attributes, null );
 			fail();
 		} catch ( Exception e ) {
-			assertTrue( e.getCause() instanceof Slider.ValueOutOfBoundsException );
+			assertTrue( e instanceof Slider.ValueOutOfBoundsException );
 		}
 
 		// TextArea

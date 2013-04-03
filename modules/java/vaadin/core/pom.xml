@@ -11,14 +11,16 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
+		<!-- Reuse WidgetProcessors etc. Cannot do this the -->
+		<!-- other way round, as Vaadin 7 requires JDK 1.6  -->
 		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-core</artifactId>
+			<groupId>org.metawidget.modules.vaadin</groupId>
+			<artifactId>metawidget-vaadin6</artifactId>
 			<version>${project.version}</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin</artifactId>
+			<artifactId>vaadin-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -44,5 +46,18 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+	
+	<build>
+		<plugins>
+			<!-- Vaadin 7 requires 1.6 -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>

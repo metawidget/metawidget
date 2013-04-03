@@ -33,42 +33,42 @@ import com.vaadin.ui.TextField;
  */
 
 public class VerticalLayoutTest
-	extends TestCase {
+    extends TestCase {
 
-	//
-	// Public methods
-	//
+    //
+    // Public methods
+    //
 
-	public void testLayout()
-		throws Exception {
+    public void testLayout()
+        throws Exception {
 
-		VaadinMetawidget metawidget = new VaadinMetawidget();
-		ComponentContainer container = new Panel();
+        VaadinMetawidget metawidget = new VaadinMetawidget();
+        ComponentContainer container = (ComponentContainer) (new Panel(new com.vaadin.ui.VerticalLayout())).getContent();
 
-		// startLayout
+        // startLayout
 
-		VerticalLayout VerticalLayout = new VerticalLayout();
-		VerticalLayout.startContainerLayout( container, metawidget );
+        VerticalLayout VerticalLayout = new VerticalLayout();
+        VerticalLayout.startContainerLayout( container, metawidget );
 
-		assertTrue( container.getComponentIterator().next() instanceof com.vaadin.ui.VerticalLayout );
-		assertTrue( ((com.vaadin.ui.VerticalLayout) container.getComponentIterator().next()).isSpacing() );
-		assertFalse( ( metawidget.getComponentIterator().next() instanceof com.vaadin.ui.VerticalLayout ) );
+        assertTrue( container.iterator().next() instanceof com.vaadin.ui.VerticalLayout );
+        assertTrue( ((com.vaadin.ui.VerticalLayout) container.iterator().next()).isSpacing() );
+        //assertFalse( ( metawidget.iterator().next() instanceof com.vaadin.ui.VerticalLayout ) );
 
-		// layoutWidget
+        // layoutWidget
 
-		assertEquals( 0, ( (com.vaadin.ui.VerticalLayout) container.getComponentIterator().next() ).getComponentCount() );
+        assertEquals( 0, ( (com.vaadin.ui.VerticalLayout) container.iterator().next() ).getComponentCount() );
 
-		Stub stub = new Stub();
-		VerticalLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
-		assertEquals( 0, ( (com.vaadin.ui.VerticalLayout) container.getComponentIterator().next() ).getComponentCount() );
+        Stub stub = new Stub();
+        VerticalLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
+        assertEquals( 0, ( (com.vaadin.ui.VerticalLayout) container.iterator().next() ).getComponentCount() );
 
-		stub.addComponent( new Slider() );
-		VerticalLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
-		assertEquals( stub, ( (com.vaadin.ui.VerticalLayout) container.getComponentIterator().next() ).getComponent( 0 ) );
-		assertEquals( 1, ( (com.vaadin.ui.VerticalLayout) container.getComponentIterator().next() ).getComponentCount() );
+        stub.addComponent( new Slider() );
+        VerticalLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
+        assertEquals( stub, ( (com.vaadin.ui.VerticalLayout) container.iterator().next() ).getComponent( 0 ) );
+        assertEquals( 1, ( (com.vaadin.ui.VerticalLayout) container.iterator().next() ).getComponentCount() );
 
-		VerticalLayout.layoutWidget( new TextField(), PROPERTY, null, container, metawidget );
-		assertTrue( ( (com.vaadin.ui.VerticalLayout) container.getComponentIterator().next() ).getComponent( 1 ) instanceof TextField );
-		assertEquals( 2, ( (com.vaadin.ui.VerticalLayout) container.getComponentIterator().next() ).getComponentCount() );
-	}
+        VerticalLayout.layoutWidget( new TextField(), PROPERTY, null, container, metawidget );
+        assertTrue( ( (com.vaadin.ui.VerticalLayout) container.iterator().next() ).getComponent( 1 ) instanceof TextField );
+        assertEquals( 2, ( (com.vaadin.ui.VerticalLayout) container.iterator().next() ).getComponentCount() );
+    }
 }

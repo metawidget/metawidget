@@ -12,6 +12,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>core6</module>
 		<module>core</module>
 	</modules>
 

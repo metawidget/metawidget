@@ -23,6 +23,7 @@ import java.util.Map;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.vaadin.ui.Stub;
 import org.metawidget.vaadin.ui.VaadinMetawidget;
 
 import com.vaadin.ui.Component;
@@ -37,57 +38,58 @@ import com.vaadin.ui.TabSheet;
  */
 
 public class TabSheetLayoutDecorator
-	extends VaadinNestedSectionLayoutDecorator {
+    extends VaadinNestedSectionLayoutDecorator {
 
-	//
-	// Constructor
-	//
+    //
+    // Constructor
+    //
 
-	public TabSheetLayoutDecorator( LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget> config ) {
+    public TabSheetLayoutDecorator( LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget> config ) {
 
-		super( config );
-	}
+        super( config );
+    }
 
-	//
-	// Protected methods
-	//
+    //
+    // Protected methods
+    //
 
-	@Override
-	protected ComponentContainer createSectionWidget( ComponentContainer previousSectionWidget, String section, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
+    @Override
+    protected ComponentContainer createSectionWidget( ComponentContainer previousSectionWidget, String section, Map<String, String> attributes, ComponentContainer container, VaadinMetawidget metawidget ) {
 
-		TabSheet tabSheet;
+        TabSheet tabSheet;
 
-		// Whole new tabbed pane?
+        // Whole new tabbed pane?
 
-		if ( previousSectionWidget == null ) {
+        if ( previousSectionWidget == null ) {
 
-			tabSheet = new TabSheet();
-			tabSheet.setWidth( "100%" );
+            tabSheet = new TabSheet();
+            tabSheet.setWidth( "100%" );
 
-			// Add to parent container
+            // Add to parent container
 
-			Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
-			tabbedPaneAttributes.put( LABEL, "" );
-			tabbedPaneAttributes.put( LARGE, TRUE );
-			getDelegate().layoutWidget( tabSheet, PROPERTY, tabbedPaneAttributes, container, metawidget );
-		} else {
-			tabSheet = (TabSheet) previousSectionWidget.getParent();
-		}
+            Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
+            tabbedPaneAttributes.put( LABEL, "" );
+            tabbedPaneAttributes.put( LARGE, TRUE );
+            getDelegate().layoutWidget( tabSheet, PROPERTY, tabbedPaneAttributes, container, metawidget );
+        } else {
+            tabSheet = (TabSheet) previousSectionWidget.getParent().getParent();
+        }
 
-		// New tab
+        // New tab
 
-		Panel tabPanel = new Panel();
+        Stub tabPanel = new Stub();
+        tabPanel.setContent(new com.vaadin.ui.VerticalLayout());
 
-		// Tab name (possibly localized)
+        // Tab name (possibly localized)
 
-		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
+        String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( localizedSection == null ) {
-			localizedSection = section;
-		}
+        if ( localizedSection == null ) {
+            localizedSection = section;
+        }
 
-		tabSheet.addTab( tabPanel, localizedSection, null );
+        tabSheet.addTab( tabPanel, localizedSection, null );
 
-		return tabPanel;
-	}
+        return (ComponentContainer) tabPanel.getContent();
+    }
 }

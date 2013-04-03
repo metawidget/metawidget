@@ -16,11 +16,15 @@
 
 package org.metawidget.vaadin.ui;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import org.metawidget.util.CollectionUtils;
 
+import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * Stub for Vaadin environments.
@@ -37,52 +41,125 @@ import com.vaadin.ui.Panel;
  */
 
 public class Stub
-	extends Panel {
+    extends Panel implements ComponentContainer {
 
-	//
-	// Private members
-	//
+    //
+    // Private members
+    //
 
-	private Map<String, String>	mAttributes;
+    private Map<String, String>	mAttributes;
+    private VerticalLayout layout = null;
 
-	//
-	// Constructors
-	//
+    //
+    // Constructors
+    //
 
-	public Stub() {
+    public Stub() {
 
-		addStyleName( "light" );
-		((com.vaadin.ui.Layout) getContent()).setMargin( false );
-	}
+        addStyleName( "light" );
+        //((com.vaadin.ui.Layout) getContent()).setMargin( false );
+    }
 
-	/**
-	 * Convenience constructor.
-	 * <p>
-	 * Useful for creating stubs that will otherwise be empty, such as
-	 * <code>metawidget.add( new Stub( "foo" ))</code>
-	 */
+    /**
+     * Convenience constructor.
+     * <p>
+     * Useful for creating stubs that will otherwise be empty, such as
+     * <code>metawidget.add( new Stub( "foo" ))</code>
+     */
 
-	public Stub( String data ) {
+    public Stub( String data ) {
 
-		this();
-		setData( data );
-	}
+        this();
+        setData( data );
+    }
 
-	//
-	// Public methods
-	//
+    //
+    // Public methods
+    //
 
-	public void setAttribute( String name, String value ) {
+    public void setAttribute( String name, String value ) {
 
-		if ( mAttributes == null ) {
-			mAttributes = CollectionUtils.newHashMap();
-		}
+        if ( mAttributes == null ) {
+            mAttributes = CollectionUtils.newHashMap();
+        }
 
-		mAttributes.put( name, value );
-	}
+        mAttributes.put( name, value );
+    }
 
-	public Map<String, String> getAttributes() {
+    public Map<String, String> getAttributes() {
 
-		return mAttributes;
-	}
+        return mAttributes;
+    }
+
+    @Override
+    public Iterator<Component> iterator() {
+        if (layout != null) {
+            layout.iterator();
+        }
+        return super.iterator();
+    }
+
+    public void addComponent(Component c) {
+        if (layout == null) {
+            layout = new VerticalLayout();
+            layout.setMargin(true);
+
+            setContent(layout);
+        }
+        layout.addComponent(c);
+    }
+
+    public void addComponents(Component... components) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void removeComponent(Component c) {
+        layout.removeComponent(c);
+    }
+
+    public void removeAllComponents() {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void replaceComponent(Component oldComponent, Component newComponent) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Deprecated
+    public Iterator<Component> getComponentIterator() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void moveComponentsFrom(ComponentContainer source) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Deprecated
+    public void addListener(ComponentAttachListener listener) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Deprecated
+    public void removeListener(ComponentAttachListener listener) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Deprecated
+    public void addListener(ComponentDetachListener listener) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Deprecated
+    public void removeListener(ComponentDetachListener listener) {
+        // TODO Auto-generated method stub
+
+    }
 }

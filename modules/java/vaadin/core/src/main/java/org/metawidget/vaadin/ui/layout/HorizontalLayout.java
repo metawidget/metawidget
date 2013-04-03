@@ -54,13 +54,13 @@ public class HorizontalLayout
 
 		// Do not render empty stubs
 
-		if ( component instanceof Stub && !( (Stub) component ).getComponentIterator().hasNext() ) {
+		if ( component instanceof Stub && !( (Stub) component ).iterator().hasNext() ) {
 			return;
 		}
 
 		// Add it
 
-		com.vaadin.ui.HorizontalLayout layout = (com.vaadin.ui.HorizontalLayout) container.getComponentIterator().next();
+		com.vaadin.ui.HorizontalLayout layout = (com.vaadin.ui.HorizontalLayout) container.iterator().next();
 		layout.addComponent( component );
 	}
 

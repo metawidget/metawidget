@@ -76,7 +76,7 @@ public class FormLayout
 
 		// Do not render empty stubs
 
-		if ( component instanceof Stub && !( (Stub) component ).getComponentIterator().hasNext() ) {
+		if ( component instanceof Stub && !( (Stub) component ).iterator().hasNext() ) {
 			return;
 		}
 
@@ -90,7 +90,7 @@ public class FormLayout
 
 		// Add it
 
-		com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) container.getComponentIterator().next();
+		com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) container.iterator().next();
 		component.setWidth( "100%" );
 		layout.addComponent( component );
 	}

@@ -99,7 +99,7 @@ public class ReflectionBindingProcessor
 		final Class<?> fireActionOnClass = fireActionOn.getClass();
 		final String actionName = attributes.get( NAME );
 
-		button.addListener( new ClickListener() {
+		button.addClickListener(new ClickListener() {
 
 			public void buttonClick( ClickEvent event ) {
 

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+
+	<vaadinMetawidget xmlns="java:org.metawidget.vaadin.ui">
+		<widgetProcessors>
+			<array>
+				<fooActionBindingProcessor xmlns="java:org.metawidget.vaadin.ui.VaadinMetawidgetTest"/>
+			</array>
+		</widgetProcessors>		
+	</vaadinMetawidget>
+
+</metawidget>

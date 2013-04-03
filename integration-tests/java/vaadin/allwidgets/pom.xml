@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.metawidget.modules.vaadin</groupId>
-			<artifactId>metawidget-vaadin</artifactId>
+			<artifactId>metawidget-vaadin6</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin</artifactId>
-			<scope>compile</scope>			
+			<scope>compile</scope>
 		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>
