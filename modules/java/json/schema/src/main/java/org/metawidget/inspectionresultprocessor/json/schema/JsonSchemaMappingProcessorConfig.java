@@ -16,6 +16,8 @@
 
 package org.metawidget.inspectionresultprocessor.json.schema;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -31,15 +33,21 @@ public class JsonSchemaMappingProcessorConfig {
 	// Private members
 	//
 
-	private boolean	mRemoveEntityAttributes;
+	private String[]	mRemoveAttributes	= new String[] { COMES_AFTER, HIDDEN, PARAMETERIZED_TYPE };
 
 	//
 	// Public methods
 	//
 
-	public JsonSchemaMappingProcessorConfig setRemoveEntityAttributes( boolean removeEntityAttributes ) {
+	/**
+	 * Sets attributes to remove from the <tt>inspection-result</tt> entirely. This can be useful if
+	 * they contain irrelevant or potentially sensitive information (e.g. fully qualified class
+	 * names can expose the internal architecture of a system to a client).
+	 */
 
-		mRemoveEntityAttributes = removeEntityAttributes;
+	public JsonSchemaMappingProcessorConfig setRemoveAttributes( String... removeAttributes ) {
+
+		mRemoveAttributes = removeAttributes;
 
 		// Fluent interface
 
@@ -57,7 +65,7 @@ public class JsonSchemaMappingProcessorConfig {
 			return false;
 		}
 
-		if ( !ObjectUtils.nullSafeEquals( mRemoveEntityAttributes, ( (JsonSchemaMappingProcessorConfig) that ).mRemoveEntityAttributes ) ) {
+		if ( !ObjectUtils.nullSafeEquals( mRemoveAttributes, ( (JsonSchemaMappingProcessorConfig) that ).mRemoveAttributes ) ) {
 			return false;
 		}
 
@@ -68,7 +76,7 @@ public class JsonSchemaMappingProcessorConfig {
 	public int hashCode() {
 
 		int hashCode = 1;
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRemoveEntityAttributes );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRemoveAttributes );
 
 		return hashCode;
 	}
@@ -77,8 +85,8 @@ public class JsonSchemaMappingProcessorConfig {
 	// Protected methods
 	//
 
-	protected boolean getRemoveEntityAttributes() {
+	protected String[] getRemoveAttributes() {
 
-		return mRemoveEntityAttributes;
+		return mRemoveAttributes;
 	}
 }

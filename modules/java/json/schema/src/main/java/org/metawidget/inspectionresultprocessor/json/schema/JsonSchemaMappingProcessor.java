@@ -21,7 +21,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 
 /**
  * <code>InspectionResultProcessor</code> to map attribute names from
@@ -38,7 +37,7 @@ public class JsonSchemaMappingProcessor<M>
 	// Private members
 	//
 
-	private boolean mRemoveEntityAttributes;
+	private String[]	mRemoveAttributes;
 
 	//
 	// Constructor
@@ -51,7 +50,7 @@ public class JsonSchemaMappingProcessor<M>
 
 	public JsonSchemaMappingProcessor( JsonSchemaMappingProcessorConfig config ) {
 
-		mRemoveEntityAttributes = config.getRemoveEntityAttributes();
+		mRemoveAttributes = config.getRemoveAttributes();
 	}
 
 	//
@@ -61,14 +60,7 @@ public class JsonSchemaMappingProcessor<M>
 	@Override
 	protected void processTraits( Element entity, M metawidget, Object toInspect, String type, String... names ) {
 
-		if ( mRemoveEntityAttributes ) {
-			NamedNodeMap map = entity.getAttributes();
-			while( map.getLength() > 0 ) {
-				map.removeNamedItem( map.item( 0 ).getNodeName() );
-			}
-		} else {
-			mapAttributes( entity );
-		}
+		mapAttributes( entity );
 
 		// For each trait...
 
@@ -104,11 +96,13 @@ public class JsonSchemaMappingProcessor<M>
 		mapAttribute( element, MINIMUM_LENGTH, "minLength" );
 		mapAttribute( element, MAXIMUM_LENGTH, "maxLength" );
 
-		// ...always remove others
+		// ...and remove others
 
-		element.removeAttribute( COMES_AFTER );
-		element.removeAttribute( HIDDEN );
-		element.removeAttribute( PARAMETERIZED_TYPE );
+		if ( mRemoveAttributes != null ) {
+			for( String removeAttribute : mRemoveAttributes ) {
+				element.removeAttribute( removeAttribute );
+			}
+		}
 	}
 
 	//
