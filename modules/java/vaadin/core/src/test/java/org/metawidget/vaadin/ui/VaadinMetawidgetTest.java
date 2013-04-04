@@ -37,7 +37,7 @@ import org.metawidget.vaadin.ui.widgetbuilder.VaadinWidgetBuilder;
 import org.metawidget.vaadin.ui.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
-import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -96,7 +96,7 @@ public class VaadinMetawidgetTest
 		assertEquals( 1, metawidget.getMaximumInspectionDepth() );
 		assertTrue( ( (Component) metawidget.getComponent( "foo" ) ) instanceof VaadinMetawidget );
 		assertTrue( ( (Component) metawidget.getComponent( "foo", "name" ) ) instanceof TextField );
-		assertEquals( "name", ((AbstractField) ( (Component) metawidget.getComponent( "foo", "name" ) )).getData() );
+		assertEquals( "name", ((AbstractComponent) ( (Component) metawidget.getComponent( "foo", "name" ) )).getData() );
 		assertEquals( metawidget.getComponent( "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 2 );

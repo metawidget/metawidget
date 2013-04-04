@@ -22,9 +22,7 @@ import java.util.Map;
 import org.metawidget.util.CollectionUtils;
 
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * Stub for Vaadin environments.
@@ -41,8 +39,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 
 public class Stub
-	extends Panel
-	implements ComponentContainer {
+	extends Panel {
 
 	//
 	// Private members
@@ -50,16 +47,16 @@ public class Stub
 
 	private Map<String, String>	mAttributes;
 
-	private VerticalLayout		layout	= null;
-
 	//
 	// Constructors
 	//
 
 	public Stub() {
 
+		super( new com.vaadin.ui.VerticalLayout() );
+
 		addStyleName( "light" );
-		// ((com.vaadin.ui.Layout) getContent()).setMargin( false );
+		((com.vaadin.ui.VerticalLayout) getContent()).setMargin( false );
 	}
 
 	/**
@@ -93,97 +90,21 @@ public class Stub
 		return mAttributes;
 	}
 
-	@Override
-	public Iterator<Component> iterator() {
+	/**
+	 * Reproduce old Vaadin 6 structure.
+	 */
 
-		if ( layout != null ) {
-			layout.iterator();
-		}
-		return super.iterator();
+	public void addComponent( Component component ) {
+
+		((com.vaadin.ui.VerticalLayout) getContent()).addComponent( component );
 	}
 
-	@Override
-	public void addComponent( Component c ) {
+	/**
+	 * Reproduce old Vaadin 6 structure.
+	 */
 
-		if ( layout == null ) {
-			layout = new VerticalLayout();
-			layout.setMargin( true );
-
-			setContent( layout );
-		}
-		layout.addComponent( c );
-	}
-
-	@Override
-	public void addComponents( Component... components ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeComponent( Component c ) {
-
-		layout.removeComponent( c );
-	}
-
-	@Override
-	public void removeAllComponents() {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void replaceComponent( Component oldComponent, Component newComponent ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
 	public Iterator<Component> getComponentIterator() {
 
-		return super.iterator();
-	}
-
-	@Override
-	public void moveComponentsFrom( ComponentContainer source ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public void addListener( ComponentAttachListener listener ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public void removeListener( ComponentAttachListener listener ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public void addListener( ComponentDetachListener listener ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public void removeListener( ComponentDetachListener listener ) {
-
-		// TODO Auto-generated method stub
-
+		return ((com.vaadin.ui.VerticalLayout) getContent()).iterator();
 	}
 }

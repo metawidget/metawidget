@@ -45,6 +45,7 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Panel;
 
 /**
  * Metawidget for Vaadin environments.
@@ -557,7 +558,8 @@ public class VaadinMetawidget
 
 		// Call repaint here, rather than just 'invalidate', for scenarios like
 		// doing a 'remove' of a button that masks a Metawidget
-		this.requestRepaint();
+
+		markAsDirty();
 	}
 
 	protected void buildWidgets() {
@@ -698,6 +700,16 @@ public class VaadinMetawidget
 			AbstractComponent childComponent = (AbstractComponent) iterator.next();
 
 			// Drill into unnamed containers
+
+			if ( childComponent.getData() == null && childComponent instanceof Panel ) {
+				childComponent = (AbstractComponent) getComponent( (ComponentContainer) ( (Panel) childComponent ).getContent(), name );
+
+				if ( childComponent != null ) {
+					return childComponent;
+				}
+
+				continue;
+			}
 
 			if ( childComponent.getData() == null && childComponent instanceof ComponentContainer ) {
 				childComponent = (AbstractComponent) getComponent( (ComponentContainer) childComponent, name );

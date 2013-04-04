@@ -14,28 +14,14 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.vaadin.ui;
-
-import com.vaadin.ui.Panel;
+package org.metawidget.vaadin.ui.layout;
 
 /**
- * Facet for Vaadin environments.
- *
- * @author Loghman Barari
+ * @author Richard Kennard
  */
 
-public class Facet
-    extends Panel {
+public class Vaadin7HeadingTagLayoutDecoratorTest
+	extends HeadingTagLayoutDecoratorTest {
 
-    //
-    // Constructor
-    //
-
-    public Facet() {
-
-    	super( new com.vaadin.ui.VerticalLayout() );
-
-        addStyleName( "light" );
-        ((com.vaadin.ui.VerticalLayout) getContent()).setMargin( false );
-    }
+	// Just run the Vaadin 6 tests under Vaadin 7
 }
