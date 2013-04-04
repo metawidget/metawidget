@@ -21,7 +21,6 @@ import junit.framework.TestCase;
 
 import org.metawidget.vaadin.ui.Stub;
 import org.metawidget.vaadin.ui.VaadinMetawidget;
-import org.metawidget.vaadin.ui.layout.HorizontalLayout;
 
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Panel;
@@ -52,7 +51,7 @@ public class HorizontalLayoutTest
 
         assertTrue( container.iterator().next() instanceof com.vaadin.ui.HorizontalLayout );
         assertTrue( ((com.vaadin.ui.HorizontalLayout) container.iterator().next()).isSpacing() );
-        //assertFalse( ( metawidget.iterator().next() instanceof com.vaadin.ui.HorizontalLayout ) );
+        // TODO: assertFalse( ( metawidget.iterator().next() instanceof com.vaadin.ui.HorizontalLayout ) );
 
         // layoutWidget
 

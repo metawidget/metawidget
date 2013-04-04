@@ -43,7 +43,8 @@ public class MinimumMaximumValidatorProcessor
     // Public methods
     //
 
-    public Component processWidget( Component component, String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
+    @Override
+	public Component processWidget( Component component, String elementName, Map<String, String> attributes, VaadinMetawidget metawidget ) {
 
         // If field has a minimum or maximum value...
 
@@ -122,7 +123,8 @@ public class MinimumMaximumValidatorProcessor
         // Public Methods
         //
 
-        public boolean isValid( Object value ) {
+        @Override
+		public boolean isValid( Object value ) {
 
             if ( value == null ) {
                 return !mNumberType.isPrimitive();

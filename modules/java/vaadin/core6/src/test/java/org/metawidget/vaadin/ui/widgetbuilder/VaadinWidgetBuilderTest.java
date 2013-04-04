@@ -23,7 +23,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.vaadin.ui.widgetbuilder.VaadinWidgetBuilder;
 
 import com.vaadin.ui.Slider;
 import com.vaadin.ui.TextArea;

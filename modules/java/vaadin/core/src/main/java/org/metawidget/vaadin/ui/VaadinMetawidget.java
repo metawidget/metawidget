@@ -16,12 +16,7 @@
 
 package org.metawidget.vaadin.ui;
 
-import static org.metawidget.inspector.InspectionResultConstants.HIDDEN;
-import static org.metawidget.inspector.InspectionResultConstants.LABEL;
-import static org.metawidget.inspector.InspectionResultConstants.NAME;
-import static org.metawidget.inspector.InspectionResultConstants.PROPERTY;
-import static org.metawidget.inspector.InspectionResultConstants.SECTION;
-import static org.metawidget.inspector.InspectionResultConstants.TRUE;
+import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -46,13 +41,10 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 
-import com.vaadin.server.PaintException;
-import com.vaadin.server.PaintTarget;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.LegacyComponent;
 
 /**
  * Metawidget for Vaadin environments.
@@ -61,7 +53,8 @@ import com.vaadin.ui.LegacyComponent;
  */
 
 public class VaadinMetawidget
-	extends CustomComponent implements ComponentContainer {
+	extends CustomComponent
+	implements ComponentContainer {
 
 	//
 	// Private members
@@ -366,7 +359,8 @@ public class VaadinMetawidget
 		return super.getComponentCount();
 	}
 
-	public Iterator<Component> getComponentIterator() {
+	@Override
+	public Iterator<Component> iterator() {
 
 		buildWidgets();
 		return super.iterator();
@@ -435,6 +429,7 @@ public class VaadinMetawidget
 		return (C) getCompositionRoot();
 	}
 
+	@Override
 	public void addComponent( Component component ) {
 
 		if ( !mIgnoreAddRemove ) {
@@ -459,6 +454,7 @@ public class VaadinMetawidget
 		}
 	}
 
+	@Override
 	public void removeComponent( Component component ) {
 
 		if ( !mIgnoreAddRemove ) {
@@ -472,13 +468,13 @@ public class VaadinMetawidget
 		}
 	}
 
-	/*public void paintContent( PaintTarget target )
-		throws PaintException {
-
-		buildWidgets();
-
-		//super.paintContent( target );
-	}*/
+	/*
+	 * public void paintContent( PaintTarget target )
+	 * throws PaintException {
+	 * buildWidgets();
+	 * //super.paintContent( target );
+	 * }
+	 */
 
 	/**
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
@@ -795,72 +791,103 @@ public class VaadinMetawidget
 		}
 	}
 
-	public void addComponentAttachListener(ComponentAttachListener listener) {
+	@Override
+	public void addComponentAttachListener( ComponentAttachListener listener ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
-	public void removeComponentAttachListener(ComponentAttachListener listener) {
+	@Override
+	public void removeComponentAttachListener( ComponentAttachListener listener ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
-	public void addComponentDetachListener(ComponentDetachListener listener) {
+	@Override
+	public void addComponentDetachListener( ComponentDetachListener listener ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
-	public void removeComponentDetachListener(ComponentDetachListener listener) {
+	@Override
+	public void removeComponentDetachListener( ComponentDetachListener listener ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
-	public void addComponents(Component... components) {
+	@Override
+	public void addComponents( Component... components ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void removeAllComponents() {
+
 		// TODO Auto-generated method stub
 
 	}
 
-	public void replaceComponent(Component oldComponent, Component newComponent) {
+	@Override
+	public void replaceComponent( Component oldComponent, Component newComponent ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
-	public void moveComponentsFrom(ComponentContainer source) {
+	@Override
+	public void moveComponentsFrom( ComponentContainer source ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
+	public Iterator<Component> getComponentIterator() {
+
+		return iterator();
+	}
+
+	@Override
 	@Deprecated
-	public void addListener(ComponentAttachListener listener) {
+	public void addListener( ComponentAttachListener listener ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	@Deprecated
-	public void removeListener(ComponentAttachListener listener) {
+	public void removeListener( ComponentAttachListener listener ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	@Deprecated
-	public void addListener(ComponentDetachListener listener) {
+	public void addListener( ComponentDetachListener listener ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	@Deprecated
-	public void removeListener(ComponentDetachListener listener) {
+	public void removeListener( ComponentDetachListener listener ) {
+
 		// TODO Auto-generated method stub
 
 	}
 
-	/*public void changeVariables(Object source, Map<String, Object> variables) {
-		// TODO Auto-generated method stub
-
-	}*/
+	/*
+	 * public void changeVariables(Object source, Map<String, Object> variables) {
+	 * // TODO Auto-generated method stub
+	 * }
+	 */
 }

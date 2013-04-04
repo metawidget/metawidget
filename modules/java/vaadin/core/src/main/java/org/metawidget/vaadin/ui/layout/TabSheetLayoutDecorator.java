@@ -28,7 +28,6 @@ import org.metawidget.vaadin.ui.VaadinMetawidget;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 
 /**

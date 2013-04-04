@@ -18,7 +18,6 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding.reflection;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -30,10 +29,8 @@ import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.vaadin.ui.VaadinMetawidget;
-import org.metawidget.vaadin.ui.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickShortcut;
 import com.vaadin.ui.FormLayout;
@@ -89,7 +86,7 @@ public class ReflectionBindingProcessorTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		binding.processWidget( button, ACTION, attributes, null );
 
-		//Field eventRouter = AbstractComponent.class.getDeclaredField( "eventRouter" );
+		//TODO: Field eventRouter = AbstractComponent.class.getDeclaredField( "eventRouter" );
 		//eventRouter.setAccessible( true );
 		//assertEquals( null, eventRouter.get( button ) );
 

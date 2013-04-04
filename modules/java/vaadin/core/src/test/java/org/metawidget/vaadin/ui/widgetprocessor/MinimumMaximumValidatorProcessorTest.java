@@ -55,7 +55,7 @@ public class MinimumMaximumValidatorProcessorTest
         TextField textField = (TextField) widgetProcessor.processWidget( new TextField(), PROPERTY, attributes, null );
         Validator validator = textField.getValidators().iterator().next();
 
-        /*try {
+        /* TODO: try {
             validator.validate(null);
             fail();
         } catch (Validator.InvalidValueException e) {

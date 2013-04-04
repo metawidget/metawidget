@@ -121,7 +121,8 @@ public class VaadinWidgetBuilder
 					Slider slider = new Slider();
 					slider.setMin( Double.parseDouble( minimumValue ) );
 					try {
-						slider.setValue( slider.getMin() );
+						// Use big 'D' Double for Vaadin 6/7 compatibility
+						slider.setValue( Double.valueOf( slider.getMin() ));
 					} catch ( ValueOutOfBoundsException e ) {
 						throw WidgetBuilderException.newException( e );
 					}

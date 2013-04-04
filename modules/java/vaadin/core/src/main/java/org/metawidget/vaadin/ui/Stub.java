@@ -41,125 +41,149 @@ import com.vaadin.ui.VerticalLayout;
  */
 
 public class Stub
-    extends Panel implements ComponentContainer {
+	extends Panel
+	implements ComponentContainer {
 
-    //
-    // Private members
-    //
+	//
+	// Private members
+	//
 
-    private Map<String, String>	mAttributes;
-    private VerticalLayout layout = null;
+	private Map<String, String>	mAttributes;
 
-    //
-    // Constructors
-    //
+	private VerticalLayout		layout	= null;
 
-    public Stub() {
+	//
+	// Constructors
+	//
 
-        addStyleName( "light" );
-        //((com.vaadin.ui.Layout) getContent()).setMargin( false );
-    }
+	public Stub() {
 
-    /**
-     * Convenience constructor.
-     * <p>
-     * Useful for creating stubs that will otherwise be empty, such as
-     * <code>metawidget.add( new Stub( "foo" ))</code>
-     */
+		addStyleName( "light" );
+		// ((com.vaadin.ui.Layout) getContent()).setMargin( false );
+	}
 
-    public Stub( String data ) {
+	/**
+	 * Convenience constructor.
+	 * <p>
+	 * Useful for creating stubs that will otherwise be empty, such as
+	 * <code>metawidget.add( new Stub( "foo" ))</code>
+	 */
 
-        this();
-        setData( data );
-    }
+	public Stub( String data ) {
 
-    //
-    // Public methods
-    //
+		this();
+		setData( data );
+	}
 
-    public void setAttribute( String name, String value ) {
+	//
+	// Public methods
+	//
 
-        if ( mAttributes == null ) {
-            mAttributes = CollectionUtils.newHashMap();
-        }
+	public void setAttribute( String name, String value ) {
 
-        mAttributes.put( name, value );
-    }
+		if ( mAttributes == null ) {
+			mAttributes = CollectionUtils.newHashMap();
+		}
 
-    public Map<String, String> getAttributes() {
+		mAttributes.put( name, value );
+	}
 
-        return mAttributes;
-    }
+	public Map<String, String> getAttributes() {
 
-    @Override
-    public Iterator<Component> iterator() {
-        if (layout != null) {
-            layout.iterator();
-        }
-        return super.iterator();
-    }
+		return mAttributes;
+	}
 
-    public void addComponent(Component c) {
-        if (layout == null) {
-            layout = new VerticalLayout();
-            layout.setMargin(true);
+	@Override
+	public Iterator<Component> iterator() {
 
-            setContent(layout);
-        }
-        layout.addComponent(c);
-    }
+		if ( layout != null ) {
+			layout.iterator();
+		}
+		return super.iterator();
+	}
 
-    public void addComponents(Component... components) {
-        // TODO Auto-generated method stub
+	@Override
+	public void addComponent( Component c ) {
 
-    }
+		if ( layout == null ) {
+			layout = new VerticalLayout();
+			layout.setMargin( true );
 
-    public void removeComponent(Component c) {
-        layout.removeComponent(c);
-    }
+			setContent( layout );
+		}
+		layout.addComponent( c );
+	}
 
-    public void removeAllComponents() {
-        // TODO Auto-generated method stub
+	@Override
+	public void addComponents( Component... components ) {
 
-    }
+		// TODO Auto-generated method stub
 
-    public void replaceComponent(Component oldComponent, Component newComponent) {
-        // TODO Auto-generated method stub
+	}
 
-    }
+	@Override
+	public void removeComponent( Component c ) {
 
-    @Deprecated
-    public Iterator<Component> getComponentIterator() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+		layout.removeComponent( c );
+	}
 
-    public void moveComponentsFrom(ComponentContainer source) {
-        // TODO Auto-generated method stub
+	@Override
+	public void removeAllComponents() {
 
-    }
+		// TODO Auto-generated method stub
 
-    @Deprecated
-    public void addListener(ComponentAttachListener listener) {
-        // TODO Auto-generated method stub
+	}
 
-    }
+	@Override
+	public void replaceComponent( Component oldComponent, Component newComponent ) {
 
-    @Deprecated
-    public void removeListener(ComponentAttachListener listener) {
-        // TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    @Deprecated
-    public void addListener(ComponentDetachListener listener) {
-        // TODO Auto-generated method stub
+	@Override
+	@Deprecated
+	public Iterator<Component> getComponentIterator() {
 
-    }
+		return super.iterator();
+	}
 
-    @Deprecated
-    public void removeListener(ComponentDetachListener listener) {
-        // TODO Auto-generated method stub
+	@Override
+	public void moveComponentsFrom( ComponentContainer source ) {
 
-    }
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public void addListener( ComponentAttachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public void removeListener( ComponentAttachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public void addListener( ComponentDetachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public void removeListener( ComponentDetachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
 }

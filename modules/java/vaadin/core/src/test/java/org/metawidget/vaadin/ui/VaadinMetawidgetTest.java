@@ -254,7 +254,7 @@ public class VaadinMetawidgetTest
 
 		metawidget.addInspectionResultProcessor( new ComesAfterInspectionResultProcessor<VaadinMetawidget>() );
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
-		metawidget.getComponentIterator();
+		metawidget.iterator();
 		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
 
 		metawidget.removeInspectionResultProcessor( new ComesAfterInspectionResultProcessor<VaadinMetawidget>() );
@@ -299,7 +299,7 @@ public class VaadinMetawidgetTest
 
 		metawidget.setReadOnly( true );
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
-		/*try {
+		/* TODO: try {
 			metawidget.paintContent( null );
 		} catch( NullPointerException e ) {
 			// Will NullPointerException because no PaintTarget
@@ -384,6 +384,7 @@ public class VaadinMetawidgetTest
 		// Public methods
 		//
 
+		@Override
 		@SuppressWarnings( "serial" )
 		public Component processWidget( Component component, String elementName, Map<String, String> attributes, final VaadinMetawidget metawidget ) {
 
@@ -393,8 +394,9 @@ public class VaadinMetawidgetTest
 
 			Button button = (Button) component;
 
-			button.addListener( new ClickListener() {
+			button.addClickListener( new ClickListener() {
 
+				@Override
 				public void buttonClick( ClickEvent event ) {
 
 					((TextField) metawidget.getComponent( "name" )).setValue( "FooActionBindingProcessor fired" );
