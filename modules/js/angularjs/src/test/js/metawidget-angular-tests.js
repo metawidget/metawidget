@@ -839,6 +839,37 @@
 										expect( mw.innerHTML ).toNotContain( '<stub class="ng-scope" id="modelBar' );
 									} );
 						} );
+
+				it( "guards against infinite loops", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.model = {};
+						
+						$scope.metawidgetConfig = {
+							addInspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+
+								mw.buildWidgets( undefined );
+							} ]
+						}
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'model' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toBe( '' );
+					} );
+				} );
 			} );
 
 	describe(

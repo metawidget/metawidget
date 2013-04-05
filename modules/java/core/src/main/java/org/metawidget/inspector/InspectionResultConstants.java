@@ -197,7 +197,7 @@ public final class InspectionResultConstants {
 	public static final String	MINIMUM_LENGTH					= "minimum-length";
 
 	/**
-	 * The maximum length of this field (eg. number of characters)
+	 * The maximum length of this field (eg. number of characters).
 	 * <p>
 	 * Can be set by, say, <code>org.hibernate.validator.Length</code> or
 	 * <code>javax.persistence.Column( length )</code>.
@@ -206,25 +206,25 @@ public final class InspectionResultConstants {
 	public static final String	MAXIMUM_LENGTH					= "maximum-length";
 
 	/**
-	 * The minimum number of integer digits in this field
+	 * The minimum number of integer digits in this field.
 	 */
 
 	public static final String	MINIMUM_INTEGER_DIGITS			= "minimum-integer-digits";
 
 	/**
-	 * The maximum number of integer digits in this field
+	 * The maximum number of integer digits in this field.
 	 */
 
 	public static final String	MAXIMUM_INTEGER_DIGITS			= "maximum-integer-digits";
 
 	/**
-	 * The minimum number of fractional digits in this field
+	 * The minimum number of fractional digits in this field.
 	 */
 
 	public static final String	MINIMUM_FRACTIONAL_DIGITS		= "minimum-fractional-digits";
 
 	/**
-	 * The maximum number of fractional digits in this field
+	 * The maximum number of fractional digits in this field.
 	 */
 
 	public static final String	MAXIMUM_FRACTIONAL_DIGITS		= "maximum-fractional-digits";

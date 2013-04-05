@@ -343,6 +343,14 @@ var metawidget = metawidget || {};
 			// Inspect (if necessary)
 
 			if ( inspectionResult === undefined ) {
+				
+				// Safeguard against improperly implementing:
+				// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
+				
+				if ( arguments.length > 0 ) {
+					throw new Error( "Calling _refresh( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
+				}
+				
 				var splitPath = metawidget.util.splitPath( this.path );
 				inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
@@ -360,6 +368,7 @@ var metawidget = metawidget || {};
 
 			this._superApply( arguments );
 			this._pipeline.configure( this.options );
+			this._refresh();
 		},
 
 		/**
@@ -373,7 +382,6 @@ var metawidget = metawidget || {};
 			}
 
 			this._super( key, value );
-			this._refresh();
 		},
 
 		/**

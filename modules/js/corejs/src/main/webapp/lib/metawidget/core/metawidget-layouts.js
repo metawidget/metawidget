@@ -215,7 +215,7 @@ var metawidget = metawidget || {};
 			// tbody
 
 			table.appendChild( document.createElement( 'tbody' ) );
-		},
+		};
 
 		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
@@ -271,34 +271,9 @@ var metawidget = metawidget || {};
 				tr = tbody.childNodes[tbody.childNodes.length - 1];
 			}
 
-			if ( attributes.name !== undefined || attributes.title !== undefined ) {
-				// Label
-
-				var th = document.createElement( 'th' );
-
-				if ( idPrefix !== undefined ) {
-					th.setAttribute( 'id', idPrefix + '-label-cell' );
-				}
-
-				if ( _columnStyleClasses !== undefined && _columnStyleClasses[0] !== undefined ) {
-					th.setAttribute( 'class', _columnStyleClasses[0] );
-				}
-
-				var label = document.createElement( 'label' );
-
-				if ( widget.hasAttribute( 'id' ) ) {
-					label.setAttribute( 'for', widget.getAttribute( 'id' ) );
-				}
-
-				if ( idPrefix !== undefined ) {
-					label.setAttribute( 'id', idPrefix + '-label' );
-				}
-
-				label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + ':';
-
-				th.appendChild( label );
-				tr.appendChild( th );
-			}
+			// Label
+			
+			this.layoutLabel( tr, idPrefix, widget, attributes, mw );
 
 			// Widget
 
@@ -321,9 +296,56 @@ var metawidget = metawidget || {};
 			td.appendChild( widget );
 			tr.appendChild( td );
 
-			// Error
+			// Required
 
-			td = document.createElement( 'td' );
+			this.layoutRequired( tr, attributes );
+			
+			// Next column
+
+			if ( spanAllColumns === true ) {
+				_currentColumn = _numberOfColumns - 1;
+			}
+
+			_currentColumn = ( _currentColumn + 1 ) % _numberOfColumns;
+		};
+		
+		this.layoutLabel = function( tr, idPrefix, widget, attributes, mw ) {
+			
+			if ( attributes.name === undefined && attributes.title === undefined ) {
+				return;
+			}
+
+			// Label
+
+			var th = document.createElement( 'th' );
+
+			if ( idPrefix !== undefined ) {
+				th.setAttribute( 'id', idPrefix + '-label-cell' );
+			}
+
+			if ( _columnStyleClasses !== undefined && _columnStyleClasses[0] !== undefined ) {
+				th.setAttribute( 'class', _columnStyleClasses[0] );
+			}
+
+			var label = document.createElement( 'label' );
+
+			if ( widget.hasAttribute( 'id' ) ) {
+				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+			}
+
+			if ( idPrefix !== undefined ) {
+				label.setAttribute( 'id', idPrefix + '-label' );
+			}
+
+			label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + ':';
+
+			th.appendChild( label );
+			tr.appendChild( th );
+		};
+
+		this.layoutRequired = function( tr, attributes ) {
+			
+			var td = document.createElement( 'td' );
 
 			if ( _columnStyleClasses !== undefined && _columnStyleClasses[2] !== undefined ) {
 				td.setAttribute( 'class', _columnStyleClasses[2] );
@@ -334,15 +356,7 @@ var metawidget = metawidget || {};
 			}
 
 			tr.appendChild( td );
-
-			// Next column
-
-			if ( spanAllColumns === true ) {
-				_currentColumn = _numberOfColumns - 1;
-			}
-
-			_currentColumn = ( _currentColumn + 1 ) % _numberOfColumns;
-		};
+		};		
 	};
 
 	//

@@ -119,6 +119,14 @@ var metawidget = metawidget || {};
 			// Inspect (if necessary)
 
 			if ( inspectionResult === undefined ) {
+
+				// Safeguard against improperly implementing:
+				// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
+				
+				if ( arguments.length > 0 ) {
+					throw new Error( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
+				}
+
 				var splitPath = metawidget.util.splitPath( this.path );
 				inspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}

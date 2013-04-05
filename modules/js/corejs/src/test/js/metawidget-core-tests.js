@@ -793,5 +793,23 @@
 			expect( element.childNodes.length ).toBe( 1 );
 		} );
 
+		it( "guards against infinite loops", function() {
+
+			var element = document.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
+
+					mw.buildWidgets( undefined );
+				} ]
+			} );
+			mw.toInspect = {};
+			
+			try {
+				mw.buildWidgets();
+				expect( true ).toBe( false );
+			} catch( e ) {
+				expect( e.message ).toBe( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
+			}
+		} );
 	} );
 } )();

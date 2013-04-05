@@ -31,25 +31,25 @@ var metawidget = metawidget || {};
 	metawidget.util = metawidget.util || {};
 
 	metawidget.util.getLabelString = function( attributes, mw ) {
-		
+
 		// Explicit title
 
 		if ( attributes.title !== undefined ) {
 			return attributes.title;
 		}
-		
+
 		// Localize if possible
-		
+
 		var name = attributes.name;
-		
+
 		if ( mw.bundle !== undefined ) {
 			if ( mw.bundle[name] !== undefined ) {
 				return mw.bundle[name];
 			}
-		}		
+		}
 
 		// Default name, uncamel case (e.g. from 'fooBarBaz' to 'Foo Bar Baz')
-	
+
 		return name.charAt( 0 ).toUpperCase() + name.slice( 1 ).replace( /([^ ])([A-Z0-9])/g, function( $1, $2, $3 ) {
 
 			return $2 + ' ' + $3;
@@ -255,8 +255,8 @@ var metawidget = metawidget || {};
 	 * inspection result.
 	 * <p>
 	 * Inspection results are expected to be JSON Schema objects. They are
-	 * combined based on their 'name' property. If no elements match, new
-	 * elements are appended.
+	 * combined based on their property name. If no elements match, new
+	 * properties are appended.
 	 */
 
 	metawidget.util.combineInspectionResults = function( existingInspectionResult, newInspectionResult ) {
@@ -278,7 +278,7 @@ var metawidget = metawidget || {};
 				continue;
 			}
 
-			if ( value instanceof Object && !( value instanceof Array )) {
+			if ( value instanceof Object && ! ( value instanceof Array ) ) {
 				existingInspectionResult[propertyName] = existingInspectionResult[propertyName] || {};
 				metawidget.util.combineInspectionResults( existingInspectionResult[propertyName], value );
 				continue;
@@ -302,7 +302,7 @@ var metawidget = metawidget || {};
 			return undefined;
 		}
 
-		if ( !( section instanceof Array )) {
+		if ( ! ( section instanceof Array ) ) {
 			delete attributes.section;
 			return section;
 		}
