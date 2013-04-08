@@ -27,7 +27,12 @@ var metawidget = metawidget || {};
 	/**
 	 * @namespace Inspectors.
 	 *            <p>
-	 *            Inspectors return inspection results using JSON Schema.
+	 *            Inspectors must implement an interface...
+	 *            </p>
+	 *            <tt>function( toInspect, type, names )</tt>
+	 *            <p>
+	 *            ...and should return inspection results using JSON Schema.
+	 *            </p>
 	 */
 
 	metawidget.inspector = metawidget.inspector || {};
