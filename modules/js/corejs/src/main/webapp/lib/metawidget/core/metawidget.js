@@ -413,7 +413,10 @@ var metawidget = metawidget || {};
 		//
 
 		/**
-		 * Sort the given object's properties by 'propertyOrder' (if any)
+		 * Sort the given object's properties by 'propertyOrder' (if any).
+		 * <p>
+		 * See: https://github.com/json-stylesheet/json-stylesheet/issues/1
+		 * https://github.com/json-schema/json-schema/issues/87
 		 */
 
 		function _sortByPropertyOrder( toSort ) {
