@@ -149,9 +149,10 @@ public class AllJarTest
 
 		assertTrue( contents.contains( "(licensed under LGPL)" ) );
 		assertTrue( contents.contains( "minified" ) );
-		assertTrue( !contents.contains( "${" ) );
-		assertTrue( !contents.contains( "loop" ) );
-		assertTrue( !contents.contains( "config." ) );
-		assertTrue( !contents.contains( "function _" ) );
+		assertTrue( contents, !contents.contains( "${" ) );
+		assertTrue( contents, !contents.contains( "mw" ) );
+		assertTrue( contents, !contents.contains( "loop" ) );
+		assertTrue( contents, !contents.contains( "config." ) );
+		assertTrue( contents, !contents.contains( "function _" ) );
 	}
 }
