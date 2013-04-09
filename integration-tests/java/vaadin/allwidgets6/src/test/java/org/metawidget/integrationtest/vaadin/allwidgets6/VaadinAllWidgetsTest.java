@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.integrationtest.vaadin.allwidgets;
+package org.metawidget.integrationtest.vaadin.allwidgets6;
 
 import java.util.Date;
 
@@ -46,7 +46,6 @@ import com.vaadin.ui.TextField;
  * @author Loghman Barari
  */
 
-@SuppressWarnings( "deprecation" )
 public class VaadinAllWidgetsTest
 	extends TestCase {
 
@@ -112,27 +111,27 @@ public class VaadinAllWidgetsTest
 		assertTrue( component instanceof TextField );
 		assertTrue( ( (TextField) component ).isRequired() );
 
-		assertEquals( "Textbox", ( (Property<?>) metawidget.getComponent( "textbox" ) ).getValue() );
+		assertEquals( "Textbox", ( (Property) metawidget.getComponent( "textbox" ) ).getValue() );
 		( (TextField) component ).setValue( "Textbox1" );
 
 		component = layout.getComponent( 1 );
 		assertEquals( "Limited Textbox:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( 20, ( (TextField) component ).getMaxLength() );
-		assertEquals( "Limited Textbox", ( (Property<?>) metawidget.getComponent( "limitedTextbox" ) ).getValue() );
+		assertEquals( "Limited Textbox", ( (Property) metawidget.getComponent( "limitedTextbox" ) ).getValue() );
 		( (TextField) component ).setValue( "Limited Textbox1" );
 
 		component = layout.getComponent( 2 );
 		assertEquals( "Textarea:", component.getCaption() );
 		assertTrue( component instanceof TextArea );
-		assertEquals( "Textarea", ( (Property<?>) metawidget.getComponent( "textarea" ) ).getValue() );
+		assertEquals( "Textarea", ( (Property) metawidget.getComponent( "textarea" ) ).getValue() );
 		assertTrue( ( (TextArea) component ).isWordwrap() );
 		( (TextArea) component ).setValue( "Textarea1" );
 
 		component = layout.getComponent( 3 );
 		assertEquals( "Password:", component.getCaption() );
 		assertTrue( component instanceof PasswordField );
-		assertEquals( "Password", ( (Property<?>) metawidget.getComponent( "password" ) ).getValue() );
+		assertEquals( "Password", ( (Property) metawidget.getComponent( "password" ) ).getValue() );
 		( (PasswordField) component ).setValue( "Password1" );
 
 		// Primitives
@@ -141,42 +140,42 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Byte Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( 1, ( (TextField) component ).getValidators().size() );
-		assertEquals( String.valueOf( Byte.MAX_VALUE ), ( (Property<?>) metawidget.getComponent( "bytePrimitive" ) ).getValue() );
+		assertEquals( String.valueOf( Byte.MAX_VALUE ), ( (Property) metawidget.getComponent( "bytePrimitive" ) ).getValue() );
 		( (TextField) component ).setValue( String.valueOf( Byte.MAX_VALUE - 1 ) );
 
 		component = layout.getComponent( 5 );
 		assertEquals( "Byte Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertTrue( ((TextField) component ).getValidators().isEmpty() );
-		assertEquals( String.valueOf( Byte.MIN_VALUE ), ( (Property<?>) metawidget.getComponent( "byteObject" ) ).getValue() );
+		assertEquals( null, ( (TextField) component ).getValidators() );
+		assertEquals( String.valueOf( Byte.MIN_VALUE ), ( (Property) metawidget.getComponent( "byteObject" ) ).getValue() );
 		( (TextField) component ).setValue( String.valueOf( Byte.MIN_VALUE + 1 ) );
 
 		component = layout.getComponent( 6 );
 		assertEquals( "Short Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( String.valueOf( Short.MAX_VALUE ), ( (Property<?>) metawidget.getComponent( "shortPrimitive" ) ).getValue() );
+		assertEquals( String.valueOf( Short.MAX_VALUE ), ( (Property) metawidget.getComponent( "shortPrimitive" ) ).getValue() );
 		assertEquals( 1, ( (TextField) component ).getValidators().size() );
 		( (TextField) component ).setValue( String.valueOf( Short.MAX_VALUE - 1 ) );
 
 		component = layout.getComponent( 7 );
 		assertEquals( "Short Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertTrue( ((TextField) component ).getValidators().isEmpty() );
-		assertEquals( String.valueOf( Short.MIN_VALUE ), ( (Property<?>) metawidget.getComponent( "shortObject" ) ).getValue() );
+		assertEquals( null, ( (TextField) component ).getValidators() );
+		assertEquals( String.valueOf( Short.MIN_VALUE ), ( (Property) metawidget.getComponent( "shortObject" ) ).getValue() );
 		( (TextField) component ).setValue( String.valueOf( Short.MIN_VALUE + 1 ) );
 
 		component = layout.getComponent( 8 );
 		assertEquals( "Int Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( String.valueOf( Integer.MAX_VALUE ), ( (Property<?>) metawidget.getComponent( "intPrimitive" ) ).getValue() );
-		assertTrue( ((TextField) component ).getValidators().isEmpty() );
+		assertEquals( String.valueOf( Integer.MAX_VALUE ), ( (Property) metawidget.getComponent( "intPrimitive" ) ).getValue() );
+		assertEquals( null, ( (TextField) component ).getValidators() );
 		( (TextField) component ).setValue( String.valueOf( Integer.MAX_VALUE - 1 ) );
 
 		component = layout.getComponent( 9 );
 		assertEquals( "Integer Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertTrue( ((TextField) component ).getValidators().isEmpty() );
-		assertEquals( String.valueOf( Integer.MIN_VALUE ), ( (Property<?>) metawidget.getComponent( "integerObject" ) ).getValue() );
+		assertEquals( null, ( (TextField) component ).getValidators() );
+		assertEquals( String.valueOf( Integer.MIN_VALUE ), ( (Property) metawidget.getComponent( "integerObject" ) ).getValue() );
 		( (TextField) component ).setValue( String.valueOf( Integer.MIN_VALUE + 1 ) );
 
 		component = layout.getComponent( 10 );
@@ -184,80 +183,80 @@ public class VaadinAllWidgetsTest
 		assertTrue( component instanceof Slider );
 		assertEquals( 1d, ( (Slider) component ).getMin() );
 		assertEquals( 100d, ( (Slider) component ).getMax() );
-		assertEquals( 32d, ( (Property<?>) metawidget.getComponent( "rangedInt" ) ).getValue() );
-		( (Slider) component ).setValue( 33d );
+		assertEquals( 32d, ( (Property) metawidget.getComponent( "rangedInt" ) ).getValue() );
+		( (Slider) component ).setValue( 33 );
 
 		component = layout.getComponent( 11 );
 		assertEquals( "Ranged Integer:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "33", ( (Property<?>) metawidget.getComponent( "rangedInteger" ) ).getValue() );
+		assertEquals( "33", ( (Property) metawidget.getComponent( "rangedInteger" ) ).getValue() );
 		( (TextField) component ).setValue( "34" );
 
 		component = layout.getComponent( 12 );
 		assertEquals( "Long Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "42", ( (Property<?>) metawidget.getComponent( "longPrimitive" ) ).getValue() );
+		assertEquals( "42", ( (Property) metawidget.getComponent( "longPrimitive" ) ).getValue() );
 		( (TextField) component ).setValue( "43" );
 
 		component = layout.getComponent( 13 );
 		assertTrue( component instanceof TextField );
-		assertEquals( "43", ( (Property<?>) metawidget.getComponent( "longObject" ) ).getValue() );
+		assertEquals( "43", ( (Property) metawidget.getComponent( "longObject" ) ).getValue() );
 		( (TextField) component ).setValue( "44" );
 
 		component = layout.getComponent( 14 );
 		assertEquals( "Float Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "4.2", ( (Property<?>) metawidget.getComponent( "floatPrimitive" ) ).getValue() );
+		assertEquals( "4.2", ( (Property) metawidget.getComponent( "floatPrimitive" ) ).getValue() );
 		( (TextField) component ).setValue( "4.3" );
 
 		component = layout.getComponent( 15 );
 		assertEquals( "nullInBundle:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "4.3", ( (Property<?>) metawidget.getComponent( "floatObject" ) ).getValue() );
+		assertEquals( "4.3", ( (Property) metawidget.getComponent( "floatObject" ) ).getValue() );
 		( (TextField) component ).setValue( "5.4" );
 
 		component = layout.getComponent( 16 );
 		assertEquals( "Double Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "42.2", ( (Property<?>) metawidget.getComponent( "doublePrimitive" ) ).getValue() );
+		assertEquals( "42.2", ( (Property) metawidget.getComponent( "doublePrimitive" ) ).getValue() );
 		( (TextField) component ).setValue( "42.3" );
 
 		component = layout.getComponent( 17 );
 		assertTrue( component instanceof TextField );
-		assertEquals( "43.3", ( (Property<?>) metawidget.getComponent( "doubleObject" ) ).getValue() );
+		assertEquals( "43.3", ( (Property) metawidget.getComponent( "doubleObject" ) ).getValue() );
 		( (TextField) component ).setValue( "54.4" );
 
 		component = layout.getComponent( 18 );
 		assertEquals( "Char Primitive:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( 1, ( (TextField) component ).getMaxLength() );
-		assertEquals( "A", ( (Property<?>) metawidget.getComponent( "charPrimitive" ) ).getValue() );
+		assertEquals( "A", ( (Property) metawidget.getComponent( "charPrimitive" ) ).getValue() );
 		( (TextField) component ).setValue( "Z" );
 
 		component = layout.getComponent( 19 );
 		assertEquals( "Character Object:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( 1, ( (TextField) component ).getMaxLength() );
-		assertEquals( "Z", ( (Property<?>) metawidget.getComponent( "characterObject" ) ).getValue() );
+		assertEquals( "Z", ( (Property) metawidget.getComponent( "characterObject" ) ).getValue() );
 		( (TextField) component ).setValue( "A" );
 
 		assertEquals( "Boolean Primitive:", layout.getComponent( 20 ).getCaption() );
 		assertTrue( layout.getComponent( 20 ) instanceof CheckBox );
-		assertEquals( false, ( (Boolean) ( (Property<?>) metawidget.getComponent( "booleanPrimitive" ) ).getValue() ).booleanValue() );
+		assertEquals( false, ( (Boolean) ( (Property) metawidget.getComponent( "booleanPrimitive" ) ).getValue() ).booleanValue() );
 		( (CheckBox) layout.getComponent( 20 ) ).setValue( true );
 
 		component = layout.getComponent( 21 );
 		assertEquals( "Boolean Object:", component.getCaption() );
 		assertTrue( component instanceof Select );
 		assertEquals( 2, ( (Select) component ).getContainerDataSource().size() );
-		assertEquals( Boolean.TRUE, ( (Property<?>) metawidget.getComponent( "booleanObject" ) ).getValue() );
+		assertEquals( Boolean.TRUE, ( (Property) metawidget.getComponent( "booleanObject" ) ).getValue() );
 		( (Select) component ).setValue( Boolean.FALSE );
 
 		component = layout.getComponent( 22 );
 		assertEquals( "Dropdown:", component.getCaption() );
 		assertTrue( component instanceof Select );
 		assertEquals( 3, ( (Select) component ).getContainerDataSource().size() );
-		assertEquals( "dropdown1", ( (Property<?>) metawidget.getComponent( "dropdown" ) ).getValue() );
+		assertEquals( "dropdown1", ( (Property) metawidget.getComponent( "dropdown" ) ).getValue() );
 		( (Select) component ).setValue( "foo1" );
 
 		component = layout.getComponent( 23 );
@@ -269,14 +268,14 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Dropdown #2", combo.getItemCaption( "dropdown2" ) );
 		assertEquals( "Bar #2", combo.getItemCaption( "bar2" ) );
 		assertEquals( "Baz #2", combo.getItemCaption( "baz2" ) );
-		assertEquals( "dropdown2", ( (Property<?>) metawidget.getComponent( "dropdownWithLabels" ) ).getValue() );
+		assertEquals( "dropdown2", ( (Property) metawidget.getComponent( "dropdownWithLabels" ) ).getValue() );
 		( (Select) component ).setValue( "bar2" );
 
 		component = layout.getComponent( 24 );
 		assertEquals( "Not Null Dropdown:", component.getCaption() );
 		assertTrue( component instanceof Select );
 		assertEquals( 3, ( (Select) component ).getContainerDataSource().size() );
-		assertEquals( 0, ( (Byte) ( (Property<?>) metawidget.getComponent( "notNullDropdown" ) ).getValue() ).byteValue() );
+		assertEquals( 0, ( (Byte) ( (Property) metawidget.getComponent( "notNullDropdown" ) ).getValue() ).byteValue() );
 		( (Select) component ).setValue( (byte) 1 );
 
 		component = layout.getComponent( 25 );
@@ -284,7 +283,7 @@ public class VaadinAllWidgetsTest
 		assertTrue( component instanceof Select );
 		assertTrue( ( (Select) component ).isRequired() );
 		assertEquals( 6, ( (Select) component ).getContainerDataSource().size() );
-		assertEquals( "dropdown3", ( (Property<?>) metawidget.getComponent( "notNullObjectDropdown" ) ).getValue() );
+		assertEquals( "dropdown3", ( (Property) metawidget.getComponent( "notNullObjectDropdown" ) ).getValue() );
 		( (Select) component ).setValue( "foo3" );
 
 		assertEquals( "Nested Widgets:", layout.getComponent( 26 ).getCaption() );
@@ -301,25 +300,25 @@ public class VaadinAllWidgetsTest
 		component = layoutFurtherNested.getComponent( 1 );
 		assertEquals( "Nested Textbox 1:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "Nested Textbox 1", ( (Property<?>) metawidget.getComponent( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) ).getValue() );
+		assertEquals( "Nested Textbox 1", ( (Property) metawidget.getComponent( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) ).getValue() );
 		( (TextField) component ).setValue( "Nested Textbox 1.1 (further)" );
 
 		component = layoutFurtherNested.getComponent( 2 );
 		assertEquals( "Nested Textbox 2:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "Nested Textbox 2", ( (Property<?>) metawidget.getComponent( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) ).getValue() );
+		assertEquals( "Nested Textbox 2", ( (Property) metawidget.getComponent( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) ).getValue() );
 		( (TextField) component ).setValue( "Nested Textbox 2.2 (further)" );
 
 		component = layoutNested.getComponent( 1 );
 		assertEquals( "Nested Textbox 1:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "Nested Textbox 1", ( (Property<?>) metawidget.getComponent( "nestedWidgets", "nestedTextbox1" ) ).getValue() );
+		assertEquals( "Nested Textbox 1", ( (Property) metawidget.getComponent( "nestedWidgets", "nestedTextbox1" ) ).getValue() );
 		( (TextField) component ).setValue( "Nested Textbox 1.1" );
 
 		component = layoutNested.getComponent( 2 );
 		assertEquals( "Nested Textbox 2:", component.getCaption() );
 		assertTrue( component instanceof TextField );
-		assertEquals( "Nested Textbox 2", ( (Property<?>) metawidget.getComponent( "nestedWidgets", "nestedTextbox2" ) ).getValue() );
+		assertEquals( "Nested Textbox 2", ( (Property) metawidget.getComponent( "nestedWidgets", "nestedTextbox2" ) ).getValue() );
 		( (TextField) component ).setValue( "Nested Textbox 2.2" );
 
 		component = layout.getComponent( 27 );
@@ -335,12 +334,12 @@ public class VaadinAllWidgetsTest
 		component = layoutNested.getComponent( 1 );
 		assertEquals( "Nested Textbox 1:", component.getCaption() );
 		assertTrue( component instanceof Label );
-		assertEquals( "Nested Textbox 1", ( (Property<?>) metawidget.getComponent( "readOnlyNestedWidgets", "nestedTextbox1" ) ).getValue() );
+		assertEquals( "Nested Textbox 1", ( (Property) metawidget.getComponent( "readOnlyNestedWidgets", "nestedTextbox1" ) ).getValue() );
 
 		component = layoutNested.getComponent( 2 );
 		assertEquals( "Nested Textbox 2:", component.getCaption() );
 		assertTrue( component instanceof Label );
-		assertEquals( "Nested Textbox 2", ( (Property<?>) metawidget.getComponent( "readOnlyNestedWidgets", "nestedTextbox2" ) ).getValue() );
+		assertEquals( "Nested Textbox 2", ( (Property) metawidget.getComponent( "readOnlyNestedWidgets", "nestedTextbox2" ) ).getValue() );
 
 		component = layout.getComponent( 28 );
 		assertEquals( "Nested Widgets Dont Expand:", component.getCaption() );
@@ -356,7 +355,13 @@ public class VaadinAllWidgetsTest
 		component = layout.getComponent( 30 );
 		assertEquals( "Date:", component.getCaption() );
 		assertTrue( component instanceof PopupDateField );
-		assertEquals( allWidgets.getDate(), ( (Property<?>) metawidget.getComponent( "date" ) ).getValue() );
+		assertEquals( allWidgets.getDate(), ( (Property) metawidget.getComponent( "date" ) ).getValue() );
+		try {
+			( (PopupDateField) component ).setValue( "bad date" );
+			fail();
+		} catch ( Exception e ) {
+			assertTrue( e instanceof Property.ConversionException );
+		}
 		component = layout.getComponent( 31 );
 		assertTrue( component instanceof Label );
 		assertEquals( "h1", ( (Label) component ).getStyleName() );
@@ -364,7 +369,7 @@ public class VaadinAllWidgetsTest
 		component = layout.getComponent( 32 );
 		assertEquals( "Read Only:", component.getCaption() );
 		assertTrue( component instanceof Label );
-		assertEquals( "Read Only", ( (Property<?>) metawidget.getComponent( "readOnly" ) ).getValue() );
+		assertEquals( "Read Only", ( (Property) metawidget.getComponent( "readOnly" ) ).getValue() );
 		assertEquals( "Do Action", layout.getComponent( 33 ).getCaption() );
 		assertTrue( layout.getComponent( 33 ) instanceof Button );
 		Button button = (Button) layout.getComponent( 33 );
@@ -455,12 +460,14 @@ public class VaadinAllWidgetsTest
 		component = layout.getComponent( 21 );
 		assertEquals( "Boolean Object:", component.getCaption() );
 		assertEquals( "No", ( (Label) component ).getValue() );
+		assertEquals( "false", ( (Label) component ).toString() );
 		component = layout.getComponent( 22 );
 		assertEquals( "Dropdown:", component.getCaption() );
 		assertEquals( "foo1", ( (Label) component ).getValue() );
 		component = layout.getComponent( 23 );
 		assertEquals( "Dropdown With Labels:", component.getCaption() );
 		assertEquals( "Bar #2", ( (Label) component ).getValue() );
+		assertEquals( "bar2", ( (Label) component ).toString() );
 		component = layout.getComponent( 24 );
 		assertEquals( "Not Null Dropdown:", component.getCaption() );
 		assertEquals( "1", ( (Label) component ).getValue() );

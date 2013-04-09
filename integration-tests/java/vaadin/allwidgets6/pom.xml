@@ -8,13 +8,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.metawidget.integration-tests.vaadin</groupId>
-	<artifactId>allwidgets-vaadin</artifactId>
+	<artifactId>allwidgets-vaadin6</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.metawidget.modules.vaadin</groupId>
-			<artifactId>metawidget-vaadin</artifactId>
+			<artifactId>metawidget-vaadin6</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -24,32 +24,13 @@
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client</artifactId>
+			<artifactId>vaadin</artifactId>
 			<scope>compile</scope>
 		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.metawidget.integration-tests.vaadin</groupId>
-			<artifactId>allwidgets-vaadin6</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>		
 	</dependencies>
-
-	<build>
-		<plugins>
-			<!-- Vaadin 7 requires 1.6 -->
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

@@ -55,7 +55,7 @@ public class LookupLabel
 	@Override
 	public String getValue() {
 
-		String value = (String) super.getValue();
+		String value = super.getValue();
 		String lookup = mLookup.get( value );
 
 		if ( lookup != null ) {

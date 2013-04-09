@@ -36,6 +36,7 @@
 		<module>swt/allwidgets</module>
 		<module>swt/tutorial</module>
 		<module>vaadin/allwidgets</module>
+		<module>vaadin/allwidgets6</module>
 	</modules>
 	
 </project>
