@@ -6,7 +6,7 @@
 		<webtest name="test-all">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
 				<!-- Occasionally see 'No document element' during build -->
-				<option name="ThrowExceptionOnScriptError" value="false"/>				
+				<option name="JavaScriptEnabled" value="false"/>				
 			</config>
 			<steps>
 				<invoke url="file://${basedir}/../../../war/index.html" />
