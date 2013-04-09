@@ -486,14 +486,6 @@ public class VaadinMetawidget
 		}
 	}
 
-	/*
-	 * public void paintContent( PaintTarget target )
-	 * throws PaintException {
-	 * buildWidgets();
-	 * //super.paintContent( target );
-	 * }
-	 */
-
 	/**
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
 	 */

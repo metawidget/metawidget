@@ -96,9 +96,9 @@ public class MinimumMaximumValidatorProcessor
 
 		private Class<Number>	mNumberType;
 
-		private Object		mMinimum;
+		private Object			mMinimum;
 
-		private Object		mMaximum;
+		private Object			mMaximum;
 
 		//
 		// Constructor
@@ -127,7 +127,7 @@ public class MinimumMaximumValidatorProcessor
 		//
 
 		@Override
-		public boolean isValid( Object value ) {
+		public boolean isValidValue( Number value ) {
 
 			if ( value == null ) {
 				return !mNumberType.isPrimitive();
@@ -150,10 +150,10 @@ public class MinimumMaximumValidatorProcessor
 					return false;
 				}
 			} else if ( int.class.equals( mNumberType ) || Integer.class.equals( mNumberType ) ) {
-				if ( mMinimum != null && ( (Number) value ).intValue() < (Integer) mMinimum ) {
+				if ( mMinimum != null && value.intValue() < (Integer) mMinimum ) {
 					return false;
 				}
-				if ( mMaximum != null && ( (Number) value ).intValue() > (Integer) mMaximum ) {
+				if ( mMaximum != null && value.intValue() > (Integer) mMaximum ) {
 					return false;
 				}
 			} else if ( long.class.equals( mNumberType ) || Long.class.equals( mNumberType ) ) {
@@ -185,15 +185,25 @@ public class MinimumMaximumValidatorProcessor
 		}
 
 		@Override
-		protected boolean isValidValue( Number value ) {
-
-			return isValid( value );
-		}
-
-		@Override
 		public Class<Number> getType() {
 
 			return mNumberType;
+		}
+
+		//
+		// Protected methods
+		//
+
+		@Override
+		protected boolean isValidType( Object value ) {
+
+			// Simulate Vaadin 6, because Vaadin 7 attempts...
+			//
+			// if ( byte.class.isAssignableFrom( Byte.class ))
+			//
+			// ...which returns false
+
+			return true;
 		}
 	}
 }

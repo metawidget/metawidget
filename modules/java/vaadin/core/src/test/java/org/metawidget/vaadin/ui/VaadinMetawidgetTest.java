@@ -45,7 +45,6 @@ import com.vaadin.ui.Button.ClickShortcut;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 
 /**
@@ -119,6 +118,7 @@ public class VaadinMetawidgetTest
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ), null );
 	}
 
+	@SuppressWarnings( "deprecation" )
 	public void testGroovy()
 		throws Exception {
 
@@ -134,18 +134,18 @@ public class VaadinMetawidgetTest
 		VaadinWidgetBuilder widgetBuilder = new VaadinWidgetBuilder();
 
 		Component component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
-		assertTrue( component instanceof Select );
-		assertTrue( ((Select) component).isNullSelectionAllowed() );
-		assertEquals( 2, ( (Select) component ).getItemIds().size() );
+		assertTrue( component instanceof com.vaadin.ui.Select );
+		assertTrue( ((com.vaadin.ui.Select) component).isNullSelectionAllowed() );
+		assertEquals( 2, ( (com.vaadin.ui.Select) component ).getItemIds().size() );
 
 		// ...and not-nullable...
 
 		attributes.put( REQUIRED, TRUE );
 
 		component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
-		assertTrue( component instanceof Select );
-		assertFalse( ((Select) component).isNullSelectionAllowed() );
-		assertEquals( 2, ( (Select) component ).getItemIds().size() );
+		assertTrue( component instanceof com.vaadin.ui.Select );
+		assertFalse( ((com.vaadin.ui.Select) component).isNullSelectionAllowed() );
+		assertEquals( 2, ( (com.vaadin.ui.Select) component ).getItemIds().size() );
 
 		// Also test UiDontExpand on a dynamic type
 
@@ -296,15 +296,6 @@ public class VaadinMetawidgetTest
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 		metawidget.getFacet( "foo" );
 		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );
-
-		metawidget.setReadOnly( true );
-		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
-		/* TODO: try {
-			metawidget.paintContent( null );
-		} catch( NullPointerException e ) {
-			// Will NullPointerException because no PaintTarget
-		}
-		assertTrue( !needToBuildWidgets.getBoolean( metawidget ) );*/
 
 		metawidget.setMaximumInspectionDepth( 0 );
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
