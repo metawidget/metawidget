@@ -34,8 +34,7 @@ import com.vaadin.ui.ComponentContainer;
  */
 
 public abstract class VaadinNestedSectionLayoutDecorator
-		extends
-		org.metawidget.layout.decorator.NestedSectionLayoutDecorator<Component, ComponentContainer, VaadinMetawidget> {
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<Component, ComponentContainer, VaadinMetawidget> {
 
 	//
 	// Constructor
