@@ -14,10 +14,6 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-/**
- * @namespace Metawidget for pure JavaScript environments.
- */
-
 var metawidget = metawidget || {};
 
 ( function() {
@@ -27,11 +23,17 @@ var metawidget = metawidget || {};
 	/**
 	 * @namespace Inspectors.
 	 *            <p>
-	 *            Inspectors must implement an interface...
+	 *            Inspectors must implement an interface:
 	 *            </p>
 	 *            <tt>function( toInspect, type, names )</tt>
 	 *            <p>
-	 *            ...and should return inspection results using JSON Schema.
+	 *            Each Inspector must look to the 'type' parameter and the
+	 *            'names' array. These form a path into the business object
+	 *            domain model. For example the 'type' may be 'person' and the
+	 *            'names' may be [ 'address', 'street' ]. This would form a path
+	 *            into the domain model of 'person/address/street' (i.e. return
+	 *            information on the 'street' property within the 'address'
+	 *            property of the 'person' type).
 	 *            </p>
 	 */
 

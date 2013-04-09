@@ -18,6 +18,7 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding.reflection;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -31,6 +32,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.vaadin.ui.VaadinMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
+import com.vaadin.server.AbstractClientConnector;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickShortcut;
 import com.vaadin.ui.FormLayout;
@@ -86,9 +88,9 @@ public class ReflectionBindingProcessorTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		binding.processWidget( button, ACTION, attributes, null );
 
-		//TODO: Field eventRouter = AbstractComponent.class.getDeclaredField( "eventRouter" );
-		//eventRouter.setAccessible( true );
-		//assertEquals( null, eventRouter.get( button ) );
+		Field eventRouter = AbstractClientConnector.class.getDeclaredField( "eventRouter" );
+		eventRouter.setAccessible( true );
+		assertEquals( null, eventRouter.get( button ) );
 
 		// Null nested object
 
@@ -99,7 +101,7 @@ public class ReflectionBindingProcessorTest
 		metawidget.setPath( "foo/nestedFoo/doAction" );
 		binding.processWidget( button, ACTION, attributes, metawidget );
 
-		//assertEquals( null, eventRouter.get( button ) );
+		assertEquals( null, eventRouter.get( button ) );
 
 		// Normal binding
 
@@ -107,7 +109,7 @@ public class ReflectionBindingProcessorTest
 		metawidget.setPath( "foo" );
 		binding.processWidget( button, ACTION, attributes, metawidget );
 
-		//assertTrue( eventRouter.get( button ) != null );
+		assertTrue( eventRouter.get( button ) != null );
 	}
 
 	public void testBadBinding() {
