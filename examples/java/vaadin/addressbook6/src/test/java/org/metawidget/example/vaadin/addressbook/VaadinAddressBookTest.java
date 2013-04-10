@@ -130,8 +130,8 @@ public class VaadinAddressBookTest
 
 		VaadinMetawidget metawidgetContact = (VaadinMetawidget) ( (CustomLayout) ( (VerticalLayout) contactDialog.getContent() ).getComponent( 0 ) ).getComponent( "pagebody" );
 		assertEquals( "Homer", ( (Label) metawidgetContact.getComponent( "firstname" ) ).getValue() );
-		assertEquals( "MALE", ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
-		assertEquals( "Male", ( (Label) metawidgetContact.getComponent( "gender" ) ).toString() );
+		assertEquals( "Male", ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
+		assertEquals( "MALE", ( (Label) metawidgetContact.getComponent( "gender" ) ).toString() );
 		layout = (FormLayout) metawidgetContact.getContent();
 		assertEquals( "Contact Details", ( (Label) layout.getComponent( 5 ) ).getValue() );
 		assertEquals( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 56, Calendar.MAY, 12 )), ( (Label) metawidgetContact.getComponent( "dateOfBirth" ) ).getValue() );
@@ -359,8 +359,8 @@ public class VaadinAddressBookTest
 		assertEquals( "Miss Business Contact", contact.getFullname() );
 		assertEquals( Gender.FEMALE, contact.getGender() );
 		metawidgetContact.setReadOnly( true );
-		assertEquals( "FEMALE", ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
-		assertEquals( "Female", ( (Label) metawidgetContact.getComponent( "gender" ) ).toString() );
+		assertEquals( "Female", ( (Label) metawidgetContact.getComponent( "gender" ) ).getValue() );
+		assertEquals( "FEMALE", ( (Label) metawidgetContact.getComponent( "gender" ) ).toString() );
 
 		metawidgetContact.setReadOnly( false );
 		assertEquals( Gender.FEMALE, ( (Select) metawidgetContact.getComponent( "gender" ) ).getValue() );
