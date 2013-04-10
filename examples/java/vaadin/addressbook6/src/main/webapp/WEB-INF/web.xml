@@ -6,15 +6,15 @@
 		<param-value>false</param-value>
 	</context-param>
 	<servlet>
-		<servlet-name>VaadinMetawidget UI</servlet-name>
-		<servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+		<servlet-name>Vaadinmetawidget Application</servlet-name>
+		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
 		<init-param>
-			<param-name>ui</param-name>
-			<param-value>org.metawidget.example.vaadin.addressbook.AddressBookUI</param-value>
+			<param-name>application</param-name>
+			<param-value>org.metawidget.example.vaadin.addressbook.AddressBook</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>VaadinMetawidget UI</servlet-name>
+		<servlet-name>Vaadinmetawidget Application</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>

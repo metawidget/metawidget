@@ -56,7 +56,6 @@ public class DateConverter
 	// Public methods
 	//
 
-	@Override
 	public String convert( Date value, Class<? extends String> expectedType ) {
 
 		if ( value == null ) {

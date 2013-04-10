@@ -27,44 +27,21 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package org.metawidget.example.vaadin.addressbook.converter;
+package org.metawidget.example.vaadin.addressbook;
 
-import java.text.DateFormat;
-import java.util.Date;
+import org.metawidget.example.shared.addressbook.controller.ContactsController;
 
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
+/**
+ * @author Richard Kennard
+ */
 
-public class DateConverter
-	implements Converter<Date, String> {
-
-	//
-	// Private members
-	//
-
-	private DateFormat	mFormat;
+public interface ContactsControllerProvider {
 
 	//
-	// Constructor
+	// Methods
 	//
 
-	public DateConverter() {
+	ContactsController getContactsController();
 
-		mFormat = DateFormat.getDateInstance( DateFormat.SHORT );
-	}
-
-	//
-	// Public methods
-	//
-
-	@Override
-	public String convert( Date value, Class<? extends String> expectedType ) {
-
-		if ( value == null ) {
-			return null;
-		}
-
-		synchronized ( mFormat ) {
-			return mFormat.format( value );
-		}
-	}
+	void fireRefresh();
 }

@@ -26,6 +26,7 @@
 		<module>swing/appframework</module>
 		<module>swt/addressbook</module>
 		<module>vaadin/addressbook</module>
+		<module>vaadin/addressbook6</module>
 	</modules>
 
 	<repositories>

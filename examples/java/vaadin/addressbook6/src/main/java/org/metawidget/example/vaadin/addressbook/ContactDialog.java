@@ -8,13 +8,13 @@
 // are met:
 //
 // * Redistributions of source code must retain the above copyright notice,
-// this list of conditions and the following disclaimer.
+//   this list of conditions and the following disclaimer.
 // * Redistributions in binary form must reproduce the above copyright notice,
-// this list of conditions and the following disclaimer in the documentation
-// and/or other materials provided with the distribution.
+//   this list of conditions and the following disclaimer in the documentation
+//   and/or other materials provided with the distribution.
 // * Neither the name of Richard Kennard nor the names of its contributors may
-// be used to endorse or promote products derived from this software without
-// specific prior written permission.
+//   be used to endorse or promote products derived from this software without
+//   specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -47,14 +47,14 @@ import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProc
 
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
-import com.vaadin.server.ThemeResource;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -72,7 +72,7 @@ public class ContactDialog
 	// Private members
 	//
 
-	private AddressBookUI					mAddressBook;
+	private AddressBook						mAddressBook;
 
 	/* package private */VaadinMetawidget	mContactMetawidget;
 
@@ -86,16 +86,16 @@ public class ContactDialog
 	// Constructor
 	//
 
-	public ContactDialog( AddressBookUI addressBook, final Contact contact ) {
+	public ContactDialog( AddressBook addressBook, final Contact contact ) {
 
 		mAddressBook = addressBook;
 
 		setHeight( "600px" );
 		setWidth( "800px" );
-		// TODO: ( (Layout) getContent() ).setMargin( false );
+		( (Layout) getContent() ).setMargin( false );
 
 		CustomLayout body = new CustomLayout( "contact" );
-		setContent( body );
+		addComponent( body );
 
 		// Bundle
 
@@ -138,9 +138,8 @@ public class ContactDialog
 
 		final Button deleteButton = new Button( "Delete" );
 		deleteButton.setEnabled( false );
-		deleteButton.addClickListener( new ClickListener() {
+		deleteButton.addListener( new ClickListener() {
 
-			@Override
 			@SuppressWarnings( "unchecked" )
 			public void buttonClick( ClickEvent event ) {
 
@@ -152,9 +151,8 @@ public class ContactDialog
 		} );
 
 		Button addNewButton = new Button( "Add" );
-		addNewButton.addClickListener( new ClickListener() {
+		addNewButton.addListener( new ClickListener() {
 
-			@Override
 			public void buttonClick( ClickEvent event ) {
 
 				mCommunicationsTable.setValue( null );
@@ -162,14 +160,13 @@ public class ContactDialog
 
 				CommunicationDialog communicationDialog = new CommunicationDialog( ContactDialog.this, new Communication() );
 				communicationDialog.setModal( true );
-				((ComponentContainer) getParent()).addComponent( communicationDialog );
+				getParent().addWindow( communicationDialog );
 			}
 		} );
 
 		mCommunicationsTable.setSelectable( false );
-		mCommunicationsTable.addItemClickListener( new ItemClickListener() {
+		mCommunicationsTable.addListener( new ItemClickListener() {
 
-			@Override
 			public void itemClick( ItemClickEvent event ) {
 
 				if ( !mCommunicationsTable.isSelectable() ) {
@@ -186,7 +183,7 @@ public class ContactDialog
 				Communication communication = tableDataSource.getDataRow( event.getItemId() );
 				CommunicationDialog communicationDialog = new CommunicationDialog( ContactDialog.this, communication );
 				communicationDialog.setModal( true );
-				((ComponentContainer) getParent()).addComponent( communicationDialog );
+				getParent().addWindow( communicationDialog );
 			}
 		} );
 
@@ -219,7 +216,7 @@ public class ContactDialog
 		mButtonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		mButtonsMetawidget.setLayout( new HorizontalLayout() );
 		mButtonsMetawidget.setToInspect( this );
-		((VerticalLayout) facetButtons.getContent()).addComponent( mButtonsMetawidget );
+		facetButtons.addComponent( mButtonsMetawidget );
 		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( mButtonsMetawidget, Alignment.MIDDLE_CENTER );
 	}
 
@@ -252,12 +249,12 @@ public class ContactDialog
 			Contact contact = mContactMetawidget.getToInspect();
 			mAddressBook.getContactsController().save( contact );
 		} catch ( Exception e ) {
-			// TODO: showNotification( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
+			showNotification( "Save Error", e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
 			return;
 		}
 
 		if ( getParent() != null ) {
-			((ComponentContainer) getParent()).removeComponent( this );
+			getParent().removeWindow( this );
 		}
 		mAddressBook.fireRefresh();
 	}
@@ -269,8 +266,8 @@ public class ContactDialog
 
 		Contact contact = mContactMetawidget.getToInspect();
 
-		if ( getParent() != null ) {
-			((ComponentContainer) getParent()).removeComponent( this );
+		if ( getParent() != null) {
+			getParent().removeWindow( this );
 		}
 
 		mAddressBook.getContactsController().delete( contact );
@@ -282,7 +279,7 @@ public class ContactDialog
 	@UiAttribute( name = LABEL, value = "${if ( this.contactReadOnly ) 'Back'}" )
 	public void cancel() {
 
-		((ComponentContainer) getParent()).removeComponent( this );
+		getParent().removeWindow( this );
 	}
 
 	@SuppressWarnings( "unchecked" )

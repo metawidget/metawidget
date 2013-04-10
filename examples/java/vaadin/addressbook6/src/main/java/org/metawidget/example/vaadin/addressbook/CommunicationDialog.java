@@ -38,7 +38,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -73,29 +72,27 @@ public class CommunicationDialog
 		// Buttons
 
 		final Button saveButton = new Button( "Save" );
-		saveButton.addClickListener( new ClickListener() {
+		saveButton.addListener( new ClickListener() {
 
-			@Override
 			public void buttonClick( ClickEvent event ) {
 
 				try {
 					metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 					contactDialog.addCommunication( communication );
-					((ComponentContainer) getParent()).removeComponent( CommunicationDialog.this );
+					getParent().removeWindow( CommunicationDialog.this );
 				} catch ( Exception e ) {
-					// TODO: showNotification( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
+					showNotification( "Save Error", e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE );
 					return;
 				}
 			}
 		} );
 
 		final Button cancelButton = new Button( "Cancel" );
-		cancelButton.addClickListener( new ClickListener() {
+		cancelButton.addListener( new ClickListener() {
 
-			@Override
 			public void buttonClick( ClickEvent event ) {
 
-				((ComponentContainer) getParent()).removeComponent( CommunicationDialog.this );
+				getParent().removeWindow( CommunicationDialog.this );
 			}
 		} );
 
@@ -107,11 +104,11 @@ public class CommunicationDialog
 		layout.setSpacing( true );
 		layout.addComponent( saveButton );
 		layout.addComponent( cancelButton );
-		((VerticalLayout) facetButtons.getContent()).addComponent( layout );
+		facetButtons.addComponent( layout );
 		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( layout, Alignment.MIDDLE_CENTER );
 
 		metawidget.addComponent( facetButtons );
-		setContent( metawidget );
-		// TODO: ( (VerticalLayout) getContent() ).setMargin( true, true, false, true );
+		addComponent( metawidget );
+		( (VerticalLayout) getContent() ).setMargin( true, true, false, true );
 	}
 }

@@ -27,44 +27,98 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package org.metawidget.example.vaadin.addressbook.converter;
+package org.metawidget.example.vaadin.addressbook;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
+import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 
-public class DateConverter
-	implements Converter<Date, String> {
+import com.vaadin.data.util.IndexedContainer;
+
+/**
+ * TableDataSource
+ *
+ * @author Loghman Barari
+ */
+
+public class TableDataSource<T extends Comparable<T>>
+	extends IndexedContainer {
 
 	//
 	// Private members
 	//
 
-	private DateFormat	mFormat;
+	private Class<T>		mClass;
+
+	private Map<Object, T>	mDataSource;
+
+	private String[]		mColumns;
 
 	//
 	// Constructor
 	//
 
-	public DateConverter() {
+	public TableDataSource( Class<T> clazz, Collection<T> collection, String... columns ) {
 
-		mFormat = DateFormat.getDateInstance( DateFormat.SHORT );
+		mClass = clazz;
+		mColumns = columns;
+		mDataSource = CollectionUtils.newHashMap();
+
+		for ( String column : mColumns ) {
+			addContainerProperty( column, getColumnType( column ), null );
+		}
+
+		importCollection( collection );
 	}
 
 	//
 	// Public methods
 	//
 
-	@Override
-	public String convert( Date value, Class<? extends String> expectedType ) {
+	public void importCollection( Collection<T> collection ) {
 
-		if ( value == null ) {
-			return null;
-		}
+		removeAllItems();
+		mDataSource.clear();
 
-		synchronized ( mFormat ) {
-			return mFormat.format( value );
+		if ( collection != null ) {
+
+			List<T> list = CollectionUtils.newArrayList( collection );
+			Collections.sort( list );
+
+			for ( T item : list ) {
+
+				Object itemId = addItem();
+
+				for ( String column : mColumns ) {
+
+					getItem( itemId ).getItemProperty( column ).setValue( getValue( item, column ) );
+				}
+
+				mDataSource.put( itemId, item );
+			}
 		}
+	}
+
+	public T getDataRow( Object itemId ) {
+
+		return mDataSource.get( itemId );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected Class<?> getColumnType( String column ) {
+
+		return ClassUtils.getReadMethod( mClass, column ).getReturnType();
+	}
+
+	protected Object getValue( T item, String column ) {
+
+		return ClassUtils.getProperty( item, column );
 	}
 }
