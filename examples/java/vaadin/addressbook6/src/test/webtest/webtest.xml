@@ -5,8 +5,8 @@
 	<target name="all">
 		<webtest name="test-all">
 			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
-				<!-- 'No document element' error appears intermittently -->
-				<option name="ThrowExceptionOnScriptError" value="false"/>
+				<!-- Occasionally see 'No document element' during build -->
+				<option name="JavaScriptEnabled" value="false"/>				
 			</config>
 			<steps>
 				<invoke url="/" />
