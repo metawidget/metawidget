@@ -55,11 +55,11 @@ var metawidget = metawidget || {};
 
 		// Not for us?
 
-		if ( attributes.readOnly === 'true' ) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.readOnly )) {
 			return;
 		}
 
-		if ( attributes.hidden === 'true' ) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.hidden )) {
 			return;
 		}
 
@@ -290,7 +290,7 @@ var metawidget = metawidget || {};
 
 				var nestedMetawidget = $( nestedWidget ).metawidget( mw._pipeline );
 
-				nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || attributes.readOnly === 'true' );
+				nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ));
 				var nestedToInspect = mw.toInspect;
 				var nestedPath = metawidget.util.appendPath( attributes, mw );
 

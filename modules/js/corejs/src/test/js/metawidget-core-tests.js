@@ -489,7 +489,7 @@
 					attributes.foo = 'baz';
 					widgetBuilt++;
 
-					if ( attributes.readOnly === 'true' ) {
+					if ( metawidget.util.isTrueOrTrueString( attributes.readOnly )) {
 						sawReadOnly++;
 					}
 

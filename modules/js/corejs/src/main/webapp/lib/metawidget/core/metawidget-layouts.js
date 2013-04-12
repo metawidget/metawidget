@@ -95,7 +95,7 @@ var metawidget = metawidget || {};
 
 				// For Twitter Bootstrap
 
-				if ( _labelRequiredStyleClass !== undefined && attributes.readOnly !== 'true' && attributes.required === 'true' ) {
+				if ( _labelRequiredStyleClass !== undefined && !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required )) {
 					var existingClass = label.getAttribute( 'class' );
 
 					if ( existingClass === null ) {
@@ -347,7 +347,7 @@ var metawidget = metawidget || {};
 				td.setAttribute( 'class', _columnStyleClasses[2] );
 			}
 
-			if ( attributes.readOnly !== 'true' && attributes.required === 'true' ) {
+			if ( !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required )) {
 				td.innerHTML = '*';
 			}
 

@@ -63,6 +63,16 @@ var metawidget = metawidget || {};
 	};
 
 	/**
+	 * @return true if the value is boolean true or string 'true', but false for
+	 *         any other value (including other JavaScript 'truthy' values)
+	 */
+
+	metawidget.util.isTrueOrTrueString = function( value ) {
+
+		return ( value === 'true' || value === true );
+	};
+
+	/**
 	 * Camel cases the given array of names (e.g. from ['foo','bar','baz'] to
 	 * 'fooBarBaz').
 	 * 
@@ -143,11 +153,11 @@ var metawidget = metawidget || {};
 			return false;
 		}
 
-		if ( attributes.large === 'true' ) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.large ) ) {
 			return true;
 		}
 
-		if ( attributes.wide === 'true' ) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.wide ) ) {
 			return true;
 		}
 

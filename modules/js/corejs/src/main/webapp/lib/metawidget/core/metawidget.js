@@ -56,7 +56,7 @@ var metawidget = metawidget || {};
 			var nestedMetawidget = new metawidget.Metawidget( nestedWidget, _pipeline );
 			nestedMetawidget.toInspect = mw.toInspect;
 			nestedMetawidget.path = metawidget.util.appendPath( attributes, mw );
-			nestedMetawidget.readOnly = mw.readOnly || attributes.readOnly === 'true';
+			nestedMetawidget.readOnly = mw.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly );
 
 			// Attach ourselves as a property of the tag, rather than try to
 			// 'extend' the built-in HTML tags. This is used by

@@ -146,19 +146,19 @@ var metawidget = metawidget || {};
 
 		// Not read-only?
 
-		if ( attributes.readOnly !== 'true' ) {
+		if ( !metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 			return;
 		}
 
 		// Hidden
 
-		if ( attributes.hidden === 'true' || attributes.type === 'function' ) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) || attributes.type === 'function' ) {
 			return document.createElement( 'stub' );
 		}
 
 		if ( attributes['enum'] !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date' ) {
 
-			if ( attributes.masked === 'true' ) {
+			if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
 
 				// Masked (return a couple of nested Stubs, so that we DO still
 				// render a label)
@@ -173,7 +173,7 @@ var metawidget = metawidget || {};
 
 		// Not simple, but don't expand
 
-		if ( attributes.dontExpand === 'true' ) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
 			return document.createElement( 'output' );
 		}
 	};
@@ -197,7 +197,7 @@ var metawidget = metawidget || {};
 
 			// Hidden
 
-			if ( attributes.hidden === 'true' ) {
+			if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) ) {
 				return document.createElement( 'stub' );
 			}
 
@@ -243,7 +243,7 @@ var metawidget = metawidget || {};
 
 				var select = document.createElement( 'select' );
 
-				if ( attributes.required === undefined || attributes.required === 'false' ) {
+				if ( !metawidget.util.isTrueOrTrueString( attributes.required )) {
 					select.appendChild( document.createElement( 'option' ) );
 				}
 
@@ -271,7 +271,7 @@ var metawidget = metawidget || {};
 			if ( attributes.type === 'function' ) {
 				var button = document.createElement( 'button' );
 
-				button.innerHTML = metawidget.util.getLabelString( attributes, mw );				
+				button.innerHTML = metawidget.util.getLabelString( attributes, mw );
 
 				if ( _buttonStyleClass !== undefined ) {
 					button.setAttribute( 'class', _buttonStyleClass );
@@ -316,7 +316,7 @@ var metawidget = metawidget || {};
 
 			if ( attributes.type === 'string' ) {
 
-				if ( attributes.masked === 'true' ) {
+				if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
 					var password = document.createElement( 'input' );
 					password.setAttribute( 'type', 'password' );
 
@@ -327,7 +327,7 @@ var metawidget = metawidget || {};
 					return password;
 				}
 
-				if ( attributes.large === 'true' ) {
+				if ( metawidget.util.isTrueOrTrueString( attributes.large ) ) {
 					return document.createElement( 'textarea' );
 				}
 
@@ -343,7 +343,7 @@ var metawidget = metawidget || {};
 
 			// Not simple, but don't expand
 
-			if ( attributes.dontExpand === 'true' ) {
+			if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
 				var text = document.createElement( 'input' );
 				text.setAttribute( 'type', 'text' );
 				return text;

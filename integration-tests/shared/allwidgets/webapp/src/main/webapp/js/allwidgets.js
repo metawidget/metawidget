@@ -68,29 +68,33 @@ var metawidget = metawidget || {};
 			"textbox": {
 				type: "string",
 				enum: undefined,
+				hidden: "",
 				masked: "",
 				large: "",
 				maxLength: "",
-				required: "true"
+				required: true
 			},
 			"limitedTextbox": {
 				type: "string",
-				maxLength: "20"
+				maxLength: 20,
+				hidden: false,
+				masked: false,
+				large: false
 			},
 			"textarea": {
 				type: "string",
-				large: "true"
+				large: true
 			},
 			"password": {
 				type: "string",
-				masked: "true"
+				masked: true
 			},
 			"number": {
 				type: "number"
 			},
 			"rangedNumber": {
 				type: "number",
-				minimum: "1",
+				minimum: 1,
 				maximum: "100"
 			},
 			"toBeStubbed": {},
@@ -107,28 +111,28 @@ var metawidget = metawidget || {};
 			},
 			"notNullDropdown": {
 				enum: [ "-1", "0", "1" ],
-				required: "true"
+				required: true
 			},
 			"nestedWidgets": {},
 			"readOnlyNestedWidgets": {
-				readOnly: "true"
+				readOnly: true
 			},
 			"nestedWidgetsDontExpand": {
-				dontExpand: "true"
+				dontExpand: true
 			},
 			"readOnlyNestedWidgetsDontExpand": {
-				readOnly: "true",
-				dontExpand: "true"
+				readOnly: true,
+				dontExpand: true
 			},
 			"date": {
 				type: "date"
 			},
 			"hidden": {
-				hidden: "true",
+				hidden: true,
 				type: "string"
 			},
 			"readOnly": {
-				readOnly: "true",
+				readOnly: true,
 				type: "string",
 				section: "Section Break"
 			},

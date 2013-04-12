@@ -158,7 +158,7 @@
 
 			var nestedMetawidget = document.createElement( 'metawidget' );
 			nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
-			if ( attributes.readOnly === 'true' ) {
+			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly )) {
 				nestedMetawidget.setAttribute( 'read-only', 'true' );
 			} else {
 				nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );

@@ -66,7 +66,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
-		if ( attributes.required === 'true' ) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.required )) {
 			widget.setAttribute( 'required', 'required' );
 		}
 

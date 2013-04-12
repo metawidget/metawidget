@@ -46,6 +46,26 @@
 		} );
 	} );
 
+	describe( "The isTrueOrTrueString function", function() {
+
+		it( "returns true for boolean true or string 'true'", function() {
+
+			expect( metawidget.util.isTrueOrTrueString( 'true' ) ).toBe( true );
+			expect( metawidget.util.isTrueOrTrueString( true ) ).toBe( true );
+
+			expect( !metawidget.util.isTrueOrTrueString( 'false' ) ).toBe( true );
+			expect( !metawidget.util.isTrueOrTrueString( false ) ).toBe( true );
+		} );
+
+		it( "returns false for everything else", function() {
+
+			expect( metawidget.util.isTrueOrTrueString( 1 ) ).toBe( false );
+			expect( metawidget.util.isTrueOrTrueString( 'yes' ) ).toBe( false );
+			expect( metawidget.util.isTrueOrTrueString( false ) ).toBe( false );
+			expect( metawidget.util.isTrueOrTrueString( 'false' ) ).toBe( false );
+		} );
+	} );
+	
 	describe( "The camelCase function", function() {
 
 		it( "camel cases arrays", function() {
