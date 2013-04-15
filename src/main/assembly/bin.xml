@@ -11,9 +11,6 @@
 		</fileSet>
 		<fileSet>
 			<directory>/modules/js/corejs/target/jsdoc</directory>
-			<excludes>
-				<exclude>**/src/**</exclude>
-			</excludes>
 			<outputDirectory>/doc/jsdoc</outputDirectory>
 		</fileSet>
 		<fileSet>
