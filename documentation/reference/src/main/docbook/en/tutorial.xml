@@ -1051,7 +1051,7 @@ public class Main {
 					required: "true"
 				}
 			}
-		];
+		};
 	}
 }</symbol> );</programlisting>
 				
@@ -1102,7 +1102,7 @@ public class Main {
 							required: "true"
 						}
 					}
-				];
+				};
 			}
 		}
 	<symbol>] )</symbol>
@@ -1153,8 +1153,8 @@ public class Main {
 		properties:
 			name: {
 				required: "true"
-			},
-			<symbol>notes: {
+			}<symbol>,
+			notes: {
 				type: "string",
 				large: "true"
 			},
