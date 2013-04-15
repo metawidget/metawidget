@@ -1048,7 +1048,7 @@ public class Main {
 			properties: {
 				name: {
 					type: "string",
-					required: "true"
+					required: true
 				}
 			}
 		};
@@ -1099,7 +1099,7 @@ public class Main {
 					properties: {					
 						name: {
 							<symbol><emphasis role="strike">type: "string",</emphasis></symbol><co id="co-introduction-javascript-part1-compositeinspector" linkends="ca-introduction-javascript-part1-compositeinspector" />
-							required: "true"
+							required: true
 						}
 					}
 				};
@@ -1152,11 +1152,11 @@ public class Main {
 	return {
 		properties:
 			name: {
-				required: "true"
+				required: true
 			}<symbol>,
 			notes: {
 				type: "string",
-				large: "true"
+				large: true<co id="co-introduction-javascript-part1-layout" linkends="ca-introduction-javascript-part1-layout" />
 			},
 			employer: {
 				type: "string",
@@ -1169,6 +1169,16 @@ public class Main {
 	};
 }</programlisting>
 				
+				<calloutlist>
+					<callout arearefs="co-introduction-javascript-part1-layout" id="ca-introduction-javascript-part1-layout">
+						<para>
+							Metawidget supports a superset of JSON Schema. Metadata such as <parameter>large</parameter>
+							and <parameter>section</parameter> are not part of the JSON Schema specification, but are useful
+							for UIs.
+						</para>
+					</callout>
+				</calloutlist>
+
 				<para>
 					This produces the screen in <xref linkend="section-introduction-javascript-part1-screenshot4" />. Metadata
 					has been added to define section headings and 'large' properties (i.e. a <parameter>textarea</parameter>).
@@ -1195,11 +1205,11 @@ public class Main {
 			return {
 				properties:
 					name: {
-						required: "true"
+						required: true
 					},
 					notes: {
 						type: "string",
-						large: "true"
+						large: true
 					},
 					employer: {
 						type: "string",
@@ -1272,11 +1282,11 @@ public class Main {
 						return {
 							properties:
 								name: {
-									required: "true"
+									required: true
 								},
 								notes: {
 									type: "string",
-									large: "true"
+									large: true
 								},
 								employer: {
 									type: "string",
@@ -1388,14 +1398,14 @@ public class Main {
 	return {
 		properties:
 			name: {
-				required: "true"
+				required: true
 			},
 			<symbol>retired: {
-				hidden: "true"
+				hidden: true
 			},</symbol>			
 			notes: {
 				type: "string",
-				large: "true"
+				large: true
 			},
 			employer: {
 				type: "string",

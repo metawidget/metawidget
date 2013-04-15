@@ -44,6 +44,7 @@ public class JsonTypeMappingProcessorTest
 		inputXml += "<property name=\"def\" type=\"java.util.LinkedList\"/>";
 		inputXml += "<property name=\"ghi\" type=\"java.lang.Boolean\"/>";
 		inputXml += "<property name=\"jkl\" type=\"java.lang.Character\"/>";
+		inputXml += "<property name=\"aDate\" type=\"java.util.Date\"/>";
 		inputXml += "</entity></inspection-result>";
 
 		// Run processor
@@ -62,6 +63,7 @@ public class JsonTypeMappingProcessorTest
 		validateXml += "<property name=\"def\" type=\"array\"/>";
 		validateXml += "<property name=\"ghi\" type=\"boolean\"/>";
 		validateXml += "<property name=\"jkl\" type=\"string\"/>";
+		validateXml += "<property name=\"aDate\" type=\"date\"/>";
 		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 

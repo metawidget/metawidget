@@ -16,6 +16,8 @@
 
 package org.metawidget.inspectionresultprocessor.json;
 
+import java.util.Date;
+
 import org.metawidget.inspectionresultprocessor.type.TypeMappingInspectionResultProcessorConfig;
 
 /**
@@ -33,12 +35,12 @@ public class JsonTypeMappingProcessorConfig
 
 	public JsonTypeMappingProcessorConfig() {
 
-		// Primitive datatypes as defined by section 3.2 of XML Schema Part 2: Datatypes Second
-		// Edition
+		// Primitive datatypes as defined by JavaScript
 
 		setTypeMapping( String.class.getName(), "string" );
 		setTypeMapping( Boolean.class.getName(), "boolean" );
 		setTypeMapping( Character.class.getName(), "string" );
+		setTypeMapping( Date.class.getName(), "date" );
 
 		setRemoveUnmappedTypes( true );
 	}
