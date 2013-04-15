@@ -38,7 +38,7 @@ public class AddressBookAngularTest
 	// Public methods
 	//
 
-	public void testRest() {
+	public void testAddressBook() {
 
 		runScenarioRunner( "http://localhost:8180/addressbook-angularjs/test-runner.html" );
 	}
