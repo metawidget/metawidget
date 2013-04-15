@@ -276,6 +276,10 @@ var metawidget = metawidget || {};
 	/**
 	 * Traverses the given 'toInspect' along properties defined by the array of
 	 * 'names'.
+	 * <p>
+	 * Note this is traversing simple JavaScript objects (i.e.
+	 * toInspect->name1->name2). It is <em>not</em> traversing JSON Schemas
+	 * (i.e. toInspect->properties->name1->properties->name2)
 	 */
 
 	metawidget.util.traversePath = function( toInspect, names ) {
