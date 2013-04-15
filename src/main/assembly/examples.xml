@@ -128,7 +128,7 @@
 			<outputDirectory>/examples/java/swt</outputDirectory>
 		</file>
 		<file>
-			<source>/examples/java/vaadin/addressbook/target/addressbook-vaadin.war</source>
+			<source>/examples/java/vaadin/addressbook6/target/addressbook-vaadin6.war</source>
 			<outputDirectory>/examples/java/vaadin</outputDirectory>
 		</file>
 		<file>
