@@ -26,11 +26,50 @@ var metawidget = metawidget || {};
 
 	metawidget.util = metawidget.util || {};
 
+	/**
+	 * Returns a label for the given set of attributes.
+	 * <p>
+	 * The label is determined using the following algorithm:
+	 * <p>
+	 * <ul>
+	 * <li> if <tt>attributes.title</tt> exists...
+	 * <ul>
+	 * <li>if the given <tt>mw</tt> has a property <tt>l10n</tt>, then
+	 * <tt>attributes.title</tt> is camel-cased and used as a lookup into
+	 * <tt>mw.i10n[camelCasedTitle]</tt>. This means developers can initially
+	 * build their UIs without worrying about localization, then turn it on
+	 * later</li>
+	 * <li>if no such lookup exists (or <tt>mw.l10n</tt> does not exist),
+	 * return <tt>attributes.title</tt>
+	 * </ul>
+	 * </li>
+	 * <li> if <tt>attributes.title</tt> does not exist...
+	 * <ul>
+	 * <li>if the given <tt>mw</tt> has a property <tt>l10n</tt>, then
+	 * <tt>attributes.name</tt> is used as a lookup into
+	 * <tt>mw.i10n[attributes.name]</tt></li>
+	 * <li>if no such lookup exists (or <tt>mw.l10n</tt> does not exist),
+	 * return <tt>attributes.name</tt>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+
 	metawidget.util.getLabelString = function( attributes, mw ) {
 
 		// Explicit title
 
 		if ( attributes.title !== undefined ) {
+
+			// (localize if possible)
+
+			var camelCased = metawidget.util.camelCase( attributes.title );
+
+			print( camelCased );
+			if ( mw.l10n !== undefined && mw.l10n[camelCased] !== undefined ) {
+				return mw.l10n[camelCased];
+			}
+
 			return attributes.title;
 		}
 
@@ -38,10 +77,8 @@ var metawidget = metawidget || {};
 
 		var name = attributes.name;
 
-		if ( mw.bundle !== undefined ) {
-			if ( mw.bundle[name] !== undefined ) {
-				return mw.bundle[name];
-			}
+		if ( mw.l10n !== undefined && mw.l10n[name] !== undefined ) {
+			return mw.l10n[name];
 		}
 
 		// Default name, uncamel case (e.g. from 'fooBarBaz' to 'Foo Bar Baz')
@@ -74,12 +111,21 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Camel cases the given array of names (e.g. from ['foo','bar','baz'] to
-	 * 'fooBarBaz').
+	 * 'fooBarBaz'). Note the second and third names are capitalized. However no
+	 * attempt is made to <em>de</em>capitalize the first name, because that
+	 * gets very ambiguous with names like 'URL', 'ID' etc.
+	 * <p>
+	 * If <tt>names</tt> is not an array, first calls
+	 * <tt>names.split( ' ' )</tt>.
 	 * 
 	 * @return the camel cased name. Or an empty string if no name
 	 */
 
 	metawidget.util.camelCase = function( names ) {
+
+		if ( ! ( names instanceof Array ) ) {
+			names = names.split( ' ' );
+		}
 
 		var toString = '';
 		var length = names.length;

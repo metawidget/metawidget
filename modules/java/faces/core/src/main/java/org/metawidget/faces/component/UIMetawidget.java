@@ -89,7 +89,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * However by extending <code>UIInput</code>, we enable this useful capability.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -382,8 +382,9 @@ public abstract class UIMetawidget
 	 * <li>Similarly, if the Metawidget's backing bean is request-scoped, rebuilding A and C will
 	 * mean they fetch their values from a new (likely empty) backing bean instance. There will be
 	 * no opportunity for A and C to postback their values first (because they are not executed)</li>
-	 * <li>Some components (such as RichFaces' <code>UIAutocomplete</code>) do not allow fine-grained
-	 * control over what is executed and rendered. They just execute and render themselves</li>
+	 * <li>Some components (such as RichFaces' <code>UIAutocomplete</code>) do not allow
+	 * fine-grained control over what is executed and rendered. They just execute and render
+	 * themselves</li>
 	 * <li>AJAX is about performance, so typically clients are not wanting to rebuild large sections
 	 * of the component tree</li>
 	 * </ol>
@@ -400,6 +401,28 @@ public abstract class UIMetawidget
 	}
 
 	/**
+	 * Returns a label for the given set of attributes.
+	 * <p>
+	 * The label is determined using the following algorithm:
+	 * <p>
+	 * <ul>
+	 * <li>if <tt>attributes.get( "label" )</tt> exists...
+	 * <ul>
+	 * <li><tt>attributes.get( "label" )</tt> is camel-cased and used as a lookup into
+	 * <tt>getLocalizedKey( camelCasedLabel )</tt>. This means developers can initially build their
+	 * UIs without worrying about localization, then turn it on later</li>
+	 * <li>if no such lookup exists, return <tt>attributes.get( "label" )</tt>
+	 * </ul>
+	 * </li>
+	 * <li>if <tt>attributes.get( "label" )</tt> does not exist...
+	 * <ul>
+	 * <li><tt>attributes.get( "name" )</tt> is used as a lookup into
+	 * <tt>getLocalizedKey( name )</tt></li>
+	 * <li>if no such lookup exists, return <tt>attributes.get( "name" )</tt>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 * 
 	 * @return the text of the label. This may itself contain a value expression, such as
 	 *         <code>UiLabel( "#{foo.name}'s name" )</code>
 	 */
@@ -1042,7 +1065,7 @@ public abstract class UIMetawidget
 	 * children are COMPONENT_ATTRIBUTE_NOT_RECREATABLE, but <em>does</em> remove as many of their
 	 * children as it can. This allows their siblings to still behave dynamically even if some
 	 * components are locked (e.g. <code>SelectInputDate</code>).
-	 *
+	 * 
 	 * @return true if all children were removed (i.e. none were marked not-recreatable).
 	 */
 

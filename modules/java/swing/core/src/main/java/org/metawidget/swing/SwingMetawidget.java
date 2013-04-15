@@ -296,6 +296,30 @@ public class SwingMetawidget
 		invalidateWidgets();
 	}
 
+	/**
+	 * Returns a label for the given set of attributes.
+	 * <p>
+	 * The label is determined using the following algorithm:
+	 * <p>
+	 * <ul>
+	 * <li>if <tt>attributes.get( "label" )</tt> exists...
+	 * <ul>
+	 * <li><tt>attributes.get( "label" )</tt> is camel-cased and used as a lookup into
+	 * <tt>getLocalizedKey( camelCasedLabel )</tt>. This means developers can initially build their
+	 * UIs without worrying about localization, then turn it on later</li>
+	 * <li>if no such lookup exists, return <tt>attributes.get( "label" )</tt>
+	 * </ul>
+	 * </li>
+	 * <li>if <tt>attributes.get( "label" )</tt> does not exist...
+	 * <ul>
+	 * <li><tt>attributes.get( "name" )</tt> is used as a lookup into
+	 * <tt>getLocalizedKey( name )</tt></li>
+	 * <li>if no such lookup exists, return <tt>attributes.get( "name" )</tt>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+
 	public String getLabelString( Map<String, String> attributes ) {
 
 		if ( attributes == null ) {

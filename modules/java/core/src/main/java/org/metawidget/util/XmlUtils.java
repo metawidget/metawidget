@@ -670,6 +670,10 @@ public final class XmlUtils {
 				propertyBuilder.append( arrayToJsonSchema( nodeValue ) );
 				propertyBuilder.append( "]" );
 			} else {
+
+				// Always write out the value as a string, even 'true' and '0'. This is because some
+				// JSON parsers only accept strings (e.g. AngularJS)
+
 				propertyBuilder.append( "\"" );
 				propertyBuilder.append( nodeValue );
 				propertyBuilder.append( "\"" );

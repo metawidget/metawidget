@@ -63,6 +63,10 @@ var metawidget = metawidget || {};
 		readOnly: "Read Only Value"
 	};
 
+	/**
+	 * Tests styles of metadata, such as boolean true versus string 'true'.
+	 */
+
 	metawidget.test.allWidgetsMetadata = {
 		"properties": {
 			"textbox": {

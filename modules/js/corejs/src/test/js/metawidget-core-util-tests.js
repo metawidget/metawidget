@@ -22,16 +22,60 @@
 
 		it( "uncamel cases strings", function() {
 
-			expect( metawidget.util.getLabelString( { name: 'foo' }, {} ) ).toBe( 'Foo' );
-			expect( metawidget.util.getLabelString( { name: 'fooBar' }, {} ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.getLabelString( { name: 'FooBar' }, {} ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.getLabelString( { name: 'FooBar1' }, {} ) ).toBe( 'Foo Bar 1' );
+			expect( metawidget.util.getLabelString( {
+				name: 'foo'
+			}, {} ) ).toBe( 'Foo' );
+			expect( metawidget.util.getLabelString( {
+				name: 'fooBar'
+			}, {} ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.getLabelString( {
+				name: 'FooBar'
+			}, {} ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.getLabelString( {
+				name: 'FooBar1'
+			}, {} ) ).toBe( 'Foo Bar 1' );
 		} );
 
 		it( "doesn't mangle strings that are already uncamel-cased", function() {
 
-			expect( metawidget.util.getLabelString( { name: 'Foo Bar' }, {} ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.getLabelString( { name: 'Foo barBaz Abc' }, {} ) ).toBe( 'Foo bar Baz Abc' );
+			expect( metawidget.util.getLabelString( {
+				name: 'Foo Bar'
+			}, {} ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.getLabelString( {
+				name: 'Foo barBaz Abc'
+			}, {} ) ).toBe( 'Foo bar Baz Abc' );
+		} );
+
+		it( "supports localization", function() {
+
+			expect( metawidget.util.getLabelString( {
+				title: 'Foo Bar'
+			}, {
+				l10n: {
+					FooBar: 'Foo Bar (i10n)'
+				}
+			} ) ).toBe( 'Foo Bar (i10n)' );
+			expect( metawidget.util.getLabelString( {
+				title: 'Foo Bar'
+			}, {
+				l10n: {
+					FooBaz: 'Foo Baz (i10n)'
+				}
+			} ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.getLabelString( {
+				name: 'fooBar'
+			}, {
+				l10n: {
+					fooBar: 'Foo Bar (i10n)'
+				}
+			} ) ).toBe( 'Foo Bar (i10n)' );
+			expect( metawidget.util.getLabelString( {
+				name: 'fooBar'
+			}, {
+				l10n: {
+					fooBaz: 'Foo Baz (i10n)'
+				}
+			} ) ).toBe( 'Foo Bar' );
 		} );
 	} );
 
@@ -65,7 +109,7 @@
 			expect( metawidget.util.isTrueOrTrueString( 'false' ) ).toBe( false );
 		} );
 	} );
-	
+
 	describe( "The camelCase function", function() {
 
 		it( "camel cases arrays", function() {
@@ -74,6 +118,14 @@
 			expect( metawidget.util.camelCase( [ 'foo' ] ) ).toBe( 'foo' );
 			expect( metawidget.util.camelCase( [ 'foo', 'bar' ] ) ).toBe( 'fooBar' );
 			expect( metawidget.util.camelCase( [ 'foo', 'bar', 'baz' ] ) ).toBe( 'fooBarBaz' );
+		} );
+
+		it( "camel cases Strings", function() {
+
+			expect( metawidget.util.camelCase( '' ) ).toBe( '' );
+			expect( metawidget.util.camelCase( 'foo' ) ).toBe( 'foo' );
+			expect( metawidget.util.camelCase( 'foo bar' ) ).toBe( 'fooBar' );
+			expect( metawidget.util.camelCase( 'foo bar baz' ) ).toBe( 'fooBarBaz' );
 		} );
 	} );
 

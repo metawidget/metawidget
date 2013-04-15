@@ -760,7 +760,7 @@
 			expect( element.childNodes.length ).toBe( 3 );
 		} );
 
-		it( "supports internationalization", function() {
+		it( "supports localization", function() {
 
 			// Defaults
 
@@ -772,7 +772,7 @@
 
 				}
 			};
-			mw.bundle = {
+			mw.l10n = {
 				foo: "Foo Label"
 			};
 			mw.buildWidgets();

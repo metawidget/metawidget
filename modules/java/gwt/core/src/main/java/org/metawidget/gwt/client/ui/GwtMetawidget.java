@@ -64,7 +64,7 @@ import com.google.gwt.xml.client.Element;
  * Java server for inspection. The full power of Java Inspectors can then be brought to bear,
  * including inspecting annotations and server-side configuration files (such as
  * <code>hibernate.cfg.xml</code>).
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -187,7 +187,7 @@ public class GwtMetawidget
 	 * Gets the object being inspected.
 	 * <p>
 	 * Exposed for binding implementations.
-	 *
+	 * 
 	 * @return the object. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>Person p = getToInspect()</code>)
 	 */
@@ -341,6 +341,30 @@ public class GwtMetawidget
 		invalidateWidgets();
 	}
 
+	/**
+	 * Returns a label for the given set of attributes.
+	 * <p>
+	 * The label is determined using the following algorithm:
+	 * <p>
+	 * <ul>
+	 * <li>if <tt>attributes.get( "label" )</tt> exists...
+	 * <ul>
+	 * <li><tt>attributes.get( "label" )</tt> is camel-cased and used as a lookup into
+	 * <tt>getLocalizedKey( camelCasedLabel )</tt>. This means developers can initially build their
+	 * UIs without worrying about localization, then turn it on later</li>
+	 * <li>if no such lookup exists, return <tt>attributes.get( "label" )</tt>
+	 * </ul>
+	 * </li>
+	 * <li>if <tt>attributes.get( "label" )</tt> does not exist...
+	 * <ul>
+	 * <li><tt>attributes.get( "name" )</tt> is used as a lookup into
+	 * <tt>getLocalizedKey( name )</tt></li>
+	 * <li>if no such lookup exists, return <tt>attributes.get( "name" )</tt>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+
 	public String getLabelString( Map<String, String> attributes ) {
 
 		if ( attributes == null ) {
@@ -485,7 +509,7 @@ public class GwtMetawidget
 	 * conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which Widget GwtMetawidget created, which is not ideal, so clients may prefer to
 	 * use binding instead.
-	 *
+	 * 
 	 * @return the value. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -504,7 +528,7 @@ public class GwtMetawidget
 
 	/**
 	 * Gets the value from the given Widget.
-	 *
+	 * 
 	 * @return the value. Note this return type uses generics, so as to not require a cast by the
 	 *         caller (eg. <code>String s = getValue(widget)</code>)
 	 */

@@ -62,7 +62,7 @@ import android.widget.LinearLayout;
  * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
  * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
  * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -263,6 +263,30 @@ public class AndroidMetawidget
 		invalidateWidgets();
 	}
 
+	/**
+	 * Returns a label for the given set of attributes.
+	 * <p>
+	 * The label is determined using the following algorithm:
+	 * <p>
+	 * <ul>
+	 * <li>if <tt>attributes.get( "label" )</tt> exists...
+	 * <ul>
+	 * <li><tt>attributes.get( "label" )</tt> is camel-cased and used as a lookup into
+	 * <tt>getLocalizedKey( camelCasedLabel )</tt>. This means developers can initially build their
+	 * UIs without worrying about localization, then turn it on later</li>
+	 * <li>if no such lookup exists, return <tt>attributes.get( "label" )</tt>
+	 * </ul>
+	 * </li>
+	 * <li>if <tt>attributes.get( "label" )</tt> does not exist...
+	 * <ul>
+	 * <li><tt>attributes.get( "name" )</tt> is used as a lookup into
+	 * <tt>getLocalizedKey( name )</tt></li>
+	 * <li>if no such lookup exists, return <tt>attributes.get( "name" )</tt>
+	 * </ul>
+	 * </li>
+	 * </ul>
+	 */
+
 	public String getLabelString( Map<String, String> attributes ) {
 
 		if ( attributes == null ) {
@@ -313,7 +337,7 @@ public class AndroidMetawidget
 	/**
 	 * Looks up the given key in the given bundle using
 	 * <code>getContext().getResources().getText()</code>.
-	 *
+	 * 
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
@@ -449,7 +473,7 @@ public class AndroidMetawidget
 	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need
 	 * some conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
-	 *
+	 * 
 	 * @return the value from the View. Note this return type uses generics, so as to not require a
 	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
