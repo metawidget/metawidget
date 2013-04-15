@@ -132,7 +132,7 @@
 						<!-- (will fail if 'javadoc:aggregate' has not been run manually) -->
 						
 						<copy todir="target/ROOT/doc/api">
-							<fileset dir="../../modules/target/site/apidocs"/>
+							<fileset dir="../../modules/java/target/site/apidocs"/>
 						</copy>
 
 						<copy todir="target/ROOT/doc/reference">
