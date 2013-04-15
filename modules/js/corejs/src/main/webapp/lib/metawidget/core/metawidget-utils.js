@@ -65,7 +65,6 @@ var metawidget = metawidget || {};
 
 			var camelCased = metawidget.util.camelCase( attributes.title );
 
-			print( camelCased );
 			if ( mw.l10n !== undefined && mw.l10n[camelCased] !== undefined ) {
 				return mw.l10n[camelCased];
 			}
