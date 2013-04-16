@@ -20,4 +20,4 @@
  * @author Richard Kennard
  */
 
-package org.metawidget.inspector.json.schema;
+package org.metawidget.inspectionresultprocessor.json.schema;
