@@ -33,6 +33,17 @@
 
 		<hr/>
 
+		<h3>Metawidget presented at Sydney AngularJS User Group</h3>
+		<h4>28th March 2013</h4>
+		
+		<p>
+			Metawidget has been presented at the AngularJS User Group at Google Headquarters, Sydney.
+			Slides and source code from the presentation are
+			<a href="http://meetup.com/AngularJS-Sydney/events/110468442">available to download</a>.
+		</p>
+		
+		<hr/>
+		
 		<h3>Metawidget v3.2 Released!</h3>
 		<h4>6th March 2013</h4>
 		

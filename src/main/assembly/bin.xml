@@ -6,7 +6,7 @@
 	<baseDirectory>metawidget-${project.version}</baseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>/modules/target/site/apidocs</directory>
+			<directory>/modules/java/target/site/apidocs</directory>
 			<outputDirectory>/doc/api</outputDirectory>
 		</fileSet>
 		<fileSet>
