@@ -1098,7 +1098,7 @@ public class Main {
 				return {
 					properties: {					
 						name: {
-							<symbol><emphasis role="strike">type: "string",</emphasis></symbol><co id="co-introduction-javascript-part1-compositeinspector" linkends="ca-introduction-javascript-part1-compositeinspector" />
+							<symbol><emphasis role="strike">type: "string",</emphasis></symbol> <co id="co-introduction-javascript-part1-compositeinspector" linkends="ca-introduction-javascript-part1-compositeinspector" />
 							required: true
 						}
 					}
@@ -1156,7 +1156,7 @@ public class Main {
 			}<symbol>,
 			notes: {
 				type: "string",
-				large: true<co id="co-introduction-javascript-part1-layout" linkends="ca-introduction-javascript-part1-layout" />
+				large: true <co id="co-introduction-javascript-part1-layout" linkends="ca-introduction-javascript-part1-layout" />
 			},
 			employer: {
 				type: "string",
