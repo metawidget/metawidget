@@ -369,7 +369,7 @@ public class BaseConfigReaderIntegrationTest
 			configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag() );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertEquals( "org.metawidget.inspector.iface.InspectorException: java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH", e.getMessage() );
+			assertEquals( e.getMessage().contains( "org.metawidget.inspector.iface.InspectorException: java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH" ));
 		}
 
 		assertEquals( 4, configReader.mResourceCache.size() );

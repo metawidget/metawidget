@@ -55,7 +55,7 @@ public class WsdlInspectorTest
 		try {
 			new WsdlInspector( new XmlSchemaInspectorConfig().setInputStream( new ByteArrayInputStream( wsdl.getBytes() ) ) );
 		} catch ( Exception e ) {
-			assertEquals( "org.xml.sax.SAXParseException: Premature end of file.", e.getMessage() );
+			assertTrue( e.getMessage(), e.getMessage().endsWith( " Premature end of file." ));
 		}
 
 		// No types

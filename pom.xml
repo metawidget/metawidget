@@ -12,8 +12,6 @@
 
 		<!-- Alternate artifact versions (normal ones specified under &lt;dependencyManagement&gt;) -->
 
-		<!-- We build against 1.5, but we test against 1.4 -->
-		<jdk14.path>/j2sdk1.4.2_16</jdk14.path>
 		<!-- We build against the latest Mojarra, but we test against 1.2.x -->
 		<mojarra1.version>1.2_15</mojarra1.version>
 		<myfaces11.version>1.1.10</myfaces11.version>
@@ -1057,6 +1055,7 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
+				<!-- Metawidget requires JDK 1.5+ -->
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>

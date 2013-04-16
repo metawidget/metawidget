@@ -142,7 +142,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( e.getMessage().startsWith( "java.io.FileNotFoundException:" ) );
+			assertTrue( e.getMessage().contains( "\\tmp\\no.such.file" ) );
 		}
 	}
 
@@ -160,7 +160,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle(JavaBeanPropertyStyle)", e.getMessage() );
+			assertTrue( e.getMessage().endsWith( "class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle(JavaBeanPropertyStyle)" ));
 		}
 	}
 
@@ -178,7 +178,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.inspector.impl.BaseObjectInspectorConfig.setPropertyStyle(Boolean). Did you mean setPropertyStyle(PropertyStyle)?", e.getMessage() );
+			assertTrue( e.getMessage().endsWith( "class org.metawidget.inspector.impl.BaseObjectInspectorConfig.setPropertyStyle(Boolean). Did you mean setPropertyStyle(PropertyStyle)?" ));
 		}
 
 		xml = "<?xml version=\"1.0\"?>";
@@ -192,7 +192,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertEquals( "java.lang.NoSuchMethodException: class org.metawidget.inspector.xml.XmlInspectorConfig.setInputStreams(ArrayList). Did you mean setInputStreams(InputStream[])?", e.getMessage() );
+			assertTrue( e.getMessage().endsWith( "class org.metawidget.inspector.xml.XmlInspectorConfig.setInputStreams(ArrayList). Did you mean setInputStreams(InputStream[])?" ));
 		}
 	}
 
@@ -280,7 +280,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testBadNamesapce() {
+	public void testBadNamespace() {
 
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -293,7 +293,7 @@ public class ConfigReaderTest
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( "org.xml.sax.SAXException: Namespace 'org.metawidget.config.impl' of element <allTypesInspector> must start with java:".equals( e.getMessage() ) );
+			assertTrue( e.getMessage().contains( "org.xml.sax.SAXException: Namespace 'org.metawidget.config.impl' of element <allTypesInspector> must start with java:" ));
 		}
 	}
 
@@ -346,7 +346,7 @@ public class ConfigReaderTest
 			new BaseConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), AllTypesInspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( "java.lang.UnsupportedOperationException: Called setNoParameters".equals( e.getMessage() ) );
+			assertTrue( e.getMessage().endsWith( ": Called setNoParameters" ));
 		}
 	}
 
