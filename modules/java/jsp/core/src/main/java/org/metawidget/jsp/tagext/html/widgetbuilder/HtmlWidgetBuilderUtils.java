@@ -106,9 +106,24 @@ public final class HtmlWidgetBuilderUtils {
 
 		Object evaluated = evaluate( attributes, metawidget );
 
+		// Special support for null
+
 		if ( evaluated == null ) {
 			return "";
 		}
+
+		// Special support for Booleans. The built-in sun.beans.editors.BooleanEditor returns 'True'
+		// with an uppercase 't'
+
+		if ( evaluated == Boolean.TRUE ) {
+			return "true";
+		}
+
+		if ( evaluated == Boolean.FALSE ) {
+			return "false";
+		}
+
+		// Otherwise, delegate to registered PropertyEditor
 
 		Class<?> clazz = evaluated.getClass();
 
