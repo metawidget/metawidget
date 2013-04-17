@@ -576,8 +576,6 @@ var metawidget = metawidget || {};
 						}
 					}
 
-					// TODO: give manually created components an id?
-					
 					// Manually created components default to no section
 
 					pipeline.layoutWidget( child, "property", childAttributes, pipeline.element, mw );
