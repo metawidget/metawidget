@@ -115,12 +115,8 @@ public final class HtmlWidgetBuilderUtils {
 		// Special support for Booleans. The built-in sun.beans.editors.BooleanEditor returns 'True'
 		// with an uppercase 't'
 
-		if ( evaluated == Boolean.TRUE ) {
-			return "true";
-		}
-
-		if ( evaluated == Boolean.FALSE ) {
-			return "false";
+		if ( Boolean.class.isAssignableFrom( evaluated.getClass() ) || boolean.class.isAssignableFrom( evaluated.getClass() )) {
+			return String.valueOf( evaluated );
 		}
 
 		// Otherwise, delegate to registered PropertyEditor

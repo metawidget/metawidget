@@ -121,5 +121,31 @@ public class HtmlWidgetBuilderUtilsTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( NAME, "foo" );
 		assertEquals( "true", HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget ) );
+
+		metawidget.setPageContext( new MockPageContext() {
+
+			@Override
+			public ExpressionEvaluator getExpressionEvaluator() {
+
+				return new ExpressionEvaluator() {
+
+					@SuppressWarnings( "rawtypes" )
+					@Override
+					public Object evaluate( String expression, Class arg1, VariableResolver arg2, FunctionMapper arg3 ) {
+
+						return Boolean.TRUE;
+					}
+
+					@Override
+					@SuppressWarnings( "rawtypes" )
+					public Expression parseExpression( String arg0, Class arg1, FunctionMapper arg2 ) {
+
+						throw new NoSuchMethodError( "Should fail gracefully" );
+					}
+				};
+			}
+		} );
+
+		assertEquals( "true", HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget ) );
 	}
 }
