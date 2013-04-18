@@ -630,6 +630,39 @@ public class AndroidMetawidget
 		return mExistingUnusedViews;
 	}
 
+	/**
+	 * Build the widgets under this Metawidget.
+	 * <p>
+	 * Clients will not normally need to call this method. It is called automatically by a number of
+	 * other methods, including <code>onMeasure</code>.
+	 */
+
+	protected void buildWidgets() {
+
+		// No need to build?
+
+		if ( !mNeedToBuildWidgets ) {
+			return;
+		}
+
+		mPipeline.configure();
+
+		mNeedToBuildWidgets = false;
+		mIgnoreAddRemove = true;
+
+		try {
+			if ( mLastInspection == null ) {
+				mLastInspection = inspect();
+			}
+
+			mPipeline.buildWidgets( mLastInspection );
+		} catch ( Exception e ) {
+			throw MetawidgetException.newException( e );
+		} finally {
+			mIgnoreAddRemove = false;
+		}
+	}
+
 	//
 	// Protected methods
 	//
@@ -736,32 +769,6 @@ public class AndroidMetawidget
 		mNeedToBuildWidgets = true;
 
 		postInvalidate();
-	}
-
-	protected void buildWidgets() {
-
-		// No need to build?
-
-		if ( !mNeedToBuildWidgets ) {
-			return;
-		}
-
-		mPipeline.configure();
-
-		mNeedToBuildWidgets = false;
-		mIgnoreAddRemove = true;
-
-		try {
-			if ( mLastInspection == null ) {
-				mLastInspection = inspect();
-			}
-
-			mPipeline.buildWidgets( mLastInspection );
-		} catch ( Exception e ) {
-			throw MetawidgetException.newException( e );
-		} finally {
-			mIgnoreAddRemove = false;
-		}
 	}
 
 	protected void startBuild() {

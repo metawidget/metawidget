@@ -1531,7 +1531,9 @@ public class BaseConfigReader
 
 			for ( Method method : clazz.getMethods() ) {
 
-				if ( method.getName().startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) && method.getParameterTypes().length > 0 ) {
+				// Do not warn for > 1 parameter, as a lot of WidgetBuilders implement setValue
+				
+				if ( method.getName().startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) && method.getParameterTypes().length == 1 ) {
 					LOG.warn( "{0} must be immutable, but appears to have a setter method ({1})", clazz, method );
 					break;
 				}

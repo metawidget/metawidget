@@ -37,7 +37,7 @@
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
-						<overridenWidgetBuilder xmlns="java:org.metawidget.android.widget.widgetbuilder"/>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.android.widget.widgetbuilder"/>
 						<readOnlyWidgetBuilder xmlns="java:org.metawidget.android.widget.widgetbuilder"/>
 						<androidWidgetBuilder xmlns="java:org.metawidget.android.widget.widgetbuilder"/>
 					</array>
@@ -45,9 +45,20 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 		<!-- Make sure we can set WidgetProcessors -->
-		<widgeProcessors>
-			<array/>
-		</widgeProcessors>		
+		<widgetProcessors>
+			<array>
+			    <simpleBindingProcessor xmlns="java:org.metawidget.android.widget.widgetprocessor.binding.simple" config="SimpleBindingProcessorConfig">
+					<converter>
+		                <class>java.util.Date</class>
+		                <dateConverter xmlns="java:org.metawidget.integrationtest.android.allwidgets.converter"/>
+		            </converter>
+					<converter>
+		                <class>org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets$NestedWidgets</class>
+		                <nestedWidgetsConverter xmlns="java:org.metawidget.integrationtest.android.allwidgets.converter"/>
+		            </converter>
+				</simpleBindingProcessor>
+			</array>
+		</widgetProcessors>		
 		<layout>
 			<textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout" config="TextViewLayoutDecoratorConfig">
 				<layout>
