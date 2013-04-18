@@ -93,6 +93,7 @@ public class AllWidgetsActivity
 				// New, read-only View will be a lot shorter
 
 				metawidget.setReadOnly( true );
+				metawidget.buildWidgets();
 				( (ScrollView) metawidget.getParent() ).fullScroll( View.FOCUS_UP );
 			} catch ( Exception e ) {
 				LogUtils.getLog( AllWidgetsActivity.class ).error( "Save error", e );

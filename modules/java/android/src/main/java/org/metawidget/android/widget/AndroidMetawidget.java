@@ -63,7 +63,7 @@ import android.widget.LinearLayout;
  * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
  * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
  * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -351,7 +351,7 @@ public class AndroidMetawidget
 	/**
 	 * Looks up the given key in the given bundle using
 	 * <code>getContext().getResources().getText()</code>.
-	 *
+	 * 
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
@@ -487,7 +487,7 @@ public class AndroidMetawidget
 	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need
 	 * some conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
-	 *
+	 * 
 	 * @return the value from the View. Note this return type uses generics, so as to not require a
 	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -513,7 +513,7 @@ public class AndroidMetawidget
 	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need
 	 * some conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
-	 *
+	 * 
 	 * @return the value from the View. Note this return type uses generics, so as to not require a
 	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -634,10 +634,11 @@ public class AndroidMetawidget
 	 * Build the widgets under this Metawidget.
 	 * <p>
 	 * Clients will not normally need to call this method. It is called automatically by a number of
-	 * other methods, including <code>onMeasure</code>.
+	 * other methods, including <code>onMeasure</code> and <code>findViewWithTags</code>. However
+	 * sometimes it may be necessary to force a rebuild.
 	 */
 
-	protected void buildWidgets() {
+	public void buildWidgets() {
 
 		// No need to build?
 
