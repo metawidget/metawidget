@@ -1255,7 +1255,7 @@ public abstract class UIMetawidget
 		}
 
 		/**
-		 * Overriden to just-in-time evaluate EL binding.
+		 * Overridden to just-in-time evaluate EL binding.
 		 */
 
 		@Override

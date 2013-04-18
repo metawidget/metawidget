@@ -103,7 +103,7 @@ public class JpaInspectorConfig
 	}
 
 	/**
-	 * Overriden to return a JpaInspectorConfig, as part of a fluent interface.
+	 * Overridden to return a JpaInspectorConfig, as part of a fluent interface.
 	 */
 
 	@Override
