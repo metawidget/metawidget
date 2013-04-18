@@ -1515,7 +1515,13 @@
 					
 					<para>
 						By default, Android does not come with a binding mechanism to map <classname>View</classname> values to business
-						object values. To map these manually, do:
+						object values. There are a number of third-party binding libraries, but many are either discontinued or rely on
+						statically declared UIs. As a workaround, by default <classname>AndroidMetawidget</classname> supplies
+						a <classname>SimpleBindingProcessor</classname> (see <xref linkend="section-widgetprocessors-mobile-android-simplebindingprocessor"/>).
+					</para>
+					
+					<para>
+						Alternatively, to map values manually, remove <classname>SimpleBindingProcessor</classname> and do:
 					</para>
 					
 					<programlisting language="java">metawidget.setValue( mPerson.getFirstname(), "firstname" );

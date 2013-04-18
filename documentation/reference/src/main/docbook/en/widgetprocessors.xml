@@ -600,7 +600,78 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				</section>
 
 			</section>
+			
+		</section>
 
+		<section id="section-widgetprocessors-mobile">
+			<title>Mobile WidgetProcessors</title>
+
+			<para>
+				Metawidget supports <classname>WidgetProcessor</classname>s for mobile environments.
+			</para>
+			
+			<section id="section-widgetprocessors-mobile-android">
+				<title>Android WidgetProcessors</title>
+				
+				<section id="section-widgetprocessors-mobile-android-simplebindingprocessor">
+					<title>SimpleBindingProcessor</title>
+					
+					<para>
+						Like most other Metawidgets, <classname>AndroidMetawidget</classname> supports property binding. As of
+						the time of writing, however, Android leaves much of the implementation of property binding to the developer.
+						<classname>AndroidMetawidget</classname> automates this by supplying a <classname>SimpleBindingProcessor</classname>.
+						This implementation is pluggable, so may be swapped out as and when later releases of Android
+						more fully support data binding.
+					</para>
+
+					<para>
+						<classname>SimpleBindingProcessor</classname> binds properties using <function>setValue</function>. To
+						save values back into the business object, clients must call <function>save</function>:
+					</para>
+					
+					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( myMetawidget )</programlisting>
+					
+					<para>
+						If the type of the business property does not match the type expected by the <classname>View</classname>, clients
+						can register a <classname>Converter</classname>. First implement the
+						<classname>org.metawidget.android.widget.widgetprocessor.binding.simple.Converter</classname> interface...
+					</para>
+					
+					<programlisting language="java">public class ColorConverter
+	implements Converter&lt;Color&gt; {
+
+	public Color convertFromView( View widget, Object value, Class&lt;?&gt; intoClass ) {
+
+		// return (String) value as a Color
+	}
+	
+	Object convertForView( View widget, Color value ) {
+	
+		// return Color as a String (e.g. ff0000)
+	}
+}</programlisting>
+
+					<para>
+						...then register it either programmatically or in <filename>metawidget.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;widgetProcessors&gt;
+	&lt;array&gt;
+		&lt;simpleBindingProcessor xmlns="java:org.metawidget.android.widget.widgetprocessor.binding.simple"
+				config="SimpleBindingProcessorConfig"&gt;
+			&lt;converter&gt;
+				&lt;class&gt;java.lang.Color&lt;/class&gt;
+				&lt;colorConverter xmlns="java:com.myapp"/&gt;
+			&lt;/converter&gt;					
+			&lt;converter&gt;
+				...another converter...
+			&lt;/converter&gt;					
+		&lt;/simpleBindingProcessor&gt;
+		...</programlisting>
+		
+				</section>
+			
+			</section>
 		</section>
 		
 	</chapter>
