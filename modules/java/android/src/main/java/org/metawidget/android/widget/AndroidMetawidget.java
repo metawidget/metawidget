@@ -29,6 +29,7 @@ import org.metawidget.android.widget.layout.TextViewLayoutDecoratorConfig;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.ReadOnlyWidgetBuilder;
+import org.metawidget.android.widget.widgetprocessor.SimpleBindingProcessor;
 import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -62,7 +63,7 @@ import android.widget.LinearLayout;
  * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
  * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
  * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -73,41 +74,43 @@ public class AndroidMetawidget
 	// Private statics
 	//
 
-	private static Inspector									DEFAULT_INSPECTOR;
+	private static Inspector										DEFAULT_INSPECTOR;
 
-	private static InspectionResultProcessor<AndroidMetawidget>	DEFAULT_INSPECTIONRESULTPROCESSOR;
+	private static InspectionResultProcessor<AndroidMetawidget>[]	DEFAULT_INSPECTIONRESULTPROCESSORS;
 
-	private static WidgetBuilder<View, AndroidMetawidget>		DEFAULT_WIDGETBUILDER;
+	private static WidgetBuilder<View, AndroidMetawidget>			DEFAULT_WIDGETBUILDER;
 
-	private static Layout<View, ViewGroup, AndroidMetawidget>	DEFAULT_LAYOUT;
+	private static WidgetProcessor<View, AndroidMetawidget>[]		DEFAULT_WIDGETPROCESSORS;
 
-	private static ConfigReader									DEFAULT_CONFIG_READER;
+	private static Layout<View, ViewGroup, AndroidMetawidget>		DEFAULT_LAYOUT;
+
+	private static ConfigReader										DEFAULT_CONFIG_READER;
 
 	//
 	// Private members
 	//
 
-	private Object												mToInspect;
+	private Object													mToInspect;
 
-	private String												mPath;
+	private String													mPath;
 
-	private Class<?>											mBundle;
+	private Class<?>												mBundle;
 
-	private boolean												mNeedToBuildWidgets;
+	private boolean													mNeedToBuildWidgets;
 
-	Element														mLastInspection;
+	Element															mLastInspection;
 
-	private boolean												mIgnoreAddRemove;
+	private boolean													mIgnoreAddRemove;
 
-	private Set<View>											mExistingViews;
+	private Set<View>												mExistingViews;
 
-	private Set<View>											mExistingUnusedViews;
+	private Set<View>												mExistingUnusedViews;
 
-	private Map<String, Facet>									mFacets;
+	private Map<String, Facet>										mFacets;
 
-	private Map<Object, Object>									mClientProperties;
+	private Map<Object, Object>										mClientProperties;
 
-	private Pipeline											mPipeline;
+	private Pipeline												mPipeline;
 
 	//
 	// Constructor
@@ -186,6 +189,11 @@ public class AndroidMetawidget
 		invalidateInspection();
 	}
 
+	public Object getToInspect() {
+
+		return mToInspect;
+	}
+
 	/**
 	 * Sets the path to be inspected.
 	 * <p>
@@ -249,6 +257,12 @@ public class AndroidMetawidget
 
 		mPipeline.setWidgetProcessors( widgetProcessors );
 		invalidateWidgets();
+	}
+	
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
+
+		buildWidgets();
+		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
 	public void setLayout( Layout<View, ViewGroup, AndroidMetawidget> layout ) {
@@ -337,7 +351,7 @@ public class AndroidMetawidget
 	/**
 	 * Looks up the given key in the given bundle using
 	 * <code>getContext().getResources().getText()</code>.
-	 * 
+	 *
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
@@ -473,7 +487,7 @@ public class AndroidMetawidget
 	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need
 	 * some conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
-	 * 
+	 *
 	 * @return the value from the View. Note this return type uses generics, so as to not require a
 	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -513,6 +527,19 @@ public class AndroidMetawidget
 		if ( view == null ) {
 			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
 		}
+
+		setValue( value, view );
+	}
+
+	/**
+	 * Sets the value of the given View.
+	 * <p>
+	 * Clients must ensure the value is of the correct type to suit the View (eg. String for
+	 * EditText). This obviously requires knowledge of which View AndroidMetawidget created, which
+	 * is not ideal.
+	 */
+
+	public void setValue( Object value, View view ) {
 
 		if ( !setValue( value, view, mPipeline.getWidgetBuilder() ) ) {
 			throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );
@@ -554,6 +581,7 @@ public class AndroidMetawidget
 		return new Pipeline();
 	}
 
+	@SuppressWarnings( "unchecked" )
 	protected void configureDefaults() {
 
 		try {
@@ -577,21 +605,28 @@ public class AndroidMetawidget
 			}
 
 			if ( mPipeline.getInspectionResultProcessors() == null ) {
-				if ( DEFAULT_INSPECTIONRESULTPROCESSOR == null ) {
-					DEFAULT_INSPECTIONRESULTPROCESSOR = new ComesAfterInspectionResultProcessor<AndroidMetawidget>();
+				if ( DEFAULT_INSPECTIONRESULTPROCESSORS == null ) {
+					DEFAULT_INSPECTIONRESULTPROCESSORS = new InspectionResultProcessor[] { new ComesAfterInspectionResultProcessor<AndroidMetawidget>() };
 				}
 
-				mPipeline.addInspectionResultProcessor( DEFAULT_INSPECTIONRESULTPROCESSOR );
+				mPipeline.setInspectionResultProcessors( DEFAULT_INSPECTIONRESULTPROCESSORS );
 			}
 
 			if ( mPipeline.getWidgetBuilder() == null ) {
 				if ( DEFAULT_WIDGETBUILDER == null ) {
-					@SuppressWarnings( "unchecked" )
 					CompositeWidgetBuilderConfig<View, AndroidMetawidget> config = new CompositeWidgetBuilderConfig<View, AndroidMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new AndroidWidgetBuilder() );
 					DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<View, AndroidMetawidget>( config );
 				}
 
 				setWidgetBuilder( DEFAULT_WIDGETBUILDER );
+			}
+
+			if ( mPipeline.getWidgetProcessors() == null ) {
+				if ( DEFAULT_WIDGETPROCESSORS == null ) {
+					DEFAULT_WIDGETPROCESSORS = new WidgetProcessor[] { new SimpleBindingProcessor() };
+				}
+
+				mPipeline.setWidgetProcessors( DEFAULT_WIDGETPROCESSORS );
 			}
 
 			if ( mPipeline.getLayout() == null ) {

@@ -161,7 +161,7 @@ public class AndroidMetawidgetTest
 	// Inner class
 	//
 
-	static class Foo {
+	public static class Foo {
 
 		public String getName() {
 
