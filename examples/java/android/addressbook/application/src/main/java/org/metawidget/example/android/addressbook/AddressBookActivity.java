@@ -30,9 +30,9 @@
 package org.metawidget.example.android.addressbook;
 
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
-import org.metawidget.example.shared.addressbook.model.ContactType;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -129,19 +129,7 @@ public class AddressBookActivity
 
 		switch ( item.getItemId() ) {
 			case R.string.search: {
-				// Manual mapping
-
-				mContactSearch.setFirstname( (String) metawidget.getValue( "firstname" ) );
-				mContactSearch.setSurname( (String) metawidget.getValue( "surname" ) );
-
-				String type = metawidget.getValue( "type" );
-
-				if ( type == null || "".equals( type ) ) {
-					mContactSearch.setType( null );
-				} else {
-					mContactSearch.setType( ContactType.valueOf( type ) );
-				}
-
+				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 				contacts.setAdapter( new ArrayAdapter<Contact>( AddressBookActivity.this, android.R.layout.simple_list_item_1, application.getContactsController().getAllByExample( mContactSearch ) ) );
 				break;
 			}

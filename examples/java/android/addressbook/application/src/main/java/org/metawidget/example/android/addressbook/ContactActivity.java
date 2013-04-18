@@ -30,18 +30,15 @@
 package org.metawidget.example.android.addressbook;
 
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.Set;
 
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
-import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.StringUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -54,7 +51,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  * Activity for Address Book Contacts.
@@ -170,10 +166,6 @@ public class ContactActivity
 			metawidget.setReadOnly( false );
 		}
 
-		// Manual mapping
-
-		refresh();
-
 		if ( !metawidget.isReadOnly() ) {
 			View view = metawidget.findViewWithTag( "title" );
 			view.setFocusable( true );
@@ -213,7 +205,6 @@ public class ContactActivity
 		switch ( item.getItemId() ) {
 			case R.string.edit:
 				metawidget.setReadOnly( false );
-				refresh();
 				View view = metawidget.findViewWithTag( "title" );
 				view.setFocusable( true );
 				view.setFocusableInTouchMode( true );
@@ -221,9 +212,8 @@ public class ContactActivity
 				break;
 
 			case R.string.save:
-				if ( !save() ) {
-					return false;
-				}
+				// TODO: document in tutorial
+				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 
 				try {
 					application.getContactsController().save( mContact );
@@ -259,111 +249,5 @@ public class ContactActivity
 		}
 
 		return false;
-	}
-
-	//
-	// Protected methods
-	//
-
-	/**
-	 * Transfers data from the Contact to Metawidget
-	 *
-	 * @return true if the data was successfully transferred
-	 */
-
-	protected void refresh() {
-
-		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
-
-		metawidget.setValue( mContact.getTitle(), "title" );
-		metawidget.setValue( mContact.getFirstname(), "firstname" );
-		metawidget.setValue( mContact.getSurname(), "surname" );
-
-		Gender gender = mContact.getGender();
-
-		if ( gender == null ) {
-			metawidget.setValue( null, "gender" );
-		} else if ( metawidget.findViewWithTag( "gender" ) instanceof TextView ) {
-			metawidget.setValue( gender, "gender" );
-		} else {
-			metawidget.setValue( gender.name(), "gender" );
-		}
-
-		metawidget.setValue( mContact.getAddress().getStreet(), "address", "street" );
-		metawidget.setValue( mContact.getAddress().getCity(), "address", "city" );
-		metawidget.setValue( mContact.getAddress().getState(), "address", "state" );
-		metawidget.setValue( mContact.getAddress().getPostcode(), "address", "postcode" );
-		metawidget.setValue( mContact.getNotes(), "notes" );
-
-		if ( mContact instanceof PersonalContact ) {
-			Date dateOfBirth = ( (PersonalContact) mContact ).getDateOfBirth();
-
-			if ( dateOfBirth != null ) {
-				synchronized ( FORMAT ) {
-					metawidget.setValue( FORMAT.format( ( (PersonalContact) mContact ).getDateOfBirth() ), "dateOfBirth" );
-				}
-			}
-		} else {
-			metawidget.setValue( ( (BusinessContact) mContact ).getCompany(), "company" );
-			metawidget.setValue( StringUtils.quietValueOf( ( (BusinessContact) mContact ).getNumberOfStaff() ), "numberOfStaff" );
-		}
-	}
-
-	/**
-	 * Transfers data from Metawidget to the Contact
-	 *
-	 * @return true if the data was successfully transferred
-	 */
-
-	protected boolean save() {
-
-		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
-
-		mContact.setTitle( (String) metawidget.getValue( "title" ) );
-		mContact.setFirstname( (String) metawidget.getValue( "firstname" ) );
-		mContact.setSurname( (String) metawidget.getValue( "surname" ) );
-
-		String gender = (String) metawidget.getValue( "gender" );
-
-		if ( gender == null || "".equals( gender ) ) {
-			mContact.setGender( null );
-		} else {
-			mContact.setGender( Gender.valueOf( gender ) );
-		}
-
-		mContact.getAddress().setStreet( (String) metawidget.getValue( "address", "street" ) );
-		mContact.getAddress().setCity( (String) metawidget.getValue( "address", "city" ) );
-		mContact.getAddress().setState( (String) metawidget.getValue( "address", "state" ) );
-		mContact.getAddress().setPostcode( (String) metawidget.getValue( "address", "postcode" ) );
-		mContact.setNotes( (String) metawidget.getValue( "notes" ) );
-
-		if ( mContact instanceof PersonalContact ) {
-			String dateOfBirth = (String) metawidget.getValue( "dateOfBirth" );
-
-			if ( dateOfBirth == null || "".equals( dateOfBirth ) ) {
-				( (PersonalContact) mContact ).setDateOfBirth( null );
-			} else {
-				try {
-					synchronized ( FORMAT ) {
-						( (PersonalContact) mContact ).setDateOfBirth( FORMAT.parse( dateOfBirth ) );
-					}
-				} catch ( ParseException e ) {
-					new AlertDialog.Builder( getCurrentFocus().getContext() ).setTitle( getString( R.string.dateError ) ).setMessage( "Unable to recognize date '" + dateOfBirth + "'\n\nPlease re-enter the date" ).setPositiveButton( "OK", null ).show();
-
-					return false;
-				}
-			}
-		} else {
-			( (BusinessContact) mContact ).setCompany( (String) metawidget.getValue( "company" ) );
-			String numberOfStaff = (String) metawidget.getValue( "numberOfStaff" );
-
-			if ( numberOfStaff == null || "".equals( numberOfStaff ) ) {
-				( (BusinessContact) mContact ).setNumberOfStaff( 0 );
-			} else {
-				( (BusinessContact) mContact ).setNumberOfStaff( Integer.parseInt( numberOfStaff ) );
-			}
-		}
-
-		return true;
 	}
 }

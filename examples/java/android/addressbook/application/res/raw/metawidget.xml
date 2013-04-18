@@ -22,6 +22,24 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<widgetProcessors>
+		    <array>
+		        <simpleBindingProcessor xmlns="java:org.metawidget.android.widget.widgetprocessor.binding.simple" config="SimpleBindingProcessorConfig">
+		            <converter>
+		                <class>org.metawidget.example.shared.addressbook.model.ContactType</class>
+		                <contactTypeConverter xmlns="java:org.metawidget.example.android.addressbook.converter"/>
+		            </converter>
+					<converter>
+		                <class>java.util.Date</class>
+		                <dateConverter xmlns="java:org.metawidget.example.android.addressbook.converter"/>
+		            </converter>
+		            <converter>
+		                <class>org.metawidget.example.shared.addressbook.model.Gender</class>
+		                <genderConverter xmlns="java:org.metawidget.example.android.addressbook.converter"/>
+		            </converter>
+				</simpleBindingProcessor>
+		    </array>
+		</widgetProcessors>
 		<layout>
 			<textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout" config="TextViewLayoutDecoratorConfig">
 				<layout>

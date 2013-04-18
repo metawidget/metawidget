@@ -30,6 +30,7 @@
 package org.metawidget.example.android.addressbook;
 
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 
@@ -93,11 +94,6 @@ public class CommunicationDialog
 			setTitle( context.getString( R.string.editCommunication ) );
 			mMetawidget.setToInspect( mCommunication );
 
-			// Manual mapping
-
-			mMetawidget.setValue( mCommunication.getType(), "type" );
-			mMetawidget.setValue( mCommunication.getValue(), "value" );
-
 			setButton( context.getString( R.string.save ), this );
 			setButton2( context.getString( R.string.delete ), this );
 		}
@@ -111,14 +107,8 @@ public class CommunicationDialog
 	public void onClick( DialogInterface dialog, int button ) {
 
 		if ( button == DialogInterface.BUTTON1 ) {
-			// Manual mapping
 
-			if ( mCommunication == null ) {
-				mCommunication = new Communication();
-			}
-
-			mCommunication.setType( (String) mMetawidget.getValue( "type" ) );
-			mCommunication.setValue( (String) mMetawidget.getValue( "value" ) );
+			mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mMetawidget );
 
 			try {
 				mContact.addCommunication( mCommunication );
