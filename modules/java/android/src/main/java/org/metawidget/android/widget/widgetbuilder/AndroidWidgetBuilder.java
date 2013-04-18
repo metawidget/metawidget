@@ -26,7 +26,9 @@ import java.util.Map;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.AndroidValueAccessor;
 import org.metawidget.android.widget.Stub;
+import org.metawidget.android.widget.widgetprocessor.binding.BindingConverter;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -183,10 +185,36 @@ public class AndroidWidgetBuilder
 
 				// Empty option
 
-				List<String> lookupList = CollectionUtils.fromString( lookup );
+				List<Object> lookupList = CollectionUtils.newArrayList();
 
 				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-					lookupList.add( 0, null );
+					lookupList.add( null );
+				}
+
+				// Lookup the Class
+				//
+				// (use TYPE, not ACTUAL_TYPE, because an Enum with a value will get a type of Enum$1)
+
+				Class<?> nonActualType;
+				String type = attributes.get( TYPE );
+
+				if ( type != null ) {
+					nonActualType = ClassUtils.niceForName( type );
+				} else {
+					nonActualType = null;
+				}
+
+				BindingConverter bindingConverter = metawidget.getWidgetProcessor( BindingConverter.class );
+
+				for ( String value : CollectionUtils.fromString( lookup ) ) {
+
+					Object convertedValue = value;
+
+					if ( bindingConverter != null && nonActualType != null ) {
+						convertedValue = bindingConverter.convertFromString( value, nonActualType );
+					}
+
+					lookupList.add( convertedValue );
 				}
 
 				// Labels
@@ -202,7 +230,7 @@ public class AndroidWidgetBuilder
 					lookupLabelsList.add( 0, null );
 				}
 
-				ArrayAdapter<String> adapter = new LookupArrayAdapter<String>( metawidget.getContext(), lookupList, lookupLabelsList );
+				ArrayAdapter<Object> adapter = new LookupArrayAdapter<Object>( metawidget.getContext(), lookupList, lookupLabelsList );
 				spinner.setAdapter( adapter );
 
 				return spinner;

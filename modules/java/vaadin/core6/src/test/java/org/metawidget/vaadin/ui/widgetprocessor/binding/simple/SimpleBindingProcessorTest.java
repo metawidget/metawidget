@@ -19,10 +19,8 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding.simple;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import junit.framework.TestCase;
 
@@ -39,10 +37,6 @@ import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.vaadin.ui.Stub;
 import org.metawidget.vaadin.ui.VaadinMetawidget;
 import org.metawidget.vaadin.ui.layout.TabSheetLayoutDecorator;
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProcessor;
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
-import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.ToStringConverter;
 
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.ObjectProperty;
@@ -160,16 +154,7 @@ public class SimpleBindingProcessorTest
 
 		MetawidgetTestUtils.testEqualsAndHashcode( SimpleBindingProcessorConfig.class, new SimpleBindingProcessorConfig() {
 			// Subclass
-		}, "converters" );
-
-		// Test SimpleBindingProcessorConfig is not using WeakHashMap, else the Converters can
-		// mysteriously disappear!
-
-		SimpleBindingProcessorConfig config = new SimpleBindingProcessorConfig();
-		config.setConverter( Object.class, String.class, new ToStringConverter() );
-
-		assertTrue( config.getConverters() instanceof HashMap );
-		assertFalse( config.getConverters() instanceof WeakHashMap );
+		} );
 	}
 
 	public void testNestedMetawidget() {

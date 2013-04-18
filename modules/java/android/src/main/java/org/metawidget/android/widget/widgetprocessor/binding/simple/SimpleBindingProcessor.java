@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.android.widget.widgetprocessor;
+package org.metawidget.android.widget.widgetprocessor.binding.simple;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
@@ -24,7 +24,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -44,7 +46,48 @@ import android.widget.TextView;
  */
 
 public class SimpleBindingProcessor
-	implements AdvancedWidgetProcessor<View, AndroidMetawidget> {
+	implements AdvancedWidgetProcessor<View, AndroidMetawidget>, BindingConverter {
+
+	//
+	// Private members
+	//
+
+	private final Map<Class<?>, Converter<?>>	mConverters;
+
+	//
+	// Constructor
+	//
+
+	public SimpleBindingProcessor() {
+
+		this( new SimpleBindingProcessorConfig() );
+	}
+
+	public SimpleBindingProcessor( SimpleBindingProcessorConfig config ) {
+
+		// Default converters
+
+		mConverters = CollectionUtils.newWeakHashMap();
+
+		Converter<?> simpleConverter = new SimpleConverter();
+		mConverters.put( Boolean.class, simpleConverter );
+		mConverters.put( Character.class, simpleConverter );
+		mConverters.put( Number.class, simpleConverter );
+		mConverters.put( byte.class, simpleConverter );
+		mConverters.put( short.class, simpleConverter );
+		mConverters.put( int.class, simpleConverter );
+		mConverters.put( long.class, simpleConverter );
+		mConverters.put( float.class, simpleConverter );
+		mConverters.put( double.class, simpleConverter );
+		mConverters.put( boolean.class, simpleConverter );
+		mConverters.put( char.class, simpleConverter );
+
+		// Custom converters
+
+		if ( config.getConverters() != null ) {
+			mConverters.putAll( config.getConverters() );
+		}
+	}
 
 	//
 	// Public methods
@@ -110,6 +153,15 @@ public class SimpleBindingProcessor
 			value = ClassUtils.getProperty( value, name );
 		}
 
+		// ...convert it (if necessary)...
+
+		Class<?> propertyType = ClassUtils.niceForName( type );
+		Converter<Object> converter = getConverter( propertyType );
+
+		if ( converter != null ) {
+			value = converter.convertForView( view, value );
+		}
+
 		// ...and set it
 
 		try {
@@ -125,10 +177,10 @@ public class SimpleBindingProcessor
 			State state = getState( metawidget );
 
 			if ( state.bindings == null ) {
-				state.bindings = new HashSet<String[]>();
+				state.bindings = new HashSet<Object[]>();
 			}
 
-			state.bindings.add( names );
+			state.bindings.add( new Object[] { view, names, converter, propertyType } );
 		} catch ( Exception e ) {
 			throw WidgetProcessorException.newException( e );
 		}
@@ -152,11 +204,21 @@ public class SimpleBindingProcessor
 			// For each bound property...
 
 			for ( Object[] binding : state.bindings ) {
-				String[] names = (String[]) binding[0];
+				View view = (View) binding[0];
+				String[] names = (String[]) binding[1];
+				@SuppressWarnings( "unchecked" )
+				Converter<Object> converter = (Converter<Object>) binding[2];
+				Class<?> propertyType = (Class<?>) binding[3];
 
 				// ...fetch the value...
 
-				Object value = metawidget.getValue( names );
+				Object value = metawidget.getValue( view );
+
+				// ...convert it (if necessary)...
+
+				if ( converter != null ) {
+					value = converter.convertFromView( view, value, propertyType );
+				}
 
 				// ...and set it
 
@@ -178,8 +240,8 @@ public class SimpleBindingProcessor
 		// Nested metawidgets
 
 		if ( state.nestedMetawidgets != null ) {
-			for ( AndroidMetawidget nestedmetawidget : state.nestedMetawidgets ) {
-				save( nestedmetawidget );
+			for ( AndroidMetawidget nestedMetawidget : state.nestedMetawidgets ) {
+				save( nestedMetawidget );
 			}
 		}
 	}
@@ -189,9 +251,47 @@ public class SimpleBindingProcessor
 		// Do nothing
 	}
 
+	public Object convertFromString( String value, Class<?> expectedType ) {
+
+		Converter<?> converterFromString = getConverter( expectedType );
+
+		if ( converterFromString != null ) {
+			return converterFromString.convertFromView( null, value, expectedType );
+		}
+
+		return value;
+	}
+
 	//
 	// Private methods
 	//
+
+	/**
+	 * Gets the Converter for the given Class (if any).
+	 * <p>
+	 * Includes traversing superclasses of the given <code>classToConvert</code> for a suitable
+	 * Converter, so for example registering a Converter for <code>Number.class</code> will match
+	 * <code>Integer.class</code>, <code>Double.class</code> etc., unless a more subclass-specific
+	 * Converter is also registered.
+	 */
+
+	private <T extends Converter<?>> T getConverter( Class<?> classToConvert ) {
+
+		Class<?> classTraversal = classToConvert;
+
+		while ( classTraversal != null ) {
+			@SuppressWarnings( "unchecked" )
+			T converter = (T) mConverters.get( classTraversal );
+
+			if ( converter != null ) {
+				return converter;
+			}
+
+			classTraversal = classTraversal.getSuperclass();
+		}
+
+		return null;
+	}
 
 	/* package private */State getState( AndroidMetawidget metawidget ) {
 
@@ -215,7 +315,7 @@ public class SimpleBindingProcessor
 
 	/* package private */static class State {
 
-		/* package private */Set<String[]>			bindings;
+		/* package private */Set<Object[]>			bindings;
 
 		/* package private */Set<AndroidMetawidget>	nestedMetawidgets;
 	}

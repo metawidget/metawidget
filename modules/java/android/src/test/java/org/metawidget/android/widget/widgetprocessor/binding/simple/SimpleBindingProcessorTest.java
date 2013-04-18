@@ -14,18 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.vaadin.ui.widgetprocessor.binding.simple;
+package org.metawidget.android.widget.widgetprocessor.binding.simple;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import junit.framework.TestCase;
 
+import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.Stub;
+import org.metawidget.android.widget.layout.LinearLayoutConfig;
+import org.metawidget.android.widget.layout.SimpleLayout;
+import org.metawidget.android.widget.layout.TabHostLayoutDecorator;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
@@ -36,19 +38,14 @@ import org.metawidget.test.model.annotatedaddressbook.Gender;
 import org.metawidget.test.model.annotatedaddressbook.PersonalContact;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
-import org.metawidget.vaadin.ui.Stub;
-import org.metawidget.vaadin.ui.VaadinMetawidget;
-import org.metawidget.vaadin.ui.layout.TabSheetLayoutDecorator;
 
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Slider;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TabHost;
+import android.widget.TextView;
 
 /**
  * @author Richard Kennard
@@ -71,19 +68,14 @@ public class SimpleBindingProcessorTest
 
 		// Inspect
 
-		VaadinMetawidget metawidget = new VaadinMetawidget();
+		AndroidMetawidget metawidget = new AndroidMetawidget( null );
 		metawidget.setToInspect( foo );
 
 		// Load and save
 
-		FormLayout layout = metawidget.getContent();
-
-		TextField textField = (TextField) layout.getComponent( 0 );
-		assertEquals( "42", textField.getValue() );
-		Label label = (Label) layout.getComponent( 1 );
-		assertEquals( "4", label.getValue() );
-
-		textField.setValue( "43" );
+		EditText view = metawidget.findViewWithTags( "bar" );
+		assertEquals( "42", view.getText() );
+		view.setText( "43" );
 		assertEquals( 42, foo.getBar() );
 		metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 		assertEquals( 43, foo.getBar() );
@@ -99,15 +91,14 @@ public class SimpleBindingProcessorTest
 
 		// Inspect
 
-		VaadinMetawidget metawidget = new VaadinMetawidget();
+		AndroidMetawidget metawidget = new AndroidMetawidget( null );
 		metawidget.setToInspect( foo );
+		metawidget.setLayout( new SimpleLayout() );
 		metawidget.setPath( Foo.class.getName() + "/bar" );
 
-		FormLayout layout = metawidget.getContent();
-
-		TextField textField = (TextField) layout.getComponent( 0 );
-		assertEquals( "42", textField.getValue() );
-		textField.setValue( "43" );
+		EditText view = (EditText) metawidget.getChildAt( 0 );
+		assertEquals( "42", view.getText() );
+		view.setText( "43" );
 		assertEquals( 42, foo.getBar() );
 		metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 		assertEquals( 43, foo.getBar() );
@@ -116,12 +107,12 @@ public class SimpleBindingProcessorTest
 	public void testNoGetterSetterType()
 		throws Exception {
 
-		VaadinMetawidget metawidget = new VaadinMetawidget();
+		AndroidMetawidget metawidget = new AndroidMetawidget( null );
 		metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig().setPropertyStyle( new JavaBeanPropertyStyle( new JavaBeanPropertyStyleConfig().setSupportPublicFields( true ) ) ) ) );
 		metawidget.setToInspect( new NoGetSetFoo() );
 
 		try {
-			metawidget.getContent();
+			metawidget.getChildAt( 0 );
 			fail();
 		} catch ( Exception e ) {
 			assertTrue( e.getCause().getMessage().startsWith( "Unable to get 'bar'" ) );
@@ -131,14 +122,14 @@ public class SimpleBindingProcessorTest
 	public void testUppercase()
 		throws Exception {
 
-		VaadinMetawidget metawidget = new VaadinMetawidget();
+		AndroidMetawidget metawidget = new AndroidMetawidget( null );
 
 		// Saving
 
 		UppercaseFoo uppercaseFoo = new UppercaseFoo();
 		metawidget.setToInspect( uppercaseFoo );
 
-		( (TextField) metawidget.getComponent( "WEPKey" ) ).setValue( "1234567890" );
+		( (EditText) metawidget.findViewWithTags( "WEPKey" ) ).setText( "1234567890" );
 		metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 		assertEquals( "1234567890", uppercaseFoo.getWEPKey() );
 
@@ -147,8 +138,7 @@ public class SimpleBindingProcessorTest
 		uppercaseFoo.setWEPKey( "0987654321" );
 		metawidget.setToInspect( uppercaseFoo );
 
-		FormLayout layout = metawidget.getContent();
-		assertEquals( "0987654321", ( (TextField) layout.getComponent( 0 ) ).getValue() );
+		assertEquals( "0987654321", ( (EditText) metawidget.findViewWithTags( "WEPKey" ) ).getText() );
 	}
 
 	public void testConfig() {
@@ -161,48 +151,36 @@ public class SimpleBindingProcessorTest
 	public void testNestedMetawidget() {
 
 		Contact contact = new PersonalContact();
-		VaadinMetawidget metawidget = new VaadinMetawidget();
-		metawidget.addComponent( new Stub( "dateOfBirth" ) );
+		AndroidMetawidget metawidget = new AndroidMetawidget( null );
+		Stub stub = new Stub( null );
+		stub.setTag( "dateOfBirth" );
+		metawidget.addView( stub );
 		metawidget.setToInspect( contact );
 
-		// Just FormLayout
+		// Just TableLayout
 
 		assertEquals( null, contact.getFirstname() );
 		assertEquals( null, contact.getAddress().getStreet() );
-		( (TextField) metawidget.getComponent( "firstname" ) ).setValue( "Foo" );
-		( (TextField) metawidget.getComponent( "address", "street" ) ).setValue( "Bar" );
-		assertEquals( metawidget, metawidget.getComponent( "address", "street" ).getParent().getParent().getParent().getParent() );
+		( (EditText) metawidget.findViewWithTags( "firstname" ) ).setText( "Foo" );
+		( (EditText) metawidget.findViewWithTags( "address", "street" ) ).setText( "Bar" );
+		assertEquals( metawidget, metawidget.findViewWithTags( "address", "street" ).getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent() );
+		assertEquals( metawidget, metawidget.findViewWithTags( "address", "postcode" ).getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent() );
 		metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 		assertEquals( "Foo", contact.getFirstname() );
 		assertEquals( "Bar", contact.getAddress().getStreet() );
 
 		// With TabSheetLayoutDecorator
 
-		metawidget.setLayout( new TabSheetLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>().setLayout( new org.metawidget.vaadin.ui.layout.FormLayout() ) ) );
-		( (TextField) metawidget.getComponent( "firstname" ) ).setValue( "Foo1" );
-		( (TextField) metawidget.getComponent( "address", "street" ) ).setValue( "Bar1" );
-		assertTrue( metawidget.getComponent( "address", "street" ).getParent().getParent().getParent().getParent().getParent().getParent() instanceof TabSheet );
+		metawidget.setLayout( new TabHostLayoutDecorator( new LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget>().setLayout( new org.metawidget.android.widget.layout.TableLayout( new LinearLayoutConfig() ) ) ) );
+		( (EditText) metawidget.findViewWithTags( "firstname" ) ).setText( "Foo1" );
+		( (EditText) metawidget.findViewWithTags( "address", "street" ) ).setText( "Bar1" );
+		assertTrue( metawidget.findViewWithTags( "address", "street" ).getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent() instanceof TabHost );
 		metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 		assertEquals( "Foo1", contact.getFirstname() );
 		assertEquals( "Bar1", contact.getAddress().getStreet() );
 	}
 
-	public void testSlider()
-		throws Exception {
-
-		VaadinMetawidget metawidget = new VaadinMetawidget();
-		metawidget.setToInspect( new Foo() );
-		SimpleBindingProcessor widgetProcessor = new SimpleBindingProcessor();
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		Slider slider = new Slider();
-
-		attributes.put( NAME, "baz" );
-		attributes.put( TYPE, int.class.getName() );
-		widgetProcessor.processWidget( slider, PROPERTY, attributes, metawidget );
-
-		assertEquals( 4d, slider.getValue() );
-	}
-
+	@SuppressWarnings( "unchecked" )
 	public void testEnum()
 		throws Exception {
 
@@ -211,47 +189,44 @@ public class SimpleBindingProcessorTest
 		Contact contact = new PersonalContact();
 		contact.setGender( Gender.MALE );
 
-		VaadinMetawidget metawidget = new VaadinMetawidget();
+		AndroidMetawidget metawidget = new AndroidMetawidget( null );
+		SimpleBindingProcessorConfig config = new SimpleBindingProcessorConfig();
+		config.setConverter( Gender.class, new Converter<Gender>() {
+
+			public Gender convertFromView( View widget, Object value, Class<?> intoClass ) {
+
+				return Gender.valueOf( (String) value );
+			}
+
+			public Object convertForView( View widget, Gender value ) {
+
+				if ( widget instanceof Spinner ) {
+					return value;
+				}
+
+				return value.name();
+			}
+		} );
+		metawidget.setWidgetProcessors( new SimpleBindingProcessor( config ) );
 		metawidget.setToInspect( contact );
-		SimpleBindingProcessor widgetProcessor = new SimpleBindingProcessor();
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		Label label = new Label();
+		TextView label = new TextView( null );
 
 		attributes.put( NAME, "gender" );
 		attributes.put( TYPE, Gender.class.getName() );
-		widgetProcessor.processWidget( label, PROPERTY, attributes, metawidget );
+		metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).processWidget( label, PROPERTY, attributes, metawidget );
+		assertEquals( "MALE", label.getText() );
 
-		Field valueField = ObjectProperty.class.getDeclaredField( "value" );
-		valueField.setAccessible( true );
-		assertEquals( "MALE", label.getValue() );
-
-		// As Select
+		// As Spinner
 
 		metawidget.setToInspect( contact );
-		@SuppressWarnings( "deprecation" )
-		com.vaadin.ui.Select select = metawidget.getComponent( "gender" );
-		IndexedContainer dataSource = (IndexedContainer) select.getContainerDataSource();
-		assertEquals( Gender.MALE, dataSource.getIdByIndex( 0 ) );
-		assertEquals( Gender.FEMALE, dataSource.getIdByIndex( 1 ) );
-		assertEquals( 2, dataSource.getItemIds().size() );
-	}
-
-	public void testConvertFromString() {
-
-		SimpleBindingProcessorConfig config = new SimpleBindingProcessorConfig();
-		config.setConverter( String.class, Foo.class, new Converter<String, Foo>() {
-
-			@Override
-			public Foo convert( String value, Class<? extends Foo> actualType ) {
-
-				Foo foo = new Foo();
-				foo.setBar( Long.valueOf( value ) );
-				return foo;
-			}
-		} );
-
-		assertEquals( 4, ((Foo) new SimpleBindingProcessor( config ).convertFromString( "4", Foo.class )).getBar());
-		assertEquals( "false", new SimpleBindingProcessor( config ).convertFromString( "false", String.class ));
+		Spinner spinner = metawidget.findViewWithTags( "gender" );
+		assertEquals( Gender.MALE, spinner.getSelectedItem() );
+		assertEquals( null, ( (ArrayAdapter<Gender>) spinner.getAdapter() ).getItem( 0 ) );
+		assertEquals( Gender.MALE, ( (ArrayAdapter<Gender>) spinner.getAdapter() ).getItem( 1 ) );
+		assertEquals( Gender.FEMALE, ( (ArrayAdapter<Gender>) spinner.getAdapter() ).getItem( 2 ) );
+		assertEquals( 3, ( (ArrayAdapter<String>) spinner.getAdapter() ).getCount() );
 	}
 
 	//

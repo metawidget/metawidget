@@ -29,7 +29,7 @@ import org.metawidget.android.widget.layout.TextViewLayoutDecoratorConfig;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.ReadOnlyWidgetBuilder;
-import org.metawidget.android.widget.widgetprocessor.SimpleBindingProcessor;
+import org.metawidget.android.widget.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -258,7 +258,7 @@ public class AndroidMetawidget
 		mPipeline.setWidgetProcessors( widgetProcessors );
 		invalidateWidgets();
 	}
-	
+
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass ) {
 
 		buildWidgets();
@@ -492,7 +492,6 @@ public class AndroidMetawidget
 	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
 
-	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names ) {
 
 		if ( names == null || names.length == 0 ) {
@@ -504,6 +503,23 @@ public class AndroidMetawidget
 		if ( view == null ) {
 			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
 		}
+
+		return getValue( view );
+	}
+
+	/**
+	 * Gets the value from the given View.
+	 * <p>
+	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need
+	 * some conversion before being reapplied to the object being inspected. This obviously requires
+	 * knowledge of which View AndroidMetawidget created, which is not ideal.
+	 *
+	 * @return the value from the View. Note this return type uses generics, so as to not require a
+	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getValue( View view ) {
 
 		return (T) getValue( view, mPipeline.getWidgetBuilder() );
 	}
@@ -544,6 +560,55 @@ public class AndroidMetawidget
 		if ( !setValue( value, view, mPipeline.getWidgetBuilder() ) ) {
 			throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );
 		}
+	}
+
+	/**
+	 * Find the nested view with the given path of tags.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <V extends View> V findViewWithTags( String... tags ) {
+
+		if ( tags == null ) {
+			return null;
+		}
+
+		ViewGroup viewgroup = this;
+
+		for ( int tagsLoop = 0, tagsLength = tags.length; tagsLoop < tagsLength; tagsLoop++ ) {
+			Object tag = tags[tagsLoop];
+
+			// Use our own findNestedViewWithTag, not View.findViewWithTag!
+			//
+			// Note: if viewgroup instanceof AndroidMetawidget, getChildCount will call buildWidgets
+			// just-in-time
+
+			View match = findNestedViewWithTag( viewgroup, tag );
+
+			// Not found
+
+			if ( match == null ) {
+				return null;
+			}
+
+			// Found
+
+			if ( tagsLoop == tagsLength - 1 ) {
+				return (V) match;
+			}
+
+			// Keep traversing
+
+			if ( !( match instanceof ViewGroup ) ) {
+				return null;
+			}
+
+			viewgroup = (ViewGroup) match;
+		}
+
+		// Not found
+
+		return null;
 	}
 
 	public Facet getFacet( String name ) {
@@ -793,58 +858,12 @@ public class AndroidMetawidget
 		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	private View findViewWithTags( String... tags ) {
-
-		if ( tags == null ) {
-			return null;
-		}
-
-		ViewGroup viewgroup = this;
-
-		for ( int tagsLoop = 0, tagsLength = tags.length; tagsLoop < tagsLength; tagsLoop++ ) {
-			Object tag = tags[tagsLoop];
-
-			// Use our own findViewWithTag, not View.findViewWithTag!
-			//
-			// Note: if viewgroup instanceof AndroidMetawidget, getChildCount will call buildWidgets
-			// just-in-time
-
-			View match = findViewWithTag( viewgroup, tag );
-
-			// Not found
-
-			if ( match == null ) {
-				return null;
-			}
-
-			// Found
-
-			if ( tagsLoop == tagsLength - 1 ) {
-				return match;
-			}
-
-			// Keep traversing
-
-			if ( !( match instanceof ViewGroup ) ) {
-				return null;
-			}
-
-			viewgroup = (ViewGroup) match;
-		}
-
-		// Not found
-
-		return null;
-	}
-
 	/**
-	 * Version of <code>View.findViewWithTag</code> that only traverses child Views if they don't
-	 * define a tag of their own.
-	 * <p>
-	 * This stops us incorrectly finding arbitrary bits of tag in arbitrary bits of the heirarchy.
+	 * Version of <code>View.findViewWithTag</code> that traverses child Views if they don't define
+	 * a tag of their own.
 	 */
 
-	private View findViewWithTag( ViewGroup viewgroup, Object tag ) {
+	private View findNestedViewWithTag( ViewGroup viewgroup, Object tag ) {
 
 		for ( int childLoop = 0, childLength = viewgroup.getChildCount(); childLoop < childLength; childLoop++ ) {
 			View child = viewgroup.getChildAt( childLoop );
@@ -854,7 +873,7 @@ public class AndroidMetawidget
 			// an embedded Layout or a TableRow)
 
 			if ( childTag == null && child instanceof ViewGroup ) {
-				View view = findViewWithTag( (ViewGroup) child, tag );
+				View view = findNestedViewWithTag( (ViewGroup) child, tag );
 
 				if ( view != null ) {
 					return view;

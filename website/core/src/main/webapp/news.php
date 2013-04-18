@@ -16,6 +16,7 @@
 		
 		<ul>
 			<li>JDK 7 Support (during build process and for JavaDoc)</li>
+			<li>Android SimpleBindingProcessor</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

@@ -70,7 +70,7 @@ public class JsonSchemaMappingProcessor<M>
 
 			// ...remove hidden ones...
 
-			if ( TRUE.equals( trait.getAttribute( HIDDEN ) ) ) {
+			if ( shouldRemoveTrait( trait ) ) {
 				Element toRemove = trait;
 				trait = XmlUtils.getNextSiblingElement( trait );
 				entity.removeChild( toRemove );
@@ -82,6 +82,30 @@ public class JsonSchemaMappingProcessor<M>
 			mapAttributes( trait );
 			trait = XmlUtils.getNextSiblingElement( trait );
 		}
+	}
+
+	/**
+	 * Returns true if the given trait (i.e. property or action) should be removed from the returned
+	 * JSON schema. By default, returns true if <code>hidden</code> equals <code>true</code>.
+	 */
+
+	protected boolean shouldRemoveTrait( Element trait ) {
+
+		return ( TRUE.equals( trait.getAttribute( HIDDEN ) ) );
+	}
+
+	//
+	// Private methods
+	//
+
+	private void mapAttribute( Element element, String in, String out ) {
+
+		if ( !element.hasAttribute( in ) ) {
+			return;
+		}
+
+		element.setAttribute( out, element.getAttribute( in ) );
+		element.removeAttribute( in );
 	}
 
 	private void mapAttributes( Element element ) {
@@ -99,23 +123,9 @@ public class JsonSchemaMappingProcessor<M>
 		// ...and remove others
 
 		if ( mRemoveAttributes != null ) {
-			for( String removeAttribute : mRemoveAttributes ) {
+			for ( String removeAttribute : mRemoveAttributes ) {
 				element.removeAttribute( removeAttribute );
 			}
 		}
-	}
-
-	//
-	// Private methods
-	//
-
-	private void mapAttribute( Element element, String in, String out ) {
-
-		if ( !element.hasAttribute( in ) ) {
-			return;
-		}
-
-		element.setAttribute( out, element.getAttribute( in ) );
-		element.removeAttribute( in );
 	}
 }

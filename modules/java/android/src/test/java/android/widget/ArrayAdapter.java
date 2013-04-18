@@ -92,6 +92,11 @@ public class ArrayAdapter<T>
 		return mValues.indexOf( value );
 	}
 
+	public int getCount() {
+
+		return mValues.size();
+	}
+
 	public Context getContext() {
 
 		return null;
@@ -109,11 +114,6 @@ public class ArrayAdapter<T>
 	//
 	// Unsupported public methods
 	//
-
-	public int getCount() {
-
-		throw new UnsupportedOperationException();
-	}
 
 	public long getItemId( int arg0 ) {
 
