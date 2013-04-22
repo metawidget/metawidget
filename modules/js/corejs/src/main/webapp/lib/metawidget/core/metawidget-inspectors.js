@@ -185,10 +185,10 @@ var metawidget = metawidget || {};
 	/**
 	 * @class Inspects JSON Schemas for their properties.
 	 *        <p>
-	 *        Metawidget <em>already</em> uses JSON Schema as its inspection
-	 *        result format, so this Inspector does not need to do much. However
-	 *        it adds support for JSON schemas that contain nested schemas by
-	 *        traversing the given 'names' array.
+	 *        Because Metawidget <em>already</em> uses JSON Schema internally
+	 *        as its inspection result format, this Inspector does not need to
+	 *        do much. However it adds support for JSON schemas that contain
+	 *        nested schemas by traversing the given 'names' array.
 	 */
 
 	metawidget.inspector.JsonSchemaInspector = function( config ) {
@@ -204,7 +204,7 @@ var metawidget = metawidget || {};
 		} else {
 			_schema = config;
 		}
-		
+
 		this.inspect = function( toInspect, type, names ) {
 
 			// Traverse names using 'properties' intermediate name

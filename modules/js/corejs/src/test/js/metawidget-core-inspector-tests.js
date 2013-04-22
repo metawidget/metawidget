@@ -251,6 +251,11 @@
 			expect( inspectionResult.name ).toBe( 'nestedAbc' );
 			expect( inspectionResult.nestedAbc1 ).toBe( 'nestedAbc1' );
 			expect( inspectionResult.properties ).toBeUndefined();
+
+			// Undefined
+			
+			inspectionResult = inspector.inspect( undefined, 'type', [ 'abc', 'nestedAbc1' ] );
+			expect( inspectionResult ).toBeUndefined();
 		} );
 
 		it( "supports top-level configs", function() {
