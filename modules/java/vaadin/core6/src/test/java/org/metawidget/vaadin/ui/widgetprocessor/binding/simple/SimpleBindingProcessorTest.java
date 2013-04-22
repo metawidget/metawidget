@@ -247,8 +247,8 @@ public class SimpleBindingProcessorTest
 			}
 		} );
 
-		assertEquals( 4, ((Foo) new SimpleBindingProcessor( config ).convertFromString( "4", Foo.class )).getBar());
-		assertEquals( "false", new SimpleBindingProcessor( config ).convertFromString( "false", String.class ));
+		assertEquals( 4, ( (Foo) new SimpleBindingProcessor( config ).convertFromString( "4", Foo.class ) ).getBar() );
+		assertEquals( "false", new SimpleBindingProcessor( config ).convertFromString( "false", String.class ) );
 	}
 
 	//

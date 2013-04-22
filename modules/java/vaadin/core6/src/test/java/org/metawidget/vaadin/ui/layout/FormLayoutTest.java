@@ -34,9 +34,6 @@ import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.vaadin.ui.Stub;
 import org.metawidget.vaadin.ui.VaadinMetawidget;
-import org.metawidget.vaadin.ui.layout.FormLayout;
-import org.metawidget.vaadin.ui.layout.FormLayoutConfig;
-import org.metawidget.vaadin.ui.layout.TabSheetLayoutDecorator;
 
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -72,7 +69,7 @@ public class FormLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setToInspect( new Foo() );
 
-		metawidget.setLayout( new TabSheetLayoutDecorator( new LayoutDecoratorConfig<Component,ComponentContainer,VaadinMetawidget>().setLayout( new FormLayout() ) ) );
+		metawidget.setLayout( new TabSheetLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>().setLayout( new FormLayout() ) ) );
 
 		com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) metawidget.getContent();
 

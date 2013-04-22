@@ -19,10 +19,8 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding.simple;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import junit.framework.TestCase;
 

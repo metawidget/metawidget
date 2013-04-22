@@ -69,7 +69,7 @@ public class FormLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setToInspect( new Foo() );
 
-		metawidget.setLayout( new TabSheetLayoutDecorator( new LayoutDecoratorConfig<Component,ComponentContainer,VaadinMetawidget>().setLayout( new FormLayout() ) ) );
+		metawidget.setLayout( new TabSheetLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>().setLayout( new FormLayout() ) ) );
 
 		com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) metawidget.getContent();
 

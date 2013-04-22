@@ -73,6 +73,30 @@ public class VaadinAddressBookTest
 	public void testAddressBook()
 		throws Exception {
 
+		// Start app
+
+		AddressBookUI addressBook = new AddressBookUI();
+		CustomLayout customLayout = (CustomLayout) addressBook.mContent;
+		assertEquals( customLayout.getTemplateName(), "addressbook" );
+		VerticalLayout contactsMainBody = (VerticalLayout) customLayout.getComponent( "pagebody" );
+		assertEquals( contactsMainBody.getComponentCount(), 2 );
+		Table contactsTable = (Table) contactsMainBody.getComponent( 1 );
+		assertEquals( contactsTable.getContainerDataSource().getItemIds().size(), 6 );
+
+		// Check searching
+
+		VaadinMetawidget metawidgetSearch = (VaadinMetawidget) contactsMainBody.getComponent( 0 );
+		assertEquals( "", ( (TextField) metawidgetSearch.getComponent( "firstname" ) ).getValue() );
+		assertEquals( "", ( (TextField) metawidgetSearch.getComponent( "surname" ) ).getValue() );
+		assertEquals( null, ( (com.vaadin.ui.Select) metawidgetSearch.getComponent( "type" ) ).getValue() );
+
+		( (TextField) metawidgetSearch.getComponent( "surname" ) ).setValue( "Simpson" );
+		( (com.vaadin.ui.Select) metawidgetSearch.getComponent( "type" ) ).setValue( ContactType.PERSONAL );
+
+		FormLayout layout = metawidgetSearch.getContent();
+		assertEquals( 4, layout.getComponentCount() );
+		Facet buttons = (Facet) layout.getComponent( 3 );
+		assertEquals( buttons.getWidth(), 100f );
 	}
 
 	@SuppressWarnings( "deprecation" )

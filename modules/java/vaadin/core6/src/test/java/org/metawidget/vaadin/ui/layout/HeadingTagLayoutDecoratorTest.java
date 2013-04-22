@@ -24,9 +24,6 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.vaadin.ui.VaadinMetawidget;
-import org.metawidget.vaadin.ui.layout.FormLayout;
-import org.metawidget.vaadin.ui.layout.HeadingTagLayoutDecorator;
-import org.metawidget.vaadin.ui.layout.TabSheetLayoutDecorator;
 
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -49,7 +46,7 @@ public class HeadingTagLayoutDecoratorTest
 	public void testNestedHeadingTags() {
 
 		VaadinMetawidget metawidget = new VaadinMetawidget();
-		metawidget.setLayout( new HeadingTagLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer,VaadinMetawidget>().setLayout( new HeadingTagLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer,VaadinMetawidget>().setLayout( new FormLayout() ) ) ) ) );
+		metawidget.setLayout( new HeadingTagLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>().setLayout( new HeadingTagLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>().setLayout( new FormLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		com.vaadin.ui.FormLayout layout = (com.vaadin.ui.FormLayout) metawidget.getContent();
@@ -90,15 +87,15 @@ public class HeadingTagLayoutDecoratorTest
 	public void testEmptyStub() {
 
 		VaadinMetawidget metawidget = new VaadinMetawidget();
-		metawidget.setLayout( new HeadingTagLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer,VaadinMetawidget>().setLayout( new FormLayout() ) ) );
+		metawidget.setLayout( new HeadingTagLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>().setLayout( new FormLayout() ) ) );
 		metawidget.setToInspect( new Baz() );
 
 		assertTrue( metawidget.getContent() instanceof com.vaadin.ui.FormLayout );
-		assertEquals( 0, ((com.vaadin.ui.FormLayout) metawidget.getContent()).getComponentCount() );
+		assertEquals( 0, ( (com.vaadin.ui.FormLayout) metawidget.getContent() ).getComponentCount() );
 
-		metawidget.setLayout( new HeadingTagLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer,VaadinMetawidget>().setLayout( new TabSheetLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer,VaadinMetawidget>().setLayout( new FormLayout() ) ) ) ) );
+		metawidget.setLayout( new HeadingTagLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>().setLayout( new TabSheetLayoutDecorator( new LayoutDecoratorConfig<Component, ComponentContainer, VaadinMetawidget>().setLayout( new FormLayout() ) ) ) ) );
 		metawidget.setToInspect( new Baz() );
-		assertEquals( 0, ((com.vaadin.ui.FormLayout) metawidget.getContent()).getComponentCount() );
+		assertEquals( 0, ( (com.vaadin.ui.FormLayout) metawidget.getContent() ).getComponentCount() );
 	}
 
 	//

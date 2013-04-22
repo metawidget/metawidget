@@ -38,8 +38,8 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -81,7 +81,7 @@ public class CommunicationDialog
 				try {
 					metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 					contactDialog.addCommunication( communication );
-					((ComponentContainer) getParent()).removeComponent( CommunicationDialog.this );
+					((UI) getParent()).removeWindow( CommunicationDialog.this );
 				} catch ( Exception e ) {
 					// TODO: showNotification( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
 					return;
@@ -95,7 +95,7 @@ public class CommunicationDialog
 			@Override
 			public void buttonClick( ClickEvent event ) {
 
-				((ComponentContainer) getParent()).removeComponent( CommunicationDialog.this );
+				((UI) getParent()).removeWindow( CommunicationDialog.this );
 			}
 		} );
 

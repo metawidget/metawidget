@@ -56,8 +56,7 @@ public abstract class VaadinNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected State<ComponentContainer> getState( ComponentContainer container,
-			VaadinMetawidget metawidget ) {
+	protected State<ComponentContainer> getState( ComponentContainer container, VaadinMetawidget metawidget ) {
 
 		@SuppressWarnings( "unchecked" )
 		Map<Component, State<ComponentContainer>> stateMap = (Map<Component, State<ComponentContainer>>) metawidget.getClientProperty( getClass() );

@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v3.4 Released!</h3>
-		<h4></h4>
+		<h4>May 2013</h4>
 		
 		<p>
 			Metawidget v3.4 is now available!
@@ -15,8 +15,9 @@
 		</p>
 		
 		<ul>
-			<li>JDK 7 Support (during build process and for JavaDoc)</li>
 			<li>Android SimpleBindingProcessor</li>
+			<li>MetawidgetJS supports nested JSON schemas</li>
+			<li>JDK 7 Support (during build process and for JavaDoc)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

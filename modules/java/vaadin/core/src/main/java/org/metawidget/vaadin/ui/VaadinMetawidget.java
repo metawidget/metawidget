@@ -42,9 +42,10 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Panel;
 
 /**
@@ -54,7 +55,8 @@ import com.vaadin.ui.Panel;
  */
 
 public class VaadinMetawidget
-	extends AbstractComponentContainer {
+	extends CustomComponent
+	implements ComponentContainer {
 
 	//
 	// Private members
@@ -267,7 +269,7 @@ public class VaadinMetawidget
 	 * </li>
 	 * </ul>
 	 */
-	
+
 	public String getLabelString( Map<String, String> attributes ) {
 
 		if ( attributes == null ) {
@@ -418,8 +420,8 @@ public class VaadinMetawidget
 
 			// Try to find a component
 
-			if ( topComponent instanceof ComponentContainer ) {
-				topComponent = getComponent( (ComponentContainer) topComponent, name );
+			if ( topComponent instanceof HasComponents ) {
+				topComponent = getComponent( (HasComponents) topComponent, name );
 			} else {
 				topComponent = null;
 			}
@@ -482,18 +484,12 @@ public class VaadinMetawidget
 			mExistingComponents.add( abstractComponent );
 		} else {
 
-			// Simulate setCompositionRoot from Vaadin 6
+			// Do clear so that we simulate setCompositionRoot
 
 			mComponents.clear();
 			mComponents.add( component );
-			super.addComponent( component );
+			component.setParent( this );
 		}
-	}
-
-	@Override
-	public void replaceComponent( Component oldComponent, Component newComponent ) {
-
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -724,7 +720,7 @@ public class VaadinMetawidget
 		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	private Component getComponent( ComponentContainer container, String name ) {
+	private Component getComponent( HasComponents container, String name ) {
 
 		Iterator<Component> iterator = container.iterator();
 
@@ -735,7 +731,7 @@ public class VaadinMetawidget
 			// Drill into unnamed containers
 
 			if ( childComponent.getData() == null && childComponent instanceof Panel ) {
-				childComponent = (AbstractComponent) getComponent( (ComponentContainer) ( (Panel) childComponent ).getContent(), name );
+				childComponent = (AbstractComponent) getComponent( (HasComponents) ( (Panel) childComponent ).getContent(), name );
 
 				if ( childComponent != null ) {
 					return childComponent;
@@ -744,8 +740,8 @@ public class VaadinMetawidget
 				continue;
 			}
 
-			if ( childComponent.getData() == null && childComponent instanceof ComponentContainer ) {
-				childComponent = (AbstractComponent) getComponent( (ComponentContainer) childComponent, name );
+			if ( childComponent.getData() == null && childComponent instanceof HasComponents ) {
+				childComponent = (AbstractComponent) getComponent( (HasComponents) childComponent, name );
 
 				if ( childComponent != null ) {
 					return childComponent;
@@ -834,5 +830,100 @@ public class VaadinMetawidget
 			VaadinMetawidget.this.endBuild();
 			super.endBuild();
 		}
+	}
+
+	@Override
+	public void addComponentAttachListener( ComponentAttachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeComponentAttachListener( ComponentAttachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addComponentDetachListener( ComponentDetachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeComponentDetachListener( ComponentDetachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addComponents( Component... components ) {
+
+		for( Component component : components ) {
+			addComponent( component );
+		}
+	}
+
+	@Override
+	public void removeAllComponents() {
+
+		mComponents.clear();
+	}
+
+	@Override
+	public void replaceComponent( Component oldComponent, Component newComponent ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public Iterator<Component> getComponentIterator() {
+
+		return mComponents.iterator();
+	}
+
+	@Override
+	public void moveComponentsFrom( ComponentContainer source ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public void addListener( ComponentAttachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public void removeListener( ComponentAttachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public void addListener( ComponentDetachListener listener ) {
+
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Deprecated
+	public void removeListener( ComponentDetachListener listener ) {
+
+		// TODO Auto-generated method stub
+
 	}
 }

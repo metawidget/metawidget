@@ -56,6 +56,7 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -162,7 +163,7 @@ public class ContactDialog
 
 				CommunicationDialog communicationDialog = new CommunicationDialog( ContactDialog.this, new Communication() );
 				communicationDialog.setModal( true );
-				((ComponentContainer) getParent()).addComponent( communicationDialog );
+				((UI) getParent()).addWindow( communicationDialog );
 			}
 		} );
 
@@ -282,7 +283,7 @@ public class ContactDialog
 	@UiAttribute( name = LABEL, value = "${if ( this.contactReadOnly ) 'Back'}" )
 	public void cancel() {
 
-		((ComponentContainer) getParent()).removeComponent( this );
+		((UI) getParent()).removeWindow( this );
 	}
 
 	@SuppressWarnings( "unchecked" )

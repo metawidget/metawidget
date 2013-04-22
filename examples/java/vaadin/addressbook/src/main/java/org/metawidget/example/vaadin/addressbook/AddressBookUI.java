@@ -208,7 +208,7 @@ public class AddressBookUI
 	/* package private */void showModalWindow( Window window ) {
 
 		window.setModal( true );
-		mContent.addComponent( window );
+		addWindow( window );
 	}
 
 	private Component createSearchSection() {
