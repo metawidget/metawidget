@@ -252,5 +252,14 @@
 			expect( inspectionResult.nestedAbc1 ).toBe( 'nestedAbc1' );
 			expect( inspectionResult.properties ).toBeUndefined();
 		} );
+
+		it( "supports top-level configs", function() {
+
+			var inspector = new metawidget.inspector.JsonSchemaInspector( { foo: "Foo", bar: "Bar" });
+
+			var inspectionResult = inspector.inspect( undefined, 'type' );
+			expect( inspectionResult.foo ).toBe( 'Foo' );
+			expect( inspectionResult.bar ).toBe( 'Bar' );
+		} );
 	} );
 } )();

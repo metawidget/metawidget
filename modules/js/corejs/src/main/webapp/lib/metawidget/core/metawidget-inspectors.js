@@ -197,8 +197,14 @@ var metawidget = metawidget || {};
 			throw new Error( 'Constructor called as a function' );
 		}
 
-		var _schema = config.schema;
+		var _schema;
 
+		if ( config.schema !== undefined ) {
+			_schema = config.schema;
+		} else {
+			_schema = config;
+		}
+		
 		this.inspect = function( toInspect, type, names ) {
 
 			// Traverse names using 'properties' intermediate name
