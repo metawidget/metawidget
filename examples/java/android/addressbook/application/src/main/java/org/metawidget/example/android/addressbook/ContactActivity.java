@@ -212,7 +212,6 @@ public class ContactActivity
 				break;
 
 			case R.string.save:
-				// TODO: document in tutorial
 				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 
 				try {

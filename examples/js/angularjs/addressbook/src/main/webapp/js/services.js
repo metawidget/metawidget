@@ -52,156 +52,161 @@
 
 	.factory( 'metawidgetConfig', function() {
 
+		// Construct JSON schemas for metadata
+
+		var _contact = {
+			properties: {
+				id: {
+					hidden: true
+				},
+				title: {
+					enum: [ "Mr", "Mrs", "Miss", "Dr", "Cpt" ],
+					required: true,
+					propertyOrder: 1
+				},
+				firstname: {
+					type: "string",
+					required: true,
+					propertyOrder: 2
+				},
+				surname: {
+					type: "string",
+					required: true,
+					propertyOrder: 3
+				},
+				gender: {
+					enum: [ "Male", "Female" ],
+					propertyOrder: 10
+				},
+				address: {
+					section: "Contact Details",
+					propertyOrder: 20
+				},
+				communications: {
+					propertyOrder: 21
+				},
+				notes: {
+					type: "string",
+					large: true,
+					section: "Other",
+					propertyOrder: 30
+				},
+				type: {
+					hidden: true
+				}
+			}
+		};
+
+		var _personalContact = {
+			properties: {}
+		};
+		for ( var propertyName in _contact.properties ) {
+			_personalContact.properties[propertyName] = _contact.properties[propertyName];
+		}
+		_personalContact.properties.dateOfBirth = {
+			type: "date",
+			title: "Date of Birth",
+			propertyOrder: 11
+		};
+		var _businessContact = {
+			properties: {}
+		};
+		for ( var propertyName in _contact.properties ) {
+			_businessContact.properties[propertyName] = _contact.properties[propertyName];
+		}
+		_businessContact.properties.company = {
+			type: "string",
+			propertyOrder: 4
+		};
+		_businessContact.properties.numberOfStaff = {
+			type: "number",
+			minimum: 0,
+			maximum: 100,
+			section: "Other",
+			propertyOrder: 29
+		};
+
+		// Custom layout
+
+		var _tableLayout = new metawidget.layout.HeadingTagLayoutDecorator( {
+			delegate: new metawidget.layout.TableLayout( {
+				tableStyleClass: "table-form",
+				columnStyleClasses: [ "table-label-column", "table-component-column", "table-required-column" ],
+				footerStyleClass: "buttons"
+			} )
+		} );
+
 		return {
+
+			// For the search box
+
+			search: {
+				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
+
+					return {
+						properties: {
+							type: {
+								enum: [ "personal", "business" ],
+								enumTitles: [ "Personal", "Business" ]
+							}
+						}
+					}
+				} ] ),
+				layout: _tableLayout
+			},
 
 			// For the body of the form
 
 			form: {
 				inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
-					var contact = {
-						"properties": {
-							"id": {
-								"hidden": "true"
-							},
-							"title": {
-								"enum": [ "Mr", "Mrs", "Miss", "Dr", "Cpt" ],
-								"required": "true",
-								"propertyOrder": "1"
-							},
-							"firstname": {
-								"type": "string",
-								"required": "true",
-								"propertyOrder": "2"
-							},
-							"surname": {
-								"type": "string",
-								"required": "true",
-								"propertyOrder": "3"
-							},
-							"gender": {
-								"enum": [ "Male", "Female" ],
-								"propertyOrder": "10"
-							},
-							"address": {
-								"section": "Contact Details",
-								"propertyOrder": "20"
-							},
-							"communications": {
-								"propertyOrder": "21"
-							},
-							"notes": {
-								"type": "string",
-								"large": "true",
-								"section": "Other",
-								"propertyOrder": "30"
-							},
-							"type": {
-								"hidden": "true"
-							}
+					if ( names === undefined ) {
+						if ( toInspect !== undefined && toInspect.type === 'business' ) {
+							return _businessContact;
 						}
-					};
-
-					var personalContact = {
-						properties: {}
-					};
-					for ( var propertyName in contact.properties ) {
-						personalContact.properties[propertyName] = contact.properties[propertyName];
+						return _personalContact;
 					}
-					personalContact.properties.dateOfBirth = {
-						"type": "date",
-						"title": "Date of Birth",
-						"propertyOrder": "11"
-					};
-					var businessContact = {
-						properties: {}
-					};
-					for ( var propertyName in contact.properties ) {
-						businessContact.properties[propertyName] = contact.properties[propertyName];
-					}
-					businessContact.properties.company = {
-						"type": "string",
-						"propertyOrder": "4"
-					};
-					businessContact.properties.numberOfStaff = {
-						"type": "number",
-						"minimum": "0",
-						"maximum": "100",
-						"section": "Other",
-						"propertyOrder": "29"
-					};
 
-					switch ( type ) {
-						case 'search':
-							return {
-								"properties": {
-									"firstname": {},
-									"surname": {},
-									"type": {
-										"enum": [ "personal", "business" ],
-										"enumTitles": [ "Personal", "Business" ]
-									}
+					if ( names.length === 1 && names[0] === 'address' ) {
+						return {
+							properties: {
+								street: {
+									type: "string"
+								},
+								city: {
+									type: "string"
+								},
+								state: {
+									enum: [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
+								},
+								postcode: {
+									type: "string"
 								}
 							}
-
-						case 'current':
-
-							if ( names === undefined ) {
-								if ( toInspect !== undefined && toInspect.type === 'business' ) {
-									return businessContact;
-								}
-								return personalContact;
-							}
-
-							if ( names.length === 1 && names[0] === 'address' ) {
-								return {
-									"properties": {
-										"street": {
-											"type": "string"
-										},
-										"city": {
-											"type": "string"
-										},
-										"state": {
-											"enum": [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
-										},
-										"postcode": {
-											"type": "string"
-										}
-									}
-								};
-							}
+						};
 					}
 				}, new metawidget.inspector.PropertyTypeInspector() ] ),
-				layout: new metawidget.layout.HeadingTagLayoutDecorator( {
-					delegate: new metawidget.layout.TableLayout( {
-						"tableStyleClass": "table-form",
-						"columnStyleClasses": [ "table-label-column", "table-component-column", "table-required-column" ],
-						"footerStyleClass": "buttons"
-					} )
-				} )
+				layout: _tableLayout
 			},
 
 			// For the button bar
 
 			buttons: {
-				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
+				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function() {
 
-					if ( type === 'crudActions' ) {
-						return {
-							"properties": {
-								"edit": {
-									"hidden": "{{!readOnly}}"
-								},
-								"save": {
-									"hidden": "{{readOnly}}"
-								},
-								"delete": {
-									"hidden": "{{readOnly || !current.id}}"
-								}
+					return {
+						properties: {
+							edit: {
+								hidden: "{{!readOnly}}"
+							},
+							save: {
+								hidden: "{{readOnly}}"
+							},
+							"delete": {
+								hidden: "{{readOnly || !current.id}}"
 							}
-						};
-					}
+						}
+					};
 				} ] ),
 				layout: new metawidget.layout.SimpleLayout()
 			},
@@ -211,7 +216,7 @@
 
 					if ( type === 'communication' && names.length === 1 && names[0] === 'type' ) {
 						return {
-							"enum": [ "Telephone", "Mobile", "Fax", "E-mail" ]
+							enum: [ "Telephone", "Mobile", "Fax", "E-mail" ]
 						};
 					}
 				} ] ),

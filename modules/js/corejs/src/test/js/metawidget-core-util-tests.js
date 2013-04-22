@@ -298,6 +298,27 @@
 			expect( metawidget.util.traversePath( object1, [ 'array', '1', 'baz' ] ) ).toBe( 'Baz' );
 			expect( metawidget.util.traversePath( object1, [ 'array', '2' ] ) ).toBeUndefined();
 		} );
+
+		it( "supports intermediateName", function() {
+
+			var object2 = {
+				properties: {
+					foo: "bar"
+				}
+			};
+			var object1 = {
+				properties: {
+					object2: object2
+				}
+			};
+
+			expect( metawidget.util.traversePath( object1 ) ).toBe( object1 );
+			expect( metawidget.util.traversePath( object1, [ 'object2' ] ) ).toBeUndefined();
+			expect( metawidget.util.traversePath( object1, [ 'object2' ], 'properties' ) ).toBe( object2 );
+			expect( metawidget.util.traversePath( object1, [ 'object2', 'foo' ], 'properties' ) ).toBe( 'bar' );
+			expect( metawidget.util.traversePath( object1, [ 'object2', 'foo', 'bar' ], 'properties' ) ).toBeUndefined();
+			expect( metawidget.util.traversePath( object1, [ 'object2', 'baz' ], 'properties' ) ).toBeUndefined();
+		} );
 	} );
 
 	describe( "The combineInspectionResults function", function() {
@@ -309,9 +330,9 @@
 				foo: 'foo',
 				properties: {
 					'bar': {
-						baz: 'baz'
-					},
-					'anArray': [ '0', '1', '2' ]
+						baz: 'baz',
+						'anArray': [ '0', '1', '2' ]
+					}
 				}
 			};
 			var newInspectionResult = {
@@ -319,12 +340,12 @@
 				def: 'def',
 				properties: {
 					'bar': {
-						mno: 'mno'
+						mno: 'mno',
+						'anotherArray': [ '3', '4' ]
 					},
 					'ghi': {
 						jkl: 'jkl'
-					},
-					'anotherArray': [ '3', '4' ]
+					}
 				}
 			};
 
@@ -335,14 +356,14 @@
 			expect( existingInspectionResult.def ).toBe( 'def' );
 			expect( existingInspectionResult.properties.bar.baz ).toBe( 'baz' );
 			expect( existingInspectionResult.properties.bar.mno ).toBe( 'mno' );
+			expect( existingInspectionResult.properties.bar.anArray[0] ).toBe( '0' );
+			expect( existingInspectionResult.properties.bar.anArray[1] ).toBe( '1' );
+			expect( existingInspectionResult.properties.bar.anArray[2] ).toBe( '2' );
+			expect( existingInspectionResult.properties.bar.anArray.length ).toBe( 3 );
+			expect( existingInspectionResult.properties.bar.anotherArray[0] ).toBe( '3' );
+			expect( existingInspectionResult.properties.bar.anotherArray[1] ).toBe( '4' );
+			expect( existingInspectionResult.properties.bar.anotherArray.length ).toBe( 2 );
 			expect( existingInspectionResult.properties.ghi.jkl ).toBe( 'jkl' );
-			expect( existingInspectionResult.properties.anArray[0] ).toBe( '0' );
-			expect( existingInspectionResult.properties.anArray[1] ).toBe( '1' );
-			expect( existingInspectionResult.properties.anArray[2] ).toBe( '2' );
-			expect( existingInspectionResult.properties.anArray.length ).toBe( 3 );
-			expect( existingInspectionResult.properties.anotherArray[0] ).toBe( '3' );
-			expect( existingInspectionResult.properties.anotherArray[1] ).toBe( '4' );
-			expect( existingInspectionResult.properties.anotherArray.length ).toBe( 2 );
 		} );
 	} );
 

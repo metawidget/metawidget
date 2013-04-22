@@ -181,4 +181,42 @@ var metawidget = metawidget || {};
 
 		return inspectionResult;
 	};
+
+	/**
+	 * @class Inspects JSON Schemas for their properties.
+	 *        <p>
+	 *        Metawidget <em>already</em> uses JSON Schema as its inspection
+	 *        result format, so this Inspector does not need to do much. However
+	 *        it adds support for JSON schemas that contain nested schemas by
+	 *        traversing the given 'names' array.
+	 */
+
+	metawidget.inspector.JsonSchemaInspector = function( config ) {
+
+		if ( ! ( this instanceof metawidget.inspector.JsonSchemaInspector ) ) {
+			throw new Error( 'Constructor called as a function' );
+		}
+
+		var _schema = config.schema;
+
+		this.inspect = function( toInspect, type, names ) {
+
+			// Traverse names using 'properties' intermediate name
+
+			var traversed = metawidget.util.traversePath( _schema, names, 'properties' );
+
+			if ( traversed === undefined ) {
+				return undefined;
+			}
+
+			// Copy values
+
+			var inspectionResult = {};
+			if ( names !== undefined ) {
+				inspectionResult.name = names[names.length - 1];
+			}
+			metawidget.util.combineInspectionResults( inspectionResult, traversed );
+			return inspectionResult;
+		};
+	};
 } )();

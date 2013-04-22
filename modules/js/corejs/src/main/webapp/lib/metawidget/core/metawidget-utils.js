@@ -276,13 +276,14 @@ var metawidget = metawidget || {};
 	/**
 	 * Traverses the given 'toInspect' along properties defined by the array of
 	 * 'names'.
-	 * <p>
-	 * Note this is traversing simple JavaScript objects (i.e.
-	 * toInspect->name1->name2). It is <em>not</em> traversing JSON Schemas
-	 * (i.e. toInspect->properties->name1->properties->name2)
+	 * 
+	 * @param intermediateName
+	 *            optional intermediate name to traverse at each step. Useful
+	 *            for traversing JSON Schemas (e.g.
+	 *            toInspect->properties->name1->properties->name2)
 	 */
 
-	metawidget.util.traversePath = function( toInspect, names ) {
+	metawidget.util.traversePath = function( toInspect, names, intermediateName ) {
 
 		if ( toInspect === undefined ) {
 			return undefined;
@@ -290,6 +291,14 @@ var metawidget = metawidget || {};
 
 		if ( names !== undefined ) {
 			for ( var loop = 0, length = names.length; loop < length; loop++ ) {
+
+				if ( intermediateName !== undefined ) {
+					toInspect = toInspect[intermediateName];
+
+					if ( toInspect === undefined ) {
+						return undefined;
+					}
+				}
 
 				toInspect = toInspect[names[loop]];
 
@@ -324,23 +333,42 @@ var metawidget = metawidget || {};
 
 		// Combine based on propertyName
 
-		for ( var propertyName in newInspectionResult ) {
+		_copyPrimitives( newInspectionResult, existingInspectionResult );
 
-			var value = newInspectionResult[propertyName];
-
-			if ( value instanceof Array ) {
-				existingInspectionResult[propertyName] = value.slice( 0 );
-				continue;
-			}
-
-			if ( value instanceof Object && ! ( value instanceof Array ) ) {
-				existingInspectionResult[propertyName] = existingInspectionResult[propertyName] || {};
-				metawidget.util.combineInspectionResults( existingInspectionResult[propertyName], value );
-				continue;
-			}
-
-			existingInspectionResult[propertyName] = value;
+		if ( newInspectionResult.properties === undefined ) {
+			return;
 		}
+
+		existingInspectionResult.properties = existingInspectionResult.properties || {};
+
+		for ( var propertyName in newInspectionResult.properties ) {
+
+			existingInspectionResult.properties[propertyName] = existingInspectionResult.properties[propertyName] || {};
+			_copyPrimitives( newInspectionResult.properties[propertyName], existingInspectionResult.properties[propertyName] );
+		}
+
+		//
+		// Private methods
+		//
+
+		function _copyPrimitives( from, to ) {
+
+			for ( var propertyName in from ) {
+
+				var propertyValue = from[propertyName];
+
+				if ( propertyValue instanceof Array ) {
+					to[propertyName] = propertyValue.slice( 0 );
+					continue;
+				}
+
+				if ( propertyValue instanceof Object ) {
+					continue;
+				}
+
+				to[propertyName] = from[propertyName];
+			}
+		}		
 	};
 
 	/**

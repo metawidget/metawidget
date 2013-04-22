@@ -37,6 +37,9 @@ function AllWidgetsController( $scope ) {
 
 		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
+			// Test 'rolling our own' names traversal (not using
+			// JsonSchemaInspector)
+
 			if ( type === 'allWidgets' ) {
 				if ( names === undefined ) {
 					return metawidget.test.allWidgetsMetadata;

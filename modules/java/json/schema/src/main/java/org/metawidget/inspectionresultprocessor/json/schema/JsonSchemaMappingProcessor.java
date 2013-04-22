@@ -61,6 +61,7 @@ public class JsonSchemaMappingProcessor<M>
 	protected void processTraits( Element entity, M metawidget, Object toInspect, String type, String... names ) {
 
 		mapAttributes( entity );
+		removeAttributes( entity );
 
 		// For each trait...
 
@@ -70,7 +71,7 @@ public class JsonSchemaMappingProcessor<M>
 
 			// ...remove hidden ones...
 
-			if ( shouldRemoveTrait( trait ) ) {
+			if ( shouldRemove( trait ) ) {
 				Element toRemove = trait;
 				trait = XmlUtils.getNextSiblingElement( trait );
 				entity.removeChild( toRemove );
@@ -80,18 +81,49 @@ public class JsonSchemaMappingProcessor<M>
 			// ...and map the rest
 
 			mapAttributes( trait );
+			removeAttributes( trait );
 			trait = XmlUtils.getNextSiblingElement( trait );
 		}
 	}
 
 	/**
-	 * Returns true if the given trait (i.e. property or action) should be removed from the returned
-	 * JSON schema. By default, returns true if <code>hidden</code> equals <code>true</code>.
+	 * Returns true if the given element should be removed from the returned JSON schema. By
+	 * default, returns true if <code>hidden</code> equals <code>true</code>.
 	 */
 
-	protected boolean shouldRemoveTrait( Element trait ) {
+	protected boolean shouldRemove( Element element ) {
 
-		return ( TRUE.equals( trait.getAttribute( HIDDEN ) ) );
+		return ( TRUE.equals( element.getAttribute( HIDDEN ) ) );
+	}
+
+	/**
+	 * Map common attribute names from <code>inspection-result.xsd</code> to JSON Schema.
+	 */
+
+	protected void mapAttributes( Element element ) {
+
+		mapAttribute( element, LABEL, "title" );
+		mapAttribute( element, LOOKUP, "enum" );
+		mapAttribute( element, LOOKUP_LABELS, "enumTitles" );
+		mapAttribute( element, MINIMUM_VALUE, "minimum" );
+		mapAttribute( element, MAXIMUM_VALUE, "maximum" );
+		mapAttribute( element, MINIMUM_LENGTH, "minLength" );
+		mapAttribute( element, MAXIMUM_LENGTH, "maxLength" );
+	}
+
+	/**
+	 * Remove specified attributes from the JSON Schema output.
+	 */
+
+	protected void removeAttributes( Element element ) {
+
+		if ( mRemoveAttributes == null ) {
+			return;
+		}
+
+		for ( String removeAttribute : mRemoveAttributes ) {
+			element.removeAttribute( removeAttribute );
+		}
 	}
 
 	//
@@ -106,26 +138,5 @@ public class JsonSchemaMappingProcessor<M>
 
 		element.setAttribute( out, element.getAttribute( in ) );
 		element.removeAttribute( in );
-	}
-
-	private void mapAttributes( Element element ) {
-
-		// Map some...
-
-		mapAttribute( element, LABEL, "title" );
-		mapAttribute( element, LOOKUP, "enum" );
-		mapAttribute( element, LOOKUP_LABELS, "enumTitles" );
-		mapAttribute( element, MINIMUM_VALUE, "minimum" );
-		mapAttribute( element, MAXIMUM_VALUE, "maximum" );
-		mapAttribute( element, MINIMUM_LENGTH, "minLength" );
-		mapAttribute( element, MAXIMUM_LENGTH, "maxLength" );
-
-		// ...and remove others
-
-		if ( mRemoveAttributes != null ) {
-			for ( String removeAttribute : mRemoveAttributes ) {
-				element.removeAttribute( removeAttribute );
-			}
-		}
 	}
 }

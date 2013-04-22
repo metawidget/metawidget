@@ -56,11 +56,17 @@ public class JsonSchemaMappingProcessorTest
 
 	public void testConfiguredProcessor() {
 
-		// Test removeAttributes
+		// Test removeAttributes on entity
 
 		Element element = XmlUtils.documentFromString( "<inspection-result><entity foo=\"Foo\" bar=\"Bar\" baz=\"Baz\" abc=\"Abc\"/></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>( new JsonSchemaMappingProcessorConfig().setRemoveAttributes( "bar", "baz" ) ).processInspectionResultAsDom( element, null, null, null );
 		assertEquals( "{\"abc\":\"Abc\",\"foo\":\"Foo\"}", XmlUtils.elementToJsonSchema( element ) );
+
+		// Test removeAttributes on property
+
+		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"name\" foo=\"Foo\" bar=\"Bar\" baz=\"Baz\" abc=\"Abc\"/></entity></inspection-result>" ).getDocumentElement();
+		element = new JsonSchemaMappingProcessor<Object>( new JsonSchemaMappingProcessorConfig().setRemoveAttributes( "bar", "baz" ) ).processInspectionResultAsDom( element, null, null, null );
+		assertEquals( "{\"properties\":{\"name\":{\"abc\":\"Abc\",\"foo\":\"Foo\"}}}", XmlUtils.elementToJsonSchema( element ) );
 	}
 
 	public void testConfig() {

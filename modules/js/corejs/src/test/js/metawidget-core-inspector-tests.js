@@ -42,7 +42,7 @@
 						"baz": {},
 						"foo": {
 							override: "overridden",
-							required: "fooRequired"							
+							required: "fooRequired"
 						}
 					}
 				};
@@ -197,6 +197,60 @@
 			}, 'ignore', [] ) ) {
 				expect( prop ).toNotBe( 'name' );
 			}
+		} );
+	} );
+
+	describe( "The JsonSchemaInspector", function() {
+
+		it( "inspects JSON schemas", function() {
+
+			var jsonSchema = {
+				foo: "Foo",
+				bar: "Bar",
+				baz: "Baz",
+				properties: {
+					abc: {
+						abc1: "Abc1",
+						properties: {
+							nestedAbc: {
+								nestedAbc1: "nestedAbc1"
+							}
+						}
+					},
+					def: {
+						def1: "Def1"
+					}
+				}
+			};
+
+			var inspector = new metawidget.inspector.JsonSchemaInspector( { schema: jsonSchema });
+
+			// Root
+			
+			var inspectionResult = inspector.inspect( undefined, 'type' );
+			expect( inspectionResult.name ).toBeUndefined();
+			expect( inspectionResult.foo ).toBe( 'Foo' );
+			expect( inspectionResult.bar ).toBe( 'Bar' );
+			expect( inspectionResult.baz ).toBe( 'Baz' );
+			expect( inspectionResult.properties.abc.abc1 ).toBe( 'Abc1' );
+			expect( inspectionResult.properties.abc.properties ).toBeUndefined();
+			expect( inspectionResult.properties.def.def1 ).toBe( 'Def1' );
+
+			// Nested
+			
+			inspectionResult = inspector.inspect( undefined, 'type', [ 'abc' ] );
+			expect( inspectionResult.name ).toBe( 'abc' );
+			expect( inspectionResult.foo ).toBeUndefined();
+			expect( inspectionResult.abc1 ).toBe( 'Abc1' );
+			expect( inspectionResult.properties.nestedAbc.nestedAbc1 ).toBe( 'nestedAbc1' );
+			expect( inspectionResult.def ).toBeUndefined();
+
+			// Further nested
+			
+			inspectionResult = inspector.inspect( undefined, 'type', [ 'abc', 'nestedAbc' ] );
+			expect( inspectionResult.name ).toBe( 'nestedAbc' );
+			expect( inspectionResult.nestedAbc1 ).toBe( 'nestedAbc1' );
+			expect( inspectionResult.properties ).toBeUndefined();
 		} );
 	} );
 } )();
