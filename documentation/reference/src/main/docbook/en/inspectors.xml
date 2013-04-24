@@ -461,6 +461,56 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 			</section>
 			
+			<section id="section-inspectors-javascript-jsonschema">
+				<title>JsonSchemaInspector (JavaScript version)</title>
+				
+				<para>				
+					Inspects JSON Schemas for their properties. Because Metawidget <emphasis>already</emphasis>
+					uses JSON Schema internally as its inspection result format, this Inspector does not need
+					to do much. However it adds support for JSON schemas that contain nested schemas. For example:
+				</para>
+				
+				<programlisting language="xml"><html>
+	<head>
+		<script src="angular.min.js"></script>
+		<script src="metawidget-core.min.js"></script>
+		<script src="metawidget-angular.min.js"></script>
+		<script>
+			angular.module( 'myApp', [ 'metawidget' ] );
+
+			function UserController( $scope ) {
+
+			$scope.user = {};
+
+			$scope.config = {
+				inspector: new metawidget.inspector.JsonSchemaInspector( {
+					properties: {
+					   title: { type: 'string', enum: ['Mr', 'Mrs', 'Ms'] },
+					   name: { type: 'string' },
+					   email: { type: 'string', required: true },
+					   birthday: { type: 'date' },
+					   password: { type: 'string', masked: true },
+					   address: {
+							properties: {
+							   street: { type: 'string' },
+							   city: { type: 'string' },
+							   postcode: { type: 'string' }
+							}
+					   },
+					   notes: { type: 'string', large: true }
+					}
+				} )
+			}
+		}
+		</script>
+	</head>
+	<body ng-app="myApp" ng-controller="UserController">
+		<metawidget ng-model="user" config="config"/>
+	</body>
+</html></programlisting>
+
+			</section>
+
 			<section id="section-inspectors-javascript-propertytype">
 				<title>PropertyTypeInspector (JavaScript version)</title>
 				

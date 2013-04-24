@@ -188,7 +188,7 @@ var metawidget = metawidget || {};
 	 *        Because Metawidget <em>already</em> uses JSON Schema internally
 	 *        as its inspection result format, this Inspector does not need to
 	 *        do much. However it adds support for JSON schemas that contain
-	 *        nested schemas by traversing the given 'names' array.
+	 *        nested schemas (by traversing the given 'names' array).
 	 */
 
 	metawidget.inspector.JsonSchemaInspector = function( config ) {
