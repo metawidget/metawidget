@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.el.ELContext;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
@@ -35,6 +36,7 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.util.WidgetBuilderUtils;
+import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
@@ -55,7 +57,7 @@ import org.primefaces.component.spinner.Spinner;
  * <code>HtmlWidgetBuilder</code> we only create PrimeFaces components, not any regular JSF
  * components.
  *
- * @author Richard Kennard
+ * @author Richard Kennard, Marcel H
  */
 
 public class PrimeFacesWidgetBuilder
@@ -254,12 +256,27 @@ public class PrimeFacesWidgetBuilder
 					//
 					// Do not use Spinner for nullable numbers
 				}
+
+				// Autocomplete (contributed by Marcel H:
+				// https://sourceforge.net/p/metawidget/discussion/747623/thread/0b903862)
+
+				if ( String.class.equals( clazz ) ) {
+					String facesSuggest = attributes.get( FACES_SUGGEST );
+
+					if ( facesSuggest != null ) {
+						AutoComplete autoComplete = FacesUtils.createComponent( AutoComplete.COMPONENT_TYPE, "org.primefaces.component.autocomplete.AutoCompleteRenderer" );
+						autoComplete.setCompleteMethod( application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { ELContext.class, UIComponent.class, String.class } ) );
+						autoComplete.setMaxResults( 10 );
+
+						return autoComplete;
+					}
+				}
 			}
 		}
 
-		// Colors. Note org.primefaces.component.ColorPickerRenderer does *not* support
-		// java.awt.Color (http://forum.primefaces.org/viewtopic.php?t=21593) so it isn't much good
-		// to us here
+		// Colors. Note org.primefaces.component.ColorPickerRenderer does *not*
+		// support java.awt.Color (http://forum.primefaces.org/viewtopic.php?t=21593) so
+		// it isn't much good to us here
 
 		// Not for PrimeFaces
 
@@ -277,17 +294,21 @@ public class PrimeFacesWidgetBuilder
 		String minimumValue = attributes.get( MINIMUM_VALUE );
 		String maximumValue = attributes.get( MAXIMUM_VALUE );
 
-		if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) ) {
+		if ( minimumValue != null && !"".equals( minimumValue )
+				&& maximumValue != null && !"".equals( maximumValue ) ) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			Application application = context.getApplication();
 
-			UIStub stub = (UIStub) application.createComponent( UIStub.COMPONENT_TYPE );
+			UIStub stub = (UIStub) application
+					.createComponent( UIStub.COMPONENT_TYPE );
 
-			HtmlInputText inputText = (HtmlInputText) application.createComponent( HtmlInputText.COMPONENT_TYPE );
+			HtmlInputText inputText = (HtmlInputText) application
+					.createComponent( HtmlInputText.COMPONENT_TYPE );
 			inputText.setId( FacesUtils.createUniqueId() );
 			stub.getChildren().add( inputText );
 
-			Slider slider = FacesUtils.createComponent( Slider.COMPONENT_TYPE, "org.primefaces.component.SliderRenderer" );
+			Slider slider = FacesUtils.createComponent( Slider.COMPONENT_TYPE,
+					"org.primefaces.component.SliderRenderer" );
 			slider.setMinValue( Integer.parseInt( minimumValue ) );
 			slider.setMaxValue( Integer.parseInt( maximumValue ) );
 			slider.setFor( inputText.getId() );

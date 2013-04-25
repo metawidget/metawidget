@@ -38,6 +38,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.primefaces.PrimeFacesWidgetBuilder;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
+import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.colorpicker.ColorPicker;
 import org.primefaces.component.commandbutton.CommandButton;
@@ -215,6 +216,17 @@ public class PrimeFacesWidgetBuilderTest
 		assertEquals( new Locale( "en-AU" ), calendar.getLocale() );
 		assertEquals( TimeZone.getTimeZone( "Australia/Sydney" ), calendar.getTimeZone() );
 
+		// Suggest
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( FACES_SUGGEST, "#{foo.bar}" );
+
+		AutoComplete autocomplete = (AutoComplete) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "#{foo.bar}", autocomplete.getCompleteMethod().getExpressionString() );
+		assertEquals( 10, autocomplete.getMaxResults() );
+
+		attributes.remove( FACES_SUGGEST );
+
 		// ColorPickers. Note org.primefaces.component.ColorPickerRenderer does *not* support
 		// java.awt.Color (http://forum.primefaces.org/viewtopic.php?t=21593) so it isn't much good
 		// to us here
@@ -282,6 +294,10 @@ public class PrimeFacesWidgetBuilderTest
 
 			if ( CommandButton.COMPONENT_TYPE.equals( componentName ) ) {
 				return new CommandButton();
+			}
+
+			if ( AutoComplete.COMPONENT_TYPE.equals( componentName ) ) {
+				return new AutoComplete();
 			}
 
 			return super.createComponent( componentName );
