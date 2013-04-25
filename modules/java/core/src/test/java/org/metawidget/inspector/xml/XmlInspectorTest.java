@@ -24,6 +24,7 @@ import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
@@ -52,38 +53,6 @@ public class XmlInspectorTest
 	//
 	// Public methods
 	//
-
-	@Override
-	public void setUp() {
-
-		mXml = "<?xml version=\"1.0\"?>";
-		mXml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
-		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
-		mXml += "<property name=\"bar\" type=\"Bar\" required=\"true\"/>";
-		mXml += "<property name=\"a\"/>";
-		mXml += "<property name=\"d\"/>";
-		mXml += "</entity>";
-		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\"/>";
-		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SubFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\">";
-		mXml += "<property name=\"a\" hidden=\"true\" label=\" \"/>";
-		mXml += "<property name=\"b\" label=\"\"/>";
-		mXml += "<property name=\"c\" lookup=\"Telephone, Mobile, Fax, E-mail\"/>";
-		mXml += "</entity>";
-		mXml += "<entity type=\"Bar\">";
-		mXml += "<property name=\"baz\"/>";
-		mXml += "<action name=\"doAction\"/>";
-		mXml += "<some-junk name=\"ignoreMe\"/>";
-		mXml += "</entity>";
-		mXml += "<entity type=\"Typo1\">";
-		mXml += "<property name=\"foo\" readonly=\"true\"/>";
-		mXml += "</entity>";
-		mXml += "<entity type=\"Typo2\">";
-		mXml += "<property name=\"foo\" dontexpand=\"true\"/>";
-		mXml += "</entity>";
-		mXml += "</inspection-result>";
-
-		mInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( mXml.getBytes() ) ) );
-	}
 
 	public void testInspection() {
 
@@ -775,6 +744,113 @@ public class XmlInspectorTest
 		assertEquals( "Abc", entity.getAttribute( TYPE ) );
 		assertEquals( 2, entity.getAttributes().getLength() );
 		assertEquals( 0, entity.getChildNodes().getLength() );
+	}
+
+	public void testNestedProperties() {
+
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<entity type=\"Foo\">";
+		xml += "<property name=\"a\"/>";
+		xml += "<property name=\"b\"/>";
+		xml += "<property name=\"c\">";
+		xml += "\t<property name=\"c1\"/>";
+		xml += "\t<property name=\"c2\"/>";
+		xml += "\t<property name=\"c3\" type=\"C3-Type\">";
+		xml += "\t\t<property name=\"c31\"/>";
+		xml += "\t\t<property name=\"c32\"/>";
+		xml += "\t</property>";
+		xml += "</property>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
+
+		// Without 'type' attribute
+
+		Inspector inspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "Foo", "c" ) );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "c", entity.getAttribute( NAME ) );
+		assertEquals( "", entity.getAttribute( TYPE ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "c1", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "c2", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "c3", property.getAttribute( NAME ) );
+		assertEquals( "C3-Type", property.getAttribute( TYPE ) );
+		assertEquals( 2, property.getAttributes().getLength() );
+
+		assertEquals( 3, entity.getChildNodes().getLength() );
+
+		// With 'type' attribute
+
+		inspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( xml.getBytes() ) ) );
+		document = XmlUtils.documentFromString( inspector.inspect( null, "Foo", "c", "c3" ) );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "c3", entity.getAttribute( NAME ) );
+		assertEquals( "C3-Type", entity.getAttribute( TYPE ) );
+		assertEquals( 2, entity.getAttributes().getLength() );
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "c31", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "c32", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		assertEquals( 2, entity.getChildNodes().getLength() );
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected void setUp() {
+
+		mXml = "<?xml version=\"1.0\"?>";
+		mXml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
+		mXml += "<property name=\"bar\" type=\"Bar\" required=\"true\"/>";
+		mXml += "<property name=\"a\"/>";
+		mXml += "<property name=\"d\"/>";
+		mXml += "</entity>";
+		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\"/>";
+		mXml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SubFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\">";
+		mXml += "<property name=\"a\" hidden=\"true\" label=\" \"/>";
+		mXml += "<property name=\"b\" label=\"\"/>";
+		mXml += "<property name=\"c\" lookup=\"Telephone, Mobile, Fax, E-mail\"/>";
+		mXml += "</entity>";
+		mXml += "<entity type=\"Bar\">";
+		mXml += "<property name=\"baz\"/>";
+		mXml += "<action name=\"doAction\"/>";
+		mXml += "<some-junk name=\"ignoreMe\"/>";
+		mXml += "</entity>";
+		mXml += "<entity type=\"Typo1\">";
+		mXml += "<property name=\"foo\" readonly=\"true\"/>";
+		mXml += "</entity>";
+		mXml += "<entity type=\"Typo2\">";
+		mXml += "<property name=\"foo\" dontexpand=\"true\"/>";
+		mXml += "</entity>";
+		mXml += "</inspection-result>";
+
+		mInspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( mXml.getBytes() ) ) );
 	}
 
 	//

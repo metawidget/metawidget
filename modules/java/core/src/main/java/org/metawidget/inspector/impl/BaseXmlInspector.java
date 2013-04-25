@@ -676,24 +676,31 @@ public abstract class BaseXmlInspector
 				return new ValueAndDeclaredType( property, property.getAttribute( typeAttribute ) );
 			}
 
+			// Fetch typeAttribute (if any)
+
+			declaredType = property.getAttribute( typeAttribute );
+
+			// Support nested elements with named children (with or without a typeAttribute)
+
+			elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( property );
+
+			if ( XmlUtils.getChildWithAttribute( elementWithNamedChildren, nameAttribute ) != null ) {
+				continue;
+			}
+
+			// If no typeAttribute, support referenceAttribute (typeAttribute takes precedence)
+
 			if ( !property.hasAttribute( typeAttribute ) ) {
 
-				// Special support for nested elements with named children
-
-				declaredType = null;
-				elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( property );
-
-				if ( XmlUtils.getChildWithAttribute( elementWithNamedChildren, nameAttribute ) == null ) {
-
-					if ( referenceAttribute == null || XmlUtils.getChildWithAttribute( elementWithNamedChildren, referenceAttribute ) == null ) {
-						throw InspectorException.newException( "Property " + name + " in entity " + topLevelElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
-					}
+				if ( referenceAttribute == null || XmlUtils.getChildWithAttribute( elementWithNamedChildren, referenceAttribute ) == null ) {
+					throw InspectorException.newException( "Property " + name + " in entity " + topLevelElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				}
 
 				continue;
 			}
 
-			declaredType = property.getAttribute( typeAttribute );
+			// Traverse to new top-level element of the given declaredType
+
 			topLevelElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, declaredType );
 
 			if ( topLevelElement == null ) {
@@ -752,7 +759,9 @@ public abstract class BaseXmlInspector
 	}
 
 	/**
-	 * The attribute on child elements that identifies a reference to another element (if any)
+	 * The attribute on child elements that identifies a reference to another element (if any).
+	 * Note that <code>typeAttribute</code> will always take precedence over
+	 * <code>referenceAttribute</code>.
 	 */
 
 	protected String getReferenceAttribute() {

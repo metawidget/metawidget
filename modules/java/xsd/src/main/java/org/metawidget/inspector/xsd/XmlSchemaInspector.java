@@ -149,7 +149,13 @@ public class XmlSchemaInspector
 				}
 			}
 
-			// Either way, should be at a 'complexType' by now
+			// 'simpleType' is a top-level element, so stop here
+
+			if ( SIMPLE_TYPE.equals( complexType.getLocalName() ) ) {
+				return topLevel;
+			}
+
+			// Should be at a 'complexType' by now
 
 			if ( !COMPLEX_TYPE.equals( complexType.getLocalName() ) ) {
 				throw InspectorException.newException( "Unexpected child node '" + complexType.getLocalName() + "'" );
