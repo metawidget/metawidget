@@ -77,39 +77,7 @@ var metawidget = metawidget || {};
 
 			// Label
 
-			if ( attributes.name !== undefined || attributes.title !== undefined ) {
-
-				var labelDiv = document.createElement( 'div' );
-				if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
-					labelDiv.setAttribute( 'class', _divStyleClasses[1] );
-				}
-
-				var label = document.createElement( 'label' );
-				if ( widget.getAttribute( 'id' ) !== null ) {
-					label.setAttribute( 'for', widget.getAttribute( 'id' ) );
-				}
-
-				if ( _labelStyleClass !== undefined ) {
-					label.setAttribute( 'class', _labelStyleClass );
-				}
-
-				// For Twitter Bootstrap
-
-				if ( _labelRequiredStyleClass !== undefined && !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required )) {
-					var existingClass = label.getAttribute( 'class' );
-
-					if ( existingClass === null ) {
-						label.setAttribute( 'class', _labelRequiredStyleClass );
-					} else {
-						label.setAttribute( 'class', existingClass + ' ' + _labelRequiredStyleClass );
-					}
-				}
-
-				label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + _labelSuffix;
-
-				labelDiv.appendChild( label );
-				outerDiv.appendChild( labelDiv );
-			}
+			this.layoutLabel( outerDiv, widget, elementName, attributes, mw );
 
 			// Widget
 
@@ -122,6 +90,48 @@ var metawidget = metawidget || {};
 			outerDiv.appendChild( widgetDiv );
 
 			container.appendChild( outerDiv );
+		};
+		
+		this.layoutLabel = function( outerDiv, widget, elementName, attributes, mw ){
+			
+			if ( elementName === 'action' ) {
+				return;
+			}
+			
+			if ( attributes.name === undefined && attributes.title === undefined ) {
+				return;
+			}
+
+			var labelDiv = document.createElement( 'div' );
+			if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
+				labelDiv.setAttribute( 'class', _divStyleClasses[1] );
+			}
+
+			var label = document.createElement( 'label' );
+			if ( widget.getAttribute( 'id' ) !== null ) {
+				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+			}
+
+			if ( _labelStyleClass !== undefined ) {
+				label.setAttribute( 'class', _labelStyleClass );
+			}
+
+			// For Twitter Bootstrap
+
+			if ( _labelRequiredStyleClass !== undefined && !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required )) {
+				var existingClass = label.getAttribute( 'class' );
+
+				if ( existingClass === null ) {
+					label.setAttribute( 'class', _labelRequiredStyleClass );
+				} else {
+					label.setAttribute( 'class', existingClass + ' ' + _labelRequiredStyleClass );
+				}
+			}
+
+			label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + _labelSuffix;
+
+			labelDiv.appendChild( label );
+			outerDiv.appendChild( labelDiv );
 		};
 	};
 
@@ -269,7 +279,7 @@ var metawidget = metawidget || {};
 
 			// Label
 			
-			this.layoutLabel( tr, idPrefix, widget, attributes, mw );
+			this.layoutLabel( tr, idPrefix, widget, elementName, attributes, mw );
 
 			// Widget
 
@@ -305,7 +315,7 @@ var metawidget = metawidget || {};
 			_currentColumn = ( _currentColumn + 1 ) % _numberOfColumns;
 		};
 		
-		this.layoutLabel = function( tr, idPrefix, widget, attributes, mw ) {
+		this.layoutLabel = function( tr, idPrefix, widget, elementName, attributes, mw ) {
 			
 			if ( attributes.name === undefined && attributes.title === undefined ) {
 				return;
@@ -323,19 +333,23 @@ var metawidget = metawidget || {};
 				th.setAttribute( 'class', _columnStyleClasses[0] );
 			}
 
-			var label = document.createElement( 'label' );
+			if ( elementName !== 'action' ) {
 
-			if ( widget.hasAttribute( 'id' ) ) {
-				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+				var label = document.createElement( 'label' );
+	
+				if ( widget.hasAttribute( 'id' ) ) {
+					label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+				}
+	
+				if ( idPrefix !== undefined ) {
+					label.setAttribute( 'id', idPrefix + '-label' );
+				}
+	
+				label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + ':';
+	
+				th.appendChild( label );
 			}
-
-			if ( idPrefix !== undefined ) {
-				label.setAttribute( 'id', idPrefix + '-label' );
-			}
-
-			label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + ':';
-
-			th.appendChild( label );
+			
 			tr.appendChild( th );
 		};
 

@@ -260,6 +260,25 @@
 			expect( container.childNodes.length ).toBe( 2 );
 		} );
 
+		it( "suppresses labels for buttons", function() {
+
+			var layout = new metawidget.layout.DivLayout();
+
+			var button = document.createElement( 'button' );
+			var container = document.createElement( 'metawidget' );
+			var mw = {};
+
+			layout.layoutWidget( button, "action", {
+				name: "widget1"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
 		it( "works with Twitter Bootstrap", function() {
 
 			var layout = new metawidget.layout.DivLayout( {
@@ -593,6 +612,33 @@
 			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
 			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 3 );
 			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "suppresses labels for buttons", function() {
+
+			var layout = new metawidget.layout.TableLayout();
+
+			var button = document.createElement( 'button' );
+			var container = document.createElement( 'metawidget' );
+			var mw = {};
+
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( button, "action", {
+				name: "widget1"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( button );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );

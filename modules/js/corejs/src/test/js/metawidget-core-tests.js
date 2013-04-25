@@ -489,7 +489,7 @@
 					attributes.foo = 'baz';
 					widgetBuilt++;
 
-					if ( metawidget.util.isTrueOrTrueString( attributes.readOnly )) {
+					if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 						sawReadOnly++;
 					}
 
@@ -768,12 +768,14 @@
 			var mw = new metawidget.Metawidget( element );
 
 			mw.toInspect = {
-				foo: function() {
+				foo: "",
+				fooAction: function() {
 
 				}
 			};
 			mw.l10n = {
-				foo: "Foo Label"
+				foo: "Foo Label",
+				fooAction: "Foo Action Label"
 			};
 			mw.buildWidgets();
 
@@ -784,11 +786,18 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo Label:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'button id="foo"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Foo Label' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
-			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr id="table-fooAction-row"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-fooAction-label-cell"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes.length ).toBe( 0 );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-fooAction-cell"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'button id="fooAction"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].innerHTML ).toBe( 'Foo Action Label' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 3 );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes.length ).toBe( 1 );
 		} );
@@ -803,11 +812,11 @@
 				} ]
 			} );
 			mw.toInspect = {};
-			
+
 			try {
 				mw.buildWidgets();
 				expect( true ).toBe( false );
-			} catch( e ) {
+			} catch ( e ) {
 				expect( e.message ).toBe( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 			}
 		} );
