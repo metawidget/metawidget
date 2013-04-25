@@ -949,7 +949,7 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"><label for="fooEdit" id="table-fooEdit-label">Edit:</label></th><td id="table-fooEdit-cell"><button id="fooEdit" ng-click="foo.edit()">Edit</button></td><td/></tr></tbody></table>' );
+														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"/><td id="table-fooEdit-cell"><button id="fooEdit" ng-click="foo.edit()">Edit</button></td><td/></tr></tbody></table>' );
 
 										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()">Edit</button>' );
 
