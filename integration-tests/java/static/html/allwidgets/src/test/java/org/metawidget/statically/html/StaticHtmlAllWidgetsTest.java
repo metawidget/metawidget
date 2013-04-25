@@ -317,7 +317,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t\t\t\t<tbody>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-furtherNestedWidgets-nestedTextbox1\">Nested Textbox #1:</label>\r\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-furtherNestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t<input id=\"nestedWidgets-furtherNestedWidgets-nestedTextbox1\" name=\"nestedWidgetsFurtherNestedWidgetsNestedTextbox1\" type=\"text\"/>\r\n" +
@@ -340,7 +340,7 @@ public class StaticHtmlAllWidgetsTest
             "\t\t\t\t\t\t</tr>\r\n" +
             "\t\t\t\t\t\t<tr>\r\n" +
             "\t\t\t\t\t\t\t<th>\r\n" +
-            "\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-nestedTextbox1\">Nested Textbox 1:</label>\r\n" +
+            "\t\t\t\t\t\t\t\t<label for=\"nestedWidgets-nestedTextbox1\">Nested Textbox #1:</label>\r\n" +
             "\t\t\t\t\t\t\t</th>\r\n" +
             "\t\t\t\t\t\t\t<td>\r\n" +
             "\t\t\t\t\t\t\t\t<input id=\"nestedWidgets-nestedTextbox1\" name=\"nestedWidgetsNestedTextbox1\" type=\"text\"/>\r\n" +
