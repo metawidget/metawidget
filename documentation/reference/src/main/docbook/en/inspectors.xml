@@ -1211,15 +1211,42 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				<title>XmlInspector</title>
 				
 				<para>
-					<classname>XmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format. It can
-					be used when no other <classname>Inspector</classname> is available for the given attribute.
+					<classname>XmlInspector</classname> inspects <filename>inspection-result-1.0.xsd</filename>-compliant files (such as
+					<filename>metawidget-metadata.xml</filename>).
 				</para>
 				
 				<para>
-					Some attributes accept multiple values, such as <parameter>lookup</parameter>. These can be supplied as a comma-separated
+					<classname>XmlInspector</classname> is a very simple Inspector: it takes as its input XML in the same format that
+					<classname>Inspector</classname>s usually output. It can be useful for declaring 'ad hoc' UI entities that do not map to
+					any Java class, as well as for declaring UI-specific attributes for existing Java classes (ie. if
+					you prefer not to use annotations, or if you want to introduce additional 'virtual' properties). Some attributes
+					accept multiple values, such as <parameter>lookup</parameter>. These can be supplied as a comma-separated
 					string. The values will be trimmed for whitespace. If the values themselves contain commas, they can be escaped with the
 					<parameter>\</parameter> character.
 				</para>
+				
+				<para>
+					Note when using <classname>XmlInspector</classname> you should still try to avoid duplicating UI metadata
+					that already exists in other parts of your application. For example, if you are also using
+					<classname>PropertyTypeInspector</classname> in your <classname>CompositeInspector</classname> there is no need to
+					duplicate the names and types of properties. Also, if you are using
+					<classname>PropertyTypeInspector</classname> and <classname>XmlInspector</classname> together, please read the
+					documentation for <parameter>restrictAgainstObject</parameter>.
+				</para>
+				
+				<para>
+					<classname>XmlInspector</classname> does add some niceties beyond <filename>inspection-result-1.0.xsd</filename>.
+					It supports an <parameter>extends</parameter> attribute to allow one <parameter>entity</parameter> to inherit from
+					another. It also supports nested entities, for example:
+				</para>
+	
+				<programlisting language="xml">&lt;entity type="Person"&gt;
+   &lt;property name="surname"/&gt;
+   &lt;property name="address"&gt;
+      &lt;property name="street"/&gt;
+      &lt;property name="postcode"/&gt;
+   &lt;/property&gt;
+&lt;/entity&gt;</programlisting>
 				
 			</section>
 

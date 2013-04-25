@@ -241,7 +241,7 @@ public class StaticHtmAllWidgetsTest
 				"\t\t\t<h:outputText/>\r\n" +
 				"\t\t</h:panelGrid>\r\n" +
 				"\t\t<h:outputText/>\r\n" +
-				"\t\t<h:outputLabel for=\"allWidgetsNestedWidgetsNestedTextbox1\" value=\"Nested Textbox 1:\"/>\r\n" +
+				"\t\t<h:outputLabel for=\"allWidgetsNestedWidgetsNestedTextbox1\" value=\"Nested Textbox #1:\"/>\r\n" +
 				"\t\t<h:panelGroup>\r\n" +
 				"\t\t\t<h:inputText id=\"allWidgetsNestedWidgetsNestedTextbox1\" value=\"#{allWidgets.nestedWidgets.nestedTextbox1}\"/>\r\n" +
 				"\t\t\t<h:message for=\"allWidgetsNestedWidgetsNestedTextbox1\"/>\r\n" +

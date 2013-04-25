@@ -30,7 +30,10 @@
 		<property name="dropdownWithLabels" lookup="foo2,dropdown2,bar2,baz2" lookup-labels="Foo #2,Dropdown #2,Bar #2,Baz #2"/>
 		<property name="notNullDropdown" lookup="-1,0,1"/>
 		<property name="notNullObjectDropdown" lookup="foo3,dropdown3,bar3,baz3,abc3,def3" required="true"/>
-		<property name="nestedWidgets" type="org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets$NestedWidgets"/>
+		<property name="nestedWidgets" type="org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets$NestedWidgets">
+			<property name="furtherNestedWidgets" type="org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets$NestedWidgets"/>
+			<property name="nestedTextbox1" label="Nested Textbox #1"/>
+		</property>
 		<property name="readOnlyNestedWidgets" type="org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true"/>
 		<property name="nestedWidgetsDontExpand" dont-expand="true"/>
 		<property name="readOnlyNestedWidgetsDontExpand" read-only="true" dont-expand="true"/>

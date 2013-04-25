@@ -300,7 +300,7 @@ public class GwtTestAllWidgets
 										assertEquals( "Nested Textbox 2", metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) );
 										( (TextBox) flexTableFurtherNested.getWidget( 2, 1 ) ).setText( "Nested Textbox 2.2 (further)" );
 
-										assertEquals( "Nested Textbox 1:", flexTableNested.getText( 1, 0 ) );
+										assertEquals( "Nested Textbox #1:", flexTableNested.getText( 1, 0 ) );
 										assertTrue( flexTableNested.getWidget( 1, 1 ) instanceof TextBox );
 										assertEquals( "Nested Textbox 1", metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
 										( (TextBox) flexTableNested.getWidget( 1, 1 ) ).setText( "Nested Textbox 1.1" );

@@ -310,7 +310,7 @@ public class VaadinAllWidgetsTest
 		( (TextField) component ).setValue( "Nested Textbox 2.2 (further)" );
 
 		component = layoutNested.getComponent( 1 );
-		assertEquals( "Nested Textbox 1:", component.getCaption() );
+		assertEquals( "Nested Textbox #1:", component.getCaption() );
 		assertTrue( component instanceof TextField );
 		assertEquals( "Nested Textbox 1", ( (Property) metawidget.getComponent( "nestedWidgets", "nestedTextbox1" ) ).getValue() );
 		( (TextField) component ).setValue( "Nested Textbox 1.1" );
@@ -491,7 +491,7 @@ public class VaadinAllWidgetsTest
 		assertEquals( "Nested Textbox 2:", component.getCaption() );
 		assertEquals( "Nested Textbox 2.2 (further)", ( (Label) component ).getValue() );
 		component = layoutNested.getComponent( 1 );
-		assertEquals( "Nested Textbox 1:", component.getCaption() );
+		assertEquals( "Nested Textbox #1:", component.getCaption() );
 		assertEquals( "Nested Textbox 1.1", ( (Label) component ).getValue() );
 		component = layoutNested.getComponent( 2 );
 		assertEquals( "Nested Textbox 2:", component.getCaption() );

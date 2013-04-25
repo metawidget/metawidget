@@ -305,7 +305,7 @@ public class SwtAllWidgetsTest
 		assertEquals( "Nested Textbox 2", metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) );
 		( (Text) metawidgetFurtherNested.getChildren()[5] ).setText( "Nested Textbox 2.2 (further)" );
 
-		assertEquals( "Nested Textbox 1:", ( (Label) metawidgetNested.getChildren()[2] ).getText() );
+		assertEquals( "Nested Textbox #1:", ( (Label) metawidgetNested.getChildren()[2] ).getText() );
 		assertTrue( metawidgetNested.getChildren()[3] instanceof Text );
 		assertEquals( "Nested Textbox 1", metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
 		( (Text) metawidgetNested.getChildren()[3] ).setText( "Nested Textbox 1.1" );
@@ -459,7 +459,7 @@ public class SwtAllWidgetsTest
 		assertEquals( "Nested Textbox 1.1 (further)", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[1] ).getChildren()[3] ).getText() );
 		assertEquals( "Nested Textbox 2:", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[1] ).getChildren()[4] ).getText() );
 		assertEquals( "Nested Textbox 2.2 (further)", ( (Label) ( (SwtMetawidget) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[1] ).getChildren()[5] ).getText() );
-		assertEquals( "Nested Textbox 1:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[2] ).getText() );
+		assertEquals( "Nested Textbox #1:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[2] ).getText() );
 		assertEquals( "Nested Textbox 1.1", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[3] ).getText() );
 		assertEquals( "Nested Textbox 2:", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[4] ).getText() );
 		assertEquals( "Nested Textbox 2.2", ( (Label) ( (SwtMetawidget) metawidget.getChildren()[51] ).getChildren()[5] ).getText() );
