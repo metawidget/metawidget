@@ -6,14 +6,13 @@
 
 		<ul>
 			<li><a href="#what">What is Metawidget?</a></li>
-			<li><a href="#who">Who makes Metawidget?</a></li>
 			<li><a href="#goals">What are the goals of Metawidget?</a></li>
-			<li><a href="#requirements">What are Metawidget's system requirements?</a></li>
-			<li><a href="#why">Why is it called Metawidget?</a></li>
-			<li><a href="#impl">Why is (some feature) of Metawidget implemented the way it is?</a></li>
 			<li><a href="#usage">Who uses Metawidget?</a></li>
+			<li><a href="#why">Why is it called Metawidget?</a></li>
+			<li><a href="#who">Who makes Metawidget?</a></li>
+			<li><a href="#impl">Why is (some feature) of Metawidget implemented the way it is?</a></li>
 			<li><a href="#web">Is Metawidget (yet) another Web application framework?</a></li>
-			<li><a href="#compare">How does Metawidget compare to Swing/Java Server Faces/Hibernate/(some other framework)?</a></li>
+			<li><a href="#compare">How does Metawidget compare to Swing/Hibernate/AngularJS/(some other framework)?</a></li>
 			<li><a href="#compete">Who are Metawidget's competitors?</a></li>
 			<li><a href="#oim">Is an OIM like an ORM?</a></li>
 			<li><a href="#technologies">Why does Metawidget support so many different technologies?</a></li>
@@ -35,19 +34,11 @@
 			See also the <a href="/elevator.php">Elevator Pitch Cartoon</a>.
 		</p>
 		
-		<h3><a name="who">Who makes Metawidget?</a></h3>
-
-		<p>
-			Metawidget is an Open Source project licensed under the <a href="/doc/faq/licensing.php">LGPL</a>. It is developed by the
-			community. It was founded by Richard Kennard of <a href="http://www.kennardconsulting.com" target="_blank">Kennard Consulting</a>.
-		</p>
-
 		<h3><a name="goals">What are the goals of Metawidget?</a></h3>
 
 		<p>
-			Metawidget continues the trend in recent years toward more POJO-centric development. This trend allows
-			developers to rely on 'sensible defaults', writing as little 'boilerplate code' as possible. The Goals Of
-			Metawidget are:
+			Metawidget continues the trend in recent years towards 'sensible defaults', writing as
+			little 'boilerplate code' as possible. The Goals Of Metawidget are:
 		</p>
 
 		<ol>
@@ -65,6 +56,16 @@
 			See also the <a href="motivation.php">motivation FAQ</a>.
 		</p>
 
+		<h3><a name="usage">Who uses Metawidget?</a></h3>
+
+		<p>
+			The AngularJS, GWT, HTML 5, Java Server Faces, Spring, Struts and Swing Metawidgets are all deployed
+			in production systems. Large clients include <a href="http://redhat.com">Red Hat</a>,
+			<a href="http://telefonica.com">Telefonica</a> and <a href="http://scisys.co.uk">SCISYS</a>.
+			For more information on organizations deploying
+			Metawidget, see <a href="http://metawidget.org/documentation.php">our white papers</a>.
+		</p>
+
 		<h3><a name="why">Why is it called Metawidget?</a></h3>
 
 		<p>
@@ -76,20 +77,17 @@
 			<li>Metawidget is a widget built by metadata gathered from the back-end</li>
 		</ul>
 
+		<h3><a name="who">Who makes Metawidget?</a></h3>
+
+		<p>
+			Metawidget is an Open Source project licensed under the <a href="/doc/faq/licensing.php">LGPL</a>. It is developed by the
+			community. It was founded by Richard Kennard of <a href="http://www.kennardconsulting.com" target="_blank">Kennard Consulting</a>.
+		</p>
+
 		<h3><a name="impl">Why is (some feature) of Metawidget implemented the way it is?</a></h3>
 
 		<p>
 			See the <a href="/blogs.php">developer blogs</a> for insights into, and to provide feedback on, Metawidget's development.
-		</p>
-
-		<h3><a name="usage">Who uses Metawidget?</a></h3>
-
-		<p>
-			The AngularJS, GWT, HTML 5, Java Server Faces, Spring, Struts and Swing Metawidgets are all deployed
-			in production systems. Large clients include <a href="http://redhat.com">Red Hat</a>,
-			<a href="http://telefonica.com">Telefonica</a> and <a href="http://scisys.co.uk">SCISYS</a>.
-			For more information on organizations deploying
-			Metawidget, see <a href="http://metawidget.org/documentation.php">our white papers</a>.
 		</p>
 
 		<h3><a name="web">Is Metawidget (yet) another Web application framework?</a></h3>
@@ -98,7 +96,7 @@
 			No. Metawidget <em>uses</em> existing Web application frameworks, it does not compete with them.
 		</p>
 
-		<h3><a name="compare">How does Metawidget compare to Swing/Hibernate/(some other framework)?</a></h3>
+		<h3><a name="compare">How does Metawidget compare to Swing/Hibernate/AngularJS/(some other framework)?</a></h3>
 
 		<p>
 			Metawidget <em>uses</em> other frameworks, it does not compete with them.
