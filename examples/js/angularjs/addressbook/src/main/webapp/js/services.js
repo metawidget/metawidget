@@ -33,7 +33,7 @@
 
 	/* Services */
 
-	angular.module( 'addressBookServices', [] )
+	angular.module( 'services', [] )
 
 	/**
 	 * Simulate database.

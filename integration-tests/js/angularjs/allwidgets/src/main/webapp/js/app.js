@@ -20,5 +20,5 @@
 
 	/* App Module */
 
-	angular.module( 'allWidgets', [ 'metawidget' ] );
+	angular.module( 'allWidgets', [ 'controllers', 'metawidget' ] );
 } )();

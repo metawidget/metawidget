@@ -33,11 +33,13 @@
 
 	/* App Module */
 
-	angular.module( 'addressBook', [ 'metawidget', 'addressBookServices' ] ).config( [ '$routeProvider', function( $routeProvider ) {
+	angular.module( 'addressBook', [ 'controllers', 'services', 'metawidget' ] )
+
+	.config( [ '$routeProvider', function( $routeProvider ) {
 
 		$routeProvider.when( '/contact/:contactId', {
 			templateUrl: 'partials/contact-detail.html',
-			controller: ContactController
+			controller: 'contactController'
 		} ).when( '', {
 			templateUrl: 'partials/contact-none.html'
 		} ).otherwise( {

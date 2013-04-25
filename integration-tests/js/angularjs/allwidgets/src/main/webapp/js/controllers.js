@@ -14,46 +14,51 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-/* Controllers */
-
-function AllWidgetsController( $scope ) {
+( function() {
 
 	'use strict';
 
-	$scope.allWidgets = metawidget.test.allWidgets;
+	/* Controllers */
 
-	$scope.actions = {
-		"save": function() {
+	var module = angular.module( 'controllers', [] )
 
-			$scope.readOnly = true;
-			$scope.metawidgetConfig = {
+	.controller( 'allWidgetsController', function( $scope ) {
 
-				layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout() )
-			};
+		$scope.allWidgets = metawidget.test.allWidgets;
+
+		$scope.actions = {
+			"save": function() {
+
+				$scope.readOnly = true;
+				$scope.metawidgetConfig = {
+
+					layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout() )
+				};
+			}
 		}
-	}
 
-	$scope.metawidgetConfig = {
+		$scope.metawidgetConfig = {
 
-		inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
+			inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
 
-			// Test 'rolling our own' names traversal (not using
-			// JsonSchemaInspector)
+				// Test 'rolling our own' names traversal (not using
+				// JsonSchemaInspector)
 
-			if ( type === 'allWidgets' ) {
-				if ( names === undefined ) {
-					return metawidget.test.allWidgetsMetadata;
-				} else if ( names.length === 1 ) {
-					if ( names[0] === 'nestedWidgets' || names[0] === 'readOnlyNestedWidgets' || names[0] === 'nestedWidgetsDontExpand' ) {
-						return metawidget.test.nestedWidgetsMetadata;
+				if ( type === 'allWidgets' ) {
+					if ( names === undefined ) {
+						return metawidget.test.allWidgetsMetadata;
+					} else if ( names.length === 1 ) {
+						if ( names[0] === 'nestedWidgets' || names[0] === 'readOnlyNestedWidgets' || names[0] === 'nestedWidgetsDontExpand' ) {
+							return metawidget.test.nestedWidgetsMetadata;
+						}
 					}
 				}
-			}
-		}, new metawidget.inspector.PropertyTypeInspector() ] )
-	};
+			}, new metawidget.inspector.PropertyTypeInspector() ] )
+		};
 
-	$scope.metawidgetActionsConfig = {
+		$scope.metawidgetActionsConfig = {
 
-		layout: new metawidget.layout.SimpleLayout()
-	};
-}
+			layout: new metawidget.layout.SimpleLayout()
+		};
+	} );
+} )();
