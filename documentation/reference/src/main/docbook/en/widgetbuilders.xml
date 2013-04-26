@@ -1285,6 +1285,11 @@
 							</tr>
 							<tr>
 								<td></td>
+								<td><classname>AutoComplete</classname></td>
+								<td><parameter>faces-suggest</parameter></td>
+							</tr>
+							<tr>
+								<td></td>
 								<td><classname>Calendar</classname></td>
 								<td><parameter>type="java.util.Date"</parameter></td>
 							</tr>
