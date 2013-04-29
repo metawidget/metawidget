@@ -25,7 +25,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import javax.el.ELContext;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
@@ -265,9 +264,7 @@ public class PrimeFacesWidgetBuilder
 
 					if ( facesSuggest != null ) {
 						AutoComplete autoComplete = FacesUtils.createComponent( AutoComplete.COMPONENT_TYPE, "org.primefaces.component.autocomplete.AutoCompleteRenderer" );
-						autoComplete.setCompleteMethod( application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { ELContext.class, UIComponent.class, String.class } ) );
-						autoComplete.setMaxResults( 10 );
-
+						autoComplete.setCompleteMethod( application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { String.class } ) );
 						return autoComplete;
 					}
 				}

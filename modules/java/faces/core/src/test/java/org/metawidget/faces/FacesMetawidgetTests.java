@@ -442,20 +442,26 @@ public class FacesMetawidgetTests {
 						}
 
 						@Override
-						public MethodExpression createMethodExpression( ELContext elContext, final String expression, Class<?> returnType, Class<?>[] parameters )
+						public MethodExpression createMethodExpression( ELContext elContext, final String expression, final Class<?> returnType, final Class<?>[] parameters )
 							throws ELException, NullPointerException {
 
 							return new MethodExpression() {
 
 								@Override
-								public MethodInfo getMethodInfo( ELContext arg0 )
+								public MethodInfo getMethodInfo( ELContext context )
 									throws NullPointerException, javax.el.PropertyNotFoundException, javax.el.MethodNotFoundException, ELException {
 
-									throw new UnsupportedOperationException();
+									return new MethodInfo( FacesUtils.unwrapExpression( expression ), returnType, parameters );
 								}
 
 								@Override
-								public Object invoke( ELContext arg0, Object[] arg1 )
+								public String getExpressionString() {
+
+									return expression;
+								}
+
+								@Override
+								public Object invoke( ELContext context, Object[] arg1 )
 									throws NullPointerException, javax.el.PropertyNotFoundException, javax.el.MethodNotFoundException, ELException {
 
 									throw new UnsupportedOperationException();
@@ -465,12 +471,6 @@ public class FacesMetawidgetTests {
 								public boolean equals( Object arg0 ) {
 
 									throw new UnsupportedOperationException();
-								}
-
-								@Override
-								public String getExpressionString() {
-
-									return expression;
 								}
 
 								@Override

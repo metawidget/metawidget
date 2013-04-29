@@ -223,7 +223,9 @@ public class PrimeFacesWidgetBuilderTest
 
 		AutoComplete autocomplete = (AutoComplete) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "#{foo.bar}", autocomplete.getCompleteMethod().getExpressionString() );
-		assertEquals( 10, autocomplete.getMaxResults() );
+		assertEquals( Object.class, autocomplete.getCompleteMethod().getMethodInfo( null ).getReturnType() );
+		assertEquals( String.class, autocomplete.getCompleteMethod().getMethodInfo( null ).getParamTypes()[0] );
+		assertEquals( 1, autocomplete.getCompleteMethod().getMethodInfo( null ).getParamTypes().length );
 
 		attributes.remove( FACES_SUGGEST );
 
