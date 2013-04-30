@@ -61,7 +61,6 @@ var metawidget = metawidget || {};
 
 		var _divStyleClasses = config !== undefined ? config.divStyleClasses : undefined;
 		var _labelStyleClass = config !== undefined ? config.labelStyleClass : undefined;
-		var _labelRequiredStyleClass = config !== undefined ? config.labelRequiredStyleClass : undefined;
 		var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
 
 		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
@@ -114,18 +113,6 @@ var metawidget = metawidget || {};
 
 			if ( _labelStyleClass !== undefined ) {
 				label.setAttribute( 'class', _labelStyleClass );
-			}
-
-			// For Twitter Bootstrap
-
-			if ( _labelRequiredStyleClass !== undefined && !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required )) {
-				var existingClass = label.getAttribute( 'class' );
-
-				if ( existingClass === null ) {
-					label.setAttribute( 'class', _labelRequiredStyleClass );
-				} else {
-					label.setAttribute( 'class', existingClass + ' ' + _labelRequiredStyleClass );
-				}
 			}
 
 			label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + _labelSuffix;

@@ -18,6 +18,7 @@
 			<li><a href="https://sourceforge.net/p/metawidget/discussion/747624/thread/fc26d809" target="_blank">Android binding</a></li>
 			<li><a href="https://sourceforge.net/p/metawidget/discussion/747623/thread/0b903862" target="_blank">PrimeFaces enhancements</a></li>
 			<li>MetawidgetJS supports nested JSON schemas</li>
+			<li>Twitter Bootstrap support</li>
 			<li>JDK 7 Support (during build process and for JavaDoc)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>

@@ -219,47 +219,6 @@
 			expect( container.childNodes.length ).toBe( 2 );
 		} );
 
-		it( "supports required on the labels", function() {
-
-			var layout = new metawidget.layout.DivLayout( {
-				labelRequiredStyleClass: 'required'
-			} );
-
-			var widget1 = document.createElement( 'input' );
-			widget1.setAttribute( 'id', 'widget1' );
-			var widget2 = document.createElement( 'input' );
-			widget2.setAttribute( 'id', 'widget2' );
-			var container = document.createElement( 'metawidget' );
-			var mw = {
-				path: "testPath"
-			};
-
-			layout.layoutWidget( widget1, "property", {
-				name: "widget1"
-			}, container, mw );
-			layout.layoutWidget( widget2, "property", {
-				name: "widget2",
-				title: "widgetLabel 2",
-				required: "true"
-			}, container, mw );
-
-			expect( container.childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1"' );
-			expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1:' );
-			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
-			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
-			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
-			expect( container.childNodes[1].toString() ).toBe( 'div' );
-			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2" class="required"' );
-			expect( container.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'widgetLabel 2:' );
-			expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'div' );
-			expect( container.childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
-			expect( container.childNodes[1].childNodes.length ).toBe( 2 );
-			expect( container.childNodes.length ).toBe( 2 );
-		} );
-
 		it( "suppresses labels for buttons", function() {
 
 			var layout = new metawidget.layout.DivLayout();
@@ -277,61 +236,6 @@
 			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button );
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
-		} );
-
-		it( "works with Twitter Bootstrap", function() {
-
-			var layout = new metawidget.layout.DivLayout( {
-				divStyleClasses: [ 'control-group', undefined, 'controls' ],
-				labelStyleClass: 'control-label',
-				labelRequiredStyleClass: 'required'
-			} );
-
-			var widget1 = document.createElement( 'input' );
-			widget1.setAttribute( 'id', 'widget1' );
-			var widget2 = document.createElement( 'input' );
-			widget2.setAttribute( 'id', 'widget2' );
-			var widget3 = document.createElement( 'input' );
-			widget3.setAttribute( 'id', 'widget3' );
-			var container = document.createElement( 'metawidget' );
-			var mw = {
-				path: "testPath"
-			};
-
-			layout.layoutWidget( widget1, "property", {
-				name: "widget1"
-			}, container, mw );
-			layout.layoutWidget( widget2, "property", {
-				name: "widget2",
-				title: "widgetLabel 2",
-				required: "true"
-			}, container, mw );
-			layout.layoutWidget( widget3, "property", {
-				name: "widget3",
-				readOnly: "true",
-				required: "true"
-			}, container, mw );
-
-			expect( container.childNodes[0].toString() ).toBe( 'div class="control-group"' );
-			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" class="control-label"' );
-			expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1:' );
-			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
-			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
-			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
-			expect( container.childNodes[1].toString() ).toBe( 'div class="control-group"' );
-			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2" class="control-label required"' );
-			expect( container.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'widgetLabel 2:' );
-			expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'div class="controls"' );
-			expect( container.childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
-			expect( container.childNodes[2].childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget3" class="control-label"' );
-			expect( container.childNodes[2].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 3:' );
-			expect( container.childNodes[2].childNodes[1].toString() ).toBe( 'div class="controls"' );
-			expect( container.childNodes[2].childNodes[1].childNodes[0] ).toBe( widget3 );
-			expect( container.childNodes[2].childNodes.length ).toBe( 2 );
-			expect( container.childNodes.length ).toBe( 3 );
 		} );
 	} );
 

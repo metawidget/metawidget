@@ -337,19 +337,6 @@
 			expect( button.innerHTML ).toBe( 'Click Me' );
 			expect( button.getAttribute( 'class' ) ).toBe( null );
 
-			widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder( {
-				buttonStyleClass: "btn"
-			} );
-
-			button = widgetBuilder.buildWidget( "property", {
-				name: "clickMe",
-				type: "function"
-			}, {} );
-
-			expect( button.toString() ).toBe( 'button class="btn"' );
-			expect( button.innerHTML ).toBe( 'Click Me' );
-			expect( button.getAttribute( 'class' ) ).toBe( 'btn' );
-
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "number"
 			}, {} ).toString() ).toBe( 'input type="number"' );

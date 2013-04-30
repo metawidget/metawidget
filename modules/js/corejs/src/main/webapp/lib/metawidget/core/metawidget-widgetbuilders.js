@@ -185,169 +185,162 @@ var metawidget = metawidget || {};
 	 * <code>select</code>, to suit the inspected fields.
 	 */
 
-	metawidget.widgetbuilder.HtmlWidgetBuilder = function( config ) {
+	metawidget.widgetbuilder.HtmlWidgetBuilder = function() {
 
 		if ( ! ( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
+	};
 
-		var _buttonStyleClass = config !== undefined ? config.buttonStyleClass : undefined;
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( elementName, attributes, mw ) {
 
-		this.buildWidget = function( elementName, attributes, mw ) {
+		// Hidden
 
-			// Hidden
+		if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) ) {
+			return document.createElement( 'stub' );
+		}
 
-			if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) ) {
-				return document.createElement( 'stub' );
-			}
+		// Select box
 
-			// Select box
+		if ( attributes['enum'] !== undefined ) {
 
-			if ( attributes['enum'] !== undefined ) {
+			// Multi-select and radio buttons
 
-				// Multi-select and radio buttons
+			if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
 
-				if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
-
-					var div = document.createElement( 'div' );
-
-					for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
-
-						// Uses 'implicit label association':
-						// http://www.w3.org/TR/html4/interact/forms.html#h-17.9.1
-
-						var label = document.createElement( 'label' );
-						var option = document.createElement( 'input' );
-
-						if ( attributes.componentType !== undefined ) {
-							option.setAttribute( 'type', attributes.componentType );
-						} else {
-							option.setAttribute( 'type', 'checkbox' );
-						}
-						option.setAttribute( 'value', attributes['enum'][loop] );
-						label.appendChild( option );
-
-						if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
-							label.appendChild( document.createTextNode( attributes.enumTitles[loop] ) );
-						} else {
-							label.appendChild( document.createTextNode( attributes['enum'][loop] ) );
-						}
-
-						div.appendChild( label );
-					}
-
-					return div;
-				}
-
-				// Single-select
-
-				var select = document.createElement( 'select' );
-
-				if ( !metawidget.util.isTrueOrTrueString( attributes.required )) {
-					select.appendChild( document.createElement( 'option' ) );
-				}
+				var div = document.createElement( 'div' );
 
 				for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
-					var option = document.createElement( 'option' );
 
-					// HtmlUnit needs an 'option' to have a 'value', even if the
-					// same as the innerHTML
+					// Uses 'implicit label association':
+					// http://www.w3.org/TR/html4/interact/forms.html#h-17.9.1
 
+					var label = document.createElement( 'label' );
+					var option = document.createElement( 'input' );
+
+					if ( attributes.componentType !== undefined ) {
+						option.setAttribute( 'type', attributes.componentType );
+					} else {
+						option.setAttribute( 'type', 'checkbox' );
+					}
 					option.setAttribute( 'value', attributes['enum'][loop] );
+					label.appendChild( option );
 
 					if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
-						option.innerHTML = attributes.enumTitles[loop];
+						label.appendChild( document.createTextNode( attributes.enumTitles[loop] ) );
 					} else {
-						option.innerHTML = attributes['enum'][loop];
+						label.appendChild( document.createTextNode( attributes['enum'][loop] ) );
 					}
 
-					select.appendChild( option );
-				}
-				return select;
-			}
-
-			// Button
-
-			if ( attributes.type === 'function' ) {
-				var button = document.createElement( 'button' );
-
-				button.innerHTML = metawidget.util.getLabelString( attributes, mw );
-
-				if ( _buttonStyleClass !== undefined ) {
-					button.setAttribute( 'class', _buttonStyleClass );
-				}
-				return button;
-			}
-
-			// Number
-
-			if ( attributes.type === 'number' ) {
-
-				if ( attributes.minimum !== undefined && attributes.maximum !== undefined ) {
-					var range = document.createElement( 'input' );
-					range.setAttribute( 'type', 'range' );
-					range.setAttribute( 'min', attributes.minimum );
-					range.setAttribute( 'max', attributes.maximum );
-					return range;
+					div.appendChild( label );
 				}
 
-				var number = document.createElement( 'input' );
-				number.setAttribute( 'type', 'number' );
-				return number;
+				return div;
 			}
 
-			// Boolean
+			// Single-select
 
-			if ( attributes.type === 'boolean' ) {
-				var checkbox = document.createElement( 'input' );
-				checkbox.setAttribute( 'type', 'checkbox' );
-				return checkbox;
+			var select = document.createElement( 'select' );
+
+			if ( !metawidget.util.isTrueOrTrueString( attributes.required ) ) {
+				select.appendChild( document.createElement( 'option' ) );
 			}
 
-			// Date
+			for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
+				var option = document.createElement( 'option' );
 
-			if ( attributes.type === 'date' ) {
-				var date = document.createElement( 'input' );
-				date.setAttribute( 'type', 'date' );
-				return date;
-			}
+				// HtmlUnit needs an 'option' to have a 'value', even if the
+				// same as the innerHTML
 
-			// String
+				option.setAttribute( 'value', attributes['enum'][loop] );
 
-			if ( attributes.type === 'string' ) {
-
-				if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
-					var password = document.createElement( 'input' );
-					password.setAttribute( 'type', 'password' );
-
-					if ( attributes.maxLength !== undefined ) {
-						password.setAttribute( 'maxlength', attributes.maxLength );
-					}
-
-					return password;
+				if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
+					option.innerHTML = attributes.enumTitles[loop];
+				} else {
+					option.innerHTML = attributes['enum'][loop];
 				}
 
-				if ( metawidget.util.isTrueOrTrueString( attributes.large ) ) {
-					return document.createElement( 'textarea' );
-				}
+				select.appendChild( option );
+			}
+			return select;
+		}
 
-				var text = document.createElement( 'input' );
-				text.setAttribute( 'type', 'text' );
+		// Button
+
+		if ( attributes.type === 'function' ) {
+			var button = document.createElement( 'button' );
+			button.innerHTML = metawidget.util.getLabelString( attributes, mw );
+			return button;
+		}
+
+		// Number
+
+		if ( attributes.type === 'number' ) {
+
+			if ( attributes.minimum !== undefined && attributes.maximum !== undefined ) {
+				var range = document.createElement( 'input' );
+				range.setAttribute( 'type', 'range' );
+				range.setAttribute( 'min', attributes.minimum );
+				range.setAttribute( 'max', attributes.maximum );
+				return range;
+			}
+
+			var number = document.createElement( 'input' );
+			number.setAttribute( 'type', 'number' );
+			return number;
+		}
+
+		// Boolean
+
+		if ( attributes.type === 'boolean' ) {
+			var checkbox = document.createElement( 'input' );
+			checkbox.setAttribute( 'type', 'checkbox' );
+			return checkbox;
+		}
+
+		// Date
+
+		if ( attributes.type === 'date' ) {
+			var date = document.createElement( 'input' );
+			date.setAttribute( 'type', 'date' );
+			return date;
+		}
+
+		// String
+
+		if ( attributes.type === 'string' ) {
+
+			if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
+				var password = document.createElement( 'input' );
+				password.setAttribute( 'type', 'password' );
 
 				if ( attributes.maxLength !== undefined ) {
-					text.setAttribute( 'maxlength', attributes.maxLength );
+					password.setAttribute( 'maxlength', attributes.maxLength );
 				}
 
-				return text;
+				return password;
 			}
 
-			// Not simple, but don't expand
-
-			if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
-				var text = document.createElement( 'input' );
-				text.setAttribute( 'type', 'text' );
-				return text;
+			if ( metawidget.util.isTrueOrTrueString( attributes.large ) ) {
+				return document.createElement( 'textarea' );
 			}
-		};
+
+			var text = document.createElement( 'input' );
+			text.setAttribute( 'type', 'text' );
+
+			if ( attributes.maxLength !== undefined ) {
+				text.setAttribute( 'maxlength', attributes.maxLength );
+			}
+
+			return text;
+		}
+
+		// Not simple, but don't expand
+
+		if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
+			var text = document.createElement( 'input' );
+			text.setAttribute( 'type', 'text' );
+			return text;
+		}
 	};
 } )();

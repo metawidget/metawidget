@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>angularjs</module>
+		<module>bootstrap</module>
 		<module>corejs</module>
 		<module>jqueryui</module>
 	</modules>

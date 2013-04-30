@@ -41,6 +41,13 @@
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
+			<directory>/modules/js/bootstrap/target/metawidget-bootstrap</directory>
+			<includes>
+				<include>**/*.js</include>
+			</includes>
+			<outputDirectory>/js</outputDirectory>
+		</fileSet>
+		<fileSet>
 			<directory>/modules/js/corejs/target/metawidget-corejs</directory>
 			<includes>
 				<include>**/*.js</include>
