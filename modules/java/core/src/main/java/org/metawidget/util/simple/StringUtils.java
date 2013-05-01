@@ -155,7 +155,7 @@ public final class StringUtils {
 				builder.append( Character.toUpperCase( c ) );
 				first = false;
 			} else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && chars[loop + 1] != separator && !Character.isUpperCase( chars[loop + 1] ) ) ) ) {
-				if ( Character.isLetter( lastChar ) ) {
+				if ( lastChar != separator ) {
 					builder.append( separator );
 				}
 

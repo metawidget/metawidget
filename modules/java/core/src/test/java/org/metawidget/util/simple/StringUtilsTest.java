@@ -80,6 +80,8 @@ public class StringUtilsTest
 		assertEquals( "Camel Cased", StringUtils.uncamelCase( "camelCased" ) );
 		assertEquals( "Camel CASED", StringUtils.uncamelCase( "camelCASED" ) );
 		assertEquals( "Camel-Cased", StringUtils.uncamelCase( "camelCased", '-' ) );
+		assertEquals( "Age 18 To 30 Employees", StringUtils.uncamelCase( "age18To30Employees" ) );
+		assertEquals( "Press Me", StringUtils.uncamelCase( "Press Me" ) );
 
 		// camelCase
 
