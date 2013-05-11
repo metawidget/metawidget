@@ -1509,7 +1509,7 @@ public class Main {
 					enum. The <guibutton>Search</guibutton>, <guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons
 					are created by <classname>SwingMetawidget</classname> based on annotated action methods in the <classname>ContactDialog</classname> class.
 					The rest of the screen - including the images, background and layout - are managed by regular Swing code and are not controlled
-					by Metawidget: Metawidget does try to 'own' the entire UI.					
+					by Metawidget: Metawidget does not try to 'own' the entire UI.					
 				</para>
 				
 				<tip>
