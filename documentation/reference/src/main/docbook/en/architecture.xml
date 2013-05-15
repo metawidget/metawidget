@@ -56,7 +56,7 @@
 				<para>
 					an <classname>Inspector</classname> that inspects specific back-end architectures. This can be a single <classname>Inspector</classname> or
 					a list of multiple <classname>Inspector</classname>s (e.g. <classname>PropertyTypeInspector</classname>, <classname>JpaInspector</classname> etc)
-					by using <classname>CompositeInspector</classname> (see <xref linkend="section-introduction-part1-compositeinspector"/>). In the latter case,
+					by using <classname>CompositeInspector</classname> (see <xref linkend="section-introduction-java-part1-compositeinspector"/>). In the latter case,
 					the multiple inspection results are all combined into a single result. 
 				</para>
 			</listitem>
