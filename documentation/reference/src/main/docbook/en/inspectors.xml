@@ -95,9 +95,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						<para>
 							This <classname>PropertyStyle</classname> recognizes JavaBean-convention <function>getXXX</function>,
 							<function>setXXX</function> and <function>isXXX</function>
-							methods. By default, it also recognizes public fields (this can be disabled using
-							<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>). In addition, it
-							maintains a cache of reflected classes for performance. 
+							methods. In addition, it maintains a cache of reflected classes for performance. 
 						</para>
 
 						<para>
@@ -139,7 +137,9 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						
 						<para>
 							If you need more control over the mapping, consider extending <classname>JavaBeanPropertyStyle</classname> and
-							overriding <function>getPrivateField</function>. 
+							overriding <function>getPrivateField</function>. You could also use
+							<function>JavaBeanPropertyStyleConfig.setSupportPublicFields( true )</function> to recognize
+							public fields directly, though this is not recommended.  
 						</para>						
 						
 					</section>
@@ -203,8 +203,8 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						<itemizedlist>
 							<listitem>
 								<para>
-									superclass public fields come first, sorted by name (this can be disabled using
-									<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>).
+									superclass public fields come first, sorted by name (if
+									<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function> has been set).
 								</para>
 							</listitem>
 							<listitem>
@@ -214,8 +214,8 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 							</listitem>
 							<listitem>
 								<para>
-									public fields come next, sorted by name (this can be disabled using
-									<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function>).
+									public fields come next, sorted by name (if
+									<function>JavaBeanPropertyStyleConfig.setSupportPublicFields</function> has been set).
 								</para>
 							</listitem>
 							<listitem>
