@@ -17,6 +17,52 @@
 			other widget from some other framework.
 		</para>
 
+		<section id="section-inspectors-composite">
+			<title>Composite Inspector</title>
+			
+			<para>
+				<classname>CompositeInspector</classname>
+				(the name refers to the Composite design pattern)
+				delegates inspection to one or more sub-inspectors, then combines the resulting DOMs.
+				The combining algorithm works as follows. For each element:
+			</para>
+			
+			<orderedlist>
+				<listitem>
+					<para>
+						top-level elements (typically <parameter>entity</parameter>)
+						with the same <parameter>type</parameter> attribute in both DOMs are combined
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						child elements (typically <parameter>property</parameter> or <parameter>action</parameter>)
+						with the same <parameter>name</parameter> attribute in both DOMs are combined
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						the ordering of child elements (typically <parameter>property</parameter> or <parameter>action</parameter>)
+						in the existing DOM is preserved. New child elements are
+						added either at the end or immediately after the last combined child
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						element attributes from the new DOM override ones in the existing DOM (e.g. <parameter>hidden</parameter>
+						or <parameter>read-only</parameter>)					
+					</para>
+				</listitem>				
+			</orderedlist>
+
+			<para>
+				This algorithm should be suitable for most use cases, but one benefit of having a separate
+				<classname>CompositeInspector</classname> is that developers can replace it with their own version, with its own
+				combining algorithm, if required.
+			</para>
+
+		</section>
+
 		<section id="section-inspectors-property">
 			<title>Property Inspectors</title>
 

@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
  * <ul>
  * <li>top-level elements with the same <code>type</code> attribute in both DOMs are combined
  * <li>child elements with the same <code>name</code> attribute in both DOMs are combined
- * <li>the ordering of elements in the existing DOM is preserved. New child elements are added
+ * <li>the ordering of child elements in the existing DOM is preserved. New child elements are added
  * either at the end or immediately after the last combined child
  * <li>element attributes from the new DOM override ones in the existing DOM
  * </ul>
