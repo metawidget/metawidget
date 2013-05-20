@@ -158,20 +158,38 @@
 
 			var nestedMetawidget = document.createElement( 'metawidget' );
 			nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
-			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly )) {
+			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 				nestedMetawidget.setAttribute( 'read-only', 'true' );
 			} else {
 				nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
 			}
-			
+
 			// Duck-type our 'pipeline' as the 'config' of the nested
 			// Metawidget. This neatly passes everything down, including a
 			// decremented 'maximumInspectionDepth'
-			
+
 			scope.$parent._pipeline = _pipeline;
 			nestedMetawidget.setAttribute( 'configs', '_pipeline' );
 
 			return nestedMetawidget;
+		};
+		
+		_pipeline._superLayoutWidget = _pipeline.layoutWidget;
+		
+		_pipeline.layoutWidget = function( widget, elementName, attributes, container, mw ) {
+
+			_pipeline._superLayoutWidget( widget, elementName, attributes, container, mw );
+
+			// Compile so that 'ng-model', 'ng-required' etc become active. Do
+			// this as late as possible, in case directives want to use
+			// 'element.controller( 'form' )'
+			//
+			// Note: we ignore transcluded widgets. Compiling them again using
+			// $compile seemed to trigger 'ng-click' listeners twice?
+
+			if ( widget.overridden === undefined ) {
+				$compile( widget )( scope.$parent );
+			}
 		};
 
 		var _lastInspectionResult = undefined;
@@ -187,7 +205,7 @@
 		_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
 		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, scope ) ];
+		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope ) ];
 		_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
 		this.configure = function( config ) {
@@ -235,14 +253,14 @@
 			if ( inspectionResult !== undefined ) {
 				_lastInspectionResult = inspectionResult;
 			} else if ( _lastInspectionResult === undefined ) {
-				
+
 				// Safeguard against improperly implementing:
 				// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
-				
+
 				if ( arguments.length > 0 ) {
 					throw new Error( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 				}
-				
+
 				var splitPath = metawidget.util.splitPath( this.path );
 				_lastInspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
@@ -365,7 +383,7 @@
 				if ( expression === undefined || expression.slice === undefined ) {
 					continue;
 				}
-				
+
 				if ( expression.length < 4 || expression.slice( 0, 2 ) !== '{{' || expression.slice( expression.length - 2, expression.length ) !== '}}' ) {
 					continue;
 				}
@@ -403,15 +421,13 @@
 	 * @returns {metawidget.angular.AngularWidgetProcessor}
 	 */
 
-	metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $compile, $parse, scope ) {
+	metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $parse, scope ) {
 
 		if ( ! ( this instanceof metawidget.angular.widgetprocessor.AngularWidgetProcessor ) ) {
 			throw new Error( "Constructor called as a function" );
 		}
 
-		/**
-		 * Special support for multi-select checkboxes.
-		 */
+		// Special support for multi-select checkboxes.
 
 		this.updateSelection = function( $event, binding ) {
 
@@ -444,13 +460,6 @@
 		};
 
 		this.processWidget = function( widget, elementName, attributes, mw ) {
-
-			// Ignore transcluded widgets. Compiling them again using $compile
-			// seemed to trigger 'ng-click' listeners twice?
-
-			if ( widget.overridden !== undefined ) {
-				return widget;
-			}
 
 			// Binding
 			//
@@ -516,28 +525,6 @@
 				// (maxlength set by WidgetBuilder)
 
 				widget.removeAttribute( 'maxlength' );
-			}
-
-			var wrapper = document.createElement( 'stub' );
-			wrapper.appendChild( widget );
-
-			// Compile so that 'ng-model', 'ng-required' etc become active
-
-			$compile( wrapper )( scope.$parent );
-
-			// If the widget has been acted on by a custom directive which added
-			// a sibling node, return a wrapped node. Otherwise return the
-			// original widget
-
-			if ( wrapper.childNodes.length > 1 ) {
-
-				// Support label 'for'
-
-				if ( widget.hasAttribute( 'id' ) ) {
-					wrapper.setAttribute( 'id', widget.getAttribute( 'id' ) + '-wrapper' );
-				}
-
-				return wrapper;
 			}
 
 			return widget;

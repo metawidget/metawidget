@@ -50,9 +50,8 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
-
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-pristine ng-valid"/>' );
+														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
 
 										// Test watching ngModel
 
@@ -62,15 +61,15 @@
 										};
 										scope.$digest();
 
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-pristine ng-valid"/>' );
-										expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" ng-model="foo.bar"' );
 
 										// Test watching readOnly
 
 										scope.readOnly = true;
 										scope.$digest();
 
-										expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-binding">Baz</output>' );
+										expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 
 										// Test watching config
 
@@ -79,7 +78,7 @@
 										};
 										scope.$digest();
 
-										expect( mw.innerHTML ).toBe( '<output id="fooBaz" ng-bind="foo.baz" class="ng-binding">Baz</output>' );
+										expect( mw.innerHTML ).toBe( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 										expect( mw.innerHTML ).toNotContain( '<table' );
 									} );
 						} );
@@ -111,7 +110,7 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 									} );
 						} );
 				it(
@@ -157,9 +156,9 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
 
 										expect( inspectionCount ).toBe( 1 );
 										expect( buildingCount ).toBe( 1 );
@@ -173,7 +172,7 @@
 										scope.readOnly = true;
 										scope.$digest();
 
-										expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-binding">Baz</output>' );
+										expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 										expect( inspectionCount ).toBe( 2 );
 										expect( buildingCount ).toBe( 2 );
 
@@ -189,7 +188,7 @@
 										scope.$digest();
 										scope.$digest();
 
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 										expect( inspectionCount ).toBe( 2 );
 										expect( buildingCount ).toBe( 3 );
 
@@ -201,7 +200,7 @@
 										};
 										scope.$digest();
 
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 										expect( inspectionCount ).toBe( 3 );
 										expect( buildingCount ).toBe( 4 );
 
@@ -213,7 +212,7 @@
 
 										scope.$digest();
 
-										expect( mw.innerHTML ).toBe( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toBe( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 										expect( mw.innerHTML ).toNotContain( '<table' );
 										expect( inspectionCount ).toBe( 4 );
 										expect( buildingCount ).toBe( 5 );
@@ -265,9 +264,9 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
 
 										expect( inspectionCount ).toBe( 1 );
 										expect( buildingCount ).toBe( 1 );
@@ -281,7 +280,7 @@
 										scope.readOnly = true;
 										scope.$digest();
 
-										expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-binding">Baz</output>' );
+										expect( mw.innerHTML ).toContain( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 										expect( inspectionCount ).toBe( 2 );
 										expect( buildingCount ).toBe( 2 );
 
@@ -297,7 +296,7 @@
 										scope.$digest();
 										scope.$digest();
 
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 										expect( inspectionCount ).toBe( 2 );
 										expect( buildingCount ).toBe( 3 );
 
@@ -309,7 +308,7 @@
 										};
 										scope.$digest();
 
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-pristine ng-valid"/>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 										expect( inspectionCount ).toBe( 3 );
 										expect( buildingCount ).toBe( 4 );
 
@@ -586,7 +585,7 @@
 										expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<div id="fooBar"><label><input type="checkbox" value="Abc" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
+														'<div id="fooBar" class="ng-scope"><label><input type="checkbox" value="Abc" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
 										expect( mw.innerHTML )
 												.toContain(
 														'<label><input type="checkbox" value="Def" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
@@ -634,7 +633,7 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-						expect( mw.innerHTML ).toContain( '<div id="fooBar"><label><input type="radio" value="Abc" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="radio" value="Abc" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
 						expect( mw.innerHTML ).toContain( '"/>Abc</label><label><input type="radio" value="Def" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
 						expect( mw.innerHTML ).toContain( '"/>Def</label><label><input type="radio" value="Ghi" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
 						expect( mw.innerHTML ).toContain( '"/>Ghi</label></div></td><td/></tr></tbody></table>' );
@@ -737,7 +736,7 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toBe(
-								'<table id="table-foo"><tbody><tr><td colspan="2"><input type="text" id="foo" ng-model="foo" class="ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+								'<table id="table-foo"><tbody><tr><td colspan="2"><input type="text" id="foo" ng-model="foo" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 
 						expect( inspectionCount ).toBe( 1 );
 
@@ -786,7 +785,7 @@
 				} );
 
 				it(
-						"wraps nodes that have directives that add a sibling element",
+						"supports directives that add a sibling element",
 						function() {
 
 							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
@@ -829,14 +828,10 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-model"><tbody><tr id="table-modelFoo-row"><th id="table-modelFoo-label-cell"><label for="modelFoo-wrapper" id="table-modelFoo-label">Foo:</label></th><td id="table-modelFoo-cell"><stub class="ng-scope" id="modelFoo-wrapper"><input type="text" id="modelFoo" ng-model="model.foo" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/><div class="input-sibling"/></stub></td><td/></tr><tr id="table-modelBar-row"><th id="table-modelBar-label-cell"><label for="modelBar" id="table-modelBar-label">Bar:</label></th><td id="table-modelBar-cell"><input type="text" id="modelBar" ng-model="model.bar" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+														'<table id="table-model"><tbody><tr id="table-modelFoo-row"><th id="table-modelFoo-label-cell"><label for="modelFoo" id="table-modelFoo-label">Foo:</label></th><td id="table-modelFoo-cell"><input type="text" id="modelFoo" ng-model="model.foo" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/><div class="input-sibling"/></td><td/></tr><tr id="table-modelBar-row"><th id="table-modelBar-label-cell"><label for="modelBar" id="table-modelBar-label">Bar:</label></th><td id="table-modelBar-cell"><input type="text" id="modelBar" ng-model="model.bar" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<stub class="ng-scope" id="modelFoo-wrapper"><input type="text" id="modelFoo" ng-model="model.foo" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/><div class="input-sibling"/></stub>' );
-										expect( mw.innerHTML ).toContain(
-												'<td id="table-modelBar-cell"><input type="text" id="modelBar" ng-model="model.bar" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/></td>' );
-										expect( mw.innerHTML ).toContain( '<stub class="ng-scope" id="modelFoo' );
-										expect( mw.innerHTML ).toNotContain( '<stub class="ng-scope" id="modelBar' );
+														'<td id="table-modelFoo-cell"><input type="text" id="modelFoo" ng-model="model.foo" class="ng-isolate-scope ng-scope ng-pristine ng-valid"/><div class="input-sibling"/></td>' );
 									} );
 						} );
 
@@ -949,22 +944,22 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"/><td id="table-fooEdit-cell"><button id="fooEdit" ng-click="foo.edit()">Edit</button></td><td/></tr></tbody></table>' );
+														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"/><td id="table-fooEdit-cell"><button id="fooEdit" ng-click="foo.edit()" class="ng-scope">Edit</button></td><td/></tr></tbody></table>' );
 
-										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()">Edit</button>' );
+										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()" class="ng-scope">Edit</button>' );
 
 										var scope = angular.element( body ).scope();
 										scope.readOnlyz = false;
 										scope.$digest();
 
 										expect( mw.innerHTML ).toNotContain( 'fooEdit' );
-										expect( mw.innerHTML ).toContain( '<button id="fooSave" ng-click="foo.save()">Save</button>' );
+										expect( mw.innerHTML ).toContain( '<button id="fooSave" ng-click="foo.save()" class="ng-scope">Save</button>' );
 
 										scope.readOnlyz = true;
 										scope.$digest();
 
 										expect( mw.innerHTML ).toNotContain( 'fooSave' );
-										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()">Edit</button>' );
+										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()" class="ng-scope">Edit</button>' );
 									} );
 						} );
 			} );
@@ -1035,31 +1030,6 @@
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'entity', {}, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath' );
-			} );
-		} );
-
-		it( "ignores overridden widgets", function() {
-
-			var injector = angular.bootstrap();
-
-			injector.invoke( function( $compile, $parse, $rootScope ) {
-
-				var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, $rootScope.$new() );
-				var attributes = {
-					name: "foo",
-				};
-				var mw = {
-					toInspect: {}
-				};
-
-				var widget = document.createElement( 'input' );
-				processor.processWidget( widget, 'property', attributes, mw );
-				expect( widget.getAttribute( 'ng-model' ) ).toBeDefined();
-
-				widget = document.createElement( 'input' );
-				widget.overridden = true;
-				processor.processWidget( widget, 'property', attributes, mw );
-				expect( widget.getAttribute( 'ng-model' ) ).toBe( null );
 			} );
 		} );
 	} );
