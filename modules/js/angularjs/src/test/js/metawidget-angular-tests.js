@@ -835,13 +835,70 @@
 									} );
 						} );
 
+				it(
+						"supports directives that use templates",
+						function() {
+
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var attachedElement = [];
+							var controller = myApp.controller( 'TestController', function( $scope ) {
+
+								$scope.model = {
+									"foo": "fooValue",
+									"bar": "barValue"
+								}
+								
+								$scope.config = {
+
+									widgetBuilder: function( elementName ) {
+										
+										if ( elementName !== 'property' ) {
+											return;
+										}
+										
+										return document.createElement( 'field' );
+									}
+								}
+							} );
+
+							myApp.directive( 'field', function() {
+
+								return {
+									restrict: 'E',
+									replace: true,
+									template: '<div class="input-append"><input type="text" data-type="date" mask="date" class="input-small"/><span class="add-on"></span></div>'
+								}
+							} );
+
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+
+							var mw = document.createElement( 'metawidget' );
+							mw.setAttribute( 'ng-model', 'model' );
+							mw.setAttribute( 'config', 'config' );
+							body.appendChild( mw );
+
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML )
+												.toBe(
+														'<table id="table-model"><tbody><tr id="table-modelFoo-row"><th id="table-modelFoo-label-cell"><label for="modelFoo" id="table-modelFoo-label">Foo:</label></th><td id="table-modelFoo-cell"><div class="input-append ng-scope ng-pristine ng-valid" id="modelFoo" ng-model="model.foo"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div></td><td/></tr><tr id="table-modelBar-row"><th id="table-modelBar-label-cell"><label for="modelBar" id="table-modelBar-label">Bar:</label></th><td id="table-modelBar-cell"><div class="input-append ng-scope ng-pristine ng-valid" id="modelBar" ng-model="model.bar"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div></td><td/></tr></tbody></table>' );
+										expect( mw.innerHTML )
+												.toContain(
+														'<div class="input-append ng-scope ng-pristine ng-valid" id="modelFoo" ng-model="model.foo"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div>' );
+									} );
+						} );
+
 				it( "guards against infinite loops", function() {
 
 					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 					var controller = myApp.controller( 'TestController', function( $scope ) {
 
 						$scope.model = {};
-						
+
 						$scope.metawidgetConfig = {
 							addInspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
 
