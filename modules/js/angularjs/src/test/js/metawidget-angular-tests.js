@@ -847,15 +847,15 @@
 									"foo": "fooValue",
 									"bar": "barValue"
 								}
-								
+
 								$scope.config = {
 
 									widgetBuilder: function( elementName ) {
-										
+
 										if ( elementName !== 'property' ) {
 											return;
 										}
-										
+
 										return document.createElement( 'field' );
 									}
 								}
@@ -920,6 +920,46 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toBe( '' );
+					} );
+				} );
+
+				it( "supports read-only enumTitles", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: 2
+						};
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									properties: {
+										"bar": {
+											enum: [ 1, 2, 3 ],
+											enumTitle: [ "One", "Two", "Three" ]
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( 'foo' );
 					} );
 				} );
 			} );
@@ -1029,7 +1069,8 @@
 
 			injector.invoke( function( $compile, $parse, $rootScope ) {
 
-				var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $compile, $parse, $rootScope.$new() );
+				var scope = $rootScope.$new();
+				var processor = new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope );
 				var attributes = {
 					name: "foo",
 					required: "true",
@@ -1037,7 +1078,6 @@
 					maxLength: "97"
 				};
 				var mw = {
-					toInspect: {},
 					path: "testPath"
 				};
 
@@ -1081,6 +1121,38 @@
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar.join(', ')" );
+
+				// Enums
+
+				attributes = {
+					name: "enumBaz",
+					enum: [ "1", "2", "3" ],
+				}
+				widget = document.createElement( 'output' );
+				processor.processWidget( widget, 'property', attributes, mw );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath.enumBaz' );
+
+				attributes = {
+					name: "enumTitleBaz",
+					enum: [ "1", "2", 3 ],
+					enumTitles: [ "One", "Two", "Three" ],
+				}
+				widget = document.createElement( 'output' );
+				processor.processWidget( widget, 'property', attributes, mw );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( '_mwLookupEnumTitle["testPath.enumTitleBaz"]()' );
+				expect( typeof ( scope._mwLookupEnumTitle['testPath.enumTitleBaz'] ) ).toBe( 'function' );
+				scope.$parent.testPath = {
+					enumTitleBaz: '2'
+				};
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']() ).toBe( 'Two' );
+				scope.$parent.testPath = {
+					enumTitleBaz: 3
+				};
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']() ).toBe( 'Three' );
+				scope.$parent.testPath = {
+					enumTitleBaz: '3'
+				};
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']() ).toBe( '3' );
 
 				// Root-level
 

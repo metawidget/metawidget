@@ -132,6 +132,18 @@
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( 'barValue' );
 
+			// Enums
+
+			attributes = {
+				name: "baz",
+				enum: [ "bazValue1", "bazValue", "bazValue3" ],
+				enumTitles: [ "1", "2", "3" ]
+			};
+			widget = document.createElement( 'output' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.toString() ).toBe( 'output' );
+			expect( widget.innerHTML ).toBe( '2' );
+
 			// Textareas
 
 			attributes = {

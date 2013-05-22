@@ -66,7 +66,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
-		if ( metawidget.util.isTrueOrTrueString( attributes.required )) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.required ) ) {
 			widget.setAttribute( 'required', 'required' );
 		}
 
@@ -131,7 +131,18 @@ var metawidget = metawidget || {};
 
 			if ( value !== undefined ) {
 				if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
+
 					widget.innerHTML = value;
+
+					// Special support for enumTitles
+
+					if ( attributes.enumTitles !== undefined ) {
+						var indexOf = attributes.enum.indexOf( value );
+
+						if ( indexOf !== -1 ) {
+							widget.innerHTML = attributes.enumTitles[indexOf];
+						}
+					}
 				} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
 					widget.checked = value;
 				} else if ( isBindable === true ) {

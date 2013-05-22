@@ -173,9 +173,9 @@
 
 			return nestedMetawidget;
 		};
-		
+
 		_pipeline._superLayoutWidget = _pipeline.layoutWidget;
-		
+
 		_pipeline.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 			_pipeline._superLayoutWidget( widget, elementName, attributes, container, mw );
@@ -427,38 +427,6 @@
 			throw new Error( "Constructor called as a function" );
 		}
 
-		// Special support for multi-select checkboxes.
-
-		this.updateSelection = function( $event, binding ) {
-
-			// Lookup the bound array (if any)...
-
-			var selected = scope.$parent.$eval( binding );
-
-			if ( selected === undefined ) {
-				selected = [];
-				$parse( binding ).assign( scope.$parent, selected );
-			}
-
-			// ...and either add our checkbox's value into it...
-
-			var checkbox = $event.target;
-			var indexOf = selected.indexOf( checkbox.value );
-
-			if ( checkbox.checked === true ) {
-				if ( indexOf === -1 ) {
-					selected.push( checkbox.value );
-				}
-				return;
-			}
-
-			// ...or remove our checkbox's value from it
-
-			if ( indexOf !== -1 ) {
-				selected.splice( indexOf, 1 );
-			}
-		};
-
 		this.processWidget = function( widget, elementName, attributes, mw ) {
 
 			// Binding
@@ -478,13 +446,24 @@
 					// Special support for outputting arrays
 
 					widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
+				} else if ( attributes.enumTitles !== undefined ) {
+
+					// Special support for enumTitles
+
+					scope.$parent._mwLookupEnumTitle = scope.$parent._mwLookupEnumTitle || {};
+					scope.$parent._mwLookupEnumTitle[binding] = function() {
+
+						return _lookupEnumTitle( binding, attributes.enum, attributes.enumTitles );
+					};
+					widget.setAttribute( 'ng-bind', '_mwLookupEnumTitle["' + binding + '"]()' );
+
 				} else {
 					widget.setAttribute( 'ng-bind', binding );
 				}
 
 			} else if ( widget.tagName === 'BUTTON' ) {
 				widget.setAttribute( 'ng-click', binding + '()' );
-			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
+			} else if ( attributes.enum !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
 				// Special support for multi-selects and radio buttons
 
@@ -499,7 +478,7 @@
 								child.setAttribute( 'ng-model', binding );
 							} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
 								child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.getAttribute( 'value' ) + "')>=0" );
-								scope.$parent._mwUpdateSelection = this.updateSelection;
+								scope.$parent._mwUpdateSelection = _updateSelection;
 								child.setAttribute( 'ng-click', "_mwUpdateSelection($event,'" + binding + "')" );
 							}
 						}
@@ -529,5 +508,66 @@
 
 			return widget;
 		};
+
+		//
+		// Private methods
+		//
+
+		/**
+		 * Special support for multi-select checkboxes.
+		 */
+
+		function _updateSelection( $event, binding ) {
+
+			// Lookup the bound array (if any)...
+
+			var selected = scope.$parent.$eval( binding );
+
+			if ( selected === undefined ) {
+				selected = [];
+				$parse( binding ).assign( scope.$parent, selected );
+			}
+
+			// ...and either add our checkbox's value into it...
+
+			var checkbox = $event.target;
+			var indexOf = selected.indexOf( checkbox.value );
+
+			if ( checkbox.checked === true ) {
+				if ( indexOf === -1 ) {
+					selected.push( checkbox.value );
+				}
+				return;
+			}
+
+			// ...or remove our checkbox's value from it
+
+			if ( indexOf !== -1 ) {
+				selected.splice( indexOf, 1 );
+			}
+		}
+
+		/**
+		 * Special support for enumTitles.
+		 */
+
+		function _lookupEnumTitle( binding, enum, enumTitles ) {
+
+			// Lookup the current value...
+
+			var value = scope.$parent.$eval( binding );
+
+			// ...locate it with the enums (if there)...
+
+			var indexOf = enum.indexOf( value );
+
+			if ( indexOf === -1 ) {
+				return value;
+			}
+
+			// ...and return its equivalent title
+
+			return enumTitles[indexOf];
+		}
 	};
 } )();
