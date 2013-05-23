@@ -31,7 +31,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Inspects annotations defined by Metawidget's Java Server Faces support (declared in this same
  * package).
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -190,7 +190,9 @@ public class FacesAnnotationInspector
 	//
 
 	/**
-	 * Put a JSF expression into an attribute.
+	 * Put a JSF expression into an attribute. Essentially the same as
+	 * <code>attributes.put( name, value )</code> but performs a quick sanity check
+	 * that the expression is of the form <code>#{...}</code>.
 	 */
 
 	private void putExpression( Map<String, String> attributes, String attributeName, String expression ) {
