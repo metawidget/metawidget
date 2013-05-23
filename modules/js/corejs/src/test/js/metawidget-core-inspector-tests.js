@@ -143,7 +143,7 @@
 				num: 46
 			} );
 
-			expect( inspectionResult.type ).toBe( 'object' );
+			expect( inspectionResult.type ).toBeUndefined();
 			expect( inspectionResult.properties.foo.type ).toBe( 'string' );
 			expect( inspectionResult.properties.bar.type ).toBe( 'string' );
 			expect( inspectionResult.properties.date.type ).toBe( 'date' );
@@ -161,9 +161,9 @@
 			expect( inspector.inspect() ).toBeUndefined();
 			expect( inspector.inspect( undefined ) ).toBeUndefined();
 			expect( inspector.inspect( {} ).name ).toBeUndefined();
-			expect( inspector.inspect( {} ).type ).toBe( 'object' );
+			expect( inspector.inspect( {} ).type ).toBeUndefined();
 			expect( inspector.inspect( {}, 'foo' ).name ).toBeUndefined();
-			expect( inspector.inspect( {}, 'foo' ).type ).toBe( 'object' );
+			expect( inspector.inspect( {}, 'foo' ).type ).toBeUndefined();
 			expect( inspector.inspect( {}, 'foo', [ 'bar' ] ).name ).toBe( 'bar' );
 			expect( inspector.inspect( {}, 'foo', [ 'bar' ] ).type ).toBeUndefined();
 		} );
@@ -198,6 +198,17 @@
 				expect( prop ).toNotBe( 'name' );
 			}
 		} );
+
+		it( "inspects parent type", function() {
+
+			var inspector = new metawidget.inspector.PropertyTypeInspector();
+			expect( inspector.inspect( "Foo" ).type ).toBe( 'string' );
+			expect( inspector.inspect( new Date() ).type ).toBe( 'date' );
+			expect( inspector.inspect( true ).type ).toBe( 'boolean' );
+			expect( inspector.inspect( 12 ).type ).toBe( 'number' );
+			expect( inspector.inspect( [] ).type ).toBe( 'array' );
+			expect( inspector.inspect( {} ).type ).toBeUndefined();
+		} );
 	} );
 
 	describe( "The JsonSchemaInspector", function() {
@@ -223,10 +234,12 @@
 				}
 			};
 
-			var inspector = new metawidget.inspector.JsonSchemaInspector( { schema: jsonSchema });
+			var inspector = new metawidget.inspector.JsonSchemaInspector( {
+				schema: jsonSchema
+			} );
 
 			// Root
-			
+
 			var inspectionResult = inspector.inspect( undefined, 'type' );
 			expect( inspectionResult.name ).toBeUndefined();
 			expect( inspectionResult.foo ).toBe( 'Foo' );
@@ -237,7 +250,7 @@
 			expect( inspectionResult.properties.def.def1 ).toBe( 'Def1' );
 
 			// Nested
-			
+
 			inspectionResult = inspector.inspect( undefined, 'type', [ 'abc' ] );
 			expect( inspectionResult.name ).toBe( 'abc' );
 			expect( inspectionResult.foo ).toBeUndefined();
@@ -246,21 +259,24 @@
 			expect( inspectionResult.def ).toBeUndefined();
 
 			// Further nested
-			
+
 			inspectionResult = inspector.inspect( undefined, 'type', [ 'abc', 'nestedAbc' ] );
 			expect( inspectionResult.name ).toBe( 'nestedAbc' );
 			expect( inspectionResult.nestedAbc1 ).toBe( 'nestedAbc1' );
 			expect( inspectionResult.properties ).toBeUndefined();
 
 			// Undefined
-			
+
 			inspectionResult = inspector.inspect( undefined, 'type', [ 'abc', 'nestedAbc1' ] );
 			expect( inspectionResult ).toBeUndefined();
 		} );
 
 		it( "supports top-level configs", function() {
 
-			var inspector = new metawidget.inspector.JsonSchemaInspector( { foo: "Foo", bar: "Bar" });
+			var inspector = new metawidget.inspector.JsonSchemaInspector( {
+				foo: "Foo",
+				bar: "Bar"
+			} );
 
 			var inspectionResult = inspector.inspect( undefined, 'type' );
 			expect( inspectionResult.foo ).toBe( 'Foo' );

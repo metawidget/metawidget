@@ -43,16 +43,17 @@
 
 	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor.prototype.processWidget = function( widget ) {
 
-		if ( widget.tagName === 'BUTTON' ) {
-			var existingClass = widget.getAttribute( 'class' );
+		switch ( widget.tagName ) {
 
-			if ( existingClass === null ) {
-				widget.setAttribute( 'class', 'btn' );
-			} else {
-				widget.setAttribute( 'class', existingClass + ' btn' );
-			}
+			case 'BUTTON':
+				metawidget.util.appendToAttribute( widget, 'class', 'btn' );
+				break;
+
+			case 'TABLE':
+				metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
+				break;
 		}
-		
+
 		return widget;
 	};
 

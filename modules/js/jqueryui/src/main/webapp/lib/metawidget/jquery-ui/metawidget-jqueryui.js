@@ -55,11 +55,11 @@ var metawidget = metawidget || {};
 
 		// Not for us?
 
-		if ( metawidget.util.isTrueOrTrueString( attributes.readOnly )) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 			return;
 		}
 
-		if ( metawidget.util.isTrueOrTrueString( attributes.hidden )) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) ) {
 			return;
 		}
 
@@ -290,7 +290,7 @@ var metawidget = metawidget || {};
 
 				var nestedMetawidget = $( nestedWidget ).metawidget( mw._pipeline );
 
-				nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ));
+				nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ) );
 				var nestedToInspect = mw.toInspect;
 				var nestedPath = metawidget.util.appendPath( attributes, mw );
 
@@ -343,14 +343,14 @@ var metawidget = metawidget || {};
 			// Inspect (if necessary)
 
 			if ( inspectionResult === undefined ) {
-				
+
 				// Safeguard against improperly implementing:
 				// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
-				
+
 				if ( arguments.length > 0 ) {
 					throw new Error( "Calling _refresh( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 				}
-				
+
 				var splitPath = metawidget.util.splitPath( this.path );
 				inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
@@ -382,6 +382,16 @@ var metawidget = metawidget || {};
 			}
 
 			this._super( key, value );
+		},
+
+		/**
+		 * Useful for WidgetBuilders to perform nested inspections (eg. for
+		 * Collections).
+		 */
+
+		inspect: function( toInspect, type, names ) {
+
+			return _pipeline.inspect( toInspect, type, names, this );
 		},
 
 		/**

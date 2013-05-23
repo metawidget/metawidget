@@ -315,6 +315,58 @@ var metawidget = metawidget || {};
 	};
 
 	/**
+	 * Return an array of the given inspection result's properties, sorted by
+	 * 'propertyOrder' (if any).
+	 * <p>
+	 * See: https://github.com/json-stylesheet/json-stylesheet/issues/1
+	 * https://github.com/json-schema/json-schema/issues/87
+	 */
+
+	metawidget.util.getSortedInspectionResultProperties = function( inspectionResult ) {
+
+		// Extract the given inspection result's properties into an array...
+
+		var sortedProperties = [];
+
+		for ( var propertyName in inspectionResult.properties ) {
+
+			var properties = inspectionResult.properties[propertyName];
+			sortedProperties.push( properties );
+
+			properties.name = propertyName;
+			properties._syntheticOrder = sortedProperties.length;
+		}
+
+		// ...sort the array...
+
+		sortedProperties.sort( function( a, b ) {
+
+			if ( a.propertyOrder === undefined ) {
+				if ( b.propertyOrder === undefined ) {
+					return ( a._syntheticOrder - b._syntheticOrder );
+				}
+				return 1;
+			}
+
+			if ( b.propertyOrder === undefined ) {
+				return -1;
+			}
+
+			var diff = ( a.propertyOrder - b.propertyOrder );
+
+			if ( diff === 0 ) {
+				return ( a._syntheticOrder - b._syntheticOrder );
+			}
+
+			return diff;
+		} );
+
+		// ...and return it
+
+		return sortedProperties;
+	};
+
+	/**
 	 * Combines the given first inspection result with the given second
 	 * inspection result.
 	 * <p>
@@ -368,7 +420,7 @@ var metawidget = metawidget || {};
 
 				to[propertyName] = from[propertyName];
 			}
-		}		
+		}
 	};
 
 	/**
@@ -406,4 +458,21 @@ var metawidget = metawidget || {};
 				return section[0];
 		}
 	};
+
+	/**
+	 * Sets the given 'toAppend' to the given widget's 'attributeName'. If the
+	 * given widget already has a value for 'attributeName', appends a space and
+	 * then adds 'toAppend'.
+	 */
+
+	metawidget.util.appendToAttribute = function( widget, attributeName, toAppend ) {
+
+		var existingAttribute = widget.getAttribute( attributeName );
+
+		if ( existingAttribute === null ) {
+			widget.setAttribute( attributeName, toAppend );
+		} else {
+			widget.setAttribute( attributeName, existingAttribute + ' ' + toAppend );
+		}
+	}
 } )();

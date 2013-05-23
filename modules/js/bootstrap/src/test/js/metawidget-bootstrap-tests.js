@@ -33,6 +33,10 @@
 			widget.setAttribute( 'class', 'other' );
 			expect( processor.processWidget( widget )).toBe( widget );
 			expect( widget.getAttribute( 'class' ) ).toBe( 'other btn' );
+
+			widget = document.createElement( 'table' );
+			expect( processor.processWidget( widget )).toBe( widget );
+			expect( widget.getAttribute( 'class' ) ).toBe( 'table table-striped table-bordered table-hover' );
 		} );
 
 		it( "has a Layout that supports Bootstrap styles", function() {

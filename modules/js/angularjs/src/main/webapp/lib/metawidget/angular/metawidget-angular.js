@@ -133,6 +133,10 @@
 						mw.toInspect = scope.$parent.$eval( metawidget.util.splitPath( mw.path ).type );
 						mw.readOnly = scope.$eval( 'readOnly' );
 						mw.buildWidgets();
+
+						// Note: when running under unit tests, errors get here.
+						// However, testing for 'jasmine !== undefined' caused
+						// problems at runtime
 					}
 				};
 			}
@@ -218,6 +222,16 @@
 		this.configure( scope.configs() );
 
 		// toInspect, path and readOnly set by _buildWidgets()
+
+		/**
+		 * Useful for WidgetBuilders to perform nested inspections (eg. for
+		 * Collections).
+		 */
+
+		this.inspect = function( toInspect, type, names ) {
+
+			return _pipeline.inspect( toInspect, type, names, this );
+		};
 
 		this.buildWidgets = function( inspectionResult ) {
 
@@ -453,7 +467,7 @@
 					scope.$parent._mwLookupEnumTitle = scope.$parent._mwLookupEnumTitle || {};
 					scope.$parent._mwLookupEnumTitle[binding] = function() {
 
-						return _lookupEnumTitle( binding, attributes.enum, attributes.enumTitles );
+						return _lookupEnumTitle( binding, attributes['enum'], attributes.enumTitles );
 					};
 					widget.setAttribute( 'ng-bind', '_mwLookupEnumTitle["' + binding + '"]()' );
 
@@ -463,7 +477,7 @@
 
 			} else if ( widget.tagName === 'BUTTON' ) {
 				widget.setAttribute( 'ng-click', binding + '()' );
-			} else if ( attributes.enum !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
+			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
 				// Special support for multi-selects and radio buttons
 
@@ -551,7 +565,7 @@
 		 * Special support for enumTitles.
 		 */
 
-		function _lookupEnumTitle( binding, enum, enumTitles ) {
+		function _lookupEnumTitle( binding, anEnum, enumTitles ) {
 
 			// Lookup the current value...
 
@@ -559,7 +573,7 @@
 
 			// ...locate it with the enums (if there)...
 
-			var indexOf = enum.indexOf( value );
+			var indexOf = anEnum.indexOf( value );
 
 			if ( indexOf === -1 ) {
 				return value;

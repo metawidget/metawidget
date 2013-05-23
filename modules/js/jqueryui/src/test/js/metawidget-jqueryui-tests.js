@@ -182,6 +182,8 @@
 						expect( e.message ).toBe( "Calling _refresh( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 					}
 				} );
+				
+				// TODO: test supports collections
 			} );
 
 	describe( "The JQueryUIWidgetBuilder", function() {

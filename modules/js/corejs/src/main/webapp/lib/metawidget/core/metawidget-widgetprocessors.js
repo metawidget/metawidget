@@ -137,7 +137,7 @@ var metawidget = metawidget || {};
 					// Special support for enumTitles
 
 					if ( attributes.enumTitles !== undefined ) {
-						var indexOf = attributes.enum.indexOf( value );
+						var indexOf = attributes['enum'].indexOf( value );
 
 						if ( indexOf !== -1 ) {
 							widget.innerHTML = attributes.enumTitles[indexOf];

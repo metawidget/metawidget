@@ -64,6 +64,101 @@
 			expect( element.childNodes.length ).toBe( 1 );
 		} );
 
+		it( "supports collections", function() {
+
+			// Direct collection
+
+			var element = document.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element );
+
+			mw.toInspect = [ {
+				name: "Foo",
+				description: "A Foo"
+			}, {
+				name: "Bar",
+				description: "A Bar"
+			} ];
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'table' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+			var table = element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBe( 'A Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].innerHTML ).toBe( 'A Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 2 );
+
+			// Collection as property
+
+			element = document.createElement( 'div' );
+			mw = new metawidget.Metawidget( element );
+			mw.toInspect = {
+				collection: [ {
+					name: "Foo",
+					description: "A Foo"
+				}, {
+					name: "Bar",
+					description: "A Bar"
+				} ]
+			};
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'table' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-collection-row"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-collection-label-cell"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="collection" id="table-collection-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Collection:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-collection-cell"' );
+			table = element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0];
+
+			expect( table.toString() ).toBe( 'table id="collection"' );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBe( 'A Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].innerHTML ).toBe( 'A Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 2 );
+		} );
+
 		it( "defensively copies overridden widgets", function() {
 
 			var element = document.createElement( 'div' );
@@ -596,7 +691,6 @@
 			testFalsy( undefined );
 			testFalsy( null );
 			testFalsy( {} );
-			testFalsy( [] );
 
 			function testFalsy( falsyValue ) {
 
@@ -613,12 +707,13 @@
 				expect( element.childNodes.length ).toBe( 1 );
 			}
 
-			// These values should produce a primitive Metawidget
+			// These values should not produce a primitive Metawidget
 
 			testNotFalsy( '' );
 			testNotFalsy( 0 );
 			testNotFalsy( NaN );
 			testNotFalsy( false );
+			testNotFalsy( [] );
 
 			function testNotFalsy( nonFalsyValue ) {
 
@@ -634,12 +729,17 @@
 				expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2"' );
 
 				var widget = element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
-				expect( widget.toString() ).toContain( 'input type="' );
 
-				if ( widget.toString().indexOf( 'checkbox' ) !== -1 ) {
-					expect( widget.checked ).toBe( nonFalsyValue );
-				} else if ( nonFalsyValue + '' !== 'NaN' ) {
-					expect( widget.value ).toBe( nonFalsyValue );
+				if ( widget.toString().indexOf( 'table' ) !== -1 ) {
+					expect( widget.childNodes.length ).toBe( 0 );
+				} else {
+					expect( widget.toString() ).toContain( 'input type="' );
+
+					if ( widget.toString().indexOf( 'checkbox' ) !== -1 ) {
+						expect( widget.checked ).toBe( nonFalsyValue );
+					} else if ( nonFalsyValue + '' !== 'NaN' ) {
+						expect( widget.value ).toBe( nonFalsyValue );
+					}
 				}
 
 				expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );

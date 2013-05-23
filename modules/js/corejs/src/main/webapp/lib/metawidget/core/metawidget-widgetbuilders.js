@@ -335,6 +335,12 @@ var metawidget = metawidget || {};
 			return text;
 		}
 
+		// Collection
+
+		if ( attributes.type === 'array' ) {
+			return this.createTable( elementName, attributes, mw );
+		}
+
 		// Not simple, but don't expand
 
 		if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
@@ -342,5 +348,106 @@ var metawidget = metawidget || {};
 			text.setAttribute( 'type', 'text' );
 			return text;
 		}
+	};
+
+	/**
+	 * Create a table populated with the contents of an array property.
+	 */
+
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.createTable = function( elementName, attributes, mw ) {
+
+		var table = document.createElement( 'table' );
+
+		// Lookup the actual value
+
+		var value;
+		var typeAndNames = metawidget.util.splitPath( mw.path );
+		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
+
+		if ( elementName !== 'entity' && toInspect !== undefined ) {
+			value = toInspect[attributes.name];
+		} else {
+			value = toInspect;
+		}
+
+		if ( value !== undefined && value.length > 0 ) {
+
+			var firstValue = value[0];
+			var inspectionResult = mw.inspect( firstValue );
+
+			var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
+
+			// Create headers
+
+			var thead = document.createElement( 'thead' );
+			table.appendChild( thead );
+			var tr = document.createElement( 'tr' );
+			thead.appendChild( tr );
+
+			var columnAttributes = [];
+
+			for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
+
+				var columnAttribute = inspectionResultProperties[loop];
+
+				if ( this.addHeader( tr, columnAttribute, mw ) ) {
+					columnAttributes.push( columnAttribute );
+				}
+			}
+
+			// Create body
+
+			var tbody = document.createElement( 'tbody' );
+			table.appendChild( tbody );
+
+			for ( var row = 0, rows = value.length; row < rows; row++ ) {
+
+				var tr = document.createElement( 'tr' );
+				tbody.appendChild( tr );
+
+				for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
+
+					this.addColumn( tr, value[row], columnAttributes[loop] );
+				}
+			}
+		}
+
+		return table;
+	};
+
+	/**
+	 * Add a header to the given row, displaying the given value. Subclasses may
+	 * override this method to suppress certain columns.
+	 * 
+	 * @returns true if a header was added, false otherwise
+	 */
+
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addHeader = function( tr, attributes, mw ) {
+
+		var th = document.createElement( 'th' );
+		th.innerHTML = metawidget.util.getLabelString( attributes, mw );
+		tr.appendChild( th );
+
+		return true;
+	};
+
+	/**
+	 * Add a column to the given row, displaying the given value. Subclasses may
+	 * override this method to modify the column contents (for example, to wrap
+	 * them in an anchor tag).
+	 * 
+	 * @return the added column, or undefined if no column was added. This can
+	 *         be useful for subclasses
+	 */
+
+	// TODO: test a column was returned
+	
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, attributes ) {
+
+		var td = document.createElement( 'td' );
+		td.innerHTML = value[attributes.name];
+		tr.appendChild( td );
+
+		return td;
 	};
 } )();

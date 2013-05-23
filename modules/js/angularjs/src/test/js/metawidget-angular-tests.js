@@ -962,6 +962,43 @@
 						expect( mw.innerHTML ).toContain( 'foo' );
 					} );
 				} );
+
+				it( "supports collections", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: [ {
+								firstname: 'firstname1',
+								surname: 'surname1'
+							}, {
+								firstname: 'firstname2',
+								surname: 'surname2'
+							}, {
+								firstname: 'firstname3',
+								surname: 'surname3'
+							} ],
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<label for="fooBar" id="table-fooBar-label">Bar:</label>' );
+						expect( mw.innerHTML ).toContain( '<table id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid">' );
+						expect( mw.innerHTML ).toContain( '<thead><tr><th>Firstname</th><th>Surname</th></tr></thead>' );
+						expect( mw.innerHTML ).toContain( '<tbody><tr><td>firstname1</td><td>surname1</td></tr><tr><td>firstname2</td><td>surname2</td></tr><tr><td>firstname3</td><td>surname3</td></tr></tbody>' );
+					} );
+				} );
 			} );
 
 	describe(

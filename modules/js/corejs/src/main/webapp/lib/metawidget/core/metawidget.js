@@ -106,6 +106,16 @@ var metawidget = metawidget || {};
 			_pipeline.layout = layout;
 		};
 
+		/**
+		 * Useful for WidgetBuilders to perform nested inspections (eg. for
+		 * Collections).
+		 */
+
+		this.inspect = function( toInspect, type, names ) {
+
+			return _pipeline.inspect( toInspect, type, names, this );
+		};
+
 		this.buildWidgets = function( inspectionResult ) {
 
 			// Defensive copy
@@ -122,7 +132,7 @@ var metawidget = metawidget || {};
 
 				// Safeguard against improperly implementing:
 				// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
-				
+
 				if ( arguments.length > 0 ) {
 					throw new Error( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 				}
@@ -364,7 +374,7 @@ var metawidget = metawidget || {};
 
 				// ...or try compound widget
 
-				var inspectionResultProperties = _sortByPropertyOrder( inspectionResult.properties );
+				var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
 
 				for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
 
@@ -411,57 +421,6 @@ var metawidget = metawidget || {};
 		//
 		// Private methods
 		//
-
-		/**
-		 * Sort the given object's properties by 'propertyOrder' (if any).
-		 * <p>
-		 * See: https://github.com/json-stylesheet/json-stylesheet/issues/1
-		 * https://github.com/json-schema/json-schema/issues/87
-		 */
-
-		function _sortByPropertyOrder( toSort ) {
-
-			// Extract the given object's properties into an array...
-
-			var sorted = [];
-
-			for ( var propertyName in toSort ) {
-
-				var properties = toSort[propertyName];
-				sorted.push( properties );
-
-				properties.name = propertyName;
-				properties._syntheticOrder = sorted.length;
-			}
-
-			// ...sort the array...
-
-			sorted.sort( function( a, b ) {
-
-				if ( a.propertyOrder === undefined ) {
-					if ( b.propertyOrder === undefined ) {
-						return ( a._syntheticOrder - b._syntheticOrder );
-					}
-					return 1;
-				}
-
-				if ( b.propertyOrder === undefined ) {
-					return -1;
-				}
-
-				var diff = ( a.propertyOrder - b.propertyOrder );
-
-				if ( diff === 0 ) {
-					return ( a._syntheticOrder - b._syntheticOrder );
-				}
-
-				return diff;
-			} );
-
-			// ...and return it
-
-			return sorted;
-		}
 
 		/**
 		 * Defensively copies the attributes (in case something like

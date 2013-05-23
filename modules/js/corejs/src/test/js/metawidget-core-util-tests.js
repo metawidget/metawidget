@@ -321,6 +321,41 @@
 		} );
 	} );
 
+	describe( "The getSortedInspectionResultProperties function", function() {
+
+		it( "sorts inspection result properties by propertyOrder", function() {
+
+			var inspectionResult = {
+				name: 'abc',
+				foo: 'foo',
+				properties: {						
+					'bar': {
+						title: 'A Bar',
+						propertyOrder: 3
+					},
+					'baz': {
+						propertyOrder: 2,
+						title: 'A Baz'
+					},
+					'def': {
+						propertyOrder: 1,
+						title: 'A Def'
+					}
+				}
+			};
+
+			var sorted = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
+
+			expect( sorted.length ).toBe( 3 );
+			expect( sorted[0].name ).toBe( 'def' );
+			expect( sorted[0].title ).toBe( 'A Def' );
+			expect( sorted[1].name ).toBe( 'baz' );
+			expect( sorted[1].title ).toBe( 'A Baz' );
+			expect( sorted[2].name ).toBe( 'bar' );
+			expect( sorted[2].title ).toBe( 'A Bar' );
+		} );
+	} );
+
 	describe( "The combineInspectionResults function", function() {
 
 		it( "combines inspection results", function() {
@@ -403,4 +438,19 @@
 			expect( attributes.section.length ).toBe( 1 );
 		} );
 	} );
+	
+	describe( "The appendToAttribute function", function() {
+
+		it( "appends attribute values", function() {
+
+			var widget = document.createElement( 'widget' );
+			expect( widget.getAttribute( 'class' )).toBeNull(); 
+			
+			metawidget.util.appendToAttribute( widget, 'class', 'btn' )
+			expect( widget.getAttribute( 'class' )).toBe( 'btn' ); 
+
+			metawidget.util.appendToAttribute( widget, 'class', 'btn2' )
+			expect( widget.getAttribute( 'class' )).toBe( 'btn btn2' ); 
+		} );
+	} );	
 } )();

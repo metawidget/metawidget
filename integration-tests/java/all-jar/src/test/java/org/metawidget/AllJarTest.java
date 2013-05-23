@@ -152,5 +152,7 @@ public class AllJarTest
 		assertTrue( contents, !contents.contains( "${" ) );
 		assertTrue( contents, !contents.contains( "config." ) );
 		assertTrue( contents, !contents.contains( "function _" ) );
+		assertTrue( contents, !contents.contains( "/**" ) );
+		assertTrue( contents, !contents.contains( "@class" ) );
 	}
 }

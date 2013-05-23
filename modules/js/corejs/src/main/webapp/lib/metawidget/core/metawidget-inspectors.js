@@ -130,56 +130,60 @@ var metawidget = metawidget || {};
 
 		if ( toInspect !== undefined ) {
 
-			inspectionResult.type = typeof ( toInspect );
+			inspectionResult.type = _getTypeOf( toInspect );
 			inspectionResult.properties = {};
 
 			for ( var property in toInspect ) {
 
-				// Inspect the type of the property as best we can
-
-				var value = toInspect[property];
-				var typeOfProperty;
-
-				if ( value instanceof Array ) {
-
-					// typeof never returns 'array', even though JavaScript has
-					// a built-in Array type
-
-					typeOfProperty = 'array';
-
-				} else if ( value instanceof Date ) {
-
-					// typeof never returns 'date', even though JavaScript has a
-					// built-in Date type
-
-					typeOfProperty = 'date';
-
-				} else {
-
-					typeOfProperty = typeof ( value );
-
-					// type 'object' doesn't convey much, and can override a
-					// more descriptive inspection result from a previous
-					// Inspector. If you leave it off, Metawidget's default
-					// behaviour is to recurse into the object anyway
-
-					if ( typeOfProperty === 'object' ) {
-
-						inspectionResult.properties[property] = {};
-						continue;
-					}
-				}
-
-				// JSON Schema primitive types are: 'array', 'boolean',
-				// 'integer', 'number', 'null', 'object' and 'string'
-
 				inspectionResult.properties[property] = {
-					type: typeOfProperty
+					type: _getTypeOf( toInspect[property] )
 				};
 			}
 		}
 
 		return inspectionResult;
+
+		//
+		// Private methods
+		//
+
+		/**
+		 * Inspect the type of the property as best we can.
+		 */
+
+		function _getTypeOf( value ) {
+
+			// JSON Schema primitive types are: 'array', 'boolean',
+			// 'integer', 'number', 'null', 'object' and 'string'
+
+			if ( value instanceof Array ) {
+
+				// typeof never returns 'array', even though JavaScript has
+				// a built-in Array type
+
+				return 'array';
+
+			} else if ( value instanceof Date ) {
+
+				// typeof never returns 'date', even though JavaScript has a
+				// built-in Date type
+
+				return 'date';
+
+			} else {
+
+				var typeOfProperty = typeof ( value );
+
+				// type 'object' doesn't convey much, and can override a
+				// more descriptive inspection result from a previous
+				// Inspector. If you leave it off, Metawidget's default
+				// behaviour is to recurse into the object anyway
+
+				if ( typeOfProperty !== 'object' ) {
+					return typeOfProperty;
+				}
+			}
+		}
 	};
 
 	/**
