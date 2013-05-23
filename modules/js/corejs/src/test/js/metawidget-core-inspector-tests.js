@@ -203,11 +203,17 @@
 
 			var inspector = new metawidget.inspector.PropertyTypeInspector();
 			expect( inspector.inspect( "Foo" ).type ).toBe( 'string' );
+			expect( inspector.inspect( "Foo" ).properties ).toBeUndefined();
 			expect( inspector.inspect( new Date() ).type ).toBe( 'date' );
+			expect( inspector.inspect( new Date() ).properties ).toBeUndefined();
 			expect( inspector.inspect( true ).type ).toBe( 'boolean' );
+			expect( inspector.inspect( true ).properties ).toBeUndefined();
 			expect( inspector.inspect( 12 ).type ).toBe( 'number' );
+			expect( inspector.inspect( 12 ).properties ).toBeUndefined();
 			expect( inspector.inspect( [] ).type ).toBe( 'array' );
+			expect( inspector.inspect( [] ).properties ).toBeUndefined();
 			expect( inspector.inspect( {} ).type ).toBeUndefined();
+			expect( inspector.inspect( {} ).properties ).toBeDefined();
 		} );
 	} );
 
@@ -281,6 +287,22 @@
 			var inspectionResult = inspector.inspect( undefined, 'type' );
 			expect( inspectionResult.foo ).toBe( 'Foo' );
 			expect( inspectionResult.bar ).toBe( 'Bar' );
+		} );
+
+		it( "screens by type", function() {
+
+			var inspector = new metawidget.inspector.JsonSchemaInspector( {
+				type: "MySchema",
+				foo: "Foo",
+				bar: "Bar"
+			} );
+
+			var inspectionResult = inspector.inspect( undefined, 'MySchema' );
+			expect( inspectionResult.foo ).toBe( 'Foo' );
+			expect( inspectionResult.bar ).toBe( 'Bar' );
+
+			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
+			expect( inspectionResult ).toBeUndefined();
 		} );
 	} );
 } )();

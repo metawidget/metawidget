@@ -555,6 +555,11 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 	</body>
 </html></programlisting>
 
+				<para>
+					In addition, if the schema has a <parameter>type</parameter> property, <classname>JsonSchemaInspector</classname>
+					validates it matches the type being inspected.
+				</para>
+
 			</section>
 
 			<section id="section-inspectors-javascript-propertytype">

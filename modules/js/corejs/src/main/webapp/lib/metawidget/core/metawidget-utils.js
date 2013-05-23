@@ -474,5 +474,5 @@ var metawidget = metawidget || {};
 		} else {
 			widget.setAttribute( attributeName, existingAttribute + ' ' + toAppend );
 		}
-	}
+	};
 } )();

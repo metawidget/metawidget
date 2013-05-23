@@ -99,7 +99,11 @@ var metawidget = metawidget || {};
 				try {
 					return mw.toInspect[attributes.name]();
 				} catch ( e ) {
-					alert( e );
+					if ( alert ) {
+						alert( e );
+					} else {
+						throw e;
+					}
 				}
 			};
 		} else {
@@ -139,7 +143,7 @@ var metawidget = metawidget || {};
 					if ( attributes.enumTitles !== undefined ) {
 						var indexOf = attributes['enum'].indexOf( value );
 
-						if ( indexOf !== -1 ) {
+						if ( indexOf !== -1 && indexOf < attributes.enumTitles.length ) {
 							widget.innerHTML = attributes.enumTitles[indexOf];
 						}
 					}

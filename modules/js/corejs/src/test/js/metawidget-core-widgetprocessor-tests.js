@@ -144,6 +144,15 @@
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( '2' );
 
+			attributes = {
+				name: "baz",
+				enum: [ "bazValue1", "bazValue", "bazValue3" ],
+				enumTitles: []
+			};
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.toString() ).toBe( 'output' );
+			expect( widget.innerHTML ).toBe( 'bazValue' );
+
 			// Textareas
 
 			attributes = {

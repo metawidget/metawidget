@@ -397,7 +397,45 @@
 			}, {} ).toString() ).toBe( 'input type="text"' );
 		} );
 
-		it( "supports collections", function() {
+		it( "supports simple collections", function() {
+
+			var element = document.createElement( 'metawidget' );
+			var mw = new metawidget.Metawidget( element );
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
+
+			// Empty collection
+
+			mw.toInspect = [];
+			table = widgetBuilder.buildWidget( "entity", {
+				type: "array"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes.length ).toBe( 0 );
+
+			// Inspect headers
+
+			mw.toInspect = [ "Foo", "Bar" ];
+
+			table = widgetBuilder.buildWidget( "entity", {
+				type: "array"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 1 );
+		} );
+		
+		it( "supports object collections", function() {
 
 			var element = document.createElement( 'metawidget' );
 			var mw = new metawidget.Metawidget( element );
@@ -424,7 +462,6 @@
 			} ];
 
 			table = widgetBuilder.buildWidget( "entity", {
-				readOnly: "true",
 				type: "array"
 			}, mw );
 
@@ -451,6 +488,6 @@
 			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
 			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
 			expect( table.childNodes.length ).toBe( 2 );
-		} );
+		} );		
 	} );
 } )();

@@ -925,6 +925,8 @@
 
 				it( "supports read-only enumTitles", function() {
 
+					// Normal
+					
 					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 					var controller = myApp.controller( 'TestController', function( $scope ) {
 
@@ -939,7 +941,7 @@
 									properties: {
 										"bar": {
 											enum: [ 1, 2, 3 ],
-											enumTitle: [ "One", "Two", "Three" ]
+											enumTitles: [ "One", "Two", "Three" ]
 										}
 									}
 								};
@@ -949,6 +951,7 @@
 
 					var mw = document.createElement( 'metawidget' );
 					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'read-only', 'true' );
 					mw.setAttribute( 'config', 'metawidgetConfig' );
 
 					var body = document.createElement( 'body' );
@@ -959,7 +962,46 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( 'foo' );
+						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="_mwLookupEnumTitle[&quot;foo.bar&quot;]()" class="ng-scope ng-binding">Two</output>' );
+					} );
+
+					// Mismatched
+					
+					controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: 2
+						};
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									properties: {
+										"bar": {
+											enum: [ 1, 2, 3 ],
+											enumTitles: []
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'read-only', 'true' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="_mwLookupEnumTitle[&quot;foo.bar&quot;]()" class="ng-scope ng-binding">2</output>' );
 					} );
 				} );
 

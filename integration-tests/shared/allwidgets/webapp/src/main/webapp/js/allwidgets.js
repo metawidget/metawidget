@@ -60,7 +60,15 @@ var metawidget = metawidget || {};
 		},
 		date: new Date( "9/4/1975" ),
 		hidden: "Hidden",
-		readOnly: "Read Only Value"
+		readOnly: "Read Only Value",
+		collection: [ "element1", "element2" ],
+		objectCollection: [ {
+			name: "element1",
+			description: "First"
+		}, {
+			name: "element2",
+			description: "Second"
+		} ]
 	};
 
 	/**
@@ -68,6 +76,7 @@ var metawidget = metawidget || {};
 	 */
 
 	metawidget.test.allWidgetsMetadata = {
+		type: "allWidgets",
 		"properties": {
 			"textbox": {
 				type: "string",

@@ -157,6 +157,22 @@
 			expect( $( '#allWidgetsReadOnly' )[0].tagName ).toBe( 'OUTPUT' );
 			expect( $( '#allWidgetsReadOnly' ).text() ).toBe( 'Read Only Value' );
 
+			expect( $( '#table-allWidgetsCollection-label' ).prop( 'for' ) ).toBe( 'allWidgetsCollection' );
+			expect( $( '#table-allWidgetsCollection-label' ).text() ).toBe( 'Collection:' );
+			expect( $( '#allWidgetsCollection' )[0].tagName ).toBe( 'TABLE' );
+			expect( $( '#allWidgetsCollection tr td' )[0].innerHTML ).toBe( 'element1' );
+			expect( $( '#allWidgetsCollection tr td' )[1].innerHTML ).toBe( 'element2' );			
+
+			expect( $( '#table-allWidgetsObjectCollection-label' ).prop( 'for' ) ).toBe( 'allWidgetsObjectCollection' );
+			expect( $( '#table-allWidgetsObjectCollection-label' ).text() ).toBe( 'Object Collection:' );
+			expect( $( '#allWidgetsObjectCollection' )[0].tagName ).toBe( 'TABLE' );
+			expect( $( '#allWidgetsObjectCollection tr th' )[0].innerHTML ).toBe( 'Name' );
+			expect( $( '#allWidgetsObjectCollection tr th' )[1].innerHTML ).toBe( 'Description' );
+			expect( $( '#allWidgetsObjectCollection tr td' )[0].innerHTML ).toBe( 'element1' );
+			expect( $( '#allWidgetsObjectCollection tr td' )[1].innerHTML ).toBe( 'First' );
+			expect( $( '#allWidgetsObjectCollection tr td' )[2].innerHTML ).toBe( 'element2' );
+			expect( $( '#allWidgetsObjectCollection tr td' )[3].innerHTML ).toBe( 'Second' );
+			
 			expect( $( '#actionsSave' )[0].tagName ).toBe( 'BUTTON' );
 			expect( $( '#actionsSave' ).text() ).toBe( 'Save' );
 
@@ -175,7 +191,7 @@
 			expect( $( '#allWidgetsDropdown' )[0].tagName ).toBe( 'OUTPUT' );
 			expect( $( '#allWidgetsDropdown' ).text() ).toBe( 'foo1' );
 			expect( $( '#allWidgetsDropdownWithLabels' )[0].tagName ).toBe( 'OUTPUT' );
-			expect( $( '#allWidgetsDropdownWithLabels' ).text() ).toBe( 'bar2' );
+			expect( $( '#allWidgetsDropdownWithLabels' ).text() ).toBe( 'Bar #2' );
 			expect( $( '#allWidgetsNotNullDropdown' )[0].tagName ).toBe( 'OUTPUT' );
 			expect( $( '#allWidgetsNotNullDropdown' ).text() ).toBe( '1' );
 			expect( $( '#allWidgetsNestedWidgetsFurtherNestedWidgetsNestedTextbox1' ).text() ).toBe( 'Textbox 1.1 (further)' );
@@ -193,6 +209,17 @@
 			expect( $( 'h1' ).text() ).toBe( 'Section Break' );
 			expect( $( '#allWidgetsReadOnly' )[0].tagName ).toBe( 'OUTPUT' );
 			expect( $( '#allWidgetsReadOnly' ).text() ).toBe( 'Read Only Value' );
+			expect( $( '#allWidgetsCollection' )[0].tagName ).toBe( 'TABLE' );
+			expect( $( '#allWidgetsCollection tr td' )[0].innerHTML ).toBe( 'element1' );
+			expect( $( '#allWidgetsCollection tr td' )[1].innerHTML ).toBe( 'element2' );
+
+			expect( $( '#allWidgetsObjectCollection' )[0].tagName ).toBe( 'TABLE' );
+			expect( $( '#allWidgetsObjectCollection tr th' )[0].innerHTML ).toBe( 'Name' );
+			expect( $( '#allWidgetsObjectCollection tr th' )[1].innerHTML ).toBe( 'Description' );
+			expect( $( '#allWidgetsObjectCollection tr td' )[0].innerHTML ).toBe( 'element1' );
+			expect( $( '#allWidgetsObjectCollection tr td' )[1].innerHTML ).toBe( 'First' );
+			expect( $( '#allWidgetsObjectCollection tr td' )[2].innerHTML ).toBe( 'element2' );
+			expect( $( '#allWidgetsObjectCollection tr td' )[3].innerHTML ).toBe( 'Second' );
 		} );
 	} );
 } )();

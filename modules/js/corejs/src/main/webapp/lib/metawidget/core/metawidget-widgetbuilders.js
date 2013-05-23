@@ -352,6 +352,10 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Create a table populated with the contents of an array property.
+	 * <p>
+	 * Subclasses may override this method to customize table creation.
+	 * Alternatively, they could override one of the sub-methods
+	 * <tt>addHeader</tt> or <tt>addColumn</tt>.
 	 */
 
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.createTable = function( elementName, attributes, mw ) {
@@ -374,40 +378,56 @@ var metawidget = metawidget || {};
 
 			var firstValue = value[0];
 			var inspectionResult = mw.inspect( firstValue );
-
-			var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
-
-			// Create headers
-
-			var thead = document.createElement( 'thead' );
-			table.appendChild( thead );
-			var tr = document.createElement( 'tr' );
-			thead.appendChild( tr );
-
-			var columnAttributes = [];
-
-			for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
-
-				var columnAttribute = inspectionResultProperties[loop];
-
-				if ( this.addHeader( tr, columnAttribute, mw ) ) {
-					columnAttributes.push( columnAttribute );
+			
+			if ( inspectionResult.properties === undefined ) {
+				
+				// Simple, single-column table
+	
+				var tbody = document.createElement( 'tbody' );
+				table.appendChild( tbody );
+	
+				for ( var row = 0, rows = value.length; row < rows; row++ ) {
+	
+					var tr = document.createElement( 'tr' );
+					tbody.appendChild( tr );
+					this.addColumn( tr, value[row], inspectionResult );
 				}
-			}
 
-			// Create body
-
-			var tbody = document.createElement( 'tbody' );
-			table.appendChild( tbody );
-
-			for ( var row = 0, rows = value.length; row < rows; row++ ) {
-
+			} else {
+				var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
+	
+				// Create headers
+	
+				var thead = document.createElement( 'thead' );
+				table.appendChild( thead );
 				var tr = document.createElement( 'tr' );
-				tbody.appendChild( tr );
-
-				for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
-
-					this.addColumn( tr, value[row], columnAttributes[loop] );
+				thead.appendChild( tr );
+	
+				var columnAttributes = [];
+	
+				for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
+	
+					var columnAttribute = inspectionResultProperties[loop];
+	
+					if ( this.addHeader( tr, columnAttribute, mw ) ) {
+						columnAttributes.push( columnAttribute );
+					}
+				}
+	
+				// Create body
+	
+				var tbody = document.createElement( 'tbody' );
+				table.appendChild( tbody );
+	
+				for ( var row = 0, rows = value.length; row < rows; row++ ) {
+	
+					var tr = document.createElement( 'tr' );
+					tbody.appendChild( tr );
+	
+					for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
+	
+						this.addColumn( tr, value[row], columnAttributes[loop] );
+					}
 				}
 			}
 		}
@@ -441,11 +461,15 @@ var metawidget = metawidget || {};
 	 */
 
 	// TODO: test a column was returned
-	
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, attributes ) {
 
 		var td = document.createElement( 'td' );
-		td.innerHTML = value[attributes.name];
+		
+		if ( attributes.name === undefined ) {
+			td.innerHTML = value;
+		} else {
+			td.innerHTML = value[attributes.name];
+		}
 		tr.appendChild( td );
 
 		return td;

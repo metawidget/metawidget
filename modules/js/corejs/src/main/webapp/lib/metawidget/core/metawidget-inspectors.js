@@ -1,4 +1,4 @@
-// Metawidget ${project.version} (licensed under LGPL)
+// Metawidget 3.4-SNAPSHOT (licensed under LGPL)
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -131,13 +131,17 @@ var metawidget = metawidget || {};
 		if ( toInspect !== undefined ) {
 
 			inspectionResult.type = _getTypeOf( toInspect );
-			inspectionResult.properties = {};
 
-			for ( var property in toInspect ) {
+			if ( inspectionResult.type === undefined ) {
 
-				inspectionResult.properties[property] = {
-					type: _getTypeOf( toInspect[property] )
-				};
+				inspectionResult.properties = {};
+
+				for ( var property in toInspect ) {
+
+					inspectionResult.properties[property] = {
+						type: _getTypeOf( toInspect[property] )
+					};
+				}
 			}
 		}
 
@@ -210,6 +214,12 @@ var metawidget = metawidget || {};
 		}
 
 		this.inspect = function( toInspect, type, names ) {
+
+			// Restrict by type (best practice)
+
+			if ( _schema.type !== undefined && _schema.type !== type ) {
+				return undefined;
+			}
 
 			// Traverse names using 'properties' intermediate name
 

@@ -575,7 +575,7 @@
 
 			var indexOf = anEnum.indexOf( value );
 
-			if ( indexOf === -1 ) {
+			if ( indexOf === -1 || indexOf >= enumTitles.length ) {
 				return value;
 			}
 

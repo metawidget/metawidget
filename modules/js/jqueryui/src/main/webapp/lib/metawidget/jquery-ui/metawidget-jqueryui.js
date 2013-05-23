@@ -391,7 +391,7 @@ var metawidget = metawidget || {};
 
 		inspect: function( toInspect, type, names ) {
 
-			return _pipeline.inspect( toInspect, type, names, this );
+			return this._pipeline.inspect( toInspect, type, names, this );
 		},
 
 		/**

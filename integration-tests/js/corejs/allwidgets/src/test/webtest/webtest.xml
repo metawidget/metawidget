@@ -213,7 +213,25 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[17]/th/label/@for" text="allWidgetsReadOnly"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[17]/td/output/@id" text="allWidgetsReadOnly"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[17]/td/output" text="Read Only Value"/>
-				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="17"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[18]/@id" text="table-allWidgetsCollection-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[18]/th/label" text="Collection:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[18]/th/label/@for" text="allWidgetsCollection"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[18]/td/table/@id" text="allWidgetsCollection"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[18]/td/table/tbody/tr[1]/td" text="element1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[18]/td/table/tbody/tr[2]/td" text="element2"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/@id" text="table-allWidgetsObjectCollection-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/th/label" text="Object Collection:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/th/label/@for" text="allWidgetsObjectCollection"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/td/table/@id" text="allWidgetsObjectCollection"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/td/table/thead/tr[1]/th[1]" text="Name"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/td/table/thead/tr[1]/th[2]" text="Description"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/td/table/tbody/tr[1]/td[1]" text="element1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/td/table/tbody/tr[1]/td[2]" text="First"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/td/table/tbody/tr[2]/td" text="element2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[19]/td/table/tbody/tr[2]/td[2]" text="Second"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="19"/>
 
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/@colspan" text="2"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/button" text="Save"/>
@@ -238,7 +256,7 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[8]/div[1]/label" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[8]/div[2]/output" text="foo1"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[9]/div[1]/label" text="Dropdown With Labels:"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[9]/div[2]/output" text="bar2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[9]/div[2]/output" text="Bar #2"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[10]/div[1]/label" text="Not Null Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[10]/div[2]/output" text="1"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[11]/div[1]/label" text="Nested Widgets:"/>
@@ -267,8 +285,22 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[16]/div/h1" text="Section Break"/>				
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[17]/div[1]/label" text="Read Only:"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[17]/div[2]/output" text="Read Only Value"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[18]/div[1]/label" text="Collection:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[18]/div[1]/label/@for" text="allWidgetsCollection"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[18]/div[2]/table/@id" text="allWidgetsCollection"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[18]/div[2]/table/tbody/tr[1]/td" text="element1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[18]/div[2]/table/tbody/tr[2]/td" text="element2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[1]/label" text="Object Collection:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[1]/label/@for" text="allWidgetsObjectCollection"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[2]/table/@id" text="allWidgetsObjectCollection"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[2]/table/thead/tr[1]/th[1]" text="Name"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[2]/table/thead/tr[1]/th[2]" text="Description"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[2]/table/tbody/tr[1]/td[1]" text="element1"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[2]/table/tbody/tr[1]/td[2]" text="First"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[2]/table/tbody/tr[2]/td" text="element2"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[19]/div[2]/table/tbody/tr[2]/td[2]" text="Second"/>
 
-				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/div)" text="17"/>
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/div)" text="19"/>
 			</steps>
 		</webtest>
 	</target>
