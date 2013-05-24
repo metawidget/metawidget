@@ -178,12 +178,38 @@
 					try {
 						$( '#metawidget' ).metawidget( "buildWidgets", {} );
 						expect( true ).toBe( false );
-					} catch( e ) {
+					} catch ( e ) {
 						expect( e.message ).toBe( "Calling _refresh( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 					}
 				} );
-				
-				// TODO: test supports collections
+
+				it( "supports collections", function() {
+
+					// Defaults
+
+					$( '#metawidget' ).metawidget();
+					$( '#metawidget' ).metawidget( "buildWidgets", {
+						bar: [ {
+							firstname: 'firstname1',
+							surname: 'surname1'
+						}, {
+							firstname: 'firstname2',
+							surname: 'surname2'
+						}, {
+							firstname: 'firstname3',
+							surname: 'surname3'
+						} ],
+					} );
+
+					var element = $( '#metawidget' )[0];
+
+					expect( element.innerHTML ).toContain( '<label for="bar" id="table-bar-label">Bar:</label>' );
+					expect( element.innerHTML ).toContain( '<table id="bar"' );
+					expect( element.innerHTML ).toContain( '<thead><tr><th>Firstname</th><th>Surname</th></tr></thead>' );
+					expect( element.innerHTML ).toContain(
+							'<tbody><tr><td>firstname1</td><td>surname1</td></tr><tr><td>firstname2</td><td>surname2</td></tr><tr><td>firstname3</td><td>surname3</td></tr></tbody>' );
+				} );
+
 			} );
 
 	describe( "The JQueryUIWidgetBuilder", function() {

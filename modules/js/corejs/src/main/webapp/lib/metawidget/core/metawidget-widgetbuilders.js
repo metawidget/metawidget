@@ -460,7 +460,6 @@ var metawidget = metawidget || {};
 	 *         be useful for subclasses
 	 */
 
-	// TODO: test a column was returned
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, attributes ) {
 
 		var td = document.createElement( 'td' );

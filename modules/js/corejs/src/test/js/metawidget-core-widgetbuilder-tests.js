@@ -489,5 +489,24 @@
 			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
 			expect( table.childNodes.length ).toBe( 2 );
 		} );		
+
+		it( "has methods for subclasses to override", function() {
+
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
+
+			var tr = document.createElement( 'tr' );
+			
+			// Root level
+			
+			var td = widgetBuilder.addColumn( tr, 'Foo', {} );
+			expect( td.innerHTML ).toBe( 'Foo' );
+			expect( tr.childNodes[0] ).toBe( td );
+
+			// Child level
+			
+			var td = widgetBuilder.addColumn( tr, { bar: 'Bar' }, { name: 'bar' } );
+			expect( td.innerHTML ).toBe( 'Bar' );
+			expect( tr.childNodes[1] ).toBe( td );
+		} );		
 	} );
 } )();
