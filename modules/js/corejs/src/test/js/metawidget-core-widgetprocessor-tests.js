@@ -219,5 +219,63 @@
 			} ).save( mw );
 			expect( mw.toInspect.nested.nestedFoo ).toBe( 'nestedFooValue1' );
 		} );
+
+		it( "supports paths", function() {
+
+			var element = document.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+
+			mw.toInspect = {
+				firstname: 'bar'
+			};
+			mw.path = 'toInspect.firstname';
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="toInspectFirstname" name="toInspectFirstname"' );
+			expect( element.childNodes[0].value ).toBe( 'bar' );
+			expect( element.childNodes.length ).toBe( 1 );
+
+			element.childNodes[0].value = 'baz';
+			
+			// Should set properties
+			
+			mw.getWidgetProcessor( function( testInstanceOf ) {
+
+				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( mw );
+			expect( mw.toInspect.firstname ).toBe( 'baz' );
+
+			// Should not set sub-properties
+			
+			mw.toInspect = {
+					firstname: {}
+			}
+			mw.getWidgetProcessor( function( testInstanceOf ) {
+
+				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( mw );
+			expect( mw.toInspect.firstname.firstname ).toNotBe( 'baz' );
+			
+			// Should support read-only top-level
+			
+			mw.toInspect = 'Bar'
+			delete mw.path; 
+		
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'input type="text"' );
+			expect( element.childNodes[0].value ).toBe( 'Bar' );
+			expect( element.childNodes.length ).toBe( 1 );
+
+			element.childNodes[0].value = 'Baz';
+
+			mw.getWidgetProcessor( function( testInstanceOf ) {
+
+				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( mw );
+			expect( mw.toInspect ).toBe( 'Bar' );
+		} );
 	} );
 } )();

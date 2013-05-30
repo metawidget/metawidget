@@ -88,7 +88,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.onStartBuild = function( mw ) {
 
-		mw._simpleBindingProcessorBindings = {};
+		mw._simpleBindingProcessor = {};
 	};
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
@@ -106,56 +106,74 @@ var metawidget = metawidget || {};
 					}
 				}
 			};
-		} else {
+			
+			return widget;
+		}
 
-			var value;
-			var typeAndNames = metawidget.util.splitPath( mw.path );
+		var value;
+		var typeAndNames = metawidget.util.splitPath( mw.path );
+
+		if ( elementName === 'entity' ) {
+			
+			value = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
+			
+			// We cannot typically save to a top-level value. However if
+			// we are using a path, we can navigate to its parent
+
+			if ( typeAndNames.names !== undefined ) {
+				elementName = 'property';
+				mw._simpleBindingProcessor.topLevel = true;
+			}
+		} else {
 			var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
 
-			if ( elementName !== 'entity' && toInspect !== undefined ) {
+			if ( toInspect !== undefined ) {
 				value = toInspect[attributes.name];
 			} else {
-				value = toInspect;
+				value = undefined;
 			}
+		}
 
-			var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
+		var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
 
-			if ( isBindable === true && widget.hasAttribute( 'id' ) ) {
+		if ( isBindable === true && widget.hasAttribute( 'id' ) ) {
 
-				// Standard HTML works off 'name', not 'id', for binding
+			// Standard HTML needs 'name', not 'id', for binding
 
-				widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
-			}
+			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
+		}
 
-			// Check 'not undefined', rather than 'if value', in case value is a
-			// boolean of false
-			//
-			// Note: this is a general convention throughout Metawidget, as
-			// JavaScript has a surprisingly large number of 'falsy' values)
+		// Check 'not undefined', rather than 'if value', in case value is a
+		// boolean of false
+		//
+		// Note: this is a general convention throughout Metawidget, as
+		// JavaScript has a surprisingly large number of 'falsy' values)
 
-			if ( value !== undefined ) {
-				if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
+		if ( value !== undefined ) {
+			if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
 
-					widget.innerHTML = value;
+				widget.innerHTML = value;
 
-					// Special support for enumTitles
+				// Special support for enumTitles
 
-					if ( attributes.enumTitles !== undefined ) {
-						var indexOf = attributes['enum'].indexOf( value );
+				if ( attributes.enumTitles !== undefined ) {
+					var indexOf = attributes['enum'].indexOf( value );
 
-						if ( indexOf !== -1 && indexOf < attributes.enumTitles.length ) {
-							widget.innerHTML = attributes.enumTitles[indexOf];
-						}
+					if ( indexOf !== -1 && indexOf < attributes.enumTitles.length ) {
+						widget.innerHTML = attributes.enumTitles[indexOf];
 					}
-				} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
-					widget.checked = value;
-				} else if ( isBindable === true ) {
-					widget.value = value;
 				}
+			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
+				widget.checked = value;
+			} else if ( isBindable === true ) {
+				widget.value = value;
 			}
+		}
 
+		if ( elementName !== 'entity' ) {
 			if ( isBindable === true || widget.metawidget !== undefined ) {
-				mw._simpleBindingProcessorBindings[attributes.name] = widget;
+				mw._simpleBindingProcessor.bindings = mw._simpleBindingProcessor.bindings || [];
+				mw._simpleBindingProcessor.bindings[attributes.name] = widget;
 			}
 		}
 
@@ -169,11 +187,16 @@ var metawidget = metawidget || {};
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw ) {
 
 		var typeAndNames = metawidget.util.splitPath( mw.path );
+
+		if ( mw._simpleBindingProcessor.topLevel === true ) {
+			typeAndNames.names = typeAndNames.names.slice( 1, typeAndNames.names.length - 1 );
+		}
+
 		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
 
-		for ( var name in mw._simpleBindingProcessorBindings ) {
+		for ( var name in mw._simpleBindingProcessor.bindings ) {
 
-			var widget = mw._simpleBindingProcessorBindings[name];
+			var widget = mw._simpleBindingProcessor.bindings[name];
 
 			if ( widget.metawidget !== undefined ) {
 				this.save( widget.metawidget );
