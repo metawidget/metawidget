@@ -52,10 +52,10 @@
 			}, {} ) ).toBe( 'DOB' );
 			expect( metawidget.util.getLabelString( {
 				name: 'DOBirth'
-			}, {} ) ).toBe( 'DOBirth' );
+			}, {} ) ).toBe( 'DO Birth' );
 			expect( metawidget.util.getLabelString( {
 				name: 'fooDOBirthBar'
-			}, {} ) ).toBe( 'Foo DOBirth Bar' );
+			}, {} ) ).toBe( 'Foo DO Birth Bar' );
 			expect( metawidget.util.getLabelString( {
 				name: '123'
 			}, {} ) ).toBe( '123' );

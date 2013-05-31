@@ -81,17 +81,63 @@ var metawidget = metawidget || {};
 		}
 
 		// Default name, uncamel case (e.g. from 'fooBarBaz1' to 'Foo Bar Baz
-		// 1')
+		// 1'). Ported from StringUtils.uncamelCase
 
-		name = name.replace( /([^A-Z ])([A-Z])/g, function( $1, $2, $3 ) {
+		var uncamelCasedName = '';		
+		var first = true;
+		var lastChar = ' ';
 
-			return $2 + ' ' + $3;
-		} ).replace( /([^0-9 ])([0-9])/g, function( $1, $2, $3 ) {
+		for ( var loop = 0; loop < name.length; loop++ ) {
+			var c = name[loop];
 
-			return $2 + ' ' + $3;
-		} );
+			if ( first === true ) {
+				uncamelCasedName += c.toUpperCase();
+				first = false;
+			} else if ( _isUpperCase( c ) && ( !_isUpperCase( lastChar ) || ( loop < name.length - 1 && name[loop + 1] != ' ' && !_isUpperCase( name[loop + 1] ) ) ) ) {
+				if ( lastChar !== ' ' ) {
+					uncamelCasedName += ' ';
+				}
 
-		return name.charAt( 0 ).toUpperCase() + name.slice( 1 );
+				// Don't do: if ( loop + 1 < length && !_isUpperCase( chars[loop + 1] ) )
+				// uncamelCasedName += _toLowerCase( c );
+				//
+				// It's ambiguous if we should lowercase the letter following a space, but in
+				// general it looks nicer most of the time not to. The exception is 'joining' words
+				// such as 'of' in 'Date of Birth'
+
+				uncamelCasedName += c;
+			} else if ( _isDigit( c ) && _isLetter( lastChar ) && lastChar != ' ' ) {
+				uncamelCasedName += ' ' + c;
+			} else {
+				uncamelCasedName += c;
+			}
+
+			lastChar = c;
+		}
+
+		return uncamelCasedName;
+		
+		//
+		// Private methods
+		//
+		
+		function _isDigit( c ) {
+			
+			var charCode = c.charCodeAt( 0 );
+			return ( charCode >= 48 && charCode <= 57 );
+		}
+
+		function _isUpperCase( c ) {
+			
+			var charCode = c.charCodeAt( 0 );			
+			return ( charCode >= 65 && charCode <= 90 );
+		}
+
+		function _isLetter( c ) {
+			
+			var charCode = c.charCodeAt( 0 );			
+			return ( charCode >= 65 && charCode <= 90 ) || ( charCode >= 97 && charCode <= 122 );
+		}
 	};
 
 	/**

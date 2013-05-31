@@ -83,6 +83,21 @@ public class StringUtilsTest
 		assertEquals( "Age 18 To 30 Employees", StringUtils.uncamelCase( "age18To30Employees" ) );
 		assertEquals( "Press Me", StringUtils.uncamelCase( "Press Me" ) );
 
+		assertEquals( "Foo bar Baz Abc", StringUtils.uncamelCase( "Foo barBaz Abc" ) );
+		assertEquals( "ID", StringUtils.uncamelCase( "ID" ) );
+		assertEquals( "DOB", StringUtils.uncamelCase( "DOB" ) );
+		assertEquals( "DO Birth", StringUtils.uncamelCase( "DOBirth" ) );
+		assertEquals( "Foo DO Birth Bar", StringUtils.uncamelCase( "fooDOBirthBar" ) );
+		assertEquals( "123", StringUtils.uncamelCase( "123" ) );
+		assertEquals( "Foo 1", StringUtils.uncamelCase( "foo1" ) );
+		assertEquals( "Foo 12", StringUtils.uncamelCase( "foo12" ) );
+		assertEquals( "Foo 123", StringUtils.uncamelCase( "foo123" ) );
+		assertEquals( "1foo", StringUtils.uncamelCase( "1foo" ) );
+		assertEquals( "1 Foo", StringUtils.uncamelCase( "1Foo" ) );
+		assertEquals( "12 Foo", StringUtils.uncamelCase( "12Foo" ) );
+		assertEquals( "123 Foo", StringUtils.uncamelCase( "123Foo" ) );
+		assertEquals( "123 Foo", StringUtils.uncamelCase( "123 Foo" ) );
+
 		// camelCase
 
 		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown #Foo" ) );
@@ -100,6 +115,9 @@ public class StringUtilsTest
 		assertEquals( "PERMANENTSTAFF", StringUtils.camelCase( "PERMANENT STAFF" ) );
 		assertEquals( "itembar", StringUtils.camelCase( "_item.bar" ) );
 		assertEquals( "itemBar", StringUtils.camelCase( "_item.bar", '.' ) );
+		assertEquals( "DOBirth", StringUtils.camelCase( "DO Birth" ) );
+		assertEquals( "fooDOBirthBar", StringUtils.camelCase( "Foo DO Birth Bar" ) );
+		assertEquals( "1Foo", StringUtils.camelCase( "1 Foo" ) );
 	}
 
 	public void testSubstringBefore()
