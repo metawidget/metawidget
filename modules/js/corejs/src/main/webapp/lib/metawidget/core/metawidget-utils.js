@@ -80,12 +80,18 @@ var metawidget = metawidget || {};
 			return mw.l10n[name];
 		}
 
-		// Default name, uncamel case (e.g. from 'fooBarBaz' to 'Foo Bar Baz')
+		// Default name, uncamel case (e.g. from 'fooBarBaz1' to 'Foo Bar Baz
+		// 1')
 
-		return name.charAt( 0 ).toUpperCase() + name.slice( 1 ).replace( /([^ ])([A-Z0-9])/g, function( $1, $2, $3 ) {
+		name = name.replace( /([^A-Z ])([A-Z])/g, function( $1, $2, $3 ) {
+
+			return $2 + ' ' + $3;
+		} ).replace( /([^0-9 ])([0-9])/g, function( $1, $2, $3 ) {
 
 			return $2 + ' ' + $3;
 		} );
+
+		return name.charAt( 0 ).toUpperCase() + name.slice( 1 );
 	};
 
 	/**

@@ -44,6 +44,36 @@
 			expect( metawidget.util.getLabelString( {
 				name: 'Foo barBaz Abc'
 			}, {} ) ).toBe( 'Foo bar Baz Abc' );
+			expect( metawidget.util.getLabelString( {
+				name: 'ID'
+			}, {} ) ).toBe( 'ID' );
+			expect( metawidget.util.getLabelString( {
+				name: 'DOB'
+			}, {} ) ).toBe( 'DOB' );
+			expect( metawidget.util.getLabelString( {
+				name: 'DOBirth'
+			}, {} ) ).toBe( 'DOBirth' );
+			expect( metawidget.util.getLabelString( {
+				name: 'fooDOBirthBar'
+			}, {} ) ).toBe( 'Foo DOBirth Bar' );
+			expect( metawidget.util.getLabelString( {
+				name: '123'
+			}, {} ) ).toBe( '123' );
+			expect( metawidget.util.getLabelString( {
+				name: 'foo1'
+			}, {} ) ).toBe( 'Foo 1' );
+			expect( metawidget.util.getLabelString( {
+				name: 'foo12'
+			}, {} ) ).toBe( 'Foo 12' );
+			expect( metawidget.util.getLabelString( {
+				name: 'foo123'
+			}, {} ) ).toBe( 'Foo 123' );
+			expect( metawidget.util.getLabelString( {
+				name: '123foo'
+			}, {} ) ).toBe( '123foo' );
+			expect( metawidget.util.getLabelString( {
+				name: '123Foo'
+			}, {} ) ).toBe( '123 Foo' );
 		} );
 
 		it( "supports localization", function() {
