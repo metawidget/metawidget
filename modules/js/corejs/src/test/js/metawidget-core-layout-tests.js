@@ -24,9 +24,9 @@
 
 			var layout = new metawidget.layout.SimpleLayout();
 
-			var widget1 = document.createElement( 'widget1' );
-			var widget2 = document.createElement( 'widget2' );
-			var container = document.createElement( 'metawidget' );
+			var widget1 = simpleDocument.createElement( 'widget1' );
+			var widget2 = simpleDocument.createElement( 'widget2' );
+			var container = simpleDocument.createElement( 'metawidget' );
 
 			layout.layoutWidget( widget1, "property", {}, container );
 			layout.layoutWidget( widget2, "property", {}, container );
@@ -40,9 +40,9 @@
 
 			var layout = new metawidget.layout.SimpleLayout();
 
-			var stub = document.createElement( 'stub' );
-			var widget1 = document.createElement( 'widget1' );
-			var container = document.createElement( 'metawidget' );
+			var stub = simpleDocument.createElement( 'stub' );
+			var widget1 = simpleDocument.createElement( 'widget1' );
+			var container = simpleDocument.createElement( 'metawidget' );
 
 			layout.layoutWidget( stub, "property", {}, container );
 			layout.layoutWidget( widget1, "property", {}, container );
@@ -50,7 +50,7 @@
 			expect( container.childNodes[0] ).toBe( widget1 );
 			expect( container.childNodes.length ).toBe( 1 );
 
-			stub.appendChild( document.createElement( 'widget2' ) );
+			stub.appendChild( simpleDocument.createElement( 'widget2' ) );
 
 			layout.layoutWidget( stub, "property", {}, container );
 
@@ -67,13 +67,17 @@
 				divStyleClasses: [ 'outerStyle', 'labelStyle', 'widgetStyle' ]
 			} );
 
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
-			var widget2 = document.createElement( 'input' );
+			var widget2 = simpleDocument.createElement( 'input' );
 			widget2.setAttribute( 'id', 'widget2' );
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
-				path: "testPath"
+				path: "testPath",
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.layoutWidget( widget1, "property", {
@@ -105,12 +109,18 @@
 
 			var layout = new metawidget.layout.DivLayout();
 
-			var stub = document.createElement( 'stub' );
-			var widget1 = document.createElement( 'widget1' );
-			var container = document.createElement( 'metawidget' );
+			var stub = simpleDocument.createElement( 'stub' );
+			var widget1 = simpleDocument.createElement( 'widget1' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
 
-			layout.layoutWidget( stub, "property", {}, container );
-			layout.layoutWidget( widget1, "property", {}, container );
+					return container;
+				}
+			};
+
+			layout.layoutWidget( stub, "property", {}, container, mw );
+			layout.layoutWidget( widget1, "property", {}, container, mw );
 
 			expect( container.childNodes[0].toString() ).toBe( 'div' );
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
@@ -118,9 +128,9 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
 
-			stub.appendChild( document.createElement( 'widget2' ) );
+			stub.appendChild( simpleDocument.createElement( 'widget2' ) );
 
-			layout.layoutWidget( stub, "property", {}, container );
+			layout.layoutWidget( stub, "property", {}, container, mw );
 
 			expect( container.childNodes[1].toString() ).toBe( 'div' );
 			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
@@ -135,10 +145,15 @@
 				labelSuffix: '#'
 			} );
 
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
-			var container = document.createElement( 'metawidget' );
-			var mw = {};
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			}
 
 			layout.layoutWidget( widget1, "property", {
 				name: "widget1",
@@ -160,10 +175,15 @@
 				labelSuffix: ''
 			} );
 
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
-			var container = document.createElement( 'metawidget' );
-			var mw = {};
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
 
 			layout.layoutWidget( widget1, "property", {
 				name: "widget1",
@@ -185,13 +205,17 @@
 				divStyleClasses: [ undefined, 'labelStyle' ]
 			} );
 
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
-			var widget2 = document.createElement( 'input' );
+			var widget2 = simpleDocument.createElement( 'input' );
 			widget2.setAttribute( 'id', 'widget2' );
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
-				path: "testPath"
+				path: "testPath",
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.layoutWidget( widget1, "property", {
@@ -223,9 +247,14 @@
 
 			var layout = new metawidget.layout.DivLayout();
 
-			var button = document.createElement( 'button' );
-			var container = document.createElement( 'metawidget' );
-			var mw = {};
+			var button = simpleDocument.createElement( 'button' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
 
 			layout.layoutWidget( button, "action", {
 				name: "widget1"
@@ -245,13 +274,17 @@
 
 			var layout = new metawidget.layout.TableLayout();
 
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
-			var widget2 = document.createElement( 'input' );
+			var widget2 = simpleDocument.createElement( 'input' );
 			widget2.setAttribute( 'id', 'widget2' );
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
-				"path": "testPath"
+				"path": "testPath",
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.startContainerLayout( container, mw );
@@ -296,25 +329,29 @@
 				"footerStyleClass": "testFooterStyleClass"
 			} );
 
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
 
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 
-			var header = document.createElement( 'facet' );
+			var header = simpleDocument.createElement( 'facet' );
 			header.setAttribute( 'name', 'header' );
-			var widget2 = document.createElement( 'input' );
+			var widget2 = simpleDocument.createElement( 'input' );
 			widget2.setAttribute( 'id', 'widget2' );
 			header.appendChild( widget2 );
 
-			var footer = document.createElement( 'facet' );
+			var footer = simpleDocument.createElement( 'facet' );
 			footer.setAttribute( 'name', 'footer' );
-			var widget3 = document.createElement( 'input' );
+			var widget3 = simpleDocument.createElement( 'input' );
 			widget3.setAttribute( 'id', 'widget3' );
 			footer.appendChild( widget3 );
 
 			var mw = {
-				overriddenNodes: [ header, footer ]
+				overriddenNodes: [ header, footer ],
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.startContainerLayout( container, mw );
@@ -348,11 +385,16 @@
 		it( "does not assign ids to root nodes", function() {
 
 			var layout = new metawidget.layout.TableLayout();
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
 
-			var container = document.createElement( 'metawidget' );
-			var mw = {};
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
 
 			layout.startContainerLayout( container, mw );
 			layout.layoutWidget( widget1, "entity", {}, container, mw );
@@ -373,13 +415,19 @@
 
 			var layout = new metawidget.layout.TableLayout();
 
-			var stub = document.createElement( 'stub' );
-			var widget1 = document.createElement( 'widget1' );
-			var container = document.createElement( 'metawidget' );
+			var stub = simpleDocument.createElement( 'stub' );
+			var widget1 = simpleDocument.createElement( 'widget1' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
 
-			layout.startContainerLayout( container, {} );
-			layout.layoutWidget( stub, "property", {}, container, {} );
-			layout.layoutWidget( widget1, "property", {}, container, {} );
+					return container;
+				}
+			};
+
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( stub, "property", {}, container, mw );
+			layout.layoutWidget( widget1, "property", {}, container, mw );
 
 			expect( container.childNodes[0].toString() ).toBe( 'table' );
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
@@ -392,9 +440,9 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
 
-			stub.appendChild( document.createElement( 'widget2' ) );
+			stub.appendChild( simpleDocument.createElement( 'widget2' ) );
 
-			layout.layoutWidget( stub, "property", {}, container, {} );
+			layout.layoutWidget( stub, "property", {}, container, mw );
 
 			expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
 			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td colspan="2"' );
@@ -412,25 +460,29 @@
 				"numberOfColumns": 2
 			} );
 
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
-				"path": "testPath"
+				"path": "testPath",
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 				"required": "true"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2' ), "property", {
 				"name": "widget2",
 				"title": "widgetLabel 2"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget3' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget3' ), "property", {
 				"name": "widget3",
 				"large": "true"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget4' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget4' ), "property", {
 				"name": "widget4"
 			}, container, mw );
 
@@ -481,12 +533,17 @@
 				columnStyleClasses: [ undefined, 'componentClass' ]
 			} );
 
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
-			var widget2 = document.createElement( 'input' );
+			var widget2 = simpleDocument.createElement( 'input' );
 			widget2.setAttribute( 'id', 'widget2' );
-			var container = document.createElement( 'metawidget' );
-			var mw = {};
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
 
 			layout.startContainerLayout( container, mw );
 			layout.layoutWidget( widget1, "property", {
@@ -524,9 +581,14 @@
 
 			var layout = new metawidget.layout.TableLayout();
 
-			var button = document.createElement( 'button' );
-			var container = document.createElement( 'metawidget' );
-			var mw = {};
+			var button = simpleDocument.createElement( 'button' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
 
 			layout.startContainerLayout( container, mw );
 			layout.layoutWidget( button, "action", {
@@ -554,13 +616,17 @@
 
 			var layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
-			var widget1 = document.createElement( 'input' );
+			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
-			var widget2 = document.createElement( 'input' );
+			var widget2 = simpleDocument.createElement( 'input' );
 			widget2.setAttribute( 'id', 'widget2' );
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
-				"path": "testPath"
+				"path": "testPath",
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.onStartBuild( mw );
@@ -603,36 +669,40 @@
 
 			var layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.SimpleLayout() );
 
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
-				"path": "testPath"
+				"path": "testPath",
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.1' ), "property", {
 				"name": "widget2.1",
 				"section": "Section 1"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.2' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.2' ), "property", {
 				"name": "widget2.2",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.3.1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.3.1' ), "property", {
 				"name": "widget2.3.1",
 				"section": [ "Section 1", "Section 1.1" ]
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget3' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget3' ), "property", {
 				"name": "widget3",
 				"section": "Section 2"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget4' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget4' ), "property", {
 				"name": "widget4",
 				"section": ""
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget5' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget5' ), "property", {
 				"name": "widget5"
 			}, container, mw );
 
@@ -656,36 +726,40 @@
 
 			var layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayoutDecorator( new metawidget.layout.SimpleLayout() ) );
 
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
-				"path": "testPath"
+				"path": "testPath",
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.1' ), "property", {
 				"name": "widget2.1",
 				"section": "Section 1"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.2' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.2' ), "property", {
 				"name": "widget2.2",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.3.1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.3.1' ), "property", {
 				"name": "widget2.3.1",
 				"section": [ "Section 1", "Section 1.1" ]
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget3' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget3' ), "property", {
 				"name": "widget3",
 				"section": "Section 2"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget4' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget4' ), "property", {
 				"name": "widget4",
 				"section": ""
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget5' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget5' ), "property", {
 				"name": "widget5"
 			}, container, mw );
 
@@ -711,36 +785,40 @@
 
 			var layout = new metawidget.layout.DivLayoutDecorator( new metawidget.layout.DivLayoutDecorator( new metawidget.layout.SimpleLayout() ) );
 
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
-				"path": "testPath"
+				"path": "testPath",
+				getElement: function() {
+
+					return container;
+				}
 			};
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.1' ), "property", {
 				"name": "widget2.1",
 				"section": "Section 1"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.2' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.2' ), "property", {
 				"name": "widget2.2",
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget2.3.1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget2.3.1' ), "property", {
 				"name": "widget2.3.1",
 				"section": [ "Section 1", "Section 1.1" ]
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget3' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget3' ), "property", {
 				"name": "widget3",
 				"section": "Section 2"
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget4' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget4' ), "property", {
 				"name": "widget4",
 				"section": ""
 			}, container, mw );
-			layout.layoutWidget( document.createElement( 'widget5' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget5' ), "property", {
 				"name": "widget5"
 			}, container, mw );
 
@@ -799,14 +877,14 @@
 				}
 			} );
 
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
 				"path": "testPath"
 			};
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
 			layout.endContainerLayout( container, mw );
@@ -859,14 +937,14 @@
 				}
 			} );
 
-			var container = document.createElement( 'metawidget' );
+			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
 				"path": "testPath"
 			};
 
 			layout.onStartBuild( mw );
 			layout.startContainerLayout( container, mw );
-			layout.layoutWidget( document.createElement( 'widget1' ), "property", {
+			layout.layoutWidget( simpleDocument.createElement( 'widget1' ), "property", {
 				"name": "widget1",
 			}, container, mw );
 			layout.endContainerLayout( container, mw );

@@ -24,7 +24,7 @@
 
 			var processor = new metawidget.widgetprocessor.IdProcessor();
 
-			var widget = document.createElement( 'input' );
+			var widget = simpleDocument.createElement( 'input' );
 			var mw = {};
 			processor.processWidget( widget, "property", {
 				name: "foo"
@@ -33,7 +33,7 @@
 
 			// With subpath
 
-			widget = document.createElement( 'input' );
+			widget = simpleDocument.createElement( 'input' );
 			mw.path = 'foo.bar';
 			processor.processWidget( widget, "property", {
 				name: "baz"
@@ -42,7 +42,7 @@
 
 			// With root
 
-			widget = document.createElement( 'input' );
+			widget = simpleDocument.createElement( 'input' );
 			mw.path = 'foo.bar';
 			processor.processWidget( widget, "entity", {}, mw );
 			expect( widget.toString() ).toBe( 'input id="fooBar"' );
@@ -52,7 +52,7 @@
 
 			var processor = new metawidget.widgetprocessor.IdProcessor();
 
-			var widget = document.createElement( 'input' );
+			var widget = simpleDocument.createElement( 'input' );
 			widget.setAttribute( 'id', 'do-not-touch' );
 			var mw = {};
 			processor.processWidget( widget, "property", {
@@ -68,7 +68,7 @@
 
 			var processor = new metawidget.widgetprocessor.RequiredAttributeProcessor();
 
-			var widget = document.createElement( 'input' );
+			var widget = simpleDocument.createElement( 'input' );
 			var mw = {};
 
 			processor.processWidget( widget, "property", {}, mw );
@@ -109,7 +109,7 @@
 
 			// Inputs
 
-			var widget = document.createElement( 'input' );
+			var widget = simpleDocument.createElement( 'input' );
 			widget.setAttribute( 'id', 'fooId' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'input id="fooId" name="fooId"' );
@@ -120,14 +120,14 @@
 			attributes = {
 				name: "bar"
 			};
-			widget = document.createElement( 'button' );
+			widget = simpleDocument.createElement( 'button' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'button' );
 			expect( widget.onclick.toString() ).toContain( 'return mw.toInspect[attributes.name]();' );
 
 			// Outputs
 
-			widget = document.createElement( 'output' );
+			widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( 'barValue' );
@@ -139,7 +139,7 @@
 				enum: [ "bazValue1", "bazValue", "bazValue3" ],
 				enumTitles: [ "1", "2", "3" ]
 			};
-			widget = document.createElement( 'output' );
+			widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( '2' );
@@ -158,7 +158,7 @@
 			attributes = {
 				name: "baz"
 			};
-			widget = document.createElement( 'textarea' );
+			widget = simpleDocument.createElement( 'textarea' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'textarea' );
 			expect( widget.innerHTML ).toBe( 'bazValue' );
@@ -168,7 +168,7 @@
 			attributes = {
 				name: "boolean"
 			};
-			widget = document.createElement( 'input' );
+			widget = simpleDocument.createElement( 'input' );
 			widget.setAttribute( 'type', 'checkbox' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'input type="checkbox"' );
@@ -179,14 +179,14 @@
 			attributes = {
 				name: "select"
 			};
-			widget = document.createElement( 'select' );
+			widget = simpleDocument.createElement( 'select' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'select' );
 			expect( widget.value ).toBe( false );
 
 			// Root-level
 
-			widget = document.createElement( 'output' );
+			widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "entity", {}, mw );
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( mw.toInspect );
@@ -194,7 +194,7 @@
 
 		it( "supports nested widgets", function() {
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
 				layout: new metawidget.layout.SimpleLayout()
 			} );
@@ -222,7 +222,7 @@
 
 		it( "supports paths", function() {
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
 				layout: new metawidget.layout.SimpleLayout()
 			} );

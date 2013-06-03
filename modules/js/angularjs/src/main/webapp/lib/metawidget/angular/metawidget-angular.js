@@ -160,7 +160,7 @@
 		var _pipeline = new metawidget.Pipeline( element[0] );
 		_pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
-			var nestedMetawidget = document.createElement( 'metawidget' );
+			var nestedMetawidget = _pipeline.element.ownerDocument.createElement( 'metawidget' );
 			nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
 			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 				nestedMetawidget.setAttribute( 'read-only', 'true' );

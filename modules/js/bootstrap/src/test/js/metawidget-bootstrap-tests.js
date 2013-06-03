@@ -22,9 +22,9 @@
 
 		it( "has a WidgetProcessor that supports Bootstrap styles", function() {
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 
-			var widget = document.createElement( 'button' );
+			var widget = simpleDocument.createElement( 'button' );
 			var processor = new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor();
 
 			expect( processor.processWidget( widget )).toBe( widget );
@@ -34,14 +34,14 @@
 			expect( processor.processWidget( widget )).toBe( widget );
 			expect( widget.getAttribute( 'class' ) ).toBe( 'other btn' );
 
-			widget = document.createElement( 'table' );
+			widget = simpleDocument.createElement( 'table' );
 			expect( processor.processWidget( widget )).toBe( widget );
 			expect( widget.getAttribute( 'class' ) ).toBe( 'table table-striped table-bordered table-hover' );
 		} );
 
 		it( "has a Layout that supports Bootstrap styles", function() {
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
 				inspector: function() {
 

@@ -218,6 +218,14 @@
 
 			var widgetBuilder = new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder();
 
+			var mw = {
+				getElement: function() {
+
+					return {
+						ownerDocument: document
+					}
+				}
+			}
 			expect( widgetBuilder.buildWidget( "property", {}, {} ) ).toBeUndefined();
 			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true"
@@ -228,15 +236,15 @@
 			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "false",
 				type: "number"
-			}, {} ).innerHTML ).toContain( '<input class="ui-spinner-input"' );
+			}, mw ).innerHTML ).toContain( '<input class="ui-spinner-input"' );
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "number",
 				minimum: 10,
 				maximum: 90
-			}, {} ).innerHTML ).toContain( '<a class="ui-slider-handle' );
+			}, mw ).innerHTML ).toContain( '<a class="ui-slider-handle' );
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "date"
-			}, {} ).outerHTML ).toContain( 'class="hasDatepicker"/>' );
+			}, mw ).outerHTML ).toContain( 'class="hasDatepicker"/>' );
 		} );
 	} );
 
@@ -311,7 +319,11 @@
 
 							var container = document.createElement( 'metawidget' );
 							var mw = {
-								"path": "testPath"
+								"path": "testPath",
+								getElement: function() {
+
+									return container;
+								}
 							};
 
 							layout.onStartBuild( mw );

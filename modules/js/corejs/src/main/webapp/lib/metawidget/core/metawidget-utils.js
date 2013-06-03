@@ -83,7 +83,7 @@ var metawidget = metawidget || {};
 		// Default name, uncamel case (e.g. from 'fooBarBaz1' to 'Foo Bar Baz
 		// 1'). Ported from StringUtils.uncamelCase
 
-		var uncamelCasedName = '';		
+		var uncamelCasedName = '';
 		var first = true;
 		var lastChar = ' ';
 
@@ -98,11 +98,14 @@ var metawidget = metawidget || {};
 					uncamelCasedName += ' ';
 				}
 
-				// Don't do: if ( loop + 1 < length && !_isUpperCase( chars[loop + 1] ) )
+				// Don't do: if ( loop + 1 < length && !_isUpperCase( chars[loop
+				// + 1] ) )
 				// uncamelCasedName += _toLowerCase( c );
 				//
-				// It's ambiguous if we should lowercase the letter following a space, but in
-				// general it looks nicer most of the time not to. The exception is 'joining' words
+				// It's ambiguous if we should lowercase the letter following a
+				// space, but in
+				// general it looks nicer most of the time not to. The exception
+				// is 'joining' words
 				// such as 'of' in 'Date of Birth'
 
 				uncamelCasedName += c;
@@ -116,26 +119,26 @@ var metawidget = metawidget || {};
 		}
 
 		return uncamelCasedName;
-		
+
 		//
 		// Private methods
 		//
-		
+
 		function _isDigit( c ) {
-			
+
 			var charCode = c.charCodeAt( 0 );
 			return ( charCode >= 48 && charCode <= 57 );
 		}
 
 		function _isUpperCase( c ) {
-			
-			var charCode = c.charCodeAt( 0 );			
+
+			var charCode = c.charCodeAt( 0 );
 			return ( charCode >= 65 && charCode <= 90 );
 		}
 
 		function _isLetter( c ) {
-			
-			var charCode = c.charCodeAt( 0 );			
+
+			var charCode = c.charCodeAt( 0 );
 			return ( charCode >= 65 && charCode <= 90 ) || ( charCode >= 97 && charCode <= 122 );
 		}
 	};
@@ -526,5 +529,27 @@ var metawidget = metawidget || {};
 		} else {
 			widget.setAttribute( attributeName, existingAttribute + ' ' + toAppend );
 		}
+	};
+
+	/**
+	 * Creates an element by calling <tt>mw.getElement().ownerDocument</tt>
+	 * rather than simply <tt>document</tt>. This stops us relying on a
+	 * global <tt>document</tt> variable.
+	 */
+
+	metawidget.util.createElement = function( mw, element ) {
+
+		return mw.getElement().ownerDocument.createElement( element );
+	};
+
+	/**
+	 * Creates a text node by calling <tt>mw.getElement().ownerDocument</tt>
+	 * rather than simply <tt>document</tt>. This stops us relying on a
+	 * global <tt>document</tt> variable.
+	 */
+
+	metawidget.util.createTextNode = function( mw, text ) {
+
+		return mw.getElement().ownerDocument.createTextNode( text );
 	};
 } )();

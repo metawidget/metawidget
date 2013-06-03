@@ -69,7 +69,7 @@ var metawidget = metawidget || {};
 				return;
 			}
 
-			var outerDiv = document.createElement( 'div' );
+			var outerDiv = metawidget.util.createElement( mw, 'div' );
 			if ( _divStyleClasses !== undefined && _divStyleClasses[0] !== undefined ) {
 				outerDiv.setAttribute( 'class', _divStyleClasses[0] );
 			}
@@ -80,7 +80,7 @@ var metawidget = metawidget || {};
 
 			// Widget
 
-			var widgetDiv = document.createElement( 'div' );
+			var widgetDiv = metawidget.util.createElement( mw, 'div' );
 			if ( _divStyleClasses !== undefined && _divStyleClasses[2] !== undefined ) {
 				widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
 			}
@@ -101,12 +101,12 @@ var metawidget = metawidget || {};
 				return;
 			}
 
-			var labelDiv = document.createElement( 'div' );
+			var labelDiv = metawidget.util.createElement( mw, 'div' );
 			if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
 				labelDiv.setAttribute( 'class', _divStyleClasses[1] );
 			}
 
-			var label = document.createElement( 'label' );
+			var label = metawidget.util.createElement( mw, 'label' );
 			if ( widget.getAttribute( 'id' ) !== null ) {
 				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 			}
@@ -142,7 +142,7 @@ var metawidget = metawidget || {};
 
 		this.startContainerLayout = function( container, mw ) {
 
-			var table = document.createElement( 'table' );
+			var table = metawidget.util.createElement( mw, 'table' );
 			if ( mw.path !== undefined ) {
 				var id = metawidget.util.getId( "property", {}, mw );
 				if ( id !== undefined ) {
@@ -172,17 +172,17 @@ var metawidget = metawidget || {};
 					var parent;
 
 					if ( child.getAttribute( 'name' ) === 'header' ) {
-						parent = document.createElement( 'thead' );
+						parent = metawidget.util.createElement( mw, 'thead' );
 					} else if ( child.getAttribute( 'name' ) === 'footer' ) {
-						parent = document.createElement( 'tfoot' );
+						parent = metawidget.util.createElement( mw, 'tfoot' );
 					} else {
 						continue;
 					}
 
 					table.appendChild( parent );
-					var tr = document.createElement( 'tr' );
+					var tr = metawidget.util.createElement( mw, 'tr' );
 					parent.appendChild( tr );
-					var td = document.createElement( 'td' );
+					var td = metawidget.util.createElement( mw, 'td' );
 					td.setAttribute( 'colspan', _numberOfColumns * 2 );
 
 					if ( child.getAttribute( 'name' ) === 'header' ) {
@@ -207,7 +207,7 @@ var metawidget = metawidget || {};
 
 			// tbody
 
-			table.appendChild( document.createElement( 'tbody' ) );
+			table.appendChild( metawidget.util.createElement( mw, 'tbody' ) );
 		};
 
 		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
@@ -255,7 +255,7 @@ var metawidget = metawidget || {};
 			var tr;
 
 			if ( _currentColumn === 0 ) {
-				tr = document.createElement( 'tr' );
+				tr = metawidget.util.createElement( mw, 'tr' );
 				if ( idPrefix !== undefined ) {
 					tr.setAttribute( 'id', idPrefix + '-row' );
 				}
@@ -270,7 +270,7 @@ var metawidget = metawidget || {};
 
 			// Widget
 
-			var td = document.createElement( 'td' );
+			var td = metawidget.util.createElement( mw, 'td' );
 
 			if ( idPrefix !== undefined ) {
 				td.setAttribute( 'id', idPrefix + '-cell' );
@@ -291,7 +291,7 @@ var metawidget = metawidget || {};
 
 			// Required
 
-			this.layoutRequired( tr, attributes );
+			this.layoutRequired( tr, attributes, mw );
 			
 			// Next column
 
@@ -310,7 +310,7 @@ var metawidget = metawidget || {};
 
 			// Label
 
-			var th = document.createElement( 'th' );
+			var th = metawidget.util.createElement( mw, 'th' );
 
 			if ( idPrefix !== undefined ) {
 				th.setAttribute( 'id', idPrefix + '-label-cell' );
@@ -322,7 +322,7 @@ var metawidget = metawidget || {};
 
 			if ( elementName !== 'action' ) {
 
-				var label = document.createElement( 'label' );
+				var label = metawidget.util.createElement( mw, 'label' );
 	
 				if ( widget.hasAttribute( 'id' ) ) {
 					label.setAttribute( 'for', widget.getAttribute( 'id' ) );
@@ -340,9 +340,9 @@ var metawidget = metawidget || {};
 			tr.appendChild( th );
 		};
 
-		this.layoutRequired = function( tr, attributes ) {
+		this.layoutRequired = function( tr, attributes, mw ) {
 			
-			var td = document.createElement( 'td' );
+			var td = metawidget.util.createElement( mw, 'td' );
 
 			if ( _columnStyleClasses !== undefined && _columnStyleClasses[2] !== undefined ) {
 				td.setAttribute( 'class', _columnStyleClasses[2] );
@@ -615,7 +615,7 @@ var metawidget = metawidget || {};
 
 	metawidget.layout.HeadingTagLayoutDecorator.prototype.addSectionWidget = function( section, level, attributes, container, mw ) {
 
-		var h1 = document.createElement( 'h' + ( level + 1 ) );
+		var h1 = metawidget.util.createElement( mw, 'h' + ( level + 1 ) );
 		h1.innerHTML = section;
 
 		this.getDelegate().layoutWidget( h1, "property", {
@@ -639,7 +639,7 @@ var metawidget = metawidget || {};
 
 	metawidget.layout.DivLayoutDecorator.prototype.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 
-		var div = document.createElement( 'div' );
+		var div = metawidget.util.createElement( mw, 'div' );
 		div.setAttribute( 'title', section );
 		this.getDelegate().layoutWidget( div, "property", {
 			wide: 'true'

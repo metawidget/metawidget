@@ -68,12 +68,12 @@ var metawidget = metawidget || {};
 		if ( attributes.type === 'number' ) {
 
 			if ( attributes.minimum && attributes.maximum ) {
-				var slider = document.createElement( 'div' );
+				var slider = metawidget.util.createElement( mw, 'div' );
 				$( slider ).slider();
 				return slider;
 			}
 
-			var spinner = document.createElement( 'input' );
+			var spinner = metawidget.util.createElement( mw, 'input' );
 			$( spinner ).spinner();
 			return $( spinner ).spinner( 'widget' )[0];
 		}
@@ -81,7 +81,7 @@ var metawidget = metawidget || {};
 		// Datepicker
 
 		if ( attributes.type === 'date' ) {
-			var date = document.createElement( 'input' );
+			var date = metawidget.util.createElement( mw, 'input' );
 			$( date ).datepicker();
 			return date;
 		}
@@ -161,7 +161,7 @@ var metawidget = metawidget || {};
 				continue;
 			}
 
-			widget = document.getElementById( widget.id );
+			widget = mw.getElement().ownerDocument.getElementById( widget.id );
 
 			var styleClass = widget.getAttribute( 'class' );
 
@@ -215,9 +215,9 @@ var metawidget = metawidget || {};
 		// Whole new tabbed pane?
 
 		if ( tabs === undefined ) {
-			tabs = document.createElement( 'div' );
+			tabs = metawidget.util.createElement( mw, 'div' );
 			tabs.setAttribute( 'id', metawidget.util.getId( "property", attributes, mw ) + '-tabs' );
-			tabs.appendChild( document.createElement( 'ul' ) );
+			tabs.appendChild( metawidget.util.createElement( mw, 'ul' ) );
 			this.getDelegate().layoutWidget( tabs, "property", {
 				wide: "true"
 			}, container, mw );
@@ -232,14 +232,14 @@ var metawidget = metawidget || {};
 
 		var ul = tabs.childNodes[0];
 		var tabId = tabs.getAttribute( 'id' ) + ( ul.childNodes.length + 1 );
-		var li = document.createElement( 'li' );
-		var a = document.createElement( 'a' );
+		var li = metawidget.util.createElement( mw, 'li' );
+		var a = metawidget.util.createElement( mw, 'a' );
 		a.setAttribute( 'href', '#' + tabId );
 		a.hash = '#' + tabId;
 		li.appendChild( a );
 		ul.appendChild( li );
 
-		var tab = document.createElement( 'div' );
+		var tab = metawidget.util.createElement( mw, 'div' );
 		tab.setAttribute( 'id', tabId );
 		tabs.appendChild( tab );
 
@@ -282,7 +282,7 @@ var metawidget = metawidget || {};
 			this._pipeline = new metawidget.Pipeline( this.element[0] );
 			this._pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
-				var nestedWidget = document.createElement( 'div' );
+				var nestedWidget = metawidget.util.createElement( mw, 'div' );
 
 				// Duck-type our 'pipeline' as the 'config' of the nested
 				// Metawidget. This neatly passes everything down, including a
@@ -418,6 +418,15 @@ var metawidget = metawidget || {};
 		getWidgetProcessor: function( testInstanceOf ) {
 
 			return this._pipeline.getWidgetProcessor( testInstanceOf );
+		},
+
+		/**
+		 * Returns the element this Metawidget is attached to.
+		 */
+
+		getElement: function() {
+
+			return this._pipeline.element;
 		}
 	} );
 } )();

@@ -46,7 +46,6 @@ public class BootstrapMetawidgetTest
 		evaluateJavaScript( "target/metawidget-bootstrap/lib/metawidget/core/metawidget-widgetprocessors.js" );
 		evaluateJavaScript( "target/metawidget-bootstrap/lib/metawidget/core/metawidget-layouts.js" );
 		evaluateJavaScript( "target/metawidget-bootstrap/lib/metawidget/core/metawidget-utils.js" );
-		evaluateJavaScript( "target/metawidget-bootstrap/lib/metawidget/core/metawidget-utils.js" );
 		evaluateJavaScript( "src/main/webapp/lib/metawidget/bootstrap/metawidget-bootstrap.js" );
 	}
 }

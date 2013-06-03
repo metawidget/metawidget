@@ -24,7 +24,7 @@
 
 			// Defaults
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 
 			mw.toInspect = {
@@ -49,7 +49,7 @@
 
 			// Configured
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			mw = new metawidget.Metawidget( element, {
 				layout: new metawidget.layout.SimpleLayout()
 			} );
@@ -68,7 +68,7 @@
 
 			// Direct collection
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 
 			mw.toInspect = [ {
@@ -112,7 +112,7 @@
 
 			// Collection as property
 
-			element = document.createElement( 'div' );
+			element = simpleDocument.createElement( 'div' );
 			mw = new metawidget.Metawidget( element );
 			mw.toInspect = {
 				collection: [ {
@@ -161,11 +161,11 @@
 
 		it( "defensively copies overridden widgets", function() {
 
-			var element = document.createElement( 'div' );
-			var bar = document.createElement( 'span' );
+			var element = simpleDocument.createElement( 'div' );
+			var bar = simpleDocument.createElement( 'span' );
 			bar.setAttribute( 'id', 'bar' );
 			element.appendChild( bar );
-			var baz = document.createElement( 'span' );
+			var baz = simpleDocument.createElement( 'span' );
 			baz.setAttribute( 'id', 'baz' );
 			element.appendChild( baz );
 
@@ -205,7 +205,7 @@
 			expect( element.childNodes.length ).toBe( 1 );
 
 			expect( mw.overriddenNodes.length ).toBe( 0 );
-			mw.overriddenNodes.push( document.createElement( 'defensive' ) );
+			mw.overriddenNodes.push( simpleDocument.createElement( 'defensive' ) );
 			expect( mw.overriddenNodes.length ).toBe( 1 );
 			mw.buildWidgets();
 			expect( mw.overriddenNodes.length ).toBe( 0 );
@@ -214,14 +214,14 @@
 
 		it( "can be used purely for layout", function() {
 
-			var element = document.createElement( 'div' );
-			var bar = document.createElement( 'span' );
+			var element = simpleDocument.createElement( 'div' );
+			var bar = simpleDocument.createElement( 'span' );
 			bar.setAttribute( 'id', 'bar' );
 			element.appendChild( bar );
-			var baz = document.createElement( 'span' );
+			var baz = simpleDocument.createElement( 'span' );
 			baz.setAttribute( 'id', 'baz' );
 			element.appendChild( baz );
-			var ignore = document.createTextNode( 'ignore' );
+			var ignore = simpleDocument.createTextNode( 'ignore' );
 			element.appendChild( ignore );
 
 			var mw = new metawidget.Metawidget( element );
@@ -246,10 +246,10 @@
 
 		it( "ignores embedded text nodes", function() {
 
-			var element = document.createElement( 'div' );
-			element.appendChild( document.createTextNode( 'text1' ) );
-			element.appendChild( document.createElement( 'span' ) );
-			element.appendChild( document.createTextNode( 'text2' ) );
+			var element = simpleDocument.createElement( 'div' );
+			element.appendChild( simpleDocument.createTextNode( 'text1' ) );
+			element.appendChild( simpleDocument.createElement( 'span' ) );
+			element.appendChild( simpleDocument.createTextNode( 'text2' ) );
 			var mw = new metawidget.Metawidget( element );
 			mw.onEndBuild = function() {
 
@@ -263,7 +263,7 @@
 
 		it( "builds nested Metawidgets", function() {
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 
 			mw.toInspect = {
@@ -306,7 +306,7 @@
 
 		it( "guards against infinite recursion", function() {
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
 				inspector: function( toInspect, type, names ) {
 
@@ -352,7 +352,7 @@
 
 			var called = [];
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
 				inspector: {
 					inspect: function() {
@@ -387,7 +387,7 @@
 					buildWidget: function() {
 
 						called.push( 'widgetBuilder.buildWidget' );
-						return document.createElement( 'span' );
+						return simpleDocument.createElement( 'span' );
 					},
 					onEndBuild: function() {
 
@@ -527,7 +527,7 @@
 
 			// Normal
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 			mw.toInspect = {
 				foo: "bar"
@@ -538,7 +538,7 @@
 
 			// With null InspectionResultProcessor
 
-			element = document.createElement( 'div' );
+			element = simpleDocument.createElement( 'div' );
 			mw = new metawidget.Metawidget( element, {
 				inspectionResultProcessors: [ function() {
 
@@ -550,7 +550,7 @@
 
 			// With null Inspectior
 
-			element = document.createElement( 'div' );
+			element = simpleDocument.createElement( 'div' );
 			mw = new metawidget.Metawidget( element, {
 				inspector: function() {
 
@@ -577,7 +577,7 @@
 
 			var widgetBuilt = 0;
 			var sawReadOnly = 0;
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
 				widgetBuilder: function( elementName, attributes, mw ) {
 
@@ -588,7 +588,7 @@
 						sawReadOnly++;
 					}
 
-					return document.createElement( 'span' );
+					return simpleDocument.createElement( 'span' );
 				}
 			} );
 			mw.readOnly = true;
@@ -613,7 +613,7 @@
 
 		it( "inspects from parent", function() {
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 			mw.toInspect = {
 				bar: "Bar"
@@ -639,10 +639,10 @@
 
 		it( "supports stubs with their own metadata", function() {
 
-			var element = document.createElement( 'div' );
-			var stub = document.createElement( 'stub' );
+			var element = simpleDocument.createElement( 'div' );
+			var stub = simpleDocument.createElement( 'stub' );
 			stub.setAttribute( 'title', 'Foo' );
-			stub.appendChild( document.createElement( 'input' ) );
+			stub.appendChild( simpleDocument.createElement( 'input' ) );
 			element.appendChild( stub );
 
 			// TableLayout
@@ -667,7 +667,7 @@
 
 			// DivLayout
 
-			element = document.createElement( 'div' );
+			element = simpleDocument.createElement( 'div' );
 			element.appendChild( stub );
 			mw = new metawidget.Metawidget( element, {
 				layout: new metawidget.layout.DivLayout()
@@ -694,7 +694,7 @@
 
 			function testFalsy( falsyValue ) {
 
-				var element = document.createElement( 'div' );
+				var element = simpleDocument.createElement( 'div' );
 				var mw = new metawidget.Metawidget( element );
 
 				mw.toInspect = falsyValue;
@@ -717,7 +717,7 @@
 
 			function testNotFalsy( nonFalsyValue ) {
 
-				var element = document.createElement( 'div' );
+				var element = simpleDocument.createElement( 'div' );
 				var mw = new metawidget.Metawidget( element );
 
 				mw.toInspect = nonFalsyValue;
@@ -752,7 +752,7 @@
 
 			var called = [];
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, [ {
 				inspector: {
 					inspect: function() {
@@ -788,7 +788,7 @@
 
 			// Test sorting in reverse
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var toInspect = {
 				baz: "Baz",
 				bar: "Bar",
@@ -864,7 +864,7 @@
 
 			// Defaults
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 
 			mw.toInspect = {
@@ -904,7 +904,7 @@
 
 		it( "guards against infinite loops", function() {
 
-			var element = document.createElement( 'div' );
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
 				inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
 

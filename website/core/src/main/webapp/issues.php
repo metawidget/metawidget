@@ -15,7 +15,7 @@
 		</p>
 	
 		<p>
-			Metawidget's Issue Tracker is hosted on SourceForge. <a href="http://sourceforge.net/tracker/?group_id=208482">Click here</a> to visit the Issue Tracker.
+			Metawidget's Issue Tracker is hosted on SourceForge. <a href="https://sourceforge.net/p/metawidget/bugs/?source=navbar">Click here</a> to visit the Issue Tracker.
 		</p>
 		
 	<?php require_once 'include/body-end.php'; ?>		

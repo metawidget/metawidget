@@ -25,7 +25,6 @@
 	//
 	// Default Jasmine initialization
 	//
-	
 	var reporter = new jasmine.JsApiReporter();
 	reporter.log = print;
 
@@ -61,10 +60,15 @@
 	}
 
 	/**
-	 * Simple document implementation (can be replaced by EnvJS)
+	 * Simple document implementation (can be replaced by EnvJS).
+	 * <p>
+	 * Note: this variable is named <tt>simpleDocument</tt>, not
+	 * <tt>document</tt>, because we want to ensure we always go via
+	 * <tt>element.ownerDocument</tt> and not rely on a global variable
+	 * directly.
 	 */
 
-	this.document = {
+	this.simpleDocument = {
 		createElement: function( elementName ) {
 
 			return {
@@ -119,7 +123,7 @@
 				},
 				cloneNode: function() {
 
-					var clone = document.createElement( elementName );
+					var clone = simpleDocument.createElement( elementName );
 
 					for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
 						var attribute = this.attributes[loop];
@@ -141,6 +145,7 @@
 
 					throw new Error( "childNode not found: " + childNode );
 				},
+				ownerDocument: this,
 				toString: function() {
 
 					var toString = elementName;

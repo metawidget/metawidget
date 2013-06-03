@@ -47,7 +47,7 @@ var metawidget = metawidget || {};
 		var _pipeline = new metawidget.Pipeline( element );
 		_pipeline.buildNestedMetawidget = function( attributes, mw ) {
 
-			var nestedWidget = document.createElement( 'div' );
+			var nestedWidget = element.ownerDocument.createElement( 'div' );
 
 			// Duck-type our 'pipeline' as the 'config' of the nested
 			// Metawidget. This neatly passes everything down, including a
@@ -144,6 +144,15 @@ var metawidget = metawidget || {};
 			// Build widgets
 
 			_pipeline.buildWidgets( inspectionResult, this );
+		};
+
+		/**
+		 * Returns the element this Metawidget is attached to.
+		 */
+
+		this.getElement = function() {
+
+			return _pipeline.element;
 		};
 	};
 

@@ -20,6 +20,7 @@
 			<li>MetawidgetJS supports nested JSON schemas</li>
 			<li>AngularJS supports element.controller( 'form' )</li>
 			<li>Twitter Bootstrap support</li>
+			<li>NodeJS support</li>
 			<li>JDK 7 Support (during build process and for JavaDoc)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>

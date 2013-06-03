@@ -185,18 +185,18 @@
 
 		it( "checks if a node has child elements", function() {
 
-			var div = document.createElement( 'div' );
+			var div = simpleDocument.createElement( 'div' );
 			expect( metawidget.util.hasChildElements( div ) ).toBe( false );
-			div.appendChild( document.createElement( 'span' ) );
+			div.appendChild( simpleDocument.createElement( 'span' ) );
 			expect( metawidget.util.hasChildElements( div ) ).toBe( true );
 		} );
 
 		it( "ignores text nodes", function() {
 
-			var div = document.createElement( 'div' );
+			var div = simpleDocument.createElement( 'div' );
 			div.appendChild( {} );
 			expect( metawidget.util.hasChildElements( div ) ).toBe( false );
-			div.appendChild( document.createElement( 'span' ) );
+			div.appendChild( simpleDocument.createElement( 'span' ) );
 			expect( metawidget.util.hasChildElements( div ) ).toBe( true );
 		} );
 	} );
@@ -473,7 +473,7 @@
 
 		it( "appends attribute values", function() {
 
-			var widget = document.createElement( 'widget' );
+			var widget = simpleDocument.createElement( 'widget' );
 			expect( widget.getAttribute( 'class' )).toBeNull(); 
 			
 			metawidget.util.appendToAttribute( widget, 'class', 'btn' )

@@ -153,7 +153,7 @@ var metawidget = metawidget || {};
 		// Hidden
 
 		if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) || attributes.type === 'function' ) {
-			return document.createElement( 'stub' );
+			return metawidget.util.createElement( mw, 'stub' );
 		}
 
 		if ( attributes['enum'] !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date' ) {
@@ -163,18 +163,18 @@ var metawidget = metawidget || {};
 				// Masked (return a couple of nested Stubs, so that we DO still
 				// render a label)
 
-				var stub = document.createElement( 'stub' );
-				stub.appendChild( document.createElement( 'stub' ) );
+				var stub = metawidget.util.createElement( mw, 'stub' );
+				stub.appendChild( metawidget.util.createElement( mw, 'stub' ) );
 				return stub;
 			}
 
-			return document.createElement( 'output' );
+			return metawidget.util.createElement( mw, 'output' );
 		}
 
 		// Not simple, but don't expand
 
 		if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
-			return document.createElement( 'output' );
+			return metawidget.util.createElement( mw, 'output' );
 		}
 	};
 
@@ -197,7 +197,7 @@ var metawidget = metawidget || {};
 		// Hidden
 
 		if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) ) {
-			return document.createElement( 'stub' );
+			return metawidget.util.createElement( mw, 'stub' );
 		}
 
 		// Select box
@@ -208,15 +208,15 @@ var metawidget = metawidget || {};
 
 			if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
 
-				var div = document.createElement( 'div' );
+				var div = metawidget.util.createElement( mw, 'div' );
 
 				for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
 
 					// Uses 'implicit label association':
 					// http://www.w3.org/TR/html4/interact/forms.html#h-17.9.1
 
-					var label = document.createElement( 'label' );
-					var option = document.createElement( 'input' );
+					var label = metawidget.util.createElement( mw, 'label' );
+					var option = metawidget.util.createElement( mw, 'input' );
 
 					if ( attributes.componentType !== undefined ) {
 						option.setAttribute( 'type', attributes.componentType );
@@ -227,9 +227,9 @@ var metawidget = metawidget || {};
 					label.appendChild( option );
 
 					if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
-						label.appendChild( document.createTextNode( attributes.enumTitles[loop] ) );
+						label.appendChild( metawidget.util.createTextNode( mw, attributes.enumTitles[loop] ) );
 					} else {
-						label.appendChild( document.createTextNode( attributes['enum'][loop] ) );
+						label.appendChild( metawidget.util.createTextNode( mw, attributes['enum'][loop] ) );
 					}
 
 					div.appendChild( label );
@@ -240,14 +240,14 @@ var metawidget = metawidget || {};
 
 			// Single-select
 
-			var select = document.createElement( 'select' );
+			var select = metawidget.util.createElement( mw, 'select' );
 
 			if ( !metawidget.util.isTrueOrTrueString( attributes.required ) ) {
-				select.appendChild( document.createElement( 'option' ) );
+				select.appendChild( metawidget.util.createElement( mw, 'option' ) );
 			}
 
 			for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
-				var option = document.createElement( 'option' );
+				var option = metawidget.util.createElement( mw, 'option' );
 
 				// HtmlUnit needs an 'option' to have a 'value', even if the
 				// same as the innerHTML
@@ -268,7 +268,7 @@ var metawidget = metawidget || {};
 		// Button
 
 		if ( attributes.type === 'function' ) {
-			var button = document.createElement( 'button' );
+			var button = metawidget.util.createElement( mw, 'button' );
 			button.innerHTML = metawidget.util.getLabelString( attributes, mw );
 			return button;
 		}
@@ -278,14 +278,14 @@ var metawidget = metawidget || {};
 		if ( attributes.type === 'number' ) {
 
 			if ( attributes.minimum !== undefined && attributes.maximum !== undefined ) {
-				var range = document.createElement( 'input' );
+				var range = metawidget.util.createElement( mw, 'input' );
 				range.setAttribute( 'type', 'range' );
 				range.setAttribute( 'min', attributes.minimum );
 				range.setAttribute( 'max', attributes.maximum );
 				return range;
 			}
 
-			var number = document.createElement( 'input' );
+			var number = metawidget.util.createElement( mw, 'input' );
 			number.setAttribute( 'type', 'number' );
 			return number;
 		}
@@ -293,7 +293,7 @@ var metawidget = metawidget || {};
 		// Boolean
 
 		if ( attributes.type === 'boolean' ) {
-			var checkbox = document.createElement( 'input' );
+			var checkbox = metawidget.util.createElement( mw, 'input' );
 			checkbox.setAttribute( 'type', 'checkbox' );
 			return checkbox;
 		}
@@ -301,7 +301,7 @@ var metawidget = metawidget || {};
 		// Date
 
 		if ( attributes.type === 'date' ) {
-			var date = document.createElement( 'input' );
+			var date = metawidget.util.createElement( mw, 'input' );
 			date.setAttribute( 'type', 'date' );
 			return date;
 		}
@@ -311,7 +311,7 @@ var metawidget = metawidget || {};
 		if ( attributes.type === 'string' ) {
 
 			if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
-				var password = document.createElement( 'input' );
+				var password = metawidget.util.createElement( mw, 'input' );
 				password.setAttribute( 'type', 'password' );
 
 				if ( attributes.maxLength !== undefined ) {
@@ -322,10 +322,10 @@ var metawidget = metawidget || {};
 			}
 
 			if ( metawidget.util.isTrueOrTrueString( attributes.large ) ) {
-				return document.createElement( 'textarea' );
+				return metawidget.util.createElement( mw, 'textarea' );
 			}
 
-			var text = document.createElement( 'input' );
+			var text = metawidget.util.createElement( mw, 'input' );
 			text.setAttribute( 'type', 'text' );
 
 			if ( attributes.maxLength !== undefined ) {
@@ -344,7 +344,7 @@ var metawidget = metawidget || {};
 		// Not simple, but don't expand
 
 		if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
-			var text = document.createElement( 'input' );
+			var text = metawidget.util.createElement( mw, 'input' );
 			text.setAttribute( 'type', 'text' );
 			return text;
 		}
@@ -360,7 +360,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.createTable = function( elementName, attributes, mw ) {
 
-		var table = document.createElement( 'table' );
+		var table = metawidget.util.createElement( mw, 'table' );
 
 		// Lookup the actual value
 
@@ -383,14 +383,14 @@ var metawidget = metawidget || {};
 				
 				// Simple, single-column table
 	
-				var tbody = document.createElement( 'tbody' );
+				var tbody = metawidget.util.createElement( mw, 'tbody' );
 				table.appendChild( tbody );
 	
 				for ( var row = 0, rows = value.length; row < rows; row++ ) {
 	
-					var tr = document.createElement( 'tr' );
+					var tr = metawidget.util.createElement( mw, 'tr' );
 					tbody.appendChild( tr );
-					this.addColumn( tr, value[row], inspectionResult );
+					this.addColumn( tr, value[row], inspectionResult, mw );
 				}
 
 			} else {
@@ -398,9 +398,9 @@ var metawidget = metawidget || {};
 	
 				// Create headers
 	
-				var thead = document.createElement( 'thead' );
+				var thead = metawidget.util.createElement( mw, 'thead' );
 				table.appendChild( thead );
-				var tr = document.createElement( 'tr' );
+				var tr = metawidget.util.createElement( mw, 'tr' );
 				thead.appendChild( tr );
 	
 				var columnAttributes = [];
@@ -416,17 +416,17 @@ var metawidget = metawidget || {};
 	
 				// Create body
 	
-				var tbody = document.createElement( 'tbody' );
+				var tbody = metawidget.util.createElement( mw, 'tbody' );
 				table.appendChild( tbody );
 	
 				for ( var row = 0, rows = value.length; row < rows; row++ ) {
 	
-					var tr = document.createElement( 'tr' );
+					var tr = metawidget.util.createElement( mw, 'tr' );
 					tbody.appendChild( tr );
 	
 					for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
 	
-						this.addColumn( tr, value[row], columnAttributes[loop] );
+						this.addColumn( tr, value[row], columnAttributes[loop], mw );
 					}
 				}
 			}
@@ -444,7 +444,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addHeader = function( tr, attributes, mw ) {
 
-		var th = document.createElement( 'th' );
+		var th = metawidget.util.createElement( mw, 'th' );
 		th.innerHTML = metawidget.util.getLabelString( attributes, mw );
 		tr.appendChild( th );
 
@@ -460,9 +460,9 @@ var metawidget = metawidget || {};
 	 *         be useful for subclasses
 	 */
 
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, attributes ) {
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, attributes, mw ) {
 
-		var td = document.createElement( 'td' );
+		var td = metawidget.util.createElement( mw, 'td' );
 		
 		if ( attributes.name === undefined ) {
 			td.innerHTML = value;
