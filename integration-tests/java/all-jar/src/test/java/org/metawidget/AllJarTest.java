@@ -154,5 +154,9 @@ public class AllJarTest
 		assertTrue( contents, !contents.contains( "function _" ) );
 		assertTrue( contents, !contents.contains( "/**" ) );
 		assertTrue( contents, !contents.contains( "@class" ) );
+
+		// Should always go via ownerDocument.create
+		
+		assertTrue( contents, !contents.contains( "document.create" ) );
 	}
 }
