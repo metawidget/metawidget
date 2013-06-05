@@ -5,7 +5,7 @@
 		<h2>Download</h2>
 		
 		<p>
-			Metawidget downloads are hosted on SourceForge.
+			New users are recommended to <a href="http://metawidget.org/doc/reference/en/html/pr01.html">follow the tutorial</a>.
 		</p>		
 		
 		<p>
@@ -103,6 +103,16 @@
 			<a href="http://search.maven.org/#browse|5459107" target="_blank">search under metawidget-modules</a>. 
 		</p>
 		
+		<h2 class="h2-underneath">Node Packaged Modules</h2>
+		
+		<p>
+			<a href="http://nodejs.org">NodeJS</a> users can install Metawidget via <a href="http://npmjs.org">npm</a>:			
+		</p>
+		
+		<div class="code">
+			npm install metawidget
+		</div>
+
 		<h2 class="h2-underneath">Nightly Builds</h2>
 		
 		<p>

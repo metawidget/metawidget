@@ -215,7 +215,13 @@ var metawidget = metawidget || {};
 				return undefined;
 			}
 
-			return metawidget.util.camelCase( splitPath );
+			var id = metawidget.util.camelCase( splitPath );
+
+			// Strip array qualifiers
+
+			id = id.replace( /[\[\]]/g, '' );
+
+			return id;
 		}
 
 		if ( attributes !== undefined ) {

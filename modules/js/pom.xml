@@ -16,6 +16,7 @@
 		<module>bootstrap</module>
 		<module>corejs</module>
 		<module>jqueryui</module>
+		<module>nodejs</module>
 	</modules>
 
 	<dependencyManagement>

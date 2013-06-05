@@ -178,6 +178,14 @@
 			expect( metawidget.util.getId( "property", {}, {
 				path: 'object'
 			} ) ).toBeUndefined();
+
+			// Strip array qualifiers
+
+			expect( metawidget.util.getId( "property", {
+				name: 'addressLine1'
+			}, {
+				path: 'member.home[0]'
+			} ) ).toBe( "memberHome0AddressLine1" );
 		} );
 	} );
 
@@ -358,7 +366,7 @@
 			var inspectionResult = {
 				name: 'abc',
 				foo: 'foo',
-				properties: {						
+				properties: {
 					'bar': {
 						title: 'A Bar',
 						propertyOrder: 3
@@ -468,19 +476,19 @@
 			expect( attributes.section.length ).toBe( 1 );
 		} );
 	} );
-	
+
 	describe( "The appendToAttribute function", function() {
 
 		it( "appends attribute values", function() {
 
 			var widget = simpleDocument.createElement( 'widget' );
-			expect( widget.getAttribute( 'class' )).toBeNull(); 
-			
+			expect( widget.getAttribute( 'class' ) ).toBeNull();
+
 			metawidget.util.appendToAttribute( widget, 'class', 'btn' )
-			expect( widget.getAttribute( 'class' )).toBe( 'btn' ); 
+			expect( widget.getAttribute( 'class' ) ).toBe( 'btn' );
 
 			metawidget.util.appendToAttribute( widget, 'class', 'btn2' )
-			expect( widget.getAttribute( 'class' )).toBe( 'btn btn2' ); 
+			expect( widget.getAttribute( 'class' ) ).toBe( 'btn btn2' );
 		} );
-	} );	
+	} );
 } )();

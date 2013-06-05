@@ -238,9 +238,9 @@
 			expect( element.childNodes.length ).toBe( 1 );
 
 			element.childNodes[0].value = 'baz';
-			
+
 			// Should set properties
-			
+
 			mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
@@ -248,21 +248,21 @@
 			expect( mw.toInspect.firstname ).toBe( 'baz' );
 
 			// Should not set sub-properties
-			
+
 			mw.toInspect = {
-					firstname: {}
+				firstname: {}
 			}
 			mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 			} ).save( mw );
 			expect( mw.toInspect.firstname.firstname ).toNotBe( 'baz' );
-			
+
 			// Should support read-only top-level
-			
+
 			mw.toInspect = 'Bar'
-			delete mw.path; 
-		
+			delete mw.path;
+
 			mw.buildWidgets();
 
 			expect( element.childNodes[0].toString() ).toBe( 'input type="text"' );
@@ -276,6 +276,40 @@
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 			} ).save( mw );
 			expect( mw.toInspect ).toBe( 'Bar' );
+		} );
+
+		it( "creates children just-in-time", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: function() {
+
+					return {
+						properties: {
+							firstname: {
+								type: 'string'
+							}
+						}
+					};
+				},
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+
+			mw.toInspect = {};
+			mw.path = 'toInspect.jit'
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="toInspectJitFirstname" name="toInspectJitFirstname"' );
+			expect( element.childNodes[0].value ).toBeUndefined();
+			expect( element.childNodes.length ).toBe( 1 );
+
+			element.childNodes[0].value = 'baz';
+
+			mw.getWidgetProcessor( function( testInstanceOf ) {
+
+				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( mw );
+			expect( mw.toInspect.jit.firstname ).toBe( 'baz' );
 		} );
 	} );
 } )();

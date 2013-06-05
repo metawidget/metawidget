@@ -106,7 +106,7 @@ var metawidget = metawidget || {};
 					}
 				}
 			};
-			
+
 			return widget;
 		}
 
@@ -114,9 +114,9 @@ var metawidget = metawidget || {};
 		var typeAndNames = metawidget.util.splitPath( mw.path );
 
 		if ( elementName === 'entity' ) {
-			
+
 			value = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
-			
+
 			// We cannot typically save to a top-level value. However if
 			// we are using a path, we can navigate to its parent
 
@@ -186,13 +186,36 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw ) {
 
+		var toInspect;
+
+		// Traverse to the parent...
+
 		var typeAndNames = metawidget.util.splitPath( mw.path );
 
-		if ( mw._simpleBindingProcessor.topLevel === true ) {
-			typeAndNames.names = typeAndNames.names.slice( 1, typeAndNames.names.length - 1 );
+		if ( typeAndNames.names === undefined ) {
+			toInspect = metawidget.util.traversePath( mw.toInspect );
+		} else {
+			var namesToParent = typeAndNames.names.slice( 0, typeAndNames.names.length - 1 );
+			var parent = metawidget.util.traversePath( mw.toInspect, namesToParent );
+
+			// ...then to the child...
+
+			if ( mw._simpleBindingProcessor.topLevel === true ) {
+				toInspect = parent;
+			} else {
+				var childName = typeAndNames.names[typeAndNames.names.length - 1];
+				toInspect = parent[childName];
+
+				// ...create the child 'just in time' if necessary...
+
+				if ( toInspect === undefined ) {
+					toInspect = {};
+					parent[childName] = toInspect;
+				}
+			}
 		}
 
-		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
+		// ...and populate it
 
 		for ( var name in mw._simpleBindingProcessor.bindings ) {
 

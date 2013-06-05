@@ -41,7 +41,7 @@
 		}
 	};
 
-	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor.prototype.processWidget = function( widget ) {
+	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
 		switch ( widget.tagName ) {
 
@@ -52,6 +52,18 @@
 			case 'TABLE':
 				metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
 				break;
+
+			case 'INPUT':
+				if ( attributes.inputPrepend !== undefined ) {
+					var div = metawidget.util.createElement( mw, 'div' );
+					div.setAttribute( 'class', 'input-prepend' );
+					var span = metawidget.util.createElement( mw, 'span' );
+					span.setAttribute( 'class', 'add-on' );
+					span.innerHTML = attributes.inputPrepend;
+					div.appendChild( span );
+					div.appendChild( widget );
+					return div;
+				}
 		}
 
 		return widget;

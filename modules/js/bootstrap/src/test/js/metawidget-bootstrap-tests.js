@@ -27,16 +27,38 @@
 			var widget = simpleDocument.createElement( 'button' );
 			var processor = new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor();
 
-			expect( processor.processWidget( widget )).toBe( widget );
+			expect( processor.processWidget( widget ) ).toBe( widget );
 			expect( widget.getAttribute( 'class' ) ).toBe( 'btn' );
 
 			widget.setAttribute( 'class', 'other' );
-			expect( processor.processWidget( widget )).toBe( widget );
+			expect( processor.processWidget( widget ) ).toBe( widget );
 			expect( widget.getAttribute( 'class' ) ).toBe( 'other btn' );
 
 			widget = simpleDocument.createElement( 'table' );
-			expect( processor.processWidget( widget )).toBe( widget );
+			expect( processor.processWidget( widget ) ).toBe( widget );
 			expect( widget.getAttribute( 'class' ) ).toBe( 'table table-striped table-bordered table-hover' );
+		} );
+
+		it( "has a WidgetProcessor that supports input-prepend", function() {
+
+			var element = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return element;
+				}
+			}
+			var widget = simpleDocument.createElement( 'input' );
+			var processor = new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor();
+
+			var widget = processor.processWidget( widget, 'property', {
+				inputPrepend: '$'
+			}, mw );
+			expect( widget.toString() ).toBe( 'div class="input-prepend"' );
+			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on"' );
+			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
+			expect( widget.childNodes[1].toString() ).toBe( 'input' );
+			expect( widget.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "has a Layout that supports Bootstrap styles", function() {

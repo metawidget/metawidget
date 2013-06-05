@@ -1,0 +1,26 @@
+{
+  "name": "metawidget",
+  "description": "Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match the properties of your business objects",
+  "version": "${project.version}.0",
+  "homepage": "http://metawidget.org",
+  "author": {
+    "name": "Metawidget Team",
+    "url": "http://metawidget.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metawidget/metawidget"
+  },
+  "bugs": {
+    "url": "https://sourceforge.net/p/metawidget/bugs/?source=navbar"
+  },
+  "licenses": [
+    {
+      "type": "LGPL",
+      "url": "https://github.com/gruntjs/grunt-contrib-clean/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines":[
+    "node >= 0.8.0"
+  ]
+}
