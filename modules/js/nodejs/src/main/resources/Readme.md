@@ -13,7 +13,9 @@ The Node.js version of Metawidget must be used in combination with a DOM impleme
 ## Usage
 See test/render.js inside this module for a working example. But briefly:
 
-`var mw = new metawidget.Metawidget( element );
+`var metawidget = require( 'metawidget' );
+...
+var mw = new metawidget.Metawidget( element );
 mw.toInspect = {
 	firstname: "Joe",
 	surname: "Bloggs"
