@@ -3,10 +3,20 @@
 	<formats>
 		<format>zip</format>
 	</formats>
-	<includeBaseDirectory>false</includeBaseDirectory> 
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/js/test</directory>
+			<outputDirectory>/test</outputDirectory>
+		</fileSet>
+	</fileSets>
 	<files>
 		<file>
 			<source>target/classes/package.json</source>
+			<outputDirectory>/</outputDirectory>
+		</file>
+		<file>
+			<source>target/classes/index.js</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
 	</files>

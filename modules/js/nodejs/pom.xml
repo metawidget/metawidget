@@ -9,14 +9,6 @@
 
 	<artifactId>metawidget-nodejs</artifactId>
 	<packaging>pom</packaging>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-core</artifactId>
-			<version>${project.version}</version><!--$NO-MVN-MAN-VER$ -->
-		</dependency>
-	</dependencies>
 
 	<build>
 		<resources>
@@ -30,11 +22,28 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>
-							package
-						</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>resources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<target>
+						<concat destfile="target/classes/index.js">
+							<filelist dir="../corejs/target/metawidget-corejs/lib/metawidget/core" files="metawidget-core.min.js" />
+							<footer>module.exports = metawidget;</footer>
+						</concat>
+					</target>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -51,9 +60,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>
-							package
-						</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
