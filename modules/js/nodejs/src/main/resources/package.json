@@ -3,6 +3,7 @@
   "description": "Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match the properties of your business objects",
   "version": "${project.version}.0",
   "homepage": "http://metawidget.org",
+  "readmeFilename": "Readme.md",
   "author": {
     "name": "Metawidget Team",
     "url": "http://metawidget.org"
@@ -19,8 +20,5 @@
       "type": "LGPL",
       "url": "https://github.com/gruntjs/grunt-contrib-clean/blob/master/LICENSE-MIT"
     }
-  ],
-  "engines":[
-    "node >= 0.8.0"
   ]
 }

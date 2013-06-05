@@ -16,6 +16,10 @@
 			<outputDirectory>/</outputDirectory>
 		</file>
 		<file>
+			<source>target/classes/Readme.md</source>
+			<outputDirectory>/</outputDirectory>
+		</file>
+		<file>
 			<source>target/classes/index.js</source>
 			<outputDirectory>/</outputDirectory>
 		</file>

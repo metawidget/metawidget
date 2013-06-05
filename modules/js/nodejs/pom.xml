@@ -22,7 +22,7 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>resources</goal>
 						</goals>
@@ -37,16 +37,43 @@
 							<filelist dir="../corejs/target/metawidget-corejs/lib/metawidget/core" files="metawidget-core.min.js" />
 							<footer>module.exports = metawidget;</footer>
 						</concat>
+						<!-- Create a simulated test environment -->
+						<copy todir="target/test-classes">
+							<filelist dir="src/main/js/test" files="render.js" />
+						</copy>
+						<copy todir="target/test-classes/node_modules/metawidget">
+							<filelist dir="target/classes" files="index.js" />
+							<filelist dir="target/classes" files="package.json" />
+						</copy>
 					</target>
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>node</executable>
+					<workingDirectory>target</workingDirectory>
+					<arguments>
+						<argument>test-classes/render.js</argument>
+					</arguments>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
