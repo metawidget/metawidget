@@ -57,6 +57,7 @@
 		<ul>
 			<li><a href="http://metawidget.org/js/${project.version}/metawidget-core.min.js" target="_blank">http://metawidget.org/js/${project.version}/metawidget-core.min.js</a></li>
 			<li><a href="http://metawidget.org/js/${project.version}/metawidget-angular.min.js" target="_blank">http://metawidget.org/js/${project.version}/metawidget-angular.min.js</a></li>
+			<li><a href="http://metawidget.org/js/${project.version}/metawidget-bootstrap.min.js" target="_blank">http://metawidget.org/js/${project.version}/metawidget-bootstrap.min.js</a></li>
 			<li><a href="http://metawidget.org/js/${project.version}/metawidget-jqueryui.min.js" target="_blank">http://metawidget.org/js/${project.version}/metawidget-jqueryui.min.js</a></li>
 		</ul>
 		
