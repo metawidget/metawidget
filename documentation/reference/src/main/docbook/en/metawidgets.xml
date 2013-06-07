@@ -614,17 +614,30 @@
 					<programlisting language="shell">npm install metawidget</programlisting>
 					
 					<para>
-						...
+						The Metawidget module must be used in combination with a DOM implementation. This can either
+						be jsdom, envjs, or even a simple implementation of your own
+						(see <filename>test/render.js</filename> inside the Metawidget module for an example).
+						Metawidget must be wrapped
+						around a DOM element. The Metawidget constructor takes this element, and thereafter
+						always uses <parameter>element.ownerDocument</parameter> rather than referencing any
+						global <parameter>document</parameter> object.
+					</para>
+					
+					<para>
+						See <filename>test/render.js</filename> inside the module for a full example
+						how to use Metawidget. But briefly:
 					</para>
 					
 					<programlisting language="java">var metawidget = require( 'metawidget' );
 ...
-var mw = new metawidget.Metawidget( element );
+var mw = new metawidget.Metawidget( yourElement );
 mw.toInspect = {
-	firstname: 'Joe',
-	surname: 'Bloggs'
+	firstname: "Joe",
+	surname: "Bloggs"
 };
-mw.buildWidgets();</programlisting>
+mw.buildWidgets();
+...
+// Do something with yourElement</programlisting>
 
 				</section>
 

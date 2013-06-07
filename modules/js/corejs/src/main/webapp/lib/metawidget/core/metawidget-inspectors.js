@@ -1,4 +1,4 @@
-// Metawidget 3.4-SNAPSHOT (licensed under LGPL)
+// Metawidget ${project.version} (licensed under LGPL)
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public

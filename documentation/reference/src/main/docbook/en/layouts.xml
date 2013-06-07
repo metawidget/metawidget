@@ -564,7 +564,7 @@
 						<classname>Layout</classname> to arrange widgets using <parameter>div</parameter> tags,
 						suitable for <parameter>form-vertical</parameter> or <parameter>form-horizontal</parameter>
 						Bootstrap layouts.
-					<para>
+					</para>
 					
 					<para> 
 						This layout extends <classname>metawidget.layout.DivLayout</classname>. It adds Bootstrap
