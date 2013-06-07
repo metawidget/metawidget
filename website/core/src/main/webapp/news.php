@@ -17,10 +17,10 @@
 		<ul>
 			<li><a href="https://sourceforge.net/p/metawidget/discussion/747624/thread/fc26d809" target="_blank">Android binding</a></li>
 			<li><a href="https://sourceforge.net/p/metawidget/discussion/747623/thread/0b903862" target="_blank">PrimeFaces enhancements</a></li>
-			<li>MetawidgetJS supports nested JSON schemas</li>
+			<li><a href="blog.">MetawidgetJS supports nested JSON schemas</a></li>
 			<li>AngularJS supports element.controller( 'form' )</li>
-			<li>Twitter Bootstrap support</li>
-			<li>NodeJS support</li>
+			<li><a href="">Twitter Bootstrap support</a></li>
+			<li><a href="">NodeJS support</a></li>
 			<li>JDK 7 Support (during build process and for JavaDoc)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>

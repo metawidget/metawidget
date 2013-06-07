@@ -321,6 +321,45 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 				</section>
 
+				<section id="section-widgetprocessors-web-javascript-bootstrap">
+					<title>BootstrapWidgetProcessor</title>
+					
+					<para>
+						WidgetProcessor to add CSS styles for Bootstrap. For example, adds:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="50%"/>
+							<col width="50%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">HTML Tag Name</th>
+								<th align="left">CSS</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>BUTTON</parameter></td>
+								<td><parameter>btn</parameter></td>
+							</tr>
+							<tr>
+								<td><parameter>table</parameter></td>
+								<td><parameter>table table-striped table-bordered table-hover</parameter></td>
+							</tr>
+							<tr>
+								<td><parameter>input</parameter></td>
+								<td>
+									<parameter>span class="add-on"</parameter> if <parameter>inputPrepend</parameter>
+									attribute is set
+								</td>
+							</tr>
+						</tbody>
+					</informaltable>					
+					
+				</section>
+
 				<section id="section-widgetprocessors-web-javascript-id">
 					<title>IdProcessor</title>
 					

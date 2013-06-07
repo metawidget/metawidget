@@ -597,6 +597,37 @@
 					</para>
 				</section>
 				
+				<section id="section-metawidgets-web-javascript-nodejs">
+					<title>Node.js</title>
+					
+					<para>
+						Metawidget tries hard not to dictate your architecture. So although
+						<filename>metawidget.js</filename> is predominantly a client-side
+						technology, there are no restrictions on using it for server-side
+						UI generation if you prefer.
+					</para>
+					
+					<para>
+						Metawidget comes packaged a a Node.js module. Install it using:
+					</para>
+					
+					<programlisting language="shell">npm install metawidget</programlisting>
+					
+					<para>
+						...
+					</para>
+					
+					<programlisting language="java">var metawidget = require( 'metawidget' );
+...
+var mw = new metawidget.Metawidget( element );
+mw.toInspect = {
+	firstname: 'Joe',
+	surname: 'Bloggs'
+};
+mw.buildWidgets();</programlisting>
+
+				</section>
+
 			</section>
 
 			<section id="section-metawidgets-web-jsp">

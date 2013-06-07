@@ -72,7 +72,7 @@
 			Metawidget comes with a native UI component for each supported front-end.
 			This support includes: Android, Google Web Toolkit (including
 			extensions such as ExtGWT), 'plain' HTML 5 (POH5), JavaScript (including
-			extensions such as JQuery UI and AngularJS), Java Server
+			extensions such as AngularJS, Bootstrap, JQuery UI and Node.js), Java Server
 			Faces (including extensions such as Facelets, ICEfaces, PrimeFaces, RichFaces and Tomahawk),
 			'plain' Java Server Pages (including extensions such as DisplayTag),
 			Spring Web MVC, Struts, Swing (including extensions such as Beans Binding,

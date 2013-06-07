@@ -287,6 +287,13 @@ var metawidget = metawidget || {};
 
 			var number = metawidget.util.createElement( mw, 'input' );
 			number.setAttribute( 'type', 'number' );
+			
+			if ( attributes.minimum !== undefined  ) {
+				number.setAttribute( 'min', attributes.minimum );
+			} else if ( attributes.maximum !== undefined  ) {
+				number.setAttribute( 'max', attributes.maximum );
+			}
+
 			return number;
 		}
 

@@ -31,7 +31,7 @@
 	metawidget.bootstrap.widgetprocessor = metawidget.bootstrap.widgetprocessor || {};
 
 	/**
-	 * @class WidgetProcessor to add CSS styles for Boostrap.
+	 * @class WidgetProcessor to add CSS styles for Bootstrap.
 	 */
 
 	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor = function() {
@@ -78,6 +78,10 @@
 	/**
 	 * @class Layout to wrap widgets with divs suitable for 'form-vertical' or
 	 *        'form-horizontal' Bootstrap layouts.
+	 *        <p>
+	 *        This Layout extends metawidget.layout.DivLayout. It adds Bootstrap
+	 *        CSS classes such as 'control-group' and 'control-label' to the
+	 *        divs, and CSS class 'required' to labels.
 	 * 
 	 * @returns {metawidget.bootstrap.layout.BootstrapDivLayout}
 	 */

@@ -213,7 +213,9 @@
 								<li>JavaScript
 									<ul>
 										<li>AngularJS</li>
+										<li>Bootstrap</li>
 										<li>JQuery UI</li>
+										<li>Node.js</li>
 									</ul></li>								
 								<li>Java Server Faces (JSF)
 									<ul>

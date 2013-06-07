@@ -65,6 +65,9 @@
 					<a href="http://angularjs.org" target="_blank" style="top: 87px; left: 40px">
 						<img src="/media/logos/logo-angularjs.gif" alt="AngularJS" style="border: 0px" />
 					</a>
+					<a href="http://bootstrap.org" target="_blank" style="top: 87px; left: 40px">
+						<img src="/media/logos/logo-bootstrap.gif" alt="Bootstrap" style="border: 0px" />
+					</a>
 					<a href="http://freemarker.sourceforge.net" target="_blank" style="top: 70px; left: 67px">
 						<img src="/media/logos/logo-freemarker.gif" alt="FreeMarker" style="border: 0px" />
 					</a>
@@ -88,6 +91,9 @@
 					</a>
 					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 225px; left: 138px">
 						<img src="/media/logos/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
+					</a>
+					<a href="http://nodejs.org" target="_blank" style="top: 300px; left: 3px">
+						<img src="/media/logos/logo-nodejs.gif" alt="Node.js" style="border: 0px" />
 					</a>
 					<a href="http://oval.sourceforge.net" target="_blank" style="top: 300px; left: 3px">
 						<img src="/media/logos/logo-oval.gif" alt="OVal" style="border: 0px" />

@@ -557,6 +557,23 @@
 					share the same <classname>Layout</classname>s.
 				</para>
 				
+				<section id="section-layouts-web-javascript-bootstrap">
+					<title>BootstrapDivLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets using <parameter>div</parameter> tags,
+						suitable for <parameter>form-vertical</parameter> or <parameter>form-horizontal</parameter>
+						Bootstrap layouts.
+					<para>
+					
+					<para> 
+						This layout extends <classname>metawidget.layout.DivLayout</classname>. It adds Bootstrap
+						CSS classes such as <parameter>control-group</parameter> and <parameter>control-label</parameter>
+						to the divs, and CSS class <parameter>required</parameter> to labels.
+					</para>
+
+				</section>
+
 				<section id="section-layouts-web-javascript-div">
 					<title>DivLayout</title>
 					
