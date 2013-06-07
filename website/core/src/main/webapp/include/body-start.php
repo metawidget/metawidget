@@ -65,7 +65,7 @@
 					<a href="http://angularjs.org" target="_blank" style="top: 124px; left: 10px">
 						<img src="/media/logos/logo-angularjs.gif" alt="AngularJS" style="border: 0px" />
 					</a>
-					<a href="http://bootstrap.org" target="_blank" style="top: 60px; left: 60px">
+					<a href="http://twitter.github.io/bootstrap" target="_blank" style="top: 60px; left: 60px">
 						<img src="/media/logos/logo-bootstrap.gif" alt="Bootstrap" style="border: 0px" />
 					</a>
 					<a href="http://freemarker.sourceforge.net" target="_blank" style="top: 105px; left: 40px">

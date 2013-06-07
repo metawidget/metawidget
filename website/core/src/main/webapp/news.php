@@ -19,7 +19,7 @@
 			<li><a href="https://sourceforge.net/p/metawidget/discussion/747623/thread/0b903862" target="_blank">PrimeFaces enhancements</a></li>
 			<li><a href="http://blog.kennardconsulting.com/2013/04/metawidget-and-backbone-forms.html">MetawidgetJS supports nested JSON schemas</a></li>
 			<li>AngularJS supports element.controller( 'form' )</li>
-			<li><a href="">Twitter Bootstrap support</a></li>
+			<li><a href="http://metawidget.org/doc/reference/en/html/ch07s02.html#section-widgetprocessors-web-javascript-bootstrap">Twitter Bootstrap support</a></li>
 			<li><a href="http://blog.kennardconsulting.com/2013/06/metawidget-and-nodejs.html">Node.js support</a></li>
 			<li>JDK 7 Support (during build process and for JavaDoc)</li>
 			<li>Bug fixes, documentation and unit tests</li>
