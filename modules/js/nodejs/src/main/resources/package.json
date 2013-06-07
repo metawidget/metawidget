@@ -1,6 +1,6 @@
 {
   "name": "metawidget",
-  "description": "Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match the properties of your business objects",
+  "description": "Metawidget is a smart User Interface widget that populates itself, at runtime, with UI components to match the properties of your business objects",
   "version": "${project.version}.0",
   "homepage": "http://metawidget.org",
   "readmeFilename": "Readme.md",
