@@ -17,7 +17,7 @@
 		<ul>
 			<li><a href="https://sourceforge.net/p/metawidget/discussion/747624/thread/fc26d809" target="_blank">Android binding</a></li>
 			<li><a href="https://sourceforge.net/p/metawidget/discussion/747623/thread/0b903862" target="_blank">PrimeFaces enhancements</a></li>
-			<li><a href="blog.">MetawidgetJS supports nested JSON schemas</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2013/04/metawidget-and-backbone-forms.html">MetawidgetJS supports nested JSON schemas</a></li>
 			<li>AngularJS supports element.controller( 'form' )</li>
 			<li><a href="">Twitter Bootstrap support</a></li>
 			<li><a href="">NodeJS support</a></li>
