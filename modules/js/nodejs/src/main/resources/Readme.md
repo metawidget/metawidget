@@ -23,12 +23,14 @@ See test/render.js inside this module for a working example. But briefly:
 
 `var metawidget = require( 'metawidget' );  
 ...  
-var mw = new metawidget.Metawidget( element );  
+var mw = new metawidget.Metawidget( yourElement );  
 mw.toInspect = {  
 	firstname: "Joe",  
 	surname: "Bloggs"  
 };  
-mw.buildWidgets();`
+mw.buildWidgets();  
+...  
+// Do something with yourElement`
 
 ## License
 

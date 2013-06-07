@@ -114,7 +114,7 @@ var simpleDocument = {
 	}
 };
 
-var element = simpleDocument.createElement( 'metawidget' );
+var element = simpleDocument.createElement( 'div' );
 var mw = new metawidget.Metawidget( element );
 mw.toInspect = {
 	name: "Joe Bloggs",
@@ -131,4 +131,4 @@ assert.ok( element.toString().indexOf( '<input type="text" id="DOB" name="DOB" v
 assert
 		.equal(
 				element.toString(),
-				'<metawidget><table><tbody><tr id="table-name-row"><th id="table-name-label-cell"><label for="name" id="table-name-label">Name:</label></th><td id="table-name-cell"><input type="text" id="name" name="name" value="Joe Bloggs"></input></td><td></td></tr><tr id="table-DOB-row"><th id="table-DOB-label-cell"><label for="DOB" id="table-DOB-label">DOB:</label></th><td id="table-DOB-cell"><input type="text" id="DOB" name="DOB" value="1/1/2001"></input></td><td></td></tr></tbody></table></metawidget>' );
+				'<div><table><tbody><tr id="table-name-row"><th id="table-name-label-cell"><label for="name" id="table-name-label">Name:</label></th><td id="table-name-cell"><input type="text" id="name" name="name" value="Joe Bloggs"></input></td><td></td></tr><tr id="table-DOB-row"><th id="table-DOB-label-cell"><label for="DOB" id="table-DOB-label">DOB:</label></th><td id="table-DOB-cell"><input type="text" id="DOB" name="DOB" value="1/1/2001"></input></td><td></td></tr></tbody></table></div>' );
