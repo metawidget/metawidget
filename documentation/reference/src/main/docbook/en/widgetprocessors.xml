@@ -345,13 +345,13 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								<td><parameter>btn</parameter></td>
 							</tr>
 							<tr>
-								<td><parameter>table</parameter></td>
+								<td><parameter>TABLE</parameter></td>
 								<td><parameter>table table-striped table-bordered table-hover</parameter></td>
 							</tr>
 							<tr>
-								<td><parameter>input</parameter></td>
+								<td><parameter>INPUT</parameter></td>
 								<td>
-									<parameter>span class="add-on"</parameter> if <parameter>inputPrepend</parameter>
+									<parameter>SPAN class="add-on"</parameter> if <parameter>inputPrepend</parameter>
 									attribute is set
 								</td>
 							</tr>

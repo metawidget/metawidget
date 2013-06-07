@@ -20,7 +20,7 @@
 			<li><a href="http://blog.kennardconsulting.com/2013/04/metawidget-and-backbone-forms.html">MetawidgetJS supports nested JSON schemas</a></li>
 			<li>AngularJS supports element.controller( 'form' )</li>
 			<li><a href="">Twitter Bootstrap support</a></li>
-			<li><a href="http://blog.kennardconsulting.com/2013/06/metawidget-and-nodejs.html">NodeJS support</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2013/06/metawidget-and-nodejs.html">Node.js support</a></li>
 			<li>JDK 7 Support (during build process and for JavaDoc)</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>

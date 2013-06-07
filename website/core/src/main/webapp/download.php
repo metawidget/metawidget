@@ -107,7 +107,7 @@
 		<h2 class="h2-underneath">Node Packaged Modules</h2>
 		
 		<p>
-			<a href="http://nodejs.org">NodeJS</a> users can install Metawidget via <a href="http://npmjs.org">npm</a>:			
+			<a href="http://nodejs.org">Node.js</a> users can install Metawidget via <a href="http://npmjs.org">npm</a>:			
 		</p>
 		
 		<div class="code">
