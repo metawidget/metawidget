@@ -636,6 +636,9 @@ public class AndroidMetawidget
 	 * Clients will not normally need to call this method. It is called automatically by a number of
 	 * other methods, including <code>onMeasure</code> and <code>findViewWithTags</code>. However
 	 * sometimes it may be necessary to force a rebuild.
+	 * <p>
+	 * Note: this method is idempotent. Calling it multiple times will not rebuild widgets multiple
+	 * times unless the internal flag (<code>mNeedToBuildWidgets</code>) gets reset.
 	 */
 
 	public void buildWidgets() {

@@ -167,6 +167,7 @@ public class ContactActivity
 		}
 
 		if ( !metawidget.isReadOnly() ) {
+			metawidget.buildWidgets();
 			View view = metawidget.findViewWithTag( "title" );
 			view.setFocusable( true );
 			view.setFocusableInTouchMode( true );
@@ -205,6 +206,7 @@ public class ContactActivity
 		switch ( item.getItemId() ) {
 			case R.string.edit:
 				metawidget.setReadOnly( false );
+				metawidget.buildWidgets();
 				View view = metawidget.findViewWithTag( "title" );
 				view.setFocusable( true );
 				view.setFocusableInTouchMode( true );

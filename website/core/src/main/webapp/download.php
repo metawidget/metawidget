@@ -104,14 +104,14 @@
 			<a href="http://search.maven.org/#browse|5459107" target="_blank">search under metawidget-modules</a>. 
 		</p>
 		
-		<h2 class="h2-underneath">Node Packaged Modules</h2>
+		<h2 class="h2-underneath">Node.js Module</h2>
 		
 		<p>
-			<a href="http://nodejs.org">Node.js</a> users can install Metawidget via <a href="http://npmjs.org">npm</a>:			
+			<a href="http://nodejs.org">Node.js</a> users can install Metawidget via <a href="http://npmjs.org/package/metawidget">npm</a>:			
 		</p>
 		
 		<div class="code">
-			npm install metawidget
+			<tt>npm install metawidget</tt>
 		</div>
 
 		<h2 class="h2-underneath">Nightly Builds</h2>
