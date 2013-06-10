@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<maven2-moduleset plugin="maven-plugin@1.505">
+  <actions/>
+  <description></description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>5</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.BooleanParameterDefinition>
+          <name>optimized</name>
+          <description>Produce a final optimized build for deploy to SourceForge</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@1.1.15">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>origin</name>
+        <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
+        <url>git://github.com/metawidget/metawidget.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>**</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <disableSubmodules>false</disableSubmodules>
+    <recursiveSubmodules>false</recursiveSubmodules>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <authorOrCommitter>false</authorOrCommitter>
+    <clean>false</clean>
+    <wipeOutWorkspace>false</wipeOutWorkspace>
+    <pruneBranches>false</pruneBranches>
+    <remotePoll>false</remotePoll>
+    <buildChooser class="hudson.plugins.git.util.DefaultBuildChooser"/>
+    <gitTool>Default</gitTool>
+    <submoduleCfg class="list"/>
+    <relativeTargetDir></relativeTargetDir>
+    <reference></reference>
+    <excludedRegions></excludedRegions>
+    <excludedUsers></excludedUsers>
+    <gitConfigName></gitConfigName>
+    <gitConfigEmail></gitConfigEmail>
+    <skipTag>true</skipTag>
+    <scmName></scmName>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>(Inherit From Job)</jdk>
+  <triggers class="vector"/>
+  <concurrentBuild>false</concurrentBuild>
+  <rootModule>
+    <groupId>org.metawidget</groupId>
+    <artifactId>metawidget-parent</artifactId>
+  </rootModule>
+  <goals>clean install</goals>
+  <mavenOpts>-Xmx2048m -XX:MaxPermSize=512m -javaagent:/jacoco/lib/jacocoagent.jar=destfile=target/it-coverage.dump,includes=org.metawidget.*</mavenOpts>
+  <aggregatorStyleBuild>true</aggregatorStyleBuild>
+  <incrementalBuild>false</incrementalBuild>
+  <perModuleEmail>false</perModuleEmail>
+  <ignoreUpstremChanges>true</ignoreUpstremChanges>
+  <archivingDisabled>false</archivingDisabled>
+  <resolveDependencies>false</resolveDependencies>
+  <processPlugins>false</processPlugins>
+  <mavenValidationLevel>-1</mavenValidationLevel>
+  <runHeadless>false</runHeadless>
+  <settingConfigId></settingConfigId>
+  <globalSettingConfigId></globalSettingConfigId>
+  <disableTriggerDownstreamProjects>false</disableTriggerDownstreamProjects>
+  <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+  <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+  <reporters/>
+  <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>target/*.zip, website/core/target/ROOT.war</artifacts>
+      <latestOnly>false</latestOnly>
+    </hudson.tasks.ArtifactArchiver>
+    <hudson.plugins.sonar.SonarPublisher plugin="sonar@2.0.1">
+      <jdk>(Inherit From Job)</jdk>
+      <branch></branch>
+      <language></language>
+      <mavenOpts></mavenOpts>
+      <jobAdditionalProperties>-Dsonar.dynamicAnalysis=reuseReports</jobAdditionalProperties>
+    </hudson.plugins.sonar.SonarPublisher>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.m2extrasteps.M2ExtraStepsWrapper plugin="m2-extra-steps@1.1.4">
+      <preBuildSteps/>
+      <postBuildSteps>
+        <hudson.tasks.Maven>
+          <targets>clean install</targets>
+          <mavenName>(Default)</mavenName>
+          <jvmOptions>-Xmx2048m -XX:MaxPermSize=512m</jvmOptions>
+          <pom>examples/java/gwt/clientside/pom.xml</pom>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+          <targets>install -Dappserver=jetty</targets>
+          <mavenName>(Default)</mavenName>
+          <jvmOptions>-Xmx2048m -XX:MaxPermSize=512m</jvmOptions>
+          <pom>examples/pom.xml</pom>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+          <targets>-f modules/java/pom.xml javadoc:aggregate</targets>
+          <mavenName>(Default)</mavenName>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+          <targets>-f website/pom.xml clean install</targets>
+          <mavenName>(Default)</mavenName>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+          <targets>-N assembly:single</targets>
+          <mavenName>(Default)</mavenName>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+          <targets>-X -f modules/pom.xml -Dmaven.test.skip=true deploy</targets>
+          <mavenName>(Default)</mavenName>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+          <targets>-X -f modules/java/all/pom.xml -Dmaven.test.skip=true deploy</targets>
+          <mavenName>(Default)</mavenName>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+          <targets>-X -N deploy</targets>
+          <mavenName>(Default)</mavenName>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+          <targets>sonar:sonar</targets>
+          <mavenName>(Default)</mavenName>
+          <jvmOptions>-Dsonar.jacoco.reportPath=target/jacoco.exec</jvmOptions>
+          <usePrivateRepository>false</usePrivateRepository>
+          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Ant plugin="ant@1.1">
+          <targets>-lib N:\jacoco\lib\jacocoant.jar</targets>
+          <buildFile>src/main/jacoco/build.xml</buildFile>
+        </hudson.tasks.Ant>
+      </postBuildSteps>
+      <runIfResult>success</runIfResult>
+    </hudson.plugins.m2extrasteps.M2ExtraStepsWrapper>
+  </buildWrappers>
+  <prebuilders/>
+  <postbuilders/>
+  <runPostStepsIfResult>
+    <name>SUCCESS</name>
+    <ordinal>0</ordinal>
+    <color>BLUE</color>
+  </runPostStepsIfResult>
+</maven2-moduleset>
