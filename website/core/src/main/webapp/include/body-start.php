@@ -49,8 +49,7 @@
 						<li<?php if ( $_SERVER['PHP_SELF'] == '/blogs.php' ) echo ' class="active"'; ?>><a href="/blogs.php">Blogs and Articles</a></li>
 						<li<?php if ( $_SERVER['PHP_SELF'] == '/survey.php' ) echo ' class="active"'; ?>><a href="/survey.php">Complete our Survey</a></li>
 						<li<?php if ( $_SERVER['PHP_SELF'] == '/contributing.php' ) echo ' class="active"'; ?>><a href="/contributing.php">Contributing</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/issues.php' ) echo ' class="active"'; ?>><a href="/issues.php">Issue Tracker</a></li>
-						<li<?php if ( $_SERVER['PHP_SELF'] == '/coverage.php' ) echo ' class="active"'; ?>><a href="/coverage.php">Code Coverage</a></li>
+						<li<?php if ( $_SERVER['PHP_SELF'] == '/issues.php' ) echo ' class="active"'; ?>><a href="/issues.php">Issues and Coverage</a></li>
 					</ul>
 				</div>
 				<div class="badges" style="height: 593px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
