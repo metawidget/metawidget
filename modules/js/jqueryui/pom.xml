@@ -27,6 +27,7 @@
 					<aggregations>
 						<aggregation>
 							<removeIncluded>true</removeIncluded>
+							<insertNewLine>true</insertNewLine>							
 							<output>${project.build.directory}/${project.build.finalName}/lib/metawidget/jquery-ui/metawidget-jqueryui.min.js</output>
 							<includes>
 								<include>${project.build.directory}/classes/license.txt</include>
