@@ -30,21 +30,21 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class ReadOnlyToStringConverter<SV>
-	extends Converter<SV, String> {
+public class ReadOnlyToStringConverter<T>
+	extends Converter<T, String> {
 
 	//
 	// Public methods
 	//
 
 	@Override
-	public String convertForward( SV value ) {
+	public String convertForward( T value ) {
 
 		return StringUtils.quietValueOf( value );
 	}
 
 	@Override
-	public SV convertReverse( String value ) {
+	public T convertReverse( String value ) {
 
 		if ( value == null ) {
 			return null;

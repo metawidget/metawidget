@@ -75,9 +75,9 @@ public class Pet
 		return this.id;
 	}
 
-	public void setId( Long _id ) {
+	public void setId( Long theId ) {
 
-		this.id = _id;
+		this.id = theId;
 	}
 
 	public int getVersion() {
@@ -85,9 +85,9 @@ public class Pet
 		return this.version;
 	}
 
-	public void setVersion( final int _version ) {
+	public void setVersion( final int theVersion ) {
 
-		this.version = _version;
+		this.version = theVersion;
 	}
 
 	public String getName() {
@@ -95,9 +95,9 @@ public class Pet
 		return this.name;
 	}
 
-	public void setName( final String _name ) {
+	public void setName( final String theName ) {
 
-		this.name = _name;
+		this.name = theName;
 	}
 
 	public Person getOwner() {
@@ -105,9 +105,9 @@ public class Pet
 		return this.owner;
 	}
 
-	public void setOwner( final Person _owner ) {
+	public void setOwner( final Person theOwner ) {
 
-		this.owner = _owner;
+		this.owner = theOwner;
 	}
 
 	public int getAge() {
@@ -115,9 +115,9 @@ public class Pet
 		return this.age;
 	}
 
-	public void setAge( final int _age ) {
+	public void setAge( final int theAge ) {
 
-		this.age = _age;
+		this.age = theAge;
 	}
 
 	public boolean isDeceased() {
@@ -125,9 +125,9 @@ public class Pet
 		return this.deceased;
 	}
 
-	public void setDeceased( final boolean _deceased ) {
+	public void setDeceased( final boolean theDeceased ) {
 
-		this.deceased = _deceased;
+		this.deceased = theDeceased;
 	}
 
 	@Override

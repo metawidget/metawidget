@@ -87,7 +87,7 @@ public class JspInspectionResultProcessor
 				try {
 					expressionEvaluator = pageContext.getExpressionEvaluator();
 				} catch ( Exception e ) {
-					throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
+					throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0", e );
 				}
 
 				try {

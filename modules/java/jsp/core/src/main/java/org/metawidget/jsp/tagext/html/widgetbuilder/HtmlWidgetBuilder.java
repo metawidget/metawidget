@@ -232,9 +232,9 @@ public class HtmlWidgetBuilder
 
 	private String writeCheckedAttribute( Map<String, String> attributes, MetawidgetTag metawidget ) {
 
-		Object result = HtmlWidgetBuilderUtils.evaluate( attributes, metawidget );
+		Boolean result = (Boolean) HtmlWidgetBuilderUtils.evaluate( attributes, metawidget );
 
-		if ( result != null && true == (Boolean) result ) {
+		if ( result != null && result.booleanValue() ) {
 			return " checked";
 		}
 

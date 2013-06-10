@@ -598,7 +598,13 @@ public abstract class BaseXmlInspector
 				}
 			}
 
-			while ( topLevelElement == null && ( actualClass = actualClass.getSuperclass() ) != null ) {
+			while ( topLevelElement == null ) {
+
+				actualClass = actualClass.getSuperclass();
+
+				if ( actualClass == null ) {
+					break;
+				}
 
 				topLevelElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, actualClass.getName() );
 			}

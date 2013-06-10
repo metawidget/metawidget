@@ -84,9 +84,9 @@ public class Person
 		return this.id;
 	}
 
-	public void setId( Long _id ) {
+	public void setId( Long theId ) {
 
-		this.id = _id;
+		this.id = theId;
 	}
 
 	public int getVersion() {
@@ -94,9 +94,9 @@ public class Person
 		return this.version;
 	}
 
-	public void setVersion( final int _version ) {
+	public void setVersion( final int theVersion ) {
 
-		this.version = _version;
+		this.version = theVersion;
 	}
 
 	public String getTitle() {
@@ -104,9 +104,9 @@ public class Person
 		return this.title;
 	}
 
-	public void setTitle( final String _title ) {
+	public void setTitle( final String theTitle ) {
 
-		this.title = _title;
+		this.title = theTitle;
 	}
 
 	public String getFirstname() {
@@ -114,9 +114,9 @@ public class Person
 		return this.firstname;
 	}
 
-	public void setFirstname( final String _firstname ) {
+	public void setFirstname( final String theFirstname ) {
 
-		this.firstname = _firstname;
+		this.firstname = theFirstname;
 	}
 
 	public String getSurname() {
@@ -124,9 +124,9 @@ public class Person
 		return this.surname;
 	}
 
-	public void setSurname( final String _surname ) {
+	public void setSurname( final String theSurname ) {
 
-		this.surname = _surname;
+		this.surname = theSurname;
 	}
 
 	public String getEmail() {
@@ -134,9 +134,9 @@ public class Person
 		return this.email;
 	}
 
-	public void setEmail( final String _email ) {
+	public void setEmail( final String theEmail ) {
 
-		this.email = _email;
+		this.email = theEmail;
 	}
 
 	public List<Pet> getPets() {
@@ -144,9 +144,9 @@ public class Person
 		return this.pets;
 	}
 
-	public void setPets( final List<Pet> _pets ) {
+	public void setPets( final List<Pet> thePets ) {
 
-		this.pets = _pets;
+		this.pets = thePets;
 	}
 
 	@Override

@@ -1076,12 +1076,12 @@ public class BaseConfigReader
 									String likelyConfig = getLikelyConfig( classToConstruct );
 
 									if ( "".equals( likelyConfig ) ) {
-										throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute. It only has a config-less constructor" );
+										throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute. It only has a config-less constructor", e );
 									} else if ( likelyConfig != null ) {
-										throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute. Did you mean config=\"" + likelyConfig + "\"?" );
+										throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute. Did you mean config=\"" + likelyConfig + "\"?", e );
 									}
 
-									throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute" );
+									throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute", e );
 								}
 
 								// Immutable? Cache it going forward
@@ -1159,7 +1159,7 @@ public class BaseConfigReader
 								String parameterClassName = parameterTypes[0].getClass().getSimpleName();
 
 								if ( parameterClassName.endsWith( "Config" ) ) {
-									throw MetawidgetException.newException( "No such method " + methodName + " on " + constructingClass + ". Did you forget config=\"" + parameterClassName + "\"?" );
+									throw MetawidgetException.newException( "No such method " + methodName + " on " + constructingClass + ". Did you forget config=\"" + parameterClassName + "\"?", e );
 								}
 							}
 
@@ -1313,10 +1313,10 @@ public class BaseConfigReader
 					String likelyConfig = getLikelyConfig( classToConstruct );
 
 					if ( likelyConfig != null ) {
-						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?" );
+						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?", e );
 					}
 
-					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
+					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor", e );
 				}
 
 				// Immutable by class (with no config)? Cache for next time
@@ -1532,7 +1532,7 @@ public class BaseConfigReader
 			for ( Method method : clazz.getMethods() ) {
 
 				// Do not warn for > 1 parameter, as a lot of WidgetBuilders implement setValue
-				
+
 				if ( method.getName().startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) && method.getParameterTypes().length == 1 ) {
 					LOG.warn( "{0} must be immutable, but appears to have a setter method ({1})", clazz, method );
 					break;

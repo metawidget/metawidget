@@ -41,9 +41,7 @@ public class FacesThisTest {
 
 	public FacesThisTest() {
 
-		mIdentity = "FacesThisTest #1";
-		mChild = new FacesThisTest( true );
-		mChild.mIdentity = "FacesThisTest #2";
+		this( false );
 	}
 
 	/**
@@ -52,7 +50,13 @@ public class FacesThisTest {
 
 	public FacesThisTest( boolean noMore ) {
 
-		// No more children
+		if ( noMore ) {
+			return;
+		}
+		
+		mIdentity = "FacesThisTest #1";
+		mChild = new FacesThisTest( true );
+		mChild.mIdentity = "FacesThisTest #2";
 	}
 
 	//
