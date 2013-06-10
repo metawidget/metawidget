@@ -289,13 +289,13 @@ public class BeansBindingProcessor
 	 * @return the processed Binding, or null to abort binding this property
 	 */
 
-	protected <SS, SV, TS extends Component, TV> Binding<SS, SV, TS, TV> processBinding( Binding<SS, SV, TS, TV> binding, SwingMetawidget metawidget ) {
+	protected <S, V, T extends Component, W> Binding<S, V, T, W> processBinding( Binding<S, V, T, W> binding, SwingMetawidget metawidget ) {
 
 		return binding;
 	}
 
 	@SuppressWarnings( { "unchecked", "rawtypes" } )
-	protected <SS, SV, TS extends Component, TV> Binding typesafeAdd( TS component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+	protected <S, V, T extends Component, W> Binding typesafeAdd( T component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		String componentProperty = metawidget.getValueProperty( component );
 
@@ -305,7 +305,7 @@ public class BeansBindingProcessor
 
 		// Source property
 
-		SS source = (SS) metawidget.getToInspect();
+		S source = (S) metawidget.getToInspect();
 		String sourceProperty = PathUtils.parsePath( metawidget.getPath() ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( PROPERTY.equals( elementName ) ) {
@@ -316,20 +316,20 @@ public class BeansBindingProcessor
 			sourceProperty += attributes.get( NAME );
 		}
 
-		BeanProperty<SS, SV> propertySource = BeanProperty.create( sourceProperty );
+		BeanProperty<S, V> propertySource = BeanProperty.create( sourceProperty );
 
-		Class<TV> targetClass;
+		Class<W> targetClass;
 
 		// Create binding
 
-		BeanProperty<TS, TV> propertyTarget = BeanProperty.create( componentProperty );
+		BeanProperty<T, W> propertyTarget = BeanProperty.create( componentProperty );
 
-		org.jdesktop.beansbinding.Binding<SS, SV, TS, TV> binding = Bindings.createAutoBinding( mUpdateStrategy, source, propertySource, component, propertyTarget );
-		targetClass = (Class<TV>) propertyTarget.getWriteType( component );
+		org.jdesktop.beansbinding.Binding<S, V, T, W> binding = Bindings.createAutoBinding( mUpdateStrategy, source, propertySource, component, propertyTarget );
+		targetClass = (Class<W>) propertyTarget.getWriteType( component );
 
 		// Add a converter
 
-		Converter<SV, TV> converter = getConverter( propertySource, source, targetClass, attributes );
+		Converter<V, W> converter = getConverter( propertySource, source, targetClass, attributes );
 
 		// Convenience converter for READ_ONLY fields (not just based on 'component instanceof
 		// JLabel', because the user may override a DONT_EXPAND to be a non-editable JTextField)
@@ -363,7 +363,7 @@ public class BeansBindingProcessor
 			state.bindings = CollectionUtils.newHashSet();
 		}
 
-		state.bindings.add( (org.jdesktop.beansbinding.Binding<Object, SV, TS, TV>) binding );
+		state.bindings.add( (org.jdesktop.beansbinding.Binding<Object, V, T, W>) binding );
 
 		return binding;
 	}
@@ -378,22 +378,22 @@ public class BeansBindingProcessor
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	protected <SV, SS, TV> Converter<SV, TV> getConverter( BeanProperty<SS, SV> propertySource, SS source, Class<TV> targetClass, Map<String, String> attributes ) {
+	protected <S, V, W> Converter<V, W> getConverter( BeanProperty<S, V> propertySource, S source, Class<W> targetClass, Map<String, String> attributes ) {
 
 		// Determine sourceClass
 
-		Class<SV> sourceClass = null;
+		Class<V> sourceClass = null;
 
 		if ( propertySource.isWriteable( source ) ) {
-			sourceClass = (Class<SV>) propertySource.getWriteType( source );
+			sourceClass = (Class<V>) propertySource.getWriteType( source );
 		} else if ( propertySource.isReadable( source ) ) {
 
 			// BeansBinding does not allow us to lookup the type of a non-writable property
 
-			SV value = propertySource.getValue( source );
+			V value = propertySource.getValue( source );
 
 			if ( value != null ) {
-				sourceClass = (Class<SV>) value.getClass();
+				sourceClass = (Class<V>) value.getClass();
 			} else {
 				return null;
 			}
@@ -430,27 +430,27 @@ public class BeansBindingProcessor
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	private <SV, TV> Converter<SV, TV> getConverter( Class<SV> sourceClass, Class<TV> targetClass ) {
+	private <V, W> Converter<V, W> getConverter( Class<V> sourceClass, Class<W> targetClass ) {
 
-		Class<SV> sourceClassTraversal = sourceClass;
-		Class<TV> targetClassTraversal = targetClass;
+		Class<V> sourceClassTraversal = sourceClass;
+		Class<W> targetClassTraversal = targetClass;
 
 		if ( sourceClassTraversal.isPrimitive() ) {
-			sourceClassTraversal = (Class<SV>) ClassUtils.getWrapperClass( sourceClassTraversal );
+			sourceClassTraversal = (Class<V>) ClassUtils.getWrapperClass( sourceClassTraversal );
 		}
 
 		if ( targetClassTraversal.isPrimitive() ) {
-			targetClassTraversal = (Class<TV>) ClassUtils.getWrapperClass( targetClassTraversal );
+			targetClassTraversal = (Class<W>) ClassUtils.getWrapperClass( targetClassTraversal );
 		}
 
 		while ( sourceClassTraversal != null ) {
-			Converter<SV, TV> converter = (Converter<SV, TV>) mConverters.get( new ConvertFromTo<SV, TV>( sourceClassTraversal, targetClassTraversal ) );
+			Converter<V, W> converter = (Converter<V, W>) mConverters.get( new ConvertFromTo<V, W>( sourceClassTraversal, targetClassTraversal ) );
 
 			if ( converter != null ) {
 				return converter;
 			}
 
-			sourceClassTraversal = (Class<SV>) sourceClassTraversal.getSuperclass();
+			sourceClassTraversal = (Class<V>) sourceClassTraversal.getSuperclass();
 		}
 
 		return null;
