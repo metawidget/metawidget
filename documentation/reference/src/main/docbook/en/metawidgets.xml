@@ -608,7 +608,7 @@
 					</para>
 					
 					<para>
-						Metawidget comes packaged a a Node.js module. Install it using:
+						Metawidget comes packaged as a Node.js module. Install it using:
 					</para>
 					
 					<programlisting language="shell">npm install metawidget</programlisting>
@@ -637,7 +637,7 @@ mw.toInspect = {
 };
 mw.buildWidgets();
 ...
-// Do something with yourElement</programlisting>
+// yourElement is now populated with child components</programlisting>
 
 				</section>
 
