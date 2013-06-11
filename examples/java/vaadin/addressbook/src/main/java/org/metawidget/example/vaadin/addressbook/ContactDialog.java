@@ -47,6 +47,7 @@ import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProc
 
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -163,7 +164,7 @@ public class ContactDialog
 
 				CommunicationDialog communicationDialog = new CommunicationDialog( ContactDialog.this, new Communication() );
 				communicationDialog.setModal( true );
-				((UI) getParent()).addWindow( communicationDialog );
+				( (UI) getParent() ).addWindow( communicationDialog );
 			}
 		} );
 
@@ -187,7 +188,7 @@ public class ContactDialog
 				Communication communication = tableDataSource.getDataRow( event.getItemId() );
 				CommunicationDialog communicationDialog = new CommunicationDialog( ContactDialog.this, communication );
 				communicationDialog.setModal( true );
-				((ComponentContainer) getParent()).addComponent( communicationDialog );
+				( (ComponentContainer) getParent() ).addComponent( communicationDialog );
 			}
 		} );
 
@@ -220,7 +221,7 @@ public class ContactDialog
 		mButtonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		mButtonsMetawidget.setLayout( new HorizontalLayout() );
 		mButtonsMetawidget.setToInspect( this );
-		((VerticalLayout) facetButtons.getContent()).addComponent( mButtonsMetawidget );
+		( (VerticalLayout) facetButtons.getContent() ).addComponent( mButtonsMetawidget );
 		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( mButtonsMetawidget, Alignment.MIDDLE_CENTER );
 	}
 
@@ -253,12 +254,14 @@ public class ContactDialog
 			Contact contact = mContactMetawidget.getToInspect();
 			mAddressBook.getContactsController().save( contact );
 		} catch ( Exception e ) {
-			Notification.show( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
+			if ( Page.getCurrent() != null ) {
+				Notification.show( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
+			}
 			return;
 		}
 
 		if ( getParent() != null ) {
-			((ComponentContainer) getParent()).removeComponent( this );
+			( (ComponentContainer) getParent() ).removeComponent( this );
 		}
 		mAddressBook.fireRefresh();
 	}
@@ -271,7 +274,7 @@ public class ContactDialog
 		Contact contact = mContactMetawidget.getToInspect();
 
 		if ( getParent() != null ) {
-			((ComponentContainer) getParent()).removeComponent( this );
+			( (ComponentContainer) getParent() ).removeComponent( this );
 		}
 
 		mAddressBook.getContactsController().delete( contact );
@@ -283,7 +286,7 @@ public class ContactDialog
 	@UiAttribute( name = LABEL, value = "${if ( this.contactReadOnly ) 'Back'}" )
 	public void cancel() {
 
-		((UI) getParent()).removeWindow( this );
+		( (UI) getParent() ).removeWindow( this );
 	}
 
 	@SuppressWarnings( "unchecked" )

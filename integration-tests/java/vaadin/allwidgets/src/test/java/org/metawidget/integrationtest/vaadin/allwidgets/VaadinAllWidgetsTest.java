@@ -29,7 +29,6 @@ import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProc
 import com.vaadin.data.Property;
 import com.vaadin.event.ListenerMethod;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickShortcut;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -370,7 +369,7 @@ public class VaadinAllWidgetsTest
 		Button button = (Button) layout.getComponent( 33 );
 		assertTrue( button.isEnabled() );
 		try {
-			clickButton( button );
+			button.click();
 			fail();
 		} catch ( Exception e ) {
 			assertTrue( e instanceof ListenerMethod.MethodException );
@@ -523,12 +522,5 @@ public class VaadinAllWidgetsTest
 		assertTrue( layout.getComponent( 33 ) instanceof Button );
 		assertFalse( ( (Button) layout.getComponent( 33 ) ).isEnabled() );
 		assertEquals( 34, layout.getComponentCount() );
-	}
-
-	private void clickButton( Button button ) {
-
-		ClickShortcut clickShortcut = new ClickShortcut( button, "" );
-
-		clickShortcut.handleAction( null, null );
 	}
 }

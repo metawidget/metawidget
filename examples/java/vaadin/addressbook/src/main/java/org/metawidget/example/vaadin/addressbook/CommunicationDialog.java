@@ -8,13 +8,13 @@
 // are met:
 //
 // * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
+// this list of conditions and the following disclaimer.
 // * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
+// this list of conditions and the following disclaimer in the documentation
+// and/or other materials provided with the distribution.
 // * Neither the name of Richard Kennard nor the names of its contributors may
-//   be used to endorse or promote products derived from this software without
-//   specific prior written permission.
+// be used to endorse or promote products derived from this software without
+// specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -34,6 +34,7 @@ import org.metawidget.vaadin.ui.Facet;
 import org.metawidget.vaadin.ui.VaadinMetawidget;
 import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
+import com.vaadin.server.Page;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -82,9 +83,11 @@ public class CommunicationDialog
 				try {
 					metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 					contactDialog.addCommunication( communication );
-					((UI) getParent()).removeWindow( CommunicationDialog.this );
+					( (UI) getParent() ).removeWindow( CommunicationDialog.this );
 				} catch ( Exception e ) {
-					Notification.show( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
+					if ( Page.getCurrent() != null ) {
+						Notification.show( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
+					}
 					return;
 				}
 			}
@@ -96,7 +99,7 @@ public class CommunicationDialog
 			@Override
 			public void buttonClick( ClickEvent event ) {
 
-				((UI) getParent()).removeWindow( CommunicationDialog.this );
+				( (UI) getParent() ).removeWindow( CommunicationDialog.this );
 			}
 		} );
 
@@ -108,7 +111,7 @@ public class CommunicationDialog
 		layout.setSpacing( true );
 		layout.addComponent( saveButton );
 		layout.addComponent( cancelButton );
-		((VerticalLayout) facetButtons.getContent()).addComponent( layout );
+		( (VerticalLayout) facetButtons.getContent() ).addComponent( layout );
 		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( layout, Alignment.MIDDLE_CENTER );
 
 		metawidget.addComponent( facetButtons );
