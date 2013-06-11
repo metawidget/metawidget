@@ -78,7 +78,7 @@ public class AddressBookUI
 
 	/* package private */TableDataSource<Contact>	mModel;
 
-	private ContactsController						mContactsController;
+	private transient ContactsController			mContactsController;
 
 	/* package private */ComponentContainer			mContent;
 
@@ -230,7 +230,7 @@ public class AddressBookUI
 		buttonsMetawidget.setConfig( "org/metawidget/example/vaadin/addressbook/metawidget.xml" );
 		buttonsMetawidget.setLayout( new HorizontalLayout() );
 		buttonsMetawidget.setToInspect( this );
-		((VerticalLayout) facetButtons.getContent()).addComponent( buttonsMetawidget );
+		( (VerticalLayout) facetButtons.getContent() ).addComponent( buttonsMetawidget );
 		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( buttonsMetawidget, Alignment.MIDDLE_CENTER );
 
 		return mSearchMetawidget;

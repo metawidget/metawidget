@@ -237,6 +237,8 @@ public final class StringUtils {
 
 		// Do the first character. Special support in case the first *two* characters are
 		// capitalized
+		
+		// TODO: DOB should be dob?
 
 		if ( firstCharacter != -1 ) {
 			int nextCharacter = firstCharacter + 1;

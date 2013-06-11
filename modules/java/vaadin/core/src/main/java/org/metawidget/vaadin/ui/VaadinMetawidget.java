@@ -533,6 +533,66 @@ public class VaadinMetawidget
 		return (T) mClientProperties.get( key );
 	}
 
+	@Override
+	public void removeComponentDetachListener( ComponentDetachListener listener ) {
+
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void addComponents( Component... components ) {
+
+		for( Component component : components ) {
+			addComponent( component );
+		}
+	}
+
+	@Override
+	public void removeAllComponents() {
+
+		mComponents.clear();
+	}
+
+	@SuppressWarnings( "deprecation" )
+	@Override
+	@Deprecated
+	public Iterator<Component> getComponentIterator() {
+
+		return iterator();
+	}
+
+	@SuppressWarnings( "deprecation" )
+	@Override
+	@Deprecated
+	public void addListener( ComponentAttachListener listener ) {
+
+		addComponentAttachListener( listener );
+	}
+
+	@SuppressWarnings( "deprecation" )
+	@Override
+	@Deprecated
+	public void removeListener( ComponentAttachListener listener ) {
+
+		removeComponentAttachListener( listener );
+	}
+
+	@SuppressWarnings( "deprecation" )
+	@Override
+	@Deprecated
+	public void addListener( ComponentDetachListener listener ) {
+
+		addComponentDetachListener( listener );
+	}
+
+	@SuppressWarnings( "deprecation" )
+	@Override
+	@Deprecated
+	public void removeListener( ComponentDetachListener listener ) {
+
+		removeComponentDetachListener( listener );
+	}
+
 	//
 	// Protected methods
 	//
@@ -832,98 +892,37 @@ public class VaadinMetawidget
 		}
 	}
 
+	//
+	// Unsupported methods (for now)
+	//
+
 	@Override
 	public void addComponentAttachListener( ComponentAttachListener listener ) {
 
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void removeComponentAttachListener( ComponentAttachListener listener ) {
 
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void addComponentDetachListener( ComponentDetachListener listener ) {
 
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeComponentDetachListener( ComponentDetachListener listener ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addComponents( Component... components ) {
-
-		for( Component component : components ) {
-			addComponent( component );
-		}
-	}
-
-	@Override
-	public void removeAllComponents() {
-
-		mComponents.clear();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void replaceComponent( Component oldComponent, Component newComponent ) {
 
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public Iterator<Component> getComponentIterator() {
-
-		return mComponents.iterator();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void moveComponentsFrom( ComponentContainer source ) {
 
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public void addListener( ComponentAttachListener listener ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public void removeListener( ComponentAttachListener listener ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public void addListener( ComponentDetachListener listener ) {
-
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@Deprecated
-	public void removeListener( ComponentDetachListener listener ) {
-
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 }

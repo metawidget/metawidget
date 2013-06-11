@@ -55,6 +55,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -93,7 +94,6 @@ public class ContactDialog
 
 		setHeight( "600px" );
 		setWidth( "800px" );
-		// TODO: ( (Layout) getContent() ).setMargin( false );
 
 		CustomLayout body = new CustomLayout( "contact" );
 		setContent( body );
@@ -253,7 +253,7 @@ public class ContactDialog
 			Contact contact = mContactMetawidget.getToInspect();
 			mAddressBook.getContactsController().save( contact );
 		} catch ( Exception e ) {
-			// TODO: showNotification( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
+			Notification.show( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
 			return;
 		}
 

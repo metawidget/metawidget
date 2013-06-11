@@ -1,4 +1,4 @@
-@import url(../reindeer/styles.css);
+@import "../reindeer/legacy-styles.css";
 
 .v-app {
 	background-color: white;

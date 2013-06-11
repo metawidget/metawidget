@@ -53,11 +53,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.metawidget.modules</groupId>
-			<artifactId>metawidget-all</artifactId>
-			<version>${project.version}</version>
-		</dependency>		
-		<!-- <dependency>
 			<groupId>org.metawidget.modules.vaadin</groupId>
 			<artifactId>metawidget-vaadin6</artifactId>
 			<version>${project.version}</version>
@@ -71,7 +66,7 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-annotation</artifactId>
 			<version>${project.version}</version>
-		</dependency>-->
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jexl</artifactId>

@@ -39,6 +39,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -83,7 +84,7 @@ public class CommunicationDialog
 					contactDialog.addCommunication( communication );
 					((UI) getParent()).removeWindow( CommunicationDialog.this );
 				} catch ( Exception e ) {
-					// TODO: showNotification( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
+					Notification.show( "Save Error", e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE );
 					return;
 				}
 			}
@@ -112,6 +113,5 @@ public class CommunicationDialog
 
 		metawidget.addComponent( facetButtons );
 		setContent( metawidget );
-		// TODO: ( (VerticalLayout) getContent() ).setMargin( true, true, false, true );
 	}
 }
