@@ -11,7 +11,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<maven.build.timestamp.format>dd MMM yyyy</maven.build.timestamp.format>
+		<maven.build.timestamp.format>d MMM yyyy</maven.build.timestamp.format>
 		<timestamp>${maven.build.timestamp}</timestamp>
 	</properties>
 	
