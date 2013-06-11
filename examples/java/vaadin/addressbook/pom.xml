@@ -27,7 +27,7 @@
 			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-all</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-jexl</artifactId>
