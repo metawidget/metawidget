@@ -4,6 +4,27 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v3.5 Released!</h3>
+		<h4>2013</h4>
+		
+		<p>
+			Metawidget v3.5 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Vaadin 7 support</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget v3.4 Released!</h3>
 		<h4>7th June 2013</h4>
 		
