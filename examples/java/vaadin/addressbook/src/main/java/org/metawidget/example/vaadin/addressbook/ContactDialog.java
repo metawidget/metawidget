@@ -243,6 +243,10 @@ public class ContactDialog
 		mCommunicationsTable.setSelectable( true );
 		mCommunicationsButtons.setVisible( true );
 		mButtonsMetawidget.setToInspect( mButtonsMetawidget.getToInspect() );
+
+		// Force a rebuild, else we will rebuild during 'response already being written'
+
+		mContactMetawidget.getComponentCount();
 	}
 
 	@UiAction
@@ -261,7 +265,7 @@ public class ContactDialog
 		}
 
 		if ( getParent() != null ) {
-			( (ComponentContainer) getParent() ).removeComponent( this );
+			( (UI) getParent() ).removeWindow( this );
 		}
 		mAddressBook.fireRefresh();
 	}
@@ -274,7 +278,7 @@ public class ContactDialog
 		Contact contact = mContactMetawidget.getToInspect();
 
 		if ( getParent() != null ) {
-			( (ComponentContainer) getParent() ).removeComponent( this );
+			( (UI) getParent() ).removeWindow( this );
 		}
 
 		mAddressBook.getContactsController().delete( contact );
