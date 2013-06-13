@@ -357,6 +357,32 @@
 				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[5]/td[1]/table/tbody/tr/td" text="" />
 				<verifyXPath xpath="count(/html/body/div/div[2]/table/tbody/tr[5]/td[1]/table/tbody/tr/td)" text="1" />
 				<verifyXPath xpath="/html/body/div/div[2]/table/tbody/tr[5]/th/label/@for" text="personBeanPersonPets" />
+				
+				<clickLink label="View All" />
+				
+				<!-- Create immediately (without any validation error) -->
+
+				<setSelectField name="search:personBeanSearchTitle" value="Mrs" />
+				<setInputField name="search:personBeanSearchFirstname" value="Amy" />
+				<setInputField name="search:personBeanSearchSurname" value="Test" />
+
+				<clickButton label="Create" />
+				<clickLink label="Save" />
+
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/div/table/tbody/tr)" text="2" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/div/table/tbody/tr[2]/td[1]" text="Mrs" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/div/table/tbody/tr[2]/td[2]" text="Amy" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/div/table/tbody/tr[2]/td[3]" text="Test" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/div/table/tbody/tr[2]/td[4]/a" text="View" />
+
+				<setInputField name="search:personBeanSearchFirstname" value="Amy" />
+				<clickButton label="Search" />
+
+				<verifyXPath xpath="count(/html/body/div[2]/div[2]/form/div/table/tbody/tr)" text="1" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/div/table/tbody/tr[1]/td[1]" text="Mrs" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/div/table/tbody/tr[1]/td[2]" text="Amy" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/div/table/tbody/tr[1]/td[3]" text="Test" />
+				<verifyXPath xpath="/html/body/div[2]/div[2]/form/div/table/tbody/tr[1]/td[4]/a" text="View" />
 
 			</steps>
 		</webtest>
