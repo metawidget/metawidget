@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -716,13 +717,13 @@ public final class XmlUtils {
 		// Private members
 		//
 
-		private ContentHandler				mDelegate;
+		private ContentHandler		mDelegate;
 
-		private CachedCommand				mLastCommand;
+		private CachedCommand		mLastCommand;
 
-		private ArrayList<CachedCommand>	mCache	= CollectionUtils.newArrayList();
+		private List<CachedCommand>	mCache	= CollectionUtils.newArrayList();
 
-		private boolean						mCachingPaused;
+		private boolean				mCachingPaused;
 
 		//
 		// Constructor
@@ -822,7 +823,7 @@ public final class XmlUtils {
 
 			mDelegate = null;
 			mLastCommand = null;
-			mCache.trimToSize();
+			((ArrayList<CachedCommand>) mCache).trimToSize();
 		}
 
 		//
