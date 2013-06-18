@@ -292,6 +292,14 @@
 			The download includes documentation and examples for all supported front-ends and back-ends. <a href="download.html">Click here to download it</a>.
 		</p>
 
+		<div id="tags">
+			<span>Tags:</span>
+			<h4>User Interface</h4>
+			<h4>UI generator</h4>
+			<h4>UI generation</h4>
+			<h4>runtime UI generator</h4>
+		</div>
+		
 		<div id="tooltip-desktop" class="tooltip">
 			<strong>Desktop:</strong> Metawidget has a native Swing JComponent and a native SWT Composite
 		</div>

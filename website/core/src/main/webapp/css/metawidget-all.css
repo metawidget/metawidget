@@ -182,6 +182,29 @@ hr {
 	border: 1px solid black;
 }
 
+#tags {
+	margin-top: 25px;
+	
+}
+
+#tags span {
+	font-weight: bold;
+	margin-right: 3px;
+	font-size: 8pt;
+}
+
+#tags h4 {
+	display: inline;
+	border-right: 1px solid #B3CEE1;
+	border-bottom: 1px solid #B3CEE1;
+	background-color: #E0EAF1;
+	color: #3E6D8E;
+	padding: 3px 4px;
+	font-style: normal;
+	font-family: monospace;
+	font-size: 8pt;
+}
+	
 /*
  * Videos
  */
