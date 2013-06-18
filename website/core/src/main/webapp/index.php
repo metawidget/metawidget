@@ -294,8 +294,6 @@
 
 		<div id="tags">
 			<span>Tags:</span>
-			<h4>User Interface</h4>
-			<h4>UI generator</h4>
 			<h4>UI generation</h4>
 			<h4>runtime UI generator</h4>
 		</div>
