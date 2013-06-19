@@ -2354,7 +2354,9 @@ void onEndBuild( M metawidget );</programlisting>
 					<tbody>
 						<tr>
 							<td>Android</td>
-							<td>(none)</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;simpleBindingProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>AngularJS</td>
