@@ -27,13 +27,7 @@ var simpleDocument = {
 			},
 			hasAttribute: function( name ) {
 
-				for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
-					if ( this.attributes[loop].nodeName === name ) {
-						return true;
-					}
-				}
-
-				return false;
+				return ( getAttribute( name ) !== null );
 			},
 			getAttribute: function( name ) {
 
@@ -61,17 +55,6 @@ var simpleDocument = {
 					clone.appendChild( this.childNodes[loop].cloneNode() );
 				}
 				return clone;
-			},
-			removeChild: function( childNode ) {
-
-				for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
-					if ( this.childNodes[loop] === childNode ) {
-						this.childNodes.splice( loop, 1 );
-						return childNode;
-					}
-				}
-
-				throw new Error( "childNode not found: " + childNode );
 			},
 			ownerDocument: this,
 			toString: function() {
