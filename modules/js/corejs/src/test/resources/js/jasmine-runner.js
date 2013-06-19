@@ -96,16 +96,10 @@
 				},
 				hasAttribute: function( name ) {
 
-					for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
-						if ( this.attributes[loop].nodeName === name ) {
-							return true;
-						}
-					}
-
-					return false;
+					return ( this.getAttribute( name ) !== null );
 				},
 				getAttribute: function( name ) {
-
+					
 					for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
 						if ( this.attributes[loop].nodeName === name ) {
 							return this.attributes[loop].nodeValue;

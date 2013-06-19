@@ -27,7 +27,7 @@ var simpleDocument = {
 			},
 			hasAttribute: function( name ) {
 
-				return ( getAttribute( name ) !== null );
+				return ( this.getAttribute( name ) !== null );
 			},
 			getAttribute: function( name ) {
 
