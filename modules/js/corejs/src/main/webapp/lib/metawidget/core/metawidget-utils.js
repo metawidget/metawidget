@@ -171,7 +171,7 @@ var metawidget = metawidget || {};
 	 * <p>
 	 * If <tt>names</tt> is not an array, first calls
 	 * <tt>names.split( ' ' )</tt>.
-	 * 
+	 *
 	 * @return the camel cased name. Or an empty string if no name
 	 */
 
@@ -263,17 +263,13 @@ var metawidget = metawidget || {};
 			return true;
 		}
 
-		if ( metawidget.util.isTrueOrTrueString( attributes.wide ) ) {
-			return true;
-		}
-
-		return false;
+		return metawidget.util.isTrueOrTrueString( attributes.wide );
 	};
 
 	/**
 	 * Splits the given path into its type and an array of names (e.g.
 	 * 'foo.bar['baz']' into type 'foo' and names ['bar','baz']).
-	 * 
+	 *
 	 * @returns an object with properties 'type' and 'names' (provided there is
 	 *          at least 1 name)
 	 */
@@ -337,7 +333,11 @@ var metawidget = metawidget || {};
 	/**
 	 * Traverses the given 'toInspect' along properties defined by the array of
 	 * 'names'.
-	 * 
+	 *
+     * @param toInspect
+     *            object to traverse
+     * @param names
+     *            array of propery names to traverse along
 	 * @param intermediateName
 	 *            optional intermediate name to traverse at each step. Useful
 	 *            for traversing JSON Schemas (e.g.

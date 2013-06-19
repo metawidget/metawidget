@@ -214,8 +214,10 @@ var metawidget = metawidget || {};
 
 		// Support arrays of configs
 
+        var loop;
+
 		if ( config instanceof Array ) {
-			for ( var loop = 0, length = config.length; loop < length; loop++ ) {
+			for ( loop = 0; loop < config.length; loop++ ) {
 				this.configure( config[loop] );
 			}
 			return;
@@ -231,7 +233,7 @@ var metawidget = metawidget || {};
 		// (it may be hard for clients to redefine the originals)
 
 		if ( config.addInspectionResultProcessors !== undefined ) {
-			for ( var loop = 0, length = config.addInspectionResultProcessors.length; loop < length; loop++ ) {
+			for ( loop = 0; loop < config.addInspectionResultProcessors.length; loop++ ) {
 				this.inspectionResultProcessors.push( config.addInspectionResultProcessors[loop] );
 			}
 		}
@@ -246,12 +248,12 @@ var metawidget = metawidget || {};
 		// (it may be hard for clients to redefine the originals)
 
 		if ( config.prependWidgetProcessors !== undefined ) {
-			for ( var loop = 0, length = config.prependWidgetProcessors.length; loop < length; loop++ ) {
+			for ( loop = 0; loop < config.prependWidgetProcessors.length; loop++ ) {
 				this.widgetProcessors.splice( loop, 0, config.prependWidgetProcessors[loop] );
 			}
 		}
 		if ( config.addWidgetProcessors !== undefined ) {
-			for ( var loop = 0, length = config.addWidgetProcessors.length; loop < length; loop++ ) {
+			for ( loop = 0; loop < config.addWidgetProcessors.length; loop++ ) {
 				this.widgetProcessors.push( config.addWidgetProcessors[loop] );
 			}
 		}
@@ -425,7 +427,6 @@ var metawidget = metawidget || {};
 		// inspection
 
 		_endBuild( this, mw );
-		return;
 
 		//
 		// Private methods
