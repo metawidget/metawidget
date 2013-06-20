@@ -18,7 +18,7 @@
   "licenses": [
     {
       "type": "LGPL",
-      "url": "https://github.com/metawidget/metawidget/src/main/resources/for-bin/lgpl.txt"
+      "url": "https://github.com/metawidget/metawidget/blob/master/src/main/resources/for-bin/lgpl.txt"
     }
   ]
 }
