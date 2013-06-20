@@ -25,6 +25,27 @@
 
 		<hr/>
 
+		<h3>Metawidget. In. Spaaace.</h3>
+		<h4>20th June 2013</h4>
+
+		<p>
+			This <a href="http://metawidget.org/media/whitepaper/MetawidgetWhitePaper-GlobalNavigationSatelliteSystem.pdf">white paper</a>
+			presents a case study of using Metawidget to power GALILEO, a Global Navigation Satellite System built by the European Union
+			and European Space Agency.
+		</p>
+		
+		<p>
+			The team used Metawidget's pluggable inspection architecture to enable them to reuse the detailed
+			XML Schemas set up for transmission to/from the satellites, and generate a UI without having to respecify anything.
+			They also used Metawidget's pluggable widget processors to incorporate third-party validation libraries. 
+		</p>
+		
+		<p>
+			Download the case study <a href="http://metawidget.org/media/whitepaper/MetawidgetWhitePaper-GlobalNavigationSatelliteSystem.pdf">here</a>.
+		</p>
+		
+		<hr/>
+
 		<h3>Metawidget v3.4 Released!</h3>
 		<h4>7th June 2013</h4>
 		

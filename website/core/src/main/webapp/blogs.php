@@ -67,6 +67,12 @@
 					<td class="link"><a href="http://it-republik.de/jaxenter/artikel/Metawidget-King-of-the-Hill-2681.html" target="_blank">View</a></td>
 				</tr>
 				<tr>
+					<td>Devtopics</td>
+					<td>Metawidget meets db4o on Android</td>
+					<td class="link"><a href="http://devtopics.de/?p=235" target="_blank">View</a></td>
+				</tr>
+				
+				<tr>
 					<td>In Relation To</td>
 					<td>Seam 2.1.2</td>
 					<td class="link"><a href="http://blog.hibernate.org/Bloggers/Seam212" target="_blank">View</a></td>
