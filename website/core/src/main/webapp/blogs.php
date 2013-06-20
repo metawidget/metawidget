@@ -37,50 +37,24 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td>Racjonalny Developer</td>
+					<td>Android + Metawidget = Interesting cooperation</td>
+					<td class="link"><a href="http://racjonalny.blogspot.com/2009/11/android-metawidget-interesting.html" target="_blank">View</a></td>
+				</tr>
+				<tr>
 					<td>MobileBytes</td>
 					<td>Android UI Widget Kit</td>
 					<td class="link"><a href="http://mobilebytes.wordpress.com/2009/06/10/an-android-ui-widgetkit" target="_blank">View</a></td>
 				</tr>
 				<tr>
-					<td>DZone</td>
-					<td>Interview with Richard Kennard</td>
-					<td class="link"><a href="http://java.dzone.com/news/interview-creator-metawidget-a" target="_blank">View</a></td>
-				</tr>
-				<tr>
-					<td>Greek Java Man</td>
-					<td>Metawidget, a useful framework for easy UI development</td>
-					<td class="link"><a href="http://ganagnostaros.blogspot.com/2010/10/metawidget-useful-framework-for-easy-ui.html" target="_blank">View</a></td>
-				</tr>
-				<tr>
-					<td>Habrahabr.ru</td>
-					<td>Metawidget - a tool that generates Java forms</td>
-					<td class="link"><a href="http://habrahabr.ru/blogs/java/114146" target="_blank">View</a></td>
-				</tr>				
-				<tr>
-					<td>ETF_DEVLAB</td>
-					<td>Metawidget is an easy way to do a complex UI</td>
-					<td class="link"><a href="http://etfdevlab.blogspot.com/2009/09/metawidget-is-easy-way-to-do-complex-ui.html" target="_blank">View</a></td>
-				</tr>
-				<tr>
-					<td>IT Republik</td>
-					<td>Metawidget: King of the Hill</td>
-					<td class="link"><a href="http://it-republik.de/jaxenter/artikel/Metawidget-King-of-the-Hill-2681.html" target="_blank">View</a></td>
-				</tr>
-				<tr>
-					<td>Devtopics</td>
-					<td>Metawidget meets db4o on Android</td>
-					<td class="link"><a href="http://devtopics.de/?p=235" target="_blank">View</a></td>
-				</tr>
-				
-				<tr>
-					<td>In Relation To</td>
-					<td>Seam 2.1.2</td>
-					<td class="link"><a href="http://blog.hibernate.org/Bloggers/Seam212" target="_blank">View</a></td>
-				</tr>
-				<tr>
 					<td>JBoss Community Asylum</td>
 					<td>Forging Forge</td>
 					<td class="link"><a href="http://asylum.libsyn.com/webpage/podcast-23-forging-forge" target="_blank">View</a></td>
+				</tr>
+				<tr>
+					<td>DZone</td>
+					<td>Interview with Richard Kennard</td>
+					<td class="link"><a href="http://java.dzone.com/news/interview-creator-metawidget-a" target="_blank">View</a></td>
 				</tr>
 				<tr>
 					<td>Mark Ashworth's Blog</td>
@@ -93,9 +67,44 @@
 					<td class="link"><a href="http://www.pathf.com/blogs/2008/07/metawidget-convention-over-configuration-ui" target="_blank">View</a></td>
 				</tr>
 				<tr>
-					<td>Racjonalny Developer</td>
-					<td>Android + Metawidget = Interesting cooperation</td>
-					<td class="link"><a href="http://racjonalny.blogspot.com/2009/11/android-metawidget-interesting.html" target="_blank">View</a></td>
+					<td>Habrahabr.ru</td>
+					<td>Metawidget - a tool that generates Java forms</td>
+					<td class="link"><a href="http://habrahabr.ru/blogs/java/114146" target="_blank">View</a></td>
+				</tr>				
+				<tr>
+					<td>Singing Wizard's Blog</td>
+					<td>Metawidget BeanUtils auto-update binding</td>
+					<td class="link"><a href="http://blog.singingwizard.org/2009/05/metawidget-beanutils-auto-update-binding" target="_blank">View</a></td>
+				</tr>
+				<tr>
+					<td>ETF_DEVLAB</td>
+					<td>Metawidget is an easy way to do a complex UI</td>
+					<td class="link"><a href="http://etfdevlab.blogspot.com/2009/09/metawidget-is-easy-way-to-do-complex-ui.html" target="_blank">View</a></td>
+				</tr>
+				<tr>
+					<td>Devtopics</td>
+					<td>Metawidget meets db4o on Android</td>
+					<td class="link"><a href="http://devtopics.de/?p=235" target="_blank">View</a></td>
+				</tr>				
+				<tr>
+					<td>Stay Tuned with JK</td>
+					<td>Metawidget!</td>
+					<td class="link"><a href="http://jk-blogging.blogspot.com/2011/08/metawidget.html" target="_blank">View</a></td>
+				</tr>
+				<tr>
+					<td>Greek Java Man</td>
+					<td>Metawidget, a useful framework for easy UI development</td>
+					<td class="link"><a href="http://ganagnostaros.blogspot.com/2010/10/metawidget-useful-framework-for-easy-ui.html" target="_blank">View</a></td>
+				</tr>
+				<tr>
+					<td>IT Republik</td>
+					<td>Metawidget: King of the Hill</td>
+					<td class="link"><a href="http://it-republik.de/jaxenter/artikel/Metawidget-King-of-the-Hill-2681.html" target="_blank">View</a></td>
+				</tr>
+				<tr>
+					<td>Techno-IT</td>
+					<td>Metawidget: un framework graphique qui promet</td>
+					<td class="link"><a href="http://techno-it.over-blog.fr/article-24174836.html" target="_blank">View</a></td>
 				</tr>
 				<tr>
 					<td>Sachin's Tech Place</td>
@@ -103,19 +112,9 @@
 					<td class="link"><a href="http://devsac.blogspot.com/2008/10/must-have-tools-for-every-smart-java.html" target="_blank">View</a></td>
 				</tr>					
 				<tr>
-					<td>Singing Wizard's Blog</td>
-					<td>Metawidget BeanUtils auto-update binding</td>
-					<td class="link"><a href="http://blog.singingwizard.org/2009/05/metawidget-beanutils-auto-update-binding" target="_blank">View</a></td>
-				</tr>
-				<tr>
-					<td>Stay Tuned with JK</td>
-					<td>Metawidget!</td>
-					<td class="link"><a href="http://jk-blogging.blogspot.com/2011/08/metawidget.html" target="_blank">View</a></td>
-				</tr>
-				<tr>
-					<td>Techno-IT</td>
-					<td>Metawidget: un framework graphique qui promet</td>
-					<td class="link"><a href="http://techno-it.over-blog.fr/article-24174836.html" target="_blank">View</a></td>
+					<td>In Relation To</td>
+					<td>Seam 2.1.2</td>
+					<td class="link"><a href="http://blog.hibernate.org/Bloggers/Seam212" target="_blank">View</a></td>
 				</tr>
 			</tbody>
 		</table>
