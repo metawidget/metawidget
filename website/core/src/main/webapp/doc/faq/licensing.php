@@ -19,14 +19,15 @@
 		</p>
 		
 		<p>
-			Using Metawidget (by importing Metawidget's public interfaces in your code), and extending Metawidget (by subclassing or implementation of an
+			Using Metawidget (by importing Metawidget's public interfaces in your code) and extending Metawidget (by subclassing or implementation of an
 			extension interface) is considered by the authors of Metawidget to be dynamic linking. Hence our interpretation of the LGPL is that the use
 			of the unmodified Metawidget source does not affect the license of your application code.
 		</p>
 		
 		<p>
-			The use of the unmodified Metawidget binary of course never affects the license of your application or distribution. The LGPL also forbids
-			distribution for profit, so you will never have to pay money to any commercial entity for using Metawidget.
+			The use of the unmodified Metawidget binary of course never affects the license of your application or distribution. For example, you
+			can distribute a commercially licensed, or Apache licensed (APL), application that includes the LGPL Metawidget binary.
+			The LGPL also forbids distribution for profit, so you will never have to pay money to any commercial entity for using Metawidget.
 		</p>
 		
 		<p>
