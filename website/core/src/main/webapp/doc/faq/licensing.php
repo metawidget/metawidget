@@ -26,8 +26,7 @@
 		
 		<p>
 			The use of the unmodified Metawidget binary of course never affects the license of your application or distribution. For example, you
-			can distribute a commercially licensed, or Apache licensed (APL), application that includes the LGPL Metawidget binary.
-			The LGPL also forbids distribution for profit, so you will never have to pay money to any commercial entity for using Metawidget.
+			can distribute a commercially licensed, or Apache licensed, application that includes the LGPL Metawidget binary.			
 		</p>
 		
 		<p>
