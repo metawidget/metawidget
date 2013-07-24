@@ -438,8 +438,7 @@
 	metawidget.angular.widgetprocessor = metawidget.angular.widgetprocessor || {};
 
 	/**
-	 * @class WidgetProcessor to add Angular bindings and validation, and
-	 *        compile the widget.
+	 * @class WidgetProcessor to add Angular bindings and validation.
 	 * 
 	 * @returns {metawidget.angular.AngularWidgetProcessor}
 	 */
