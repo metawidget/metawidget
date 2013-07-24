@@ -287,10 +287,10 @@ var metawidget = metawidget || {};
 
 			var number = metawidget.util.createElement( mw, 'input' );
 			number.setAttribute( 'type', 'number' );
-			
-			if ( attributes.minimum !== undefined  ) {
+
+			if ( attributes.minimum !== undefined ) {
 				number.setAttribute( 'min', attributes.minimum );
-			} else if ( attributes.maximum !== undefined  ) {
+			} else if ( attributes.maximum !== undefined ) {
 				number.setAttribute( 'max', attributes.maximum );
 			}
 
@@ -385,56 +385,34 @@ var metawidget = metawidget || {};
 
 			var firstValue = value[0];
 			var inspectionResult = mw.inspect( firstValue );
-			
+			var tbody = metawidget.util.createElement( mw, 'tbody' );
+
 			if ( inspectionResult.properties === undefined ) {
-				
+
 				// Simple, single-column table
-	
-				var tbody = metawidget.util.createElement( mw, 'tbody' );
+
 				table.appendChild( tbody );
-	
+
 				for ( var row = 0, rows = value.length; row < rows; row++ ) {
-	
-					var tr = metawidget.util.createElement( mw, 'tr' );
-					tbody.appendChild( tr );
-					this.addColumn( tr, value[row], inspectionResult, mw );
+					this.addRow( tbody, value[row], [ inspectionResult ], mw );
 				}
 
 			} else {
 				var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
-	
+
 				// Create headers
-	
+
 				var thead = metawidget.util.createElement( mw, 'thead' );
 				table.appendChild( thead );
-				var tr = metawidget.util.createElement( mw, 'tr' );
-				thead.appendChild( tr );
-	
-				var columnAttributes = [];
-	
-				for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
-	
-					var columnAttribute = inspectionResultProperties[loop];
-	
-					if ( this.addHeader( tr, columnAttribute, mw ) ) {
-						columnAttributes.push( columnAttribute );
-					}
-				}
-	
+
+				var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
+
 				// Create body
-	
-				var tbody = metawidget.util.createElement( mw, 'tbody' );
+
 				table.appendChild( tbody );
-	
+
 				for ( var row = 0, rows = value.length; row < rows; row++ ) {
-	
-					var tr = metawidget.util.createElement( mw, 'tr' );
-					tbody.appendChild( tr );
-	
-					for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
-	
-						this.addColumn( tr, value[row], columnAttributes[loop], mw );
-					}
+					this.addRow( tbody, value[row], columnAttributes, mw )
 				}
 			}
 		}
@@ -443,8 +421,35 @@ var metawidget = metawidget || {};
 	};
 
 	/**
-	 * Add a header to the given row, displaying the given value. Subclasses may
-	 * override this method to suppress certain columns.
+	 * Adds a row to the table header. Subclasses may override this method to
+	 * add additional columns, or suppress the header row.
+	 * 
+	 * @return array of column attributes. For example, columnAttributes[0]
+	 *         contains an object containing attributes for the first column
+	 */
+
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addHeaderRow = function( thead, inspectionResultProperties, mw ) {
+
+		var tr = metawidget.util.createElement( mw, 'tr' );
+		thead.appendChild( tr );
+
+		var columnAttributes = [];
+
+		for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
+
+			var columnAttribute = inspectionResultProperties[loop];
+
+			if ( this.addHeader( tr, columnAttribute, mw ) ) {
+				columnAttributes.push( columnAttribute );
+			}
+		}
+
+		return columnAttributes;
+	};
+
+	/**
+	 * Add a header column for the given attributes. Subclasses may override
+	 * this method to suppress certain columns.
 	 * 
 	 * @returns true if a header was added, false otherwise
 	 */
@@ -459,6 +464,26 @@ var metawidget = metawidget || {};
 	};
 
 	/**
+	 * Adds a row to the table body. Subclasses may override this method to add
+	 * additional columns, or suppress the row.
+	 * 
+	 * @param columnAttributes
+	 *            array of column attributes. For example, columnAttributes[0]
+	 *            contains an object containing attributes for the first column
+	 */
+
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addRow = function( tbody, value, columnAttributes, mw ) {
+
+		var tr = metawidget.util.createElement( mw, 'tr' );
+		tbody.appendChild( tr );
+
+		for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
+
+			this.addColumn( tr, value, columnAttributes[loop], mw );
+		}
+	};
+
+	/**
 	 * Add a column to the given row, displaying the given value. Subclasses may
 	 * override this method to modify the column contents (for example, to wrap
 	 * them in an anchor tag).
@@ -470,7 +495,7 @@ var metawidget = metawidget || {};
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, attributes, mw ) {
 
 		var td = metawidget.util.createElement( mw, 'td' );
-		
+
 		if ( attributes.name === undefined ) {
 			td.innerHTML = value;
 		} else {
