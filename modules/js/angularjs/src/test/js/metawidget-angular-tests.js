@@ -926,7 +926,7 @@
 				it( "supports read-only enumTitles", function() {
 
 					// Normal
-					
+
 					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 					var controller = myApp.controller( 'TestController', function( $scope ) {
 
@@ -966,7 +966,7 @@
 					} );
 
 					// Mismatched
-					
+
 					controller = myApp.controller( 'TestController', function( $scope ) {
 
 						$scope.foo = {
@@ -1038,7 +1038,8 @@
 						expect( mw.innerHTML ).toContain( '<label for="fooBar" id="table-fooBar-label">Bar:</label>' );
 						expect( mw.innerHTML ).toContain( '<table id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid">' );
 						expect( mw.innerHTML ).toContain( '<thead><tr><th>Firstname</th><th>Surname</th></tr></thead>' );
-						expect( mw.innerHTML ).toContain( '<tbody><tr><td>firstname1</td><td>surname1</td></tr><tr><td>firstname2</td><td>surname2</td></tr><tr><td>firstname3</td><td>surname3</td></tr></tbody>' );
+						expect( mw.innerHTML ).toContain(
+								'<tbody><tr><td>firstname1</td><td>surname1</td></tr><tr><td>firstname2</td><td>surname2</td></tr><tr><td>firstname3</td><td>surname3</td></tr></tbody>' );
 					} );
 				} );
 			} );
@@ -1136,6 +1137,39 @@
 
 										expect( mw.innerHTML ).toNotContain( 'fooSave' );
 										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()" class="ng-scope">Edit</button>' );
+									} );
+						} );
+
+				it(
+						"supports namespaces (for IE8)",
+						function() {
+
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var controller = myApp.controller( 'TestController', function( $scope ) {
+
+								$scope.foo = {
+									bar: "Bar"
+								};
+							} );
+
+							var mw = document.createElement( 'mw:metawidget' );
+							mw.setAttribute( 'ng-model', 'foo' );
+							mw.setAttribute( 'read-only', 'readOnly' );
+							mw.setAttribute( 'config', 'metawidgetConfig' );
+
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+							body.appendChild( mw );
+
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML )
+												.toBe(
+														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
 									} );
 						} );
 			} );
