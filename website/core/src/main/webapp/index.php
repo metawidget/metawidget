@@ -131,8 +131,12 @@
 
 	<?php $useQuickStart = true; require_once 'include/body-start.php'; ?>
 
+		<h2 style="font-family: Arial, sans-serif; font-size: 12pt; font-weight: bold; margin-right: 175px">
+			Building User Interfaces for business objects is time-consuming and error-prone.
+		</h2>
+
 		<h2 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: bold; margin-right: 175px">
-			Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match
+			Metawidget is a smart widget that populates itself, either statically or at runtime, with UI components to match
 			the properties of your business objects.
 		</h2>
 
@@ -143,8 +147,8 @@
 		</h3>
 
 		<p style="margin-right: 175px">
-			Metawidget does not replace or hide your existing UI framework and guarantees that your investment in
-			its technology and knowledge is as valid as always. The <a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL</a> Open
+			Metawidget does not replace or restrict your existing UI framework. It does not try to 'own' your UI.
+			The <a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL</a> Open
 			Source license allows the use of Metawidget in open source and commercial projects.
 		</p>
 
