@@ -203,7 +203,7 @@ var metawidget = metawidget || {};
 			}
 
 			if ( _superOnEndBuild !== undefined ) {
-				_superOnEndBuild( mw );
+				_superOnEndBuild.call( this, mw );
 			}
 		};
 	};

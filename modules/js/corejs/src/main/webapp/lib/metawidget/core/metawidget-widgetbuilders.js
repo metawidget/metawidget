@@ -362,7 +362,8 @@ var metawidget = metawidget || {};
 	 * <p>
 	 * Subclasses may override this method to customize table creation.
 	 * Alternatively, they could override one of the sub-methods
-	 * <tt>addHeader</tt> or <tt>addColumn</tt>.
+	 * <tt>addHeaderRow</tt>, <tt>addHeader</tt>, <tt>addRow</tt> or
+	 * <tt>addColumn</tt>.
 	 */
 
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.createTable = function( elementName, attributes, mw ) {
@@ -470,6 +471,8 @@ var metawidget = metawidget || {};
 	 * @param columnAttributes
 	 *            array of column attributes. For example, columnAttributes[0]
 	 *            contains an object containing attributes for the first column
+	 * @return the added row, or undefined if no row was added. This can be
+	 *         useful for subclasses
 	 */
 
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addRow = function( tbody, value, columnAttributes, mw ) {
@@ -478,9 +481,10 @@ var metawidget = metawidget || {};
 		tbody.appendChild( tr );
 
 		for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
-
 			this.addColumn( tr, value, columnAttributes[loop], mw );
 		}
+
+		return tr;
 	};
 
 	/**

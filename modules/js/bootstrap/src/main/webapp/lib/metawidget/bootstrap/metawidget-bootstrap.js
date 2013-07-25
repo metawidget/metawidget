@@ -101,7 +101,7 @@
 
 		layout.layoutLabel = function( outerDiv, widget, elementName, attributes, mw ) {
 
-			_superLayoutLabel( outerDiv, widget, elementName, attributes, mw );
+			_superLayoutLabel.call( this, outerDiv, widget, elementName, attributes, mw );
 
 			if ( !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required ) ) {
 

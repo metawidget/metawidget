@@ -595,7 +595,7 @@ var metawidget = metawidget || {};
 				decorator.endContainerLayout( container[decoratorName].currentSectionWidget, mw );
 			}
 
-			_superEndContainerLayout( container, mw );
+			_superEndContainerLayout.call( this, container, mw );
 		};
 	};
 
