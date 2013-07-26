@@ -171,7 +171,7 @@ var metawidget = metawidget || {};
 	 * <p>
 	 * If <tt>names</tt> is not an array, first calls
 	 * <tt>names.split( ' ' )</tt>.
-	 *
+	 * 
 	 * @return the camel cased name. Or an empty string if no name
 	 */
 
@@ -269,7 +269,7 @@ var metawidget = metawidget || {};
 	/**
 	 * Splits the given path into its type and an array of names (e.g.
 	 * 'foo.bar['baz']' into type 'foo' and names ['bar','baz']).
-	 *
+	 * 
 	 * @returns an object with properties 'type' and 'names' (provided there is
 	 *          at least 1 name)
 	 */
@@ -333,11 +333,11 @@ var metawidget = metawidget || {};
 	/**
 	 * Traverses the given 'toInspect' along properties defined by the array of
 	 * 'names'.
-	 *
-     * @param toInspect
-     *            object to traverse
-     * @param names
-     *            array of propery names to traverse along
+	 * 
+	 * @param toInspect
+	 *            object to traverse
+	 * @param names
+	 *            array of propery names to traverse along
 	 */
 
 	metawidget.util.traversePath = function( toInspect, names ) {
@@ -347,13 +347,13 @@ var metawidget = metawidget || {};
 		}
 
 		if ( names !== undefined ) {
-			
+
 			// Sanity check for passing a single string
-			
-			if ( !( names instanceof Array )) {
+
+			if ( ! ( names instanceof Array ) ) {
 				throw new Error( "Expected array of names" );
 			}
-			
+
 			for ( var loop = 0, length = names.length; loop < length; loop++ ) {
 
 				toInspect = toInspect[names[loop]];

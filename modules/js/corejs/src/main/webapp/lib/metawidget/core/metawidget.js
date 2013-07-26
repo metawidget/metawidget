@@ -214,7 +214,7 @@ var metawidget = metawidget || {};
 
 		// Support arrays of configs
 
-        var loop;
+		var loop;
 
 		if ( config instanceof Array ) {
 			for ( loop = 0; loop < config.length; loop++ ) {
