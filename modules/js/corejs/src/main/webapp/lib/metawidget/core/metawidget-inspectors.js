@@ -200,6 +200,7 @@ var metawidget = metawidget || {};
 	 *        <ul>
 	 *        <li>schemas that contain nested schemas (by traversing the given
 	 *        'names' array)</li>
+	 *        <li>checking the 'type' property of the schema</li>
 	 *        <li>schemas that describe arrays (by traversing the 'items'
 	 *        property)</li>
 	 *        </ul>
