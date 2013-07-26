@@ -16,6 +16,7 @@
 		
 		<ul>
 			<li>Vaadin 7 support</li>
+			<li><a href="">Support JSON Schema for describing arrays</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
