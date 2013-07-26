@@ -115,6 +115,8 @@ public class CommunicationDialog
 		( (com.vaadin.ui.VerticalLayout) facetButtons.getContent() ).setComponentAlignment( layout, Alignment.MIDDLE_CENTER );
 
 		metawidget.addComponent( facetButtons );
+
+		metawidget.addStyleName( "dialog" );
 		setContent( metawidget );
 	}
 }

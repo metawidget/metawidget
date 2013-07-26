@@ -42,6 +42,11 @@
 	border-bottom: 2px solid black;
 }
 
+.dialog {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 .v-formlayout-margin-top .v-formlayout-firstrow .v-formlayout-captioncell, .v-formlayout-margin-top .v-formlayout-firstrow .v-formlayout-contentcell, .v-formlayout-margin-top .v-formlayout-firstrow .v-formlayout-errorcell {
 	padding-top: 0px;
 }

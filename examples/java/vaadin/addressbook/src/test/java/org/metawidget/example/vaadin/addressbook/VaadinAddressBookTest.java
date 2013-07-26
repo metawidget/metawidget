@@ -177,6 +177,7 @@ public class VaadinAddressBookTest
 		CommunicationDialog communicationDialog = new CommunicationDialog( contactDialog, communication );
 
 		VaadinMetawidget communicationMetawidget = (VaadinMetawidget) communicationDialog.getContent();
+		assertEquals( "dialog", communicationMetawidget.getStyleName() );
 		assertEquals( "Telephone", ( (com.vaadin.ui.Select) communicationMetawidget.getComponent( "type" ) ).getValue() );
 		assertEquals( "(939) 555-0113", ( (TextField) communicationMetawidget.getComponent( "value" ) ).getValue() );
 

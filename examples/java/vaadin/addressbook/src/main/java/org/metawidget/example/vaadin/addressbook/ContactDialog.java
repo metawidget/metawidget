@@ -53,7 +53,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Notification;
@@ -188,7 +187,7 @@ public class ContactDialog
 				Communication communication = tableDataSource.getDataRow( event.getItemId() );
 				CommunicationDialog communicationDialog = new CommunicationDialog( ContactDialog.this, communication );
 				communicationDialog.setModal( true );
-				( (ComponentContainer) getParent() ).addComponent( communicationDialog );
+				( (UI) getParent() ).addWindow( communicationDialog );
 			}
 		} );
 
