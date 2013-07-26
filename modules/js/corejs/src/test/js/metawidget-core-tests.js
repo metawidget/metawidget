@@ -731,7 +731,9 @@
 				var widget = element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
 
 				if ( widget.toString().indexOf( 'table' ) !== -1 ) {
-					expect( widget.childNodes.length ).toBe( 0 );
+					expect( widget.childNodes[0].toString() ).toBe( 'tbody' );
+					expect( widget.childNodes.length ).toBe( 1 );
+					expect( widget.childNodes[0].childNodes.length ).toBe( 0 );
 				} else {
 					expect( widget.toString() ).toContain( 'input type="' );
 

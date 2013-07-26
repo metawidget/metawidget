@@ -215,6 +215,35 @@
 			expect( inspector.inspect( {} ).type ).toBeUndefined();
 			expect( inspector.inspect( {} ).properties ).toBeDefined();
 		} );
+
+		it( "understands array indexes", function() {
+
+			var toInspect = {
+				array: [ {
+					foo: "Foo"
+				}, {
+					bar: "Bar"
+				} ]
+			};
+			var inspector = new metawidget.inspector.PropertyTypeInspector();
+
+			var inspectionResult = inspector.inspect( toInspect );
+			expect( inspectionResult.type ).toBeUndefined();
+			expect( inspectionResult.properties.array.type ).toBe( 'array' );
+
+			inspectionResult = inspector.inspect( toInspect, 'toInspect' );
+			expect( inspectionResult.type ).toBeUndefined();
+			expect( inspectionResult.properties.array.type ).toBe( 'array' );
+
+			inspectionResult = inspector.inspect( toInspect, 'toInspect', [ 'array' ] );
+			expect( inspectionResult.type ).toBe( 'array' );
+
+			inspectionResult = inspector.inspect( toInspect, 'toInspect', [ 'array', 0 ] );
+			expect( inspectionResult.properties.foo.type ).toBe( 'string' );
+
+			inspectionResult = inspector.inspect( toInspect, 'toInspect', [ 'array', 1 ] );
+			expect( inspectionResult.properties.bar.type ).toBe( 'string' );
+		} );
 	} );
 
 	describe( "The JsonSchemaInspector", function() {
@@ -303,6 +332,43 @@
 
 			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
 			expect( inspectionResult ).toBeUndefined();
+		} );
+
+		it( "understands array indexes", function() {
+
+			var inspector = new metawidget.inspector.JsonSchemaInspector( {
+				type: "employer",
+				properties: {
+					employees: {
+						type: "array",
+						items: {
+							properties: {
+								id: {
+									hidden: true,
+									type: "string"
+								},
+								firstname: {
+									type: "string"
+								},
+								surname: {
+									type: "string"
+								}
+							}
+						}
+					}
+				}
+			} );
+
+			var inspectionResult = inspector.inspect( undefined, 'employer', [ 'employees' ] );
+			expect( inspectionResult.type ).toBe( 'array' );
+			expect( inspectionResult.properties ).toBeUndefined();
+			expect( inspectionResult.items ).toBeUndefined();
+
+			var inspectionResult = inspector.inspect( undefined, 'employer', [ 'employees', '0' ] );
+			expect( inspectionResult.properties.id.hidden ).toBe( true );
+			expect( inspectionResult.properties.id.type ).toBe( 'string' );
+			expect( inspectionResult.properties.firstname.type ).toBe( 'string' );
+			expect( inspectionResult.properties.surname.type ).toBe( 'string' );
 		} );
 	} );
 } )();

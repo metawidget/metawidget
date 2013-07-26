@@ -1139,39 +1139,6 @@
 										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()" class="ng-scope">Edit</button>' );
 									} );
 						} );
-
-				it(
-						"supports namespaces (for IE8)",
-						function() {
-
-							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
-							var controller = myApp.controller( 'TestController', function( $scope ) {
-
-								$scope.foo = {
-									bar: "Bar"
-								};
-							} );
-
-							var mw = document.createElement( 'mw:metawidget' );
-							mw.setAttribute( 'ng-model', 'foo' );
-							mw.setAttribute( 'read-only', 'readOnly' );
-							mw.setAttribute( 'config', 'metawidgetConfig' );
-
-							var body = document.createElement( 'body' );
-							body.setAttribute( 'ng-controller', 'TestController' );
-							body.appendChild( mw );
-
-							var injector = angular.bootstrap( body, [ 'test-app' ] );
-
-							injector
-									.invoke( function() {
-
-										expect( mw.innerHTML )
-												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
-										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
-									} );
-						} );
 			} );
 
 	describe( "The AngularWidgetProcessor", function() {

@@ -338,28 +338,23 @@ var metawidget = metawidget || {};
      *            object to traverse
      * @param names
      *            array of propery names to traverse along
-	 * @param intermediateName
-	 *            optional intermediate name to traverse at each step. Useful
-	 *            for traversing JSON Schemas (e.g.
-	 *            toInspect->properties->name1->properties->name2)
 	 */
 
-	metawidget.util.traversePath = function( toInspect, names, intermediateName ) {
+	metawidget.util.traversePath = function( toInspect, names ) {
 
 		if ( toInspect === undefined ) {
 			return undefined;
 		}
 
 		if ( names !== undefined ) {
+			
+			// Sanity check for passing a single string
+			
+			if ( !( names instanceof Array )) {
+				throw new Error( "Expected array of names" );
+			}
+			
 			for ( var loop = 0, length = names.length; loop < length; loop++ ) {
-
-				if ( intermediateName !== undefined ) {
-					toInspect = toInspect[intermediateName];
-
-					if ( toInspect === undefined ) {
-						return undefined;
-					}
-				}
 
 				toInspect = toInspect[names[loop]];
 

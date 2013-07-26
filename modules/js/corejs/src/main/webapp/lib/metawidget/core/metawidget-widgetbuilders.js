@@ -370,51 +370,61 @@ var metawidget = metawidget || {};
 
 		var table = metawidget.util.createElement( mw, 'table' );
 
-		// Lookup the actual value
+		// Inspect the first entry in the array to determine the table columns.
+		// This assumes the array is homogeneous. However because you can use
+		// JsonSchemaInspector as one of your Inspectors, it doesn't assume the
+		// array is populated, nor that the first entry has values in all
+		// fields
 
-		var value;
 		var typeAndNames = metawidget.util.splitPath( mw.path );
 		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
 
-		if ( elementName !== 'entity' && toInspect !== undefined ) {
+		if ( typeAndNames.names === undefined ) {
+			typeAndNames.names = [];
+		}
+
+		// TODO: test non-entity scenario
+
+		var value;
+
+		if ( elementName !== 'entity' ) {
 			value = toInspect[attributes.name];
+			typeAndNames.names.push( attributes.name );
 		} else {
 			value = toInspect;
 		}
 
-		if ( value !== undefined && value.length > 0 ) {
+		typeAndNames.names.push( '0' );
 
-			var firstValue = value[0];
-			var inspectionResult = mw.inspect( firstValue );
-			var tbody = metawidget.util.createElement( mw, 'tbody' );
+		var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
+		var tbody = metawidget.util.createElement( mw, 'tbody' );
 
-			if ( inspectionResult.properties === undefined ) {
+		if ( inspectionResult.properties === undefined ) {
 
-				// Simple, single-column table
+			// Simple, single-column table
 
-				table.appendChild( tbody );
+			table.appendChild( tbody );
 
-				for ( var row = 0, rows = value.length; row < rows; row++ ) {
-					this.addRow( tbody, value[row], [ inspectionResult ], mw );
-				}
+			for ( var row = 0, rows = value.length; row < rows; row++ ) {
+				this.addRow( tbody, value[row], [ {} ], mw );
+			}
 
-			} else {
-				var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
+		} else {
+			var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
 
-				// Create headers
+			// Create headers
 
-				var thead = metawidget.util.createElement( mw, 'thead' );
-				table.appendChild( thead );
+			var thead = metawidget.util.createElement( mw, 'thead' );
+			table.appendChild( thead );
 
-				var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
+			var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
 
-				// Create body
+			// Create body
 
-				table.appendChild( tbody );
+			table.appendChild( tbody );
 
-				for ( var row = 0, rows = value.length; row < rows; row++ ) {
-					this.addRow( tbody, value[row], columnAttributes, mw )
-				}
+			for ( var row = 0, rows = value.length; row < rows; row++ ) {
+				this.addRow( tbody, value[row], columnAttributes, mw );
 			}
 		}
 
@@ -450,12 +460,17 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Add a header column for the given attributes. Subclasses may override
-	 * this method to suppress certain columns.
+	 * this method to suppress certain columns. By default, suppresses columns
+	 * where 'hidden' is true.
 	 * 
 	 * @returns true if a header was added, false otherwise
 	 */
 
 	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addHeader = function( tr, attributes, mw ) {
+
+		if ( attributes.hidden === true ) {
+			return false;
+		}
 
 		var th = metawidget.util.createElement( mw, 'th' );
 		th.innerHTML = metawidget.util.getLabelString( attributes, mw );
@@ -501,9 +516,13 @@ var metawidget = metawidget || {};
 		var td = metawidget.util.createElement( mw, 'td' );
 
 		if ( attributes.name === undefined ) {
-			td.innerHTML = value;
+			if ( value !== undefined ) {
+				td.innerHTML = '' + value;
+			}
 		} else {
-			td.innerHTML = value[attributes.name];
+			if ( value[attributes.name] !== undefined ) {
+				td.innerHTML = '' + value[attributes.name];
+			}
 		}
 		tr.appendChild( td );
 

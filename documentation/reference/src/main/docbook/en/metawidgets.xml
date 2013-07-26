@@ -216,20 +216,17 @@
 					<title>Usage</title>
 
 					<para>
-						<filename>metawidget-angular.js</filename> is an AngularJS directive. It can be used simply by:
+						<filename>metawidget-angular.js</filename> is an element-level AngularJS directive. It can be used simply by:
 					</para>
 					
 					<programlisting language="xml">&lt;metawidget ng-model="foo" /&gt;</programlisting>					
 
 					<para>
-						For compatibility with Internet Explorer 8, a namespaced version of the directive is also
-						available:
-					</para>
-
-					<programlisting language="xml">&lt;mw:metawidget ng-model="foo" /&gt;</programlisting>
-					
-					<para>
-						For more information on IE8 compatibility see <ulink url="http://docs.angularjs.org/guide/ie">this page</ulink>.
+						For compatibility with Internet Explorer 8 (IE8), which doesn't support element-level directives,
+						consider using
+						<ulink url="http://code.google.com/p/html5shiv">html5shiv</ulink>,
+						<ulink url="http://modernizr.com">Modernizr</ulink>,
+						or a similar tool.
 					</para>
 				</section>
 

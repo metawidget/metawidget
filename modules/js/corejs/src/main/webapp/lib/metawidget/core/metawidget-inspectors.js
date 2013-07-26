@@ -195,8 +195,14 @@ var metawidget = metawidget || {};
 	 *        <p>
 	 *        Because Metawidget <em>already</em> uses JSON Schema internally
 	 *        as its inspection result format, this Inspector does not need to
-	 *        do much. However it adds support for JSON schemas that contain
-	 *        nested schemas (by traversing the given 'names' array).
+	 *        do much. However it adds support for:
+	 *        <p>
+	 *        <ul>
+	 *        <li>schemas that contain nested schemas (by traversing the given
+	 *        'names' array)</li>
+	 *        <li>schemas that describe arrays (by traversing the 'items'
+	 *        property)</li>
+	 *        </ul>
 	 */
 
 	metawidget.inspector.JsonSchemaInspector = function( config ) {
@@ -221,9 +227,9 @@ var metawidget = metawidget || {};
 				return undefined;
 			}
 
-			// Traverse names using 'properties' intermediate name
+			// Traverse names using 'properties' and 'items' as appropriate
 
-			var traversed = metawidget.util.traversePath( _schema, names, 'properties' );
+			var traversed = _traversePath( _schema, names );
 
 			if ( traversed === undefined ) {
 				return undefined;
@@ -237,6 +243,73 @@ var metawidget = metawidget || {};
 			}
 			metawidget.util.combineInspectionResults( inspectionResult, traversed );
 			return inspectionResult;
+
+			//
+			// Private methods
+			//
+
+			/**
+			 * Specialized version of <tt>metawidget.util.traversePath</tt>
+			 * that supports 'properties' and 'items'.
+			 */
+
+			function _traversePath( toInspect, names ) {
+
+				if ( toInspect === undefined ) {
+					return undefined;
+				}
+
+				if ( names !== undefined ) {
+
+					// Sanity check for passing a single string
+
+					if ( ! ( names instanceof Array ) ) {
+						throw new Error( "Expected array of names" );
+					}
+
+					for ( var loop = 0, length = names.length; loop < length; loop++ ) {
+
+						// Support 'items' property (for arrays)
+
+						var name = names[loop];
+
+						if ( !isNaN( name ) ) {
+
+							toInspect = toInspect.items;
+
+							if ( toInspect === undefined ) {
+								return undefined;
+							}
+
+							// We ignore the actual array index. We assume the
+							// JSON Schema describes a homogeneous array,
+							// regardless of the index
+
+							continue;
+						}
+
+						// Support 'properties' property
+
+						toInspect = toInspect.properties;
+
+						if ( toInspect === undefined ) {
+							return undefined;
+						}
+
+						toInspect = toInspect[name];
+
+						// We don't need to worry about array indexes here: they
+						// should have been parsed out by splitPath
+
+						if ( toInspect === undefined ) {
+							return undefined;
+						}
+					}
+				}
+
+				return toInspect;
+			}
+			;
 		};
 	};
 } )();

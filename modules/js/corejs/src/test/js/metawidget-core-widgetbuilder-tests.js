@@ -435,9 +435,11 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.childNodes.length ).toBe( 0 );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
 
-			// Inspect headers
+			// Collection without headers
 
 			mw.toInspect = [ "Foo", "Bar" ];
 
@@ -473,7 +475,9 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.childNodes.length ).toBe( 0 );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
 
 			// Inspect headers
 
@@ -514,9 +518,111 @@
 			expect( table.childNodes.length ).toBe( 2 );
 		} );
 
+		it( "supports JSON schema rendering", function() {
+
+			var element = simpleDocument.createElement( 'metawidget' );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: new metawidget.inspector.JsonSchemaInspector( {
+					items: {
+						properties: {
+							id: {
+								type: 'string',
+								hidden: true
+							},
+							foo: {
+								type: 'string'
+							},
+							bar: {
+								type: 'string'
+							}
+						}
+					}
+				} )
+			} );
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
+
+			// Empty collection
+
+			mw.toInspect = [];
+			table = widgetBuilder.buildWidget( "entity", {
+				type: "array"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes.length ).toBe( 0 );
+			expect( table.childNodes.length ).toBe( 2 );
+
+			// Partially populated collection
+
+			mw.toInspect = [ {
+				id: 0,
+				foo: 'FooValue'
+			} ];
+			table = widgetBuilder.buildWidget( "entity", {
+				type: "array"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'FooValue' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBeUndefined();
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( table.childNodes.length ).toBe( 2 );
+
+			// Partially populated collection without JSON Schema
+
+			mw = new metawidget.Metawidget( element );
+			mw.toInspect = [ {
+				id: 0,
+				foo: 'FooValue'
+			} ];
+			table = widgetBuilder.buildWidget( "entity", {
+				type: "array"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Id' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( '0' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBe( 'FooValue' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( table.childNodes.length ).toBe( 2 );
+		} );
+
 		it( "has methods for subclasses to override", function() {
 
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
+
+			// TODO: test addRow and addHeaderRow too
 
 			var tr = simpleDocument.createElement( 'tr' );
 

@@ -336,27 +336,6 @@
 			expect( metawidget.util.traversePath( object1, [ 'array', '1', 'baz' ] ) ).toBe( 'Baz' );
 			expect( metawidget.util.traversePath( object1, [ 'array', '2' ] ) ).toBeUndefined();
 		} );
-
-		it( "supports intermediateName", function() {
-
-			var object2 = {
-				properties: {
-					foo: "bar"
-				}
-			};
-			var object1 = {
-				properties: {
-					object2: object2
-				}
-			};
-
-			expect( metawidget.util.traversePath( object1 ) ).toBe( object1 );
-			expect( metawidget.util.traversePath( object1, [ 'object2' ] ) ).toBeUndefined();
-			expect( metawidget.util.traversePath( object1, [ 'object2' ], 'properties' ) ).toBe( object2 );
-			expect( metawidget.util.traversePath( object1, [ 'object2', 'foo' ], 'properties' ) ).toBe( 'bar' );
-			expect( metawidget.util.traversePath( object1, [ 'object2', 'foo', 'bar' ], 'properties' ) ).toBeUndefined();
-			expect( metawidget.util.traversePath( object1, [ 'object2', 'baz' ], 'properties' ) ).toBeUndefined();
-		} );
 	} );
 
 	describe( "The getSortedInspectionResultProperties function", function() {
