@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v3.5 Released!</h3>
-		<h4>27 July 2013</h4>
+		<h4>27th July 2013</h4>
 		
 		<p>
 			Metawidget v3.5 is now available!
@@ -16,7 +16,7 @@
 		
 		<ul>
 			<li>Vaadin 7 support</li>
-			<li><a href="">Support JSON Schema for describing arrays</a></li>
+			<li><a href="http://blog.kennardconsulting.com/2013/07/json-ui-generator-array-support.html">Support JSON Schema for describing arrays</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
