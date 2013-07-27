@@ -383,8 +383,6 @@ var metawidget = metawidget || {};
 			typeAndNames.names = [];
 		}
 
-		// TODO: test non-entity scenario
-
 		var value;
 
 		if ( elementName !== 'entity' ) {

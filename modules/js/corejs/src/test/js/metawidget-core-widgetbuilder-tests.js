@@ -421,13 +421,13 @@
 			}, mw ).toString() ).toBe( 'input type="text"' );
 		} );
 
-		it( "supports simple collections", function() {
+		it( "supports simple arrays", function() {
 
 			var element = simpleDocument.createElement( 'metawidget' );
 			var mw = new metawidget.Metawidget( element );
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
-			// Empty collection
+			// Empty array
 
 			mw.toInspect = [];
 			table = widgetBuilder.buildWidget( "entity", {
@@ -439,7 +439,7 @@
 			expect( table.childNodes.length ).toBe( 1 );
 			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
 
-			// Collection without headers
+			// Array without headers
 
 			mw.toInspect = [ "Foo", "Bar" ];
 
@@ -459,15 +459,39 @@
 			expect( table.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
 			expect( table.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( table.childNodes.length ).toBe( 1 );
+
+			// Nested array
+
+			mw.toInspect = {
+				nested: [ "Foo", "Bar" ]
+			};
+
+			table = widgetBuilder.buildWidget( "property", {
+				type: "array",
+				name: "nested"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 1 );
 		} );
 
-		it( "supports object collections", function() {
+		it( "supports object arrays", function() {
 
 			var element = simpleDocument.createElement( 'metawidget' );
 			var mw = new metawidget.Metawidget( element );
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
-			// Empty collection
+			// Empty array
 
 			mw.toInspect = [];
 			table = widgetBuilder.buildWidget( "entity", {
@@ -491,6 +515,47 @@
 
 			table = widgetBuilder.buildWidget( "entity", {
 				type: "array"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBe( 'A Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].innerHTML ).toBe( 'A Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 2 );
+
+			// Nested array
+
+			mw.toInspect = {
+				nested: [ {
+					name: "Foo",
+					description: "A Foo"
+				}, {
+					name: "Bar",
+					description: "A Bar"
+				} ]
+			};
+
+			table = widgetBuilder.buildWidget( "property", {
+				type: "array",
+				name: "nested"
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
@@ -541,7 +606,7 @@
 			} );
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
-			// Empty collection
+			// Empty array
 
 			mw.toInspect = [];
 			table = widgetBuilder.buildWidget( "entity", {
@@ -560,7 +625,7 @@
 			expect( table.childNodes[1].childNodes.length ).toBe( 0 );
 			expect( table.childNodes.length ).toBe( 2 );
 
-			// Partially populated collection
+			// Partially populated array items
 
 			mw.toInspect = [ {
 				id: 0,
@@ -588,7 +653,7 @@
 			expect( table.childNodes[1].childNodes.length ).toBe( 1 );
 			expect( table.childNodes.length ).toBe( 2 );
 
-			// Partially populated collection without JSON Schema
+			// Partially populated array items without JSON Schema
 
 			mw = new metawidget.Metawidget( element );
 			mw.toInspect = [ {
