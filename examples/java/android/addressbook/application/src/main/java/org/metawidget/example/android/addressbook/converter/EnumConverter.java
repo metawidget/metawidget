@@ -66,6 +66,10 @@ public abstract class EnumConverter<T extends Enum<T>>
 			return value;
 		}
 
+		if ( value == null ) {
+			return null;
+		}
+
 		return value.name();
 	}
 
@@ -73,6 +77,11 @@ public abstract class EnumConverter<T extends Enum<T>>
 	public T convertFromView( View widget, Object value, Class<?> intoClass ) {
 
 		if ( value instanceof String ) {
+
+			if ( "".equals( value )) {
+				return null;
+			}
+
 			return Enum.valueOf( mEnum, (String) value );
 		}
 

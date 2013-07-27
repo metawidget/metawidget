@@ -61,6 +61,10 @@ public class DateConverter
 			return date;
 		}
 
+		if ( date == null ) {
+			return null;
+		}
+
 		synchronized ( FORMAT ) {
 			return FORMAT.format( date );
 		}
@@ -69,6 +73,11 @@ public class DateConverter
 	public Date convertFromView( View widget, Object date, Class<?> intoClass ) {
 
 		if ( date instanceof String ) {
+
+			if ( "".equals( date )) {
+				return null;
+			}
+
 			try {
 				synchronized ( FORMAT ) {
 					return FORMAT.parse( (String) date );

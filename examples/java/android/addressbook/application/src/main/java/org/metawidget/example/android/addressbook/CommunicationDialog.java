@@ -85,19 +85,17 @@ public class CommunicationDialog
 		Context context = getContext();
 
 		if ( mCommunication == null ) {
+			mCommunication = new Communication();
 			setTitle( context.getString( R.string.addCommunication ) );
-			mMetawidget.setToInspect( new Communication() );
-
 			setButton( context.getString( R.string.add ), this );
 			setButton2( context.getString( R.string.cancel ), this );
 		} else {
 			setTitle( context.getString( R.string.editCommunication ) );
-			mMetawidget.setToInspect( mCommunication );
-
 			setButton( context.getString( R.string.save ), this );
 			setButton2( context.getString( R.string.delete ), this );
 		}
 
+		mMetawidget.setToInspect( mCommunication );
 		mMetawidget.setPadding( 5, 5, 5, 5 );
 
 		setView( mMetawidget );

@@ -145,6 +145,12 @@ public class ContactActivity
 
 			public void onItemClick( AdapterView<?> viewAdapter, View view, int position, long itemId ) {
 
+				// Cannot edit communication in read-only mode
+
+				if ( ((AndroidMetawidget) findViewById( R.id.metawidget )).isReadOnly() ) {
+					return;
+				}
+
 				Communication communication = (Communication) viewAdapter.getAdapter().getItem( position );
 
 				new CommunicationDialog( ContactActivity.this, mContact, communication, new DialogInterface.OnClickListener() {

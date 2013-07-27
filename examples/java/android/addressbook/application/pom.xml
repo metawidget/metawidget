@@ -30,6 +30,10 @@
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>		
 	</dependencies>
 
 	<build>
