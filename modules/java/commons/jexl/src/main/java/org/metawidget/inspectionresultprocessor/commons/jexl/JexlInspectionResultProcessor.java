@@ -139,6 +139,9 @@ public class JexlInspectionResultProcessor<M>
 	@Override
 	protected void processAttributes( Map<String, String> attributes, M metawidget ) {
 
+		// TODO: WARNING: org.metawidget.inspectionresultprocessor.commons.jexl.JexlInspectionResultProcessor.processAttributes![17,32]:
+		// 'this.readOnly || this.newContact;' inaccessible or unknown property this
+		
 		// For each attribute value...
 
 		for ( Map.Entry<String, String> entry : attributes.entrySet() ) {
