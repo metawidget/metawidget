@@ -53,6 +53,9 @@
 	.factory( 'metawidgetConfig', function() {
 
 		// Construct JSON schemas for metadata
+		//
+		// Note: 'enum' is not a reserved word in later versions of JavaScript,
+		// but we escape it anyway for IE8 compatibility
 
 		var _contact = {
 			properties: {
@@ -60,7 +63,7 @@
 					hidden: true
 				},
 				title: {
-					enum: [ "Mr", "Mrs", "Miss", "Dr", "Cpt" ],
+					"enum": [ "Mr", "Mrs", "Miss", "Dr", "Cpt" ],
 					required: true,
 					propertyOrder: 1
 				},
@@ -75,7 +78,7 @@
 					propertyOrder: 3
 				},
 				gender: {
-					enum: [ "Male", "Female" ],
+					"enum": [ "Male", "Female" ],
 					propertyOrder: 10
 				},
 				address: {
@@ -146,7 +149,7 @@
 					return {
 						properties: {
 							type: {
-								enum: [ "personal", "business" ],
+								"enum": [ "personal", "business" ],
 								enumTitles: [ "Personal", "Business" ]
 							}
 						}
@@ -177,7 +180,7 @@
 									type: "string"
 								},
 								state: {
-									enum: [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
+									"enum": [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
 								},
 								postcode: {
 									type: "string"
@@ -216,7 +219,7 @@
 
 					if ( type === 'communication' && names.length === 1 && names[0] === 'type' ) {
 						return {
-							enum: [ "Telephone", "Mobile", "Fax", "E-mail" ]
+							"enum": [ "Telephone", "Mobile", "Fax", "E-mail" ]
 						};
 					}
 				} ] ),

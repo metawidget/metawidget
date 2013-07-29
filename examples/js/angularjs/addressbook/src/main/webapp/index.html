@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html ng-app="addressBook">
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="addressBook">
 	<head>
 		<meta charset="utf-8"/>
 		<title>Address Book (Metawidget AngularJS Example)</title>
 		<link rel="stylesheet" type="text/css" href="css/addressbook.css" media="all"/>
 		<link rel="stylesheet" type="text/css" href="css/framework-specific-addressbook.css" media="all"/>
+ 		<!--[if lte IE 8]>
+		<script>
+			document.createElement( 'metawidget' );
+			document.createElement( 'facet' );
+		</script>
+		<![endif]-->		
 	</head>
 	<body>
 
