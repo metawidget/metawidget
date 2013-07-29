@@ -642,7 +642,7 @@
 					</para>
 					
 					<para>
-						See <filename>test/render.js</filename> inside the module for a full example
+						See <filename>test/render.js</filename> inside the npm module for a full example
 						how to use Metawidget. But briefly:
 					</para>
 					
