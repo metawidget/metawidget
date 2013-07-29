@@ -470,4 +470,26 @@
 			expect( widget.getAttribute( 'class' ) ).toBe( 'btn btn2' );
 		} );
 	} );
+
+	describe( "The createElement function", function() {
+
+		it( "uppercases tag names", function() {
+
+			var element = metawidget.util.createElement( {
+				getElement: function() {
+					return {
+						ownerDocument: {
+							createElement: function( elementName ) {
+								return {
+									tagName: elementName
+								}
+							}
+						}						
+					};
+				}
+			}, 'output' );
+			
+			expect( element.tagName ).toBe( 'OUTPUT' );
+		} );
+	} );
 } )();

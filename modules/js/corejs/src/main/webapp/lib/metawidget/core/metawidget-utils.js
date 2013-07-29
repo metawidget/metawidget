@@ -540,7 +540,10 @@ var metawidget = metawidget || {};
 
 	metawidget.util.createElement = function( mw, element ) {
 
-		return mw.getElement().ownerDocument.createElement( element );
+		// Explicitly call toUpperCase, as IE8 doesn't appear to do this for
+		// non-HTML4 tags (like 'output')
+
+		return mw.getElement().ownerDocument.createElement( element.toUpperCase() );
 	};
 
 	/**
