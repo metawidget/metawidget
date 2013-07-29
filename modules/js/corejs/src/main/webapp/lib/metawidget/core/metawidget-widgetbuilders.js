@@ -392,6 +392,10 @@ var metawidget = metawidget || {};
 			value = toInspect;
 		}
 
+		// Push '0' so that object-based inspectors (like PropertyTypeInspector)
+		// will try to look at the first entry. However this will fail
+		// gracefully if the array is empty or undefined
+		
 		typeAndNames.names.push( '0' );
 
 		var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );

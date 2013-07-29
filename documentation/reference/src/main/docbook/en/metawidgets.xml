@@ -223,11 +223,11 @@
 
 					<para>
 						For compatibility with Internet Explorer 8 (IE8), which doesn't support element-level directives,
-						consider using
-						<ulink url="http://code.google.com/p/html5shiv">html5shiv</ulink>,
-						<ulink url="http://modernizr.com">Modernizr</ulink>,
-						or a similar tool.
+						Metawidget can also be used as an attribute:
 					</para>
+					
+					<programlisting language="xml">&lt;div metawidget ng-model="foo" /&gt;</programlisting>
+					
 				</section>
 
 				<section id="section-metawidgets-web-angular-configuration">

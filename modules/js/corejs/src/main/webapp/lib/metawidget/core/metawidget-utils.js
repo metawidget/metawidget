@@ -348,7 +348,7 @@ var metawidget = metawidget || {};
 
 		if ( names !== undefined ) {
 
-			// Sanity check for passing a single string
+			// Sanity check against passing a single string
 
 			if ( ! ( names instanceof Array ) ) {
 				throw new Error( "Expected array of names" );

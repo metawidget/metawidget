@@ -166,7 +166,7 @@
 			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(0) td:eq(0)' ).text() ).toBe( 'Telephone' );
 			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(0) td:eq(1)' ).text() ).toBe( '(939) 555-0113' );
 			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr' ).count() ).toBe( 1 );
-			expect( element( '#currentCommunications tfoot' ).attr( 'style' ) ).toContain( 'display: none;' );
+			expect( element( '#currentCommunications tfoot' ).attr( 'style' ) ).toContain( 'display: none' );
 
 			expect( element( '#table-current tbody > tr:eq(8) td' ).attr( 'colspan' ) ).toBe( '2' );
 			expect( element( '#table-current tbody > tr:eq(8) td h1' ).text() ).toBe( 'Other' );

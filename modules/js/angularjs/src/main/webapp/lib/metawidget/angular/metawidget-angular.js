@@ -38,12 +38,11 @@
 			 * Metawidget is (E)lement level.
 			 * <p>
 			 * For compatibility with Internet Explorer 8 (IE8), which doesn't
-			 * support element-level directives, consider using <a
-			 * href="http://code.google.com/p/html5shiv">html5shiv</a>, <a
-			 * href="http://modernizr.com">Modernizr</a>, or a similar tool.
+			 * support element-level directives, can also be used as (A)ttribute
+			 * level.
 			 */
 
-			restrict: 'E',
+			restrict: 'AE',
 
 			/**
 			 * Metawidget isolated scope.

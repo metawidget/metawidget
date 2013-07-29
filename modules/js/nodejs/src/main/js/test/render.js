@@ -59,7 +59,7 @@ var simpleDocument = {
 			ownerDocument: this,
 			toString: function() {
 
-				var toString = "<" + elementName;
+				var toString = "<" + elementName.toLowerCase();
 
 				for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
 					var attribute = this.attributes[loop];
@@ -80,7 +80,7 @@ var simpleDocument = {
 					toString += this.innerHTML;
 				}
 
-				toString += "</" + elementName + ">";
+				toString += "</" + elementName.toLowerCase() + ">";
 				return toString;
 			}
 		};
