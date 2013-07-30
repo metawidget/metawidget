@@ -19,16 +19,10 @@
 	'use strict';
 
 	/**
-	 * AngularJS Metawidget module.
-	 */
-
-	angular.module( 'metawidget', [] )
-
-	/**
 	 * Angular directive to expose <tt>metawidget.angular.AngularMetawidget</tt>.
 	 */
 
-	.directive( 'metawidget', [ '$compile', '$parse', function( $compile, $parse ) {
+	var directive = [ '$compile', '$parse', function( $compile, $parse ) {
 
 		// Returns the Metawidget
 
@@ -36,13 +30,9 @@
 
 			/**
 			 * Metawidget is (E)lement level.
-			 * <p>
-			 * For compatibility with Internet Explorer 8 (IE8), which doesn't
-			 * support element-level directives, can also be used as (A)ttribute
-			 * level.
 			 */
 
-			restrict: 'AE',
+			restrict: 'E',
 
 			/**
 			 * Metawidget isolated scope.
@@ -145,7 +135,22 @@
 				};
 			}
 		};
-	} ] );
+	} ];
+
+	/**
+	 * AngularJS Metawidget module.
+	 */
+
+	var module = angular.module( 'metawidget', [] );
+	module.directive( 'metawidget', directive );
+
+	/**
+	 * Duplicate 'metawidget' directive, but with a namespace 'mw'. This allows
+	 * clients wishing to support IE8 to use &lt;mw:metawidget&gt; as the tag
+	 * name, as described at http://docs.angularjs.org/guide/ie
+	 */
+
+	module.directive( 'mwMetawidget', directive );
 
 	/**
 	 * @namespace Metawidget for AngularJS environments.
