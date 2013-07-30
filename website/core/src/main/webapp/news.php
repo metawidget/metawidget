@@ -1162,6 +1162,15 @@
 			Your feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
 		</p>
 
+		<h3>Metawidget Begins</h3>
+		<h4>6th September 2007</h4>
+		
+		<p>
+			<a href="http://kennardconsulting.com">Richard Kennard</a> has given a talk at the Sydney Java User Group.
+			He looked at problems with the current state of User Inteface development, and outlined tools
+			to overcome them.
+		</p>
+
 	<?php require_once 'include/body-end.php'; ?>		
 
 <?php require_once 'include/page-end.php'; ?>
