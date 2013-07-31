@@ -483,6 +483,19 @@
 			expect( table.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
 			expect( table.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( table.childNodes.length ).toBe( 1 );
+
+			// has createTable method for subclasses to override
+			
+			widgetBuilder.createTable = function() {
+				return metawidget.util.createElement( mw, 'not-a-table' );
+			}
+
+			table = widgetBuilder.buildWidget( "property", {
+				type: "array",
+				name: "nested"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'not-a-table' );
 		} );
 
 		it( "supports object arrays", function() {
@@ -683,11 +696,99 @@
 			expect( table.childNodes.length ).toBe( 2 );
 		} );
 
-		it( "has methods for subclasses to override", function() {
+		it( "has addHeaderRow method for subclasses to override", function() {
 
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
-			// TODO: test addRow and addHeaderRow too
+			var thead = simpleDocument.createElement( 'thead' );
+
+			var mw = {
+				getElement: function() {
+
+					return {
+						ownerDocument: simpleDocument
+					};
+				}
+			};
+			var columnAttributes = widgetBuilder.addHeaderRow( thead, [ {
+					name: 'foo'
+				}, {
+					name: 'bar',
+					hidden: true
+				}, {
+					name: 'baz'				
+				}
+			], mw );
+			expect( thead.childNodes[0].toString() ).toBe( 'tr' );
+			expect( thead.childNodes.length ).toBe( 1 );
+			expect( thead.childNodes[0].childNodes[0].toString() ).toBe( 'th' );			
+			expect( thead.childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( thead.childNodes[0].childNodes[1].toString() ).toBe( 'th' );			
+			expect( thead.childNodes[0].childNodes[1].innerHTML ).toBe( 'Baz' );
+			expect( thead.childNodes[0].childNodes.length ).toBe( 2 );
+			
+			expect( columnAttributes[0].name ).toBe( 'foo' );
+			expect( columnAttributes[1].name ).toBe( 'baz' );
+			expect( columnAttributes.length ).toBe( 2 );
+		} );
+
+		it( "has addHeader method for subclasses to override", function() {
+
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
+
+			var tr = simpleDocument.createElement( 'tr' );
+
+			var mw = {
+				getElement: function() {
+
+					return {
+						ownerDocument: simpleDocument
+					};
+				}
+			};
+			widgetBuilder.addHeader( tr, {
+				name: 'Foo'
+			}, mw );
+			expect( tr.childNodes[0].toString() ).toBe( 'th' );			
+			expect( tr.childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( tr.childNodes.length ).toBe( 1 );
+
+			expect( widgetBuilder.addHeader( tr, {
+				name: 'Foo',
+				hidden: true
+			}, mw )).toBe( false );
+		} );
+
+		it( "has addRow method for subclasses to override", function() {
+
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
+
+			var tbody = simpleDocument.createElement( 'tbody' );
+
+			var mw = {
+				getElement: function() {
+
+					return {
+						ownerDocument: simpleDocument
+					};
+				}
+			};
+			var tr = widgetBuilder.addRow( tbody, {
+				foo: 'Foo',
+				bar: 'Bar'
+			}, [ { name: 'foo' }, { name: 'bar' } ], mw );
+			expect( tbody.childNodes[0] ).toBe( tr );
+			expect( tbody.childNodes.length ).toBe( 1 );
+			expect( tr.childNodes[0].toString() ).toBe( 'td' );			
+			expect( tr.childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( tr.childNodes[1].toString() ).toBe( 'td' );			
+			expect( tr.childNodes[1].innerHTML ).toBe( 'Bar' );
+			expect( tr.childNodes.length ).toBe( 2 );
+		} );
+		
+		it( "has addColumn method for subclasses to override", function() {
+
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
 			var tr = simpleDocument.createElement( 'tr' );
 

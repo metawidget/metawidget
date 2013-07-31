@@ -437,6 +437,7 @@ var metawidget = metawidget || {};
 	 * Adds a row to the table header. Subclasses may override this method to
 	 * add additional columns, or suppress the header row.
 	 * 
+	 * @param inspectionResultProperties	an array of sorted inspection result properties
 	 * @return array of column attributes. For example, columnAttributes[0]
 	 *         contains an object containing attributes for the first column
 	 */
