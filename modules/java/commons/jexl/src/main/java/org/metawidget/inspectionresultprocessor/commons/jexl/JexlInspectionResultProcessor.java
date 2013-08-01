@@ -218,7 +218,14 @@ public class JexlInspectionResultProcessor<M>
 
 	protected JexlEngine createEngine() {
 
-		return new JexlEngine();
+		JexlEngine engine = new JexlEngine();
+		
+		// Suppress warning 'inaccessible or unknown property this' from
+		// 'createExpression' (which is fine once we call 'evaluate' and pass it
+		// a local context)
+
+		engine.setSilent( true );
+		return engine;
 	}
 
 	/**
