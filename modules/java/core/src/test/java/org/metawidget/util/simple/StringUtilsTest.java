@@ -115,9 +115,22 @@ public class StringUtilsTest
 		assertEquals( "PERMANENTSTAFF", StringUtils.camelCase( "PERMANENT STAFF" ) );
 		assertEquals( "itembar", StringUtils.camelCase( "_item.bar" ) );
 		assertEquals( "itemBar", StringUtils.camelCase( "_item.bar", '.' ) );
+		assertEquals( "DOB", StringUtils.camelCase( "DOB" ) );
 		assertEquals( "DOBirth", StringUtils.camelCase( "DO Birth" ) );
+		assertEquals( "DOBirth", StringUtils.camelCase( "DO birth" ) );
 		assertEquals( "fooDOBirthBar", StringUtils.camelCase( "Foo DO Birth Bar" ) );
 		assertEquals( "1Foo", StringUtils.camelCase( "1 Foo" ) );
+	}
+
+	public void testCamelCaseUncamelCase()
+		throws Exception {
+
+		assertEquals( "fooBah", StringUtils.camelCase( StringUtils.uncamelCase( "fooBah" ) ) );
+		assertEquals( "id", StringUtils.camelCase( StringUtils.uncamelCase( "id" ) ) );
+		assertEquals( "ID", StringUtils.camelCase( StringUtils.uncamelCase( "ID" ) ) );
+		assertEquals( "DOB", StringUtils.camelCase( StringUtils.uncamelCase( "DOB" ) ) );
+		assertEquals( "DOBirth", StringUtils.camelCase( StringUtils.uncamelCase( "DOBirth" ) ) );
+		assertEquals( "fooDOBirthBar", StringUtils.camelCase( StringUtils.uncamelCase( "fooDOBirthBar" ) ) );
 	}
 
 	public void testSubstringBefore()

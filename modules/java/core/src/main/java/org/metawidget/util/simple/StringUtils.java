@@ -236,9 +236,11 @@ public final class StringUtils {
 		}
 
 		// Do the first character. Special support in case the first *two* characters are
-		// capitalized
-		
-		// TODO: DOB should be dob?
+		// capitalized. This follows the convention in <code>decapitalize</code>, which in
+		// turn follows the convention in <tt>java.beans.Introspector</tt>. However it does
+		// have the odd side effect that strings that are *all* uppercase stay as all
+		// uppercase (e.g. 'DOB' stays as 'DOB'). We could make this a special case, but
+		// then we'd still have similar variations (e.g. 'DOBirth' stays as 'DOBirth')
 
 		if ( firstCharacter != -1 ) {
 			int nextCharacter = firstCharacter + 1;
