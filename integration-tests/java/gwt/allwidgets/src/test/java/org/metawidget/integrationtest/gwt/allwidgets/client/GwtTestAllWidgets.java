@@ -497,7 +497,7 @@ public class GwtTestAllWidgets
 																				assertEquals( "Nested Textbox 1.1 (further)", ( (Label) readOnlyFlexTableFurtherNested.getWidget( 1, 1 ) ).getText() );
 																				assertEquals( "Nested Textbox 2.2 (further)", ( (Label) readOnlyFlexTableFurtherNested.getWidget( 2, 1 ) ).getText() );
 
-																				assertEquals( "???nestedTextbox1???:", readOnlyFlexTableNested.getText( 1, 0 ) );
+																				assertEquals( "???NestedTextbox1???:", readOnlyFlexTableNested.getText( 1, 0 ) );
 																				assertEquals( "Nested Textbox 1.1", ( (Label) readOnlyFlexTableNested.getWidget( 1, 1 ) ).getText() );
 																				assertEquals( "Nested Textbox 2 (i18n):", readOnlyFlexTableNested.getText( 2, 0 ) );
 																				assertEquals( "Nested Textbox 2.2", ( (Label) readOnlyFlexTableNested.getWidget( 2, 1 ) ).getText() );
@@ -649,7 +649,7 @@ public class GwtTestAllWidgets
 			"nestedWidgetsDontExpand": "Nested Widgets (don't expand) (i18n)",
 			"readOnlyNestedWidgetsDontExpand": "Read only Nested Widgets (don't expand) (i18n)",
 			"date": "Date (i18n)",
-			"sectionBreak": "Section Break (i18n)",
+			"SectionBreak": "Section Break (i18n)",
 			"readOnly": "Read only (i18n)",
 			"collection": "Collection (i18n)",
 			"doAction": "Action (i18n)"
