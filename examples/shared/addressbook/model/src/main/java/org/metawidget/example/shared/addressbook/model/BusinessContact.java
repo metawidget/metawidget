@@ -98,7 +98,7 @@ public class BusinessContact
 	 */
 
 	@UiComesAfter( "communications" )
-	@UiSection( "Other" )
+	@UiSection( "other" )
 	@UiAttributes( { @UiAttribute( name = MINIMUM_VALUE, value = "0" ), @UiAttribute( name = MAXIMUM_VALUE, value = "100" ) } )
 	public int getNumberOfStaff() {
 

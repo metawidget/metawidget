@@ -90,10 +90,6 @@ public class ContactDialog
 	private static final int				COMPONENT_SPACING	= 5;
 
 	//
-	// Package-level members
-	//
-
-	//
 	// Private members
 	//
 
@@ -310,7 +306,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiLabel( "${if ( this.readOnly ) 'Back'}" )
+	@UiLabel( "${if ( this.readOnly ) 'back'}" )
 	public void cancel() {
 
 		setVisible( false );

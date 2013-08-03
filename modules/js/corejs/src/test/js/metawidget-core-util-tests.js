@@ -156,6 +156,22 @@
 			expect( metawidget.util.camelCase( 'foo' ) ).toBe( 'foo' );
 			expect( metawidget.util.camelCase( 'foo bar' ) ).toBe( 'fooBar' );
 			expect( metawidget.util.camelCase( 'foo bar baz' ) ).toBe( 'fooBarBaz' );
+			
+			expect( metawidget.util.camelCase( 'a' ) ).toBe( 'a' );
+			expect( metawidget.util.camelCase( 'A' ) ).toBe( 'A' );
+			expect( metawidget.util.camelCase( 'AZ' ) ).toBe( 'AZ' );
+			expect( metawidget.util.camelCase( 'A b c' ) ).toBe( 'ABC' );
+			expect( metawidget.util.camelCase( 'A B C' ) ).toBe( 'ABC' );
+			expect( metawidget.util.camelCase( 'AZBC' ) ).toBe( 'AZBC' );
+			expect( metawidget.util.camelCase( 'SPOUSE' ) ).toBe( 'SPOUSE' );
+			expect( metawidget.util.camelCase( 'PERMANENT STAFF' ) ).toBe( 'PERMANENTSTAFF' );
+			expect( metawidget.util.camelCase( 'item bar' ) ).toBe( 'itemBar' );
+			expect( metawidget.util.camelCase( 'item.bar' ) ).toBe( 'item.bar' );
+			expect( metawidget.util.camelCase( 'DOB' ) ).toBe( 'DOB' );
+			expect( metawidget.util.camelCase( 'DO Birth' ) ).toBe( 'DOBirth' );
+			expect( metawidget.util.camelCase( 'DO birth' ) ).toBe( 'DOBirth' );
+			expect( metawidget.util.camelCase( 'Foo DO Birth Bar' ) ).toBe( 'FooDOBirthBar' );
+			expect( metawidget.util.camelCase( '1 Foo' ) ).toBe( '1Foo' );
 		} );
 	} );
 

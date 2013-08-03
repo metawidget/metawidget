@@ -51,9 +51,8 @@ public class NameProcessorTest
 		assertEquals( "<input name=\"foo\"/>", tag.toString() );
 
 		// Metawidget value
-		metawidget.setId( "FooBar" );
+		metawidget.setId( "fooBar" );
 		processor.processWidget( tag, PROPERTY, attributes, metawidget );
 		assertEquals( "<input name=\"fooBarFoo\"/>", tag.toString() );
-
 	}
 }

@@ -276,7 +276,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiAttribute( name = LABEL, value = "${if ( this.contactReadOnly ) 'Back'}" )
+	@UiAttribute( name = LABEL, value = "${if ( this.contactReadOnly ) 'back'}" )
 	public void cancel() {
 
 		getParent().removeWindow( this );

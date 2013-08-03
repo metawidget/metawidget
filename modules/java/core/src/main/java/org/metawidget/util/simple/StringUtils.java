@@ -130,7 +130,8 @@ public final class StringUtils {
 	/**
 	 * Converts the given string from camel case.
 	 * <p>
-	 * For example, converts <code>fooBar1</code> into <code>Foo Bar 1</code>.
+	 * For example, converts <code>fooBar1</code> into <code>Foo Bar 1</code>. Used primarily to
+	 * convert property names and paths into human-readable UI labels.
 	 */
 
 	public static String uncamelCase( String camelCase, char separator ) {
@@ -183,7 +184,11 @@ public final class StringUtils {
 	/**
 	 * Converts the given String to camel case.
 	 * <p>
-	 * The first letter is lowercased, as per Java convention.
+	 * The first letter is lowercased, as per Java convention. However no
+	 * attempt is made to <em>de</em>capitalize the first name, because that
+	 * gets very ambiguous with names like 'URL', 'ID' etc.
+	 * <p>
+	 * Used primarily to convert property paths into ids.
 	 */
 
 	public static String camelCase( String text ) {
@@ -194,7 +199,11 @@ public final class StringUtils {
 	/**
 	 * Converts the given String to camel case.
 	 * <p>
-	 * The first letter is lowercased, as per Java convention.
+	 * The first letter is lowercased, as per Java convention. However no
+	 * attempt is made to <em>de</em>capitalize the first name, because that
+	 * gets very ambiguous with names like 'URL', 'ID' etc.
+	 * <p>
+	 * Used primarily to convert property paths into ids.
 	 */
 
 	public static String camelCase( String text, char separator ) {
@@ -203,7 +212,6 @@ public final class StringUtils {
 
 		// Convert separators to camel case
 
-		int firstCharacter = -1;
 		boolean lastWasSeparator = false;
 		char[] chars = text.toCharArray();
 
@@ -220,12 +228,6 @@ public final class StringUtils {
 				continue;
 			}
 
-			if ( firstCharacter == -1 ) {
-				// Do the first character below
-				firstCharacter = loop;
-				continue;
-			}
-
 			if ( lastWasSeparator ) {
 				builder.append( Character.toUpperCase( c ) );
 				lastWasSeparator = false;
@@ -233,22 +235,6 @@ public final class StringUtils {
 			}
 
 			builder.append( c );
-		}
-
-		// Do the first character. Special support in case the first *two* characters are
-		// capitalized. This follows the convention in <code>decapitalize</code>, which in
-		// turn follows the convention in <tt>java.beans.Introspector</tt>. However it does
-		// have the odd side effect that strings that are *all* uppercase stay as all
-		// uppercase (e.g. 'DOB' stays as 'DOB'). We could make this a special case, but
-		// then we'd still have similar variations (e.g. 'DOBirth' stays as 'DOBirth')
-
-		if ( firstCharacter != -1 ) {
-			int nextCharacter = firstCharacter + 1;
-			if ( chars.length > nextCharacter && ( Character.isLetter( chars[nextCharacter] ) || Character.isDigit( chars[nextCharacter] ) ) && Character.isUpperCase( chars[nextCharacter] ) ) {
-				builder.insert( 0, chars[firstCharacter] );
-			} else {
-				builder.insert( 0, Character.toLowerCase( chars[firstCharacter] ) );
-			}
 		}
 
 		return builder.toString();

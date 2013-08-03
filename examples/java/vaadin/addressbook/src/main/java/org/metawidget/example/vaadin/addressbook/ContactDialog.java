@@ -63,7 +63,7 @@ import com.vaadin.ui.Window;
 
 /**
  * Dialog box for Address Book Contacts.
- *
+ * 
  * @author Loghman Barari
  */
 
@@ -286,7 +286,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiAttribute( name = LABEL, value = "${if ( this.contactReadOnly ) 'Back'}" )
+	@UiAttribute( name = LABEL, value = "${if ( this.contactReadOnly ) 'back'}" )
 	public void cancel() {
 
 		( (UI) getParent() ).removeWindow( this );

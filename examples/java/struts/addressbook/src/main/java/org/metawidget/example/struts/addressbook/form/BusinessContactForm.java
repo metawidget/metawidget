@@ -63,7 +63,7 @@ public class BusinessContactForm
 	}
 
 	@UiComesAfter( "communications" )
-	@UiSection( "Other" )
+	@UiSection( "other" )
 	public int getNumberOfStaff() {
 
 		return mNumberOfStaff;

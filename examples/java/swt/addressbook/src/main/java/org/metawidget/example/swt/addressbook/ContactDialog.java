@@ -477,7 +477,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiLabel( "${if ( this.readOnly ) 'Back'}" )
+	@UiLabel( "${if ( this.readOnly ) 'back'}" )
 	public void cancel() {
 
 		dispose();

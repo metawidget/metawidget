@@ -99,14 +99,11 @@ var metawidget = metawidget || {};
 				}
 
 				// Don't do: if ( loop + 1 < length && !_isUpperCase( chars[loop
-				// + 1] ) )
-				// uncamelCasedName += _toLowerCase( c );
+				// + 1] ) ) uncamelCasedName += _toLowerCase( c );
 				//
 				// It's ambiguous if we should lowercase the letter following a
-				// space, but in
-				// general it looks nicer most of the time not to. The exception
-				// is 'joining' words
-				// such as 'of' in 'Date of Birth'
+				// space, but in general it looks nicer most of the time not to. The exception
+				// is 'joining' words such as 'of' in 'Date of Birth'
 
 				uncamelCasedName += c;
 			} else if ( _isDigit( c ) && _isLetter( lastChar ) && lastChar != ' ' ) {
