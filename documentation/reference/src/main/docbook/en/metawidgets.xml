@@ -694,6 +694,25 @@ mw.buildWidgets();
 ...
 &lt;m:metawidget value="foo"/&gt;
 ...</programlisting>
+							<para>
+								Note that plain JSP doesn't provide any automatic management of
+								business objects. You must manually add objects (<parameter>foo</parameter>
+								in the example above) into the scope. This can be done in several ways. The
+								Address Book sample application uses embedded Java code:
+							</para>
+							
+							<programlisting language="java">&lt;%
+	...
+	request.setAttribute( "contactSearch", contactSearch );
+	...
+%&gt;</programlisting>
+								
+							<para>
+								Alternatively, you could use the <parameter>useBean</parameter> tag:
+							</para>
+							
+							<programlisting language="xml">&lt;jsp:useBean id="foo" class="com.myapp.Foo"/&gt;</programlisting>
+							
 						</listitem>
 						<listitem>
 							<para>
