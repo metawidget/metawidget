@@ -62,8 +62,11 @@
 			</listitem>
 			<listitem>
 				<para>
-					a list of <classname>InspectionResultProcessor</classname>s that can process and modify the inspection result. These can be used to
-					sort the result (e.g. <classname>ComesAfterInspectionResultProcessor</classname>), exclude certain properties, and so on.
+					a list of <classname>InspectionResultProcessor</classname>s that can process and modify the
+					inspection result. These can be used to sort properties
+					(e.g. <classname>ComesAfterInspectionResultProcessor</classname>), exclude properties, and
+					so on. <classname>InspectionResultProcessor</classname>s consider the overall result, holistically,
+					whereas subsequent stages of the pipeline are all 'per widget'.
 				</para>
 			</listitem>
 			<listitem>
@@ -997,11 +1000,15 @@ public class CastorInspector
 				
 				<programlisting language="java">String processInspectionResult( String inspectionResult, M metawidget, Object toInspect,
                                 String type, String... names );</programlisting>
+								
+				<para>
+					Where <parameter>M</parameter> is a Metawidget type (such as <classname>SwingMetawidget</classname> or <classname>UIMetawidget</classname>).
+				</para>
 				
 				<para>
 					The <classname>InspectionResultProcessor</classname> must returned the processed inspection result as XML
 					conforming to <filename>inspection-result-1.0.xsd</filename>. The parent Metwidget then passes this to the next
-					<classname>InspectionResultProcessor</classname> in the list as show in <xref linkend="section-architecture-inspectionresultprocessors-typical"/>.
+					<classname>InspectionResultProcessor</classname> in the list as shown in <xref linkend="section-architecture-inspectionresultprocessors-typical"/>.
 				</para>
 				
 				<!--
@@ -2128,8 +2135,8 @@ static class State {
 				<programlisting language="java">W processWidget( W widget, String elementName, Map&lt;String, String&gt; attributes, M metawidget );</programlisting>
 				
 				<para>
-					Where <parameter>W</parameter> is a widget class (i.e. <classname>JComponent</classname>, <classname>UIComponent</classname> etc)
-					and M is a Metawidget class (i.e. <classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname> etc).					
+					Where <parameter>W</parameter> is a widget type (such as <classname>JComponent</classname> or <classname>UIComponent</classname>)
+					and <parameter>M</parameter> is a Metawidget type (such as <classname>SwingMetawidget</classname> or <classname>UIMetawidget</classname>).
 				</para>
 				
 				<para>
@@ -2146,7 +2153,7 @@ static class State {
 				<para>
 					The <function>processWidget</function> method must return the processed widget. This is typically the same as the given
 					<parameter>widget</parameter>. The parent Metawidget then passes this to the next <classname>WidgetProcessor</classname>
-					in the list as show in <xref linkend="section-architecture-widgetprocessors-typical"/>.
+					in the list as shown in <xref linkend="section-architecture-widgetprocessors-typical"/>.
 				</para>
 
 				<!--
@@ -2667,9 +2674,18 @@ static class State {
 				<programlisting language="java">void layoutWidget(W widget,String elementName,Map&lt;String,String&gt; attributes,C container,M metawidget);</programlisting>
 
 				<para>
-					Where <parameter>W</parameter> is a widget class (i.e. <classname>Control</classname>, <classname>JComponent</classname> etc),
-					C is widget container class (i.e. <classname>Composite</classname>, <classname>JComponent</classname> etc)
-					and M is a Metawidget class (i.e. <classname>SwtMetawidget</classname>, <classname>SwingMetawidget</classname> etc).					
+					Where <parameter>W</parameter> is a widget type (such as <classname>JComponent</classname> or <classname>UIComponent</classname>)
+					and <parameter>M</parameter> is a Metawidget type (such as <classname>SwingMetawidget</classname> or <classname>UIMetawidget</classname>).
+				</para>
+
+				<para>
+					Where <parameter>W</parameter> is a widget type (i.e. <classname>Control</classname>, <classname>JComponent</classname> etc),
+					C is widget container type (i.e. <classname>Composite</classname>, <classname>JComponent</classname> etc)
+					and M is a Metawidget type (i.e. <classname>SwtMetawidget</classname>, <classname>SwingMetawidget</classname> etc).
+					Don't be put off by having so many parameterized types! Metawidget needs them so that it can present a consistent
+					API across many architectures. However this complication doesn't impact your own custom
+					plugins because you're able to substitute concrete, platform-specific values for
+					each parameter (i.e. <classname>Control</classname>, <classname>Composite</classname>, <classname>SwtMetawidget</classname> ).
 				</para>
 				
 				<para>
