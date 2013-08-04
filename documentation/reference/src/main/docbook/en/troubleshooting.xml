@@ -155,29 +155,31 @@ public @interface MyAnnotation {
 		<section id="section-troubleshooting-web">
 			<title>Web Metawidgets</title>
 			
+			<section id="section-metawidgets-web-blank">
+				<title>I put &lt;m:metawidget &gt; in my page but nothing appears</title>
+				
+				<para>
+					View the source of the final Web page that is produced. If <parameter>m:metawidget</parameter> appears in it, the
+					tag is not being processed. Check you have correctly declared the <parameter>m:</parameter> namespace at the
+					top of your JSP/Facelets page. Also check you have correctly deployed <filename>metawidget-all.jar</filename> into
+					<filename>WEB-INF/lib</filename>. 
+				</para>
+				
+				<para>
+					If <parameter>m:metawidget</parameter> does <emphasis>not</emphasis> appear in the final Web page, the tag is
+					successfully being procesed. Check whether a 'blank' Metawidget is being produced (i.e. an empty table if you are
+					using a table-based layout, some empty <parameter>div</parameter>s if you are
+					using a div-based layout). In so, check the value expression is returning a
+					non-null value. For example, if your JSF tag is <parameter>&lt;m:metawidget value="#{foo.bar}"/&gt;</parameter>,
+					check that <parameter>#{foo.bar}</parameter> does not return <parameter>null</parameter>. Equally,
+					if your JSP tag is <parameter>&lt;m:metawidget value="foo"/&gt;</parameter>,
+					check you have put <parameter>foo</parameter> into the scope.
+				</para>
+			</section>
+
 			<section id="section-troubleshooting-web-faces">
 				<title>Java Server Faces</title>				
 			
-				<section id="section-metawidgets-web-faces-blank">
-					<title>I put &lt;m:metawidget &gt; in my page but nothing appears</title>
-					
-					<para>
-						View the source of the final Web page that is produced. If <parameter>m:metawidget</parameter> appears in it, the
-						tag is not being processed. Check you have correctly declared the <parameter>m:</parameter> namespace at the
-						top of your JSP/Facelets page. Also check you have correctly deployed <filename>metawidget-all.jar</filename> into
-						<filename>WEB-INF/lib</filename>. 
-					</para>
-					
-					<para>
-						If <parameter>m:metawidget</parameter> does <emphasis>not</emphasis> appear in the final Web page, the tag is
-						successfully being procesed. Check whether a 'blank' Metawidget is being produced (i.e. an empty table if you are
-						using the <classname>HtmlTableLayoutRenderer</classname>, some empty <parameter>div</parameter>s if you are
-						using <classname>HtmlDivLayoutRenderer</classname>). In so, check the value expression is returning a
-						non-null value. For example, if your tag is <parameter>&lt;m:metawidget value="#{foo.bar}"/&gt;</parameter>,
-						check that <parameter>#{foo.bar}</parameter> does not return <parameter>null</parameter>.
-					</para>
-				</section>
-				
 				<section id="section-metawidgets-web-faces-missing-annotations">
 					<title>I have annotated my getter, but Metawidget is ignoring my annotations</title>
 					

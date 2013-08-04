@@ -574,27 +574,27 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td><programlisting type="xml">&lt;button&gt;</programlisting></td>
+								<td><classname>&lt;button&gt;</classname></td>
 								<td><parameter>type: "function"</parameter></td>
 							</tr>
 							<tr>
-								<td><programlisting type="xml">&lt;input type="checkbox"&gt;</programlisting></td>
+								<td><classname>&lt;input type="checkbox"&gt;</classname></td>
 								<td><parameter>type: "boolean"</parameter></td>
 							</tr>				
 							<tr>
-								<td><programlisting type="xml">&lt;input type="date"&gt;</programlisting></td>
+								<td><classname>&lt;input type="date"&gt;</classname></td>
 								<td><parameter>type: "date"</parameter></td>
 							</tr>				
 							<tr>
-								<td><programlisting type="xml">&lt;input type="number"&gt;</programlisting></td>
+								<td><classname>&lt;input type="number"&gt;</classname></td>
 								<td><parameter>type: "number"</parameter></td>
 							</tr>				
 							<tr>
-								<td><programlisting type="xml">&lt;input type="password"&gt;</programlisting></td>
+								<td><classname>&lt;input type="password"&gt;</classname></td>
 								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
-								<td><programlisting type="xml">&lt;input type="range"&gt;</programlisting></td>
+								<td><classname>&lt;input type="range"&gt;</classname></td>
 								<td>
 									<parameter>type: "number"</parameter> and both
 									<parameter>minimum</parameter> and <parameter>maximum</parameter>
@@ -602,7 +602,7 @@
 								</td>
 							</tr>				
 							<tr>
-								<td><programlisting type="xml">&lt;input type="text"&gt;</programlisting></td>
+								<td><classname>&lt;input type="text"&gt;</classname></td>
 								<td>
 									<parameter>type: "string"</parameter>.
 									Also if property is of unknown type but <parameter>dontExpand</parameter>.
@@ -610,15 +610,15 @@
 								</td>							
 							</tr>
 							<tr>
-								<td><programlisting type="xml">&lt;select&gt;</programlisting></td>
+								<td><classname>&lt;select&gt;</classname></td>
 								<td><parameter>enum</parameter></td>
 							</tr>					
 							<tr>
-								<td><programlisting type="xml">&lt;stub&gt;</programlisting></td>
+								<td><classname>&lt;stub&gt;</classname></td>
 								<td><parameter>hidden</parameter></td>
 							</tr>
 							<tr>
-								<td><programlisting type="xml">&lt;textarea&gt;</programlisting></td>
+								<td><classname>&lt;textarea&gt;</classname></td>
 								<td><parameter>type: "string"</parameter> and <parameter>large</parameter></td>
 							</tr>
 						</tbody>
@@ -658,7 +658,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td><programlisting language="xml">output</programlisting></td>
+								<td><classname>output</classname></td>
 								<td>
 									<parameter>read-only</parameter> and <parameter>enum</parameter>,
 									<parameter>type: "string"</parameter>,
@@ -668,7 +668,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><programlisting language="xml">stub</programlisting></td>
+								<td><classname>stub</classname></td>
 								<td>
 									<parameter>read-only</parameter> and
 									<parameter>hidden</parameter>, <parameter>masked</parameter>

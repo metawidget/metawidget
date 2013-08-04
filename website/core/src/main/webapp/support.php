@@ -9,6 +9,14 @@
 			of support options:
 		</p>
 	
+		<h2 class="h2-underneath">Kennard Consulting's Blog</h2>
+		
+		<p>
+			Complete code samples, hints, tips and answers to commonly asked questions can be found on
+			<a href="http://blog.kennardconsulting.com">Kennard Consulting's Blog</a>. The blog includes a
+			searchable archive.
+		</p>
+
 		<h2 class="h2-underneath">Community Forums</h2>
 		
 		<p>
