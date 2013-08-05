@@ -48,6 +48,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * @author Richard Kennard
  */
 
+// TODO: Better JSP validation support
+
 public class HtmlWidgetBuilder
 	implements WidgetBuilder<Tag, MetawidgetTag> {
 

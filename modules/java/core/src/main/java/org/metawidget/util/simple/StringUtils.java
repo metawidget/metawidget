@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 /**
  * Utilities for working with Strings.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -100,7 +100,7 @@ public final class StringUtils {
 	 * we try to make <code>capitalize</code> the inverse of <code>decapitalize</code> (this
 	 * includes the 'second character' clause). For example, in Eclipse if you define a property
 	 * 'aB123' and then 'generate getters' Eclipse will generate a method called 'getaB123'
-	 * <em>not</em> 'getAB123'.
+	 * <em>not</em> 'getAB123'. See: https://community.jboss.org/thread/203202?start=0&tstart=0
 	 */
 
 	public static String capitalize( String in ) {
@@ -119,7 +119,8 @@ public final class StringUtils {
 	/**
 	 * Converts the given string from camel case.
 	 * <p>
-	 * For example, converts <code>fooBar1</code> into <code>Foo Bar 1</code>.
+	 * For example, converts <code>fooBar1</code> into <code>Foo Bar 1</code>. Used primarily to
+	 * convert property names and paths into human-readable UI labels.
 	 */
 
 	public static String uncamelCase( String camelCase ) {
@@ -184,9 +185,9 @@ public final class StringUtils {
 	/**
 	 * Converts the given String to camel case.
 	 * <p>
-	 * The first letter is lowercased, as per Java convention. However no
-	 * attempt is made to <em>de</em>capitalize the first name, because that
-	 * gets very ambiguous with names like 'URL', 'ID' etc.
+	 * The first letter following a <tt>separator</tt> is capitalized, as per Java convention. Non
+	 * alpha numeric characters are also stripped. However no attempt is made to <em>de</em>
+	 * capitalize the first name, because that gets very ambiguous with names like 'URL', 'ID' etc.
 	 * <p>
 	 * Used primarily to convert property paths into ids.
 	 */
@@ -199,9 +200,9 @@ public final class StringUtils {
 	/**
 	 * Converts the given String to camel case.
 	 * <p>
-	 * The first letter is lowercased, as per Java convention. However no
-	 * attempt is made to <em>de</em>capitalize the first name, because that
-	 * gets very ambiguous with names like 'URL', 'ID' etc.
+	 * The first letter following a <tt>separator</tt> is capitalized, as per Java convention. Non
+	 * alpha numeric characters are also stripped. However no attempt is made to <em>de</em>
+	 * capitalize the first name, because that gets very ambiguous with names like 'URL', 'ID' etc.
 	 * <p>
 	 * Used primarily to convert property paths into ids.
 	 */
