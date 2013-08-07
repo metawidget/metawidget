@@ -563,22 +563,6 @@ public class XmlSchemaInspectorTest
 		assertEquals( 0, sgntrMetawidget.getComponentCount() );
 	}
 
-	public static void main( String[] args ) {
-
-		final SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new XmlSchemaInspector(
-				new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/acmt.xsd" ) ) ) );
-		metawidget.addInspectionResultProcessor( new XmlSchemaToJavaTypeMappingProcessor<SwingMetawidget>() );
-		metawidget.setPath( "AccountRequestAcknowledgementV01" );
-
-		JFrame frame = new JFrame( "Metawidget WSDL" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().add( new JScrollPane( metawidget ) );
-		frame.setSize( 400, 210 );
-		metawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
-		frame.setVisible( true );
-	}
-
 	public void testBankAccount() {
 
 		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/bank-account.xsd" ) ) );
@@ -654,5 +638,21 @@ public class XmlSchemaInspectorTest
 		MetawidgetTestUtils.testEqualsAndHashcode( XmlSchemaInspectorConfig.class, new XmlSchemaInspectorConfig() {
 			// Subclass
 		}, "inputStreams" );
+	}
+
+	public static void main( String[] args ) {
+
+		final SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new XmlSchemaInspector(
+				new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/ddms.xsd" ) ) ) );
+		metawidget.addInspectionResultProcessor( new XmlSchemaToJavaTypeMappingProcessor<SwingMetawidget>() );
+		metawidget.setPath( "MetacardInfoType" );
+
+		JFrame frame = new JFrame( "Metawidget WSDL" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( new JScrollPane( metawidget ) );
+		frame.setSize( 400, 210 );
+		metawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+		frame.setVisible( true );
 	}
 }

@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 /**
  * Utilities for working with Strings.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -94,7 +94,8 @@ public final class StringUtils {
 	}
 
 	/**
-	 * Capitalize by uppercasing the first letter of the given String.
+	 * Capitalize by uppercasing the first letter of the given String (e.g. from
+	 * 'fooBarBaz' to 'FooBarBaz').
 	 * <p>
 	 * The rules for capitalizing are not clearly defined in <tt>java.beans.Introspector</tt>, but
 	 * we try to make <code>capitalize</code> the inverse of <code>decapitalize</code> (this
@@ -104,6 +105,10 @@ public final class StringUtils {
 	 */
 
 	public static String capitalize( String in ) {
+
+		if ( in.length() == 0 ) {
+			return in;
+		}
 
 		// Second letter uppercase?
 
@@ -201,8 +206,7 @@ public final class StringUtils {
 	 * Converts the given String to camel case.
 	 * <p>
 	 * The first letter following a <tt>separator</tt> is capitalized, as per Java convention. Non
-	 * alpha numeric characters are also stripped. However no attempt is made to <em>de</em>
-	 * capitalize the first name, because that gets very ambiguous with names like 'URL', 'ID' etc.
+	 * alpha numeric characters are also stripped. The start of the String is decapitalized.
 	 * <p>
 	 * Used primarily to convert property paths into ids.
 	 */
@@ -214,7 +218,7 @@ public final class StringUtils {
 		// Convert separators to camel case
 
 		boolean lastWasSeparator = false;
-		char[] chars = text.toCharArray();
+		char[] chars = StringUtils.decapitalize( text ).toCharArray();
 
 		for ( int loop = 0, length = chars.length; loop < length; loop++ ) {
 

@@ -82,14 +82,14 @@
 				title: 'Foo Bar'
 			}, {
 				l10n: {
-					FooBar: 'Foo Bar (i10n)'
+					fooBar: 'Foo Bar (i10n)'
 				}
 			} ) ).toBe( 'Foo Bar (i10n)' );
 			expect( metawidget.util.getLabelString( {
 				title: 'Foo Bar'
 			}, {
 				l10n: {
-					FooBaz: 'Foo Baz (i10n)'
+					fooBaz: 'Foo Baz (i10n)'
 				}
 			} ) ).toBe( 'Foo Bar' );
 			expect( metawidget.util.getLabelString( {
@@ -113,10 +113,45 @@
 
 		it( "capitalizes strings", function() {
 
+			expect( metawidget.util.capitalize( '' ) ).toBe( '' );
 			expect( metawidget.util.capitalize( 'fooBah' ) ).toBe( 'FooBah' );
 			expect( metawidget.util.capitalize( 'x' ) ).toBe( 'X' );
 			expect( metawidget.util.capitalize( 'URL' ) ).toBe( 'URL' );
 			expect( metawidget.util.capitalize( 'ID' ) ).toBe( 'ID' );
+			expect( metawidget.util.capitalize( 'aFIELD' ) ).toBe( 'aFIELD' );
+			expect( metawidget.util.capitalize( 'aI' ) ).toBe( 'aI' );
+			expect( metawidget.util.capitalize( 'jAXBElementLongConverter' ) ).toBe( 'jAXBElementLongConverter' );
+			expect( metawidget.util.capitalize( 'JAXBElementLongConverter' ) ).toBe( 'JAXBElementLongConverter' );
+		} );
+	} );
+	
+	describe( "The decapitalize function", function() {
+
+		it( "decapitalizes strings", function() {
+
+			expect( metawidget.util.decapitalize( '' ) ).toBe( '' );
+			expect( metawidget.util.decapitalize( 'FooBah' ) ).toBe( 'fooBah' );
+			expect( metawidget.util.decapitalize( 'X' ) ).toBe( 'x' );
+			expect( metawidget.util.decapitalize( 'URL' ) ).toBe( 'URL' );
+			expect( metawidget.util.decapitalize( 'ID' ) ).toBe( 'ID' );
+
+			// See: https://community.jboss.org/thread/203202?start=0&tstart=0
+			
+			expect( metawidget.util.decapitalize( 'aFIELD' ) ).toBe( 'aFIELD' );
+			expect( metawidget.util.decapitalize( 'aI' ) ).toBe( 'aI' );
+		} );
+		
+		it( "is the inverse of capitalize", function() {
+			
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'fooBah' )) ).toBe( 'fooBah' );
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'x' )) ).toBe( 'x' );
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'URL' )) ).toBe( 'URL' );
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'ID' )) ).toBe( 'ID' );
+
+			// These are only the inverse of each other because of the 'second character' clause
+			
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'aFIELD' )) ).toBe( 'aFIELD' );
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'aI' )) ).toBe( 'aI' );
 		} );
 	} );
 
@@ -156,12 +191,13 @@
 			expect( metawidget.util.camelCase( 'foo' ) ).toBe( 'foo' );
 			expect( metawidget.util.camelCase( 'foo bar' ) ).toBe( 'fooBar' );
 			expect( metawidget.util.camelCase( 'foo bar baz' ) ).toBe( 'fooBarBaz' );
-			
+
+			expect( metawidget.util.camelCase( 'Dropdown Foo' ) ).toBe( 'dropdownFoo' );
 			expect( metawidget.util.camelCase( 'a' ) ).toBe( 'a' );
-			expect( metawidget.util.camelCase( 'A' ) ).toBe( 'A' );
+			expect( metawidget.util.camelCase( 'A' ) ).toBe( 'a' );
 			expect( metawidget.util.camelCase( 'AZ' ) ).toBe( 'AZ' );
-			expect( metawidget.util.camelCase( 'A b c' ) ).toBe( 'ABC' );
-			expect( metawidget.util.camelCase( 'A B C' ) ).toBe( 'ABC' );
+			expect( metawidget.util.camelCase( 'A b c' ) ).toBe( 'aBC' );
+			expect( metawidget.util.camelCase( 'A B C' ) ).toBe( 'aBC' );
 			expect( metawidget.util.camelCase( 'AZBC' ) ).toBe( 'AZBC' );
 			expect( metawidget.util.camelCase( 'SPOUSE' ) ).toBe( 'SPOUSE' );
 			expect( metawidget.util.camelCase( 'PERMANENT STAFF' ) ).toBe( 'PERMANENTSTAFF' );
@@ -170,7 +206,7 @@
 			expect( metawidget.util.camelCase( 'DOB' ) ).toBe( 'DOB' );
 			expect( metawidget.util.camelCase( 'DO Birth' ) ).toBe( 'DOBirth' );
 			expect( metawidget.util.camelCase( 'DO birth' ) ).toBe( 'DOBirth' );
-			expect( metawidget.util.camelCase( 'Foo DO Birth Bar' ) ).toBe( 'FooDOBirthBar' );
+			expect( metawidget.util.camelCase( 'Foo DO Birth Bar' ) ).toBe( 'fooDOBirthBar' );
 			expect( metawidget.util.camelCase( '1 Foo' ) ).toBe( '1Foo' );
 		} );
 	} );
@@ -493,18 +529,20 @@
 
 			var element = metawidget.util.createElement( {
 				getElement: function() {
+
 					return {
 						ownerDocument: {
 							createElement: function( elementName ) {
+
 								return {
 									tagName: elementName
 								}
 							}
-						}						
+						}
 					};
 				}
 			}, 'output' );
-			
+
 			expect( element.tagName ).toBe( 'OUTPUT' );
 		} );
 	} );

@@ -32,6 +32,7 @@ public class StringUtilsTest
 	public void testCapitalize()
 		throws Exception {
 
+		assertEquals( "", StringUtils.capitalize( "" ) );
 		assertEquals( "FooBah", StringUtils.capitalize( "fooBah" ) );
 		assertEquals( "X", StringUtils.capitalize( "x" ) );
 		assertEquals( "URL", StringUtils.capitalize( "URL" ) );
@@ -100,26 +101,23 @@ public class StringUtilsTest
 
 		// camelCase
 
-		assertEquals( "DropdownFoo", StringUtils.camelCase( "Dropdown #Foo" ) );
-		assertEquals( "DropdownFoo", StringUtils.camelCase( "Dropdown#foo", '#' ) );
-		assertEquals( "Dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ) );
-		assertEquals( "Dropdown2", StringUtils.camelCase( "Dropdown #2" ) );
+		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown #Foo" ) );
+		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown#foo", '#' ) );
+		assertEquals( "dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ) );
+		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ) );
 		assertEquals( "", StringUtils.camelCase( "" ) );
 		assertEquals( "", StringUtils.camelCase( "_" ) );
-		assertEquals( "a", StringUtils.camelCase( "a" ) );
-		assertEquals( "A", StringUtils.camelCase( "A" ) );
+		assertEquals( "a", StringUtils.camelCase( "A" ) );
 		assertEquals( "AZ", StringUtils.camelCase( "AZ" ) );
-		assertEquals( "ABC", StringUtils.camelCase( "A b c" ) );
-		assertEquals( "ABC", StringUtils.camelCase( "A B C" ) );
+		assertEquals( "aBC", StringUtils.camelCase( "A b c" ) );
+		assertEquals( "aBC", StringUtils.camelCase( "A B C" ) );
 		assertEquals( "AZBC", StringUtils.camelCase( "AZ B C" ) );
 		assertEquals( "SPOUSE", StringUtils.camelCase( "SPOUSE" ) );
 		assertEquals( "PERMANENTSTAFF", StringUtils.camelCase( "PERMANENT STAFF" ) );
 		assertEquals( "itembar", StringUtils.camelCase( "_item.bar" ) );
 		assertEquals( "itemBar", StringUtils.camelCase( "_item.bar", '.' ) );
-		assertEquals( "DOB", StringUtils.camelCase( "DOB" ) );
 		assertEquals( "DOBirth", StringUtils.camelCase( "DO Birth" ) );
-		assertEquals( "DOBirth", StringUtils.camelCase( "DO birth" ) );
-		assertEquals( "FooDOBirthBar", StringUtils.camelCase( "Foo DO Birth Bar" ) );
+		assertEquals( "fooDOBirthBar", StringUtils.camelCase( "Foo DO Birth Bar" ) );
 		assertEquals( "1Foo", StringUtils.camelCase( "1 Foo" ) );
 	}
 

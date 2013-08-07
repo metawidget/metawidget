@@ -102,8 +102,9 @@ var metawidget = metawidget || {};
 				// + 1] ) ) uncamelCasedName += _toLowerCase( c );
 				//
 				// It's ambiguous if we should lowercase the letter following a
-				// space, but in general it looks nicer most of the time not to. The exception
-				// is 'joining' words such as 'of' in 'Date of Birth'
+				// space, but in general it looks nicer most of the time not to.
+				// The exception is 'joining' words such as 'of' in 'Date of
+				// Birth'
 
 				uncamelCasedName += c;
 			} else if ( _isDigit( c ) && _isLetter( lastChar ) && lastChar != ' ' ) {
@@ -127,12 +128,6 @@ var metawidget = metawidget || {};
 			return ( charCode >= 48 && charCode <= 57 );
 		}
 
-		function _isUpperCase( c ) {
-
-			var charCode = c.charCodeAt( 0 );
-			return ( charCode >= 65 && charCode <= 90 );
-		}
-
 		function _isLetter( c ) {
 
 			var charCode = c.charCodeAt( 0 );
@@ -141,11 +136,64 @@ var metawidget = metawidget || {};
 	};
 
 	/**
-	 * Capitalizes the first letter of the given name (e.g. from 'fooBarBaz' to
-	 * 'FooBarBaz').
+	 * Following the rules defined in <tt>capitalize</tt>: "This normally
+	 * means converting the first character from upper case to lower case, but
+	 * in the (unusual) special case when there is more than one character and
+	 * both the first and second characters are upper case, we leave it alone.
+	 * Thus 'FooBah' becomes 'fooBah' and 'X' becomes 'x', but 'URL' stays as
+	 * 'URL'"
+	 */
+
+	metawidget.util.decapitalize = function( name ) {
+
+		if ( name.length === 0 ) {
+			return name;
+		}
+
+		// Nothing to do?
+
+		var firstChar = name.charAt( 0 );
+
+		if ( !_isUpperCase( firstChar ) ) {
+			return name;
+		}
+
+		// Second letter uppercase?
+
+		if ( name.length > 1 ) {
+			if ( _isUpperCase( name.charAt( 1 ) ) ) {
+				return name;
+			}
+		}
+
+		return name.charAt( 0 ).toLowerCase() + name.slice( 1 );
+	};
+
+	/**
+	 * Capitalize by uppercasing the first letter of the given String (e.g. from
+	 * 'fooBarBaz' to 'FooBarBaz').
+	 * <p>
+	 * The rules for capitalizing are not clearly, but we try to make
+	 * <tt>capitalize</tt> the inverse of <tt>decapitalize</tt> (this
+	 * includes the 'second character' clause). For example, in Eclipse if you
+	 * define a property 'aB123' and then 'generate getters' Eclipse will
+	 * generate a method called 'getaB123' <em>not</em> 'getAB123'. See:
+	 * https://community.jboss.org/thread/203202?start=0&tstart=0
 	 */
 
 	metawidget.util.capitalize = function( name ) {
+
+		if ( name.length === 0 ) {
+			return name;
+		}
+
+		// Second letter uppercase?
+
+		if ( name.length > 1 ) {
+			if ( _isUpperCase( name.charAt( 1 ) ) ) {
+				return name;
+			}
+		}
 
 		return name.charAt( 0 ).toUpperCase() + name.slice( 1 );
 	};
@@ -162,9 +210,8 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Camel cases the given array of names (e.g. from ['foo','bar','baz'] to
-	 * 'fooBarBaz'). Note the second and third names are capitalized. However no
-	 * attempt is made to <em>de</em>capitalize the first name, because that
-	 * gets very ambiguous with names like 'URL', 'ID' etc.
+	 * 'fooBarBaz'). The first name is decapitalized. Subsequent names are
+	 * capitalized.
 	 * <p>
 	 * If <tt>names</tt> is not an array, first calls
 	 * <tt>names.split( ' ' )</tt>.
@@ -182,7 +229,7 @@ var metawidget = metawidget || {};
 		var length = names.length;
 
 		if ( length > 0 ) {
-			toString += names[0];
+			toString += metawidget.util.decapitalize( names[0] );
 		}
 
 		for ( var loop = 1; loop < length; loop++ ) {
@@ -553,4 +600,15 @@ var metawidget = metawidget || {};
 
 		return mw.getElement().ownerDocument.createTextNode( text );
 	};
+
+	//
+	// Private methods
+	//
+
+	function _isUpperCase( c ) {
+
+		var charCode = c.charCodeAt( 0 );
+		return ( charCode >= 65 && charCode <= 90 );
+	}
+
 } )();

@@ -159,7 +159,7 @@
 				<verifyXPath xpath="/html/body/form/div/table/tbody/tr[24]/td[1]/select"/>
 				<verifySelectField name="form:allWidgetsDropdownWithLabels" text="Dropdown #2 (i18n)"/>
 				<verifyXPath xpath="count(/html/body/form/div/table/tbody/tr[24]/td[1]/select/option)" text="5"/>				
-				<setSelectField name="form:allWidgetsDropdownWithLabels" text="???Bar2???"/>
+				<setSelectField name="form:allWidgetsDropdownWithLabels" text="???bar2???"/>
 
 				<verifyXPath xpath="/html/body/form/div/table/tbody/tr[25]/th" text="Not-null Dropdown (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/div/table/tbody/tr[25]/td[1]/select"/>

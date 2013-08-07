@@ -216,7 +216,7 @@
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>
 				<!-- test section name as style class -->
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@class" text="Foo"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@class" text="foo"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@style" text="border: 1px solid blue"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/@colspan" text="2"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/@class" text="innerDiv bar"/>
@@ -268,7 +268,7 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td[1]/input/@type" text="text"/>
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/@colspan" text="2"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@class" text="Foo"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@class" text="foo"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/@style" text="border: 1px solid blue"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/@colspan" text="2"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td/div/table/tbody/tr[1]/td/div/@class" text="innerDiv bar"/>
@@ -367,7 +367,7 @@
 					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@type" text="text"/>
 					
 					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[2]/td/@colspan" text="2"/>
-					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[2]/td/span/@class, 'More')"/>
+					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr[2]/td/span/@class, 'more')"/>
 					<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[2]/td/span/div/table/tbody/tr[1]/th[1]/label)" text="Bar 2:"/>
 					<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td/span/div/table/tbody/tr[1]/td[1]/input/@type" text="text"/>
 					<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td/span/div/table/tbody/tr)" text="1"/>

@@ -694,7 +694,7 @@ public abstract class BaseXmlInspector
 				continue;
 			}
 
-			// If no typeAttribute, support referenceAttribute (typeAttribute takes precedence)
+			// If no typeAttribute, support referenceAttribute (though typeAttribute takes precedence)
 
 			if ( !property.hasAttribute( typeAttribute ) ) {
 

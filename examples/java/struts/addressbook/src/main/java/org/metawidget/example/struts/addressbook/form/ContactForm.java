@@ -152,7 +152,7 @@ public abstract class ContactForm
 	}
 
 	@UiComesAfter( "gender" )
-	@UiSection( "contactDetails" )
+	@UiSection( "Contact Details" )
 	public Address getAddress() {
 
 		return mAddress;
@@ -175,7 +175,7 @@ public abstract class ContactForm
 	}
 
 	@UiComesAfter
-	@UiSection( "other" )
+	@UiSection( "Other" )
 	@UiLarge
 	public String getNotes() {
 
