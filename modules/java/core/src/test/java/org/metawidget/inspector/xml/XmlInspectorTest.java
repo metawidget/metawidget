@@ -772,8 +772,7 @@ public class XmlInspectorTest
 		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "c", entity.getAttribute( NAME ) );
-		assertEquals( "", entity.getAttribute( TYPE ) );
-		assertEquals( 2, entity.getAttributes().getLength() );
+		assertEquals( 1, entity.getAttributes().getLength() );
 
 		Element property = (Element) entity.getFirstChild();
 		assertEquals( PROPERTY, property.getNodeName() );
