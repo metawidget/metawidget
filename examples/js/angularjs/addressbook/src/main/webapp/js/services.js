@@ -153,7 +153,7 @@
 								enumTitles: [ "Personal", "Business" ]
 							}
 						}
-					}
+					};
 				} ] ),
 				layout: _tableLayout
 			},
