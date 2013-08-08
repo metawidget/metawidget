@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:common="urn:us:gov:ic:common" xmlns:ddms="urn:us:mil:ces:metadata:ddms:5" xmlns:ICISM="urn:us:gov:ic:ism" xmlns:tspi="http://metadata.ces.mil/mdr/ns/GSIP/tspi/2.0" xmlns:virt="urn:us:gov:ic:virt" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="urn:us:mil:ces:metadata:ddms:5" targetNamespace="urn:us:mil:ces:metadata:ddms:5" elementFormDefault="qualified" attributeFormDefault="qualified" version="5">
+
+	<!-- This is a temporary stand-in schema for DDMSence 2.2.0 development (Issue #191). As individual enhancements are added to the codebase, these schemas will be updated or replaced until DDMS 5.0 is fully supported. -->
+
+	<xs:import namespace="urn:us:gov:ic:ism" schemaLocation="../ISM/IC-ISM.xsd" />
+	<xs:import namespace="urn:us:gov:ic:virt" schemaLocation="../VIRT/VIRT.xsd" />
+	<xs:import namespace="http://metadata.ces.mil/mdr/ns/GSIP/tspi/2.0" schemaLocation="../tspi/2.0.0/tspi.xsd" />
+	<xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="../w3/1999/xlink/xlink.xsd" />
+
+	<xs:element name="affiliation" type="simpleTokenType" />
+	<xs:element name="boundingGeometry" type="BoundingGeometryType" />
+	<xs:element name="category" type="CompoundCategoryIdentifierType" />
+	<xs:element name="contributor" type="ContactInfoType" />
+	<xs:element name="countryCode" type="CompoundCountryCodeIdentifierType" />
+	<xs:element name="creator" type="ContactInfoType" />
+	<xs:element name="dates" type="DatesType" />
+	<xs:element name="description" type="DescriptionType" />
+	<xs:element name="extent" type="QualifiedExtentValueType" />
+	<xs:element name="facilityIdentifier" type="FacilityIdentifierType" />
+	<xs:element name="format" type="FormatType" />
+	<xs:element name="geographicIdentifier">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="name" type="simpleTokenType" />
+				<xs:element name="region" type="simpleTokenType" />
+				<xs:element ref="ddms:countryCode" />
+				<xs:element ref="ddms:subDivisionCode" />
+				<xs:element ref="ddms:facilityIdentifier" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="geospatialCoverage" type="PlaceType" />
+	<xs:element name="identifier" type="CompoundResourceIdentifierType" />
+	<xs:element name="keyword" type="CompoundKeywordIdentifierType" />
+	<xs:element name="language" type="CompoundLanguageIdentifierType" />
+	<xs:element name="medium" type="MediumType" />
+	<xs:element name="metacardInfo" type="MetacardInfoType" />
+	<xs:element name="mimeType" type="MimeTypeType" />
+	<xs:element name="nonStateActor" type="NonStateActorCoverageType" />
+	<xs:element name="organization" type="OrganizationType" />
+	<xs:element name="person" type="PersonType" />
+	<xs:element name="pointOfContact" type="ContactInfoType" />
+	<xs:element name="postalAddress">
+		<xs:complexType>
+			<xs:group ref="postalAddressGroup" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="processingInfo" type="ProcessingInfoType" />
+	<xs:element name="productionMetric" type="ProductionMetricType" />
+	<xs:element name="publisher" type="ContactInfoType" />
+	<xs:element name="recordsManagementInfo" type="RecordsManagementInfoType" />
+	<xs:element name="relatedResource" type="RelatedResourcesType" />
+	<xs:element name="resource" type="ResourceType" />
+	<xs:element name="resourceManagement" type="ResourceManagementType" />
+	<xs:element name="revisionRecall" type="RevisionRecallType" />
+	<xs:element name="rights" type="RightsType" />
+	<xs:element name="service" type="ServiceType" />
+	<xs:element name="source" type="CompoundSourceIdentifierType" />
+	<xs:element name="subDivisionCode" type="CompoundCountryCodeIdentifierType" />
+	<xs:element name="subjectCoverage" type="SubjectType" />
+	<xs:element name="subtitle" type="SubtitleType" />
+	<xs:element name="temporalCoverage" type="TimePeriodType" />
+	<xs:element name="title" type="TitleType" />
+	<xs:element name="type" type="CompoundTypeIdentifierType" />
+	<xs:element name="unknown" type="UnknownType" />
+	<xs:element name="virtualCoverage" type="virt:VirtualCoverageType" />
+
+	<xs:attribute name="acronym" type="simpleTokenType" />
+
+	<xs:group name="postalAddressGroup">
+		<xs:sequence>
+			<xs:element ref="tspi:AbstractPhysicalAddress" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:simpleType name="CombinedDateType">
+		<xs:union memberTypes="xs:dateTime ddms:DateHourMinType xs:date xs:gYearMonth xs:gYear" />
+	</xs:simpleType>
+	<xs:simpleType name="DateApproximationEnumerationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1st qtr" />
+			<xs:enumeration value="2nd qtr" />
+			<xs:enumeration value="3rd qtr" />
+			<xs:enumeration value="4th qtr" />
+			<xs:enumeration value="circa" />
+			<xs:enumeration value="early" />
+			<xs:enumeration value="mid" />
+			<xs:enumeration value="late" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DateHourMinType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}(Z|[\-\+][0-9]{2}:[0-9]{2})?" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DateValueExtensionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Not Applicable" />
+			<xs:enumeration value="Unknown" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ExtendedCombinedDateType">
+		<xs:union memberTypes="CombinedDateType DateValueExtensionType" />
+	</xs:simpleType>
+	<xs:simpleType name="LengthMeasureType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Meter" />
+			<xs:enumeration value="Kilometer" />
+			<xs:enumeration value="Foot" />
+			<xs:enumeration value="StatuteMile" />
+			<xs:enumeration value="NauticalMile" />
+			<xs:enumeration value="Fathom" />
+			<xs:enumeration value="Inch" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MediumType">
+		<xs:restriction base="simpleTokenType" />
+	</xs:simpleType>
+	<xs:simpleType name="MimeTypeType">
+		<xs:restriction base="simpleTokenType" />
+	</xs:simpleType>
+	<xs:simpleType name="simpleTokenType">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VerticalDatumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MSL" />
+			<xs:enumeration value="AGL" />
+			<xs:enumeration value="HAE" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AffiliatedProducerType">
+		<xs:complexContent>
+			<xs:extension base="ProducerBaseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="name" type="simpleTokenType" maxOccurs="unbounded" />
+					<xs:element name="phone" type="simpleTokenType" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="email" type="simpleTokenType" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element ref="affiliation" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ApproximableDateType">
+		<xs:all>
+			<xs:element name="description" type="simpleTokenType" minOccurs="0" />
+			<xs:element name="approximableDate" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="CombinedDateType">
+							<xs:attribute name="approximation" type="DateApproximationEnumerationType" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="searchableDate" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="start" type="CombinedDateType" minOccurs="0" />
+						<xs:element name="end" type="CombinedDateType" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="BoundingGeometryType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" />
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="CompoundCategoryIdentifierType">
+		<xs:attribute name="qualifier" type="xs:anyURI" use="optional" />
+		<xs:attribute name="code" type="simpleTokenType" use="optional" />
+		<xs:attribute name="label" type="simpleTokenType" use="required" />
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="CompoundCountryCodeIdentifierType">
+		<xs:attribute name="codespace" type="simpleTokenType" use="required" />
+		<xs:attribute name="code" type="simpleTokenType" use="required" />
+	</xs:complexType>
+	<xs:complexType name="CompoundKeywordIdentifierType">
+		<xs:attribute name="value" type="simpleTokenType" use="required" />
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="CompoundLanguageIdentifierType">
+		<xs:attribute name="qualifier" type="simpleTokenType" />
+		<xs:attribute name="value" type="simpleTokenType" />
+	</xs:complexType>
+	<xs:complexType name="CompoundResourceIdentifierType">
+		<xs:attribute name="qualifier" type="xs:anyURI" use="required" />
+		<xs:attribute name="value" type="simpleTokenType" use="required" />
+	</xs:complexType>
+	<xs:complexType name="CompoundSourceIdentifierType">
+		<xs:attribute name="qualifier" type="simpleTokenType" use="optional" />
+		<xs:attribute name="value" type="simpleTokenType" use="optional" />
+		<xs:attribute name="schemaQualifier" type="simpleTokenType" use="optional" />
+		<xs:attribute name="schemaHref" type="xs:anyURI" use="optional" />
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+	</xs:complexType>
+	<xs:complexType name="CompoundTypeIdentifierType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="qualifier" type="simpleTokenType" />
+				<xs:attribute name="value" type="simpleTokenType" />
+				<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ContactInfoType">
+		<xs:choice>
+			<xs:element ref="organization" />
+			<xs:element ref="person" />
+			<xs:element ref="service" />
+			<xs:element ref="unknown" />
+		</xs:choice>
+		<xs:attributeGroup ref="POCAttributesGroup" />
+	</xs:complexType>
+	<xs:complexType name="DatesType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="acquiredOn" type="ApproximableDateType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="created" type="CombinedDateType" use="optional" />
+		<xs:attribute name="posted" type="CombinedDateType" use="optional" />
+		<xs:attribute name="validTil" type="CombinedDateType" use="optional" />
+		<xs:attribute name="infoCutOff" type="CombinedDateType" use="optional" />
+		<xs:attribute name="approvedOn" type="CombinedDateType" use="optional" />
+		<xs:attribute name="receivedOn" type="CombinedDateType" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="DescriptionType">
+		<xs:simpleContent>
+			<xs:extension base="simpleTokenType">
+				<xs:attributeGroup ref="SecurityAttributesGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="FacilityIdentifierType">
+		<xs:attribute name="beNumber" type="simpleTokenType" use="required" />
+		<xs:attribute name="osuffix" type="simpleTokenType" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="FormatType">
+		<xs:sequence>
+			<xs:element ref="mimeType" />
+			<xs:element ref="extent" minOccurs="0" />
+			<xs:element ref="medium" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MetacardInfoType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="identifier" maxOccurs="unbounded" />
+			<xs:element ref="dates" />
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="creator" maxOccurs="unbounded" />
+				<xs:element ref="publisher" maxOccurs="unbounded" />
+				<xs:element ref="contributor" maxOccurs="unbounded" />
+				<xs:element ref="pointOfContact" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:element ref="description" minOccurs="0" />
+			<xs:element ref="processingInfo" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="revisionRecall" minOccurs="0" />
+			<xs:element ref="recordsManagementInfo" minOccurs="0" />
+		</xs:sequence>
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+	</xs:complexType>
+	<xs:complexType name="NonStateActorCoverageType">
+		<xs:simpleContent>
+			<xs:extension base="simpleTokenType">
+				<xs:attribute name="order" type="xs:int" use="optional" />
+				<xs:attribute name="qualifier" type="xs:anyURI" use="optional" />
+				<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="OrganizationType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="name" type="simpleTokenType" maxOccurs="unbounded" />
+			<xs:element name="phone" type="simpleTokenType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="email" type="simpleTokenType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="subOrganization" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="simpleTokenType">
+							<xs:attributeGroup ref="SecurityAttributesGroup" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute ref="acronym" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="PersonType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="name" type="simpleTokenType" maxOccurs="unbounded" />
+			<xs:element name="surname" type="simpleTokenType" minOccurs="1" maxOccurs="1" />
+			<xs:element name="phone" type="simpleTokenType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="email" type="simpleTokenType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="userID" type="simpleTokenType" minOccurs="0" />
+			<xs:element ref="affiliation" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PlaceType">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element ref="geographicIdentifier" />
+			<xs:element ref="boundingGeometry" />
+			<xs:element ref="postalAddress" />
+		</xs:choice>
+		<xs:attribute name="precedence" type="simpleTokenType" use="optional" />
+		<xs:attribute name="order" type="xs:int" use="optional">
+		</xs:attribute>
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+	</xs:complexType>
+	<xs:complexType name="ProcessingInfoType">
+		<xs:simpleContent>
+			<xs:extension base="simpleTokenType">
+				<xs:attribute name="dateProcessed" type="CombinedDateType" use="required" />
+				<xs:attributeGroup ref="SecurityAttributesGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ProducerBaseType">
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ProductionMetricType">
+		<xs:attribute name="subject" type="simpleTokenType" use="required" />
+		<xs:attribute name="coverage" type="simpleTokenType" use="required" />
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+	</xs:complexType>
+	<xs:complexType name="QualifiedExtentValueType">
+		<xs:attribute name="qualifier" type="xs:anyURI" />
+		<xs:attribute name="value" type="simpleTokenType" />
+	</xs:complexType>
+	<xs:complexType name="RecordsManagementInfoType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="recordKeeper" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="recordKeeperID" type="simpleTokenType" />
+						<xs:element ref="organization" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="applicationSoftware" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="simpleTokenType">
+							<xs:attributeGroup ref="SecurityAttributesGroup" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="vitalRecordIndicator" type="xs:boolean" use="optional" default="false" />
+	</xs:complexType>
+	<xs:complexType name="RelatedResourcesType">
+		<xs:complexContent>
+			<xs:extension base="CompoundResourceIdentifierType">
+				<xs:sequence>
+					<xs:element name="link" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:attributeGroup ref="xlink:locatorAttrs" />
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="relationship" type="xs:anyURI" use="required" />
+				<xs:attribute name="direction" use="optional" default="outbound">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="inbound" />
+							<xs:enumeration value="outbound" />
+							<xs:enumeration value="bidirectional" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ResourceManagementType">
+		<xs:sequence>
+			<xs:element ref="recordsManagementInfo" minOccurs="0" />
+			<xs:element ref="revisionRecall" minOccurs="0" />
+			<xs:element name="taskingInfo" type="TaskingInfoType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="processingInfo" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+	</xs:complexType>
+	<xs:complexType name="ResourceType">
+		<xs:sequence>
+			<xs:element ref="metacardInfo" minOccurs="1" maxOccurs="1" />
+			<xs:element ref="identifier" maxOccurs="unbounded" />
+			<xs:element ref="title" maxOccurs="unbounded" />
+			<xs:element ref="subtitle" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="description" minOccurs="0" />
+			<xs:element ref="language" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="dates" minOccurs="0" />
+			<xs:element ref="rights" minOccurs="0" />
+			<xs:element ref="source" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="type" minOccurs="0" maxOccurs="unbounded" />
+			<xs:choice maxOccurs="unbounded">
+				<xs:element ref="creator" maxOccurs="unbounded" />
+				<xs:element ref="publisher" maxOccurs="unbounded" />
+				<xs:element ref="contributor" maxOccurs="unbounded" />
+				<xs:element ref="pointOfContact" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:element ref="format" minOccurs="0" />
+			<xs:element ref="subjectCoverage" maxOccurs="unbounded" />
+			<xs:element ref="virtualCoverage" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="temporalCoverage" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="geospatialCoverage" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="relatedResource" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element ref="resourceManagement" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="compliesWith" type="xs:NMTOKENS" />
+	</xs:complexType>
+	<xs:complexType name="RevisionRecallType" mixed="true">
+		<xs:sequence minOccurs="0">
+			<xs:element name="link" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attributeGroup ref="xlink:locatorAttrs" />
+					<xs:attributeGroup ref="SecurityAttributesGroup" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="details" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="simpleTokenType">
+							<xs:attributeGroup ref="SecurityAttributesGroup" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="revisionID" type="xs:int" use="required" />
+		<xs:attribute name="revisionType" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ADMINISTRATIVE RECALL" />
+					<xs:enumeration value="ADMINISTRATIVE REVISION" />
+					<xs:enumeration value="SUBSTANTIVE RECALL" />
+					<xs:enumeration value="SUBSTANTIVE REVISION" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="SecurityAttributesGroup" />
+		<xs:attributeGroup ref="OptionalResourceLinkAttributesGroup" />
+	</xs:complexType>
+	<xs:complexType name="RightsType">
+		<xs:attribute name="privacyAct" type="xs:boolean" default="false" />
+		<xs:attribute name="intellectualProperty" type="xs:boolean" default="false" />
+		<xs:attribute name="copyright" type="xs:boolean" default="false" />
+	</xs:complexType>
+	<xs:complexType name="ServiceType">
+		<xs:complexContent>
+			<xs:extension base="AffiliatedProducerType" />
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SubjectType">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element ref="category" />
+			<xs:element ref="keyword" />
+			<xs:element ref="productionMetric" />
+			<xs:element ref="nonStateActor" />
+		</xs:choice>
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+	</xs:complexType>
+	<xs:complexType name="SubtitleType">
+		<xs:simpleContent>
+			<xs:extension base="simpleTokenType">
+				<xs:attributeGroup ref="SecurityAttributesGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="TaskingInfoType">
+		<xs:sequence>
+			<xs:element name="requesterInfo" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element ref="person" />
+						<xs:element ref="organization" />
+					</xs:choice>
+					<xs:attributeGroup ref="SecurityAttributesGroup" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addressee" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element ref="person" />
+						<xs:element ref="organization" />
+					</xs:choice>
+					<xs:attributeGroup ref="SecurityAttributesGroup" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="description" minOccurs="0" />
+			<xs:element name="taskID">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="simpleTokenType">
+							<xs:attribute name="taskingSystem" type="simpleTokenType" use="optional" />
+							<xs:attributeGroup ref="SimpleLinkAttributesGroup" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="SecurityAttributesGroup" />
+	</xs:complexType>
+	<xs:complexType name="TimePeriodType">
+		<xs:sequence>
+			<xs:element name="name" type="simpleTokenType" default="Unknown" minOccurs="0" />
+			<xs:choice>
+				<xs:element name="start" type="ExtendedCombinedDateType" default="Unknown" />
+				<xs:element name="approximableStart" type="ApproximableDateType" />
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="end" type="ExtendedCombinedDateType" default="Unknown" />
+				<xs:element name="approximableEnd" type="ApproximableDateType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+	</xs:complexType>
+	<xs:complexType name="TitleType">
+		<xs:simpleContent>
+			<xs:extension base="simpleTokenType">
+				<xs:attributeGroup ref="SecurityAttributesGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="UnknownType">
+		<xs:complexContent>
+			<xs:extension base="AffiliatedProducerType" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:attributeGroup name="OptionalResourceLinkAttributesGroup">
+		<xs:attributeGroup ref="virt:OptionalResourceLinkAttributesGroup" />
+	</xs:attributeGroup>
+	<xs:attributeGroup name="POCAttributesGroup">
+		<xs:attributeGroup ref="ICISM:POCAttributeGroup" />
+		<xs:attributeGroup ref="SecurityAttributesOptionGroup" />
+	</xs:attributeGroup>
+	<xs:attributeGroup name="SecurityAttributesGroup">
+		<xs:attributeGroup ref="ICISM:SecurityAttributesGroup" />
+	</xs:attributeGroup>
+	<xs:attributeGroup name="SecurityAttributesOptionGroup">
+		<xs:attributeGroup ref="ICISM:SecurityAttributesOptionGroup" />
+	</xs:attributeGroup>
+	<xs:attributeGroup name="SimpleLinkAttributesGroup">
+		<xs:attributeGroup ref="virt:SimpleLinkAttributesGroup" />
+	</xs:attributeGroup>
+</xs:schema>
