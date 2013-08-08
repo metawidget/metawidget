@@ -341,7 +341,9 @@ public abstract class BaseXmlInspector
 
 			// Use the declared type so as to align with other Inspectors
 
-			entity.setAttribute( TYPE, valueAndDeclaredType.getDeclaredType() );
+			if ( valueAndDeclaredType.getDeclaredType() != null ) {
+				entity.setAttribute( TYPE, valueAndDeclaredType.getDeclaredType() );
+			}
 
 			// Return the root
 
@@ -633,15 +635,25 @@ public abstract class BaseXmlInspector
 		String typeAttribute = getTypeAttribute();
 		String referenceAttribute = getReferenceAttribute();
 
+		// For each name...
+
 		for ( int loop = 0; loop < length; loop++ ) {
 			String name = namesToInspect[loop];
+			declaredType = null;
+
+			// ...find the property with that name
+
 			Element property = XmlUtils.getChildWithAttributeValue( elementWithNamedChildren, nameAttribute, name );
 
-			// XML structure may support 'extends'
+			// If none, XML structure may support 'extends', so jump across to the extended element
+			// and search for named properties there
 
 			if ( property == null && extendsAttribute != null ) {
 
 				while ( true ) {
+
+					// ('extends' may be several levels deep)
+
 					if ( !elementWithNamedChildren.hasAttribute( extendsAttribute ) ) {
 						break;
 					}
@@ -661,7 +673,8 @@ public abstract class BaseXmlInspector
 				}
 			}
 
-			// XML structure may support 'reference'
+			// If still none, XML structure may support 'reference', so search for referenced
+			// properties
 
 			if ( property == null && referenceAttribute != null ) {
 
@@ -671,38 +684,47 @@ public abstract class BaseXmlInspector
 					return new ValueAndDeclaredType( null, null );
 				}
 
-				property = XmlUtils.getChildWithAttributeValue( mRoot, nameAttribute, name );
+				// Traverse to new top-level element of the given declaredType
+
+				declaredType = name;
 			}
+
+			// If still none, give up
 
 			if ( property == null ) {
 				return new ValueAndDeclaredType( null, null );
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) ) {
-				return new ValueAndDeclaredType( property, property.getAttribute( typeAttribute ) );
+				return new ValueAndDeclaredType( property, declaredType );
 			}
 
-			// Fetch typeAttribute (if any)
+			if ( declaredType == null ) {
+				// Fetch typeAttribute (if any)
 
-			declaredType = property.getAttribute( typeAttribute );
-
-			// Support nested elements with named children (with or without a typeAttribute)
-
-			elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( property );
-
-			if ( XmlUtils.getChildWithAttribute( elementWithNamedChildren, nameAttribute ) != null ) {
-				continue;
-			}
-
-			// If no typeAttribute, support referenceAttribute (though typeAttribute takes precedence)
-
-			if ( !property.hasAttribute( typeAttribute ) ) {
-
-				if ( referenceAttribute == null || XmlUtils.getChildWithAttribute( elementWithNamedChildren, referenceAttribute ) == null ) {
-					throw InspectorException.newException( "Property " + name + " in entity " + topLevelElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+				if ( property.hasAttribute( typeAttribute )) {
+					declaredType = property.getAttribute( typeAttribute );
 				}
 
-				continue;
+				// Support nested elements with named children (with or without a typeAttribute)
+
+				elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( property );
+
+				if ( XmlUtils.getChildWithAttribute( elementWithNamedChildren, nameAttribute ) != null ) {
+					continue;
+				}
+
+				// If no typeAttribute, support referenceAttribute (though typeAttribute takes
+				// precedence)
+
+				if ( !property.hasAttribute( typeAttribute ) ) {
+
+					if ( referenceAttribute == null || XmlUtils.getChildWithAttribute( elementWithNamedChildren, referenceAttribute ) == null ) {
+						throw InspectorException.newException( "Property " + name + " in entity " + topLevelElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute in the XML, so cannot navigate to " + type + ArrayUtils.toString( namesToInspect, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+					}
+
+					continue;
+				}
 			}
 
 			// Traverse to new top-level element of the given declaredType
@@ -711,6 +733,13 @@ public abstract class BaseXmlInspector
 
 			if ( topLevelElement == null ) {
 				return new ValueAndDeclaredType( null, declaredType );
+			}
+
+			// For ref lookups, topLevelElement may have an additional typeAttribute that is
+			// different from topLevelTypeAttribute
+
+			if ( topLevelElement.hasAttribute( typeAttribute ) ) {
+				declaredType = topLevelElement.getAttribute( typeAttribute );
 			}
 
 			elementWithNamedChildren = traverseFromTopLevelTypeToNamedChildren( topLevelElement );

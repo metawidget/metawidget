@@ -52,6 +52,7 @@ public class XmlSchemaToJavaTypeMappingProcessorConfig
 		// Derived datatypes as defined by section 3.3 of XML Schema Part 2: Datatypes Second
 		// Edition
 
+		setTypeMapping( "token", String.class.getName() );
 		setTypeMapping( "normalizedString", String.class.getName() );
 		setTypeMapping( "integer", int.class.getName() );
 		setTypeMapping( "nonPositiveInteger", int.class.getName() );

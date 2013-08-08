@@ -61,6 +61,8 @@ public class XmlSchemaInspector
 
 	private static final String	SEQUENCE		= "sequence";
 
+	private static final String	CHOICE			= "choice";
+
 	private static final String	EXTENSION		= "extension";
 
 	private static final String	RESTRICTION		= "restriction";
@@ -174,21 +176,43 @@ public class XmlSchemaInspector
 
 		String sequenceLocalName = sequence.getLocalName();
 
-		if ( "annotation".equals( sequenceLocalName )) {
+		if ( "annotation".equals( sequenceLocalName ) ) {
 			sequence = XmlUtils.getNextSiblingElement( sequence );
 			sequenceLocalName = sequence.getLocalName();
 		}
 
-		if ( !SEQUENCE.equals( sequenceLocalName ) && !ALL.equals( sequenceLocalName ) && !SIMPLE_CONTENT.equals( sequenceLocalName ) && !COMPLEX_CONTENT.equals( sequenceLocalName ) && !"attributeGroup".equals( sequenceLocalName ) ) {
-			throw InspectorException.newException( "Unexpected child node '" + sequenceLocalName + "'" );
+		if ( CHOICE.equals( sequenceLocalName )) {
+			return sequence;
+		}
+
+		// Within 'simpleContent', 'extension' needs to be traversed into
+
+		if ( SIMPLE_CONTENT.equals( sequenceLocalName )) {
+
+			Element extension = XmlUtils.getChildNamed( sequence, EXTENSION );
+
+			if ( extension != null ) {
+				return extension;
+			}
+
+			return sequence;
 		}
 
 		// Within 'sequence', 'choice' needs to be traversed into
 
-		Element choice = XmlUtils.getChildNamed( sequence, "choice" );
+		if ( SEQUENCE.equals( sequenceLocalName )) {
 
-		if ( choice != null ) {
-			return choice;
+			Element choice = XmlUtils.getChildNamed( sequence, CHOICE );
+
+			if ( choice != null ) {
+				return choice;
+			}
+
+			return sequence;
+		}
+
+		if ( !ALL.equals( sequenceLocalName ) && !COMPLEX_CONTENT.equals( sequenceLocalName ) && !"attributeGroup".equals( sequenceLocalName ) ) {
+			throw InspectorException.newException( "Unexpected child node '" + sequenceLocalName + "' inside " + XmlUtils.nodeToString( complexType, true ) );
 		}
 
 		return sequence;
@@ -240,6 +264,15 @@ public class XmlSchemaInspector
 
 			Element baseElement = XmlUtils.getChildWithAttributeValue( toInspectToUse.getOwnerDocument().getDocumentElement(), getTopLevelTypeAttribute(), base );
 			Element baseSequence = XmlUtils.getFirstChildElement( baseElement );
+
+			if ( COMPLEX_CONTENT.equals( baseSequence.getLocalName() ) ) {
+				inspectTraits( baseSequence, toAddTo );
+				return;
+			}
+
+			if ( "anyAttribute".equals( baseSequence.getLocalName() ) ) {
+				return;
+			}
 
 			if ( !SEQUENCE.equals( baseSequence.getLocalName() ) ) {
 				throw InspectorException.newException( "Unexpected child node '" + baseSequence.getLocalName() + "'" );

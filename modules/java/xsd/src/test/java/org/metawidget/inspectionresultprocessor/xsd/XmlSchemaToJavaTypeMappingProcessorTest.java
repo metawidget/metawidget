@@ -61,6 +61,7 @@ public class XmlSchemaToJavaTypeMappingProcessorTest
 		inputXml += "<property name=\"21\" type=\"unsignedShort\"/>";
 		inputXml += "<property name=\"22\" type=\"unsignedByte\"/>";
 		inputXml += "<property name=\"23\" type=\"positiveInteger\"/>";
+		inputXml += "<property name=\"24\" type=\"token\"/>";
 		inputXml += "</entity></inspection-result>";
 
 		// Run processor
@@ -96,6 +97,7 @@ public class XmlSchemaToJavaTypeMappingProcessorTest
 		validateXml += "<property name=\"21\" type=\"short\"/>";
 		validateXml += "<property name=\"22\" type=\"byte\"/>";
 		validateXml += "<property name=\"23\" type=\"int\"/>";
+		validateXml += "<property name=\"24\" type=\"java.lang.String\"/>";
 		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 

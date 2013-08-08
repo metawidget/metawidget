@@ -217,7 +217,8 @@ public class XmlSchemaInspectorTest
 		Element entity = (Element) document.getDocumentElement().getFirstChild();
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "shipto", entity.getAttribute( NAME ) );
-		assertEquals( "", entity.getAttribute( TYPE ) );
+		assertEquals( "shipto", entity.getAttribute( TYPE ) );
+		assertEquals( entity.getAttributes().getLength(), 2 );
 
 		// Properties
 
@@ -410,7 +411,13 @@ public class XmlSchemaInspectorTest
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "ActiveCurrencyAndAmount", entity.getAttribute( TYPE ) );
 
-		assertEquals( 0, entity.getChildNodes().getLength() );
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "Ccy", property.getAttribute( NAME ) );
+		assertEquals( "xs:string", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( 1, entity.getChildNodes().getLength() );
 
 		// Test xs:annotation
 
@@ -514,6 +521,146 @@ public class XmlSchemaInspectorTest
 		assertEquals( ENTITY, entity.getNodeName() );
 		assertEquals( "AuthorizationResponseGroup_ComplexType", entity.getAttribute( TYPE ) );
 		assertEquals( entity.getChildNodes().getLength(), 0 );
+	}
+
+	public void testRealWorld4() {
+
+		Inspector inspector = new XmlSchemaInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/xsd/ddms.xsd" ) ) );
+
+		// Top level
+
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "MetacardInfoType" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "MetacardInfoType", entity.getAttribute( TYPE ) );
+		assertEquals( entity.getAttributes().getLength(), 1 );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "creator", property.getAttribute( NAME ) );
+		assertEquals( "ContactInfoType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "publisher", property.getAttribute( NAME ) );
+		assertEquals( "ContactInfoType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "contributor", property.getAttribute( NAME ) );
+		assertEquals( "ContactInfoType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "pointOfContact", property.getAttribute( NAME ) );
+		assertEquals( "ContactInfoType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( entity.getChildNodes().getLength(), 4 );
+
+		// MetacardInfoType/creator
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "MetacardInfoType", "creator" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "ContactInfoType", entity.getAttribute( TYPE ) );
+		assertEquals( "creator", entity.getAttribute( NAME ) );
+		assertEquals( entity.getAttributes().getLength(), 2 );
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "organization", property.getAttribute( NAME ) );
+		assertEquals( "OrganizationType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "person", property.getAttribute( NAME ) );
+		assertEquals( "PersonType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "service", property.getAttribute( NAME ) );
+		assertEquals( "ServiceType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "unknown", property.getAttribute( NAME ) );
+		assertEquals( "UnknownType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( entity.getChildNodes().getLength(), 4 );
+
+		// MetacardInfoType/creator/organization
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "MetacardInfoType", "creator", "organization" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "OrganizationType", entity.getAttribute( TYPE ) );
+		assertEquals( "organization", entity.getAttribute( NAME ) );
+		assertEquals( entity.getAttributes().getLength(), 2 );
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "name", property.getAttribute( NAME ) );
+		assertEquals( "xs:token", property.getAttribute( TYPE ) );
+		assertEquals( "1", property.getAttribute( MINIMUM_LENGTH ) );
+		assertEquals( property.getAttributes().getLength(), 3 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "phone", property.getAttribute( NAME ) );
+		assertEquals( "xs:token", property.getAttribute( TYPE ) );
+		assertEquals( "1", property.getAttribute( MINIMUM_LENGTH ) );
+		assertEquals( property.getAttributes().getLength(), 3 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "email", property.getAttribute( NAME ) );
+		assertEquals( "xs:token", property.getAttribute( TYPE ) );
+		assertEquals( "1", property.getAttribute( MINIMUM_LENGTH ) );
+		assertEquals( property.getAttributes().getLength(), 3 );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "subOrganization", property.getAttribute( NAME ) );
+		assertEquals( "simpleTokenType", property.getAttribute( TYPE ) );
+		assertEquals( property.getAttributes().getLength(), 2 );
+
+		assertEquals( entity.getChildNodes().getLength(), 4 );
+
+		// MetacardInfoType/creator/organization/subOrganization
+
+		document = XmlUtils.documentFromString( inspector.inspect( null, "MetacardInfoType", "creator", "organization", "subOrganization" ) );
+
+		assertEquals( "inspection-result", document.getFirstChild().getNodeName() );
+
+		entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "simpleTokenType", entity.getAttribute( TYPE ) );
+		assertEquals( "subOrganization", entity.getAttribute( NAME ) );
+		assertEquals( entity.getAttributes().getLength(), 2 );
+
+		property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "SecurityAttributesGroup", property.getAttribute( NAME ) );
+		assertEquals( property.getAttributes().getLength(), 1 );
+
+		assertEquals( entity.getChildNodes().getLength(), 1 );
 	}
 
 	public void testSwingMetawidget() {
