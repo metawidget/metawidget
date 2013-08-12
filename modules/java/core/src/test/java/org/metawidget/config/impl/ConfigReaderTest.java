@@ -222,7 +222,7 @@ public class ConfigReaderTest
 		xml += "</set>";
 		xml += "<booleanPrimitive><boolean>true</boolean></booleanPrimitive>";
 		xml += "<pattern><pattern>.*?</pattern></pattern>";
-		xml += "<inputStream><resource>org/metawidget/config/metawidget-test-caching.xml</resource></inputStream>";
+		xml += "<inputStream><resource>org/metawidget/config/metawidget-test-logging.xml</resource></inputStream>";
 		xml += "<resourceBundle><bundle>org/metawidget/config/Resources</bundle></resourceBundle>";
 		xml += "<stringArray><array><string>foo</string><string>bar</string></array></stringArray>";
 		xml += "<enum><enum>BAR</enum></enum>";
@@ -254,7 +254,7 @@ public class ConfigReaderTest
 		IOUtils.streamBetween( inspector.getInputStream(), streamOut );
 		assertTrue( streamOut.toString().contains( "<metawidget xmlns=\"http://metawidget.org\"" ) );
 
-		assertTrue( "Limited textbox (i18n)".equals( inspector.getResourceBundle().getString( "limitedTextbox" ) ) );
+		assertTrue( "value1".equals( inspector.getResourceBundle().getString( "key1" ) ) );
 
 		assertEquals( 2, inspector.getStringArray().length );
 		assertTrue( "foo".equals( inspector.getStringArray()[0] ) );

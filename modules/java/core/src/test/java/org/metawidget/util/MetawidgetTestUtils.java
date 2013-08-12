@@ -89,13 +89,6 @@ public final class MetawidgetTestUtils {
 			// Test top-level object
 
 			Assert.assertTrue( object1 != null );
-
-			// (keep PMD happy)
-
-			if ( object1 == null ) {
-				throw new NullPointerException( "object1" );
-			}
-
 			Assert.assertFalse( object1.equals( "foo" ) );
 			Assert.assertTrue( "subclass", !object1.equals( subclass ) );
 			Assert.assertEquals( object1, object1 );
