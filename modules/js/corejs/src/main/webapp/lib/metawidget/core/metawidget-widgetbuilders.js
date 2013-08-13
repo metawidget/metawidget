@@ -124,7 +124,6 @@ var metawidget = metawidget || {};
 
 			var child = mw.overriddenNodes[loop];
 			if ( child.nodeType === 1 && child.getAttribute( 'id' ) === overrideId ) {
-				child.overridden = true;
 				mw.overriddenNodes.splice( loop, 1 );
 				return child;
 			}

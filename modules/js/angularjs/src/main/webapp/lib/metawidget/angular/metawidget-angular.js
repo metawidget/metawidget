@@ -200,7 +200,7 @@
 			// Note: we ignore transcluded widgets. Compiling them again using
 			// $compile seemed to trigger 'ng-click' listeners twice?
 
-			if ( widget.overridden === undefined ) {
+			if ( widget.transcluded === undefined ) {
 				$compile( widget )( scope.$parent );
 			}
 		};
@@ -267,6 +267,7 @@
 				// https://github.com/angular/angular.js/issues/1059
 
 				if ( cloneNode.nodeType === 1 && ( cloneNode.tagName !== 'SPAN' || cloneNode.attributes.length > 1 ) ) {
+					cloneNode.transcluded = true;
 					this.overriddenNodes.push( cloneNode );
 				}
 			}

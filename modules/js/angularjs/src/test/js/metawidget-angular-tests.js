@@ -22,6 +22,8 @@
 			"The AngularMetawidget",
 			function() {
 
+				// TODO: guard against recompiling transcluded widgets (firing click twice)
+				
 				it(
 						"populates itself with widgets to match the properties of business objects",
 						function() {
