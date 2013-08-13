@@ -100,7 +100,8 @@
 					bar: "barValue",
 					baz: "bazValue",
 					boolean: true,
-					select: false
+					select: false,
+					number: 42
 				},
 				path: "testPath"
 			};
@@ -310,6 +311,84 @@
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 			} ).save( mw );
 			expect( mw.toInspect.jit.firstname ).toBe( 'baz' );
+		} );
+
+		it( "converts simple data types", function() {
+
+			var processor = new metawidget.widgetprocessor.SimpleBindingProcessor();
+			var attributes = {
+				name: "foo",
+			};
+			var mw = {
+				toInspect: {
+					string1: 'string',
+					boolean1: true,
+					number1: 42
+				},
+				path: "testPath"
+			};
+
+			processor.onStartBuild( mw );
+
+			// Text
+
+			var attributes = {					
+				name: "string1",
+				type: "string"
+			};
+			var widget = simpleDocument.createElement( 'input' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.value ).toBe( 'string' );
+			widget.value = 'string2';
+			processor.save( mw );
+			expect( mw.toInspect.string1 ).toBe( 'string2' );
+			
+			widget.value = '';
+			processor.save( mw );
+			expect( mw.toInspect.string1 ).toBeUndefined();
+
+			widget.value = 'string3';
+			processor.save( mw );
+			expect( mw.toInspect.string1 ).toBe( 'string3' );
+
+			widget.value = null;
+			processor.save( mw );
+			expect( mw.toInspect.string1 ).toBeUndefined();
+
+			// Numbers
+
+			var attributes = {
+				name: "number1",
+				type: "number"
+			};
+			var widget = simpleDocument.createElement( 'input' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.value ).toBe( 42 );
+			widget.value = '43';
+			processor.save( mw );
+			expect( mw.toInspect.number1 ).toBe( 43 );
+
+			widget.value = null;
+			processor.save( mw );
+			expect( mw.toInspect.number1 ).toBeUndefined();
+
+			widget.value = 'not a number';
+			processor.save( mw );
+			expect( mw.toInspect.number1 ).toBeUndefined();
+
+			// Booleans
+
+			var attributes = {
+				name: "boolean1",
+				type: "boolean"
+			};
+			var widget = simpleDocument.createElement( 'input' );
+			widget.setAttribute( 'type', 'checkbox' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.checked ).toBe( true );
+			widget.checked = false;
+			processor.save( mw );
+			expect( mw.toInspect.boolean1 ).toBe( false );
 		} );
 	} );
 } )();

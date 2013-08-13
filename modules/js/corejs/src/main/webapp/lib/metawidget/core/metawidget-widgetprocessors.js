@@ -173,7 +173,10 @@ var metawidget = metawidget || {};
 		if ( elementName !== 'entity' ) {
 			if ( isBindable === true || widget.metawidget !== undefined ) {
 				mw._simpleBindingProcessor.bindings = mw._simpleBindingProcessor.bindings || [];
-				mw._simpleBindingProcessor.bindings[attributes.name] = widget;
+				mw._simpleBindingProcessor.bindings[attributes.name] = {
+					widget: widget,
+					attributes: attributes
+				};
 			}
 		}
 
@@ -219,19 +222,40 @@ var metawidget = metawidget || {};
 
 		for ( var name in mw._simpleBindingProcessor.bindings ) {
 
-			var widget = mw._simpleBindingProcessor.bindings[name];
+			var binding = mw._simpleBindingProcessor.bindings[name];
 
-			if ( widget.metawidget !== undefined ) {
-				this.save( widget.metawidget );
+			if ( binding.widget.metawidget !== undefined ) {
+				this.save( binding.widget.metawidget );
 				continue;
 			}
 
-			if ( widget.getAttribute( 'type' ) === 'checkbox' ) {
-				toInspect[name] = widget.checked;
+			if ( binding.widget.getAttribute( 'type' ) === 'checkbox' ) {
+				toInspect[name] = binding.widget.checked;
 				continue;
 			}
 
-			toInspect[name] = widget.value;
+			if ( binding.attributes.type === 'number' ) {
+				var parsed = parseInt( binding.widget.value );
+				
+				// Avoid pushing back 'NaN'
+
+				if ( isNaN( parsed )) {
+					toInspect[name] = undefined;
+					continue;
+				}
+				
+				toInspect[name] = parsed;
+				continue;
+			}
+		
+			// Avoid pushing back 'null'
+			
+			if ( binding.widget.value === '' || binding.widget.value === null ) {
+				toInspect[name] = undefined;
+				continue;
+			}
+			
+			toInspect[name] = binding.widget.value;
 		}
 	};
 } )();
