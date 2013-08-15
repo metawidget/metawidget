@@ -280,29 +280,6 @@ var metawidget = metawidget || {};
 			// http://forum.jquery.com/topic/what-s-the-right-way-to-store-private-data-in-widget-s-instance)
 
 			this._pipeline = new metawidget.Pipeline( this.element[0] );
-			this._pipeline.buildNestedMetawidget = function( attributes, mw ) {
-
-				var nestedWidget = metawidget.util.createElement( mw, 'div' );
-
-				// Duck-type our 'pipeline' as the 'config' of the nested
-				// Metawidget. This neatly passes everything down, including a
-				// decremented 'maximumInspectionDepth'
-
-				var nestedMetawidget = $( nestedWidget ).metawidget( mw._pipeline );
-
-				nestedMetawidget.metawidget( "option", "readOnly", mw.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ) );
-				var nestedToInspect = mw.toInspect;
-				var nestedPath = metawidget.util.appendPath( attributes, mw );
-
-				// Attach ourselves as a property of the tag, rather than try to
-				// 'extend' the built-in HTML tags. This is used
-				// by SimpleBindingProcessor, among others
-
-				nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
-
-				nestedMetawidget.metawidget( "buildWidgets", nestedToInspect, nestedPath );
-				return nestedWidget;
-			};
 
 			// Configure defaults
 
@@ -427,6 +404,35 @@ var metawidget = metawidget || {};
 		getElement: function() {
 
 			return this._pipeline.element;
+		},
+
+		buildNestedMetawidget: function( attributes ) {
+
+			// Create a 'div' not a 'metawidget', because whilst it's up to the
+			// user what they want their top-level element to be, for browser
+			// compatibility we should stick with something benign for nested
+			// elements
+
+			var nestedWidget = metawidget.util.createElement( this, 'div' );
+
+			// Duck-type our 'pipeline' as the 'config' of the nested
+			// Metawidget. This neatly passes everything down, including a
+			// decremented 'maximumInspectionDepth'
+
+			var nestedMetawidget = $( nestedWidget ).metawidget( this._pipeline );
+
+			nestedMetawidget.metawidget( "option", "readOnly", this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ) );
+			var nestedToInspect = this.toInspect;
+			var nestedPath = metawidget.util.appendPath( attributes, this );
+
+			// Attach ourselves as a property of the tag, rather than try to
+			// 'extend' the built-in HTML tags. This is used
+			// by SimpleBindingProcessor, among others
+
+			nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
+
+			nestedMetawidget.metawidget( "buildWidgets", nestedToInspect, nestedPath );
+			return nestedWidget;
 		}
 	} );
 } )();

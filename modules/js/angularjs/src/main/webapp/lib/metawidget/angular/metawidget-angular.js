@@ -167,26 +167,6 @@
 		// Pipeline (private)
 
 		var _pipeline = new metawidget.Pipeline( element[0] );
-		_pipeline.buildNestedMetawidget = function( attributes, mw ) {
-
-			var nestedMetawidget = _pipeline.element.ownerDocument.createElement( 'metawidget' );
-			nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
-			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
-				nestedMetawidget.setAttribute( 'read-only', 'true' );
-			} else {
-				nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
-			}
-
-			// Duck-type our 'pipeline' as the 'config' of the nested
-			// Metawidget. This neatly passes everything down, including a
-			// decremented 'maximumInspectionDepth'
-
-			scope.$parent._pipeline = _pipeline;
-			nestedMetawidget.setAttribute( 'configs', '_pipeline' );
-
-			return nestedMetawidget;
-		};
-
 		_pipeline._superLayoutWidget = _pipeline.layoutWidget;
 
 		_pipeline.layoutWidget = function( widget, elementName, attributes, container, mw ) {
@@ -362,6 +342,26 @@
 		this.getElement = function() {
 
 			return _pipeline.element;
+		};
+
+		this.buildNestedMetawidget = function( attributes ) {
+
+			var nestedMetawidget = metawidget.util.createElement( this, 'metawidget' );
+			nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
+			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
+				nestedMetawidget.setAttribute( 'read-only', 'true' );
+			} else {
+				nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
+			}
+
+			// Duck-type our 'pipeline' as the 'config' of the nested
+			// Metawidget. This neatly passes everything down, including a
+			// decremented 'maximumInspectionDepth'
+
+			scope.$parent._pipeline = _pipeline;
+			nestedMetawidget.setAttribute( 'configs', '_pipeline' );
+
+			return nestedMetawidget;
 		};
 	};
 

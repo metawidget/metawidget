@@ -22,8 +22,9 @@
 			"The AngularMetawidget",
 			function() {
 
-				// TODO: guard against recompiling transcluded widgets (firing click twice)
-				
+				// TODO: guard against recompiling transcluded widgets (firing
+				// click twice)
+
 				it(
 						"populates itself with widgets to match the properties of business objects",
 						function() {
@@ -397,6 +398,19 @@
 						$scope.foo = {
 							bar: "Bar"
 						};
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									properties: {
+										bar: {
+											type: 'string',
+											required: true
+										}
+									}
+								}
+							}
+						}
 					} );
 
 					var mw = document.createElement( 'metawidget' );
@@ -409,8 +423,9 @@
 					var injector = angular.bootstrap( body, [ 'test-app' ] );
 
 					injector.invoke( function() {
-
-						expect( mw.innerHTML ).toContain( '<label for="fooBar" id="table-fooBar-label">Bar:</label>' );
+						
+						expect( mw.innerHTML ).toNotContain( 'label' );
+						expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" required="true" ng-model="foo.bar"' );
 						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );

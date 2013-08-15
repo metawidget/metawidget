@@ -45,28 +45,6 @@ var metawidget = metawidget || {};
 		// Pipeline (private)
 
 		var _pipeline = new metawidget.Pipeline( element );
-		_pipeline.buildNestedMetawidget = function( attributes, mw ) {
-
-			var nestedWidget = element.ownerDocument.createElement( 'div' );
-
-			// Duck-type our 'pipeline' as the 'config' of the nested
-			// Metawidget. This neatly passes everything down, including a
-			// decremented 'maximumInspectionDepth'
-
-			var nestedMetawidget = new metawidget.Metawidget( nestedWidget, _pipeline );
-			nestedMetawidget.toInspect = mw.toInspect;
-			nestedMetawidget.path = metawidget.util.appendPath( attributes, mw );
-			nestedMetawidget.readOnly = mw.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly );
-
-			// Attach ourselves as a property of the tag, rather than try to
-			// 'extend' the built-in HTML tags. This is used by
-			// SimpleBindingProcessor, among others
-
-			nestedWidget.metawidget = nestedMetawidget;
-			nestedMetawidget.buildWidgets();
-
-			return nestedWidget;
-		};
 
 		// Configure defaults
 
@@ -154,6 +132,42 @@ var metawidget = metawidget || {};
 
 			return _pipeline.element;
 		};
+
+		/**
+		 * Returns a nested version of this same Metawidget, using the given
+		 * attributes.
+		 * <p>
+		 * Subclasses should override this method to use their preferred widget
+		 * creation methodology.
+		 */
+
+		this.buildNestedMetawidget = function( attributes ) {
+
+			// Create a 'div' not a 'metawidget', because whilst it's up to the
+			// user what they want their top-level element to be, for browser
+			// compatibility we should stick with something benign for nested
+			// elements
+			
+			var nestedWidget = metawidget.util.createElement( this, 'div' );
+
+			// Duck-type our 'pipeline' as the 'config' of the nested
+			// Metawidget. This neatly passes everything down, including a
+			// decremented 'maximumInspectionDepth'
+
+			var nestedMetawidget = new metawidget.Metawidget( nestedWidget, _pipeline );
+			nestedMetawidget.toInspect = this.toInspect;
+			nestedMetawidget.path = metawidget.util.appendPath( attributes, this );
+			nestedMetawidget.readOnly = this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly );
+
+			// Attach ourselves as a property of the tag, rather than try to
+			// 'extend' the built-in HTML tags. This is used by
+			// SimpleBindingProcessor, among others
+
+			nestedWidget.metawidget = nestedMetawidget;
+			nestedMetawidget.buildWidgets();
+
+			return nestedWidget;
+		};
 	};
 
 	/**
@@ -170,9 +184,6 @@ var metawidget = metawidget || {};
 	 *        <li>read-only/active widgets</li>
 	 *        <li>maximum inspection depth</li>
 	 *        </ul>
-	 *        <p>
-	 *        Clients should override 'buildNestedMetawidget'.
-	 *        </p>
 	 */
 
 	metawidget.Pipeline = function( element ) {
@@ -406,7 +417,7 @@ var metawidget = metawidget || {};
 							continue;
 						}
 
-						widget = this.buildNestedMetawidget( copiedAttributes, mw );
+						widget = mw.buildNestedMetawidget( copiedAttributes );
 
 						if ( widget === undefined ) {
 							continue;
@@ -584,15 +595,5 @@ var metawidget = metawidget || {};
 		}
 
 		this.layout( widget, elementName, attributes, container, mw );
-	};
-
-	/**
-	 * Subclasses should override this method to create a nested Metawidget,
-	 * using their preferred widget creation methodology.
-	 */
-
-	metawidget.Pipeline.prototype.buildNestedMetawidget = function( attributes, mw ) {
-
-		return undefined;
 	};
 } )();

@@ -304,7 +304,7 @@ var metawidget = metawidget || {};
 		
 		this.layoutLabel = function( tr, idPrefix, widget, elementName, attributes, mw ) {
 			
-			if ( attributes.name === undefined && attributes.title === undefined ) {
+			if ( attributes.name === undefined && attributes.title === undefined || elementName === 'entity' ) {
 				return;
 			}
 

@@ -394,7 +394,7 @@ var metawidget = metawidget || {};
 		// Push '0' so that object-based inspectors (like PropertyTypeInspector)
 		// will try to look at the first entry. However this will fail
 		// gracefully if the array is empty or undefined
-		
+
 		typeAndNames.names.push( '0' );
 
 		var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
@@ -402,12 +402,15 @@ var metawidget = metawidget || {};
 
 		if ( inspectionResult.properties === undefined ) {
 
-			// Simple, single-column table
+			// Simple, single-column table. It is still useful to pass 'type',
+			// but we must be careful not to pass 'name'.
 
 			table.appendChild( tbody );
 
 			for ( var row = 0, rows = value.length; row < rows; row++ ) {
-				this.addRow( tbody, value[row], [ {} ], mw );
+				this.addRow( tbody, value, row, [ {
+					type: inspectionResult.type
+				} ], elementName, attributes, mw );
 			}
 
 		} else {
@@ -425,7 +428,7 @@ var metawidget = metawidget || {};
 			table.appendChild( tbody );
 
 			for ( var row = 0, rows = value.length; row < rows; row++ ) {
-				this.addRow( tbody, value[row], columnAttributes, mw );
+				this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
 			}
 		}
 
@@ -436,7 +439,8 @@ var metawidget = metawidget || {};
 	 * Adds a row to the table header. Subclasses may override this method to
 	 * add additional columns, or suppress the header row.
 	 * 
-	 * @param inspectionResultProperties	an array of sorted inspection result properties
+	 * @param inspectionResultProperties
+	 *            an array of sorted inspection result properties
 	 * @return array of column attributes. For example, columnAttributes[0]
 	 *         contains an object containing attributes for the first column
 	 */
@@ -485,20 +489,21 @@ var metawidget = metawidget || {};
 	 * Adds a row to the table body. Subclasses may override this method to add
 	 * additional columns, or suppress the row.
 	 * 
-	 * @param columnAttributes
-	 *            array of column attributes. For example, columnAttributes[0]
-	 *            contains an object containing attributes for the first column
+	 * @param columnAttributesArray
+	 *            array of column attributes. For example,
+	 *            columnAttributesArray[0] contains an object containing
+	 *            columnAttributes for the first column
 	 * @return the added row, or undefined if no row was added. This can be
 	 *         useful for subclasses
 	 */
 
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addRow = function( tbody, value, columnAttributes, mw ) {
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addRow = function( tbody, value, row, columnAttributesArray, elementName, tableAttributes, mw ) {
 
 		var tr = metawidget.util.createElement( mw, 'tr' );
 		tbody.appendChild( tr );
 
-		for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
-			this.addColumn( tr, value, columnAttributes[loop], mw );
+		for ( var loop = 0, length = columnAttributesArray.length; loop < length; loop++ ) {
+			this.addColumn( tr, value, row, columnAttributesArray[loop], elementName, tableAttributes, mw );
 		}
 
 		return tr;
@@ -513,19 +518,40 @@ var metawidget = metawidget || {};
 	 *         be useful for subclasses
 	 */
 
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, attributes, mw ) {
+	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, row, columnAttributes, elementName, tableAttributes, mw ) {
 
 		var td = metawidget.util.createElement( mw, 'td' );
 
-		if ( attributes.name === undefined ) {
-			if ( value !== undefined ) {
-				td.innerHTML = '' + value;
-			}
+		// Render either top-level value, or a property of that value
+
+		var valueToRender;
+
+		if ( columnAttributes.name === undefined ) {
+			valueToRender = value[row];
 		} else {
-			if ( value[attributes.name] !== undefined ) {
-				td.innerHTML = '' + value[attributes.name];
+			valueToRender = value[row][columnAttributes.name];
+		}
+
+		// Render either nothing, a nested read-only Metawidget, or a toString()
+
+		if ( valueToRender !== undefined ) {
+			if ( columnAttributes.type === undefined || columnAttributes.type === 'array' ) {
+				var attributes = {
+					name: '[' + row + ']',
+					readOnly: true
+				};
+				if ( columnAttributes.name !== undefined ) {
+					attributes.name += '.' + columnAttributes.name;
+				}
+				if ( elementName !== 'entity' ) {
+					attributes.name = tableAttributes.name + attributes.name;
+				}
+				td.appendChild( mw.buildNestedMetawidget( attributes ) );
+			} else {
+				td.innerHTML = '' + valueToRender;
 			}
 		}
+
 		tr.appendChild( td );
 
 		return td;

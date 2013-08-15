@@ -614,7 +614,16 @@
 		it( "inspects from parent", function() {
 
 			var element = simpleDocument.createElement( 'div' );
-			var mw = new metawidget.Metawidget( element );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: new metawidget.inspector.JsonSchemaInspector( {
+					properties: {
+						bar: {
+							type: 'string',
+							required: true
+						}
+					}
+				} )
+			} );
 			mw.toInspect = {
 				bar: "Bar"
 			};
@@ -624,14 +633,12 @@
 			expect( element.childNodes[0].toString() ).toBe( 'table id="table-fooBar"' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-fooBar-row"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-fooBar-label-cell"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="fooBar" id="table-fooBar-label"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Bar:' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-fooBar-cell"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="fooBar" name="fooBar"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Bar' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td id="table-fooBar-cell" colspan="2"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="fooBar" required="required" name="fooBar"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Bar' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( '*' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes.length ).toBe( 1 );
