@@ -435,7 +435,9 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.childNodes.length ).toBe( 0 );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
 
 			// Empty array
 
@@ -536,7 +538,17 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.childNodes.length ).toBe( 0 );
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes.length ).toBe( 0 );
+			expect( table.childNodes.length ).toBe( 2 );
 
 			// Empty array
 
