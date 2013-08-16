@@ -1172,7 +1172,7 @@ public class Main {
 				<calloutlist>
 					<callout arearefs="co-introduction-javascript-part1-layout" id="ca-introduction-javascript-part1-layout">
 						<para>
-							Metawidget supports a superset of JSON Schema. Metadata such as <parameter>large</parameter>
+							Metawidget supports a superset of JSON Schema (v3). Metadata such as <parameter>large</parameter>
 							and <parameter>section</parameter> are not part of the JSON Schema specification, but are useful
 							for UIs.
 						</para>

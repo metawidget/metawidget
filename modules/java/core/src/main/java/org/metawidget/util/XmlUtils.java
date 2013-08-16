@@ -566,7 +566,7 @@ public final class XmlUtils {
 	}
 
 	/**
-	 * Convert the given Element to a JSON Schema String.
+	 * Convert the given Element to a JSON Schema (v3) String.
 	 * <p>
 	 * If converting <code>inspection-result</code> DOMs into JSON Schemas, consider using this
 	 * method in conjunction with <code>JsonSchemaMappingProcessor</code>. The result is directly

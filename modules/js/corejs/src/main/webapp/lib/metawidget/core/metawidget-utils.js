@@ -470,7 +470,7 @@ var metawidget = metawidget || {};
 	 * Combines the given first inspection result with the given second
 	 * inspection result.
 	 * <p>
-	 * Inspection results are expected to be JSON Schema objects. They are
+	 * Inspection results are expected to be JSON Schema (v3) objects. They are
 	 * combined based on their property name. If no elements match, new
 	 * properties are appended.
 	 */

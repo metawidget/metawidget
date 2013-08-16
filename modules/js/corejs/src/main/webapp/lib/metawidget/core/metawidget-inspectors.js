@@ -193,9 +193,9 @@ var metawidget = metawidget || {};
 	/**
 	 * @class Inspects JSON Schemas for their properties.
 	 *        <p>
-	 *        Because Metawidget <em>already</em> uses JSON Schema internally
-	 *        as its inspection result format, this Inspector does not need to
-	 *        do much. However it adds support for:
+	 *        Because Metawidget <em>already</em> uses JSON Schema (v3)
+	 *        internally as its inspection result format, this Inspector does
+	 *        not need to do much. However it adds support for:
 	 *        <p>
 	 *        <ul>
 	 *        <li>schemas that contain nested schemas (by traversing the given
