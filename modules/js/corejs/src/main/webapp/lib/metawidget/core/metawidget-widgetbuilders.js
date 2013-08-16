@@ -391,6 +391,12 @@ var metawidget = metawidget || {};
 			value = toInspect;
 		}
 
+		// TODO: test value undefined
+		
+		if ( value === undefined ) {
+			return;
+		}
+		
 		// Push '0' so that object-based inspectors (like PropertyTypeInspector)
 		// will try to look at the first entry. However this will fail
 		// gracefully if the array is empty or undefined
@@ -537,8 +543,7 @@ var metawidget = metawidget || {};
 		if ( valueToRender !== undefined ) {
 			if ( columnAttributes.type === undefined || columnAttributes.type === 'array' ) {
 				var attributes = {
-					name: '[' + row + ']',
-					readOnly: true
+					name: '[' + row + ']'
 				};
 				if ( columnAttributes.name !== undefined ) {
 					attributes.name += '.' + columnAttributes.name;

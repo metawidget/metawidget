@@ -949,10 +949,14 @@
 			expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-1DescriptionNestedName-label-cell"' );
 			expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="1DescriptionNestedName" id="table-1DescriptionNestedName-label"' );
 			expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Name:' );
+			expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-1DescriptionNestedName-cell"' );
+			expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="1DescriptionNestedName" name="1DescriptionNestedName"' );
 
 			expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-1DescriptionNestedDescription-label-cell"' );
 			expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="1DescriptionNestedDescription" id="table-1DescriptionNestedDescription-label"' );
 			expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Description:' );
+			expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-1DescriptionNestedDescription-cell"' );
+			expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="1DescriptionNestedDescription" name="1DescriptionNestedDescription"' );
 		} );
 	} );
 } )();
