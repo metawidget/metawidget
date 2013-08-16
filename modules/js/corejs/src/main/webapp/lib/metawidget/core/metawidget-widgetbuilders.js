@@ -391,53 +391,50 @@ var metawidget = metawidget || {};
 			value = toInspect;
 		}
 
-		// TODO: test value undefined
+		if ( value !== undefined ) {
 		
-		if ( value === undefined ) {
-			return;
-		}
-		
-		// Push '0' so that object-based inspectors (like PropertyTypeInspector)
-		// will try to look at the first entry. However this will fail
-		// gracefully if the array is empty or undefined
-
-		typeAndNames.names.push( '0' );
-
-		var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
-		var tbody = metawidget.util.createElement( mw, 'tbody' );
-
-		if ( inspectionResult.properties === undefined ) {
-
-			// Simple, single-column table. It is still useful to pass 'type',
-			// but we must be careful not to pass 'name'.
-
-			table.appendChild( tbody );
-
-			for ( var row = 0, rows = value.length; row < rows; row++ ) {
-				this.addRow( tbody, value, row, [ {
-					type: inspectionResult.type
-				} ], elementName, attributes, mw );
-			}
-
-		} else {
-			var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
-
-			// Create headers
-
-			var thead = metawidget.util.createElement( mw, 'thead' );
-			table.appendChild( thead );
-
-			var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
-
-			// Create body
-
-			table.appendChild( tbody );
-
-			for ( var row = 0, rows = value.length; row < rows; row++ ) {
-				this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
+			// Push '0' so that object-based inspectors (like PropertyTypeInspector)
+			// will try to look at the first entry. However this will fail
+			// gracefully if the array is empty or undefined
+	
+			typeAndNames.names.push( '0' );
+	
+			var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
+			var tbody = metawidget.util.createElement( mw, 'tbody' );
+	
+			if ( inspectionResult.properties === undefined ) {
+	
+				// Simple, single-column table. It is still useful to pass 'type',
+				// but we must be careful not to pass 'name'.
+	
+				table.appendChild( tbody );
+	
+				for ( var row = 0, rows = value.length; row < rows; row++ ) {
+					this.addRow( tbody, value, row, [ {
+						type: inspectionResult.type
+					} ], elementName, attributes, mw );
+				}
+	
+			} else {
+				var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
+	
+				// Create headers
+	
+				var thead = metawidget.util.createElement( mw, 'thead' );
+				table.appendChild( thead );
+	
+				var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
+	
+				// Create body
+	
+				table.appendChild( tbody );
+	
+				for ( var row = 0, rows = value.length; row < rows; row++ ) {
+					this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
+				}
 			}
 		}
-
+	
 		return table;
 	};
 
