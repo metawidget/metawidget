@@ -640,6 +640,10 @@ public final class XmlUtils {
 	// Private methods
 	//
 
+	private static final String[] ARRAY_BASED_JSON_ATTRIBUTE_NAMES = new String[]{ SECTION, "enum", "enumTitles" };
+
+	private static final String[] NON_STRING_JSON_ATTRIBUTE_NAMES = new String[]{ REQUIRED, HIDDEN, "minimum", "maximum", "maxLength" };
+
 	private static String attributesToJsonSchema( NamedNodeMap attributes, boolean excludeName ) {
 
 		StringBuilder propertyBuilder = new StringBuilder();
@@ -648,35 +652,36 @@ public final class XmlUtils {
 
 			Node attribute = attributes.item( loop );
 
-			String elementName = attribute.getNodeName();
-			String nodeValue = attribute.getNodeValue();
+			String attributeName = attribute.getNodeName();
+			String attributeValue = attribute.getNodeValue();
 
-			if ( excludeName && NAME.equals( elementName ) ) {
+			if ( excludeName && NAME.equals( attributeName ) ) {
 				continue;
 			}
 
 			// Best guess element names (e.g. 'foo-bar' becomes 'fooBar')
 
-			elementName = StringUtils.camelCase( elementName, '-' );
+			attributeName = StringUtils.camelCase( attributeName, '-' );
 
 			if ( propertyBuilder.length() > 0 ) {
 				propertyBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
 			}
 
-			propertyBuilder.append( "\"" + elementName + "\"" );
+			propertyBuilder.append( "\"" + attributeName + "\"" );
 			propertyBuilder.append( StringUtils.SEPARATOR_COLON_CHAR );
 
-			if ( "enum".equals( elementName ) || "enumTitles".equals( elementName ) || SECTION.equals( elementName ) ) {
+			if ( ArrayUtils.contains( ARRAY_BASED_JSON_ATTRIBUTE_NAMES, attributeName )) {
 				propertyBuilder.append( "[" );
-				propertyBuilder.append( arrayToJsonSchema( nodeValue ) );
+				propertyBuilder.append( arrayToJsonSchema( attributeValue ) );
 				propertyBuilder.append( "]" );
+			} else if ( ArrayUtils.contains( NON_STRING_JSON_ATTRIBUTE_NAMES, attributeName )) {
+				propertyBuilder.append( attributeValue );
 			} else {
 
-				// Always write out the value as a string, even 'true' and '0'. This is because some
-				// JSON parsers only accept strings (e.g. AngularJS)
+				// Write out all other values as a string, as this is the safest option
 
 				propertyBuilder.append( "\"" );
-				propertyBuilder.append( nodeValue );
+				propertyBuilder.append( attributeValue );
 				propertyBuilder.append( "\"" );
 			}
 		}
@@ -823,7 +828,7 @@ public final class XmlUtils {
 
 			mDelegate = null;
 			mLastCommand = null;
-			((ArrayList<CachedCommand>) mCache).trimToSize();
+			( (ArrayList<CachedCommand>) mCache ).trimToSize();
 		}
 
 		//
