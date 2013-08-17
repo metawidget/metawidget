@@ -344,7 +344,7 @@
 			return _pipeline.element;
 		};
 
-		this.buildNestedMetawidget = function( attributes ) {
+		this.buildNestedMetawidget = function( attributes, config ) {
 
 			var nestedMetawidget = metawidget.util.createElement( this, 'metawidget' );
 			nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
@@ -359,7 +359,8 @@
 			// decremented 'maximumInspectionDepth'
 
 			scope.$parent._pipeline = _pipeline;
-			nestedMetawidget.setAttribute( 'configs', '_pipeline' );
+			scope.$parent._config = config;
+			nestedMetawidget.setAttribute( 'configs', '[_pipeline,_config]' );
 
 			return nestedMetawidget;
 		};

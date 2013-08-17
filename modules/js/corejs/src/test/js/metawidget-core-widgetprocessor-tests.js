@@ -339,20 +339,21 @@
 			var widget = simpleDocument.createElement( 'input' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.value ).toBe( 'string' );
+			expect( processor.save( mw )).toBe( false );
 			widget.value = 'string2';
-			processor.save( mw );
+			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.string1 ).toBe( 'string2' );
 			
 			widget.value = '';
-			processor.save( mw );
+			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.string1 ).toBeUndefined();
 
 			widget.value = 'string3';
-			processor.save( mw );
+			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.string1 ).toBe( 'string3' );
 
 			widget.value = null;
-			processor.save( mw );
+			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.string1 ).toBeUndefined();
 
 			// Numbers
@@ -364,16 +365,20 @@
 			var widget = simpleDocument.createElement( 'input' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.value ).toBe( 42 );
+			expect( processor.save( mw )).toBe( false );
 			widget.value = '43';
-			processor.save( mw );
+			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.number1 ).toBe( 43 );
 
 			widget.value = null;
-			processor.save( mw );
+			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.number1 ).toBeUndefined();
-
+			
 			widget.value = 'not a number';
-			processor.save( mw );
+			
+			// (returns false because does not actually change any data)
+			
+			expect( processor.save( mw )).toBe( false );
 			expect( mw.toInspect.number1 ).toBeUndefined();
 
 			// Booleans
@@ -386,8 +391,9 @@
 			widget.setAttribute( 'type', 'checkbox' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.checked ).toBe( true );
+			expect( processor.save( mw )).toBe( false );
 			widget.checked = false;
-			processor.save( mw );
+			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.boolean1 ).toBe( false );
 		} );
 	} );

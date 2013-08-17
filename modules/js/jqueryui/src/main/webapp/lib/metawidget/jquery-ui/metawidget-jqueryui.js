@@ -406,7 +406,7 @@ var metawidget = metawidget || {};
 			return this._pipeline.element;
 		},
 
-		buildNestedMetawidget: function( attributes ) {
+		buildNestedMetawidget: function( attributes, config ) {
 
 			// Create a 'div' not a 'metawidget', because whilst it's up to the
 			// user what they want their top-level element to be, for browser
@@ -419,7 +419,7 @@ var metawidget = metawidget || {};
 			// Metawidget. This neatly passes everything down, including a
 			// decremented 'maximumInspectionDepth'
 
-			var nestedMetawidget = $( nestedWidget ).metawidget( this._pipeline );
+			var nestedMetawidget = $( nestedWidget ).metawidget( [ this._pipeline, config ] );
 
 			nestedMetawidget.metawidget( "option", "readOnly", this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ) );
 			var nestedToInspect = this.toInspect;

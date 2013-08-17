@@ -185,11 +185,15 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Save the bindings associated with the given Metawidget.
+	 * 
+	 * @return true if data was actually changed. False otherwise. Can be useful
+	 *         for 'dirty' flags
 	 */
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw ) {
 
 		var toInspect;
+		var dirty = false;
 
 		// Traverse to the parent...
 
@@ -229,33 +233,38 @@ var metawidget = metawidget || {};
 				continue;
 			}
 
-			if ( binding.widget.getAttribute( 'type' ) === 'checkbox' ) {
-				toInspect[name] = binding.widget.checked;
-				continue;
-			}
+			var value;
 
-			if ( binding.attributes.type === 'number' ) {
+			if ( binding.widget.getAttribute( 'type' ) === 'checkbox' ) {
+				value = binding.widget.checked;
+
+			} else if ( binding.attributes.type === 'number' ) {
 				var parsed = parseInt( binding.widget.value );
-				
+
 				// Avoid pushing back 'NaN'
 
-				if ( isNaN( parsed )) {
-					toInspect[name] = undefined;
-					continue;
+				if ( isNaN( parsed ) ) {
+					value = undefined;
+				} else {
+					value = parsed;
 				}
-				
-				toInspect[name] = parsed;
-				continue;
+			} else if ( binding.widget.value === '' || binding.widget.value === null ) {
+
+				// Avoid pushing back 'null'
+
+				value = undefined;
+			} else {
+
+				value = binding.widget.value;
 			}
-		
-			// Avoid pushing back 'null'
-			
-			if ( binding.widget.value === '' || binding.widget.value === null ) {
-				toInspect[name] = undefined;
-				continue;
+
+			if ( dirty === false && toInspect[name] !== value ) {
+				dirty = true;
 			}
-			
-			toInspect[name] = binding.widget.value;
+
+			toInspect[name] = value;
 		}
+
+		return dirty;
 	};
 } )();

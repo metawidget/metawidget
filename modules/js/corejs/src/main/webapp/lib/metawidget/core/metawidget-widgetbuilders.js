@@ -182,381 +182,420 @@ var metawidget = metawidget || {};
 	 * <p>
 	 * Creates native HTML 5 widgets, such as <code>input</code> and
 	 * <code>select</code>, to suit the inspected fields.
+	 * <p>
+	 * This WidgetBuilder can be configured with the following settings:
+	 * <ul>
+	 * <li>alwaysUseNestedMetawidgetInTables - by default, HtmlWidgetBuilder
+	 * will render simple values in tables as read-only labels. It will only
+	 * resort to using nested Metawidgets inside tables if the value is an
+	 * object. However, sometimes using a nested Metawidget is the desired
+	 * behaviour, even for simple values. Setting this flag forces this</li>
+	 * </ul>
 	 */
 
-	metawidget.widgetbuilder.HtmlWidgetBuilder = function() {
+	metawidget.widgetbuilder.HtmlWidgetBuilder = function( config ) {
 
 		if ( ! ( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
-	};
 
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.buildWidget = function( elementName, attributes, mw ) {
+		var _alwaysUseNestedMetawidgetInTables = false;
 
-		// Hidden
-
-		if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) ) {
-			return metawidget.util.createElement( mw, 'stub' );
+		if ( config !== undefined ) {
+			_alwaysUseNestedMetawidgetInTables = config.alwaysUseNestedMetawidgetInTables;
 		}
 
-		// Select box
+		this.buildWidget = function( elementName, attributes, mw ) {
 
-		if ( attributes['enum'] !== undefined ) {
+			// Hidden
 
-			// Multi-select and radio buttons
+			if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) ) {
+				return metawidget.util.createElement( mw, 'stub' );
+			}
 
-			if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
+			// Select box
 
-				var div = metawidget.util.createElement( mw, 'div' );
+			if ( attributes['enum'] !== undefined ) {
+
+				// Multi-select and radio buttons
+
+				if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
+
+					var div = metawidget.util.createElement( mw, 'div' );
+
+					for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
+
+						// Uses 'implicit label association':
+						// http://www.w3.org/TR/html4/interact/forms.html#h-17.9.1
+
+						var label = metawidget.util.createElement( mw, 'label' );
+						var option = metawidget.util.createElement( mw, 'input' );
+
+						if ( attributes.componentType !== undefined ) {
+							option.setAttribute( 'type', attributes.componentType );
+						} else {
+							option.setAttribute( 'type', 'checkbox' );
+						}
+						option.setAttribute( 'value', attributes['enum'][loop] );
+						label.appendChild( option );
+
+						if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
+							label.appendChild( metawidget.util.createTextNode( mw, attributes.enumTitles[loop] ) );
+						} else {
+							label.appendChild( metawidget.util.createTextNode( mw, attributes['enum'][loop] ) );
+						}
+
+						div.appendChild( label );
+					}
+
+					return div;
+				}
+
+				// Single-select
+
+				var select = metawidget.util.createElement( mw, 'select' );
+
+				if ( !metawidget.util.isTrueOrTrueString( attributes.required ) ) {
+					select.appendChild( metawidget.util.createElement( mw, 'option' ) );
+				}
 
 				for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
+					var option = metawidget.util.createElement( mw, 'option' );
 
-					// Uses 'implicit label association':
-					// http://www.w3.org/TR/html4/interact/forms.html#h-17.9.1
+					// HtmlUnit needs an 'option' to have a 'value', even if the
+					// same as the innerHTML
 
-					var label = metawidget.util.createElement( mw, 'label' );
-					var option = metawidget.util.createElement( mw, 'input' );
-
-					if ( attributes.componentType !== undefined ) {
-						option.setAttribute( 'type', attributes.componentType );
-					} else {
-						option.setAttribute( 'type', 'checkbox' );
-					}
 					option.setAttribute( 'value', attributes['enum'][loop] );
-					label.appendChild( option );
 
 					if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
-						label.appendChild( metawidget.util.createTextNode( mw, attributes.enumTitles[loop] ) );
+						option.innerHTML = attributes.enumTitles[loop];
 					} else {
-						label.appendChild( metawidget.util.createTextNode( mw, attributes['enum'][loop] ) );
+						option.innerHTML = attributes['enum'][loop];
 					}
 
-					div.appendChild( label );
+					select.appendChild( option );
+				}
+				return select;
+			}
+
+			// Button
+
+			if ( attributes.type === 'function' ) {
+				var button = metawidget.util.createElement( mw, 'button' );
+				button.innerHTML = metawidget.util.getLabelString( attributes, mw );
+				return button;
+			}
+
+			// Number
+
+			if ( attributes.type === 'number' ) {
+
+				if ( attributes.minimum !== undefined && attributes.maximum !== undefined ) {
+					var range = metawidget.util.createElement( mw, 'input' );
+					range.setAttribute( 'type', 'range' );
+					range.setAttribute( 'min', attributes.minimum );
+					range.setAttribute( 'max', attributes.maximum );
+					return range;
 				}
 
-				return div;
-			}
+				var number = metawidget.util.createElement( mw, 'input' );
+				number.setAttribute( 'type', 'number' );
 
-			// Single-select
-
-			var select = metawidget.util.createElement( mw, 'select' );
-
-			if ( !metawidget.util.isTrueOrTrueString( attributes.required ) ) {
-				select.appendChild( metawidget.util.createElement( mw, 'option' ) );
-			}
-
-			for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
-				var option = metawidget.util.createElement( mw, 'option' );
-
-				// HtmlUnit needs an 'option' to have a 'value', even if the
-				// same as the innerHTML
-
-				option.setAttribute( 'value', attributes['enum'][loop] );
-
-				if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
-					option.innerHTML = attributes.enumTitles[loop];
-				} else {
-					option.innerHTML = attributes['enum'][loop];
+				if ( attributes.minimum !== undefined ) {
+					number.setAttribute( 'min', attributes.minimum );
+				} else if ( attributes.maximum !== undefined ) {
+					number.setAttribute( 'max', attributes.maximum );
 				}
 
-				select.appendChild( option );
-			}
-			return select;
-		}
-
-		// Button
-
-		if ( attributes.type === 'function' ) {
-			var button = metawidget.util.createElement( mw, 'button' );
-			button.innerHTML = metawidget.util.getLabelString( attributes, mw );
-			return button;
-		}
-
-		// Number
-
-		if ( attributes.type === 'number' ) {
-
-			if ( attributes.minimum !== undefined && attributes.maximum !== undefined ) {
-				var range = metawidget.util.createElement( mw, 'input' );
-				range.setAttribute( 'type', 'range' );
-				range.setAttribute( 'min', attributes.minimum );
-				range.setAttribute( 'max', attributes.maximum );
-				return range;
+				return number;
 			}
 
-			var number = metawidget.util.createElement( mw, 'input' );
-			number.setAttribute( 'type', 'number' );
+			// Boolean
 
-			if ( attributes.minimum !== undefined ) {
-				number.setAttribute( 'min', attributes.minimum );
-			} else if ( attributes.maximum !== undefined ) {
-				number.setAttribute( 'max', attributes.maximum );
+			if ( attributes.type === 'boolean' ) {
+				var checkbox = metawidget.util.createElement( mw, 'input' );
+				checkbox.setAttribute( 'type', 'checkbox' );
+				return checkbox;
 			}
 
-			return number;
-		}
+			// Date
 
-		// Boolean
+			if ( attributes.type === 'date' ) {
+				var date = metawidget.util.createElement( mw, 'input' );
+				date.setAttribute( 'type', 'date' );
+				return date;
+			}
 
-		if ( attributes.type === 'boolean' ) {
-			var checkbox = metawidget.util.createElement( mw, 'input' );
-			checkbox.setAttribute( 'type', 'checkbox' );
-			return checkbox;
-		}
+			// String
 
-		// Date
+			if ( attributes.type === 'string' ) {
 
-		if ( attributes.type === 'date' ) {
-			var date = metawidget.util.createElement( mw, 'input' );
-			date.setAttribute( 'type', 'date' );
-			return date;
-		}
+				if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
+					var password = metawidget.util.createElement( mw, 'input' );
+					password.setAttribute( 'type', 'password' );
 
-		// String
+					if ( attributes.maxLength !== undefined ) {
+						password.setAttribute( 'maxlength', attributes.maxLength );
+					}
 
-		if ( attributes.type === 'string' ) {
+					return password;
+				}
 
-			if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
-				var password = metawidget.util.createElement( mw, 'input' );
-				password.setAttribute( 'type', 'password' );
+				if ( metawidget.util.isTrueOrTrueString( attributes.large ) ) {
+					return metawidget.util.createElement( mw, 'textarea' );
+				}
+
+				var text = metawidget.util.createElement( mw, 'input' );
+				text.setAttribute( 'type', 'text' );
 
 				if ( attributes.maxLength !== undefined ) {
-					password.setAttribute( 'maxlength', attributes.maxLength );
+					text.setAttribute( 'maxlength', attributes.maxLength );
 				}
 
-				return password;
+				return text;
 			}
 
-			if ( metawidget.util.isTrueOrTrueString( attributes.large ) ) {
-				return metawidget.util.createElement( mw, 'textarea' );
+			// Collection
+
+			if ( attributes.type === 'array' ) {
+				return this.createTable( elementName, attributes, mw );
 			}
 
-			var text = metawidget.util.createElement( mw, 'input' );
-			text.setAttribute( 'type', 'text' );
+			// Not simple, but don't expand
 
-			if ( attributes.maxLength !== undefined ) {
-				text.setAttribute( 'maxlength', attributes.maxLength );
+			if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
+				var text = metawidget.util.createElement( mw, 'input' );
+				text.setAttribute( 'type', 'text' );
+				return text;
+			}
+		};
+
+		/**
+		 * Create a table populated with the contents of an array property.
+		 * <p>
+		 * Subclasses may override this method to customize table creation.
+		 * Alternatively, they could override one of the sub-methods
+		 * <tt>addHeaderRow</tt>, <tt>addHeader</tt>, <tt>addRow</tt> or
+		 * <tt>addColumn</tt>.
+		 */
+
+		this.createTable = function( elementName, attributes, mw ) {
+
+			var table = metawidget.util.createElement( mw, 'table' );
+
+			// Inspect the first entry in the array to determine the table
+			// columns. This assumes the array is homogeneous. However because
+			// you can use JsonSchemaInspector as one of your Inspectors, it
+			// doesn't assume the array is populated, nor that the first entry
+			// has values in all fields
+
+			var typeAndNames = metawidget.util.splitPath( mw.path );
+			var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
+
+			if ( typeAndNames.names === undefined ) {
+				typeAndNames.names = [];
 			}
 
-			return text;
-		}
+			var value;
 
-		// Collection
-
-		if ( attributes.type === 'array' ) {
-			return this.createTable( elementName, attributes, mw );
-		}
-
-		// Not simple, but don't expand
-
-		if ( metawidget.util.isTrueOrTrueString( attributes.dontExpand ) ) {
-			var text = metawidget.util.createElement( mw, 'input' );
-			text.setAttribute( 'type', 'text' );
-			return text;
-		}
-	};
-
-	/**
-	 * Create a table populated with the contents of an array property.
-	 * <p>
-	 * Subclasses may override this method to customize table creation.
-	 * Alternatively, they could override one of the sub-methods
-	 * <tt>addHeaderRow</tt>, <tt>addHeader</tt>, <tt>addRow</tt> or
-	 * <tt>addColumn</tt>.
-	 */
-
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.createTable = function( elementName, attributes, mw ) {
-
-		var table = metawidget.util.createElement( mw, 'table' );
-
-		// Inspect the first entry in the array to determine the table columns.
-		// This assumes the array is homogeneous. However because you can use
-		// JsonSchemaInspector as one of your Inspectors, it doesn't assume the
-		// array is populated, nor that the first entry has values in all
-		// fields
-
-		var typeAndNames = metawidget.util.splitPath( mw.path );
-		var toInspect = metawidget.util.traversePath( mw.toInspect, typeAndNames.names );
-
-		if ( typeAndNames.names === undefined ) {
-			typeAndNames.names = [];
-		}
-
-		var value;
-
-		if ( elementName !== 'entity' ) {
-			value = toInspect[attributes.name];
-			typeAndNames.names.push( attributes.name );
-		} else {
-			value = toInspect;
-		}
-
-		// Push '0' so that object-based inspectors (like PropertyTypeInspector)
-		// will try to look at the first entry. However this will fail
-		// gracefully if the array is empty or undefined
-
-		typeAndNames.names.push( '0' );
-
-		var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
-		var tbody = metawidget.util.createElement( mw, 'tbody' );
-
-		if ( inspectionResult.properties === undefined ) {
-
-			// Simple, single-column table. It is still useful to pass 'type',
-			// but we must be careful not to pass 'name'.
-
-			table.appendChild( tbody );
-
-			if ( value !== undefined ) {
-				for ( var row = 0, rows = value.length; row < rows; row++ ) {
-					this.addRow( tbody, value, row, [ {
-						type: inspectionResult.type
-					} ], elementName, attributes, mw );
-				}
-			}
-
-		} else {
-			var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
-
-			// Create headers
-
-			var thead = metawidget.util.createElement( mw, 'thead' );
-			table.appendChild( thead );
-
-			var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
-
-			// Create body
-
-			table.appendChild( tbody );
-
-			if ( value !== undefined ) {				
-				for ( var row = 0, rows = value.length; row < rows; row++ ) {
-					this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
-				}
-			}
-		}
-	
-		return table;
-	};
-
-	/**
-	 * Adds a row to the table header. Subclasses may override this method to
-	 * add additional columns, or suppress the header row.
-	 * 
-	 * @param inspectionResultProperties
-	 *            an array of sorted inspection result properties
-	 * @return array of column attributes. For example, columnAttributes[0]
-	 *         contains an object containing attributes for the first column
-	 */
-
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addHeaderRow = function( thead, inspectionResultProperties, mw ) {
-
-		var tr = metawidget.util.createElement( mw, 'tr' );
-		thead.appendChild( tr );
-
-		var columnAttributes = [];
-
-		for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
-
-			var columnAttribute = inspectionResultProperties[loop];
-
-			if ( this.addHeader( tr, columnAttribute, mw ) ) {
-				columnAttributes.push( columnAttribute );
-			}
-		}
-
-		return columnAttributes;
-	};
-
-	/**
-	 * Add a header column for the given attributes. Subclasses may override
-	 * this method to suppress certain columns. By default, suppresses columns
-	 * where 'hidden' is true.
-	 * 
-	 * @returns true if a header was added, false otherwise
-	 */
-
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addHeader = function( tr, attributes, mw ) {
-
-		if ( attributes.hidden === true ) {
-			return false;
-		}
-
-		var th = metawidget.util.createElement( mw, 'th' );
-		th.innerHTML = metawidget.util.getLabelString( attributes, mw );
-		tr.appendChild( th );
-
-		return true;
-	};
-
-	/**
-	 * Adds a row to the table body. Subclasses may override this method to add
-	 * additional columns, or suppress the row.
-	 * 
-	 * @param columnAttributesArray
-	 *            array of column attributes. For example,
-	 *            columnAttributesArray[0] contains an object containing
-	 *            columnAttributes for the first column
-	 * @return the added row, or undefined if no row was added. This can be
-	 *         useful for subclasses
-	 */
-
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addRow = function( tbody, value, row, columnAttributesArray, elementName, tableAttributes, mw ) {
-
-		var tr = metawidget.util.createElement( mw, 'tr' );
-		tbody.appendChild( tr );
-
-		for ( var loop = 0, length = columnAttributesArray.length; loop < length; loop++ ) {
-			this.addColumn( tr, value, row, columnAttributesArray[loop], elementName, tableAttributes, mw );
-		}
-
-		return tr;
-	};
-
-	/**
-	 * Add a column to the given row, displaying the given value. Subclasses may
-	 * override this method to modify the column contents (for example, to wrap
-	 * them in an anchor tag).
-	 * 
-	 * @return the added column, or undefined if no column was added. This can
-	 *         be useful for subclasses
-	 */
-
-	metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addColumn = function( tr, value, row, columnAttributes, elementName, tableAttributes, mw ) {
-
-		var td = metawidget.util.createElement( mw, 'td' );
-
-		// Render either top-level value, or a property of that value
-
-		var valueToRender;
-
-		if ( columnAttributes.name === undefined ) {
-			valueToRender = value[row];
-		} else {
-			valueToRender = value[row][columnAttributes.name];
-		}
-
-		// Render either nothing, a nested read-only Metawidget, or a toString()
-
-		if ( valueToRender !== undefined ) {
-			if ( columnAttributes.type === undefined || columnAttributes.type === 'array' ) {
-				var attributes = {
-					name: '[' + row + ']'
-				};
-				if ( columnAttributes.name !== undefined ) {
-					attributes.name += '.' + columnAttributes.name;
-				}
-				if ( elementName !== 'entity' ) {
-					attributes.name = tableAttributes.name + attributes.name;
-				}
-				td.appendChild( mw.buildNestedMetawidget( attributes ) );
+			if ( elementName !== 'entity' ) {
+				value = toInspect[attributes.name];
+				typeAndNames.names.push( attributes.name );
 			} else {
-				td.innerHTML = '' + valueToRender;
+				value = toInspect;
 			}
-		}
 
-		tr.appendChild( td );
+			// Push '0' so that object-based inspectors (like
+			// PropertyTypeInspector) will try to look at the first entry.
+			// However this will fail gracefully if the array is empty or
+			// undefined
 
-		return td;
+			typeAndNames.names.push( '0' );
+
+			var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
+			var tbody = metawidget.util.createElement( mw, 'tbody' );
+
+			if ( inspectionResult.properties === undefined ) {
+
+				// Simple, single-column table. It is still useful to pass
+				// 'type', but we must be careful not to pass 'name'.
+
+				table.appendChild( tbody );
+
+				if ( value !== undefined ) {
+					for ( var row = 0, rows = value.length; row < rows; row++ ) {
+						this.addRow( tbody, value, row, [ {
+							type: inspectionResult.type
+						} ], elementName, attributes, mw );
+					}
+				}
+
+			} else {
+				var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
+
+				// Create headers
+
+				var thead = metawidget.util.createElement( mw, 'thead' );
+				table.appendChild( thead );
+
+				var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
+
+				// Create body
+
+				table.appendChild( tbody );
+
+				if ( value !== undefined ) {
+					for ( var row = 0, rows = value.length; row < rows; row++ ) {
+						this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
+					}
+				}
+			}
+
+			return table;
+		};
+
+		/**
+		 * Adds a row to the table header. Subclasses may override this method
+		 * to add additional columns, or suppress the header row.
+		 * 
+		 * @param inspectionResultProperties
+		 *            an array of sorted inspection result properties
+		 * @return array of column attributes. For example, columnAttributes[0]
+		 *         contains an object containing attributes for the first column
+		 */
+
+		metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addHeaderRow = function( thead, inspectionResultProperties, mw ) {
+
+			var tr = metawidget.util.createElement( mw, 'tr' );
+			thead.appendChild( tr );
+
+			var columnAttributes = [];
+
+			for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
+
+				var columnAttribute = inspectionResultProperties[loop];
+
+				if ( this.addHeader( tr, columnAttribute, mw ) ) {
+					columnAttributes.push( columnAttribute );
+				}
+			}
+
+			return columnAttributes;
+		};
+
+		/**
+		 * Add a header column for the given attributes. Subclasses may override
+		 * this method to suppress certain columns. By default, suppresses
+		 * columns where 'hidden' is true.
+		 * 
+		 * @returns true if a header was added, false otherwise
+		 */
+
+		this.addHeader = function( tr, attributes, mw ) {
+
+			if ( attributes.hidden === true ) {
+				return false;
+			}
+
+			var th = metawidget.util.createElement( mw, 'th' );
+			th.innerHTML = metawidget.util.getLabelString( attributes, mw );
+			tr.appendChild( th );
+
+			return true;
+		};
+
+		/**
+		 * Adds a row to the table body. Subclasses may override this method to
+		 * add additional columns, or suppress the row.
+		 * 
+		 * @param columnAttributesArray
+		 *            array of column attributes. For example,
+		 *            columnAttributesArray[0] contains an object containing
+		 *            columnAttributes for the first column
+		 * @return the added row, or undefined if no row was added. This can be
+		 *         useful for subclasses
+		 */
+
+		this.addRow = function( tbody, value, row, columnAttributesArray, elementName, tableAttributes, mw ) {
+
+			var tr = metawidget.util.createElement( mw, 'tr' );
+			tbody.appendChild( tr );
+
+			for ( var loop = 0, length = columnAttributesArray.length; loop < length; loop++ ) {
+				this.addColumn( tr, value, row, columnAttributesArray[loop], elementName, tableAttributes, mw );
+			}
+
+			return tr;
+		};
+
+		/**
+		 * Add a column to the given row, displaying the given value. Subclasses
+		 * may override this method to modify the column contents (for example,
+		 * to wrap them in an anchor tag).
+		 * 
+		 * @return the added column, or undefined if no column was added. This
+		 *         can be useful for subclasses
+		 */
+
+		this.addColumn = function( tr, value, row, columnAttributes, elementName, tableAttributes, mw ) {
+
+			var td = metawidget.util.createElement( mw, 'td' );
+
+			// Render either top-level value, or a property of that value
+
+			var valueToRender;
+
+			if ( columnAttributes.name === undefined ) {
+				valueToRender = value[row];
+			} else {
+				valueToRender = value[row][columnAttributes.name];
+			}
+
+			// Render either nothing, a nested read-only Metawidget, or a
+			// toString()
+
+			if ( valueToRender !== undefined ) {
+				if ( columnAttributes.type === undefined || columnAttributes.type === 'array' || _alwaysUseNestedMetawidgetInTables === true ) {
+
+					var attributes = {};
+
+					for ( var attributeName in columnAttributes ) {
+						attributes[attributeName] = columnAttributes[attributeName];
+					}
+
+					if ( attributes.name === undefined ) {
+						attributes.name = '[' + row + ']';
+					} else {
+						attributes.name = '[' + row + '].' + attributes.name;
+					}
+					if ( elementName !== 'entity' ) {
+						attributes.name = tableAttributes.name + attributes.name;
+					}
+
+					// Allow users to mark the whole table as readOnly
+
+					if ( attributes.readOnly === undefined ) {
+						attributes.readOnly = tableAttributes.readOnly;
+					}
+
+					// Render simple types with a simple layout, to avoid a
+					// leading label
+
+					if ( attributes.type === undefined || attributes.type === 'array' ) {
+						td.appendChild( mw.buildNestedMetawidget( attributes ) );
+					} else {
+						td.appendChild( mw.buildNestedMetawidget( attributes, {
+							layout: new metawidget.layout.SimpleLayout()
+						} ) );
+					}
+				} else {
+					td.innerHTML = '' + valueToRender;
+				}
+			}
+
+			tr.appendChild( td );
+
+			return td;
+		};
 	};
 } )();

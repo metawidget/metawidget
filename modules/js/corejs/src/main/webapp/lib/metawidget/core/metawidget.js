@@ -141,7 +141,7 @@ var metawidget = metawidget || {};
 		 * creation methodology.
 		 */
 
-		this.buildNestedMetawidget = function( attributes ) {
+		this.buildNestedMetawidget = function( attributes, config ) {
 
 			// Create a 'div' not a 'metawidget', because whilst it's up to the
 			// user what they want their top-level element to be, for browser
@@ -154,7 +154,7 @@ var metawidget = metawidget || {};
 			// Metawidget. This neatly passes everything down, including a
 			// decremented 'maximumInspectionDepth'
 
-			var nestedMetawidget = new metawidget.Metawidget( nestedWidget, _pipeline );
+			var nestedMetawidget = new metawidget.Metawidget( nestedWidget, [ _pipeline, config ] );
 			nestedMetawidget.toInspect = this.toInspect;
 			nestedMetawidget.path = metawidget.util.appendPath( attributes, this );
 			nestedMetawidget.readOnly = this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly );
