@@ -574,6 +574,8 @@ public final class XmlUtils {
 	 * services (see http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
 	 */
 
+	// TODO: rename inspectionResultToJsonSchema
+	
 	public static String elementToJsonSchema( Element inspectionResult ) {
 
 		StringBuilder jsonBuilder = new StringBuilder();

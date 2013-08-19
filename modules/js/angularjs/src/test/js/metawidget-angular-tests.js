@@ -1059,6 +1059,38 @@
 								'<tbody><tr><td>firstname1</td><td>surname1</td></tr><tr><td>firstname2</td><td>surname2</td></tr><tr><td>firstname3</td><td>surname3</td></tr></tbody>' );
 					} );
 				} );
+
+				it( "supports nested Metawidgets", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: {
+								baz: {
+									firstname: 'firstname1',
+									surname: 'surname1'
+								}
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<table id="table-fooBarBaz"><tbody><tr id="table-fooBarBazFirstname-row"><th id="table-fooBarBazFirstname-label-cell"><label for="fooBarBazFirstname" id="table-fooBarBazFirstname-label">Firstname:</label></th><td id="table-fooBarBazFirstname-cell"><input type="text" id="fooBarBazFirstname" ng-model="foo.bar.baz.firstname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr><tr id="table-fooBarBazSurname-row"><th id="table-fooBarBazSurname-label-cell"><label for="fooBarBazSurname" id="table-fooBarBazSurname-label">Surname:</label></th><td id="table-fooBarBazSurname-cell"><input type="text" id="fooBarBazSurname" ng-model="foo.bar.baz.surname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar.baz" config="_metawidgetConfig" id="fooBarBaz" class="ng-isolate-scope ng-scope ng-pristine ng-valid">' );
+						expect( mw.innerHTML ).toContain( '</metawidget>' );
+					} );
+				} );
 			} );
 
 	describe(

@@ -396,13 +396,19 @@ var metawidget = metawidget || {};
 				typeAndNames.names = [];
 			}
 
-			var value;
+			var value = undefined;
 
-			if ( elementName !== 'entity' ) {
-				value = toInspect[attributes.name];
-				typeAndNames.names.push( attributes.name );
-			} else {
-				value = toInspect;
+			// TODO: test toInspect undefined
+			// TODO: test inspectionResult undefined
+			
+			if ( toInspect !== undefined ) {
+			
+				if ( elementName !== 'entity' ) {
+					value = toInspect[attributes.name];
+					typeAndNames.names.push( attributes.name );
+				} else {
+					value = toInspect;
+				}
 			}
 
 			// Push '0' so that object-based inspectors (like
@@ -413,6 +419,11 @@ var metawidget = metawidget || {};
 			typeAndNames.names.push( '0' );
 
 			var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
+			
+			if ( inspectionResult === undefined ) {
+				return;
+				
+			}
 			var tbody = metawidget.util.createElement( mw, 'tbody' );
 
 			if ( inspectionResult.properties === undefined ) {

@@ -347,10 +347,10 @@
 		this.buildNestedMetawidget = function( attributes, config ) {
 
 			var nestedMetawidget = metawidget.util.createElement( this, 'metawidget' );
-			nestedMetawidget.setAttribute( 'to-inspect', attrs.toInspect + '.' + attributes.name );
+			nestedMetawidget.setAttribute( 'ng-model', attrs.ngModel + '.' + attributes.name );
 			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 				nestedMetawidget.setAttribute( 'read-only', 'true' );
-			} else {
+			} else if ( attrs.readOnly !== undefined ){
 				nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
 			}
 
@@ -358,9 +358,16 @@
 			// Metawidget. This neatly passes everything down, including a
 			// decremented 'maximumInspectionDepth'
 
-			scope.$parent._pipeline = _pipeline;
-			scope.$parent._config = config;
-			nestedMetawidget.setAttribute( 'configs', '[_pipeline,_config]' );
+			// TODO: can this conflict in the scope?
+			
+			scope.$parent._metawidgetConfig = _pipeline;
+			
+			if ( config !== undefined ) {
+				scope.$parent._metawidgetConfig2 = config;
+				nestedMetawidget.setAttribute( 'configs', '[_metawidgetConfig,_metawidgetConfig2]' );
+			} else {
+				nestedMetawidget.setAttribute( 'config', '_metawidgetConfig' );
+			}
 
 			return nestedMetawidget;
 		};
