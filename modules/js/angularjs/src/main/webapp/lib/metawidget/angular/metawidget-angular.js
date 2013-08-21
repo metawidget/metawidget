@@ -198,7 +198,8 @@
 		_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
 		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
-		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope ) ];
+		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),
+				new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope ) ];
 		_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
 		this.configure = function( config ) {
@@ -350,7 +351,7 @@
 			nestedMetawidget.setAttribute( 'ng-model', attrs.ngModel + '.' + attributes.name );
 			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 				nestedMetawidget.setAttribute( 'read-only', 'true' );
-			} else if ( attrs.readOnly !== undefined ){
+			} else if ( attrs.readOnly !== undefined ) {
 				nestedMetawidget.setAttribute( 'read-only', attrs.readOnly );
 			}
 
@@ -359,14 +360,15 @@
 			// decremented 'maximumInspectionDepth'
 
 			// TODO: can this conflict in the scope?
-			
+
 			scope.$parent._metawidgetConfig = _pipeline;
-			
+
 			if ( config !== undefined ) {
 				scope.$parent._metawidgetConfig2 = config;
 				nestedMetawidget.setAttribute( 'configs', '[_metawidgetConfig,_metawidgetConfig2]' );
 			} else {
-				nestedMetawidget.setAttribute( 'config', '_metawidgetConfig' );
+				// TODO: why must this be configs
+				nestedMetawidget.setAttribute( 'configs', '_metawidgetConfig' );
 			}
 
 			return nestedMetawidget;
@@ -480,7 +482,7 @@
 				} else if ( attributes.enumTitles !== undefined ) {
 
 					// TODO: support masking
-					
+
 					// Special support for enumTitles
 
 					scope.$parent._mwLookupEnumTitle = scope.$parent._mwLookupEnumTitle || {};

@@ -52,7 +52,7 @@ var metawidget = metawidget || {};
 		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-				new metawidget.widgetprocessor.SimpleBindingProcessor() ];
+				new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
 		_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 		_pipeline.configure( config );
 
@@ -147,7 +147,7 @@ var metawidget = metawidget || {};
 			// user what they want their top-level element to be, for browser
 			// compatibility we should stick with something benign for nested
 			// elements
-			
+
 			var nestedWidget = metawidget.util.createElement( this, 'div' );
 
 			// Duck-type our 'pipeline' as the 'config' of the nested

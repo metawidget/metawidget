@@ -18,6 +18,7 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/input/@type" text="text"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/input/@id" text="allWidgetsTextbox"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/input/@value" text="Textbox"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/input/@placeholder" text="A Placeholder"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td[2]" text="*"/>
 				<setInputField name="allWidgetsTextbox" value="Textbox1"/>
 

@@ -74,6 +74,26 @@ var metawidget = metawidget || {};
 	};
 
 	/**
+	 * @class WidgetProcessor that sets the HTML 5 'placeholder' attribute.
+	 */
+
+	metawidget.widgetprocessor.PlaceholderAttributeProcessor = function() {
+
+		if ( ! ( this instanceof metawidget.widgetprocessor.PlaceholderAttributeProcessor ) ) {
+			throw new Error( 'Constructor called as a function' );
+		}
+	};
+
+	metawidget.widgetprocessor.PlaceholderAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
+
+		if ( attributes.placeholder !== undefined ) {
+			widget.setAttribute( 'placeholder', attributes.placeholder );
+		}
+
+		return widget;
+	};
+
+	/**
 	 * @class Simple data/action binding implementation. Frameworks that supply
 	 *        their own data-binding mechanisms (such as Angular JS) should
 	 *        override this with their own WidgetProcessor.

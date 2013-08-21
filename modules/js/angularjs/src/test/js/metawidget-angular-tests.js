@@ -1087,7 +1087,7 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<table id="table-fooBarBaz"><tbody><tr id="table-fooBarBazFirstname-row"><th id="table-fooBarBazFirstname-label-cell"><label for="fooBarBazFirstname" id="table-fooBarBazFirstname-label">Firstname:</label></th><td id="table-fooBarBazFirstname-cell"><input type="text" id="fooBarBazFirstname" ng-model="foo.bar.baz.firstname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr><tr id="table-fooBarBazSurname-row"><th id="table-fooBarBazSurname-label-cell"><label for="fooBarBazSurname" id="table-fooBarBazSurname-label">Surname:</label></th><td id="table-fooBarBazSurname-cell"><input type="text" id="fooBarBazSurname" ng-model="foo.bar.baz.surname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
-						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar.baz" config="_metawidgetConfig" id="fooBarBaz" class="ng-isolate-scope ng-scope ng-pristine ng-valid">' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar.baz" configs="_metawidgetConfig" id="fooBarBaz" class="ng-isolate-scope ng-scope ng-pristine ng-valid">' );
 						expect( mw.innerHTML ).toContain( '</metawidget>' );
 					} );
 				} );

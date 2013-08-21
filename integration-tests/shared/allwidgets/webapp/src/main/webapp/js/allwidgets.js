@@ -85,7 +85,8 @@ var metawidget = metawidget || {};
 				masked: "",
 				large: "",
 				maxLength: "",
-				required: true
+				required: true,
+				placeholder: "A Placeholder"
 			},
 			"limitedTextbox": {
 				type: "string",

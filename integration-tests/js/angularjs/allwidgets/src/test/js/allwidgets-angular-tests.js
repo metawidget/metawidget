@@ -31,6 +31,7 @@
 			expect( $( '#allWidgetsTextbox' ).attr( 'name' ) ).toBeUndefined();
 			expect( $( '#allWidgetsTextbox' ).attr( 'ng-model' ) ).toBe( 'allWidgets.textbox' );
 			expect( $( '#allWidgetsTextbox' ).attr( 'ng-required' ) ).toBe( 'true' );
+			expect( $( '#allWidgetsTextbox' ).attr( 'placeholder' ) ).toBe( 'A Placeholder' );
 			expect( $( '#table-allWidgetsTextbox-row td' )[1].innerHTML ).toBe( '*' );
 			$( '#allWidgetsTextbox' ).val( 'Textbox1' ).change();
 

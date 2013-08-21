@@ -27,6 +27,7 @@
 			expect( $( '#allWidgetsTextbox' )[0].tagName ).toBe( 'INPUT' );
 			expect( $( '#allWidgetsTextbox' )[0].type ).toBe( 'text' );
 			expect( $( '#allWidgetsTextbox' ).attr( 'required' ) ).toBe( 'required' );
+			expect( $( '#allWidgetsTextbox' ).attr( 'placeholder' ) ).toBe( 'A Placeholder' );
 			expect( $( '#table-allWidgetsTextbox-row td' )[1].innerHTML ).toBe( '*' );
 			$( '#allWidgetsTextbox' ).val( 'Textbox1' );
 

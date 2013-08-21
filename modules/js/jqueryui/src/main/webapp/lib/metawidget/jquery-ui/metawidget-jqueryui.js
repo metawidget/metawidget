@@ -266,7 +266,8 @@ var metawidget = metawidget || {};
 			widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(),
 					new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
 			widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-					new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ],
+					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(),
+					new metawidget.widgetprocessor.SimpleBindingProcessor() ],
 			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
 		},
 

@@ -86,6 +86,25 @@
 		} );
 	} );
 
+	describe( "The PlaceholderAttributeProcessor", function() {
+
+		it( "assigns the placeholder attribute to widgets", function() {
+
+			var processor = new metawidget.widgetprocessor.PlaceholderAttributeProcessor();
+
+			var widget = simpleDocument.createElement( 'input' );
+			var mw = {};
+
+			processor.processWidget( widget, "property", {}, mw );
+			expect( widget.hasAttribute( 'placeholder' ) ).toBe( false );
+
+			processor.processWidget( widget, "property", {
+				placeholder: "Foo"
+			}, mw );
+			expect( widget.getAttribute( 'placeholder' ) ).toBe( 'Foo' );
+		} );
+	} );
+
 	describe( "The SimpleBindingProcessor", function() {
 
 		it( "processes widgets and binds them", function() {
