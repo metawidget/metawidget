@@ -479,6 +479,8 @@
 					widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
 				} else if ( attributes.enumTitles !== undefined ) {
 
+					// TODO: support masking
+					
 					// Special support for enumTitles
 
 					scope.$parent._mwLookupEnumTitle = scope.$parent._mwLookupEnumTitle || {};

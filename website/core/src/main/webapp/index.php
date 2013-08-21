@@ -131,9 +131,9 @@
 
 	<?php $useQuickStart = true; require_once 'include/body-start.php'; ?>
 
-		<h2 style="font-family: Arial, sans-serif; font-size: 12pt; font-weight: bold; margin-right: 175px">
+		<h1 style="font-family: Arial, sans-serif; font-size: 12pt; font-weight: bold; margin-right: 175px">
 			Building User Interfaces for business objects is time-consuming and error-prone.
-		</h2>
+		</h1>
 
 		<h2 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: bold; margin-right: 175px">
 			Metawidget is a smart widget that populates itself, either statically or at runtime, with UI components to match

@@ -292,8 +292,9 @@
 					</para>
 					
 					<para>
-						Note the <parameter>configs</parameter> attribute of the <parameter>&lt;metawidget&gt;</parameter>
-						tag is <emphasis>not</emphasis> automatically watched for updates. This is because
+						The <parameter>config</parameter> attribute of the <parameter>&lt;metawidget&gt;</parameter>
+						tag is similarly automatically watched for updates. Note the <parameter>configs</parameter> attribute (with
+						an 's') is <emphasis>not</emphasis> automatically watched. This is because
 						Angular has problems watching array types.
 					</para>
 					
