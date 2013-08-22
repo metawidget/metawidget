@@ -239,6 +239,30 @@ var metawidget = metawidget || {};
 		return toString;
 	};
 
+	metawidget.util.fillString = function( repeat, times ) {
+		
+		// TODO: StackOverflow link?
+		
+		var toReturn = '';
+		
+		for( ;; ) {
+			
+			if ( times & 1 ) {
+				toReturn += repeat;
+			}
+			
+			times >>= 1;
+			
+			if ( times ) {
+				repeat += repeat;
+			} else {
+				break;
+			}
+		}
+		
+		return toReturn;
+	};
+	
 	/**
 	 * Gets a camelCased id based on the given attributes.name and the given
 	 * mw.path.

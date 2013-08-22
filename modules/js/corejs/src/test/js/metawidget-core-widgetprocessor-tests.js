@@ -120,7 +120,8 @@
 					baz: "bazValue",
 					boolean: true,
 					select: false,
-					number: 42
+					number: 42,
+					password: 'fooBar'
 				},
 				path: "testPath"
 			};
@@ -172,6 +173,17 @@
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( 'bazValue' );
+
+			// Masked
+
+			attributes = {
+				name: "password",
+				masked: true
+			};
+			widget = simpleDocument.createElement( 'output' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.toString() ).toBe( 'output' );
+			expect( widget.innerHTML ).toBe( '******' );
 
 			// Textareas
 
@@ -271,7 +283,7 @@
 
 			mw.toInspect = {
 				firstname: {}
-			}
+			};
 			mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
@@ -280,7 +292,7 @@
 
 			// Should support read-only top-level
 
-			mw.toInspect = 'Bar'
+			mw.toInspect = 'Bar';
 			delete mw.path;
 
 			mw.buildWidgets();
@@ -316,7 +328,7 @@
 			} );
 
 			mw.toInspect = {};
-			mw.path = 'toInspect.jit'
+			mw.path = 'toInspect.jit';
 			mw.buildWidgets();
 
 			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="toInspectJitFirstname" name="toInspectJitFirstname"' );

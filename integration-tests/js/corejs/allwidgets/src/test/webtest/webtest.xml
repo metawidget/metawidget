@@ -247,7 +247,7 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[3]/div[1]/label" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[3]/div[2]/output" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[4]/div[1]/label" text="Password:"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[4]/div[2]/stub" text=""/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[4]/div[2]/output" text="*********"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[5]/div[1]/label" text="Number:"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[5]/div[2]/output" text="311"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[6]/div[1]/label" text="Ranged Number:"/>

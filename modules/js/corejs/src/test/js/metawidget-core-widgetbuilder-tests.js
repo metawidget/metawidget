@@ -187,7 +187,7 @@
 				readOnly: "true",
 				masked: "true",
 				type: "string"
-			}, mw ).toString() ).toBe( 'stub' );
+			}, mw ).toString() ).toBe( 'output' );
 			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
 				type: "function"
@@ -427,7 +427,7 @@
 			var mw = new metawidget.Metawidget( element );
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
-			// Undefined array
+			// Undefined array (entity level)
 
 			mw.toInspect = undefined;
 			table = widgetBuilder.buildWidget( "entity", {
@@ -439,8 +439,33 @@
 			expect( table.childNodes.length ).toBe( 1 );
 			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
 
+			// Undefined array (property level)
+
+			mw.toInspect = undefined;
+			table = widgetBuilder.buildWidget( "property", {
+				type: "array"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
+
+			// inspectionResult undefined
+
+			mw.inspect = function() {
+				return undefined;
+			};
+			table = widgetBuilder.buildWidget( "entity", {
+				type: "array"
+			}, mw );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes.length ).toBe( 0 );
+
 			// Empty array
 
+			mw = new metawidget.Metawidget( element );
 			mw.toInspect = [];
 			table = widgetBuilder.buildWidget( "entity", {
 				type: "array"
@@ -501,7 +526,7 @@
 			widgetBuilder.createTable = function() {
 
 				return metawidget.util.createElement( mw, 'not-a-table' );
-			}
+			};
 
 			table = widgetBuilder.buildWidget( "property", {
 				type: "array",
@@ -525,7 +550,7 @@
 								type: 'string'
 							}
 						}
-					}
+					};
 				}
 			} );
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();

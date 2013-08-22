@@ -474,23 +474,27 @@
 			}
 
 			if ( widget.tagName === 'OUTPUT' ) {
-				if ( attributes.type === 'array' ) {
+				if ( attributes.masked === true ) {
+										
+					// Special support for masked output
+
+					scope.$parent._mwMaskedOutput = _maskedOutput;
+					widget.setAttribute( 'ng-bind', '_mwMaskedOutput(' + binding + ')' );
+				} else if ( attributes.type === 'array' ) {
 
 					// Special support for outputting arrays
 
 					widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
 				} else if ( attributes.enumTitles !== undefined ) {
 
-					// TODO: support masking
-
 					// Special support for enumTitles
 
 					scope.$parent._mwLookupEnumTitle = scope.$parent._mwLookupEnumTitle || {};
-					scope.$parent._mwLookupEnumTitle[binding] = function() {
+					scope.$parent._mwLookupEnumTitle[binding] = function( value ) {
 
-						return _lookupEnumTitle( binding, attributes['enum'], attributes.enumTitles );
+						return _lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
 					};
-					widget.setAttribute( 'ng-bind', '_mwLookupEnumTitle["' + binding + '"]()' );
+					widget.setAttribute( 'ng-bind', '_mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
 
 				} else {
 					widget.setAttribute( 'ng-bind', binding );
@@ -586,13 +590,9 @@
 		 * Special support for enumTitles.
 		 */
 
-		function _lookupEnumTitle( binding, anEnum, enumTitles ) {
+		function _lookupEnumTitle( value, anEnum, enumTitles ) {
 
-			// Lookup the current value...
-
-			var value = scope.$parent.$eval( binding );
-
-			// ...locate it with the enums (if there)...
+			// Locate the value within the enums (if there)...
 
 			var indexOf = anEnum.indexOf( value );
 
@@ -603,6 +603,19 @@
 			// ...and return its equivalent title
 
 			return enumTitles[indexOf];
+		}
+
+		/**
+		 * Special support for masked output.
+		 */
+
+		function _maskedOutput( value ) {
+
+			if ( value === undefined ) {
+				return;
+			}
+			
+			return metawidget.util.fillString( '*', value.length );
 		}
 	};
 } )();

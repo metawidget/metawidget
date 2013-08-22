@@ -408,9 +408,9 @@
 											required: true
 										}
 									}
-								}
+								};
 							}
-						}
+						};
 					} );
 
 					var mw = document.createElement( 'metawidget' );
@@ -979,7 +979,7 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="_mwLookupEnumTitle[&quot;foo.bar&quot;]()" class="ng-scope ng-binding">Two</output>' );
+						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="_mwLookupEnumTitle[&quot;foo.bar&quot;](foo.bar)" class="ng-scope ng-binding">Two</output>' );
 					} );
 
 					// Mismatched
@@ -1018,7 +1018,49 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="_mwLookupEnumTitle[&quot;foo.bar&quot;]()" class="ng-scope ng-binding">2</output>' );
+						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="_mwLookupEnumTitle[&quot;foo.bar&quot;](foo.bar)" class="ng-scope ng-binding">2</output>' );
+					} );
+				} );
+
+				it( "supports masked outputs", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							password: 'fooBar'
+						};
+						
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									properties: {
+										"password": {
+											readOnly: true,
+											masked: true,
+											type: 'string'
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<label for="fooPassword" id="table-fooPassword-label">Password:</label>' );
+						expect( mw.innerHTML ).toContain( '<output id="fooPassword" ng-bind="_mwMaskedOutput(foo.password)" class="ng-scope ng-binding">******</output>' );
 					} );
 				} );
 
@@ -1150,7 +1192,7 @@
 													"hidden": "{{readOnlyz}}"
 												}
 											}
-										}
+										};
 									} ] )
 								};
 							} );
@@ -1279,17 +1321,32 @@
 				attributes = {
 					name: "bar",
 					type: "array"
-				}
+				};
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar.join(', ')" );
+
+				// Masked
+
+				attributes = {
+					name: "bar",
+					masked: true,
+					type: "array"
+				};
+				widget = document.createElement( 'output' );
+				processor.processWidget( widget, 'property', attributes, mw );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "_mwMaskedOutput(testPath.bar)" );
+				expect( typeof ( scope._mwMaskedOutput ) ).toBe( 'function' );
+				expect( scope._mwMaskedOutput() ).toBeUndefined();
+				expect( scope._mwMaskedOutput( '' ) ).toBe( '' );
+				expect( scope._mwMaskedOutput('Foo1') ).toBe( '****' );
 
 				// Enums
 
 				attributes = {
 					name: "enumBaz",
-					enum: [ "1", "2", "3" ],
-				}
+					enum: [ "1", "2", "3" ]
+				};
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath.enumBaz' );
@@ -1297,24 +1354,24 @@
 				attributes = {
 					name: "enumTitleBaz",
 					enum: [ "1", "2", 3 ],
-					enumTitles: [ "One", "Two", "Three" ],
-				}
+					enumTitles: [ "One", "Two", "Three" ]
+				};
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', attributes, mw );
-				expect( widget.getAttribute( 'ng-bind' ) ).toBe( '_mwLookupEnumTitle["testPath.enumTitleBaz"]()' );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( '_mwLookupEnumTitle["testPath.enumTitleBaz"](testPath.enumTitleBaz)' );
 				expect( typeof ( scope._mwLookupEnumTitle['testPath.enumTitleBaz'] ) ).toBe( 'function' );
 				scope.$parent.testPath = {
 					enumTitleBaz: '2'
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']() ).toBe( 'Two' );
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz'](scope.$parent.testPath.enumTitleBaz) ).toBe( 'Two' );
 				scope.$parent.testPath = {
 					enumTitleBaz: 3
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']() ).toBe( 'Three' );
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz'](scope.$parent.testPath.enumTitleBaz) ).toBe( 'Three' );
 				scope.$parent.testPath = {
 					enumTitleBaz: '3'
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']() ).toBe( '3' );
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz'](scope.$parent.testPath.enumTitleBaz) ).toBe( '3' );
 
 				// Root-level
 

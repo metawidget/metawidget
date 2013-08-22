@@ -211,6 +211,18 @@
 		} );
 	} );
 
+	describe( "The fillString function", function() {
+
+		// TODO: reuse enumTitle lookup inside Angular?
+		
+		it( "fills strings", function() {
+
+			expect( metawidget.util.fillString( '*', 0 ) ).toBe( '' );
+			expect( metawidget.util.fillString( '*', 5 ) ).toBe( '*****' );
+			expect( metawidget.util.fillString( '*', 7 ) ).toBe( '*******' );
+		} );
+	} );
+
 	describe( "The getId function", function() {
 
 		it( "creates an Id for an attribute", function() {

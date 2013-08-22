@@ -93,9 +93,7 @@ var metawidget = metawidget || {};
 		
 		this.layoutLabel = function( outerDiv, widget, elementName, attributes, mw ){
 			
-			// TODO: test elementName 'entity' and 'action'
-			
-			if ( elementName === 'action' ) {
+			if ( elementName === 'entity' || elementName === 'action' ) {
 				return;
 			}
 			
@@ -305,8 +303,6 @@ var metawidget = metawidget || {};
 		};
 		
 		this.layoutLabel = function( tr, idPrefix, widget, elementName, attributes, mw ) {
-			
-			// TODO: test elementName 'entity' and 'action'
 			
 			if ( elementName === 'entity' ) {
 				return;

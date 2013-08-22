@@ -156,17 +156,6 @@ var metawidget = metawidget || {};
 		}
 
 		if ( attributes['enum'] !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date' ) {
-
-			if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
-
-				// Masked (return a couple of nested Stubs, so that we DO still
-				// render a label)
-
-				var stub = metawidget.util.createElement( mw, 'stub' );
-				stub.appendChild( metawidget.util.createElement( mw, 'stub' ) );
-				return stub;
-			}
-
 			return metawidget.util.createElement( mw, 'output' );
 		}
 
@@ -398,17 +387,11 @@ var metawidget = metawidget || {};
 
 			var value = undefined;
 
-			// TODO: test toInspect undefined
-			// TODO: test inspectionResult undefined
-			
-			if ( toInspect !== undefined ) {
-			
-				if ( elementName !== 'entity' ) {
-					value = toInspect[attributes.name];
-					typeAndNames.names.push( attributes.name );
-				} else {
-					value = toInspect;
-				}
+			if ( elementName !== 'entity' && toInspect !== undefined ) {
+				value = toInspect[attributes.name];
+				typeAndNames.names.push( attributes.name );
+			} else {
+				value = toInspect;
 			}
 
 			// Push '0' so that object-based inspectors (like
@@ -420,44 +403,43 @@ var metawidget = metawidget || {};
 
 			var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
 			
-			if ( inspectionResult === undefined ) {
-				return;
-				
-			}
-			var tbody = metawidget.util.createElement( mw, 'tbody' );
-
-			if ( inspectionResult.properties === undefined ) {
-
-				// Simple, single-column table. It is still useful to pass
-				// 'type', but we must be careful not to pass 'name'.
-
-				table.appendChild( tbody );
-
-				if ( value !== undefined ) {
-					for ( var row = 0, rows = value.length; row < rows; row++ ) {
-						this.addRow( tbody, value, row, [ {
-							type: inspectionResult.type
-						} ], elementName, attributes, mw );
+			if ( inspectionResult !== undefined ) {
+			
+				var tbody = metawidget.util.createElement( mw, 'tbody' );
+	
+				if ( inspectionResult.properties === undefined ) {
+	
+					// Simple, single-column table. It is still useful to pass
+					// 'type', but we must be careful not to pass 'name'.
+	
+					table.appendChild( tbody );
+	
+					if ( value !== undefined ) {
+						for ( var row = 0, rows = value.length; row < rows; row++ ) {
+							this.addRow( tbody, value, row, [ {
+								type: inspectionResult.type
+							} ], elementName, attributes, mw );
+						}
 					}
-				}
-
-			} else {
-				var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
-
-				// Create headers
-
-				var thead = metawidget.util.createElement( mw, 'thead' );
-				table.appendChild( thead );
-
-				var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
-
-				// Create body
-
-				table.appendChild( tbody );
-
-				if ( value !== undefined ) {
-					for ( var row = 0, rows = value.length; row < rows; row++ ) {
-						this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
+	
+				} else {
+					var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
+	
+					// Create headers
+	
+					var thead = metawidget.util.createElement( mw, 'thead' );
+					table.appendChild( thead );
+	
+					var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
+	
+					// Create body
+	
+					table.appendChild( tbody );
+	
+					if ( value !== undefined ) {
+						for ( var row = 0, rows = value.length; row < rows; row++ ) {
+							this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
+						}
 					}
 				}
 			}

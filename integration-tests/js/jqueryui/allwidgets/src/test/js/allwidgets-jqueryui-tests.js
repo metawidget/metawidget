@@ -185,6 +185,8 @@
 			expect( $( '#allWidgetsLimitedTextbox' ).text() ).toBe( 'Limited Textbox1' );
 			expect( $( '#allWidgetsTextarea' )[0].tagName ).toBe( 'OUTPUT' );
 			expect( $( '#allWidgetsTextarea' ).text() ).toBe( 'Textarea1' );
+			expect( $( '#allWidgetsPassword' )[0].tagName ).toBe( 'OUTPUT' );
+			expect( $( '#allWidgetsPassword' ).text() ).toBe( '*********' );			
 			expect( $( '#allWidgetsNumber' )[0].tagName ).toBe( 'OUTPUT' );
 			expect( $( '#allWidgetsNumber' ).text() ).toBe( '311' );
 			expect( $( '#allWidgetsRangedNumber' )[0].tagName ).toBe( 'OUTPUT' );

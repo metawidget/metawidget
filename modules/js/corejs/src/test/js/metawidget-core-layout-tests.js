@@ -266,6 +266,30 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
+		
+		it( "suppresses labels for entities", function() {
+
+			var layout = new metawidget.layout.DivLayout();
+
+			var input = simpleDocument.createElement( 'input' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.layoutWidget( input, "entity", {
+				name: "widget1"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
 	} );
 
 	describe( "The TableLayout", function() {
@@ -608,7 +632,37 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
-	} );
+
+		it( "suppresses labels for entities", function() {
+
+			var layout = new metawidget.layout.TableLayout();
+
+			var input = simpleDocument.createElement( 'input' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( input, "entity", {
+				name: "widget1"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td id="table-widget1-cell" colspan="2"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+} );
 
 	describe( "The HeadingTagLayoutDecorator", function() {
 

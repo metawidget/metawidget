@@ -172,17 +172,27 @@ var metawidget = metawidget || {};
 		if ( value !== undefined ) {
 			if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
 
-				widget.innerHTML = value;
+				if ( attributes.masked === true ) {
+					
+					// Special support for masked output
+					
+					widget.innerHTML = metawidget.util.fillString( '*', value.length );
+					
+				} else if ( attributes.enumTitles !== undefined ) {
 
-				// Special support for enumTitles
+					// Special support for enumTitles
 
-				if ( attributes.enumTitles !== undefined ) {
 					var indexOf = attributes['enum'].indexOf( value );
 
 					if ( indexOf !== -1 && indexOf < attributes.enumTitles.length ) {
 						widget.innerHTML = attributes.enumTitles[indexOf];
+					} else {
+						widget.innerHTML = value;
 					}
+				} else {
+					widget.innerHTML = value;
 				}
+				
 			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
 				widget.checked = value;
 			} else if ( isBindable === true ) {
