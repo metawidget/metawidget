@@ -640,9 +640,9 @@ public final class XmlUtils {
 	// Private methods
 	//
 
-	private static final String[] JSON_SCHEMA_ARRAY_BASED_ATTRIBUTE_NAMES = new String[]{ SECTION, "enum", "enumTitles" };
+	private static final String[]	JSON_SCHEMA_ARRAY_BASED_ATTRIBUTE_NAMES	= new String[] { SECTION, "enum", "enumTitles" };
 
-	private static final String[] JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES = new String[]{ REQUIRED, HIDDEN, "minimum", "maximum", "maxLength" };
+	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength" };
 
 	private static String attributesToJsonSchema( NamedNodeMap attributes, boolean excludeName ) {
 
@@ -670,11 +670,11 @@ public final class XmlUtils {
 			propertyBuilder.append( "\"" + attributeName + "\"" );
 			propertyBuilder.append( StringUtils.SEPARATOR_COLON_CHAR );
 
-			if ( ArrayUtils.contains( JSON_SCHEMA_ARRAY_BASED_ATTRIBUTE_NAMES, attributeName )) {
+			if ( ArrayUtils.contains( JSON_SCHEMA_ARRAY_BASED_ATTRIBUTE_NAMES, attributeName ) ) {
 				propertyBuilder.append( "[" );
 				propertyBuilder.append( arrayToJsonSchema( attributeValue ) );
 				propertyBuilder.append( "]" );
-			} else if ( ArrayUtils.contains( JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES, attributeName )) {
+			} else if ( ArrayUtils.contains( JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES, attributeName ) ) {
 				propertyBuilder.append( attributeValue );
 			} else {
 

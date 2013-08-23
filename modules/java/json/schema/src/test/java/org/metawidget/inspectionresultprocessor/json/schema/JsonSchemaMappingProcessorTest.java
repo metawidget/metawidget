@@ -39,19 +39,19 @@ public class JsonSchemaMappingProcessorTest
 
 		Element element = XmlUtils.documentFromString( "<inspection-result><entity minimum-value=\"0\" maximum-value=\"1\" minimum-length=\"2\" maximum-length=\"3\" label=\"Foo\"/></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>().processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"maxLength\":\"3\",\"maximum\":\"1\",\"minLength\":\"2\",\"minimum\":\"0\",\"title\":\"Foo\"}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"maxLength\":3,\"maximum\":1,\"minLength\":2,\"minimum\":0,\"title\":\"Foo\"}", XmlUtils.elementToJsonSchema( element ) );
 
 		// Test child mappings
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" minimum-value=\"0\" maximum-value=\"1\" minimum-length=\"2\" maximum-length=\"3\" label=\"Foo\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>().processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"foo\":{\"maxLength\":\"3\",\"maximum\":\"1\",\"minLength\":\"2\",\"minimum\":\"0\",\"title\":\"Foo\"}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"foo\":{\"maxLength\":3,\"maximum\":1,\"minLength\":2,\"minimum\":0,\"title\":\"Foo\"}}}", XmlUtils.elementToJsonSchema( element ) );
 
 		// Test removing hidden
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" minimum-value=\"0\" hidden=\"false\" comes-after=\"ignore\" parameterized-type=\"ignore\"/><property name=\"bar\" hidden=\"true\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>().processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"foo\":{\"minimum\":\"0\"}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"foo\":{\"minimum\":0}}}", XmlUtils.elementToJsonSchema( element ) );
 	}
 
 	public void testConfiguredProcessor() {
