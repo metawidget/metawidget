@@ -222,10 +222,16 @@ var metawidget = metawidget || {};
 
 		this.inspect = function( toInspect, type, names ) {
 
-			// Restrict by type (best practice)
+			// Restrict by type (best practice) 
 
 			if ( _schema.type !== undefined && _schema.type !== type ) {
-				return undefined;
+				
+				// The exception is primitive types
+				// TODO: all primitive types?
+				
+				if ( _schema.type !== 'array' ) {
+					return undefined;
+				}
 			}
 
 			// Traverse names using 'properties' and 'items' as appropriate

@@ -154,6 +154,28 @@ var metawidget = metawidget || {};
 			}
 		}
 
+		var rememberBinding = this.bindToWidget( widget, value, elementName, attributes, mw );
+
+		if ( elementName !== 'entity' && ( rememberBinding === true || widget.metawidget !== undefined ) ) {
+			mw._simpleBindingProcessor.bindings = mw._simpleBindingProcessor.bindings || [];
+			mw._simpleBindingProcessor.bindings[attributes.name] = {
+				widget: widget,
+				attributes: attributes
+			};
+		}
+
+		return widget;
+	};
+
+	/**
+	 * Bind the given widget to the given value.
+	 * 
+	 * @return true if this binding should be remembered for when the user calls
+	 *         'save'
+	 */
+
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.bindToWidget = function( widget, value, elementName, attributes, mw ) {
+
 		var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
 
 		if ( isBindable === true && widget.hasAttribute( 'id' ) ) {
@@ -173,11 +195,11 @@ var metawidget = metawidget || {};
 			if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
 
 				if ( attributes.masked === true ) {
-					
+
 					// Special support for masked output
-					
+
 					widget.innerHTML = metawidget.util.fillString( '*', value.length );
-					
+
 				} else if ( attributes.enumTitles !== undefined ) {
 
 					// Special support for enumTitles
@@ -192,7 +214,7 @@ var metawidget = metawidget || {};
 				} else {
 					widget.innerHTML = value;
 				}
-				
+
 			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
 				widget.checked = value;
 			} else if ( isBindable === true ) {
@@ -200,17 +222,7 @@ var metawidget = metawidget || {};
 			}
 		}
 
-		if ( elementName !== 'entity' ) {
-			if ( isBindable === true || widget.metawidget !== undefined ) {
-				mw._simpleBindingProcessor.bindings = mw._simpleBindingProcessor.bindings || [];
-				mw._simpleBindingProcessor.bindings[attributes.name] = {
-					widget: widget,
-					attributes: attributes
-				};
-			}
-		}
-
-		return widget;
+		return isBindable;
 	};
 
 	/**
@@ -263,30 +275,7 @@ var metawidget = metawidget || {};
 				continue;
 			}
 
-			var value;
-
-			if ( binding.widget.getAttribute( 'type' ) === 'checkbox' ) {
-				value = binding.widget.checked;
-
-			} else if ( binding.attributes.type === 'number' ) {
-				var parsed = parseInt( binding.widget.value );
-
-				// Avoid pushing back 'NaN'
-
-				if ( isNaN( parsed ) ) {
-					value = undefined;
-				} else {
-					value = parsed;
-				}
-			} else if ( binding.widget.value === '' || binding.widget.value === null ) {
-
-				// Avoid pushing back 'null'
-
-				value = undefined;
-			} else {
-
-				value = binding.widget.value;
-			}
+			var value = this.saveFromWidget( binding );
 
 			if ( dirty === false && toInspect[name] !== value ) {
 				dirty = true;
@@ -297,4 +286,36 @@ var metawidget = metawidget || {};
 
 		return dirty;
 	};
+
+	/**
+	 * @return the given binding's widget value
+	 */
+
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.saveFromWidget = function( binding ) {
+
+		if ( binding.widget.getAttribute( 'type' ) === 'checkbox' ) {
+			return binding.widget.checked;
+		}
+
+		if ( binding.attributes.type === 'number' ) {
+			var parsed = parseInt( binding.widget.value );
+
+			// Avoid pushing back 'NaN'
+
+			if ( isNaN( parsed ) ) {
+				return undefined;
+			}
+
+			return parsed;
+		}
+
+		// Avoid pushing back 'null'
+
+		if ( binding.widget.value === '' || binding.widget.value === null ) {
+			return;
+		}
+
+		return binding.widget.value;
+	};
+
 } )();

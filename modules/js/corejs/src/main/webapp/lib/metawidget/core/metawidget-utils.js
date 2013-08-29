@@ -240,29 +240,30 @@ var metawidget = metawidget || {};
 	};
 
 	metawidget.util.fillString = function( repeat, times ) {
-		
-		// TODO: StackOverflow link?
-		
+
+		// From:
+		// http://stackoverflow.com/questions/202605/repeat-string-javascript
+
 		var toReturn = '';
-		
-		for( ;; ) {
-			
+
+		for ( ;; ) {
+
 			if ( times & 1 ) {
 				toReturn += repeat;
 			}
-			
+
 			times >>= 1;
-			
+
 			if ( times ) {
 				repeat += repeat;
 			} else {
 				break;
 			}
 		}
-		
+
 		return toReturn;
 	};
-	
+
 	/**
 	 * Gets a camelCased id based on the given attributes.name and the given
 	 * mw.path.
