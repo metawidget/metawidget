@@ -277,7 +277,7 @@ var metawidget = metawidget || {};
 		// ...and return its equivalent title (if any)
 
 		return enumTitles[indexOf];
-	}
+	};
 	
 	/**
 	 * Gets a camelCased id based on the given attributes.name and the given
