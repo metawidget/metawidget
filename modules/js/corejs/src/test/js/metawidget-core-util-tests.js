@@ -213,13 +213,25 @@
 
 	describe( "The fillString function", function() {
 
-		// TODO: reuse enumTitle lookup inside Angular?
-		
 		it( "fills strings", function() {
 
 			expect( metawidget.util.fillString( '*', 0 ) ).toBe( '' );
 			expect( metawidget.util.fillString( '*', 5 ) ).toBe( '*****' );
 			expect( metawidget.util.fillString( '*', 7 ) ).toBe( '*******' );
+		} );
+	} );
+
+	describe( "The lookupEnumTitle function", function() {
+
+		it( "looks up enumTitles", function() {
+
+			expect( metawidget.util.lookupEnumTitle( undefined, [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBeUndefined();
+			expect( metawidget.util.lookupEnumTitle( '', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBe( '' );
+			expect( metawidget.util.lookupEnumTitle( 'foo', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBe( 'FOO' );
+			expect( metawidget.util.lookupEnumTitle( 'bar', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBe( 'BAR' );
+			expect( metawidget.util.lookupEnumTitle( 'baz', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBe( 'BAZ' );
+			expect( metawidget.util.lookupEnumTitle( 'baz', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR' ] ) ).toBe( 'baz' );
+			expect( metawidget.util.lookupEnumTitle( 'baz', [ 'foo', 'bar' ], [ 'FOO', 'BAR' ] ) ).toBe( 'baz' );
 		} );
 	} );
 
