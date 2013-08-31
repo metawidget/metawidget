@@ -182,13 +182,8 @@ var metawidget = metawidget || {};
 
 					// Special support for enumTitles
 
-					var indexOf = attributes['enum'].indexOf( value );
+					widget.innerHTML = metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );					
 
-					if ( indexOf !== -1 && indexOf < attributes.enumTitles.length ) {
-						widget.innerHTML = attributes.enumTitles[indexOf];
-					} else {
-						widget.innerHTML = value;
-					}
 				} else {
 					widget.innerHTML = value;
 				}

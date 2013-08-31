@@ -4,6 +4,25 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v3.6 Released!</h3>
+		<h4></h4>
+		
+		<p>
+			Metawidget v3.6 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>Nested Metawidgets inside tables</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
 		<h3>Metawidget v3.5 Released!</h3>
 		<h4>27th July 2013</h4>
 		
@@ -310,6 +329,23 @@
 
 		<hr/>
 
+		<h3>Metawidget and Palantir</h3>
+		<h4>15th June 2012</h4>
+		
+		<p>
+			Metawidget is being used in the latest release of <a href="http://palantir.com">Palantir</a>'s Gotham (3.9).
+			Gotham is Palantir's flagship product, allowing users to work with massive amounts of data — of all types and
+			from disparate systems — in a single place. Analysts can conduct high-speed searches
+			through the entire body of their data to pull out significant intelligence.
+		</p>
+		
+		<p>
+			Palantir are using Metawidget to power Gotham's Groovy-based Webflow forms, allowing users to
+			dynamically	configure Webflow ontologies to suit their needs. 
+		</p>
+		
+		<hr/>
+
 		<h3>Metawidget v2.2 Released!</h3>
 		<h4>14th May 2012</h4>
 		
@@ -415,7 +451,7 @@
 		</p>
 
 		<hr/>
-
+		
 		<h3>Metawidget v1.35 Released!</h3>
 		<h4>10th January 2012</h4>
 		

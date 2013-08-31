@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>angularjs/allwidgets</module>
+		<module>angularjs/quirks</module>
 		<module>angularjs/rest</module>
 		<module>corejs/allwidgets</module>
 		<module>corejs/rest</module>

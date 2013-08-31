@@ -32,6 +32,12 @@
 
 	/**
 	 * @class WidgetProcessor to add CSS styles for Bootstrap.
+	 *        <p>
+	 *        Note: in some cases this WidgetProcessor wraps the given widget
+	 *        with Bootstrap-specific markup (e.g. &lt;div
+	 *        class="input-prepend"&gt;). Therefore, BootstrapWidgetProcessor
+	 *        should come <em>after</em> WidgetProcessors that expect widgets
+	 *        to be unwrapped (such as <tt>SimpleBindingProcessor</tt>).
 	 */
 
 	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor = function() {

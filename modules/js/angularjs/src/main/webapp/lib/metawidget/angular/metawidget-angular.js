@@ -171,7 +171,7 @@
 
 		_pipeline.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
-			_pipeline._superLayoutWidget( widget, elementName, attributes, container, mw );
+			_pipeline._superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
 
 			// Compile so that 'ng-model', 'ng-required' etc become active. Do
 			// this as late as possible, in case directives want to use
@@ -492,7 +492,7 @@
 					scope.$parent._mwLookupEnumTitle = scope.$parent._mwLookupEnumTitle || {};
 					scope.$parent._mwLookupEnumTitle[binding] = function( value ) {
 
-						return _lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
+						return metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
 					};
 					widget.setAttribute( 'ng-bind', '_mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
 
@@ -584,25 +584,6 @@
 			if ( indexOf !== -1 ) {
 				selected.splice( indexOf, 1 );
 			}
-		}
-
-		/**
-		 * Special support for enumTitles.
-		 */
-
-		function _lookupEnumTitle( value, anEnum, enumTitles ) {
-
-			// Locate the value within the enums (if there)...
-
-			var indexOf = anEnum.indexOf( value );
-
-			if ( indexOf === -1 || indexOf >= enumTitles.length ) {
-				return value;
-			}
-
-			// ...and return its equivalent title
-
-			return enumTitles[indexOf];
 		}
 
 		/**

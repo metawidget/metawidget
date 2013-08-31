@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="quirksTest">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Quirks (Metawidget AngularJS Test)</title>
+		<script src="lib/angular/angular.min.js" type="text/javascript"></script>		
+		<script src="lib/metawidget/core/metawidget-inspectors.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-layouts.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-utils.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-widgetbuilders.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-widgetprocessors.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget.js" type="text/javascript"></script>
+		<script src="lib/metawidget/angular/metawidget-angular.js" type="text/javascript"></script>
+		<script src="js/app.js"></script>
+		<script src="js/controllers.js"></script>
+	</head>
+	<body ng-controller="QuirksTestController">
+
+		<metawidget>
+			<button id="quirksClick" ng-click="clicked()">Click Me</button>
+		</metawidget>
+		
+		Number of clicks: <span id="numberOfClicks">{{numberOfClicks}}</span>
+
+	</body>
+</html>

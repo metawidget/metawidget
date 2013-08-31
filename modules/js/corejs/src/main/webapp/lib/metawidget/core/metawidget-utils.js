@@ -263,6 +263,21 @@ var metawidget = metawidget || {};
 		return toReturn;
 	};
 	
+	metawidget.util.lookupEnumTitle = function( value, anEnum, enumTitles ) {
+
+		// Locate the value within the enums (if there)...
+
+		var indexOf = anEnum.indexOf( value );
+
+		if ( indexOf === -1 || indexOf >= enumTitles.length ) {
+			return value;
+		}
+
+		// ...and return its equivalent title (if any)
+
+		return enumTitles[indexOf];
+	}
+	
 	/**
 	 * Gets a camelCased id based on the given attributes.name and the given
 	 * mw.path.

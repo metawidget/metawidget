@@ -22,9 +22,6 @@
 			"The AngularMetawidget",
 			function() {
 
-				// TODO: guard against recompiling transcluded widgets (firing
-				// click twice)
-
 				it(
 						"populates itself with widgets to match the properties of business objects",
 						function() {
@@ -737,7 +734,7 @@
 								inspectionCount++;
 								return inspectionResult;
 							} ]
-						}
+						};
 					} );
 
 					var mw = document.createElement( 'metawidget' );
@@ -781,7 +778,7 @@
 								attachedElement.push( mw.getElement() );
 								return inspectionResult;
 							} ]
-						}
+						};
 					} );
 
 					var mw = document.createElement( 'metawidget' );
@@ -812,7 +809,7 @@
 								$scope.model = {
 									"foo": "fooValue",
 									"bar": "barValue"
-								}
+								};
 							} );
 
 							myApp.directive( 'input', function() {
@@ -828,7 +825,7 @@
 											element.after( '<div class="input-sibling"></div>' );
 										}
 									}
-								}
+								};
 							} );
 
 							var body = document.createElement( 'body' );
@@ -863,7 +860,7 @@
 								$scope.model = {
 									"foo": "fooValue",
 									"bar": "barValue"
-								}
+								};
 
 								$scope.config = {
 
@@ -875,7 +872,7 @@
 
 										return document.createElement( 'field' );
 									}
-								}
+								};
 							} );
 
 							myApp.directive( 'field', function() {
@@ -884,7 +881,7 @@
 									restrict: 'E',
 									replace: true,
 									template: '<div class="input-append"><input type="text" data-type="date" mask="date" class="input-small"/><span class="add-on"></span></div>'
-								}
+								};
 							} );
 
 							var body = document.createElement( 'body' );
@@ -921,7 +918,7 @@
 
 								mw.buildWidgets( undefined );
 							} ]
-						}
+						};
 					} );
 
 					var mw = document.createElement( 'metawidget' );
