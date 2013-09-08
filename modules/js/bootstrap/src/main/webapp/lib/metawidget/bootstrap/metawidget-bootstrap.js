@@ -60,14 +60,27 @@
 				break;
 
 			case 'INPUT':
-				if ( attributes.inputPrepend !== undefined ) {
+				if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
 					var div = metawidget.util.createElement( mw, 'div' );
-					div.setAttribute( 'class', 'input-prepend' );
-					var span = metawidget.util.createElement( mw, 'span' );
-					span.setAttribute( 'class', 'add-on' );
-					span.innerHTML = attributes.inputPrepend;
-					div.appendChild( span );
+					if ( attributes.inputPrepend !== undefined ) {
+						div.setAttribute( 'class', 'input-prepend' );
+						var span = metawidget.util.createElement( mw, 'span' );
+						span.setAttribute( 'class', 'add-on' );
+						span.innerHTML = attributes.inputPrepend;
+						div.appendChild( span );
+					}
 					div.appendChild( widget );
+					if ( attributes.inputAppend !== undefined ) {
+						if ( attributes.inputPrepend !== undefined ) {
+							div.setAttribute( 'class', 'input-prepend input-append' );
+						} else {
+							div.setAttribute( 'class', 'input-append' );
+						}
+						var span = metawidget.util.createElement( mw, 'span' );
+						span.setAttribute( 'class', 'add-on' );
+						span.innerHTML = attributes.inputAppend;
+						div.appendChild( span );
+					}
 					return div;
 				}
 		}

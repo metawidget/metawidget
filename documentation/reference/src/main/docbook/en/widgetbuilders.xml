@@ -664,15 +664,15 @@
 									<parameter>type: "string"</parameter>,
 									<parameter>type: "boolean"</parameter>,
 									<parameter>type: "number"</parameter> or
-									<parameter>type: "date"</parameter>
+									<parameter>type: "date"</parameter>. Also <parameter>masked</parameter>
+									(but the populated data will be filled with '*' characters).
 								</td>
 							</tr>
 							<tr>
 								<td><classname>stub</classname></td>
 								<td>
 									<parameter>read-only</parameter> and
-									<parameter>hidden</parameter>, <parameter>masked</parameter>
-									or <parameter>type: "function"</parameter>.
+									<parameter>hidden</parameter> or <parameter>type: "function"</parameter>.
 									Also if property is of unknown type but <parameter>dontExpand</parameter>.
 								</td>
 							</tr>

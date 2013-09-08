@@ -39,7 +39,7 @@
 			expect( widget.getAttribute( 'class' ) ).toBe( 'table table-striped table-bordered table-hover' );
 		} );
 
-		it( "has a WidgetProcessor that supports input-prepend", function() {
+		it( "has a WidgetProcessor that supports input-prepend and input-append", function() {
 
 			var element = simpleDocument.createElement( 'metawidget' );
 			var mw = {
@@ -51,6 +51,8 @@
 			var widget = simpleDocument.createElement( 'input' );
 			var processor = new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor();
 
+			// Prepend
+			
 			var widget = processor.processWidget( widget, 'property', {
 				inputPrepend: '$'
 			}, mw );
@@ -59,6 +61,33 @@
 			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
 			expect( widget.childNodes[1].toString() ).toBe( 'input' );
 			expect( widget.childNodes.length ).toBe( 2 );
+
+			// Append
+			
+			widget = simpleDocument.createElement( 'input' );
+			widget = processor.processWidget( widget, 'property', {
+				inputAppend: '%'
+			}, mw );
+			expect( widget.toString() ).toBe( 'div class="input-append"' );
+			expect( widget.childNodes[0].toString() ).toBe( 'input' );
+			expect( widget.childNodes[1].toString() ).toBe( 'span class="add-on"' );
+			expect( widget.childNodes[1].innerHTML ).toBe( '%' );
+			expect( widget.childNodes.length ).toBe( 2 );
+
+			// Both
+			
+			widget = simpleDocument.createElement( 'input' );
+			widget = processor.processWidget( widget, 'property', {
+				inputPrepend: '$',
+				inputAppend: '.00'
+			}, mw );
+			expect( widget.toString() ).toBe( 'div class="input-prepend input-append"' );
+			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on"' );
+			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
+			expect( widget.childNodes[1].toString() ).toBe( 'input' );
+			expect( widget.childNodes[2].toString() ).toBe( 'span class="add-on"' );
+			expect( widget.childNodes[2].innerHTML ).toBe( '.00' );
+			expect( widget.childNodes.length ).toBe( 3 );
 		} );
 
 		it( "has a Layout that supports Bootstrap styles", function() {

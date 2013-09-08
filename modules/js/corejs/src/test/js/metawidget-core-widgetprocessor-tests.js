@@ -165,6 +165,8 @@
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( '2' );
 
+			// TODO: non-string enums. Angular JS too!
+			
 			attributes = {
 				name: "baz",
 				enum: [ "bazValue1", "bazValue", "bazValue3" ],
