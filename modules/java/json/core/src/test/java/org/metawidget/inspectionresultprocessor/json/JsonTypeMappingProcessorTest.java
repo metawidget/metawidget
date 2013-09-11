@@ -45,6 +45,14 @@ public class JsonTypeMappingProcessorTest
 		inputXml += "<property name=\"ghi\" type=\"java.lang.Boolean\"/>";
 		inputXml += "<property name=\"jkl\" type=\"java.lang.Character\"/>";
 		inputXml += "<property name=\"aDate\" type=\"java.util.Date\"/>";
+		inputXml += "<property name=\"aByte\" type=\"byte\"/>";
+		inputXml += "<property name=\"aShort\" type=\"short\"/>";
+		inputXml += "<property name=\"aInt\" type=\"int\"/>";
+		inputXml += "<property name=\"aLong\" type=\"long\"/>";
+		inputXml += "<property name=\"aFloat\" type=\"float\"/>";
+		inputXml += "<property name=\"aDouble\" type=\"double\"/>";
+		inputXml += "<property name=\"aBoolean\" type=\"boolean\"/>";
+		inputXml += "<property name=\"aChar\" type=\"char\"/>";
 		inputXml += "</entity></inspection-result>";
 
 		// Run processor
@@ -64,6 +72,14 @@ public class JsonTypeMappingProcessorTest
 		validateXml += "<property name=\"ghi\" type=\"boolean\"/>";
 		validateXml += "<property name=\"jkl\" type=\"string\"/>";
 		validateXml += "<property name=\"aDate\" type=\"date\"/>";
+		validateXml += "<property name=\"aByte\" type=\"number\"/>";
+		validateXml += "<property name=\"aShort\" type=\"number\"/>";
+		validateXml += "<property name=\"aInt\" type=\"number\"/>";
+		validateXml += "<property name=\"aLong\" type=\"number\"/>";
+		validateXml += "<property name=\"aFloat\" type=\"number\"/>";
+		validateXml += "<property name=\"aDouble\" type=\"number\"/>";
+		validateXml += "<property name=\"aBoolean\" type=\"boolean\"/>";
+		validateXml += "<property name=\"aChar\" type=\"string\"/>";
 		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 

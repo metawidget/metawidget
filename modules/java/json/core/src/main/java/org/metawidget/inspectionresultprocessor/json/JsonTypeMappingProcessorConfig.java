@@ -37,6 +37,14 @@ public class JsonTypeMappingProcessorConfig
 
 		// Primitive datatypes as defined by JavaScript
 
+		setTypeMapping( byte.class.getName(), "number" );
+		setTypeMapping( short.class.getName(), "number" );
+		setTypeMapping( int.class.getName(), "number" );
+		setTypeMapping( long.class.getName(), "number" );
+		setTypeMapping( float.class.getName(), "number" );
+		setTypeMapping( double.class.getName(), "number" );
+		setTypeMapping( boolean.class.getName(), "boolean" );
+		setTypeMapping( char.class.getName(), "string" );
 		setTypeMapping( String.class.getName(), "string" );
 		setTypeMapping( Boolean.class.getName(), "boolean" );
 		setTypeMapping( Character.class.getName(), "string" );
