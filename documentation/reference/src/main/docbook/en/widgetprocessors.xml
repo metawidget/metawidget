@@ -394,7 +394,17 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<programlisting language="java">mw.getWidgetProcessor( function( widgetProcessor ) {
 	return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 } ).save( mw );</programlisting>
+
+					<para>
+						<classname>SimpleBindingProcessor</classname> can also <emphasis>reload</emphasis> the values in the widgets. This is
+						independent of <parameter>toInspect</parameter>, and it doesn't save any values back from the widgets. But it can be
+						useful in Node.js environments for re-populating the widgets based on an HTTP request POST-back:
+					</para>
 					
+					<programlisting language="java">mw.getWidgetProcessor( function( widgetProcessor ) {
+	return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+} ).reload( requestData, mw );</programlisting>
+
 				</section>
 			</section>
 			

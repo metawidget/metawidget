@@ -160,6 +160,7 @@ var metawidget = metawidget || {};
 			mw._simpleBindingProcessor.bindings = mw._simpleBindingProcessor.bindings || [];
 			mw._simpleBindingProcessor.bindings[attributes.name] = {
 				widget: widget,
+				elementName: elementName,
 				attributes: attributes
 			};
 		}
@@ -326,6 +327,29 @@ var metawidget = metawidget || {};
 		}
 
 		return binding.widget.value;
+	};
+
+	/**
+	 * Reloads the values in the widgets using the values in the given Object.
+	 * <p>
+	 * Note this method does not update <tt>mw.toInspect</tt>, nor does it
+	 * save any values back from the widgets. It can be useful for re-populating
+	 * the widgets based on an HTTP request POST-back.
+	 */
+
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.reload = function( reloadFrom, mw ) {
+
+		for ( var name in mw._simpleBindingProcessor.bindings ) {
+
+			var binding = mw._simpleBindingProcessor.bindings[name];
+
+			if ( binding.widget.getMetawidget !== undefined ) {
+				this.reload( reloadFrom[name], binding.widget.getMetawidget() );
+				continue;
+			}
+
+			this.bindToWidget( binding.widget, reloadFrom[name], binding.elementName, binding.attributes, mw );
+		}
 	};
 
 } )();

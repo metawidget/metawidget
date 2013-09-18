@@ -346,6 +346,54 @@
 			expect( mw.toInspect.jit.firstname ).toBe( 'baz' );
 		} );
 
+		it( "can reload from HTTP request", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: new metawidget.inspector.JsonSchemaInspector( {
+					properties: {
+						firstname: {
+							type: 'string'
+						},
+						nested: {
+							properties: {
+								surname: {
+									type: 'string'
+								},
+								retired: {
+									type: 'boolean'
+								}
+							}
+						}
+
+					}
+				} )
+			} );
+
+			mw.toInspect = {};
+			mw.buildWidgets();
+
+			var processor = mw.getWidgetProcessor( function( testInstanceOf ) {
+
+				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} );
+
+			processor.reload( {
+				firstname: 'FooFirstname',
+				nested: {
+					surname: 'FooSurname',
+					retired: true,
+					extraData: 'Hacker'
+				}
+			}, mw );
+			expect( mw.toInspect.firstname ).toBeUndefined();
+			processor.save( mw );
+			expect( mw.toInspect.firstname ).toBe( 'FooFirstname' );
+			expect( mw.toInspect.nested.surname ).toBe( 'FooSurname' );
+			expect( mw.toInspect.nested.retired ).toBe( true );
+			expect( mw.toInspect.nested.extraData ).toBeUndefined();
+		} );
+
 		it( "converts simple data types", function() {
 
 			var processor = new metawidget.widgetprocessor.SimpleBindingProcessor();
