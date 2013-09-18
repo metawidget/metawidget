@@ -331,6 +331,8 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Reloads the values in the widgets using the values in the given Object.
+	 * The names of the values in the Object must match the 'name' attribute of
+	 * the widget.
 	 * <p>
 	 * Note this method does not update <tt>mw.toInspect</tt>, nor does it
 	 * save any values back from the widgets. It can be useful for re-populating
@@ -344,11 +346,11 @@ var metawidget = metawidget || {};
 			var binding = mw._simpleBindingProcessor.bindings[name];
 
 			if ( binding.widget.getMetawidget !== undefined ) {
-				this.reload( reloadFrom[name], binding.widget.getMetawidget() );
+				this.reload( reloadFrom, binding.widget.getMetawidget() );
 				continue;
 			}
 
-			this.bindToWidget( binding.widget, reloadFrom[name], binding.elementName, binding.attributes, mw );
+			this.bindToWidget( binding.widget, reloadFrom[binding.widget.getAttribute( 'name' )], binding.elementName, binding.attributes, mw );
 		}
 	};
 

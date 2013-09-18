@@ -208,6 +208,8 @@
 			expect( widget.toString() ).toBe( 'input type="checkbox"' );
 			expect( widget.checked ).toBe( true );
 
+			// TODO: arrays of select boxes
+			
 			// Select boxes
 
 			attributes = {
@@ -380,11 +382,9 @@
 
 			processor.reload( {
 				firstname: 'FooFirstname',
-				nested: {
-					surname: 'FooSurname',
-					retired: true,
-					extraData: 'Hacker'
-				}
+				nestedSurname: 'FooSurname',
+				nestedRetired: true,
+				nestedExtraData: 'Hacker'
 			}, mw );
 			expect( mw.toInspect.firstname ).toBeUndefined();
 			processor.save( mw );
