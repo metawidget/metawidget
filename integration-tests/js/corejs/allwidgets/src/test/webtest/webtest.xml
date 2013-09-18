@@ -253,7 +253,7 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[6]/div[1]/label" text="Ranged Number:"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[6]/div[2]/output" text="33"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[7]/div[1]/label" text="Boolean:"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[7]/div[2]/output" text="true"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[7]/div[2]/output" text="Yes"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[8]/div[1]/label" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[8]/div[2]/output" text="foo1"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/div[9]/div[1]/label" text="Dropdown With Labels:"/>

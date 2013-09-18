@@ -95,7 +95,9 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @class Binds JQuery UI specific widgets, using the JQuery
-	 *        <tt>$( widget ).foo( 'value', value )</tt> syntax.
+	 *        <tt>$( widget ).foo( 'value', value )</tt> syntax. Clients
+	 *        should still use SimpleBindingProcessor for all non-JQuery UI
+	 *        widgets.
 	 */
 
 	metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor = function() {
@@ -292,6 +294,13 @@ var metawidget = metawidget || {};
 
 			var element = this.element[0];
 
+			var mw = this;
+			
+			element.getMetawidget = function() {
+
+				return mw;
+			};
+
 			for ( var loop = 0; loop < element.childNodes.length; ) {
 				if ( element.childNodes[loop].nodeType !== 1 ) {
 					loop++;
@@ -397,7 +406,7 @@ var metawidget = metawidget || {};
 
 			return this._pipeline.getWidgetProcessor( testInstanceOf );
 		},
-
+		
 		/**
 		 * Returns the element this Metawidget is attached to.
 		 */

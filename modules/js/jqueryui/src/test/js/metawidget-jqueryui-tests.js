@@ -47,6 +47,7 @@
 
 							var element = $( '#metawidget' )[0];
 
+							expect( element.getMetawidget() ).toBeDefined();
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
 											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td><td/></tr></tbody></table>' );
