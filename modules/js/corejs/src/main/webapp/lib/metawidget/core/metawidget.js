@@ -42,6 +42,17 @@ var metawidget = metawidget || {};
 			throw new Error( 'Constructor called as a function' );
 		}
 
+		// Attach ourselves as a property of the tag, rather than try to
+		// 'extend' the built-in HTML tags. This is used by
+		// SimpleBindingProcessor, among others
+
+		var mw = this;
+		
+		element.getMetawidget = function() {
+
+			return mw;
+		};
+
 		// Pipeline (private)
 
 		var _pipeline = new metawidget.Pipeline( element );
@@ -158,12 +169,6 @@ var metawidget = metawidget || {};
 			nestedMetawidget.toInspect = this.toInspect;
 			nestedMetawidget.path = metawidget.util.appendPath( attributes, this );
 			nestedMetawidget.readOnly = this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly );
-
-			// Attach ourselves as a property of the tag, rather than try to
-			// 'extend' the built-in HTML tags. This is used by
-			// SimpleBindingProcessor, among others
-
-			nestedWidget.metawidget = nestedMetawidget;
 			nestedMetawidget.buildWidgets();
 
 			return nestedWidget;

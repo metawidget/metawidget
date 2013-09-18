@@ -266,7 +266,7 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
-		
+
 		it( "suppresses labels for entities", function() {
 
 			var layout = new metawidget.layout.DivLayout();
@@ -288,6 +288,68 @@
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
 			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( input );
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "allows label overrides", function() {
+
+			var layout = new metawidget.layout.DivLayout();
+			layout.getLabelString = function() {
+
+				return "Foo@";
+			}
+
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'id', 'widget1' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			}
+
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo@' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "can suppress label suffixes on checkboxes", function() {
+
+			var layout = new metawidget.layout.DivLayout( {
+				suppressLabelSuffixOnCheckboxes: true
+			} );
+
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'type', 'checkbox' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			}
+
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
 	} );
@@ -662,7 +724,7 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
-} );
+	} );
 
 	describe( "The HeadingTagLayoutDecorator", function() {
 

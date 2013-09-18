@@ -156,7 +156,7 @@ var metawidget = metawidget || {};
 
 		var rememberBinding = this.bindToWidget( widget, value, elementName, attributes, mw );
 
-		if ( elementName !== 'entity' && ( rememberBinding === true || widget.metawidget !== undefined ) ) {
+		if ( elementName !== 'entity' && ( rememberBinding === true || widget.getMetawidget !== undefined ) ) {
 			mw._simpleBindingProcessor.bindings = mw._simpleBindingProcessor.bindings || [];
 			mw._simpleBindingProcessor.bindings[attributes.name] = {
 				widget: widget,
@@ -204,7 +204,19 @@ var metawidget = metawidget || {};
 
 					// Special support for enumTitles
 
-					widget.innerHTML = metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );					
+					widget.innerHTML = metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
+
+				} else if ( attributes.type === 'boolean' ) {
+
+					// Special support for boolean
+
+					if ( value === true ) {
+						widget.innerHTML = metawidget.util.getLocalizedString( 'Yes', mw );
+					} else if ( value === false ) {
+						widget.innerHTML = metawidget.util.getLocalizedString( 'No', mw );
+					} else {
+						widget.innerHTML = value;
+					}
 
 				} else {
 					widget.innerHTML = value;
@@ -265,8 +277,8 @@ var metawidget = metawidget || {};
 
 			var binding = mw._simpleBindingProcessor.bindings[name];
 
-			if ( binding.widget.metawidget !== undefined ) {
-				this.save( binding.widget.metawidget );
+			if ( binding.widget.getMetawidget !== undefined ) {
+				this.save( binding.widget.getMetawidget() );
 				continue;
 			}
 
@@ -293,7 +305,10 @@ var metawidget = metawidget || {};
 		}
 
 		if ( binding.attributes.type === 'number' ) {
-			var parsed = parseInt( binding.widget.value );
+
+			// parseFloat can parse ints, but parseInt can't parse floats
+
+			var parsed = parseFloat( binding.widget.value );
 
 			// Avoid pushing back 'NaN'
 

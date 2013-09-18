@@ -136,7 +136,7 @@ var metawidget = metawidget || {};
 			}
 		}
 
-		if ( isBindable === true || widget.metawidget !== undefined ) {
+		if ( isBindable === true || widget.getMetawidget !== undefined ) {
 			mw._jQueryUIBindingProcessorBindings[attributes.name] = widget;
 		}
 
@@ -156,8 +156,8 @@ var metawidget = metawidget || {};
 
 			var widget = mw._jQueryUIBindingProcessorBindings[name];
 
-			if ( widget.metawidget !== undefined ) {
-				this.save( widget.metawidget );
+			if ( widget.getMetawidget !== undefined ) {
+				this.save( widget.getMetawidget() );
 				continue;
 			}
 

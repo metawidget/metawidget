@@ -60,16 +60,7 @@ var metawidget = metawidget || {};
 		// Explicit title
 
 		if ( attributes.title !== undefined ) {
-
-			// (localize if possible)
-
-			var camelCased = metawidget.util.camelCase( attributes.title );
-
-			if ( mw.l10n !== undefined && mw.l10n[camelCased] !== undefined ) {
-				return mw.l10n[camelCased];
-			}
-
-			return attributes.title;
+			return metawidget.util.getLocalizedString( attributes.title, mw );
 		}
 
 		// Localize if possible
@@ -133,6 +124,25 @@ var metawidget = metawidget || {};
 			var charCode = c.charCodeAt( 0 );
 			return ( charCode >= 65 && charCode <= 90 ) || ( charCode >= 97 && charCode <= 122 );
 		}
+	};
+
+	/**
+	 * Localizes the given value.
+	 * <p>
+	 * First, camelCases the given value to create a key. Then looks this key up
+	 * in <tt>mw.l10n</tt>. If it exists, returns the value associated with
+	 * that key. Otherwise, returns the original value.
+	 */
+
+	metawidget.util.getLocalizedString = function( value, mw ) {
+
+		var key = metawidget.util.camelCase( value );
+
+		if ( mw.l10n !== undefined && mw.l10n[key] !== undefined ) {
+			return mw.l10n[key];
+		}
+
+		return value;
 	};
 
 	/**
@@ -263,7 +273,7 @@ var metawidget = metawidget || {};
 
 		return toReturn;
 	};
-	
+
 	metawidget.util.lookupEnumTitle = function( value, anEnum, enumTitles ) {
 
 		// Locate the value within the enums (if there)...
@@ -278,7 +288,7 @@ var metawidget = metawidget || {};
 
 		return enumTitles[indexOf];
 	};
-	
+
 	/**
 	 * Gets a camelCased id based on the given attributes.name and the given
 	 * mw.path.

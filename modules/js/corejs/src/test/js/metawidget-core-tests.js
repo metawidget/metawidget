@@ -27,11 +27,14 @@
 			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
 
+			expect( mw.getElement() ).toBe( element );
+			expect( element.getMetawidget() ).toBe( mw );
+			
 			mw.toInspect = {
 				foo: "Foo"
 			};
 			mw.buildWidgets();
-
+			
 			expect( element.childNodes[0].toString() ).toBe( 'table' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-foo-row"' );

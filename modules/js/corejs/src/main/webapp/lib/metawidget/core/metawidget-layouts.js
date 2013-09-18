@@ -62,6 +62,7 @@ var metawidget = metawidget || {};
 		var _divStyleClasses = config !== undefined ? config.divStyleClasses : undefined;
 		var _labelStyleClass = config !== undefined ? config.labelStyleClass : undefined;
 		var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
+		var _suppressLabelSuffixOnCheckboxes = config !== undefined && config.suppressLabelSuffixOnCheckboxes !== undefined ? config.suppressLabelSuffixOnCheckboxes : false;
 
 		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
@@ -115,10 +116,25 @@ var metawidget = metawidget || {};
 				label.setAttribute( 'class', _labelStyleClass );
 			}
 
-			label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + _labelSuffix;
+			label.innerHTML = this.getLabelString( widget, attributes, mw );
 
 			labelDiv.appendChild( label );
 			outerDiv.appendChild( labelDiv );
+		};
+		
+		this.getLabelString = function( widget, attributes, mw ) {
+			
+			var labelString = metawidget.util.getLabelString( attributes, mw );
+			
+			// Some UI frameworks (like JQuery Mobile) reuse the checkbox label
+			// alongside the checkbox itself. This looks bad if we keep the
+			// suffix
+			
+			if ( _suppressLabelSuffixOnCheckboxes === true && widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
+				return labelString;
+			}
+			
+			return labelString + _labelSuffix;
 		};
 	};
 

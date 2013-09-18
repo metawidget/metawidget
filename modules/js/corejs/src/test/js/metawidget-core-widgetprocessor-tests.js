@@ -166,7 +166,7 @@
 			expect( widget.innerHTML ).toBe( '2' );
 
 			// TODO: non-string enums. Angular JS too!
-			
+
 			attributes = {
 				name: "baz",
 				enum: [ "bazValue1", "bazValue", "bazValue3" ],
@@ -365,28 +365,28 @@
 
 			// Text
 
-			var attributes = {					
+			var attributes = {
 				name: "string1",
 				type: "string"
 			};
 			var widget = simpleDocument.createElement( 'input' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.value ).toBe( 'string' );
-			expect( processor.save( mw )).toBe( false );
+			expect( processor.save( mw ) ).toBe( false );
 			widget.value = 'string2';
-			expect( processor.save( mw )).toBe( true );
+			expect( processor.save( mw ) ).toBe( true );
 			expect( mw.toInspect.string1 ).toBe( 'string2' );
-			
+
 			widget.value = '';
-			expect( processor.save( mw )).toBe( true );
+			expect( processor.save( mw ) ).toBe( true );
 			expect( mw.toInspect.string1 ).toBeUndefined();
 
 			widget.value = 'string3';
-			expect( processor.save( mw )).toBe( true );
+			expect( processor.save( mw ) ).toBe( true );
 			expect( mw.toInspect.string1 ).toBe( 'string3' );
 
 			widget.value = null;
-			expect( processor.save( mw )).toBe( true );
+			expect( processor.save( mw ) ).toBe( true );
 			expect( mw.toInspect.string1 ).toBeUndefined();
 
 			// Numbers
@@ -398,20 +398,23 @@
 			var widget = simpleDocument.createElement( 'input' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.value ).toBe( 42 );
-			expect( processor.save( mw )).toBe( false );
+			expect( processor.save( mw ) ).toBe( false );
 			widget.value = '43';
-			expect( processor.save( mw )).toBe( true );
+			expect( processor.save( mw ) ).toBe( true );
 			expect( mw.toInspect.number1 ).toBe( 43 );
+			widget.value = '43.5';
+			expect( processor.save( mw ) ).toBe( true );
+			expect( mw.toInspect.number1 ).toBe( 43.5 );
 
 			widget.value = null;
-			expect( processor.save( mw )).toBe( true );
+			expect( processor.save( mw ) ).toBe( true );
 			expect( mw.toInspect.number1 ).toBeUndefined();
-			
+
 			widget.value = 'not a number';
-			
+
 			// (returns false because does not actually change any data)
-			
-			expect( processor.save( mw )).toBe( false );
+
+			expect( processor.save( mw ) ).toBe( false );
 			expect( mw.toInspect.number1 ).toBeUndefined();
 
 			// Booleans
@@ -424,10 +427,40 @@
 			widget.setAttribute( 'type', 'checkbox' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.checked ).toBe( true );
-			expect( processor.save( mw )).toBe( false );
+			expect( processor.save( mw ) ).toBe( false );
 			widget.checked = false;
-			expect( processor.save( mw )).toBe( true );
+			expect( processor.save( mw ) ).toBe( true );
 			expect( mw.toInspect.boolean1 ).toBe( false );
+
+			// Read-only booleans
+
+			var attributes = {
+				name: "boolean1",
+				type: "boolean"
+			};
+			var widget = simpleDocument.createElement( 'output' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.innerHTML ).toBe( 'No' );
+			mw.toInspect.boolean1 = true;
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.innerHTML ).toBe( 'Yes' );
+
+			// Read-only i10n booleans
+
+			var attributes = {
+				name: "boolean1",
+				type: "boolean"
+			};
+			mw.l10n = {
+				yes: 'Oui',
+				no: 'Pas'
+			};
+			var widget = simpleDocument.createElement( 'output' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.innerHTML ).toBe( 'Oui' );
+			mw.toInspect.boolean1 = false;
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.innerHTML ).toBe( 'Pas' );
 		} );
 	} );
 } )();
