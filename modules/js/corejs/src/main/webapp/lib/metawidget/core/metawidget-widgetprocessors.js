@@ -32,7 +32,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.IdProcessor = function() {
 
-		if ( ! ( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
+		if ( !( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -59,7 +59,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.RequiredAttributeProcessor = function() {
 
-		if ( ! ( this instanceof metawidget.widgetprocessor.RequiredAttributeProcessor ) ) {
+		if ( !( this instanceof metawidget.widgetprocessor.RequiredAttributeProcessor ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -79,7 +79,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.PlaceholderAttributeProcessor = function() {
 
-		if ( ! ( this instanceof metawidget.widgetprocessor.PlaceholderAttributeProcessor ) ) {
+		if ( !( this instanceof metawidget.widgetprocessor.PlaceholderAttributeProcessor ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -101,7 +101,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.SimpleBindingProcessor = function() {
 
-		if ( ! ( this instanceof metawidget.widgetprocessor.SimpleBindingProcessor ) ) {
+		if ( !( this instanceof metawidget.widgetprocessor.SimpleBindingProcessor ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -185,15 +185,15 @@ var metawidget = metawidget || {};
 
 			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
 		}
-		
+
 		// Special support for arrays of checkboxes
 		// TODO: divs of radio buttons?
-		
+
 		if ( attributes.type === 'array' && attributes['enum'] !== undefined && widget.tagName === 'DIV' ) {
-			
+
 			isBindable = true;
-			
-			for( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+
+			for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 				var childNode = widget.childNodes[loop];
 				if ( childNode.tagName === 'LABEL' ) {
 					var labelChildNode = childNode.childNodes[0];
@@ -202,7 +202,7 @@ var metawidget = metawidget || {};
 						labelChildNode.checked = ( value !== undefined && value.indexOf( labelChildNode.value ) !== -1 );
 					}
 				}
-			}			
+			}
 		}
 
 		// Check 'not undefined', rather than 'if value', in case value is a
@@ -340,16 +340,16 @@ var metawidget = metawidget || {};
 		}
 
 		// Support non-checkbox booleans
-		
+
 		if ( binding.attributes.type === 'boolean' ) {
 			return ( binding.widget.value === true || binding.widget.value === 'true' );
 		}
 
 		// Support arrays of checkboxes
-		
+
 		if ( binding.attributes.type === 'array' ) {
 			var toReturn = [];
-			for( var loop = 0, length = binding.widget.childNodes.length; loop < length; loop++ ) {
+			for ( var loop = 0, length = binding.widget.childNodes.length; loop < length; loop++ ) {
 				var childNode = binding.widget.childNodes[loop];
 				if ( childNode.tagName === 'LABEL' ) {
 					var labelChildNode = childNode.childNodes[0];
@@ -360,7 +360,7 @@ var metawidget = metawidget || {};
 			}
 			return toReturn;
 		}
-		
+
 		// Avoid pushing back 'null'
 
 		if ( binding.widget.value === '' || binding.widget.value === null ) {
@@ -391,7 +391,10 @@ var metawidget = metawidget || {};
 				continue;
 			}
 
-			this.bindToWidget( binding.widget, reloadFrom[binding.widget.getAttribute( 'name' )], binding.elementName, binding.attributes, mw );
+			// Use id, not name, to support arrays of checkboxes (id should be
+			// the same as name anyway)
+
+			this.bindToWidget( binding.widget, reloadFrom[binding.widget.getAttribute( 'id' )], binding.elementName, binding.attributes, mw );
 		}
 	};
 

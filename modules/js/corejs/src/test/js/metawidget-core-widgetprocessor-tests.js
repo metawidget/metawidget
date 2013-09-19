@@ -406,6 +406,10 @@
 								},
 								retired: {
 									type: 'boolean'
+								},
+								state: {
+									type: 'array',
+									enum: [ 'ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA' ]
 								}
 							}
 						}
@@ -426,7 +430,8 @@
 				firstname: 'FooFirstname',
 				nestedSurname: 'FooSurname',
 				nestedRetired: true,
-				nestedExtraData: 'Hacker'
+				nestedExtraData: 'Hacker',
+				nestedState: [ 'ACT', 'NSW' ]
 			}, mw );
 			expect( mw.toInspect.firstname ).toBeUndefined();
 			processor.save( mw );
@@ -434,6 +439,9 @@
 			expect( mw.toInspect.nested.surname ).toBe( 'FooSurname' );
 			expect( mw.toInspect.nested.retired ).toBe( true );
 			expect( mw.toInspect.nested.extraData ).toBeUndefined();
+			expect( mw.toInspect.nested.state[0] ).toBe( 'ACT' );
+			expect( mw.toInspect.nested.state[1] ).toBe( 'NSW' );
+			expect( mw.toInspect.nested.state.length ).toBe( 2 );
 		} );
 
 		it( "converts simple data types", function() {
