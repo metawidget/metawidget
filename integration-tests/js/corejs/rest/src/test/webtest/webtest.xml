@@ -1,9 +1,9 @@
-<project name="jsp-addressbook-test">
+<project name="corejs-rest-test">
 
 	<taskdef resource="webtestTaskdefs.properties"/>
 
 	<target name="all">
-		<webtest name="test-allWidgets">
+		<webtest name="test-rest">
 		
 			<!-- Use FF3.6 for XMLHttpRequest -->
 			

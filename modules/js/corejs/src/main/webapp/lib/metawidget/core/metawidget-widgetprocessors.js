@@ -185,6 +185,25 @@ var metawidget = metawidget || {};
 
 			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
 		}
+		
+		// Special support for arrays of checkboxes
+		// TODO: divs of radio buttons?
+		
+		if ( attributes.type === 'array' && attributes['enum'] !== undefined && widget.tagName === 'DIV' ) {
+			
+			isBindable = true;
+			
+			for( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+				var childNode = widget.childNodes[loop];
+				if ( childNode.tagName === 'LABEL' ) {
+					var labelChildNode = childNode.childNodes[0];
+					if ( labelChildNode.tagName === 'INPUT' && attributes['enum'].valueOf( labelChildNode.value ) !== -1 ) {
+						labelChildNode.setAttribute( 'name', widget.getAttribute( 'id' ) );
+						labelChildNode.checked = ( value !== undefined && value.indexOf( labelChildNode.value ) !== -1 );
+					}
+				}
+			}			
+		}
 
 		// Check 'not undefined', rather than 'if value', in case value is a
 		// boolean of false
@@ -320,6 +339,28 @@ var metawidget = metawidget || {};
 			return parsed;
 		}
 
+		// Support non-checkbox booleans
+		
+		if ( binding.attributes.type === 'boolean' ) {
+			return ( binding.widget.value === true || binding.widget.value === 'true' );
+		}
+
+		// Support arrays of checkboxes
+		
+		if ( binding.attributes.type === 'array' ) {
+			var toReturn = [];
+			for( var loop = 0, length = binding.widget.childNodes.length; loop < length; loop++ ) {
+				var childNode = binding.widget.childNodes[loop];
+				if ( childNode.tagName === 'LABEL' ) {
+					var labelChildNode = childNode.childNodes[0];
+					if ( labelChildNode.checked ) {
+						toReturn.push( labelChildNode.value );
+					}
+				}
+			}
+			return toReturn;
+		}
+		
 		// Avoid pushing back 'null'
 
 		if ( binding.widget.value === '' || binding.widget.value === null ) {

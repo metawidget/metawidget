@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Quirks (Metawidget CoreJS Test)</title>
+		<script src="lib/metawidget/core/metawidget-inspectors.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-layouts.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-utils.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-widgetbuilders.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-widgetprocessors.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<form>
+			<div id="metawidget"></div>
+		</form>
+		<script type="text/javascript">
+
+			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
+
+				inspector: new metawidget.inspector.JsonSchemaInspector( {
+					properties: {
+						numericEnum: {
+							type: 'number',
+							'enum': [ 1, 2, 3, 4, 5 ]
+						},
+						booleanEnum: {
+							type: 'boolean',
+							'enum': [ true, false ]
+						},
+						description: {
+							type: 'string',
+							readOnly: true
+						},
+						save: {
+							type: 'function'
+						}
+					}
+				} )
+			} );
+
+			mw.toInspect = {
+				save: function() {
+
+					var processor = mw.getWidgetProcessor( function( widgetProcessor ) { return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor; } );
+					processor.save( mw );
+					mw.toInspect.description = 'numericEnum is a ' + typeof( mw.toInspect.numericEnum ) + ' and booleanEnum is a ' + typeof( mw.toInspect.booleanEnum );
+					mw.readOnly = true;
+					mw.buildWidgets();
+					return false;
+				}
+			}
+
+			mw.buildWidgets();
+
+		</script>
+	</body>
+</html>

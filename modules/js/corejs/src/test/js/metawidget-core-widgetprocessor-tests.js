@@ -121,7 +121,8 @@
 					boolean: true,
 					select: false,
 					number: 42,
-					password: 'fooBar'
+					password: 'fooBar',
+					array: [ 'Bar' ]
 				},
 				path: "testPath"
 			};
@@ -165,8 +166,6 @@
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( '2' );
 
-			// TODO: non-string enums. Angular JS too!
-
 			attributes = {
 				name: "baz",
 				enum: [ "bazValue1", "bazValue", "bazValue3" ],
@@ -208,8 +207,51 @@
 			expect( widget.toString() ).toBe( 'input type="checkbox"' );
 			expect( widget.checked ).toBe( true );
 
-			// TODO: arrays of select boxes
+			// Arrays of check boxes
 			
+			attributes = {
+				name: "array",
+				type: "array",
+				enum: [ 'Foo', 'Bar', 'Baz' ]
+			};
+			widget = simpleDocument.createElement( 'div' );
+			widget.setAttribute( 'id', 'array' );
+			var childNode1 = simpleDocument.createElement( 'input' );
+			childNode1.value = 'Foo';
+			var labelNode1 = simpleDocument.createElement( 'label' );
+			labelNode1.appendChild( childNode1 );
+			widget.appendChild( labelNode1 );
+			var childNode2 = simpleDocument.createElement( 'input' );
+			childNode2.value = 'Bar';
+			var labelNode2 = simpleDocument.createElement( 'label' );
+			labelNode2.appendChild( childNode2 );
+			widget.appendChild( labelNode2 );
+			var childNode3 = simpleDocument.createElement( 'input' );
+			childNode3.value = 'Baz';
+			var labelNode3 = simpleDocument.createElement( 'label' );
+			labelNode3.appendChild( childNode3 );
+			widget.appendChild( labelNode3 );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( childNode1.getAttribute( 'name' ) ).toBe( 'array' );
+			expect( childNode1.checked ).toBe( false );
+			expect( childNode2.getAttribute( 'name' ) ).toBe( 'array' );
+			expect( childNode2.checked ).toBe( true );
+			expect( childNode3.getAttribute( 'name' ) ).toBe( 'array' );
+			expect( childNode3.checked ).toBe( false );
+			childNode1.checked = true;
+			childNode2.checked = false;
+			childNode3.checked = true;
+			processor.save( mw );
+			expect( mw.toInspect.array[0] ).toBe( 'Foo' );
+			expect( mw.toInspect.array[1] ).toBe( 'Baz' );
+			expect( mw.toInspect.array.length ).toBe( 2 );
+			
+			delete mw.toInspect.array;
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( childNode1.checked ).toBe( false );
+			expect( childNode2.checked ).toBe( false );
+			expect( childNode3.checked ).toBe( false );
+
 			// Select boxes
 
 			attributes = {
@@ -478,6 +520,22 @@
 			expect( processor.save( mw ) ).toBe( false );
 			widget.checked = false;
 			expect( processor.save( mw ) ).toBe( true );
+			expect( mw.toInspect.boolean1 ).toBe( false );
+
+			// Non-checkbox booleans
+
+			var attributes = {
+				name: "boolean1",
+				type: "boolean"
+			};
+			var widget = simpleDocument.createElement( 'input' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.value ).toBe( false );
+			widget.value = 'true';
+			processor.save( mw );
+			expect( mw.toInspect.boolean1 ).toBe( true );
+			widget.value = 'false';
+			processor.save( mw );
 			expect( mw.toInspect.boolean1 ).toBe( false );
 
 			// Read-only booleans

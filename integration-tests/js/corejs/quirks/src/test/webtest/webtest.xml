@@ -1,0 +1,48 @@
+<project name="corejs-quirks-test">
+
+	<taskdef resource="webtestTaskdefs.properties"/>
+
+	<target name="all">
+		<webtest name="test-quirks">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}">
+				<!-- Stricter JS compliance (eg. must use 'element.childNodes' not 'element.children') -->
+				<header name="User-Agent" value="Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.7.5) Gecko/20041107 Firefox/1.0"/>
+			</config>
+			<steps>
+				<invoke url="/" />
+				<verifyTitle text="Quirks (Metawidget CoreJS Test)" />
+				
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/@id" text="table-numericEnum-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/th/label" text="Numeric Enum:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/th/label/@for" text="numericEnum"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/select/@id" text="numericEnum"/>
+				<setSelectField name="numericEnum" value="3"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/@id" text="table-booleanEnum-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/th/label" text="Boolean Enum:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/th/label/@for" text="booleanEnum"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/select/@id" text="booleanEnum"/>
+				<setSelectField name="booleanEnum" value="true"/>
+				
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/@id" text="description"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/@id" text="table-save-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/button/@id" text="save"/>
+
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="4"/>
+				<clickButton label="Save"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/output/@id" text="numericEnum"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/output/text()" text="3"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/output/@id" text="booleanEnum"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/output/text()" text="Yes"/>
+
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/@id" text="description"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/text()" text="numericEnum is a number and booleanEnum is a boolean"/>
+
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="3"/>
+			</steps>
+		</webtest>
+	</target>
+
+</project>

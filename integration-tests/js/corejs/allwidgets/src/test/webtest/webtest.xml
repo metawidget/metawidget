@@ -1,4 +1,4 @@
-<project name="jsp-addressbook-test">
+<project name="corejs-allwidgets-test">
 
 	<taskdef resource="webtestTaskdefs.properties"/>
 

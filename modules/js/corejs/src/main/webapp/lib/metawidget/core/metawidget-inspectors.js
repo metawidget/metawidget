@@ -158,7 +158,7 @@ var metawidget = metawidget || {};
 		function _getTypeOf( value ) {
 
 			// JSON Schema primitive types are: 'array', 'boolean',
-			// 'integer', 'number', 'null', 'object' and 'string'
+			// 'number', 'null', 'object' and 'string'
 
 			if ( value instanceof Array ) {
 
@@ -226,10 +226,13 @@ var metawidget = metawidget || {};
 
 			if ( _schema.type !== undefined && _schema.type !== type ) {
 				
-				// The exception is primitive types
-				// TODO: all primitive types?
-				
-				if ( _schema.type !== 'array' ) {
+				// The exception is primitive types. This is because all non-primitive
+				// types are arbitrary (Metawidget just recurses into them) and so can
+				// mimic whatever the 'path' variable is. But primitive types have to
+				// be fixed because they drive the WidgetBuilder's choices
+
+				if ( _schema.type !== 'array' && _schema.type !== 'boolean' && _schema.type !== 'number' &&
+					 _schema.type !== 'string' ) {
 					return undefined;
 				}
 			}

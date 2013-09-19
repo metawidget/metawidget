@@ -16,6 +16,7 @@
 		<module>angularjs/quirks</module>
 		<module>angularjs/rest</module>
 		<module>corejs/allwidgets</module>
+		<module>corejs/quirks</module>
 		<module>corejs/rest</module>
 		<module>jqueryui/allwidgets</module>
 		<module>jqueryui/quirks</module>

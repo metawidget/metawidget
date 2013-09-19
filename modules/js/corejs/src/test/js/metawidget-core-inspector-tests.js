@@ -345,6 +345,36 @@
 			var inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
 			expect( inspectionResult.foo ).toBe( 'Foo' );
 			expect( inspectionResult.bar ).toBe( 'Bar' );
+
+			inspector = new metawidget.inspector.JsonSchemaInspector( {
+				type: "boolean",
+				foo: "Foo",
+				bar: "Bar"
+			} );
+
+			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
+			expect( inspectionResult.foo ).toBe( 'Foo' );
+			expect( inspectionResult.bar ).toBe( 'Bar' );
+
+			inspector = new metawidget.inspector.JsonSchemaInspector( {
+				type: "number",
+				foo: "Foo",
+				bar: "Bar"
+			} );
+
+			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
+			expect( inspectionResult.foo ).toBe( 'Foo' );
+			expect( inspectionResult.bar ).toBe( 'Bar' );
+
+			inspector = new metawidget.inspector.JsonSchemaInspector( {
+				type: "string",
+				foo: "Foo",
+				bar: "Bar"
+			} );
+
+			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
+			expect( inspectionResult.foo ).toBe( 'Foo' );
+			expect( inspectionResult.bar ).toBe( 'Bar' );
 		} );
 
 		it( "understands array indexes", function() {

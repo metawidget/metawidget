@@ -599,13 +599,13 @@
 										expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<div id="fooBar" class="ng-scope"><label><input type="checkbox" value="Abc" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
+														'<div id="fooBar" class="ng-scope"><label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<label><input type="checkbox" value="Def" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
+														'<label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<label><input type="checkbox" value="Ghi" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
+														'<label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
 										expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
 									} );
 						} );
@@ -647,9 +647,9 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="radio" value="Abc" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
-						expect( mw.innerHTML ).toContain( '"/>Abc</label><label><input type="radio" value="Def" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
-						expect( mw.innerHTML ).toContain( '"/>Def</label><label><input type="radio" value="Ghi" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+						expect( mw.innerHTML ).toContain( '"/>Abc</label><label><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+						expect( mw.innerHTML ).toContain( '"/>Def</label><label><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
 						expect( mw.innerHTML ).toContain( '"/>Ghi</label></div></td><td/></tr></tbody></table>' );
 					} );
 				} );
@@ -1130,6 +1130,60 @@
 						expect( mw.innerHTML ).toContain( '</metawidget>' );
 					} );
 				} );
+				
+				it( "supports non-string enums", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: 3,
+							baz: true
+						};
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									"properties": {
+										"bar": {
+											enum: [ 1, 2, 3 ]
+										},
+										"baz": {
+											enum: [ true, false ]
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<option value="3">3</option>' );
+						expect( angular.element( mw ).find( '#fooBar' ).val() ).toBe( '3' );
+						expect( mw.innerHTML ).toContain( '<option value="true">true</option>' );
+
+						var scope = angular.element( body ).scope();
+						expect( scope.foo.bar ).toBe( 3 );
+						expect( scope.foo.baz ).toBe( true );
+						angular.element( mw ).find( '#fooBar' ).val( '2' );
+						angular.element( mw ).find( '#fooBaz' ).val( 'false' );
+						// TODO: expect( scope.foo.bar ).toBe( 2 );
+						// TODO: expect( scope.foo.baz ).toBe( false );
+					} );
+				} );
+				
 			} );
 
 	describe(

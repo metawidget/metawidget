@@ -516,7 +516,7 @@
 							if ( child.getAttribute( 'type' ) === 'radio' ) {
 								child.setAttribute( 'ng-model', binding );
 							} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
-								child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.getAttribute( 'value' ) + "')>=0" );
+								child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.value + "')>=0" );
 								scope.$parent._mwUpdateSelection = _updateSelection;
 								child.setAttribute( 'ng-click', "_mwUpdateSelection($event,'" + binding + "')" );
 							}

@@ -225,7 +225,7 @@ var metawidget = metawidget || {};
 						} else {
 							option.setAttribute( 'type', 'checkbox' );
 						}
-						option.setAttribute( 'value', attributes['enum'][loop] );
+						option.value = attributes['enum'][loop];
 						label.appendChild( option );
 
 						if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
@@ -254,7 +254,8 @@ var metawidget = metawidget || {};
 					// HtmlUnit needs an 'option' to have a 'value', even if the
 					// same as the innerHTML
 
-					option.setAttribute( 'value', attributes['enum'][loop] );
+					// TODO: where do we do .setAttribute( 'value' )
+					option.value = attributes['enum'][loop];
 
 					if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
 						option.innerHTML = attributes.enumTitles[loop];
