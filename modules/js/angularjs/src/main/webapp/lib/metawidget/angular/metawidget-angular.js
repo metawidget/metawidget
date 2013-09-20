@@ -475,7 +475,7 @@
 
 			if ( widget.tagName === 'OUTPUT' ) {
 				if ( attributes.masked === true ) {
-										
+
 					// Special support for masked output
 
 					scope.$parent._mwMaskedOutput = _maskedOutput;
@@ -503,6 +503,9 @@
 			} else if ( widget.tagName === 'BUTTON' ) {
 				widget.setAttribute( 'ng-click', binding + '()' );
 			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
+
+				// TODO: in Address Book, when PropertyTypeInspector comes
+				// second, messes up slider?
 
 				// Special support for multi-selects and radio buttons
 
@@ -595,7 +598,7 @@
 			if ( value === undefined ) {
 				return;
 			}
-			
+
 			return metawidget.util.fillString( '*', value.length );
 		}
 	};

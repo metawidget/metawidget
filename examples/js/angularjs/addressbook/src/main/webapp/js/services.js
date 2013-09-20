@@ -161,7 +161,7 @@
 			// For the body of the form
 
 			form: {
-				inspector: new metawidget.inspector.CompositeInspector( [ function( toInspect, type, names ) {
+				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
 					if ( names === undefined ) {
 						if ( toInspect !== undefined && toInspect.type === 'business' ) {
@@ -188,7 +188,7 @@
 							}
 						};
 					}
-				}, new metawidget.inspector.PropertyTypeInspector() ] ),
+				} ] ),
 				layout: _tableLayout
 			},
 
