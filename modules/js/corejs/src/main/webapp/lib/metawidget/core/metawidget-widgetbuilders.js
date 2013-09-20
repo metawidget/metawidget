@@ -254,7 +254,6 @@ var metawidget = metawidget || {};
 					// HtmlUnit needs an 'option' to have a 'value', even if the
 					// same as the innerHTML
 
-					// TODO: where do we do .setAttribute( 'value' )
 					option.value = attributes['enum'][loop];
 
 					if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {

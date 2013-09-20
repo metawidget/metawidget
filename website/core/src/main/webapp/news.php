@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v3.6 Released!</h3>
-		<h4></h4>
+		<h4>20th September 2013</h4>
 		
 		<p>
 			Metawidget v3.6 is now available!
@@ -15,7 +15,11 @@
 		</p>
 		
 		<ul>
-			<li>Nested Metawidgets inside tables</li>
+			<li>Nested Metawidgets inside tables (JavaScript version)</li>
+			<li>Support for HTML5 placeholder attributes</li>
+			<li>Node.js support for reloading widget values based on HTTP requests</li>
+			<li>Support for Bootstrap inputAppend</li> 
+			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
 		<p>
@@ -36,6 +40,7 @@
 		<ul>
 			<li>Vaadin 7 support</li>
 			<li><a href="http://blog.kennardconsulting.com/2013/07/json-ui-generator-array-support.html">Support JSON Schema for describing arrays</a></li>
+			<li>AngularJS IE8 support</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

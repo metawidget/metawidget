@@ -420,7 +420,7 @@
 					var injector = angular.bootstrap( body, [ 'test-app' ] );
 
 					injector.invoke( function() {
-						
+
 						expect( mw.innerHTML ).toNotContain( 'label' );
 						expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" required="true" ng-model="foo.bar"' );
 						expect( mw.childNodes.length ).toBe( 1 );
@@ -1027,7 +1027,7 @@
 						$scope.foo = {
 							password: 'fooBar'
 						};
-						
+
 						$scope.metawidgetConfig = {
 							inspector: function() {
 
@@ -1099,38 +1099,44 @@
 					} );
 				} );
 
-				it( "supports nested Metawidgets", function() {
+				it(
+						"supports nested Metawidgets",
+						function() {
 
-					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
-					var controller = myApp.controller( 'TestController', function( $scope ) {
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var controller = myApp.controller( 'TestController', function( $scope ) {
 
-						$scope.foo = {
-							bar: {
-								baz: {
-									firstname: 'firstname1',
-									surname: 'surname1'
-								}
-							}
-						};
-					} );
+								$scope.foo = {
+									bar: {
+										baz: {
+											firstname: 'firstname1',
+											surname: 'surname1'
+										}
+									}
+								};
+							} );
 
-					var mw = document.createElement( 'metawidget' );
-					mw.setAttribute( 'ng-model', 'foo' );
+							var mw = document.createElement( 'metawidget' );
+							mw.setAttribute( 'ng-model', 'foo' );
 
-					var body = document.createElement( 'body' );
-					body.setAttribute( 'ng-controller', 'TestController' );
-					body.appendChild( mw );
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+							body.appendChild( mw );
 
-					var injector = angular.bootstrap( body, [ 'test-app' ] );
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
 
-					injector.invoke( function() {
+							injector
+									.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<table id="table-fooBarBaz"><tbody><tr id="table-fooBarBazFirstname-row"><th id="table-fooBarBazFirstname-label-cell"><label for="fooBarBazFirstname" id="table-fooBarBazFirstname-label">Firstname:</label></th><td id="table-fooBarBazFirstname-cell"><input type="text" id="fooBarBazFirstname" ng-model="foo.bar.baz.firstname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr><tr id="table-fooBarBazSurname-row"><th id="table-fooBarBazSurname-label-cell"><label for="fooBarBazSurname" id="table-fooBarBazSurname-label">Surname:</label></th><td id="table-fooBarBazSurname-cell"><input type="text" id="fooBarBazSurname" ng-model="foo.bar.baz.surname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
-						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar.baz" configs="_metawidgetConfig" id="fooBarBaz" class="ng-isolate-scope ng-scope ng-pristine ng-valid">' );
-						expect( mw.innerHTML ).toContain( '</metawidget>' );
-					} );
-				} );
-				
+										expect( mw.innerHTML )
+												.toContain(
+														'<table id="table-fooBarBaz"><tbody><tr id="table-fooBarBazFirstname-row"><th id="table-fooBarBazFirstname-label-cell"><label for="fooBarBazFirstname" id="table-fooBarBazFirstname-label">Firstname:</label></th><td id="table-fooBarBazFirstname-cell"><input type="text" id="fooBarBazFirstname" ng-model="foo.bar.baz.firstname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr><tr id="table-fooBarBazSurname-row"><th id="table-fooBarBazSurname-label-cell"><label for="fooBarBazSurname" id="table-fooBarBazSurname-label">Surname:</label></th><td id="table-fooBarBazSurname-cell"><input type="text" id="fooBarBazSurname" ng-model="foo.bar.baz.surname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+										expect( mw.innerHTML ).toContain(
+												'<metawidget ng-model="foo.bar.baz" configs="_metawidgetConfig" id="fooBarBaz" class="ng-isolate-scope ng-scope ng-pristine ng-valid">' );
+										expect( mw.innerHTML ).toContain( '</metawidget>' );
+									} );
+						} );
+
 				it( "supports non-string enums", function() {
 
 					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
@@ -1168,7 +1174,7 @@
 
 					var injector = angular.bootstrap( body, [ 'test-app' ] );
 
-					injector.invoke( function() {
+					injector.invoke( function( $rootScope ) {
 
 						expect( mw.innerHTML ).toContain( '<option value="3">3</option>' );
 						expect( angular.element( mw ).find( '#fooBar' ).val() ).toBe( '3' );
@@ -1177,13 +1183,19 @@
 						var scope = angular.element( body ).scope();
 						expect( scope.foo.bar ).toBe( 3 );
 						expect( scope.foo.baz ).toBe( true );
-						angular.element( mw ).find( '#fooBar' ).val( '2' );
-						angular.element( mw ).find( '#fooBaz' ).val( 'false' );
-						// TODO: expect( scope.foo.bar ).toBe( 2 );
-						// TODO: expect( scope.foo.baz ).toBe( false );
+
+						angular.element( mw ).find( '#fooBar' ).val( 2 ).change();
+						angular.element( mw ).find( '#fooBaz' ).val( 'false' ).change();
+
+						// Note: it's debatable if this is the correct
+						// behaviour. SELECT can only handle strings, but we
+						// could try and be smarter about the reverse binding
+
+						expect( scope.foo.bar ).toBe( '2' );
+						expect( scope.foo.baz ).toBe( 'false' );
 					} );
 				} );
-				
+
 			} );
 
 	describe(
@@ -1390,7 +1402,7 @@
 				expect( typeof ( scope._mwMaskedOutput ) ).toBe( 'function' );
 				expect( scope._mwMaskedOutput() ).toBeUndefined();
 				expect( scope._mwMaskedOutput( '' ) ).toBe( '' );
-				expect( scope._mwMaskedOutput('Foo1') ).toBe( '****' );
+				expect( scope._mwMaskedOutput( 'Foo1' ) ).toBe( '****' );
 
 				// Enums
 
@@ -1414,15 +1426,15 @@
 				scope.$parent.testPath = {
 					enumTitleBaz: '2'
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz'](scope.$parent.testPath.enumTitleBaz) ).toBe( 'Two' );
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( 'Two' );
 				scope.$parent.testPath = {
 					enumTitleBaz: 3
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz'](scope.$parent.testPath.enumTitleBaz) ).toBe( 'Three' );
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( 'Three' );
 				scope.$parent.testPath = {
 					enumTitleBaz: '3'
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz'](scope.$parent.testPath.enumTitleBaz) ).toBe( '3' );
+				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( '3' );
 
 				// Root-level
 
