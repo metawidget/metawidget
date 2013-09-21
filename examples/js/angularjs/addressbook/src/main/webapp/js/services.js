@@ -159,6 +159,12 @@
 			},
 
 			// For the body of the form
+			//
+			// Note: put PropertyTypeInspector first so that our second
+			// Inspector determines the type. This is important for 'range'
+			// controls like 'numberOfStaff' which always return 'string'. The
+			// alternative is to use Object.defineProperty to create a
+			// 'numberOfStaff' setter that converts the value to a 'number'
 
 			form: {
 				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {

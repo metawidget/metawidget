@@ -504,9 +504,6 @@
 				widget.setAttribute( 'ng-click', binding + '()' );
 			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
-				// TODO: in Address Book, when PropertyTypeInspector comes
-				// second, messes up slider?
-
 				// Special support for multi-selects and radio buttons
 
 				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
