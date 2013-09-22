@@ -19,7 +19,7 @@ package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 import org.jdesktop.beansbinding.Converter;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 class BooleanConverter

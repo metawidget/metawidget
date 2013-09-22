@@ -21,6 +21,8 @@
  * different ways (eg. <code>HtmlDivLayoutRenderer</code> and <code>HtmlTableLayoutRenderer</code>).
  * However in some cases we want to take advantage of Layout controls within third-party component
  * libraries.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.faces.component.layout;

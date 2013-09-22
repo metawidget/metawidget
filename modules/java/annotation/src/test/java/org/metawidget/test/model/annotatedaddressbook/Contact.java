@@ -31,7 +31,7 @@ import org.metawidget.util.simple.ObjectUtils;
 /**
  * Simluation of Address Book.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class Contact

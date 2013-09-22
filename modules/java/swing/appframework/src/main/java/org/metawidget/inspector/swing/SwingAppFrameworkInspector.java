@@ -27,7 +27,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Inspects annotations defined by Swing AppFramework.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingAppFrameworkInspector

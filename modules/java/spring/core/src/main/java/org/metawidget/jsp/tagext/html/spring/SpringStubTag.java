@@ -21,7 +21,7 @@ import org.metawidget.jsp.tagext.StubTag;
 /**
  * Stub for Spring environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SpringStubTag

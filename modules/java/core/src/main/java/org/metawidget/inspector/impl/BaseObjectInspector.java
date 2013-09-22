@@ -63,7 +63,7 @@ import org.w3c.dom.Element;
  * traversal (eg. <code>StaticPropertyStyle</code>)</li>
  * </ol>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BaseObjectInspector

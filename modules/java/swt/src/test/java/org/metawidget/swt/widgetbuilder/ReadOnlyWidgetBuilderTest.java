@@ -31,7 +31,7 @@ import org.metawidget.swt.SwtMetawidgetTests;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyWidgetBuilderTest

@@ -17,7 +17,7 @@
 /**
  * GWT support: Generator-based property binding (client-side).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.gwt.client.widgetprocessor.binding.simple;

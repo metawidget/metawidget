@@ -29,7 +29,7 @@ import org.metawidget.iface.MetawidgetException;
  * <p>
  * These are just some fringe-case tests. Most of the testing is done by WebTest.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StubTagTest

@@ -25,7 +25,7 @@ import javax.swing.JLabel;
  * <p>
  * This class is <code>public</code> for binding implementations such as BeansBinding.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LookupLabel

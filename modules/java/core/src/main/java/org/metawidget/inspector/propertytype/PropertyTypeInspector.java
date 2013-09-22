@@ -40,7 +40,7 @@ import org.metawidget.util.CollectionUtils;
  * will want to refine this by using, say, <code>UiComesAfter</code> and
  * MetawidgetAnnotationInspector.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PropertyTypeInspector

@@ -24,7 +24,7 @@ import javax.faces.render.Renderer;
  * Stubs render nothing at all, unless they have child components in which case the children are
  * rendered 'as is' with no further decoration (eg. no &lt;div&gt; tags or &lt;span&gt; tags).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StubRenderer

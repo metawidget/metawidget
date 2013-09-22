@@ -22,7 +22,7 @@ import org.metawidget.inspector.impl.Trait;
  * Interface over getter/setter-based, field-based, or Groovy-based properties, so that
  * <code>Inspectors</code> can treat them all the same.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface Property

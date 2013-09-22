@@ -27,7 +27,7 @@ import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.impl.propertystyle.Property;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ScalaPropertyStyleTest

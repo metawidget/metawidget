@@ -45,7 +45,7 @@ import org.metawidget.util.simple.StringUtils;
  * Unfortunately, it does not also copy any annotations defined on the property to the generated
  * getter and setters. This <code>PropertyStyle</code> is designed to access those annotations.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GroovyPropertyStyle

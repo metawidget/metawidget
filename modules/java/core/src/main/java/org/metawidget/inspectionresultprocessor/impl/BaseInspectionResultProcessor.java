@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 /**
  * Convenience implementation for InspectionResultProcessors.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BaseInspectionResultProcessor<M>

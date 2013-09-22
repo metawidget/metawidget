@@ -26,7 +26,7 @@ import java.util.Map;
  * Because sections are rendered as siblings, <code>FlatSectionLayoutDecorator</code> never creates
  * a sub <code>container</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>

@@ -26,6 +26,10 @@ import org.metawidget.statically.html.StaticHtmlMetawidget;
 import org.metawidget.statically.html.widgetbuilder.HtmlInput;
 import org.metawidget.util.CollectionUtils;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class NameProcessorTest
 	extends TestCase {
 

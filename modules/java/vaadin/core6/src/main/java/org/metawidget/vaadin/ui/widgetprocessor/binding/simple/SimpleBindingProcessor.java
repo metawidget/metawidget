@@ -39,7 +39,7 @@ import com.vaadin.ui.Component;
 /**
  * Simple property binding processor.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleBindingProcessor

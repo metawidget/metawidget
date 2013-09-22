@@ -44,7 +44,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * Creates native SWT <code>Controls</code>, such as <code>Text</code> and <code>Combo</code>, to
  * suit the inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwtWidgetBuilder

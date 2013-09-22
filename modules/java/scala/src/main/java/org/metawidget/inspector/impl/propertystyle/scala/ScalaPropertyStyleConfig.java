@@ -24,7 +24,7 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
  * Configures a ScalaPropertyStyleConfig prior to use. Once instantiated, PropertyStyles are
  * immutable.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ScalaPropertyStyleConfig

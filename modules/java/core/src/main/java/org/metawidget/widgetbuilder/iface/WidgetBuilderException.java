@@ -20,6 +20,8 @@ import org.metawidget.iface.MetawidgetException;
 
 /**
  * Any exception that occurs during widget building.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class WidgetBuilderException

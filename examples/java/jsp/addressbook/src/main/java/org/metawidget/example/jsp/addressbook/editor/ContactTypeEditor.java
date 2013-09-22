@@ -34,7 +34,7 @@ import java.beans.PropertyEditorSupport;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ContactTypeEditor

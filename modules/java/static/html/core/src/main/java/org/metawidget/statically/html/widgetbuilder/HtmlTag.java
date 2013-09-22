@@ -21,7 +21,7 @@ import org.metawidget.statically.BaseStaticXmlWidget;
 /**
  * Models a plain HTML tag.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlTag

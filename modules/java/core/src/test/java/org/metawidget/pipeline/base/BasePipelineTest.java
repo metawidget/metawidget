@@ -43,7 +43,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Document;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class BasePipelineTest

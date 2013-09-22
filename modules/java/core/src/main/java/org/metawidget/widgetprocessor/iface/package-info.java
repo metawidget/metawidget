@@ -21,7 +21,7 @@
  * the root, because some technologies (ie. GWT) are not good at including classes while filtering
  * out subpackages.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.widgetprocessor.iface;

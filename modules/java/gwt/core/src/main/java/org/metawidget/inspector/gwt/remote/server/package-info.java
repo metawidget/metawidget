@@ -17,7 +17,7 @@
 /**
  * Inspectors: GWT remote inspection support (server-side).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.inspector.gwt.remote.server;

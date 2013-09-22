@@ -73,7 +73,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  * the Reference Documentation). This results in slightly more complex code. For a more
  * straightforward example, see <code>org.metawidget.example.swing.addressbook.ContactDialog</code>.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ContactDialog

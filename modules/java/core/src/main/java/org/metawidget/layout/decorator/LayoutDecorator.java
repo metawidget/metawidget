@@ -38,7 +38,7 @@ import org.metawidget.layout.iface.LayoutException;
  * <p>
  * Note: the name Layout<em>Decorator</em> refers to the Decorator design pattern.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class LayoutDecorator<W, C extends W, M extends C>

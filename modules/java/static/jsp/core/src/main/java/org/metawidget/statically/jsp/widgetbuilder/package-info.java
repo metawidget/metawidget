@@ -17,7 +17,7 @@
 /**
  * Static support: Java Server Pages widget builders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.statically.jsp.widgetbuilder;

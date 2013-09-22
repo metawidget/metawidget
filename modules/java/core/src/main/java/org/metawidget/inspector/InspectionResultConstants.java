@@ -32,7 +32,7 @@ package org.metawidget.inspector;
  * However, for those attribute names that have become sufficiently standardized, it is desirable to
  * have a more formalized 'middle ground', if only to avoid typos.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class InspectionResultConstants {

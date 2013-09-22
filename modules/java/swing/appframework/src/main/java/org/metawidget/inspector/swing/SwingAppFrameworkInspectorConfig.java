@@ -27,7 +27,7 @@ import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionSt
  * <code>SwingAppFrameworkInspector</code> differs from most Inspectors in that it defaults to using
  * <code>SwingAppFrameworkActionStyle</code> instead of <code>MetawidgetActionStyle</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingAppFrameworkInspectorConfig

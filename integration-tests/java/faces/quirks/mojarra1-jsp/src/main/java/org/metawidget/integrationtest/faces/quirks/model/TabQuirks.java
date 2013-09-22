@@ -29,7 +29,7 @@ import org.metawidget.inspector.annotation.UiSection;
  *  <li>that UIComponentNestedSectionLayoutDecorator doesn't get confused with identically named tabs</li>
  * </ul>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TabQuirks {

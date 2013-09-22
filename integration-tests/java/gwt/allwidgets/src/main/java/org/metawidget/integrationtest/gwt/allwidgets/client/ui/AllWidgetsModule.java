@@ -42,7 +42,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Panel;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AllWidgetsModule

@@ -38,7 +38,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * href="http://blog.joda.org/2011/08/implementations-of-interfaces-prefixes.html">Stephen
  * Colebourne's blog</a>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class BaseObjectInspectorConfig {

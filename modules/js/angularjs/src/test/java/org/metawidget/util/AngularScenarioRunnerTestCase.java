@@ -25,6 +25,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public abstract class AngularScenarioRunnerTestCase
 	extends TestCase {
 

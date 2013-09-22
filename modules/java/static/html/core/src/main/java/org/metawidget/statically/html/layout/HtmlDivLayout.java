@@ -27,7 +27,7 @@ import org.metawidget.statically.html.widgetbuilder.HtmlDiv;
 /**
  * Layout to arrange widgets using DIVs
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlDivLayout

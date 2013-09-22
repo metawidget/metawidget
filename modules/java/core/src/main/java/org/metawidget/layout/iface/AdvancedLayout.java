@@ -29,7 +29,7 @@ package org.metawidget.layout.iface;
  * <code>WidgetProcessor</code> and the other interfaces in the pipeline, but may still prove
  * useful.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface AdvancedLayout<W, C extends W, M extends C>

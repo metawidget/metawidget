@@ -22,6 +22,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.integrationtest.statically.html.FreemarkerQuirks;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class StaticHtmlQuirksTest
 	extends TestCase {
 

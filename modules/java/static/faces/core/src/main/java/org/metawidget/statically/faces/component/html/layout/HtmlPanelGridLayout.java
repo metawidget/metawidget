@@ -36,7 +36,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Layout to arrange widgets using a panelGrid.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlPanelGridLayout

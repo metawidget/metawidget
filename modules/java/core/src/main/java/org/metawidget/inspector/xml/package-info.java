@@ -17,7 +17,7 @@
 /**
  * Inspectors: inspection-result-1.0.xsd support.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.inspector.xml;

@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.HasName;
  * that Facets are simply 'decorations' (such as button bars) to be recognized and arranged at the
  * discretion of the Layout.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Stub

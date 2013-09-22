@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import android.util.AttributeSet;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AndroidMetawidgetTests {

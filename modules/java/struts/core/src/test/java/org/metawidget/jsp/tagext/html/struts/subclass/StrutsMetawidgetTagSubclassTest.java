@@ -20,6 +20,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class StrutsMetawidgetTagSubclassTest
 	extends TestCase {
 

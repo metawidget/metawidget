@@ -20,6 +20,10 @@ import org.metawidget.integrationtest.android.allwidgets.AllWidgetsActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class AllWidgetsActivityTest
 	extends ActivityInstrumentationTestCase2<AllWidgetsActivity> {
 

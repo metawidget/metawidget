@@ -17,7 +17,7 @@
 /**
  * Struts support: widget builders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.jsp.tagext.html.widgetbuilder.struts;

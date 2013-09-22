@@ -26,7 +26,7 @@ import java.lang.annotation.Annotation;
  * This is essentially <code>java.lang.reflect.AnnotatedElement</code>, but simplified with fewer
  * methods.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface Trait {

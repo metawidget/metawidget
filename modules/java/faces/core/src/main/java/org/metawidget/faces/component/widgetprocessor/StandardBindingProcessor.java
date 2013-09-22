@@ -38,7 +38,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 /**
  * WidgetProcessor to add standard JSF value and action bindings to a UIComponent.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

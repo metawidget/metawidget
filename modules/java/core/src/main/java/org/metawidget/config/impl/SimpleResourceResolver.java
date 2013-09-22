@@ -36,7 +36,7 @@ import org.metawidget.inspector.iface.InspectorException;
  * <code>ResourceResolver</code>s (in cases where the <code>xxxConfig</code> is not created using
  * <code>ConfigReader</code>).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleResourceResolver

@@ -19,7 +19,7 @@ package org.metawidget.statically.faces.component.html.widgetbuilder.richfaces;
 import org.metawidget.statically.faces.component.EditableValueHolder;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlCalendar

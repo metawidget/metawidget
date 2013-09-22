@@ -27,7 +27,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.LayoutUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class JspNestedSectionLayoutDecorator

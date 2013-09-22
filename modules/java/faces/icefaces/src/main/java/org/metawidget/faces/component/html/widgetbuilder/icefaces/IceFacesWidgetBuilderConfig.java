@@ -22,7 +22,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * Configures an IceFacesWidgetBuilder prior to use. Once instantiated, WidgetBuilders are
  * immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class IceFacesWidgetBuilderConfig {

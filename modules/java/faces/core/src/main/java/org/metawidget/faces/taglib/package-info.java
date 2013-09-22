@@ -17,7 +17,7 @@
 /**
  * Java Server Faces support: base JSP tags.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.faces.taglib;

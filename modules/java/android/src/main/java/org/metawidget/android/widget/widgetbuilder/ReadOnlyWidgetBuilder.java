@@ -36,7 +36,7 @@ import android.widget.TextView;
 /**
  * WidgetBuilder for read-only widgets in Android environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyWidgetBuilder

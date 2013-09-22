@@ -30,7 +30,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * <p>
  * Locates overridden widgets based on <code>StubTag</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class OverriddenWidgetBuilder

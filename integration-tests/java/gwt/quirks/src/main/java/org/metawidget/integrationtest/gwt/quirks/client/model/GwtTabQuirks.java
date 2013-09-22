@@ -21,6 +21,10 @@ import java.io.Serializable;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class GwtTabQuirks
 	implements Serializable {
 

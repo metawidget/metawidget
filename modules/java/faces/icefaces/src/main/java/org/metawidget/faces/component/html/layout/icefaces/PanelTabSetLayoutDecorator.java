@@ -39,7 +39,7 @@ import com.icesoft.faces.component.paneltabset.PanelTabSet;
 /**
  * Layout to decorate widgets from different sections using an ICEfaces PanelTabSet.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PanelTabSetLayoutDecorator

@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.ListBox;
  * <code>org.w3c.dom</code>) or they are free encumberances (eg. <code>java.util.regex</code>) that
  * GWT doesn't support.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class GwtUtils {

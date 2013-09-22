@@ -22,7 +22,7 @@ import java.util.Map;
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
  * sections, rendering multi-level sections (ie. section="foo,bar") as nested components.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>

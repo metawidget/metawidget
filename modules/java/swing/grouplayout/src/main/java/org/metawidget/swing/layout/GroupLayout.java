@@ -44,7 +44,7 @@ import org.metawidget.util.simple.StringUtils;
  * <p>
  * Widgets are arranged in a table, with one column for labels and another for the widget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GroupLayout

@@ -42,7 +42,7 @@ import com.jgoodies.validation.view.ValidationComponentUtils;
  * methods. Clients are expected to extend this class and override <code>getValidator</code> to
  * integrate their own validators.
  *
- * @author Richard Kennard, Stefan Ackermann
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>, Stefan Ackermann
  */
 
 public class JGoodiesValidatorProcessor

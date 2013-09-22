@@ -21,6 +21,8 @@ package org.metawidget.statically.javacode;
  * <p>
  * Statements will always be terminated by a semicolon. Their children will always be indented and
  * wrapped in braces.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JavaStatement

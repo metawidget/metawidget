@@ -58,7 +58,7 @@ import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBinding
 import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingAllWidgetsTest

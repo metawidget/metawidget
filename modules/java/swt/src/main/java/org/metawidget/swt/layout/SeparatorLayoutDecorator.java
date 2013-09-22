@@ -32,7 +32,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Layout to decorate widgets from different sections using a JSeparator.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SeparatorLayoutDecorator

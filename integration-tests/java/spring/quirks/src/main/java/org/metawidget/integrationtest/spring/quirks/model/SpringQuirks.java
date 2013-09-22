@@ -21,7 +21,7 @@ import org.metawidget.inspector.spring.UiSpringLookup;
 /**
  * Models an entity that tests some Spring-specific quirks.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SpringQuirks {

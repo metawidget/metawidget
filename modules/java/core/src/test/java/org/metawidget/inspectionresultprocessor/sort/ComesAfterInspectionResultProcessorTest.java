@@ -22,7 +22,7 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorE
 import org.metawidget.util.XmlUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ComesAfterInspectionResultProcessorTest

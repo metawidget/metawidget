@@ -31,7 +31,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 /**
  * WidgetProcessor that sets the <code>immediate</code> attribute.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ImmediateAttributeProcessor

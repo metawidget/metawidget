@@ -32,7 +32,7 @@ import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingPr
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingMetawidgetIntegrationTest

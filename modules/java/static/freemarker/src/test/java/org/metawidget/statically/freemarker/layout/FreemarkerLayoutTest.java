@@ -28,6 +28,10 @@ import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class FreemarkerLayoutTest
 	extends TestCase {
 

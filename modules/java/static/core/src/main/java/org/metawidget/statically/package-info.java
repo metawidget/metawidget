@@ -16,6 +16,8 @@
 
 /**
  * <strong>Static support.</strong>
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.statically;

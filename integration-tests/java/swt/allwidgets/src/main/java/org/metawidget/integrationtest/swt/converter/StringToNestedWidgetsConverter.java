@@ -21,7 +21,7 @@ import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedW
 import org.metawidget.util.ArrayUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StringToNestedWidgetsConverter

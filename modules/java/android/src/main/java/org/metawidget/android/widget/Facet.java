@@ -30,7 +30,7 @@ import android.widget.LinearLayout;
  * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
  * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Facet

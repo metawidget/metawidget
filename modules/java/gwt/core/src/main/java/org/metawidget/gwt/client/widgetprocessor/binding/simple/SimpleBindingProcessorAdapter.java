@@ -23,7 +23,7 @@ package org.metawidget.gwt.client.widgetprocessor.binding.simple;
  * <code>SimpleBindingProcessorAdapter</code>. The supplied
  * <code>SimpleBindingProcessorAdapterGenerator</code> automates the creation of adapters.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface SimpleBindingProcessorAdapter<T> {

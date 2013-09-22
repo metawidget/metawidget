@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
  * <p>
  * Consider using in conjunction with <code>JsonTypeMappingProcessor</code>.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JsonSchemaMappingProcessor<M>

@@ -53,7 +53,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * method when a <code>Button</code> is pressed. For that, see
  * <code>ReflectionBindingProcessor</code> and <code>MetawidgetActionStyle</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class DataBindingProcessor

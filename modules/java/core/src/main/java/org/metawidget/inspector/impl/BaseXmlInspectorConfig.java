@@ -29,7 +29,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * <p>
  * Handles specifying XML file input.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 // Note: we considered the approach from this blog post...

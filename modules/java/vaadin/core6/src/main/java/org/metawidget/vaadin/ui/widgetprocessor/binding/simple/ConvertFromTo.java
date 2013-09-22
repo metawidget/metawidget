@@ -18,6 +18,10 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding.simple;
 
 import org.metawidget.util.simple.ObjectUtils;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 /* package private */class ConvertFromTo {
 
 	//

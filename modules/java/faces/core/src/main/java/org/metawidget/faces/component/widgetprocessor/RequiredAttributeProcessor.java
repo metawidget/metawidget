@@ -35,7 +35,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * Seam's <code>s:validateAll</code> handles the validation process using Hibernate Validator and
  * does not work if the standard JSF validators are defined.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class RequiredAttributeProcessor

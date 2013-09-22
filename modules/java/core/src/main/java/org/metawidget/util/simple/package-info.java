@@ -20,7 +20,7 @@
  * In this context, 'simple' means 'with minimal class dependencies, suitable to be compiled into
  * JavaScript' (eg. for GWT).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.util.simple;

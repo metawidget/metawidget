@@ -26,7 +26,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * <code>TypeMappingInspectionResultProcessor</code> to map types from XML Schemas to Java types.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class XmlSchemaToJavaTypeMappingProcessor<M>

@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * WidgetBuilder for read-only widgets in GWT environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyWidgetBuilder

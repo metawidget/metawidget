@@ -37,7 +37,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ImagePanel

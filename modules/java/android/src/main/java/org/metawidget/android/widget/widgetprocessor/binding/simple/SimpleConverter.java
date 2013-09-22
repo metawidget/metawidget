@@ -22,7 +22,7 @@ import android.widget.CheckBox;
 /**
  * Built-in Converter to convert primitive types.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleConverter

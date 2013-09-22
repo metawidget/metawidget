@@ -34,6 +34,10 @@ import java.util.Date;
 
 import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class DateConverter
 	implements Converter<Date, String> {
 

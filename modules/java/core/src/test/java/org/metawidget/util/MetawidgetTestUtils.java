@@ -41,7 +41,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Utilities for running unit tests.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class MetawidgetTestUtils {

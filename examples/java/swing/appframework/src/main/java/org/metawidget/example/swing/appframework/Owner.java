@@ -30,7 +30,7 @@
 package org.metawidget.example.swing.appframework;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Owner {

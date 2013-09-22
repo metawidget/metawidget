@@ -23,7 +23,7 @@ import org.metawidget.jsp.tagext.MetawidgetTag;
 /**
  * Base Metawidget for JSP environments that output HTML.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BaseHtmlMetawidgetTag

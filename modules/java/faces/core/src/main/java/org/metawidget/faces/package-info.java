@@ -17,7 +17,7 @@
 /**
  * <strong>Java Server Faces support.</strong>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.faces;

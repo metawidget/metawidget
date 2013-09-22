@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Configures a FlexTableLayout prior to use. Once instantiated, Layouts are immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LabelLayoutDecoratorConfig

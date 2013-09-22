@@ -17,7 +17,7 @@
 /**
  * Inspection Result Processors: type mapping support.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.inspectionresultprocessor.type;

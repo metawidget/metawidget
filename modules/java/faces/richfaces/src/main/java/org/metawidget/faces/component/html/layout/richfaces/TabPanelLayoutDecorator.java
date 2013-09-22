@@ -40,7 +40,7 @@ import org.richfaces.component.html.HtmlTabPanel;
 /**
  * Layout to decorate widgets from different sections using a RichFaces TabPanel.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TabPanelLayoutDecorator

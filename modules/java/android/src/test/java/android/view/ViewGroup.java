@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 /**
  * Dummy implementation for unit testing.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ViewGroup

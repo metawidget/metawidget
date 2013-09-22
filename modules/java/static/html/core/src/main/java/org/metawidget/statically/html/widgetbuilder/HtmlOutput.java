@@ -19,6 +19,8 @@ package org.metawidget.statically.html.widgetbuilder;
 /**
  * Creates an &lt;output&gt; tag. Output tags are only available in HTML 5,
  * but earlier versions of HTML should degrade to a &lt;div&gt;.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlOutput

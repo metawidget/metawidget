@@ -17,7 +17,7 @@
 /**
  * Java Server Faces support: RichFaces layouts.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.faces.component.html.layout.richfaces;

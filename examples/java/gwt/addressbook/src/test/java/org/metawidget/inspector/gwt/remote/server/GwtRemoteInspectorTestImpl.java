@@ -36,7 +36,7 @@ package org.metawidget.inspector.gwt.remote.server;
  * This code can be removed once GWT's &lt;servlet&gt; module element supports &lt;init-param&gt;
  * (see http://code.google.com/p/google-web-toolkit/issues/detail?id=4079)
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GwtRemoteInspectorTestImpl

@@ -17,7 +17,7 @@
 /**
  * Inspection Result Processors: XML Schema (XSD) to Java support.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.inspectionresultprocessor.xsd;

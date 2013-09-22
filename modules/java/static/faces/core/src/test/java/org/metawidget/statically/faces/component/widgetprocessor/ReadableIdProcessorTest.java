@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlInputText;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadableIdProcessorTest

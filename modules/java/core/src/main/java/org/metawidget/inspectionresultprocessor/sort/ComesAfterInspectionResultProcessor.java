@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
  * <code>comes-after</code> attributes can be added using the <code>UiComesAfter</code> annotation,
  * among other ways.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ComesAfterInspectionResultProcessor<M>

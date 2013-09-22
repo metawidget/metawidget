@@ -35,7 +35,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Models an entity that tests some Faces-specific quirks.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FacesQuirks {

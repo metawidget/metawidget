@@ -16,6 +16,7 @@
 
 /**
  * @namespace Metawidget for pure JavaScript environments.
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 var metawidget = metawidget || {};

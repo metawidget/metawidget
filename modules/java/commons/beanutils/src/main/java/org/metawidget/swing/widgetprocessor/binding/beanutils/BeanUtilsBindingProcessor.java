@@ -48,7 +48,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * <code>JButton</code> is pressed. For that, see <code>ReflectionBindingProcessor</code> and
  * <code>MetawidgetActionStyle</code> or <code>SwingAppFrameworkActionStyle</code>.
  *
- * @author Richard Kennard, Stefan Ackermann
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>, Stefan Ackermann
  */
 
 public class BeanUtilsBindingProcessor

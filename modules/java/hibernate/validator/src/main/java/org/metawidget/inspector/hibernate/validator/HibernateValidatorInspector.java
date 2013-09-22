@@ -38,7 +38,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Inspects annotations defined by Hibernate Validator.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HibernateValidatorInspector

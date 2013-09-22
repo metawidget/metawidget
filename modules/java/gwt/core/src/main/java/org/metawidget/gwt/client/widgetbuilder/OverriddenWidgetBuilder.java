@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
  * <p>
  * Locates overridden widgets based on their <code>getName</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class OverriddenWidgetBuilder

@@ -23,7 +23,7 @@ import android.view.View;
 /**
  * Convenience implementation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BaseConverter<T>

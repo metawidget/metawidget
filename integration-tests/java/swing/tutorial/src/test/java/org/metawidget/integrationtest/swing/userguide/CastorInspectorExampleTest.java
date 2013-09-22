@@ -31,7 +31,7 @@ import org.metawidget.util.CollectionUtils;
 import org.w3c.dom.Element;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CastorInspectorExampleTest

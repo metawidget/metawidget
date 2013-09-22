@@ -32,7 +32,7 @@ package org.metawidget.inspector.iface;
  * If your <code>Inspector</code> extends <code>BaseObjectInspector</code> or
  * <code>BaseXmlInspector</code>, this optimization is implemented for you.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface DomInspector<E>

@@ -19,7 +19,7 @@ package org.metawidget.integrationtest.gwt.quirks.client.model;
 import java.io.Serializable;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GwtQuirks

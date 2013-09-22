@@ -24,7 +24,7 @@ import org.metawidget.util.simple.StringUtils;
 import android.view.View;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class NestedWidgetsConverter

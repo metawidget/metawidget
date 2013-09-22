@@ -24,7 +24,7 @@ import javax.faces.convert.FacesConverter;
 /**
  * Converts Dates to a String representation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @FacesConverter( forClass = Date.class )

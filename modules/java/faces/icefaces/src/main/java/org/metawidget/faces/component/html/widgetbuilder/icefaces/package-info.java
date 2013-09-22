@@ -17,7 +17,7 @@
 /**
  * Java Server Faces support: ICEfaces widget builders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.faces.component.html.widgetbuilder.icefaces;

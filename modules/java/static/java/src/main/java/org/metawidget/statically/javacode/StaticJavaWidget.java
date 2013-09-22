@@ -21,7 +21,7 @@ import java.util.Set;
 import org.metawidget.statically.StaticWidget;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface StaticJavaWidget

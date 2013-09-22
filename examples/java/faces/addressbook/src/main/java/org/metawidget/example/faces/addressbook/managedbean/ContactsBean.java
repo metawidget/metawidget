@@ -34,7 +34,7 @@ import javax.faces.model.SelectItem;
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ContactsBean

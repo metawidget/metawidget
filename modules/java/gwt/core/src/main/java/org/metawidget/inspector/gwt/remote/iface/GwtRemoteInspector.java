@@ -40,7 +40,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * Serializable as a parameter type is not optimal for GWT. We recommend deriving your own interface
  * with your own business-model-specific base class instead.</strong>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @RemoteServiceRelativePath( "metawidget-inspector" )

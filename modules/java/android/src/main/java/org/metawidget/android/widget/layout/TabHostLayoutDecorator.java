@@ -36,7 +36,7 @@ import android.widget.TabWidget;
 /**
  * Layout to decorate widgets from different sections using a TabHost.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TabHostLayoutDecorator

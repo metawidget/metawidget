@@ -23,7 +23,7 @@ import java.lang.annotation.Annotation;
  * <p>
  * Handles construction, and returning names.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BaseTrait

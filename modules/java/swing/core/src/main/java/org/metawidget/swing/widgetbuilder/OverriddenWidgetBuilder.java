@@ -35,7 +35,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * Locates overridden widgets based on their <code>name</code>. To support overriding nested
  * widgets, this includes names that are paths (eg. <code>foo/bar/baz</code>).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class OverriddenWidgetBuilder

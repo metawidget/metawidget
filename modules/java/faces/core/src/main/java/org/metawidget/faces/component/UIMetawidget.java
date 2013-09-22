@@ -90,7 +90,7 @@ import org.w3c.dom.Element;
  * <p>
  * However by extending <code>UIInput</code>, we enable this useful capability.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

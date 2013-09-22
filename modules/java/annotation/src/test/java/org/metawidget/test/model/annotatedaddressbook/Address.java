@@ -23,7 +23,7 @@ import org.metawidget.inspector.annotation.UiLookup;
 /**
  * Simulation of Address Book.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Address {

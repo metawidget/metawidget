@@ -34,7 +34,7 @@ import org.richfaces.component.html.HtmlPanel;
 /**
  * Layout to decorate widgets from different sections using a RichFaces Panel.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PanelLayoutDecorator

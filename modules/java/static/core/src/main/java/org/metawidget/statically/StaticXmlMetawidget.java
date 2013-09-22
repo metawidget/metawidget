@@ -26,7 +26,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Base Metawidget for static code generation in XML environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class StaticXmlMetawidget

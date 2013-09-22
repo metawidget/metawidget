@@ -31,7 +31,7 @@ import android.view.View;
 import android.widget.ScrollView;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AllWidgetsActivity

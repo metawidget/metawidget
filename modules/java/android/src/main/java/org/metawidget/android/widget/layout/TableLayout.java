@@ -28,7 +28,7 @@ import android.widget.TextView;
 /**
  * Layout to arrange widgets in a table, with one column for labels and another for the widget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TableLayout

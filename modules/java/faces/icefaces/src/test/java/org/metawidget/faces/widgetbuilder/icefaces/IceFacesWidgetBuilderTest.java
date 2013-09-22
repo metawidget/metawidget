@@ -48,7 +48,7 @@ import com.icesoft.faces.component.ext.HtmlSelectOneMenu;
 import com.icesoft.faces.component.selectinputdate.SelectInputDate;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class IceFacesWidgetBuilderTest

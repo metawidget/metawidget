@@ -37,7 +37,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * Creates native Tomahawk UIComponents, such as <code>HtmlInputFileUpload</code>, to suit the
  * inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TomahawkWidgetBuilder

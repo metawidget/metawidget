@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
 import com.google.gson.JsonObject;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JsonSchemaInspectorTest

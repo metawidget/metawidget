@@ -29,7 +29,7 @@ import org.metawidget.swt.SwtMetawidget;
  * <p>
  * This is like <code>RowLayout</code>, except it fills width. It can be useful for Table Editors.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FillLayout

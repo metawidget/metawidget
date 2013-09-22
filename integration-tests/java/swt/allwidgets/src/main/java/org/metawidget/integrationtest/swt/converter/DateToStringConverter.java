@@ -23,7 +23,7 @@ import java.util.Date;
 import org.eclipse.core.databinding.conversion.Converter;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class DateToStringConverter

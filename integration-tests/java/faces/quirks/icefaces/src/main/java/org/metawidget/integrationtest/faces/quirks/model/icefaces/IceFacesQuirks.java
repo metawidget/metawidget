@@ -25,7 +25,7 @@ import org.metawidget.inspector.annotation.UiSection;
 /**
  * Models an entity that tests some ICEfaces-specific quirks.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class IceFacesQuirks {

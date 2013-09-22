@@ -21,7 +21,7 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ArrayUtilsTest

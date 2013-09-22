@@ -65,7 +65,7 @@ import com.google.gwt.xml.client.Element;
  * including inspecting annotations and server-side configuration files (such as
  * <code>hibernate.cfg.xml</code>).
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GwtMetawidget

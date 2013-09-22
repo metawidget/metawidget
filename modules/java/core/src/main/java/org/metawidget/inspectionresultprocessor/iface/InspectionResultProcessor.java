@@ -35,7 +35,7 @@ import org.metawidget.iface.Immutable;
  *
  * @param <M>
  *            Metawidget that supports this InspectionResultProcessor
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface InspectionResultProcessor<M>

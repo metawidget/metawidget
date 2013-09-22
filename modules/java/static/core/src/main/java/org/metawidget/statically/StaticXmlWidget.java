@@ -19,7 +19,7 @@ package org.metawidget.statically;
 import java.util.Map;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface StaticXmlWidget

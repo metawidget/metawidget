@@ -32,7 +32,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * is used during validation errors and conversion errors (even if the <code>UIComponent</code> does
  * not explicitly have a converter).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LabelProcessor

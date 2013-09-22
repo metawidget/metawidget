@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 /**
  * Inspector to look for metadata in validation.xml files.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CommonsValidatorInspector

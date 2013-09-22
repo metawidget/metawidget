@@ -43,7 +43,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLabel;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PersonalContactForm

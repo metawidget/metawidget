@@ -47,7 +47,7 @@ import org.primefaces.component.slider.Slider;
 import org.primefaces.component.spinner.Spinner;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PrimeFacesWidgetBuilderTest

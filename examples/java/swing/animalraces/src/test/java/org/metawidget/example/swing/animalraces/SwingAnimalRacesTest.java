@@ -46,7 +46,7 @@ import net.miginfocom.swing.MigLayout;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingAnimalRacesTest

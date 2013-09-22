@@ -34,7 +34,7 @@ import org.metawidget.example.shared.addressbook.model.Gender;
 /**
  * Converts Gender to/from a String representation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GenderConverter

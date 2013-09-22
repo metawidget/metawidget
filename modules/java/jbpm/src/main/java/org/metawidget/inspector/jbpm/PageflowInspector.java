@@ -32,7 +32,7 @@ import org.w3c.dom.NodeList;
 /**
  * Inspector to look for relevant settings in JBoss jBPM pageflow jPDL files.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PageflowInspector

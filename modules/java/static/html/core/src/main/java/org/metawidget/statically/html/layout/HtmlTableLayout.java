@@ -36,7 +36,7 @@ import org.metawidget.util.WidgetBuilderUtils;
 /**
  * Layout to arrange widgets using an HTML table.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  * @author Ryan Bradley
  */
 

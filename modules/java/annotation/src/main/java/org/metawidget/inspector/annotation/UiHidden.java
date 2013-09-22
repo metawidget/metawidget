@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Annotates the field should be hidden in the UI.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

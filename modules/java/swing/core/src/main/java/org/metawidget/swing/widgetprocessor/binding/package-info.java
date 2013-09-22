@@ -17,7 +17,7 @@
 /**
  * Swing support: binding.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.swing.widgetprocessor.binding;

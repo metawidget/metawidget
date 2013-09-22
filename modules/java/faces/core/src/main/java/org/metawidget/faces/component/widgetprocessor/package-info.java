@@ -16,6 +16,8 @@
 
 /**
  * Java Server Faces support: standard widget processors.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.faces.component.widgetprocessor;

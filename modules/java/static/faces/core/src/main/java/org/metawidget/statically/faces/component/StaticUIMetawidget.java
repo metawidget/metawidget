@@ -26,7 +26,7 @@ import org.metawidget.statically.faces.StaticFacesUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class StaticUIMetawidget

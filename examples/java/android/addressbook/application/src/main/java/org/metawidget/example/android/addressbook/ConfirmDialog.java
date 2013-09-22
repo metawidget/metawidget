@@ -37,7 +37,7 @@ import android.content.DialogInterface;
 /**
  * Convenience class for Yes/No confirmations.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ConfirmDialog

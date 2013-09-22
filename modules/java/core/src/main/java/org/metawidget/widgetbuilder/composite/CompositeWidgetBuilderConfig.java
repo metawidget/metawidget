@@ -23,7 +23,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * Configures a CompositeWidgetBuilder prior to use. Once instantiated, WidgetBuilders are
  * immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CompositeWidgetBuilderConfig<W, M extends W> {

@@ -27,7 +27,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Converts Collections to a String representation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CollectionConverter

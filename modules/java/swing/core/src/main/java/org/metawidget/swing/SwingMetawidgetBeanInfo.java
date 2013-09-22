@@ -24,7 +24,7 @@ import java.beans.SimpleBeanInfo;
 /**
  * BeanInfo for SwingMetawidget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingMetawidgetBeanInfo

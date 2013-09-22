@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * coupling between <code>&lt;component&gt;</code> and <code>&lt;render-kit&gt;</code> - as defined
  * in <code>faces-config.xml</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

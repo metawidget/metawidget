@@ -21,7 +21,7 @@ import org.metawidget.statically.BaseStaticXmlWidget;
 /**
  * Widgets within the JSF ui: namespace.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class FaceletsWidget

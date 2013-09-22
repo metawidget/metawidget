@@ -29,7 +29,7 @@ import javax.faces.context.FacesContext;
 /**
  * Utilities for working with Java Server Faces.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class FacesUtils {

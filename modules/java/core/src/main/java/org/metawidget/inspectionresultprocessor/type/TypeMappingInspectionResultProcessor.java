@@ -29,7 +29,7 @@ import org.metawidget.util.CollectionUtils;
  * Can be configured to map, say, <code>type="string"</code> to <code>type="java.lang.String"</code>
  * . Consider using one of its pre-configured subclasses for common use cases.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TypeMappingInspectionResultProcessor<M>

@@ -20,6 +20,10 @@ import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedW
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.vaadin.ui.widgetprocessor.binding.simple.Converter;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class NestedWidgetsConverter
 	implements Converter<String,NestedWidgets> {
 

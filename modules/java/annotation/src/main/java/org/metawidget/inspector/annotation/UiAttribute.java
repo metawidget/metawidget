@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * This annotation can be used when no other Inspector is available for the given attribute, and as
  * an alternative to using XmlInspector.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

@@ -18,6 +18,10 @@ package org.metawidget.statically;
 
 import junit.framework.TestCase;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class BaseStaticXmlWidgetTest
 	extends TestCase {
 

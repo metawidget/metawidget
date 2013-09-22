@@ -19,7 +19,7 @@ package org.metawidget.util.simple;
 /**
  * Utilities for working with Objects.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class ObjectUtils {

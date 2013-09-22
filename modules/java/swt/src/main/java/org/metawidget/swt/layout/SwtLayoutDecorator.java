@@ -34,7 +34,7 @@ import org.metawidget.swt.SwtMetawidget;
  * that allows them to examine the attributes and decide on a suitable Composite before
  * <code>buildWidget</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface SwtLayoutDecorator {

@@ -32,7 +32,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * <strong>LiteralTag is an internal tag for use by WidgetBuilders, WidgetProcessors and Layouts. It
  * is not available in any TLD.</strong>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LiteralTag

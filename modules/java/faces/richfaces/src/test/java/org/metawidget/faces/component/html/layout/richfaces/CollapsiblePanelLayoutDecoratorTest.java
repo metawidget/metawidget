@@ -37,7 +37,7 @@ import org.richfaces.component.SwitchType;
 import org.richfaces.component.UICollapsiblePanel;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CollapsiblePanelLayoutDecoratorTest

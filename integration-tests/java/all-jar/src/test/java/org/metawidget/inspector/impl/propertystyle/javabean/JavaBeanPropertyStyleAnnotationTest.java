@@ -36,7 +36,7 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.impl.propertystyle.Property;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JavaBeanPropertyStyleAnnotationTest

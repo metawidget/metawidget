@@ -27,7 +27,7 @@ import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets.NestedW
 import org.metawidget.integrationtest.struts.allwidgets.converter.NestedWidgetsConverter;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AllWidgetsPlugIn

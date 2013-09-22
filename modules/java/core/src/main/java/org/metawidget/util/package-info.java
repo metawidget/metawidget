@@ -21,7 +21,7 @@
  * considered private to the org.metawidget namespace, not part of the Metawidget public
  * API.</strong>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.util;

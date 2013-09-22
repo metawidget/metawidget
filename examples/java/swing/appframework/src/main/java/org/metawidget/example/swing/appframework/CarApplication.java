@@ -49,7 +49,7 @@ import org.metawidget.swing.layout.FlowLayout;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CarApplication

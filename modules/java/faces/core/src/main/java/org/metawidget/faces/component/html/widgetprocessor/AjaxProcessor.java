@@ -45,7 +45,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * 2 specification: "The following additional tags [f:ajax] apply to the Facelet Core Tag Library
  * <em>only</em>".
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AjaxProcessor

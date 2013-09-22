@@ -18,6 +18,10 @@ package org.metawidget.integrationtest.js.angular;
 
 import org.metawidget.util.AngularScenarioRunnerTestCase;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class RestAngularTest
 	extends AngularScenarioRunnerTestCase {
 

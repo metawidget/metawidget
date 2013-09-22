@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 /**
  * Inspector to look for metadata in struts-config.xml files.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StrutsInspector

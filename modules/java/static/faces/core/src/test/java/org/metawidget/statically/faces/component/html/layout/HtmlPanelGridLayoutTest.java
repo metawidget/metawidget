@@ -29,6 +29,10 @@ import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputTe
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class HtmlPanelGridLayoutTest
 	extends TestCase {
 

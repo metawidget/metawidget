@@ -40,7 +40,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingWidgetBuilderTest

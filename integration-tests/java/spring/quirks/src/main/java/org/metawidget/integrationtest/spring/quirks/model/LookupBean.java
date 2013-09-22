@@ -21,7 +21,7 @@ import java.util.List;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LookupBean {

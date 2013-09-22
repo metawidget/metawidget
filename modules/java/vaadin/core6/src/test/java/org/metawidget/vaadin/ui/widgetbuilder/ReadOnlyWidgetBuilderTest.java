@@ -30,7 +30,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyWidgetBuilderTest

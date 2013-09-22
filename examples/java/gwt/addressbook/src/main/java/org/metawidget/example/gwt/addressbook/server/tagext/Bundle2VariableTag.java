@@ -49,7 +49,7 @@ import org.metawidget.util.CollectionUtils;
  * <code>Dictionary</code> mechanism by using <code>GwtMetawidget.setDictionaryName</code>, thus
  * reducing unnecessary duplication.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Bundle2VariableTag

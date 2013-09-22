@@ -40,7 +40,7 @@ import javax.faces.convert.Converter;
  * href="https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=470">may need
  * fixing</a>, converts to String via <code>.name()</code>, which is far more reliable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class EnumConverter<T extends Enum<T>>

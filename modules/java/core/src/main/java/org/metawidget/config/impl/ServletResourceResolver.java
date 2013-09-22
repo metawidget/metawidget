@@ -30,7 +30,7 @@ import org.metawidget.inspector.iface.InspectorException;
  * <code>org.metawidget.jsp</code>, because needs to be shared by various Web-based frameworks
  * including GWT.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ServletResourceResolver

@@ -81,7 +81,7 @@ import org.metawidget.util.simple.StringUtils;
  * wrap a component in a UIStub and supply your own Validators, and
  * <code>StandardValidatorProcessor</code> will pass over it.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

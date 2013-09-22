@@ -29,7 +29,7 @@ package org.metawidget.inspectionresultprocessor.iface;
  * interface allows them to expose that DOM directly, rather than serializing it to a String,
  * whereupon the Metawidget must typically deserialize it back again.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface DomInspectionResultProcessor<E, M>

@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Additional interface implemented by GWT WidgetBuilders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface GwtValueAccessor {

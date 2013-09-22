@@ -56,7 +56,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * Implements Serializable because some Web containers require session-level values to be
  * Serializable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class Contact

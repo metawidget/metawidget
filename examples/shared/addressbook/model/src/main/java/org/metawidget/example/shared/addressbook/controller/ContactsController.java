@@ -50,7 +50,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * This controller crudely simulates a database for the purposes of the example application.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ContactsController {

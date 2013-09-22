@@ -20,6 +20,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.swing.SwingMetawidget;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class SwingMetawidgetSubclassTest
 	extends TestCase {
 

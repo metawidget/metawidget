@@ -30,7 +30,7 @@ import java.io.InputStream;
  * Note: this class is not located under <code>org.metawidget.iface</code>, because GWT does not
  * like <code>java.io.InputStream</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface ResourceResolver {

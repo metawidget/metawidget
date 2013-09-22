@@ -27,7 +27,7 @@ import java.util.Date;
  * <p>
  * The fields all have default values to test data binding.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AllWidgets

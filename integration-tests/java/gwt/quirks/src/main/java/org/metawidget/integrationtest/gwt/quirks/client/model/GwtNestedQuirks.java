@@ -21,7 +21,7 @@ import java.io.Serializable;
 import org.metawidget.inspector.annotation.UiAction;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GwtNestedQuirks

@@ -17,7 +17,7 @@
 /**
  * Inspectors: convenience implementations.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.inspector.impl;

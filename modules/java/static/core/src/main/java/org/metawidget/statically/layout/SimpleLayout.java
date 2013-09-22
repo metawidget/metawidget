@@ -24,7 +24,7 @@ import org.metawidget.statically.StaticWidget;
 import org.metawidget.statically.StaticXmlStub;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleLayout

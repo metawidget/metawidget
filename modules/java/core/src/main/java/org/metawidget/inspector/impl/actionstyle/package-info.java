@@ -19,7 +19,7 @@
  * <p>
  * Different environments have different approaches to defining what constitutes an 'action'.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.inspector.impl.actionstyle;

@@ -31,7 +31,7 @@ import org.metawidget.swing.SwingMetawidget;
  * This is like <code>FlowLayout</code>, except it fills width. It can be useful for JTable
  * CellEditors.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class BoxLayout

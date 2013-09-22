@@ -42,7 +42,7 @@ import android.content.DialogInterface;
 /**
  * Dialog for editing Communications.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CommunicationDialog

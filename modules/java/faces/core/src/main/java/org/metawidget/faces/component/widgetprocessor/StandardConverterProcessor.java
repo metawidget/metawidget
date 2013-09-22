@@ -47,7 +47,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * includes <code>DateTimeConverter</code> and <code>NumberConverter</code>, and
  * support for the <code>faces-converter</code> attribute.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StandardConverterProcessor

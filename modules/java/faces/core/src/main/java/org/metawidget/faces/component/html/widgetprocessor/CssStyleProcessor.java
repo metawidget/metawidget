@@ -29,7 +29,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * WidgetProcessor that adds CSS styles to a UIComponent, based on the styles of the parent
  * Metawidget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CssStyleProcessor

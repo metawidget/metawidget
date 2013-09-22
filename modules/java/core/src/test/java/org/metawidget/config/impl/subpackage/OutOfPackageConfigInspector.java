@@ -20,7 +20,7 @@ import org.metawidget.config.impl.AllTypesInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class OutOfPackageConfigInspector

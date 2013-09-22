@@ -17,7 +17,7 @@
 /**
  * Pipeline: org.w3c-based pipeline.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.pipeline.w3c;

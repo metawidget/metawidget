@@ -17,7 +17,7 @@
 /**
  * Java Server Faces support: RichFaces-specific widget processors.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.faces.component.html.widgetprocessor.richfaces;

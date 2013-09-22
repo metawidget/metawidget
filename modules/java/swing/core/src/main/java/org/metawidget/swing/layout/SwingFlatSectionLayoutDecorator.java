@@ -32,7 +32,7 @@ import org.metawidget.util.LayoutUtils;
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
  * sections within Swing Layouts.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class SwingFlatSectionLayoutDecorator

@@ -21,7 +21,7 @@ import android.view.View;
 /**
  * Additional interface implemented by Android WidgetBuilders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface AndroidValueAccessor {

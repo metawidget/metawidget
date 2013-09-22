@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AllTypesInspectorConfig {

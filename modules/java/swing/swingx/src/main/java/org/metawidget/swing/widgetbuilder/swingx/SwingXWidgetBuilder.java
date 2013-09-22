@@ -37,7 +37,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * For more details on SwingX see <a
  * href="https://swingx.dev.java.net">https://swingx.dev.java.net</a>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingXWidgetBuilder

@@ -65,7 +65,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * integrate GWT (which is bad at ignoring sub-packages such as
  * <code>org.metawidget.pipeline.w3c</code>).
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BasePipeline<W, C extends W, E, M extends C> {

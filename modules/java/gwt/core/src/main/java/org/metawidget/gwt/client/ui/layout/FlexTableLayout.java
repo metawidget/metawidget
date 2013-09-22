@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Layout to arrange widgets in a <code>FlexTable</code>, with one column for labels and another for
  * the widget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FlexTableLayout

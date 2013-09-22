@@ -25,7 +25,7 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleConfig;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class InspectorUtilsTest

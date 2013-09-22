@@ -28,7 +28,7 @@ import org.metawidget.util.ClassUtils;
 /**
  * Metawidget for statically generating Plain Old HTML.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  * @author Ryan Bradley
  */
 

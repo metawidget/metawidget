@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Richard Kennard, Bernhard Huber
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>, Bernhard Huber
  */
 
 public class SimpleLayoutUtilsTest

@@ -19,7 +19,7 @@ package org.metawidget.statically.spring.widgetbuilder;
 /**
  * Static widget for the <form:input> Spring tag
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FormInputTag

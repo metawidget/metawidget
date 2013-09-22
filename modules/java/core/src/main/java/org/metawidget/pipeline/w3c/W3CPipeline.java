@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 /**
  * Pipeline for platforms that support <code>org.w3c.dom</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class W3CPipeline<W, C extends W, M extends C>

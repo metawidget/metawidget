@@ -40,7 +40,7 @@ import org.metawidget.inspector.annotation.UiLookup;
  * <p>
  * Implements Serializable because Web containers require session-level values to be Serializable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Address

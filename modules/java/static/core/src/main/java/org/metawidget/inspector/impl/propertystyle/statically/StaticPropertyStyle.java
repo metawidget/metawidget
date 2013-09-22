@@ -30,7 +30,7 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
  * static scenarios. For example JpaInspector can be used to inspect JPA annotations on classes for
  * either UIMetawidget or StaticUIMetawidget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StaticPropertyStyle

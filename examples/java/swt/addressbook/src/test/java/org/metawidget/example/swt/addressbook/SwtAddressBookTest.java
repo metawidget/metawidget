@@ -65,7 +65,7 @@ import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwtAddressBookTest

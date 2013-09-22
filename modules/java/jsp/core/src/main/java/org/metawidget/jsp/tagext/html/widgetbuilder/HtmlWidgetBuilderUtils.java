@@ -31,7 +31,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Utilities for JSP WidgetBuilders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class HtmlWidgetBuilderUtils {

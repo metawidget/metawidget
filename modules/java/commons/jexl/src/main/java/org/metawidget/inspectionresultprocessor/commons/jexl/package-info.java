@@ -17,7 +17,7 @@
 /**
  * Inspection Result Processors: Commons JEXL support.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.inspectionresultprocessor.commons.jexl;

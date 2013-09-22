@@ -24,7 +24,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * Configures an JsonSchemaMappingProcessor prior to use. Once instantiated,
  * InspectionResultProcessors are immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JsonSchemaMappingProcessorConfig {

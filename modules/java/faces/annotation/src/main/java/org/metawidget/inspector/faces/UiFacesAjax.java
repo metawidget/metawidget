@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Annotates the widget for this field should use AJAX in response to the given event.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

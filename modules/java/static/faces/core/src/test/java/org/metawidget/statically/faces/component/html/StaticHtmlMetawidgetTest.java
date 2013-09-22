@@ -24,6 +24,10 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.statically.faces.component.html.layout.HtmlPanelGrid;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class StaticHtmlMetawidgetTest
 	extends TestCase {
 

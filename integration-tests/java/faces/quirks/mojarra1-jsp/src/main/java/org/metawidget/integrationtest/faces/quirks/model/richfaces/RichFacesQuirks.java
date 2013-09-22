@@ -33,7 +33,7 @@ import org.metawidget.util.CollectionUtils;
  * <p>
  * This mainly for testing <code>RichFacesLayout</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class RichFacesQuirks {

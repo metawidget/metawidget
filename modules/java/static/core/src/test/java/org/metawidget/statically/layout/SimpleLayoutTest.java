@@ -28,6 +28,10 @@ import org.metawidget.statically.StaticXmlStub;
 import org.metawidget.statically.StaticXmlWidget;
 import org.metawidget.util.CollectionUtils;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class SimpleLayoutTest
 	extends TestCase {
 

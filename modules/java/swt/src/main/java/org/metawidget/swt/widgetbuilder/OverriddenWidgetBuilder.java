@@ -35,7 +35,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * Therefore <code>OverriddenWidgetBuilder</code> will not work if used to override
  * <code>Control</code>s that are laid out inside, say, a <code>TabFolderLayoutDecorator</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class OverriddenWidgetBuilder

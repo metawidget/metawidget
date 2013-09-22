@@ -24,7 +24,7 @@ import org.metawidget.inspector.impl.BaseTraitStyleConfig;
 /**
  * Convenience implementation for ActionStyles.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BaseActionStyle

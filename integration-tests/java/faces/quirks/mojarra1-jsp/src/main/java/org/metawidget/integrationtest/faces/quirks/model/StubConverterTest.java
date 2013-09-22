@@ -21,7 +21,7 @@ import org.metawidget.inspector.faces.UiFacesNumberConverter;
 /**
  * Models an entity that tests StandardConverterProcessor applying through Stubs.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StubConverterTest {

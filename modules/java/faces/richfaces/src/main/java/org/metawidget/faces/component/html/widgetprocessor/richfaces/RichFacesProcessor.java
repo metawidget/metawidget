@@ -37,7 +37,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * Adds native RichFaces behaviours, such as <code>HtmlAjaxSupport</code>, to suit the inspected
  * fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class RichFacesProcessor

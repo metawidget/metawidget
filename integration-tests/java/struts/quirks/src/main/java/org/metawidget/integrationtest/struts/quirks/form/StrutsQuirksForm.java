@@ -26,7 +26,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Models an entity that tests some Struts-specific quirks.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StrutsQuirksForm

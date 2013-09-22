@@ -36,7 +36,7 @@ import org.metawidget.faces.FacesUtils;
  * <li><code>after<code></li>
  * </ul>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlSimpleLayoutRenderer

@@ -29,7 +29,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Utilities for working with Classes.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class ClassUtils {

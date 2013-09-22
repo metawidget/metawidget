@@ -39,7 +39,7 @@ import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtilsTest;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ConfigReaderTest

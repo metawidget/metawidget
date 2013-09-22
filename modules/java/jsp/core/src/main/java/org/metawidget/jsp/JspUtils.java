@@ -49,7 +49,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Utilities for working with JSPs.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class JspUtils {

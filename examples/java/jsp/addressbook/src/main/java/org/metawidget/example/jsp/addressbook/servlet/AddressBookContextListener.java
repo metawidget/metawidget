@@ -45,7 +45,7 @@ import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.Gender;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AddressBookContextListener

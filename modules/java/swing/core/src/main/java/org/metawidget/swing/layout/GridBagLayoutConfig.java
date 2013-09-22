@@ -28,7 +28,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Configures a GridBagLayout prior to use. Once instantiated, Layouts are immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GridBagLayoutConfig {

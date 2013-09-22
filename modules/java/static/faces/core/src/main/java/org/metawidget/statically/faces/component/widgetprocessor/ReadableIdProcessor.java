@@ -33,7 +33,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * based off the value expression (or method expression) of the StaticXmlWidget, this
  * WidgetProcessor must come after <code>StandardBindingProcessor</code> (or equivalent).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadableIdProcessor

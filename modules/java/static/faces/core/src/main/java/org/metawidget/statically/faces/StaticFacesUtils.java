@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 /**
  * Utilities for working with Java Server Faces statically.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class StaticFacesUtils {

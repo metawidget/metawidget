@@ -21,7 +21,7 @@ import java.util.Comparator;
 /**
  * Utilities for working with Strings.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class StringUtils {

@@ -22,7 +22,7 @@ import org.metawidget.inspector.annotation.UiLabel;
 /**
  * Models an entity that tests some Faces-specific 'this'.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FacesThisTest {

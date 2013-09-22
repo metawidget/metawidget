@@ -58,7 +58,7 @@ import android.widget.ListView;
  * Note: for brevity, this example is not optimized to reuse the Metawidget. For an example showing
  * reuse, see <code>org.metawidget.example.gwt.addressbook.client.ui.ContactDialog</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ContactActivity

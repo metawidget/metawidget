@@ -19,7 +19,7 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding;
 /**
  * Vaadin support: binding
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface BindingConverter {

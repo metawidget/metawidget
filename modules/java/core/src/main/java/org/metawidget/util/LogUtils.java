@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
  * will prefer Commons Logging, but we don't want to have to ship commons-logging.jar with, say, a
  * Swing applet.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class LogUtils {

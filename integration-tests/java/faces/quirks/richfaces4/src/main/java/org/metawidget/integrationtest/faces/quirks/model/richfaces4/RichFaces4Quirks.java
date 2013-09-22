@@ -37,7 +37,7 @@ import org.metawidget.util.CollectionUtils;
  * Note: this bean is <em>RequestScoped</em>, to test some tricky scenarios about maintaining values
  * upon POST-back.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @ManagedBean( name = "richFacesQuirks" )

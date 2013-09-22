@@ -44,7 +44,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * <p>
  * When used in a JSP 2.0 environment, automatically initializes tags using JSP EL.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyWidgetBuilder

@@ -21,7 +21,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleConverterTest

@@ -42,7 +42,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * Note: because this processor relies on StandardBindingProcessor to configure the hidden field's
  * binding, it must come <em>before</em> StandardBindingProcessor in the list of WidgetProcessors.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HiddenFieldProcessor

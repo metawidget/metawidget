@@ -44,7 +44,7 @@ import org.metawidget.util.CollectionUtils;
  * As well as wrapping Lists of Objects, <code>ListTableModel</code> supports dynamically adding a
  * blank row to the model to accomodate entering new Objects.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ListTableModel<T extends Comparable<T>>

@@ -30,7 +30,7 @@ import com.vaadin.ui.Field;
 /**
  * WidgetProcessor that sets the 'required' property on a Vaadin Field.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class RequiredProcessor

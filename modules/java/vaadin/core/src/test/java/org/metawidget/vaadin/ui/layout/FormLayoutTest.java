@@ -47,7 +47,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FormLayoutTest

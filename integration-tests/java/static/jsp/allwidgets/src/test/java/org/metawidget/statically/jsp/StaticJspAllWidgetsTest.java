@@ -22,6 +22,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class StaticJspAllWidgetsTest
     extends TestCase {
 

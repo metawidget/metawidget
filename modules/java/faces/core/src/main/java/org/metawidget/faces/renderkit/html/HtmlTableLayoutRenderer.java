@@ -75,7 +75,7 @@ import org.metawidget.util.simple.StringUtils;
  * <code>numberOfColumns</code> and <code>columnStyleClasses</code>, but we are trying to follow the
  * <code>javax.faces.component.html.HtmlDataTable</code> convention.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

@@ -58,7 +58,7 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
  * <code>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code> this WidgetBuilder should be used
  * in conjunction with <code>OverriddenWidgetBuilder</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class IceFacesWidgetBuilder

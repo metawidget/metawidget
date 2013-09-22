@@ -44,7 +44,7 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 /**
  * PhaseListener to load a Contact from a Request parameter.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

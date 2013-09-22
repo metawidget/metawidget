@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * <code>Inspectors</code> (XML nodes are inherently ordered), or using
  * <code>JavassistPropertyStyle</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

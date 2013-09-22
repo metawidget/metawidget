@@ -43,7 +43,7 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.util.ArrayUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Penguin {

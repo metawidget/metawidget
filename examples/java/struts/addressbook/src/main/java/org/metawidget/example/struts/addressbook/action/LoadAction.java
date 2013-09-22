@@ -46,7 +46,7 @@ import org.metawidget.example.struts.addressbook.form.ContactForm;
 import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LoadAction

@@ -34,7 +34,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * box. Clients must extend this class and implement <code>getInputVerifier</code> to integrate
  * their own verifiers.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class InputVerifierProcessor

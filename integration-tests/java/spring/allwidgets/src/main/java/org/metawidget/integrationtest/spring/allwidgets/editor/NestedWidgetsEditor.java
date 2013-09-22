@@ -23,7 +23,7 @@ import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class NestedWidgetsEditor

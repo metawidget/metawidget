@@ -19,7 +19,7 @@ package org.metawidget.android.widget.widgetprocessor.binding;
 /**
  * Android support: binding
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface BindingConverter {

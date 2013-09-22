@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
  * particularly bad because its Dalvik preprocessor balks at unsupported classes even if they're
  * wrapped in a <code>ClassNotFoundException</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ValidatingCompositeInspector

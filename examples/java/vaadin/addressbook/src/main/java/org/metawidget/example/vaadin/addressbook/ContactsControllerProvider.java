@@ -32,7 +32,7 @@ package org.metawidget.example.vaadin.addressbook;
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface ContactsControllerProvider {

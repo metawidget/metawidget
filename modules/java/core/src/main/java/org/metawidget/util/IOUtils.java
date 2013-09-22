@@ -26,7 +26,7 @@ import java.nio.channels.WritableByteChannel;
 /**
  * Utilities for working with Java I/O.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class IOUtils {

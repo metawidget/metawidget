@@ -19,6 +19,10 @@ package org.metawidget.integrationtest.statically.html;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLabel;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class FreemarkerQuirks {
 
 	//

@@ -33,7 +33,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlTableLayoutRendererTest

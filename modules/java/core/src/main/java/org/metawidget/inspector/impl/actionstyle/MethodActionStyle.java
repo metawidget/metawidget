@@ -29,7 +29,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Convenience ActionStyle implementation for Method-based actions.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class MethodActionStyle

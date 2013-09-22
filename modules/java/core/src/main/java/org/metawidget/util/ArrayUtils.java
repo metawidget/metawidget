@@ -25,7 +25,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Utilities for working with Arrays.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class ArrayUtils {

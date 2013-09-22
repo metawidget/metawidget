@@ -43,7 +43,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * This is the typical Swing approach to binding UI buttons to Java objects using
  * <code>AbstractActions</code> and reflection.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReflectionBindingProcessor

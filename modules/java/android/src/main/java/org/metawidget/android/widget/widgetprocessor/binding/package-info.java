@@ -17,7 +17,7 @@
 /**
  * Android support: binding.
  *
- * @author Loghman Barari
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.android.widget.widgetprocessor.binding;

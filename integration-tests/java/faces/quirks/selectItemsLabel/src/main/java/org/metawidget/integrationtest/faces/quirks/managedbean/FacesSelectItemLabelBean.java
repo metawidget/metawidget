@@ -28,7 +28,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Models a bean that uses <code>itemLabel</code> and <code>itemValue</code>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @ManagedBean( name = "selectItemLabel" )

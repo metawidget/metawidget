@@ -22,7 +22,7 @@ import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.MetawidgetTestUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlTableLayoutTest

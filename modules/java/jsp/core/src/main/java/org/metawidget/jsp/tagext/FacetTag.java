@@ -27,7 +27,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  * are carried forward into nested Metawidgets, whereas facets contain JSP and are not to be carried
  * forward.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FacetTag

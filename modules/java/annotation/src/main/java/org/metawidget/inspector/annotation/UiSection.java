@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
  * section heading with an empty String. Sections can be nested by specifying multiple section
  * names.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

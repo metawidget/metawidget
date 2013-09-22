@@ -39,7 +39,7 @@ import org.metawidget.faces.component.widgetprocessor.StandardValidatorProcessor
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StandardValidatorProcessorTest

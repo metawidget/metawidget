@@ -59,7 +59,7 @@ import org.metawidget.util.simple.StringUtils;
  * distribution. Use of this task to generate schemas for your own classes may give unexpected
  * results.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class XmlSchemaGeneratorTask

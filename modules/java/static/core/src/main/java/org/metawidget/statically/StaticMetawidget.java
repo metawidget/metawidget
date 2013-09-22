@@ -52,7 +52,7 @@ import org.w3c.dom.Element;
  * runtime JSF Metawidget. Therefore, it makes sense to have a <code>StaticMetawidget</code> base
  * class.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class StaticMetawidget

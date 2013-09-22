@@ -19,7 +19,7 @@ package org.metawidget.statically.faces.component.html.layout;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlMessage

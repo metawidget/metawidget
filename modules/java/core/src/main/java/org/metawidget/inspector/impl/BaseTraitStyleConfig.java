@@ -23,7 +23,7 @@ import org.metawidget.util.simple.ObjectUtils;
 /**
  * Base class for BaseTraitStyle configurations.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class BaseTraitStyleConfig {

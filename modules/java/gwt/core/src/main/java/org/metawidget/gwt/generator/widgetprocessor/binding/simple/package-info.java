@@ -17,7 +17,7 @@
 /**
  * GWT support: Generator-based property binding (compile-time).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.gwt.generator.widgetprocessor.binding.simple;

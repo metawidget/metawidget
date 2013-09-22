@@ -35,7 +35,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Inspects annotations defined by Bean Validation (JSR 303).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class BeanValidationInspector

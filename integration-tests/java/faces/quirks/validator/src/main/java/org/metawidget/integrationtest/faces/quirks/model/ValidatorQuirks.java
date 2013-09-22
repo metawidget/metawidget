@@ -23,6 +23,10 @@ import javax.faces.context.FacesContext;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 @ManagedBean( name = "validatorQuirks" )
 public class ValidatorQuirks {
 

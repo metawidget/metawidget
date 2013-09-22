@@ -44,7 +44,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Creates native GWT Widgets, such as <code>TextBox</code> and <code>ListBox</code>, to suit the
  * inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GwtWidgetBuilder

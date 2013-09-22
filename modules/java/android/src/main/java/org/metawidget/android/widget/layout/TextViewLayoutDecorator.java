@@ -32,7 +32,7 @@ import android.widget.TextView;
 /**
  * Layout to decorate widgets from different sections using a TextView.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TextViewLayoutDecorator

@@ -19,7 +19,7 @@ package org.metawidget.integrationtest.faces.allwidgets.managedbean;
 import javax.faces.bean.ManagedBean;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @ManagedBean( name = "allWidgetsBean" )

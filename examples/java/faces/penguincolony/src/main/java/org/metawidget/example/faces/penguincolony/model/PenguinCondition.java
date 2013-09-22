@@ -32,7 +32,7 @@ package org.metawidget.example.faces.penguincolony.model;
 import org.metawidget.inspector.annotation.UiComesAfter;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PenguinCondition {

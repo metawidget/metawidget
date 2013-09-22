@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 import org.metawidget.util.LogUtils.Log;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LogUtilsTest

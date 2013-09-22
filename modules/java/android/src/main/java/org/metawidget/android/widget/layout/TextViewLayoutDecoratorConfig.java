@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 /**
  * Configures a TextViewLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TextViewLayoutDecoratorConfig

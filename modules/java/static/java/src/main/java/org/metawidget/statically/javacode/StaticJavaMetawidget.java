@@ -26,7 +26,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Static Metawidget for Java environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StaticJavaMetawidget

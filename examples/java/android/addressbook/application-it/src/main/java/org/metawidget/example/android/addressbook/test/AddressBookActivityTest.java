@@ -33,6 +33,10 @@ import org.metawidget.example.android.addressbook.AddressBookActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class AddressBookActivityTest
 	extends ActivityInstrumentationTestCase2<AddressBookActivity> {
 

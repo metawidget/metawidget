@@ -33,6 +33,10 @@ import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlOutputTe
 import org.metawidget.statically.faces.component.html.widgetbuilder.richfaces.RichFacesWidgetBuilder;
 import org.metawidget.util.CollectionUtils;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class RichFacesWidgetBuilderTest
 	extends TestCase {
 

@@ -58,7 +58,7 @@ import org.richfaces.component.html.HtmlSuggestionBox;
  * Creates native RichFaces UIComponents, such as <code>HtmlCalendar</code> and
  * <code>HtmlInputNumberSlider</code>, to suit the inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

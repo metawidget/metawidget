@@ -34,7 +34,7 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 /**
  * ReadOnlyWidgetBuilder for Spring environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyWidgetBuilder

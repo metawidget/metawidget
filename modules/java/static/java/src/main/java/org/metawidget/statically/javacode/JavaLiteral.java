@@ -24,6 +24,8 @@ import java.io.Writer;
  * <p>
  * Literals will appear correctly indented, but are otherwise unprocessed (eg. no semicolon, no
  * braces). Useful for generating comment tags or annotations.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JavaLiteral

@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * Annotates the value in the field should be 'suggested' (ie. using a pop-up box) using the set
  * returned by the given EL expression.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

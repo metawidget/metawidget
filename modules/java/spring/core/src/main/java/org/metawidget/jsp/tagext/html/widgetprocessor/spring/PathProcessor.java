@@ -29,7 +29,7 @@ import org.springframework.web.servlet.tags.form.AbstractDataBoundFormElementTag
 /**
  * WidgetProcessor that adds a 'path' attribute to a Spring AbstractDataBoundFormElementTag.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PathProcessor

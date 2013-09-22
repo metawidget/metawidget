@@ -34,6 +34,10 @@ import javax.validation.constraints.Size;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 @Entity
 public class Person
 	implements Serializable {

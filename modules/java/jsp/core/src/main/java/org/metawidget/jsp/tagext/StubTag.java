@@ -35,7 +35,7 @@ import org.metawidget.util.simple.StringUtils;
  * <p>
  * StubTags differ from FacetTags in that they define a path and override widget creation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class StubTag

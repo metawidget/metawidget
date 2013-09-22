@@ -21,7 +21,7 @@ import java.awt.Component;
 /**
  * Additional interface implemented by Swing WidgetBuilders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface SwingValuePropertyProvider {

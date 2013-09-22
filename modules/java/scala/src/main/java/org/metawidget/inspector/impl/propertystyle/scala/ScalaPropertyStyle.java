@@ -29,7 +29,7 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
  * but you have to use Scala's <code>BeanProperty</code> annotation everywhere which is cumbersome.
  * This <code>PropertyStyle</code> is designed to access Scala properties natively.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ScalaPropertyStyle

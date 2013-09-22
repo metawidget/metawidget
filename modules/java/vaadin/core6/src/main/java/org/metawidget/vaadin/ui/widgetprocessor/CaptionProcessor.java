@@ -26,7 +26,7 @@ import com.vaadin.ui.Component;
 /**
  * WidgetProcessor that sets a 'caption' on a Vaadin Component.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CaptionProcessor

@@ -24,7 +24,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * Configures a JexlInspectionResultProcessor prior to use. Once instantiated,
  * InspectorResultProcessors are immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JexlInspectionResultProcessorConfig {

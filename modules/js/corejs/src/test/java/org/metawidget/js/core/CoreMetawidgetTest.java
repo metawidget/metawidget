@@ -18,6 +18,10 @@ package org.metawidget.js.core;
 
 import org.metawidget.util.JavaScriptTestCase;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class CoreMetawidgetTest
 	extends JavaScriptTestCase {
 

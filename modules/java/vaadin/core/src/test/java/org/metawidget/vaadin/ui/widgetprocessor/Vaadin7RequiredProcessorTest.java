@@ -16,6 +16,10 @@
 
 package org.metawidget.vaadin.ui.widgetprocessor;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class Vaadin7RequiredProcessorTest
 	extends RequiredProcessorTest {
 

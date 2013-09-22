@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  * WidgetProcessor that calls <code>addStyleName</code> on a Widget, based on
  * the <code>getStyleName</code> of the parent Metawidget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StyleNameProcessor

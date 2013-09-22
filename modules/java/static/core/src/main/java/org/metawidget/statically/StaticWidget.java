@@ -21,7 +21,7 @@ import java.io.Writer;
 import java.util.List;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface StaticWidget {

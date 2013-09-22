@@ -28,7 +28,7 @@ import org.richfaces.component.SwitchType;
  * Configures a CollapsiblePanelLayoutDecoratorConfig prior to use. Once instantiated, Layouts are
  * immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CollapsiblePanelLayoutDecoratorConfig

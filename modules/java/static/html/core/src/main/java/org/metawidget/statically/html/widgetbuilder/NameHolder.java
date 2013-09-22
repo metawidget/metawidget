@@ -18,6 +18,8 @@ package org.metawidget.statically.html.widgetbuilder;
 
 /**
  * Marks the widget as needing a name.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface NameHolder {

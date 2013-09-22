@@ -36,7 +36,7 @@ import org.primefaces.component.tabview.TabView;
 /**
  * Layout to decorate widgets from different sections using a PrimeFaces TabView.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TabViewLayoutDecorator

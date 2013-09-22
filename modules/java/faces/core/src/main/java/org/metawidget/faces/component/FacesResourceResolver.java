@@ -29,7 +29,7 @@ import org.metawidget.inspector.iface.InspectorException;
  * <p>
  * Resolves references by looking in <code>/WEB-INF/</code> first.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FacesResourceResolver

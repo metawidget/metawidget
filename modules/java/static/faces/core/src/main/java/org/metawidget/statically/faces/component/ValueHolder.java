@@ -18,6 +18,8 @@ package org.metawidget.statically.faces.component;
 
 /**
  * Marks the widget as an editable component.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface ValueHolder {

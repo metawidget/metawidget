@@ -57,7 +57,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * Creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
  * <code>JComboBox</code>, to suit the inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingWidgetBuilder

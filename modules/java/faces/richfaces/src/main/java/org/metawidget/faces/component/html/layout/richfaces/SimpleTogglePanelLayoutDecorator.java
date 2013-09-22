@@ -34,7 +34,7 @@ import org.richfaces.component.html.HtmlSimpleTogglePanel;
 /**
  * Layout to decorate widgets from different sections using a RichFaces (3.x) SimpleTogglePanel.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleTogglePanelLayoutDecorator

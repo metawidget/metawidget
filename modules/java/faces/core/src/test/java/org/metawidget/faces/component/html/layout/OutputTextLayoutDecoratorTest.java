@@ -30,7 +30,7 @@ import org.metawidget.faces.component.layout.UIComponentFlatSectionLayoutDecorat
 import org.metawidget.util.MetawidgetTestUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class OutputTextLayoutDecoratorTest

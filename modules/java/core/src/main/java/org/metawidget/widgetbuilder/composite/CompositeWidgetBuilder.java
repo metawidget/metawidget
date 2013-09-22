@@ -31,7 +31,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * <p>
  * Note: the name <em>Composite</em>WidgetBuilder refers to the Composite design pattern.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CompositeWidgetBuilder<W, M extends W>

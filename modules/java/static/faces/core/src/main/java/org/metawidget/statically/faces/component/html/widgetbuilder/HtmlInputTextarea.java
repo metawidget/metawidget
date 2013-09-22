@@ -20,7 +20,7 @@ import org.metawidget.statically.faces.component.EditableValueHolder;
 import org.metawidget.statically.faces.component.html.HtmlWidget;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlInputTextarea

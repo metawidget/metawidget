@@ -23,6 +23,10 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 @FacesValidator( "fooValidator" )
 public class FooValidator
 	implements Validator {

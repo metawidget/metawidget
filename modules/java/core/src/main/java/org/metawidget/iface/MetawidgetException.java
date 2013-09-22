@@ -19,7 +19,7 @@ package org.metawidget.iface;
 /**
  * Any exception that occurs during Metawidget operation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class MetawidgetException

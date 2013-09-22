@@ -34,7 +34,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class DateEditor

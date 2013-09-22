@@ -29,7 +29,7 @@ import javax.faces.convert.Converter;
  * in order to convert child elements (eg. HtmlWidgetBuilder needs to convert the options it adds to
  * a UISelect).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface ConverterProcessor {

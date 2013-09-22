@@ -23,7 +23,7 @@ import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
  * <p>
  * The fields all have default values to test data binding.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AllWidgetsProxy {
@@ -34,7 +34,7 @@ public class AllWidgetsProxy {
 	 * Implemented as an inner class so that it gets ignored by tools that like to ignore inner
 	 * classes (and don't like '$' in top-level class names).
 	 *
-	 * @author Richard Kennard
+	 * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
 	 */
 
 	public static class AllWidgets_$$_javassist_1
@@ -49,7 +49,7 @@ public class AllWidgetsProxy {
 	 * Implemented as an inner class so that it gets ignored by tools that like to ignore inner
 	 * classes (and don't like '$' in top-level class names).
 	 *
-	 * @author Richard Kennard
+	 * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
 	 */
 
 	public static class AllWidgets$$EnhancerByCGLIB$$1234

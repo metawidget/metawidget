@@ -41,7 +41,7 @@ import org.metawidget.iface.Immutable;
  * overriding <code>equals</code> and <code>hashCode</code>. <strong>Failure to override these
  * methods may result in your object not being reused, or being reused inappropriately</strong>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface ConfigReader

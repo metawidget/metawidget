@@ -20,6 +20,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.statically.faces.component.html.StaticHtmlMetawidget;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class StaticHtmlMetawidgetSubclassTest
 	extends TestCase {
 

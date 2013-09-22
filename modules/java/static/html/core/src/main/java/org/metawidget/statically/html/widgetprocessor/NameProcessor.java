@@ -30,7 +30,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 /**
  * WidgetProcessor that adds a 'name' attribute to a StaticXmlWidget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class NameProcessor

@@ -31,7 +31,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Inspects annotations defined by Java API for XML Binding (JAXB).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JaxbInspector

@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * <p>
  * UiDontExpand is implied if the field has a lookup value.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

@@ -100,7 +100,7 @@ import org.w3c.dom.Element;
  * stay in sync. To enforce this, you can set
  * <code>BaseXmlInspectorConfig.setValidateAgainstClasses</code>.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 // TODO: rework BaseXmlInspector to support arbitrary nesting for XML Schemas

@@ -26,7 +26,7 @@ import org.metawidget.iface.MetawidgetException;
 /**
  * JSP tag for UIStub widget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

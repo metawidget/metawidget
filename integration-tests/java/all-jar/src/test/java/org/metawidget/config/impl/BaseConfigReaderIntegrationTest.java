@@ -65,7 +65,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.xml.sax.SAXException;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class BaseConfigReaderIntegrationTest

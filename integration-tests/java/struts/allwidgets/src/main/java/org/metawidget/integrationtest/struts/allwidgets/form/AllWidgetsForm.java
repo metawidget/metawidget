@@ -21,7 +21,7 @@ import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
 import org.metawidget.integrationtest.shared.allwidgets.proxy.AllWidgetsProxy.AllWidgets_$$_javassist_1;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AllWidgetsForm

@@ -23,7 +23,7 @@ import org.metawidget.inspector.impl.BaseTrait;
  * <p>
  * Handles construction, and returning names and types.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BaseProperty

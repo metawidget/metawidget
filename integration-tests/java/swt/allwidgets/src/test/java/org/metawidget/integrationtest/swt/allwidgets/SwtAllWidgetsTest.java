@@ -47,7 +47,7 @@ import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcess
 import org.metawidget.swt.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwtAllWidgetsTest

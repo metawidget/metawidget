@@ -23,7 +23,7 @@ import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JsonSchemaMappingProcessorTest

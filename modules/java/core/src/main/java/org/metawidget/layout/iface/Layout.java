@@ -41,7 +41,7 @@ import org.metawidget.iface.Immutable;
  *            that don't make such a distinction, W and C can be the same
  * @param <M>
  *            Metawidget that supports this Layout
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface Layout<W, C extends W, M extends C>

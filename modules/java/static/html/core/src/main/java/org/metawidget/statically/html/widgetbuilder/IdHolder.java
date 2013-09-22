@@ -21,6 +21,8 @@ package org.metawidget.statically.html.widgetbuilder;
  * <p>
  * All HTML elements <em>can</em> have an id, but for most this is just clutter. So we make it
  * explicit which ones we want to have ids assigned.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface IdHolder {

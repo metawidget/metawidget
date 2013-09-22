@@ -35,7 +35,7 @@ import android.view.View;
 import android.widget.Spinner;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class EnumConverter<T extends Enum<T>>

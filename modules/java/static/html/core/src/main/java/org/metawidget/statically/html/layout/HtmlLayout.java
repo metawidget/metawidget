@@ -29,7 +29,7 @@ import org.metawidget.statically.html.widgetbuilder.HtmlTag;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  * @author Ryan Bradley
  */
 

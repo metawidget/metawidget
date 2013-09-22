@@ -52,7 +52,7 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>labelSuffix</code>
  * </ul>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class HtmlLayoutRenderer

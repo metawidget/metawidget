@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * should use something like <code>org.jdesktop.application.Action</code> or JBoss jBPM in
  * preference to <code>UiAction</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

@@ -33,7 +33,7 @@ import org.metawidget.iface.Immutable;
  *            base class of widgets that this WidgetBuilder builds
  * @param <M>
  *            Metawidget that supports this WidgetBuilder
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface WidgetBuilder<W, M extends W>

@@ -33,7 +33,7 @@ import org.metawidget.layout.iface.LayoutException;
  * This Layout is suited to rendering single components, or for rendering components whose layout
  * relies entirely on CSS.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleLayout

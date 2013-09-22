@@ -34,7 +34,7 @@ import org.metawidget.iface.Immutable;
  *            base class of widgets that this WidgetProcessor processes
  * @param <M>
  *            Metawidget that supports this WidgetProcessor
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface WidgetProcessor<W, M extends W>

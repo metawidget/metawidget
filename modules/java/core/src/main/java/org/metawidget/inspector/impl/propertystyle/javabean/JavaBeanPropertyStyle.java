@@ -55,7 +55,7 @@ import org.metawidget.util.simple.StringUtils;
  * see <code>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</code></li>
  * </ul>
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JavaBeanPropertyStyle

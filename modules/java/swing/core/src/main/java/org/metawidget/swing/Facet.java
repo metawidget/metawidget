@@ -27,7 +27,7 @@ import javax.swing.JPanel;
  * We define separate Facet widgets, as opposed to simply a <code>SwingMetawidget.addFacet</code>
  * method, as this is more amenable to visual UI builders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Facet

@@ -17,7 +17,7 @@
 /**
  * Android support: Simple property binding.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.android.widget.widgetprocessor.binding.simple;

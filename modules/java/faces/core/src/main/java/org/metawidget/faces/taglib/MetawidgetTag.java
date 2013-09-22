@@ -26,7 +26,7 @@ import org.metawidget.iface.MetawidgetException;
 /**
  * Base JSP tag for UIMetawidget JSF widgets.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

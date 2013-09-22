@@ -30,7 +30,7 @@ import org.metawidget.iface.Immutable;
  * In this context, 'simple' means 'with minimal class dependencies, suitable to be compiled into
  * JavaScript' (eg. for GWT).
  *
- * @author Richard Kennard, Bernhard Huber
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>, Bernhard Huber
  */
 
 public final class SimpleLayoutUtils {
@@ -177,7 +177,7 @@ public final class SimpleLayoutUtils {
 	/**
 	 * Simple immutable structure to store a component and its value property.
 	 *
-	 * @author Richard Kennard
+	 * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
 	 */
 
 	public static class StrippedMnemonicAndFirstIndex

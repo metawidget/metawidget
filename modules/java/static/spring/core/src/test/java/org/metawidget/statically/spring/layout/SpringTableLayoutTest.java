@@ -29,6 +29,10 @@ import org.metawidget.util.CollectionUtils;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class SpringTableLayoutTest
     extends TestCase {
 

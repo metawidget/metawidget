@@ -17,7 +17,7 @@
 package org.metawidget.vaadin.ui.layout;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Vaadin7HeadingTagLayoutDecoratorTest

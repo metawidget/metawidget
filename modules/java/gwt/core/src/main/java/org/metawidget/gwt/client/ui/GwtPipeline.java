@@ -31,7 +31,7 @@ import com.google.gwt.xml.client.XMLParser;
 /**
  * Pipeline for platforms that use <code>com.google.gwt.xml.client</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class GwtPipeline<W, C extends W, M extends C>

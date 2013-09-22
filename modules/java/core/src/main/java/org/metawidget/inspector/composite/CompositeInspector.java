@@ -47,7 +47,7 @@ import org.w3c.dom.Element;
  * <p>
  * Note: the name <em>Composite</em>Inspector refers to the Composite design pattern.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CompositeInspector

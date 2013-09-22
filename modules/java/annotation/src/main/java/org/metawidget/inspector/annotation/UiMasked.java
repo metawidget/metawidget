@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * <p>
  * For example, a password field.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

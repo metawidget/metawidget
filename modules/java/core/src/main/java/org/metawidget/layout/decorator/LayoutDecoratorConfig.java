@@ -22,7 +22,7 @@ import org.metawidget.util.simple.ObjectUtils;
 /**
  * Configures a LayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LayoutDecoratorConfig<W, C extends W, M extends C> {

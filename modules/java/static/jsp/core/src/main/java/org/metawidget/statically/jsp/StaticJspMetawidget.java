@@ -27,7 +27,7 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StaticJspMetawidget

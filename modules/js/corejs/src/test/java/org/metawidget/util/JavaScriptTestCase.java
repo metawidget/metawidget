@@ -30,6 +30,8 @@ import org.mozilla.javascript.tools.shell.Main;
 
 /**
  * Utility class to load Rhino, Envjs, JQuery and Jasmine, and run a Jasmine test case.
+ *
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class JavaScriptTestCase

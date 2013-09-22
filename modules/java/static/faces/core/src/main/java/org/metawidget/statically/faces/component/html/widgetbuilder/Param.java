@@ -19,7 +19,7 @@ package org.metawidget.statically.faces.component.html.widgetbuilder;
 import org.metawidget.statically.faces.component.html.CoreWidget;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Param

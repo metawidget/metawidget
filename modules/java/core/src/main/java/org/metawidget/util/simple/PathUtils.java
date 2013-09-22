@@ -19,7 +19,7 @@ package org.metawidget.util.simple;
 /**
  * Utilities for working with <code>type/name</code>-formatted Strings
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class PathUtils {

@@ -31,7 +31,7 @@ import org.metawidget.swing.SwingMetawidget;
  * This is like <code>BoxLayout</code>, except it does not fill width. It can be useful for button
  * bars.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FlowLayout

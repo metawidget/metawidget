@@ -52,7 +52,7 @@ import org.metawidget.util.simple.StringUtils;
  * </ul>
  * <p>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlDivLayoutRenderer

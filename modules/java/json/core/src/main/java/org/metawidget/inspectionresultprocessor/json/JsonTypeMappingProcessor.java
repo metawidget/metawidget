@@ -28,7 +28,7 @@ import org.metawidget.util.ClassUtils;
  * <code>TypeMappingInspectionResultProcessor</code> to map types from Java types to JSON
  * types.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JsonTypeMappingProcessor<M>

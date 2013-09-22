@@ -40,7 +40,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * Creates native SWT read-only <code>Controls</code>, such as <code>Labels</code>, to suit the
  * inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyWidgetBuilder

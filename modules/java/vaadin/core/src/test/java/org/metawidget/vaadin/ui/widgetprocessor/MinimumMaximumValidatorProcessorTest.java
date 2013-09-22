@@ -28,7 +28,7 @@ import com.vaadin.data.Validator;
 import com.vaadin.ui.TextField;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class MinimumMaximumValidatorProcessorTest

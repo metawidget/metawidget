@@ -16,6 +16,8 @@
 
 /**
  * Java Server Faces support: HTML-specific widgets.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.faces.component.html;

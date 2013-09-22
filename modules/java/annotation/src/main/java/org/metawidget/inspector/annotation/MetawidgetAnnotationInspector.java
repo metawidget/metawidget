@@ -36,7 +36,7 @@ import org.metawidget.util.CollectionUtils;
  * Equally, it is not just an 'AnnotationInspector', because it doesn't generically scan all
  * possible annotations.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class MetawidgetAnnotationInspector

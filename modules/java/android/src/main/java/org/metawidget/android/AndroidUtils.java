@@ -27,7 +27,7 @@ import android.widget.TextView;
 /**
  * Utilities for working with Android.
  *
- * @author Richard Kennard, Tomasz Bartczak
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>, Tomasz Bartczak
  */
 
 public final class AndroidUtils {

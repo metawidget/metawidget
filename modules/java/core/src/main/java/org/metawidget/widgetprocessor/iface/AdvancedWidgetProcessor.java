@@ -28,7 +28,7 @@ package org.metawidget.widgetprocessor.iface;
  * objects (part of closures in Java 7). This latter point is especially useful when using
  * <code>WidgetProcessor</code>s to attach event handlers.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface AdvancedWidgetProcessor<W, M extends W>

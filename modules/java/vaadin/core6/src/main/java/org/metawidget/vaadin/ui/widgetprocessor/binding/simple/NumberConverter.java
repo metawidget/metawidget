@@ -22,7 +22,7 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding.simple;
  * This Converter is necessary because some Vaadin components (such as Slider) expect to be given
  * Doubles, but we may want them to load/save to Integer fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class NumberConverter

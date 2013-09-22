@@ -21,7 +21,7 @@ import javax.faces.convert.DateTimeConverter;
 /**
  * Converts Dates to a String representation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class DateConverter

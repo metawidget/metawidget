@@ -30,7 +30,7 @@ import java.util.Map;
  * Not located under <code>org.metawidget.widgetbuilder.impl</code> because GWT cannot compile this
  * class.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class WidgetBuilderUtils {

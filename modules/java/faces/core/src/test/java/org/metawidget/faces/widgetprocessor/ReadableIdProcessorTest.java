@@ -30,7 +30,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ReadableIdProcessor;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadableIdProcessorTest

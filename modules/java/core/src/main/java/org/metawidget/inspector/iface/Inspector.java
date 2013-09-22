@@ -31,7 +31,7 @@ import org.metawidget.iface.Immutable;
  * available at all. If you find yourself needing access to a context, consider using an
  * <code>InspectionResultProcessor</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface Inspector

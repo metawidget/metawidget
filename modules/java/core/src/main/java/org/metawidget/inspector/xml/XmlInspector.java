@@ -57,7 +57,7 @@ import org.w3c.dom.Element;
  * &nbsp;&nbsp;&nbsp;&lt;/property&gt;<br/>
  * &lt;/entity&gt;</code>
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class XmlInspector

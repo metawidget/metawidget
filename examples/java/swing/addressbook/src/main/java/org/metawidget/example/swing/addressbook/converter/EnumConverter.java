@@ -32,7 +32,7 @@ package org.metawidget.example.swing.addressbook.converter;
 import org.jdesktop.beansbinding.Converter;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class EnumConverter<T extends Enum<T>>

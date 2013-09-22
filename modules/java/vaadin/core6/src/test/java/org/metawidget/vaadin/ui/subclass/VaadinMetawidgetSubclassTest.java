@@ -20,6 +20,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.vaadin.ui.VaadinMetawidget;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class VaadinMetawidgetSubclassTest
 	extends TestCase {
 

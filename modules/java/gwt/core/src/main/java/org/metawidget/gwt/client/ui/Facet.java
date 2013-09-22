@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are 'decorations'
  * (such as button bars) to be recognized and arranged at the discretion of the Layout.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Facet

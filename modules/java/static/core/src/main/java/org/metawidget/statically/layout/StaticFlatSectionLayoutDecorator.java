@@ -33,7 +33,7 @@ import org.metawidget.util.LayoutUtils;
  * Note: it is not clear it is possible to implement a <code>JspNestedSectionLayoutDecorator</code>,
  * because the JSP component model does not allow adding children to tags.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class StaticFlatSectionLayoutDecorator

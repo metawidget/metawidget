@@ -32,7 +32,7 @@ import android.widget.TextView;
 /**
  * Layout to arrange widgets vertically, with one row for the label and the next for the widget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LinearLayout

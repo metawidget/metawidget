@@ -29,7 +29,7 @@ import org.metawidget.layout.iface.Layout;
  * <p>
  * Just adds the component to the given container using <code>getChildren().add()</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleLayout

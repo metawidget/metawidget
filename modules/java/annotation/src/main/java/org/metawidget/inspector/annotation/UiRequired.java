@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * should use something like <code>javax.persistence.Column(nullable = false)</code> or
  * <code>org.hibernate.validator.NotNull</code> in preference to <code>UiRequired</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

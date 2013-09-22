@@ -21,7 +21,7 @@ import org.metawidget.statically.BaseStaticXmlWidget;
 /**
  * Tags within the Spring <form:> namespace.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class SpringTag

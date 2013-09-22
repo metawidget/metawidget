@@ -37,7 +37,7 @@ import org.apache.commons.beanutils.Converter;
 /**
  * Converts Objects to a String representation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ToStringConverter

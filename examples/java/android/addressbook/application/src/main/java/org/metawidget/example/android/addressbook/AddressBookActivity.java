@@ -45,7 +45,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AddressBookActivity

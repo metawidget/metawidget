@@ -25,7 +25,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * Configures a SimpleBindingProcessor prior to use. Once instantiated, WidgetProcessors are
  * immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleBindingProcessorConfig {

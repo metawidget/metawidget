@@ -27,7 +27,7 @@ package org.metawidget.widgetbuilder.iface;
  * Strategy pattern; third, it makes <code>WidgetBuilder</code> amenable to automatic function
  * objects (part of closures in Java 7).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface AdvancedWidgetBuilder<W, M extends W>

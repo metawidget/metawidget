@@ -26,7 +26,7 @@ import org.metawidget.util.ClassUtils;
 /**
  * Metawidget for Java Server Faces environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlMetawidget

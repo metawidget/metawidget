@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 /**
  * Layout to simply output components one after another, with no labels and no structure.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleLayout

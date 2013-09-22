@@ -32,7 +32,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * <p>
  * <strong>This is an internal API and is subject to change.</strong>
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlLookupOutputText

@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Annotates the value in the field should belong to the given set of Strings.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

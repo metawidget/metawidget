@@ -20,7 +20,7 @@ package org.metawidget.inspector.jsp;
  * JSP-specific element and attribute names appearing in DOMs conforming to
  * inspection-result-1.0.xsd.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class JspInspectionResultConstants {

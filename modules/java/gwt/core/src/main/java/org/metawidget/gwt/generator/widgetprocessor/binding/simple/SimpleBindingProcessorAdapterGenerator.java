@@ -69,7 +69,7 @@ import com.google.gwt.user.rebind.SourceWriter;
  * <code>SimpleBindingProcessorAdapter</code> or, more drastically, their own binding implementation
  * that implements <code>PropertyBinding</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SimpleBindingProcessorAdapterGenerator

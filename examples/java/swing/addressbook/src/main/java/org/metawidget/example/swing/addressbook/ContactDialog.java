@@ -77,7 +77,7 @@ import org.metawidget.util.simple.StringUtils;
  * the Reference Documentation). For an example using rebinding, see
  * <code>org.metawidget.example.gwt.addressbook.client.ui.ContactDialog</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ContactDialog

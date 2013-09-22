@@ -75,7 +75,7 @@ import org.w3c.dom.NodeList;
  * Creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneMenu</code>, to suit the inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

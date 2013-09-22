@@ -21,7 +21,7 @@ import org.metawidget.inspector.impl.Trait;
 /**
  * Interface over actions, in case we want to support non-method based actions in the future.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface Action

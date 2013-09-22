@@ -18,8 +18,10 @@ package org.metawidget.vaadin.ui.widgetbuilder;
 
 import java.util.Map;
 
-/*
+/**
  * Label whose values display using a lookup.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class LookupLabel

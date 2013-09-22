@@ -37,7 +37,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * Note: passing values via hidden tags is a potential security risk: they can be modified by
  * malicious clients before being returned to the server.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HiddenFieldProcessor

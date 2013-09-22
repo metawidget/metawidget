@@ -38,7 +38,7 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Utilities for the example apps.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class ExampleUtils {

@@ -25,7 +25,7 @@ import org.apache.commons.beanutils.Converter;
 import org.metawidget.iface.MetawidgetException;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class DateConverter

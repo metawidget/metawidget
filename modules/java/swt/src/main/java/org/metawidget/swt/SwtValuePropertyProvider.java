@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Control;
 /**
  * Additional interface implemented by SWT WidgetBuilders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface SwtValuePropertyProvider {

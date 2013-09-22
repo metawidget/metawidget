@@ -30,7 +30,7 @@ import org.metawidget.iface.Immutable;
  * <code>ActionStyle</code>s must be immutable (or, at least, appear that way to clients. They can
  * have caches or configuration settings internally, as long as they are threadsafe).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface ActionStyle

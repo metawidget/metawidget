@@ -56,7 +56,7 @@ import org.primefaces.component.spinner.Spinner;
  * <code>HtmlWidgetBuilder</code> we only create PrimeFaces components, not any regular JSF
  * components.
  *
- * @author Richard Kennard, Marcel H
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>, Marcel H
  */
 
 public class PrimeFacesWidgetBuilder

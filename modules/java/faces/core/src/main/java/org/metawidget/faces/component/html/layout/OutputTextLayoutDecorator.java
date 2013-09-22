@@ -38,7 +38,7 @@ import org.metawidget.util.simple.StringUtils;
  * wrapped in an HTML span tag. Therefore you must use CSS 'display: block' if you want to use
  * margins or padding around the HtmlOutputText.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class OutputTextLayoutDecorator

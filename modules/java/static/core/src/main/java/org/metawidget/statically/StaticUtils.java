@@ -22,7 +22,7 @@ import java.io.Writer;
 /**
  * Utilities for working with statically generated output.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class StaticUtils {

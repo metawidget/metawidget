@@ -38,7 +38,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
  * <em>value</em> of the properties (eg. <code>PropertyTypeInspector</code>). On a case-by-case
  * basis, however, such optimization is possible - see <code>GwtMetawidget.rebind</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GwtRemoteInspectorProxy

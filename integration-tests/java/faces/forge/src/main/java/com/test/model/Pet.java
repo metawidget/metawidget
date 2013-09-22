@@ -33,6 +33,10 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.faces.UiFacesConverter;
 import org.metawidget.inspector.faces.UiFacesLookup;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 @Entity
 public class Pet
 	implements Serializable {

@@ -37,7 +37,7 @@ import org.metawidget.util.simple.StringUtils;
  * The <code>styleClass</code> attribute of the section includes the section name, as well as any
  * additional style class specified by <code>PanelGroupLayoutDecoratorConfig</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PanelGroupLayoutDecorator

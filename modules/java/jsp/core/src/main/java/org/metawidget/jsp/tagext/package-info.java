@@ -17,7 +17,7 @@
 /**
  * JSP support: base taglibs.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 package org.metawidget.jsp.tagext;

@@ -38,7 +38,7 @@ import org.metawidget.swing.layout.TabbedPaneLayoutDecoratorConfig;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class NestedSectionLayoutDecoratorTest

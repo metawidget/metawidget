@@ -46,7 +46,7 @@ import org.metawidget.test.model.annotatedaddressbook.PersonalContact;
 import org.metawidget.util.MetawidgetTestUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class BeanUtilsBindingProcessorTest

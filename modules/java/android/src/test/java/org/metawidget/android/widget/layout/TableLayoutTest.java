@@ -33,7 +33,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TableLayoutTest

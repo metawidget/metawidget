@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * Annotates the value returned by the field should belong to the set returned by the named JSP bean
  * and property (as used by Struts' <code>html:options</code>).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

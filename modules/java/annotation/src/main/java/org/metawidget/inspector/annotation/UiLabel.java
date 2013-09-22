@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  * label (preserving its column) specify a value that gets looked up in a
  * <code>ResourceBundle</code>, and have the <code>ResourceBundle</code> return an empty String.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

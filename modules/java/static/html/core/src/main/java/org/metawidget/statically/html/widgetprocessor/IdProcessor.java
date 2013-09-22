@@ -28,7 +28,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 /**
  * WidgetProcessor that adds an 'id' attribute to a StaticXmlWidget.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class IdProcessor

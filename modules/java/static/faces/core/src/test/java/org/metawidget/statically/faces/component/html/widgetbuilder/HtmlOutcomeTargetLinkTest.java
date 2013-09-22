@@ -23,6 +23,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.statically.StaticUtils.IndentedWriter;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class HtmlOutcomeTargetLinkTest
 	extends TestCase {
 

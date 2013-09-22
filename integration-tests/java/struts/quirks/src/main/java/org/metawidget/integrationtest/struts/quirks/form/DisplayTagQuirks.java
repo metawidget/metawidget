@@ -23,7 +23,7 @@ import org.metawidget.inspector.annotation.UiLabel;
 /**
  * Models an entity that tests DisplayTag-specific quirks.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class DisplayTagQuirks {

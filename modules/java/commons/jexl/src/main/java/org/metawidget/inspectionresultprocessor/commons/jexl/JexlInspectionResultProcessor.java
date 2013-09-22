@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
  * Processes the inspection result and evaluates any expressions of the form <code>${...}</code>
  * using JEXL.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JexlInspectionResultProcessor<M>

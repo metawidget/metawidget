@@ -31,7 +31,7 @@ import android.view.View;
  * <p>
  * Locates overridden widgets based on their <code>tag</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class OverriddenWidgetBuilder

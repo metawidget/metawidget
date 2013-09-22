@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * <code>InternalResourceViewResolver.setExposeContextBeansAsAttributes</code> (available in Spring
  * 2.5+).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

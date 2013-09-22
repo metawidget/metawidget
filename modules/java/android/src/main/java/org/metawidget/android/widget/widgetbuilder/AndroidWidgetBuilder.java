@@ -58,7 +58,7 @@ import android.widget.TextView;
  * Creates native Android Views, such as <code>EditText</code> and <code>Spinner</code>, to suit the
  * inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AndroidWidgetBuilder

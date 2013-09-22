@@ -31,7 +31,7 @@ import android.content.res.Resources;
  * Resolves references by using <code>Context.getResources</code> first. Resource strings should be
  * of the form <code>@com.foo:raw/metawidget_metadata</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AndroidConfigReader

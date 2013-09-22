@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Interface for <code>SimpleBindingProcessor</code> Converters.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface Converter<T> {

@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  * <p>
  * Creates native ExtGWT widgets, such as <code>DateField</code>, to suit the inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ExtGwtWidgetBuilder

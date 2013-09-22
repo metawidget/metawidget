@@ -51,7 +51,7 @@ import org.metawidget.swt.layout.SeparatorLayoutDecoratorConfig;
  * Tests doing the Swing tutorial using the <code>SwtMetawidget</code>, even though this is not
  * specifically covered in the Reference Documentation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwtTutorialTest

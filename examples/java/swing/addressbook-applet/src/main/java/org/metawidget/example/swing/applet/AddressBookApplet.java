@@ -35,7 +35,7 @@ import java.awt.Color;
 import org.metawidget.example.swing.addressbook.AddressBook;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AddressBookApplet

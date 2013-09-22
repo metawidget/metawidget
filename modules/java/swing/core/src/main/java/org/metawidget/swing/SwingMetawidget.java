@@ -56,7 +56,7 @@ import org.w3c.dom.Element;
 /**
  * Metawidget for Swing environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 // Note: It would be nice for SwingMetawidget to extend AwtMetawidget, but we want
@@ -1114,7 +1114,7 @@ public class SwingMetawidget
 	/**
 	 * Simple immutable structure to store a component and its value property.
 	 *
-	 * @author Richard Kennard
+	 * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
 	 */
 
 	private static class ComponentAndValueProperty

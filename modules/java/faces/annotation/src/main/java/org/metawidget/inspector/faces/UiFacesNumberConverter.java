@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * Note: the <code>NumberConverter</code> property <code>integerOnly</code> is not specified using
  * this annotation, as it can be inferred from the property's type.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

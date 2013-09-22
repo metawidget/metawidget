@@ -19,7 +19,7 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding.simple;
 /**
  * Built-in Converter to convert Objects to Strings.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ToStringConverter

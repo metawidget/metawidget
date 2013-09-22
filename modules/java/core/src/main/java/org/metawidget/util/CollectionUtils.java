@@ -39,7 +39,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 /**
  * Utilities for working with Java Collections.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public final class CollectionUtils {

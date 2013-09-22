@@ -20,6 +20,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.statically.javacode.StaticJavaMetawidget;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class StaticJavaMetawidgetSubclassTest
 	extends TestCase {
 

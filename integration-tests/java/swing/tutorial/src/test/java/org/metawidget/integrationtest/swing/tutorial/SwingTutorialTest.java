@@ -45,7 +45,7 @@ import org.metawidget.swing.layout.SeparatorLayoutDecorator;
 import org.metawidget.swing.layout.SeparatorLayoutDecoratorConfig;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwingTutorialTest

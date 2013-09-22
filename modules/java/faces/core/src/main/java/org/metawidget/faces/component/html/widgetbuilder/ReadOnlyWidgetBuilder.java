@@ -42,7 +42,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 /**
  * WidgetBuilder for read-only widgets in Java Server Faces environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyWidgetBuilder

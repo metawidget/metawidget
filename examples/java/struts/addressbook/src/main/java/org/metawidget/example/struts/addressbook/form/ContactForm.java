@@ -42,7 +42,7 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.struts.UiStrutsLookup;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class ContactForm

@@ -32,7 +32,7 @@ package org.metawidget.example.spring.addressbook.editor;
 import java.beans.PropertyEditorSupport;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class EnumEditor<T extends Enum<T>>

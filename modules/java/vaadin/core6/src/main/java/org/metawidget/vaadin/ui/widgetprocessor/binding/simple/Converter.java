@@ -19,7 +19,7 @@ package org.metawidget.vaadin.ui.widgetprocessor.binding.simple;
 /**
  * Interface for <code>SimpleBindingProcessor</code> Converters.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface Converter<F,T> {

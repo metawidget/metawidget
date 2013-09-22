@@ -48,7 +48,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * Creates native Struts tags, such as <code>&lt;h:text&gt;</code> and <code>&lt;h:select&gt;</code>
  * , to suit the inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StrutsWidgetBuilder

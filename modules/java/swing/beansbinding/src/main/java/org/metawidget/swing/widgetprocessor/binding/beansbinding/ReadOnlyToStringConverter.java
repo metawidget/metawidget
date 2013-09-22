@@ -27,7 +27,7 @@ import org.metawidget.util.simple.StringUtils;
  * In the event this Converter is used to <code>convertReverse</code>, throws
  * <code>UnsupportedOperationException</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ReadOnlyToStringConverter<T>

@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Annotates the field should use the standard Faces <code>DateTimeConverter</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

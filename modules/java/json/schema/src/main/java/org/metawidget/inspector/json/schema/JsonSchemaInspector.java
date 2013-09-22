@@ -36,7 +36,7 @@ import com.google.gson.JsonObject;
 /**
  * Inspector to look for metadata in JSON Schema files.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JsonSchemaInspector

@@ -34,7 +34,7 @@ package org.metawidget.iface;
  * <strong>This is an internal API and is subject to change. Clients should use one of its
  * subinterfaces (ie. <code>Inspector</code>, <code>Layout</code> etc) instead.</strong>
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public interface Immutable {

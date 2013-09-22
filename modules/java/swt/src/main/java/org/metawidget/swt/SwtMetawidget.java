@@ -901,7 +901,7 @@ public class SwtMetawidget
 	/**
 	 * Simple immutable structure to store a component and its value property.
 	 *
-	 * @author Richard Kennard
+	 * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
 	 */
 
 	private static class ControlAndValueProperty

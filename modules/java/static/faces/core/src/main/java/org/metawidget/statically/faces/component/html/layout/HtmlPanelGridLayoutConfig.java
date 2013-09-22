@@ -21,7 +21,7 @@ import org.metawidget.util.simple.ObjectUtils;
 /**
  * Configures a HtmlPanelGridLayout prior to use. Once instantiated, Layouts are immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlPanelGridLayoutConfig {

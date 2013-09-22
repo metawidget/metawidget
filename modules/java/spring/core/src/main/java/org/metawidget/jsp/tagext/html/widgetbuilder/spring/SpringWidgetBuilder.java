@@ -48,7 +48,7 @@ import org.springframework.web.servlet.tags.form.TextareaTag;
  * Creates native Spring form tags, such as <code>&lt;form:input&gt;</code> and
  * <code>&lt;form:select&gt;</code>, to suit the inspected fields.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SpringWidgetBuilder

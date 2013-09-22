@@ -28,7 +28,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * <p>
  * Handles specifying <code>components.xml</code> file input.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SeamInspectorConfig

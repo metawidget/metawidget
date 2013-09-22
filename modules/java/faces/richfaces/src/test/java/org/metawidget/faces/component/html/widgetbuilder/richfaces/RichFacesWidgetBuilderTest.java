@@ -49,7 +49,7 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
 import org.richfaces.component.html.HtmlSuggestionBox;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class RichFacesWidgetBuilderTest

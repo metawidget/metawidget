@@ -18,6 +18,10 @@ package org.metawidget.js.jqueryui;
 
 import org.metawidget.util.JavaScriptTestCase;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class JQueryUIMetawidgetTest
 	extends JavaScriptTestCase {
 

@@ -23,7 +23,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * Configures a DataBindingBindingProcessor prior to use. Once instantiated, WidgetProcessors are
  * immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class DataBindingProcessorConfig {

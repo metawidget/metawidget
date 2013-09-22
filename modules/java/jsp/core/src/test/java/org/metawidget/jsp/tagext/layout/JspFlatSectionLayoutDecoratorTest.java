@@ -28,7 +28,7 @@ import org.metawidget.jsp.tagext.html.layout.HeadingTagLayoutDecoratorConfig;
 import org.metawidget.jsp.tagext.html.layout.HtmlTableLayout;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JspFlatSectionLayoutDecoratorTest

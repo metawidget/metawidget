@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * This annotation uses the converter <em>id</em>, not its class. Alternatively, this annotation can
  * be an EL expression that evaluates to a <code>javax.faces.convert.Converter</code> instance.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

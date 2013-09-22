@@ -35,7 +35,7 @@ import freemarker.template.Template;
 /**
  * Layout to arrange widgets using a FreeMarker template.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class FreemarkerLayout

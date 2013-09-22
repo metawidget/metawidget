@@ -17,7 +17,7 @@
 package org.metawidget.statically;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StaticXmlStub

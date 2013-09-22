@@ -24,7 +24,7 @@ import org.metawidget.inspector.impl.BaseTraitStyleConfig;
  * By default, disables property lookup caching for Groovy classes, because presumably they can
  * change dynamically.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class GroovyPropertyStyleConfig

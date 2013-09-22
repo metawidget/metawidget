@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  * should use something like <code>javax.persistence.Lob</code> in preference to
  * <code>UiLarge</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Retention( RetentionPolicy.RUNTIME )

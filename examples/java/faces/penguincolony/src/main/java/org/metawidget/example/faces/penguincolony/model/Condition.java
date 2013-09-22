@@ -30,7 +30,7 @@
 package org.metawidget.example.faces.penguincolony.model;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public enum Condition {

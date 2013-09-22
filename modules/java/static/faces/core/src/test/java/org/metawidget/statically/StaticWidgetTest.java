@@ -26,6 +26,10 @@ import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlSelectBo
 import org.metawidget.statically.faces.component.html.widgetbuilder.HtmlSelectOneMenu;
 import org.metawidget.util.CollectionUtils;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class StaticWidgetTest
 	extends TestCase {
 

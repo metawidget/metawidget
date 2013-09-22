@@ -33,7 +33,7 @@ import org.eclipse.core.databinding.conversion.Converter;
 import org.metawidget.example.shared.addressbook.model.Gender;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class StringToGenderConverter

@@ -51,7 +51,7 @@ import org.w3c.dom.Element;
 /**
  * Base Metawidget for JSP environments.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class MetawidgetTag

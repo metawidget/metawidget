@@ -22,7 +22,7 @@ import org.metawidget.util.simple.ObjectUtils;
 /**
  * Configures a CompositeInspector prior to use. Once instantiated, Inspectors are immutable.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CompositeInspectorConfig {

@@ -30,7 +30,7 @@ import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class MetawidgetActionStyleTest

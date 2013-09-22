@@ -41,7 +41,7 @@ import com.jgoodies.validation.message.SimpleValidationMessage;
 import com.jgoodies.validation.view.ValidationComponentUtils;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JGoodiesValidatorProcessorTest

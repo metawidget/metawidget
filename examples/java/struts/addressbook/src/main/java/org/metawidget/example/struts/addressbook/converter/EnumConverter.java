@@ -34,7 +34,7 @@ import org.apache.commons.beanutils.Converter;
 /**
  * Converts Enums from a String representation.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class EnumConverter

@@ -21,7 +21,7 @@ import org.metawidget.iface.Immutable;
 /**
  * Simple immutable structure to store a value and its declared type.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ValueAndDeclaredType

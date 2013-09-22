@@ -27,7 +27,7 @@ import org.metawidget.inspector.faces.UiFacesAjax;
 /**
  * Models an entity that tests some RichFaces-AJAX-specific quirks.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class RichFacesAjaxQuirks {

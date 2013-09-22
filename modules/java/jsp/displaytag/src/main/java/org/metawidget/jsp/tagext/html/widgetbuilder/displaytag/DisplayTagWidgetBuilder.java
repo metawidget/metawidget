@@ -44,7 +44,7 @@ import org.w3c.dom.NodeList;
  * For more details on DisplayTag see <a
  * href="http://displaytag.sourceforge.net">http://displaytag.sourceforge.net</a>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class DisplayTagWidgetBuilder

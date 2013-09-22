@@ -36,7 +36,7 @@ import com.google.gson.JsonPrimitive;
 /**
  * Inspector to look for metadata in JSON files.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class JsonInspector

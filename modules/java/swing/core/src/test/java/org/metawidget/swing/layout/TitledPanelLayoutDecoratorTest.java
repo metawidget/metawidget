@@ -39,7 +39,7 @@ import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class TitledPanelLayoutDecoratorTest

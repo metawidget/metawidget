@@ -30,7 +30,7 @@ import org.metawidget.util.LogUtils.Log;
  * <p>
  * Handles caching and excluding names and types.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public abstract class BaseTraitStyle<T extends Trait> {

@@ -36,7 +36,7 @@ import org.w3c.dom.NodeList;
 /**
  * Inspector to look for relevant settings in hibernate.cfg.xml and mapping.hbm.xml files.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HibernateInspector

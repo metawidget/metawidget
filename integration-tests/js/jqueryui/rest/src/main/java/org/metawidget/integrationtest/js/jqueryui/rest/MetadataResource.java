@@ -22,6 +22,8 @@ import javax.ws.rs.Path;
 /**
  * Example of retrieving <em>metadata</em> using REST. Retrieving <em>data</em> using REST is
  * usually much simpler, as it is done outside of Metawidget.
+ * 
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Path( "/metadata" )

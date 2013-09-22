@@ -34,7 +34,7 @@ import org.metawidget.util.CollectionUtils;
  * We define separate Stub widgets, as opposed to simply a <code>SwingMetawidget.addStub</code>
  * method, as this is more amenable to visual UI builders.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 // Note: Stub extends JComponent, not JPanel, because in general it should not be opaque

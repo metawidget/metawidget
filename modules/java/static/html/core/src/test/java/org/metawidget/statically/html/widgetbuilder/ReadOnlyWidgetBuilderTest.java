@@ -31,6 +31,10 @@ import org.metawidget.statically.html.layout.HtmlTableLayout;
 import org.metawidget.statically.layout.SimpleLayout;
 import org.metawidget.util.CollectionUtils;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class ReadOnlyWidgetBuilderTest
 	extends TestCase {
 

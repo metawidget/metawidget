@@ -49,7 +49,7 @@ import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
  * generated. This is a great way to fox hackers who are trying to POST back pre-generated payloads
  * of HTTP fields (ie. CSRF attacks).
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

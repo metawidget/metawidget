@@ -23,6 +23,10 @@ import junit.framework.TestCase;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class HtmlMetawidgetSubclassTest
 	extends TestCase {
 

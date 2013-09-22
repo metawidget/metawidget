@@ -36,7 +36,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * <p>
  * Locates overridden widgets based on matching value binding.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @SuppressWarnings( "deprecation" )

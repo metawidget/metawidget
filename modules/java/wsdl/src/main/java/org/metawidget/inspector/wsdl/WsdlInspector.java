@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
  * . For returning results to JavaScript environments, consider
  * <code>JavaToJavaScriptTypeMappingProcessor</code> and <code>XmlUtils.elementToJson</code>.
  * 
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class WsdlInspector

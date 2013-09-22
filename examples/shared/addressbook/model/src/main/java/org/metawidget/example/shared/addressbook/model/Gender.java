@@ -32,7 +32,7 @@ package org.metawidget.example.shared.addressbook.model;
 /**
  * Male/female enum.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public enum Gender {

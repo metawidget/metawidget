@@ -32,7 +32,7 @@ package org.metawidget.example.android.addressbook.converter;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class ContactTypeConverter

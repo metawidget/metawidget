@@ -20,6 +20,10 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
+/**
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
 public class StaticJspMetawidgetTest
 	extends TestCase {
 

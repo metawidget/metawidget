@@ -34,7 +34,7 @@ import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import android.app.Application;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class AddressBookApplication

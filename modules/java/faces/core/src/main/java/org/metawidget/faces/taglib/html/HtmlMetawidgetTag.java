@@ -26,7 +26,7 @@ import org.metawidget.faces.taglib.MetawidgetTag;
  * <p>
  * Includes HTML-specific attributes, such as <code>style</code> and <code>styleClass</code>.
  *
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class HtmlMetawidgetTag
