@@ -1196,6 +1196,45 @@
 					} );
 				} );
 
+				it( "supports enums that contain null", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: 2
+						};
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									properties: {
+										"bar": {
+											enum: [ null, 2, 3 ],
+											enumTitles: [ "Null", "Two", "Three" ]
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<option value="null">Null</option><option value="2">Two</option>' );
+					} );
+				} );
 			} );
 
 	describe(

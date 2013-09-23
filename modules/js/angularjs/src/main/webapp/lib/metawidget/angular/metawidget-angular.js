@@ -414,7 +414,7 @@
 
 				// ...if the value looks like an expression...
 
-				if ( expression === undefined || expression.slice === undefined ) {
+				if ( expression === undefined || expression === null || expression.slice === undefined ) {
 					continue;
 				}
 

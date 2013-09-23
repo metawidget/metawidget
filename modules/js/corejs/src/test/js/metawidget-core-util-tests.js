@@ -230,6 +230,7 @@
 		it( "looks up enumTitles", function() {
 
 			expect( metawidget.util.lookupEnumTitle( undefined, [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBeUndefined();
+			expect( metawidget.util.lookupEnumTitle( null, [ null, 'bar', 'baz' ], [ 'NULL', 'BAR', 'BAZ' ] ) ).toBe( 'NULL' );
 			expect( metawidget.util.lookupEnumTitle( '', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBe( '' );
 			expect( metawidget.util.lookupEnumTitle( 'foo', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBe( 'FOO' );
 			expect( metawidget.util.lookupEnumTitle( 'bar', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBe( 'BAR' );
