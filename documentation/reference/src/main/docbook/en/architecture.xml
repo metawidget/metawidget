@@ -667,7 +667,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 					It is a very simple format. As an example:
 				</para>
 				
-				<programlisting language="xml">&lt;inspection-result version="1.0"&gt;
+				<programlisting language="xml">&lt;inspection-result xmlns="http://metawidget.org/inspection-result" version="1.0"&gt;
 	&lt;entity type="com.myapp.Person"&gt;
 		&lt;property name="name" required="true"/&gt;
 		&lt;property name="age" minimum-value="0"/&gt;
@@ -684,18 +684,24 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				</para>
 				
 				<para>
-					For JavaScript-based Metawidgets, inspection results are returned as simple JSON arrays:
+					For JavaScript-based Metawidgets, inspection results are returned as JSON Schema:
 				</para>
 				
-				<programlisting language="xml">[
-	{ "name": "name", "required": "true" },
-	{ "name": "age", "minimum-value": "0" }
-]</programlisting>
+				<programlisting language="xml">{
+	properties: {
+		name: {
+			required: true
+		},
+		age: {
+			minimum-value: 0
+		}
+	}
+}</programlisting>
 
 			</section>
 		
 			<section id="section-architecture-inspectors-implementing-your-own">
-				<title>Implementing Your Own Inspector</title>
+				<title>Implementing Your Own Inspector (Java)</title>
 	
 				<para>
 					Metawidget inspects a wide variety of back-end architectures. If your chosen back-end
