@@ -201,7 +201,8 @@
 			expect( $( '#allWidgetsObjectCollection tr td' )[2].innerHTML ).toBe( 'element2' );
 			expect( $( '#allWidgetsObjectCollection tr td' )[3].innerHTML ).toBe( 'Second' );
 
-			expect( $( '#actionsSave' )[0].tagName ).toBe( 'BUTTON' );
+			expect( $( '#actionsSave' )[0].tagName ).toBe( 'INPUT' );
+			expect( $( '#actionsSave' ).attr( 'type' ) ).toBe( 'button' );
 			expect( $( '#actionsSave' ).attr( 'ng-click' ) ).toBe( 'actions.save()' );
 			expect( $( '#actionsSave' ).text() ).toBe( 'Save' );
 

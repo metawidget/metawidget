@@ -62,10 +62,10 @@
 			expect( element( '#table-search tbody tr:eq(2) td select' ).attr( 'id' ) ).toBe( 'searchType' );
 			expect( element( '#table-search tfoot tr td' ).attr( 'colspan' ) ).toBe( '2' );
 			expect( element( '#table-search tfoot tr td' ).attr( 'class' ) ).toBe( 'buttons' );
-			expect( element( '#table-search tfoot tr td button:eq(0)' ).text() ).toBe( 'Search' );
-			expect( element( '#table-search tfoot tr td button:eq(1)' ).text() ).toBe( 'Create Personal' );
-			expect( element( '#table-search tfoot tr td button:eq(2)' ).text() ).toBe( 'Create Business' );
-			expect( element( '#table-search tfoot tr td button' ).count() ).toBe( 3 );
+			expect( element( '#table-search tfoot tr td input:eq(0)' ).attr( 'value' ) ).toBe( 'Search' );
+			expect( element( '#table-search tfoot tr td input:eq(1)' ).attr( 'value' ) ).toBe( 'Create Personal' );
+			expect( element( '#table-search tfoot tr td input:eq(2)' ).attr( 'value' ) ).toBe( 'Create Business' );
+			expect( element( '#table-search tfoot tr td input' ).count() ).toBe( 3 );
 
 			expect( element( '.data-table tbody a:eq(0)' ).text() ).toContain( 'Mr Charles Montgomery Burns' );
 			expect( element( '.data-table tbody a:eq(1)' ).text() ).toContain( 'Mr Homer Simpson' );
@@ -176,7 +176,7 @@
 			expect( element( '#table-current tbody > tr:eq(9) td:eq(0) output' ).attr( 'id' ) ).toBe( 'currentNotes' );
 			expect( element( '#table-current tfoot:eq(0) tr td' ).attr( 'colspan' ) ).toBe( '2' );
 			expect( element( '#table-current tfoot:eq(0) tr td' ).attr( 'class' ) ).toBe( 'buttons' );
-			expect( element( '#table-current tfoot:eq(0) tr td button' ).count() ).toBe( 2 );
+			expect( element( '#table-current tfoot:eq(0) tr td input' ).count() ).toBe( 2 );
 
 			element( '#crudActionsEdit' ).click();
 
@@ -281,10 +281,10 @@
 
 			element( '#searchActionsCreatePersonal' ).click();
 			expect( element( '#table-current tbody tr:eq(4) td input' ).attr( 'type' ) ).toBe( 'date' );
-			expect( element( '#dialog-content tfoot:eq(0) button:eq(0)' ).text() ).toBe( 'Save' );
-			expect( element( '#dialog-content tfoot:eq(0) button:eq(1)' ).text() ).toBe( 'Cancel' );
-			expect( element( '#dialog-content tfoot:eq(0) button' ).count() ).toBe( 2 );
-			expect( element( '#dialog-content tfoot:eq(1) button' ).count() ).toBe( 1 );
+			expect( element( '#dialog-content tfoot:eq(0) input:eq(0)' ).attr( 'value' ) ).toBe( 'Save' );
+			expect( element( '#dialog-content tfoot:eq(0) input:eq(1)' ).attr( 'value' ) ).toBe( 'Cancel' );
+			expect( element( '#dialog-content tfoot:eq(0) input' ).count() ).toBe( 2 );
+			expect( element( '#dialog-content tfoot:eq(1) input' ).count() ).toBe( 1 );
 			element( '#crudActionsCancel' ).click();
 
 			element( '#searchActionsCreateBusiness' ).click();

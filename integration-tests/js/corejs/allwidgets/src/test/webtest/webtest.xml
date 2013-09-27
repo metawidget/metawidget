@@ -235,8 +235,9 @@
 				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="19"/>
 
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/@colspan" text="2"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/button" text="Save"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/button/@id" text="actionsSave"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/input/@type" text="button"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/input/@value" text="Save"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tfoot/tr[1]/td/div/input/@id" text="actionsSave"/>
 				
 				<clickButton label="Save"/>
 				
