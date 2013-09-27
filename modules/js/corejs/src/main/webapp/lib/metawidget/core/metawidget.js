@@ -13,6 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+//
+// Author: Richard Kennard (http://kennardconsulting.com)
 
 /**
  * @namespace Metawidget for pure JavaScript environments.
@@ -48,7 +50,7 @@ var metawidget = metawidget || {};
 		// SimpleBindingProcessor, among others
 
 		var mw = this;
-		
+
 		element.getMetawidget = function() {
 
 			return mw;
@@ -64,7 +66,7 @@ var metawidget = metawidget || {};
 		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-				new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
+				new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
 		_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 		_pipeline.configure( config );
 

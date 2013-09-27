@@ -109,6 +109,25 @@
 		} );
 	} );
 
+	describe( "The DisabledAttributeProcessor", function() {
+
+		it( "assigns the disabled attribute to widgets", function() {
+
+			var processor = new metawidget.widgetprocessor.DisabledAttributeProcessor();
+
+			var widget = simpleDocument.createElement( 'input' );
+			var mw = {};
+
+			processor.processWidget( widget, "property", {}, mw );
+			expect( widget.hasAttribute( 'disabled' ) ).toBe( false );
+
+			processor.processWidget( widget, "property", {
+				disabled: true
+			}, mw );
+			expect( widget.getAttribute( 'disabled' ) ).toBe( 'disabled' );
+		} );
+	} );
+
 	describe( "The SimpleBindingProcessor", function() {
 
 		it( "processes widgets and binds them", function() {
@@ -141,14 +160,23 @@
 			expect( widget.toString() ).toBe( 'input id="fooId" name="fooId"' );
 			expect( widget.value ).toBe( 'fooValue' );
 
-			// Buttons
+			// Button inputs
 
 			attributes = {
 				name: "bar"
 			};
-			widget = simpleDocument.createElement( 'button' );
+			widget = simpleDocument.createElement( 'input' );
+			widget.setAttribute( 'type', 'button' )
 			processor.processWidget( widget, "property", attributes, mw );
-			expect( widget.toString() ).toBe( 'button' );
+			expect( widget.toString() ).toBe( 'input type="button"' );
+			expect( widget.onclick.toString() ).toContain( 'return mw.toInspect[attributes.name]();' );
+
+			// Submit inputs
+
+			widget = simpleDocument.createElement( 'input' );
+			widget.setAttribute( 'type', 'submit' )
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.toString() ).toBe( 'input type="submit"' );
 			expect( widget.onclick.toString() ).toContain( 'return mw.toInspect[attributes.name]();' );
 
 			// Outputs

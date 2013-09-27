@@ -569,9 +569,10 @@ public final class XmlUtils {
 	 * Convert the given Element to a JSON Schema (v3) String.
 	 * <p>
 	 * If converting <code>inspection-result</code> DOMs into JSON Schemas, consider using this
-	 * method in conjunction with <code>JsonSchemaMappingProcessor</code>. The result is directly
-	 * compatible with the JavaScript versions of Metawidget. It can therefore be returned by REST
-	 * services (see http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
+	 * method in conjunction with <code>JsonSchemaMappingProcessor</code> and
+	 * <code>JsonTypeMappingProcessor</code>. The result is directly compatible with the JavaScript
+	 * versions of Metawidget. It can therefore be returned by REST services (see
+	 * http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
 	 */
 
 	public static String elementToJsonSchema( Element inspectionResult ) {
@@ -581,35 +582,42 @@ public final class XmlUtils {
 
 		if ( entity != null ) {
 
-			// For each child property...
+			// For each child trait...
 
-			Element property = XmlUtils.getFirstChildElement( entity );
+			Element trait = XmlUtils.getFirstChildElement( entity );
 
-			while ( property != null ) {
+			while ( trait != null ) {
 
-				if ( property.hasAttribute( NAME ) ) {
+				if ( trait.hasAttribute( NAME ) ) {
 
-					// ...and for each attribute of that property...
+					// ...and for each attribute of that trait...
 
-					String properties = attributesToJsonSchema( property.getAttributes(), true );
+					String attributes = attributesToJsonSchema( trait.getAttributes(), true );
+
+					if ( ACTION.equals( trait.getLocalName() )) {
+						if ( attributes.length() > 0 ) {
+							attributes += ",";
+						}
+						attributes += "\"type\":\"function\"";
+					}
 
 					// ...write it out
 
-					if ( properties.length() > 0 ) {
+					if ( attributes.length() > 0 ) {
 
 						if ( jsonBuilder.length() > 0 ) {
 							jsonBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
 						}
 
 						jsonBuilder.append( '\"' );
-						jsonBuilder.append( property.getAttribute( NAME ) );
+						jsonBuilder.append( trait.getAttribute( NAME ) );
 						jsonBuilder.append( "\":{" );
-						jsonBuilder.append( properties );
+						jsonBuilder.append( attributes );
 						jsonBuilder.append( '}' );
 					}
 				}
 
-				property = XmlUtils.getNextSiblingElement( property );
+				trait = XmlUtils.getNextSiblingElement( trait );
 			}
 
 			if ( jsonBuilder.length() > 0 ) {
@@ -619,15 +627,15 @@ public final class XmlUtils {
 
 			// ...then write out the root of the inspectionResult...
 
-			String properties = attributesToJsonSchema( entity.getAttributes(), false );
+			String attributes = attributesToJsonSchema( entity.getAttributes(), false );
 
-			if ( properties.length() > 0 ) {
+			if ( attributes.length() > 0 ) {
 
 				if ( jsonBuilder.length() > 0 ) {
 					jsonBuilder.insert( 0, "," );
 				}
 
-				jsonBuilder.insert( 0, properties );
+				jsonBuilder.insert( 0, attributes );
 			}
 		}
 
@@ -640,7 +648,15 @@ public final class XmlUtils {
 	// Private methods
 	//
 
+	/**
+	 * Reserved JSON Schema attributes that are known to be arrays.
+	 */
+
 	private static final String[]	JSON_SCHEMA_ARRAY_BASED_ATTRIBUTE_NAMES	= new String[] { SECTION, "enum", "enumTitles" };
+
+	/**
+	 * Reserved JSON Schema attributes that are known to be non-strings (e.g. numbers or booleans).
+	 */
 
 	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength" };
 
@@ -693,7 +709,10 @@ public final class XmlUtils {
 
 		String toReturn = ArrayUtils.toString( ArrayUtils.fromString( array ), "\"", true, true );
 		toReturn = toReturn.replaceAll( "([^\\\\])\"", "$1\",\"" );
-		toReturn = toReturn.substring( 0, toReturn.length() - 2 );
+
+		if ( toReturn.length() > 2 ) {
+			toReturn = toReturn.substring( 0, toReturn.length() - 2 );
+		}
 
 		return toReturn;
 	}

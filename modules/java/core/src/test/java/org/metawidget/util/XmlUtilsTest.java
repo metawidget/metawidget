@@ -280,8 +280,13 @@ public class XmlUtilsTest
 
 		// Normal case
 
-		Document document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" type=\"1\"><property name=\"bar\" barAttr=\"2\" data=\"bar2\"/><baz name=\"bazName\" bazAttr=\"3\"/><ignore ignoreMe=\"please\"/></entity></inspection-result>" );
-		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\"},\"bazName\":{\"bazAttr\":\"3\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		Document document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" type=\"1\"><property name=\"bar\" barAttr=\"2\" data=\"bar2\"/><baz name=\"bazName\" bazAttr=\"3\"/><ignore ignoreMe=\"please\"/><action name=\"anAction\"/></entity></inspection-result>" );
+		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\"},\"bazName\":{\"bazAttr\":\"3\"},\"anAction\":{\"type\":\"function\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+
+		// Action
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" type=\"1\"><action name=\"anAction\" label=\"Action Label\" enum=\"\"/></entity></inspection-result>" );
+		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"anAction\":{\"enum\":[],\"label\":\"Action Label\",\"type\":\"function\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
 		// Special attribute types
 

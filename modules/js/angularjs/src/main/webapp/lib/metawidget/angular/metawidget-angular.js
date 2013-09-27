@@ -13,6 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+//
+// Author: Richard Kennard (http://kennardconsulting.com)
 
 ( function() {
 
@@ -199,7 +201,7 @@
 		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),
-				new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope ) ];
+				new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope ) ];
 		_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
 		this.configure = function( config ) {
@@ -500,7 +502,7 @@
 					widget.setAttribute( 'ng-bind', binding );
 				}
 
-			} else if ( widget.tagName === 'BUTTON' ) {
+			} else if ( widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'button' || widget.getAttribute( 'type' ) === 'submit' ) ) {
 				widget.setAttribute( 'ng-click', binding + '()' );
 			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 

@@ -251,7 +251,8 @@
 
 			var layout = new metawidget.layout.DivLayout();
 
-			var button = simpleDocument.createElement( 'button' );
+			var button1 = simpleDocument.createElement( 'input' );
+			button1.setAttribute( 'type', 'button' );
 			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
 				getElement: function() {
@@ -260,15 +261,28 @@
 				}
 			};
 
-			layout.layoutWidget( button, "action", {
+			layout.layoutWidget( button1, "action", {
 				name: "widget1"
 			}, container, mw );
 
 			expect( container.childNodes[0].toString() ).toBe( 'div' );
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button1 );
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
+
+			var button2 = simpleDocument.createElement( 'input' );
+			button2.setAttribute( 'type', 'submit' );
+
+			layout.layoutWidget( button2, "action", {
+				name: "widget2"
+			}, container, mw );
+
+			expect( container.childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[1].childNodes[0].childNodes[0] ).toBe( button2 );
+			expect( container.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "suppresses labels for entities", function() {

@@ -113,6 +113,7 @@
 				},
 				appendChild: function( childNode ) {
 
+					childNode.parentNode = this;
 					this.childNodes.push( childNode );
 				},
 				cloneNode: function() {

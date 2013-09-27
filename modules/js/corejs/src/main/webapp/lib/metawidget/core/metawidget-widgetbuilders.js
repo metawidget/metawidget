@@ -13,6 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+//
+// Author: Richard Kennard (http://kennardconsulting.com)
 
 /**
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
@@ -274,8 +276,13 @@ var metawidget = metawidget || {};
 			// Button
 
 			if ( attributes.type === 'function' ) {
-				var button = metawidget.util.createElement( mw, 'button' );
-				button.innerHTML = metawidget.util.getLabelString( attributes, mw );
+				var button = metawidget.util.createElement( mw, 'input' );
+				if ( metawidget.util.isTrueOrTrueString( attributes.submit ) ) {
+					button.setAttribute( 'type', 'submit' );
+				} else {				
+					button.setAttribute( 'type', 'button' );
+				}
+				button.setAttribute( 'value', metawidget.util.getLabelString( attributes, mw ));
 				return button;
 			}
 

@@ -2375,7 +2375,8 @@ void onEndBuild( M metawidget );</programlisting>
 							<td>AngularJS</td>
 							<td><programlisting language="java">[
 	new metawidget.widgetprocessor.IdProcessor(),
-	new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),	
+	new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),
+	new metawidget.widgetprocessor.DisabledAttributeProcessor(),
 	new metawidget.angular.widgetprocessor.AngularWidgetProcessor(...)
 ]</programlisting>							
 							</td>
@@ -2390,6 +2391,7 @@ void onEndBuild( M metawidget );</programlisting>
 	new metawidget.widgetprocessor.IdProcessor(),
 	new metawidget.widgetprocessor.RequiredAttributeProcessor(),
 	new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),
+	new metawidget.widgetprocessor.DisabledAttributeProcessor(),
 	new metawidget.widgetprocessor.SimpleBindingProcessor()
 ]</programlisting></td>
 						</tr>							
@@ -2399,6 +2401,7 @@ void onEndBuild( M metawidget );</programlisting>
 	new metawidget.widgetprocessor.IdProcessor(),
 	new metawidget.widgetprocessor.RequiredAttributeProcessor(),
 	new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),
+	new metawidget.widgetprocessor.DisabledAttributeProcessor(),
 	new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(),	
 	new metawidget.widgetprocessor.SimpleBindingProcessor()
 ]</programlisting></td>							

@@ -13,6 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+//
+// Author: Richard Kennard (http://kennardconsulting.com)
 
 ( function() {
 
@@ -51,15 +53,19 @@
 
 		switch ( widget.tagName ) {
 
-			case 'BUTTON':
-				metawidget.util.appendToAttribute( widget, 'class', 'btn' );
-				break;
-
 			case 'TABLE':
 				metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
 				break;
 
 			case 'INPUT':
+				if ( widget.getAttribute( 'type' ) === 'submit' ) {
+					metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
+					break;
+				}
+				if ( widget.getAttribute( 'type' ) === 'button' ) {
+					metawidget.util.appendToAttribute( widget, 'class', 'btn' );
+					break;
+				}
 				if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
 					var div = metawidget.util.createElement( mw, 'div' );
 					if ( attributes.inputPrepend !== undefined ) {
@@ -137,4 +143,77 @@
 
 		return layout;
 	};
+
+	/**
+	 * @class LayoutDecorator to decorate widgets from different sections using
+	 *        Bootstrap tabs.
+	 */
+
+	metawidget.bootstrap.layout.TabLayoutDecorator = function( config ) {
+
+		if ( ! ( this instanceof metawidget.bootstrap.layout.TabLayoutDecorator ) ) {
+			throw new Error( 'Constructor called as a function' );
+		}
+
+		metawidget.layout.createNestedSectionLayoutDecorator( config, this, 'bootstrapTabLayoutDecorator' );
+	};
+
+	metawidget.bootstrap.layout.TabLayoutDecorator.prototype.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
+
+		var tabs = previousSectionWidget;
+
+		// Whole new tabbed pane?
+
+		if ( tabs === undefined ) {
+			tabs = metawidget.util.createElement( mw, 'div' );
+			tabs.setAttribute( 'id', metawidget.util.getId( "property", attributes, mw ) + '-tabs' );
+			tabs.setAttribute( 'class', 'tabs' );
+			var ul = metawidget.util.createElement( mw, 'ul' );
+			ul.setAttribute( 'class', 'nav nav-tabs' );
+			tabs.appendChild( ul );
+			var content = metawidget.util.createElement( mw, 'div' );
+			content.setAttribute( 'class', 'tab-content' );
+			tabs.appendChild( content );
+			this.getDelegate().layoutWidget( tabs, "property", {
+				wide: "true"
+			}, container, mw );
+
+			mw.bootstrapTabLayoutDecorator = mw.bootstrapTabLayoutDecorator || [];
+			mw.bootstrapTabLayoutDecorator.push( tabs );
+		} else {
+			tabs = previousSectionWidget.parentNode.parentNode;
+		}
+
+		// New Tab
+
+		var ul = tabs.childNodes[0];
+		var tabId = tabs.getAttribute( 'id' ) + ( ul.childNodes.length + 1 );
+		var li = metawidget.util.createElement( mw, 'li' );
+		if ( ul.childNodes.length === 0 ) {
+			li.setAttribute( 'class', 'active' );
+		}
+		var a = metawidget.util.createElement( mw, 'a' );
+		a.setAttribute( 'data-toggle', 'tab' );
+		a.setAttribute( 'href', '#' + tabId );
+		a.hash = '#' + tabId;
+		li.appendChild( a );
+		ul.appendChild( li );
+
+		var content = tabs.childNodes[1];
+		var tab = metawidget.util.createElement( mw, 'div' );
+		if ( content.childNodes.length === 0 ) {
+			tab.setAttribute( 'class', 'tab-pane active' );
+		} else {
+			tab.setAttribute( 'class', 'tab-pane' );
+		}
+		tab.setAttribute( 'id', tabId );
+		content.appendChild( tab );
+
+		// Tab name
+
+		a.innerHTML = section;
+
+		return tab;
+	};
+
 } )();

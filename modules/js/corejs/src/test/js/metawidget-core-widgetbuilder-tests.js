@@ -373,9 +373,14 @@
 				type: "function"
 			}, mw );
 
-			expect( button.toString() ).toBe( 'button' );
-			expect( button.innerHTML ).toBe( 'Click Me' );
+			expect( button.toString() ).toBe( 'input type="button" value="Click Me"' );
 			expect( button.getAttribute( 'class' ) ).toBe( null );
+
+			expect( widgetBuilder.buildWidget( "property", {
+				name: "clickMe",
+				type: "function",
+				submit: true
+			}, mw ).toString() ).toBe( 'input type="submit" value="Click Me"' );
 
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "number"

@@ -1402,12 +1402,26 @@
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-model' ) ).toBe( 'testPath.foo' );
 
-				// Buttons
+				// Button inputs
 
 				attributes = {
 					name: "bar"
 				};
-				widget = document.createElement( 'button' );
+				widget = document.createElement( 'input' );
+				widget.setAttribute( 'type', 'button' );
+				processor.processWidget( widget, 'property', attributes, mw );
+				expect( widget.getAttribute( 'ng-click' ) ).toBe( 'testPath.bar()' );
+				expect( widget.getAttribute( 'ng-required' ) ).toBe( null );
+				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
+				expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( null );
+
+				// Submit input
+
+				attributes = {
+					name: "bar"
+				};
+				widget = document.createElement( 'input' );
+				widget.setAttribute( 'type', 'submit' );
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-click' ) ).toBe( 'testPath.bar()' );
 				expect( widget.getAttribute( 'ng-required' ) ).toBe( null );

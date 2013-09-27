@@ -13,6 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+//
+// Author: Richard Kennard (http://kennardconsulting.com)
 
 /**
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
@@ -98,6 +100,26 @@ var metawidget = metawidget || {};
 	};
 
 	/**
+	 * @class WidgetProcessor that sets the HTML 'disabled' attribute.
+	 */
+
+	metawidget.widgetprocessor.DisabledAttributeProcessor = function() {
+
+		if ( ! ( this instanceof metawidget.widgetprocessor.DisabledAttributeProcessor ) ) {
+			throw new Error( 'Constructor called as a function' );
+		}
+	};
+
+	metawidget.widgetprocessor.DisabledAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
+
+		if ( metawidget.util.isTrueOrTrueString( attributes.disabled ) ) {
+			widget.setAttribute( 'disabled', 'disabled' );
+		}
+
+		return widget;
+	};
+	
+	/**
 	 * @class Simple data/action binding implementation. Frameworks that supply
 	 *        their own data-binding mechanisms (such as Angular JS) should
 	 *        override this with their own WidgetProcessor.
@@ -117,7 +139,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
-		if ( widget.tagName === 'BUTTON' ) {
+		if ( widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'button' || widget.getAttribute( 'type' ) === 'submit' )) {
 			widget.onclick = function() {
 
 				try {

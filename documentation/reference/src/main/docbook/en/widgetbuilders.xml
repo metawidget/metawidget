@@ -574,8 +574,12 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td><classname>&lt;button&gt;</classname></td>
+								<td><classname>&lt;input type="button"&gt;</classname></td>
 								<td><parameter>type: "function"</parameter></td>
+							</tr>
+							<tr>
+								<td><classname>&lt;input type="submit"&gt;</classname></td>
+								<td><parameter>type: "function"</parameter> and <parameter>submit: true</parameter></td>
 							</tr>
 							<tr>
 								<td><classname>&lt;input type="checkbox"&gt;</classname></td>

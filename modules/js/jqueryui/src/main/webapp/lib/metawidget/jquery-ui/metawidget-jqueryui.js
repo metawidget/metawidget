@@ -13,6 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+//
+// Author: Richard Kennard (http://kennardconsulting.com)
 
 /**
  * @namespace Metawidget for pure JavaScript environments.
@@ -269,7 +271,7 @@ var metawidget = metawidget || {};
 			widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(),
 					new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
 			widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(),
+					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(),
 					new metawidget.widgetprocessor.SimpleBindingProcessor() ],
 			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
 		},

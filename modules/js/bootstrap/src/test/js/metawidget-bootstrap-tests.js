@@ -24,15 +24,21 @@
 
 			var element = simpleDocument.createElement( 'div' );
 
-			var widget = simpleDocument.createElement( 'button' );
+			var widget = simpleDocument.createElement( 'input' );
+			widget.setAttribute( 'type', 'button' );
 			var processor = new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor();
 
 			expect( processor.processWidget( widget ) ).toBe( widget );
 			expect( widget.getAttribute( 'class' ) ).toBe( 'btn' );
 
+			widget = simpleDocument.createElement( 'input' );
+			widget.setAttribute( 'type', 'submit' );
+			expect( processor.processWidget( widget ) ).toBe( widget );
+			expect( widget.getAttribute( 'class' ) ).toBe( 'btn btn-primary' );
+
 			widget.setAttribute( 'class', 'other' );
 			expect( processor.processWidget( widget ) ).toBe( widget );
-			expect( widget.getAttribute( 'class' ) ).toBe( 'other btn' );
+			expect( widget.getAttribute( 'class' ) ).toBe( 'other btn btn-primary' );
 
 			widget = simpleDocument.createElement( 'table' );
 			expect( processor.processWidget( widget ) ).toBe( widget );
@@ -128,6 +134,82 @@
 			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[1].childNodes.length ).toBe( 2 );
 			expect( element.childNodes.length ).toBe( 2 );
+		} );
+
+		it( "has a Layout that supports Bootstrap tabs", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: function() {
+
+					return {
+						properties: {
+							foo: {
+								type: "string"
+							},
+							bar: {
+								type: "string",
+								section: "Tab 1"
+							},
+							baz: {
+								type: "string",
+								section: "Tab 2"
+							},
+							abc: {
+								type: "string",
+								section: ""
+							}
+						}
+					};
+				},
+				layout: new metawidget.bootstrap.layout.TabLayoutDecorator( new metawidget.bootstrap.layout.BootstrapDivLayout() )
+			} );
+
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" class="control-label"' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( element.childNodes[1].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div id="bar-tabs" class="tabs"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'ul class="nav nav-tabs"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'li class="active"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'a data-toggle="tab" href="#bar-tabs1"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Tab 1' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'a data-toggle="tab" href="#bar-tabs2"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Tab 2' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			var tabContent = element.childNodes[1].childNodes[0].childNodes[0].childNodes[1]; 
+			expect( tabContent.toString() ).toBe( 'div class="tab-content"' );
+			expect( tabContent.childNodes[0].toString() ).toBe( 'div class="tab-pane active" id="bar-tabs1"' );
+			expect( tabContent.childNodes[0].childNodes[0].toString() ).toBe( 'div class="control-group"' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" class="control-label"' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( tabContent.childNodes[1].toString() ).toBe( 'div class="tab-pane" id="bar-tabs2"' );
+			expect( tabContent.childNodes[1].childNodes[0].toString() ).toBe( 'div class="control-group"' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="baz" class="control-label"' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( tabContent.childNodes.length ).toBe( 2 );
+			expect( element.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[2].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label for="abc" class="control-label"' );
+			expect( element.childNodes[2].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[2].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="abc" name="abc"' );
+			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[2].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 3 );
 		} );
 	} );
 } )();

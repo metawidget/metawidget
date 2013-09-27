@@ -614,15 +614,24 @@
 					</para>
 				</section>
 
+				<section id="section-layouts-web-javascript-tab-bootstrap">
+					<title>TabLayoutDecorator (Bootstrap)</title>
+
+					<para>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
+						Bootstrap tabs.
+					</para>
+				</section>
+				
 				<section id="section-layouts-web-javascript-tab">
-					<title>TabLayoutDecorator</title>
+					<title>TabLayoutDecorator (JQuery UI)</title>
 
 					<para>
 						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
 						JQuery UI tabs.
 					</para>
 				</section>
-				
+
 				<section id="section-layouts-web-javascript-table">
 					<title>TableLayout</title>
 					

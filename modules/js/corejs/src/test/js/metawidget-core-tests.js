@@ -909,8 +909,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-fooAction-label-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes.length ).toBe( 0 );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-fooAction-cell"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'button id="fooAction"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].innerHTML ).toBe( 'Foo Action Label' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="button" value="Foo Action Label" id="fooAction"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 3 );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
