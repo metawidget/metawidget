@@ -1314,22 +1314,22 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"/><td id="table-fooEdit-cell"><button id="fooEdit" ng-click="foo.edit()" class="ng-scope">Edit</button></td><td/></tr></tbody></table>' );
+														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"/><td id="table-fooEdit-cell"><input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/></td><td/></tr></tbody></table>' );
 
-										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()" class="ng-scope">Edit</button>' );
+										expect( mw.innerHTML ).toContain( '<input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/>' );
 
 										var scope = angular.element( body ).scope();
 										scope.readOnlyz = false;
 										scope.$digest();
 
 										expect( mw.innerHTML ).toNotContain( 'fooEdit' );
-										expect( mw.innerHTML ).toContain( '<button id="fooSave" ng-click="foo.save()" class="ng-scope">Save</button>' );
+										expect( mw.innerHTML ).toContain( '<input type="button" value="Save" id="fooSave" ng-click="foo.save()" class="ng-scope"/>' );
 
 										scope.readOnlyz = true;
 										scope.$digest();
 
 										expect( mw.innerHTML ).toNotContain( 'fooSave' );
-										expect( mw.innerHTML ).toContain( '<button id="fooEdit" ng-click="foo.edit()" class="ng-scope">Edit</button>' );
+										expect( mw.innerHTML ).toContain( '<input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/>' );
 									} );
 						} );
 
