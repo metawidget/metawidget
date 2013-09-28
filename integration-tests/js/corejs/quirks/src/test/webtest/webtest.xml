@@ -26,7 +26,9 @@
 				
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/@id" text="description"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/@id" text="table-save-row"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/button/@id" text="save"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@id" text="save"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@type" text="button"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@value" text="Save"/>
 
 				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="4"/>
 				<clickButton label="Save"/>
