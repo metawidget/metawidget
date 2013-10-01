@@ -176,7 +176,7 @@
 			
 			expect( $( '#actionsSave' )[0].tagName ).toBe( 'INPUT' );
 			expect( $( '#actionsSave' ).attr( 'type' ) ).toBe( 'button' );
-			expect( $( '#actionsSave' ).text() ).toBe( 'Save' );
+			expect( $( '#actionsSave' ).val() ).toBe( 'Save' );
 
 			$( '#actionsSave' ).click();
 

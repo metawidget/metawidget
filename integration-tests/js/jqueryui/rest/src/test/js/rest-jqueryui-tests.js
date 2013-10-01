@@ -22,7 +22,8 @@
 
 		it( "tests REST functionality", function() {
 
-			expect( $( '#save' ).text() ).toBe( 'Save' );
+			expect( $( '#save' ).attr( 'type' ) ).toBe( 'button' );
+			expect( $( '#save' ).val() ).toBe( 'Save' );
 			expect( $( '#name' ).attr( 'type' ) ).toBe( 'text' );
 			$( '#name' ).val( 'Name1' );
 			expect( $( '#age' ).attr( 'class' ) ).toContain( 'ui-spinner' );
