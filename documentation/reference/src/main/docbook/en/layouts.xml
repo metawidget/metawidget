@@ -569,7 +569,7 @@
 					<para> 
 						This layout extends <classname>metawidget.layout.DivLayout</classname>. It adds Bootstrap
 						CSS classes such as <parameter>control-group</parameter> and <parameter>control-label</parameter>
-						to the divs, and CSS class <parameter>required</parameter> to labels.
+						to the divs.
 					</para>
 
 				</section>
@@ -598,7 +598,40 @@
 								<td><parameter>divStyleClasses</parameter></td>
 								<td>
 									Comma separated list of style classes to apply to the divs,
-									in order of outer, label, component
+									in order of outer, label, component.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>labelStyleClass</parameter></td>
+								<td>
+									Style class to apply to the generated label.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>
+									Suffix to append to the generated label.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>suppressLabelSuffixOnCheckboxes</parameter></td>
+								<td>
+									Some UI frameworks (like JQuery Mobile) reuse the checkbox label
+									alongside the checkbox itself. This looks bad if we keep the suffix.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>appendRequiredClassOnLabelDiv</parameter></td>
+								<td>
+									Style class to apply to the label div if the widget is required.
+									Can be useful for CSS :after selectors.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>appendRequiredClassOnWidgetDiv</parameter></td>
+								<td>
+									Style class to apply to the widget div if the widget is required.
+									Can be useful for CSS :after selectors.
 								</td>
 							</tr>
 						</tbody>						

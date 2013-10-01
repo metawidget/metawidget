@@ -575,35 +575,34 @@ public final class XmlUtils {
 	 * http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
 	 */
 
+	// REFACTOR: rename inspectionResultToJsonSchema, because it skips document root
+
 	public static String elementToJsonSchema( Element inspectionResult ) {
 
-		StringBuilder jsonBuilder = new StringBuilder();
-		Element entity = XmlUtils.getFirstChildElement( inspectionResult );
+		return _elementToJsonSchema( XmlUtils.getFirstChildElement( inspectionResult ), false );
+	}
 
-		if ( entity != null ) {
+	private static String _elementToJsonSchema( Element element, boolean excludeName ) {
+
+		StringBuilder jsonBuilder = new StringBuilder();
+
+		if ( element != null ) {
 
 			// For each child trait...
 
-			Element trait = XmlUtils.getFirstChildElement( entity );
+			Element trait = XmlUtils.getFirstChildElement( element );
 
 			while ( trait != null ) {
 
+				// ...that has a name...
+
 				if ( trait.hasAttribute( NAME ) ) {
 
-					// ...and for each attribute of that trait...
+					// ..recurse into it...
 
-					String attributes = attributesToJsonSchema( trait.getAttributes(), true );
+					String traitSchema = _elementToJsonSchema( trait, true );
 
-					if ( ACTION.equals( trait.getLocalName() )) {
-						if ( attributes.length() > 0 ) {
-							attributes += ",";
-						}
-						attributes += "\"type\":\"function\"";
-					}
-
-					// ...write it out
-
-					if ( attributes.length() > 0 ) {
+					if ( traitSchema.length() > 0 ) {
 
 						if ( jsonBuilder.length() > 0 ) {
 							jsonBuilder.append( StringUtils.SEPARATOR_COMMA_CHAR );
@@ -611,23 +610,24 @@ public final class XmlUtils {
 
 						jsonBuilder.append( '\"' );
 						jsonBuilder.append( trait.getAttribute( NAME ) );
-						jsonBuilder.append( "\":{" );
-						jsonBuilder.append( attributes );
-						jsonBuilder.append( '}' );
+						jsonBuilder.append( "\":" );
+						jsonBuilder.append( traitSchema );
 					}
 				}
 
 				trait = XmlUtils.getNextSiblingElement( trait );
 			}
 
+			// ...and write them all out as 'properties'
+
 			if ( jsonBuilder.length() > 0 ) {
 				jsonBuilder.insert( 0, "\"properties\":{" );
 				jsonBuilder.append( '}' );
 			}
 
-			// ...then write out the root of the inspectionResult...
+			// Finally write out the root...
 
-			String attributes = attributesToJsonSchema( entity.getAttributes(), false );
+			String attributes = attributesToJsonSchema( element.getAttributes(), excludeName );
 
 			if ( attributes.length() > 0 ) {
 
@@ -637,11 +637,21 @@ public final class XmlUtils {
 
 				jsonBuilder.insert( 0, attributes );
 			}
+
+			if ( ACTION.equals( element.getLocalName() ) && !element.hasAttribute( "type" ) ) {
+				if ( jsonBuilder.length() > 0 ) {
+					jsonBuilder.insert( 0, "," );
+				}
+				jsonBuilder.insert( 0, "\"type\":\"function\"" );
+			}
+
+			// ...all inside an Object
+
+			jsonBuilder.insert( 0, "{" );
+			jsonBuilder.append( "}" );
 		}
 
-		// ...all inside an Object
-
-		return "{" + jsonBuilder.toString() + "}";
+		return jsonBuilder.toString();
 	}
 
 	//

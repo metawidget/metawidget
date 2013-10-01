@@ -271,6 +271,7 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );
 
+			container.removeChild( container.childNodes[0] );
 			var button2 = simpleDocument.createElement( 'input' );
 			button2.setAttribute( 'type', 'submit' );
 
@@ -278,11 +279,11 @@
 				name: "widget2"
 			}, container, mw );
 
-			expect( container.childNodes[1].toString() ).toBe( 'div' );
-			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[1].childNodes[0].childNodes[0] ).toBe( button2 );
-			expect( container.childNodes[1].childNodes.length ).toBe( 1 );
-			expect( container.childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "suppresses labels for entities", function() {
@@ -367,6 +368,99 @@
 			expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1' );
 			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
 			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "collapses buttons into the same div", function() {
+
+			var layout = new metawidget.layout.DivLayout();
+
+			var button1 = simpleDocument.createElement( 'input' );
+			button1.setAttribute( 'type', 'button' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.layoutWidget( button1, "action", {
+				name: "widget1"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+
+			var button2 = simpleDocument.createElement( 'input' );
+			button2.setAttribute( 'type', 'submit' );
+
+			layout.layoutWidget( button2, "action", {
+				name: "widget2"
+			}, container, mw );
+
+			expect( container.childNodes[0].childNodes[0].childNodes[1] ).toBe( button2 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "supports appendRequiredClassOnLabelDiv", function() {
+
+			var layout = new metawidget.layout.DivLayout( {
+				appendRequiredClassOnLabelDiv: 'fooBar'
+			} );
+
+			var input = simpleDocument.createElement( 'input' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.layoutWidget( input, "property", {
+				name: "widget1",
+				required: true
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div class="fooBar"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "supports appendRequiredClassOnWidgetDiv", function() {
+
+			var layout = new metawidget.layout.DivLayout( {
+				appendRequiredClassOnWidgetDiv: 'fooBar'
+			} );
+
+			var input = simpleDocument.createElement( 'input' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.layoutWidget( input, "property", {
+				name: "widget1",
+				required: true
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div class="fooBar"' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( input );
 			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );

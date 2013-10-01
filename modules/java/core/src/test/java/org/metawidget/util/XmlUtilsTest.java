@@ -286,7 +286,7 @@ public class XmlUtilsTest
 		// Action
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" type=\"1\"><action name=\"anAction\" label=\"Action Label\" enum=\"\"/></entity></inspection-result>" );
-		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"anAction\":{\"enum\":[],\"label\":\"Action Label\",\"type\":\"function\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"anAction\":{\"type\":\"function\",\"enum\":[],\"label\":\"Action Label\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
 		// Special attribute types
 
@@ -295,12 +295,15 @@ public class XmlUtilsTest
 
 		// Nested elements are ignored, root attributes are optional
 
-		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" barAttr=\"2\" data=\"bar2\"><property nestedAttr=\"3\"/></property></entity></inspection-result>" );
-		assertEquals( "{\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" barAttr=\"2\" data=\"bar2\"><property name=\"nested\" nestedAttr=\"3\"/></property></entity></inspection-result>" );
+		assertEquals( "{\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"properties\":{\"nested\":{\"nestedAttr\":\"3\"}}}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
 		// Empty elements are okay
 
 		document = XmlUtils.documentFromString( "<inspection-result/>" );
+		assertEquals( "", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity/></inspection-result>" );
 		assertEquals( "{}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
 		// Test arrays

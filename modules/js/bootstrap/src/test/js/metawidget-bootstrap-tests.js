@@ -128,7 +128,7 @@
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[1].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" class="control-label required"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" class="control-label"' );
 			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="controls"' );
 			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
 			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );

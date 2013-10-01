@@ -69,11 +69,34 @@ var metawidget = metawidget || {};
 		var _labelStyleClass = config !== undefined ? config.labelStyleClass : undefined;
 		var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
 		var _suppressLabelSuffixOnCheckboxes = config !== undefined && config.suppressLabelSuffixOnCheckboxes !== undefined ? config.suppressLabelSuffixOnCheckboxes : false;
+		var _appendRequiredClassOnLabelDiv = config !== undefined && config.appendRequiredClassOnLabelDiv !== undefined ? config.appendRequiredClassOnLabelDiv : undefined;
+		var _appendRequiredClassOnWidgetDiv = config !== undefined && config.appendRequiredClassOnWidgetDiv !== undefined ? config.appendRequiredClassOnWidgetDiv : undefined;
 
 		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 			if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 				return;
+			}
+
+			// Collapse buttons into the previous div, if it also contained a
+			// button
+
+			if ( widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'button' || widget.getAttribute( 'type' ) === 'submit' ) ) {
+
+				if ( container.childNodes.length > 0 ) {
+
+					var lastOuterDiv = container.childNodes[container.childNodes.length - 1];
+					if ( lastOuterDiv.childNodes.length === 1 ) {
+						var lastWidgetDiv = lastOuterDiv.childNodes[0];
+						if ( lastWidgetDiv.childNodes.length > 0 ) {
+							var lastWidget = lastWidgetDiv.childNodes[lastWidgetDiv.childNodes.length - 1];
+							if ( lastWidget.tagName === 'INPUT' && ( lastWidget.getAttribute( 'type' ) === 'button' || lastWidget.getAttribute( 'type' ) === 'submit' ) ) {
+								lastWidgetDiv.appendChild( widget );
+								return;
+							}
+						}
+					}
+				}
 			}
 
 			var outerDiv = metawidget.util.createElement( mw, 'div' );
@@ -92,18 +115,24 @@ var metawidget = metawidget || {};
 				widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
 			}
 
+			// Useful for CSS :after selectors
+			
+			if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnWidgetDiv !== undefined ) {
+				metawidget.util.appendToAttribute( widgetDiv, 'class', _appendRequiredClassOnWidgetDiv );
+			}
+			
 			widgetDiv.appendChild( widget );
 			outerDiv.appendChild( widgetDiv );
 
 			container.appendChild( outerDiv );
 		};
-		
-		this.layoutLabel = function( outerDiv, widget, elementName, attributes, mw ){
-			
+
+		this.layoutLabel = function( outerDiv, widget, elementName, attributes, mw ) {
+
 			if ( elementName === 'entity' || elementName === 'action' ) {
 				return;
 			}
-			
+
 			if ( attributes.name === undefined && attributes.title === undefined ) {
 				return;
 			}
@@ -111,6 +140,12 @@ var metawidget = metawidget || {};
 			var labelDiv = metawidget.util.createElement( mw, 'div' );
 			if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
 				labelDiv.setAttribute( 'class', _divStyleClasses[1] );
+			}
+
+			// Useful for CSS :after selectors
+			
+			if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnLabelDiv !== undefined ) {
+				metawidget.util.appendToAttribute( labelDiv, 'class', _appendRequiredClassOnLabelDiv );
 			}
 
 			var label = metawidget.util.createElement( mw, 'label' );
@@ -127,19 +162,19 @@ var metawidget = metawidget || {};
 			labelDiv.appendChild( label );
 			outerDiv.appendChild( labelDiv );
 		};
-		
+
 		this.getLabelString = function( widget, attributes, mw ) {
-			
+
 			var labelString = metawidget.util.getLabelString( attributes, mw );
-			
+
 			// Some UI frameworks (like JQuery Mobile) reuse the checkbox label
 			// alongside the checkbox itself. This looks bad if we keep the
 			// suffix
-			
+
 			if ( _suppressLabelSuffixOnCheckboxes === true && widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
 				return labelString;
 			}
-			
+
 			return labelString + _labelSuffix;
 		};
 	};
@@ -287,7 +322,7 @@ var metawidget = metawidget || {};
 			}
 
 			// Label
-			
+
 			this.layoutLabel( tr, idPrefix, widget, elementName, attributes, mw );
 
 			// Widget
@@ -314,7 +349,7 @@ var metawidget = metawidget || {};
 			// Required
 
 			this.layoutRequired( tr, attributes, mw );
-			
+
 			// Next column
 
 			if ( spanAllColumns === true ) {
@@ -323,9 +358,9 @@ var metawidget = metawidget || {};
 
 			_currentColumn = ( _currentColumn + 1 ) % _numberOfColumns;
 		};
-		
+
 		this.layoutLabel = function( tr, idPrefix, widget, elementName, attributes, mw ) {
-			
+
 			if ( elementName === 'entity' ) {
 				return;
 			}
@@ -333,7 +368,7 @@ var metawidget = metawidget || {};
 			if ( attributes.name === undefined && attributes.title === undefined ) {
 				return;
 			}
-			
+
 			// Label
 
 			var th = metawidget.util.createElement( mw, 'th' );
@@ -349,37 +384,37 @@ var metawidget = metawidget || {};
 			if ( elementName !== 'action' ) {
 
 				var label = metawidget.util.createElement( mw, 'label' );
-	
+
 				if ( widget.hasAttribute( 'id' ) ) {
 					label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 				}
-	
+
 				if ( idPrefix !== undefined ) {
 					label.setAttribute( 'id', idPrefix + '-label' );
 				}
-	
+
 				label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + ':';
-	
+
 				th.appendChild( label );
 			}
-			
+
 			tr.appendChild( th );
 		};
 
 		this.layoutRequired = function( tr, attributes, mw ) {
-			
+
 			var td = metawidget.util.createElement( mw, 'td' );
 
 			if ( _columnStyleClasses !== undefined && _columnStyleClasses[2] !== undefined ) {
 				td.setAttribute( 'class', _columnStyleClasses[2] );
 			}
 
-			if ( !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required )) {
+			if ( !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required ) ) {
 				td.innerHTML = '*';
 			}
 
 			tr.appendChild( td );
-		};		
+		};
 	};
 
 	//

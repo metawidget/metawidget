@@ -106,42 +106,30 @@
 	 *        <p>
 	 *        This Layout extends metawidget.layout.DivLayout. It adds Bootstrap
 	 *        CSS classes such as 'control-group' and 'control-label' to the
-	 *        divs, and CSS class 'required' to labels.
+	 *        divs.
 	 * 
 	 * @returns {metawidget.bootstrap.layout.BootstrapDivLayout}
 	 */
 
-	metawidget.bootstrap.layout.BootstrapDivLayout = function() {
+	metawidget.bootstrap.layout.BootstrapDivLayout = function( config ) {
 
 		if ( ! ( this instanceof metawidget.bootstrap.layout.BootstrapDivLayout ) ) {
 			throw new Error( "Constructor called as a function" );
 		}
 
-		var layout = new metawidget.layout.DivLayout( {
-			divStyleClasses: [ 'control-group', undefined, 'controls' ],
-			labelStyleClass: 'control-label'
-		} );
+		// TODO: test passing appendRequiredClassOnWidgetDiv
 
-		var _superLayoutLabel = layout.layoutLabel;
+		if ( config === undefined ) {
+			config = {};
+		}
+		if ( config.divStyleClasses === undefined ) {
+			config.divStyleClasses = [ 'control-group', undefined, 'controls' ];
+		}
+		if ( config.labelStyleClass === undefined ) {
+			config.labelStyleClass = 'control-label';
+		}
 
-		layout.layoutLabel = function( outerDiv, widget, elementName, attributes, mw ) {
-
-			_superLayoutLabel.call( this, outerDiv, widget, elementName, attributes, mw );
-
-			if ( !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required ) ) {
-
-				var label = outerDiv.childNodes[0].childNodes[0];
-				var existingClass = label.getAttribute( 'class' );
-
-				if ( existingClass === null ) {
-					label.setAttribute( 'class', 'required' );
-				} else {
-					label.setAttribute( 'class', existingClass + ' required' );
-				}
-			}
-		};
-
-		return layout;
+		return new metawidget.layout.DivLayout( config );
 	};
 
 	/**
