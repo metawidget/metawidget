@@ -30,7 +30,8 @@
 			expect( element( 'table thead tr td' ).text() ).toContain( 'A Header' );
 			expect( element( 'table tfoot tr td' ).text() ).toContain( 'A Footer' );
 
-			expect( element( '#restTestSave' ).prop( 'tagName' ) ).toBe( 'BUTTON' );
+			expect( element( '#restTestSave' ).prop( 'tagName' ) ).toBe( 'INPUT' );
+			expect( element( '#restTestSave' ).attr( 'type' ) ).toBe( 'button' );
 			expect( element( '#restTestSave' ).attr( 'ng-click' ) ).toBe( 'restTest.save()' );
 
 			expect( element( '#table-restTestName-label' ).prop( 'for' ) ).toBe( 'restTestName' );
