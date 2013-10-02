@@ -63,7 +63,7 @@ import android.widget.LinearLayout;
  * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
  * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
  * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
- * 
+ *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -189,9 +189,19 @@ public class AndroidMetawidget
 		invalidateInspection();
 	}
 
-	public Object getToInspect() {
+	/**
+	 * Gets the Object being inspected.
+	 * <p>
+	 * Exposed for binding implementations.
+	 *
+	 * @return the object. Note this return type uses generics, so as to not require a cast by the
+	 *         caller (eg. <code>Person p = getToInspect()</code>)
+	 */
 
-		return mToInspect;
+	@SuppressWarnings( "unchecked" )
+	public <T> T getToInspect() {
+
+		return (T) mToInspect;
 	}
 
 	/**
@@ -351,7 +361,7 @@ public class AndroidMetawidget
 	/**
 	 * Looks up the given key in the given bundle using
 	 * <code>getContext().getResources().getText()</code>.
-	 * 
+	 *
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
@@ -487,7 +497,7 @@ public class AndroidMetawidget
 	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need
 	 * some conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
-	 * 
+	 *
 	 * @return the value from the View. Note this return type uses generics, so as to not require a
 	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
@@ -513,7 +523,7 @@ public class AndroidMetawidget
 	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need
 	 * some conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
-	 * 
+	 *
 	 * @return the value from the View. Note this return type uses generics, so as to not require a
 	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */

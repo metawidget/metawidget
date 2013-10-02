@@ -46,6 +46,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -161,7 +162,9 @@ public class AndroidWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) ) {
-			return new Stub( metawidget.getContext() );
+			Button button = new Button( metawidget.getContext() );
+			button.setText( metawidget.getLabelString( attributes ) );
+			return button;
 		}
 
 		// Lookup the Class

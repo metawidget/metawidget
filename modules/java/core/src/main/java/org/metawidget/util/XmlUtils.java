@@ -140,7 +140,7 @@ public final class XmlUtils {
 
 				child = (Element) node;
 
-				if ( name.equals( child.getLocalName() ) ) {
+				if ( name.equals( getLocalName( child ) )) {
 					children = child.getChildNodes();
 					continue outer;
 				}
@@ -269,7 +269,7 @@ public final class XmlUtils {
 				continue;
 			}
 
-			if ( name.equals( node.getLocalName() ) ) {
+			if ( name.equals( getLocalName( node ) ) ) {
 				return (Element) node;
 			}
 		}
@@ -638,7 +638,7 @@ public final class XmlUtils {
 				jsonBuilder.insert( 0, attributes );
 			}
 
-			if ( ACTION.equals( element.getLocalName() ) && !element.hasAttribute( "type" ) ) {
+			if ( ACTION.equals( getLocalName( element ) ) && !element.hasAttribute( "type" ) ) {
 				if ( jsonBuilder.length() > 0 ) {
 					jsonBuilder.insert( 0, "," );
 				}
@@ -669,6 +669,19 @@ public final class XmlUtils {
 	 */
 
 	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength" };
+
+	// TODO: getLocalName unreliable on Android?
+
+	private static String getLocalName( Node node ) {
+
+		String localName = node.getLocalName();
+
+		if ( localName == null ) {
+			return node.getNodeName();
+		}
+
+		return localName;
+	}
 
 	private static String attributesToJsonSchema( NamedNodeMap attributes, boolean excludeName ) {
 
