@@ -39,6 +39,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -150,7 +151,9 @@ public class AndroidWidgetBuilderTest
 
 		// Action
 
-		assertTrue( androidWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) instanceof Stub );
+		attributes.put( NAME, "fooButton" );
+		Button button = (Button) androidWidgetBuilder.buildWidget( ACTION, attributes, metawidget );
+		assertEquals( "Foo Button", button.getText() );
 
 		// No type
 

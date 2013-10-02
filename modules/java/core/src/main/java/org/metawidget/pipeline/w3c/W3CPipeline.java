@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.config.impl.BaseConfigReader;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.pipeline.base.BasePipeline;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -96,6 +97,43 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	}
 
 	/**
+	 * Returns the first InspectionResultProcessor in this pipeline's list of
+	 * InspectionResultProcessors (ie. as added by <code>addInspectionResultProcessor</code>) that
+	 * the given class <code>isAssignableFrom</code>.
+	 * <p>
+	 * This method is here, rather than in <code>BasePipeline</code>, because even though
+	 * <code>GwtPipeline</code> overrides it the GWT compiler still chokes on the
+	 * <code>isAssignableFrom</code>.
+	 *
+	 * @param inspectionResultProcessorClass
+	 *            the class, or interface or superclass, to find. Returns <code>null</code> if no
+	 *            such InspectionResultProcessor
+	 * @param <T>
+	 *            the type of the InspectionResultProcessor. Note this needn't be a subclass of
+	 *            <code>InspectionResultProcessor</code>
+	 */
+
+	// TODO: test getInspectionResultProcessor
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getInspectionResultProcessor( Class<T> inspectionResultProcessorClass ) {
+
+		configureOnce();
+
+		if ( getInspectionResultProcessors() == null ) {
+			return null;
+		}
+
+		for ( InspectionResultProcessor<M> inspectionResultProcessor : getInspectionResultProcessors() ) {
+			if ( inspectionResultProcessorClass.isAssignableFrom( inspectionResultProcessor.getClass() ) ) {
+				return (T) inspectionResultProcessor;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Returns the first WidgetProcessor in this pipeline's list of WidgetProcessors (ie. as added
 	 * by <code>addWidgetProcessor</code>) that the given class <code>isAssignableFrom</code>.
 	 * <p>
@@ -135,12 +173,11 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	 */
 
 	@Override
-	public void initNestedPipeline(BasePipeline<W, C, Element, M> nestedPipeline, Map<String, String> attributes ) {
+	public void initNestedPipeline( BasePipeline<W, C, Element, M> nestedPipeline, Map<String, String> attributes ) {
 
-		((W3CPipeline<W,C,M>) nestedPipeline).setConfigReader( getConfigReader() );
+		( (W3CPipeline<W, C, M>) nestedPipeline ).setConfigReader( getConfigReader() );
 		super.initNestedPipeline( nestedPipeline, attributes );
 	}
-
 
 	//
 	// Protected methods

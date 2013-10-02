@@ -257,6 +257,14 @@ public class AndroidMetawidget
 		invalidateInspection();
 	}
 
+	// TODO: test getInspectionResultProcessor
+
+	public <T> T getInspectionResultProcessor( Class<T> inspectionResultProcessorClass ) {
+
+		buildWidgets();
+		return mPipeline.getInspectionResultProcessor( inspectionResultProcessorClass );
+	}
+
 	public void setWidgetBuilder( WidgetBuilder<View, AndroidMetawidget> widgetBuilder ) {
 
 		mPipeline.setWidgetBuilder( widgetBuilder );
