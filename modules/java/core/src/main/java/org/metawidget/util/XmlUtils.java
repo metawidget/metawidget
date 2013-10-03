@@ -730,10 +730,17 @@ public final class XmlUtils {
 
 	private static String arrayToJsonSchema( String array ) {
 
+		// Convert foo"bar,baz to "foo\"bar"baz"
+
 		String toReturn = ArrayUtils.toString( ArrayUtils.fromString( array ), "\"", true, true );
+
+		// Convert "foo\"bar"baz" to "foo\"bar","baz","
+
 		toReturn = toReturn.replaceAll( "([^\\\\])\"", "$1\",\"" );
 
-		if ( toReturn.length() > 2 ) {
+		// Trim off the end
+
+		if ( toReturn.endsWith( "\",\"" ) ) {
 			toReturn = toReturn.substring( 0, toReturn.length() - 2 );
 		}
 

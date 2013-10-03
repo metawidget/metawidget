@@ -317,6 +317,9 @@ public class XmlUtilsTest
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum-titles=\"foo&quot;bar,baz\"/>></inspection-result>" );
 		assertEquals( "{\"enumTitles\":[\"foo\\\"bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum-titles=\",\"/>></inspection-result>" );
+		assertEquals( "{\"enumTitles\":[\"\",\"\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" section=\"foo\"/>></inspection-result>" );
 		assertEquals( "{\"section\":[\"foo\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 	}
