@@ -847,7 +847,9 @@ public class GwtMetawidget
 
 		mNeedToBuildWidgets = BUILDING_IN_PROGRESS;
 
-		mPipeline.configure();
+		// TODO: test configureOnce
+		
+		mPipeline.configureOnce();
 
 		if ( mToInspect != null ) {
 			Inspector inspector = mPipeline.getInspector();

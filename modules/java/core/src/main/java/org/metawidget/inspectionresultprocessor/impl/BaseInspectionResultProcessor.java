@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.inspectionresultprocessor.iface.DomInspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -111,6 +112,15 @@ public abstract class BaseInspectionResultProcessor<M>
 			Map<String, String> attributes = XmlUtils.getAttributesAsMap( trait );
 			processTrait( attributes, metawidget );
 			XmlUtils.setMapAsAttributes( trait, attributes );
+
+			// If the trait has children, modify them too. This is not strictly in keeping with how
+			// inspection-result-1.0.xsd is defined, but is very useful for
+			// TypeMappingInspectionResultProcessor so that it can process embedded schemas before
+			// returning them over a remote XML/JSON interface
+
+			if ( trait.getChildNodes().getLength() > 0 && attributes.containsKey( NAME ) ) {
+				processTraits( trait, metawidget, toInspect, type, ArrayUtils.add( names, attributes.get( NAME ) ) );
+			}
 
 			trait = XmlUtils.getNextSiblingElement( trait );
 		}

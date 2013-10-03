@@ -99,7 +99,7 @@ import org.w3c.dom.Element;
  * Third, it is important the properties defined by the XML and the ones defined by the Java classes
  * stay in sync. To enforce this, you can set
  * <code>BaseXmlInspectorConfig.setValidateAgainstClasses</code>.
- * 
+ *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -144,14 +144,16 @@ public abstract class BaseXmlInspector
 	 * All BaseXmlInspector inspectors must be configurable, to allow specifying an XML file.
 	 */
 
+	// TODO: be nice to be able to pass a Document!
+
 	protected BaseXmlInspector( BaseXmlInspectorConfig config ) {
 
 		try {
 			// Look up the XML file
 
-			InputStream[] files = config.getInputStreams();
+			InputStream[] inputStreams = config.getInputStreams();
 
-			if ( files != null && files.length > 0 ) {
+			if ( inputStreams != null && inputStreams.length > 0 ) {
 				mRoot = getDocumentElement( config.getResourceResolver(), config.getInputStreams() );
 			}
 
@@ -361,7 +363,7 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * Parse the given InputStreams into a single DOM Document, and return its root.
-	 * 
+	 *
 	 * @param resolver
 	 *            helper in case <code>getDocumentElement</code> needs to resolve references defined
 	 *            in the <code>InputStream</code>.
@@ -401,7 +403,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * For example, <code>HibernateInspector</code> preprocesses the class names in Hibernate
 	 * mapping files to make them fully qualified.
-	 * 
+	 *
 	 * @param document
 	 *            DOM of XML being processed
 	 */
@@ -466,7 +468,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
 	 * as a 'trait' - based on its own rules.
-	 * 
+	 *
 	 * @param toInspect
 	 *            DOM element to inspect
 	 */
@@ -509,7 +511,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
 	 * as a 'property' - based on its own rules. Does nothing by default.
-	 * 
+	 *
 	 * @param toInspect
 	 *            DOM element to inspect
 	 * @return a Map of the property's attributes, or null if this Element is not a property
@@ -525,7 +527,7 @@ public abstract class BaseXmlInspector
 	 * <p>
 	 * It is this method's responsibility to decide whether the given Element does, in fact, qualify
 	 * as an 'action' - based on its own rules. Does nothing by default.
-	 * 
+	 *
 	 * @param toInspect
 	 *            DOM element to inspect
 	 * @return a Map of the property's attributes, or null if this Element is not an action
@@ -812,7 +814,7 @@ public abstract class BaseXmlInspector
 	 * cases this is one and the same, so by default this method simply returns the given element.
 	 * <p>
 	 * Subclasses can override this method if they need to do some intermediate traversal.
-	 * 
+	 *
 	 * @return the element containing named children, or null if no such element
 	 */
 

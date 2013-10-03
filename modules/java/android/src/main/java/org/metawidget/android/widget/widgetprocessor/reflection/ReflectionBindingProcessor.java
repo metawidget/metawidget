@@ -46,6 +46,7 @@ import android.view.View;
  */
 
 // TODO: test this!
+// TODO: DisabledAttributeProcessor?
 
 public class ReflectionBindingProcessor
 	implements AdvancedWidgetProcessor<View, AndroidMetawidget> {
