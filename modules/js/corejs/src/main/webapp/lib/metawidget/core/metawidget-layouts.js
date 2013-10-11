@@ -116,11 +116,11 @@ var metawidget = metawidget || {};
 			}
 
 			// Useful for CSS :after selectors
-			
+
 			if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnWidgetDiv !== undefined ) {
 				metawidget.util.appendToAttribute( widgetDiv, 'class', _appendRequiredClassOnWidgetDiv );
 			}
-			
+
 			widgetDiv.appendChild( widget );
 			outerDiv.appendChild( widgetDiv );
 
@@ -137,13 +137,19 @@ var metawidget = metawidget || {};
 				return;
 			}
 
+			var labelString = this.getLabelString( widget, attributes, mw );
+
+			if ( labelString === '' ) {
+				return;
+			}
+
 			var labelDiv = metawidget.util.createElement( mw, 'div' );
 			if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
 				labelDiv.setAttribute( 'class', _divStyleClasses[1] );
 			}
 
 			// Useful for CSS :after selectors
-			
+
 			if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnLabelDiv !== undefined ) {
 				metawidget.util.appendToAttribute( labelDiv, 'class', _appendRequiredClassOnLabelDiv );
 			}
@@ -157,15 +163,23 @@ var metawidget = metawidget || {};
 				label.setAttribute( 'class', _labelStyleClass );
 			}
 
-			label.innerHTML = this.getLabelString( widget, attributes, mw );
+			label.innerHTML = labelString;
 
 			labelDiv.appendChild( label );
 			outerDiv.appendChild( labelDiv );
 		};
 
+		/**
+		 * @returns the label string, or a blank string if no label.
+		 */
+
 		this.getLabelString = function( widget, attributes, mw ) {
 
 			var labelString = metawidget.util.getLabelString( attributes, mw );
+
+			if ( labelString === '' ) {
+				return labelString;
+			}
 
 			// Some UI frameworks (like JQuery Mobile) reuse the checkbox label
 			// alongside the checkbox itself. This looks bad if we keep the

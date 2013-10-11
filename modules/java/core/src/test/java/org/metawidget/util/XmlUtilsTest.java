@@ -293,10 +293,15 @@ public class XmlUtilsTest
 		document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" hidden=\"true\" required=\"false\" minimum=\"42\" maximum=\"43\"/></inspection-result>" );
 		assertEquals( "{\"hidden\":true,\"maximum\":43,\"minimum\":42,\"name\":\"root\",\"required\":false}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
-		// Nested elements are ignored, root attributes are optional
+		// Nested elements are honoured, root attributes are optional
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" barAttr=\"2\" data=\"bar2\"><property name=\"nested\" nestedAttr=\"3\"/></property></entity></inspection-result>" );
 		assertEquals( "{\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"properties\":{\"nested\":{\"nestedAttr\":\"3\"}}}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+
+		// Nested arrays are honoured
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" type=\"array\" barAttr=\"2\" data=\"bar2\"><property name=\"nested\" nestedAttr=\"3\"/></property></entity></inspection-result>" );
+		assertEquals( "{\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"type\":\"array\",\"items\":{\"properties\":{\"nested\":{\"nestedAttr\":\"3\"}}}}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
 		// Empty elements are okay
 

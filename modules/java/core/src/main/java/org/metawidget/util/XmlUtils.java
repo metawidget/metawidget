@@ -623,6 +623,13 @@ public final class XmlUtils {
 			if ( jsonBuilder.length() > 0 ) {
 				jsonBuilder.insert( 0, "\"properties\":{" );
 				jsonBuilder.append( '}' );
+
+				// For arrays, 'properties' is inside 'items'
+
+				if ( "array".equals( element.getAttribute( TYPE ))) {
+					jsonBuilder.insert( 0, "\"items\":{" );
+					jsonBuilder.append( '}' );
+				}
 			}
 
 			// Finally write out the root...

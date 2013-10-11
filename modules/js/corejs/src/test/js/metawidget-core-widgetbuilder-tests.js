@@ -717,6 +717,9 @@
 							},
 							bar: {
 								type: 'string'
+							},
+							baz: {
+								type: 'function'
 							}
 						}
 					}
@@ -738,7 +741,9 @@
 			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Bar' );
-			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[2].innerHTML ).toBeUndefined();
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
 			expect( table.childNodes[1].childNodes.length ).toBe( 0 );
 			expect( table.childNodes.length ).toBe( 2 );
@@ -760,14 +765,19 @@
 			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Bar' );
-			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[2].innerHTML ).toBeUndefined();
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
 			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
 			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'FooValue' );
 			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
 			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBeUndefined();
-			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="button" value="Baz" id="0Baz"' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 3 );
 			expect( table.childNodes[1].childNodes.length ).toBe( 1 );
 			expect( table.childNodes.length ).toBe( 2 );
 

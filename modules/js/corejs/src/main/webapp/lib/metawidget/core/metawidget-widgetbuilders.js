@@ -502,7 +502,11 @@ var metawidget = metawidget || {};
 			}
 
 			var th = metawidget.util.createElement( mw, 'th' );
-			th.innerHTML = metawidget.util.getLabelString( attributes, mw );
+			
+			if ( attributes.type !== 'function' ) {
+				th.innerHTML = metawidget.util.getLabelString( attributes, mw );
+			}
+			
 			tr.appendChild( th );
 
 			return true;
@@ -558,43 +562,42 @@ var metawidget = metawidget || {};
 			// Render either nothing, a nested read-only Metawidget, or a
 			// toString()
 
-			if ( valueToRender !== undefined ) {
-				if ( columnAttributes.type === undefined || columnAttributes.type === 'array' || _alwaysUseNestedMetawidgetInTables === true ) {
+			if ( columnAttributes.type === undefined || columnAttributes.type === 'array' || columnAttributes.type === 'function' || _alwaysUseNestedMetawidgetInTables === true ) {
 
-					var attributes = {};
+				var attributes = {};
 
-					for ( var attributeName in columnAttributes ) {
-						attributes[attributeName] = columnAttributes[attributeName];
-					}
-
-					if ( attributes.name === undefined ) {
-						attributes.name = '[' + row + ']';
-					} else {
-						attributes.name = '[' + row + '].' + attributes.name;
-					}
-					if ( elementName !== 'entity' ) {
-						attributes.name = tableAttributes.name + attributes.name;
-					}
-
-					// Allow users to mark the whole table as readOnly
-
-					if ( attributes.readOnly === undefined ) {
-						attributes.readOnly = tableAttributes.readOnly;
-					}
-
-					// Render simple types with a simple layout, to avoid a
-					// leading label
-
-					if ( attributes.type === undefined || attributes.type === 'array' ) {
-						td.appendChild( mw.buildNestedMetawidget( attributes ) );
-					} else {
-						td.appendChild( mw.buildNestedMetawidget( attributes, {
-							layout: new metawidget.layout.SimpleLayout()
-						} ) );
-					}
-				} else {
-					td.innerHTML = '' + valueToRender;
+				for ( var attributeName in columnAttributes ) {
+					attributes[attributeName] = columnAttributes[attributeName];
 				}
+
+				if ( attributes.name === undefined ) {
+					attributes.name = '[' + row + ']';
+				} else {
+					attributes.name = '[' + row + '].' + attributes.name;
+				}
+				
+				if ( elementName !== 'entity' ) {
+					attributes.name = tableAttributes.name + attributes.name;
+				}
+
+				// Allow users to mark the whole table as readOnly
+
+				if ( attributes.readOnly === undefined ) {
+					attributes.readOnly = tableAttributes.readOnly;
+				}
+
+				// Render simple types with a simple layout, to avoid a
+				// leading label
+
+				if ( attributes.type === undefined || attributes.type === 'array' ) {
+					td.appendChild( mw.buildNestedMetawidget( attributes ) );
+				} else {
+					td.appendChild( mw.buildNestedMetawidget( attributes, {
+						layout: new metawidget.layout.SimpleLayout()
+					} ) );
+				}
+			} else if ( valueToRender !== undefined ) {
+				td.innerHTML = '' + valueToRender;
 			}
 
 			tr.appendChild( td );
