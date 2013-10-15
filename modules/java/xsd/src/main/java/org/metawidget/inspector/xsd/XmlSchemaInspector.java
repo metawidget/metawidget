@@ -265,17 +265,17 @@ public class XmlSchemaInspector
 			Element baseElement = XmlUtils.getChildWithAttributeValue( toInspectToUse.getOwnerDocument().getDocumentElement(), getTopLevelTypeAttribute(), base );
 			Element baseSequence = XmlUtils.getFirstChildElement( baseElement );
 
-			if ( COMPLEX_CONTENT.equals( baseXmlUtils.getLocalName( sequence ) ) ) {
+			if ( COMPLEX_CONTENT.equals( XmlUtils.getLocalName( baseSequence ) ) ) {
 				inspectTraits( baseSequence, toAddTo );
 				return;
 			}
 
-			if ( "anyAttribute".equals( baseXmlUtils.getLocalName( sequence ) ) ) {
+			if ( "anyAttribute".equals( XmlUtils.getLocalName( baseSequence ) ) ) {
 				return;
 			}
 
-			if ( !SEQUENCE.equals( baseXmlUtils.getLocalName( sequence ) ) ) {
-				throw InspectorException.newException( "Unexpected child node '" + baseXmlUtils.getLocalName( sequence ) + "'" );
+			if ( !SEQUENCE.equals( XmlUtils.getLocalName( baseSequence ) ) ) {
+				throw InspectorException.newException( "Unexpected child node '" + XmlUtils.getLocalName( baseSequence ) + "'" );
 			}
 
 			inspectTraits( baseSequence, toAddTo );

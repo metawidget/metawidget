@@ -582,6 +582,38 @@ public final class XmlUtils {
 		return _elementToJsonSchema( XmlUtils.getFirstChildElement( inspectionResult ), false );
 	}
 
+	/**
+	 * Gets the localName of the given node. Or the nodeName if the localName returns null (as we've
+	 * seen it do on Android)
+	 */
+
+	public static String getLocalName( Node node ) {
+
+		String localName = node.getLocalName();
+
+		if ( localName == null ) {
+			return node.getNodeName();
+		}
+
+		return localName;
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * Reserved JSON Schema attributes that are known to be arrays.
+	 */
+
+	private static final String[]	JSON_SCHEMA_ARRAY_BASED_ATTRIBUTE_NAMES	= new String[] { SECTION, "enum", "enumTitles" };
+
+	/**
+	 * Reserved JSON Schema attributes that are known to be non-strings (e.g. numbers or booleans).
+	 */
+
+	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength" };
+
 	private static String _elementToJsonSchema( Element element, boolean excludeName ) {
 
 		StringBuilder jsonBuilder = new StringBuilder();
@@ -659,38 +691,6 @@ public final class XmlUtils {
 		}
 
 		return jsonBuilder.toString();
-	}
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Reserved JSON Schema attributes that are known to be arrays.
-	 */
-
-	private static final String[]	JSON_SCHEMA_ARRAY_BASED_ATTRIBUTE_NAMES	= new String[] { SECTION, "enum", "enumTitles" };
-
-	/**
-	 * Reserved JSON Schema attributes that are known to be non-strings (e.g. numbers or booleans).
-	 */
-
-	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength" };
-
-	/**
-	 * Gets the localName of the given node. Or the nodeName if the localName returns null (as we've
-	 * seen it do on Android)
-	 */
-
-	private static String getLocalName( Node node ) {
-
-		String localName = node.getLocalName();
-
-		if ( localName == null ) {
-			return node.getNodeName();
-		}
-
-		return localName;
 	}
 
 	private static String attributesToJsonSchema( NamedNodeMap attributes, boolean excludeName ) {
