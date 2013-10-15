@@ -16,7 +16,8 @@
 
 package org.metawidget.pipeline.base;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.READ_ONLY;
+import static org.metawidget.inspector.InspectionResultConstants.TRUE;
 
 import java.io.InputStream;
 import java.util.List;
@@ -29,6 +30,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.config.impl.BaseConfigReader;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.layout.iface.AdvancedLayout;
@@ -274,6 +276,22 @@ public class BasePipelineTest
 		assertEquals( 11, events.size() );
 	}
 
+	public void testGetInspectionResultProcessor() {
+
+		MyInspectionResultProcessor myInspectionResultProcessor = new MyInspectionResultProcessor();
+
+		@SuppressWarnings( "unchecked" )
+		InspectionResultProcessor<JComponent>[] inspectionResultProcessors = new InspectionResultProcessor[] {
+				new ComesAfterInspectionResultProcessor<JComponent>(),
+				myInspectionResultProcessor
+		};
+
+		MockPipeline pipeline = new MockPipeline();
+		pipeline.setInspectionResultProcessors( inspectionResultProcessors );
+
+		assertEquals( myInspectionResultProcessor, pipeline.getInspectionResultProcessor( MyInspectionResultProcessor.class ) );
+	}
+
 	//
 	// Inner class
 	//
@@ -302,6 +320,19 @@ public class BasePipelineTest
 
 		@Override
 		protected JComponent getPipelineOwner() {
+
+			return null;
+		}
+	}
+
+	private static class MyInspectionResultProcessor
+		implements InspectionResultProcessor<JComponent> {
+
+		//
+		// Public methods
+		//
+
+		public String processInspectionResult( String inspectionResult, JComponent metawidget, Object toInspect, String type, String... names ) {
 
 			return null;
 		}

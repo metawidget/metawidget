@@ -16,9 +16,12 @@
 
 package org.metawidget.android.widget;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.LABEL;
+import static org.metawidget.inspector.InspectionResultConstants.NAME;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -26,6 +29,8 @@ import junit.framework.TestCase;
 import org.metawidget.android.AndroidMetawidgetTests.MockAttributeSet;
 import org.metawidget.android.widget.layout.LinearLayout;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
+import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
 import org.metawidget.util.CollectionUtils;
 
 import android.widget.EditText;
@@ -157,6 +162,43 @@ public class AndroidMetawidgetTest
 		// Cannot override findViewWithTag - is marked final!
 	}
 
+	public void testGetInspectionResultProcessor() {
+
+		MyInspectionResultProcessor myInspectionResultProcessor = new MyInspectionResultProcessor();
+		
+		@SuppressWarnings( "unchecked" )
+		InspectionResultProcessor<AndroidMetawidget>[] inspectionResultProcessors = new InspectionResultProcessor[]{
+				new ComesAfterInspectionResultProcessor<AndroidMetawidget>(),
+				myInspectionResultProcessor
+		};
+		
+		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
+		androidMetawidget.setInspectionResultProcessors( inspectionResultProcessors );
+		
+		assertEquals( myInspectionResultProcessor, androidMetawidget.getInspectionResultProcessor( MyInspectionResultProcessor.class ));
+	}
+
+	public void testConfigureOnce() {
+		
+		final List<String> configuredDefaults = new ArrayList<String>();
+		
+		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null ) {
+			
+			protected void configureDefaults() {
+				
+				configuredDefaults.add( "called" );
+				super.configureDefaults();
+			}
+		};
+		
+		androidMetawidget.setToInspect( new Foo() );
+		androidMetawidget.buildWidgets();
+		androidMetawidget.setToInspect( new Foo() );
+		androidMetawidget.buildWidgets();
+		
+		assertEquals( 1, configuredDefaults.size() );
+	}
+	
 	//
 	// Inner class
 	//
@@ -171,6 +213,19 @@ public class AndroidMetawidgetTest
 		public void setName( @SuppressWarnings( "unused" ) String name ) {
 
 			// Do nothing
+		}
+	}
+
+	private static class MyInspectionResultProcessor
+		implements InspectionResultProcessor<AndroidMetawidget> {
+
+		//
+		// Public methods
+		//
+		
+		public String processInspectionResult( String inspectionResult, AndroidMetawidget metawidget, Object toInspect, String type, String... names ) {
+
+			return null;
 		}
 	}
 }

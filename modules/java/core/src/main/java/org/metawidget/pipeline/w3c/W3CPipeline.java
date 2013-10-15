@@ -113,8 +113,6 @@ public abstract class W3CPipeline<W, C extends W, M extends C>
 	 *            <code>InspectionResultProcessor</code>
 	 */
 
-	// TODO: test getInspectionResultProcessor
-
 	@SuppressWarnings( "unchecked" )
 	public <T> T getInspectionResultProcessor( Class<T> inspectionResultProcessorClass ) {
 

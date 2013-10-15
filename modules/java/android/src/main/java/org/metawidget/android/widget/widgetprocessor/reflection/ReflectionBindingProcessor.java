@@ -16,14 +16,14 @@
 
 package org.metawidget.android.widget.widgetprocessor.reflection;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.ACTION;
+import static org.metawidget.inspector.InspectionResultConstants.NAME;
 
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import org.metawidget.android.widget.AndroidMetawidget;
@@ -36,16 +36,16 @@ import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 import android.view.View;
+import android.view.View.OnClickListener;
 
 /**
  * Action binding implementation based on reflection.
  * <p>
  * This is the typical Android approach to binding UI buttons to Java objects using reflection.
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-// TODO: test this!
 // TODO: DisabledAttributeProcessor?
 
 public class ReflectionBindingProcessor
@@ -94,6 +94,7 @@ public class ReflectionBindingProcessor
 		// Bind it
 
 		BoundAction action = new BoundAction( metawidget.getToInspect(), metawidget.getPath(), attributes.get( NAME ) );
+		view.setOnClickListener( action );
 
 		// Save the binding
 
@@ -144,7 +145,7 @@ public class ReflectionBindingProcessor
 	}
 
 	static class BoundAction
-		extends AbstractAction {
+		implements OnClickListener {
 
 		//
 		// Private members
@@ -184,17 +185,9 @@ public class ReflectionBindingProcessor
 			}
 
 			try {
-				// Parameterless methods
-
 				mAction = traverse.getClass().getMethod( name, (Class[]) null );
-			} catch ( NoSuchMethodException e1 ) {
-				try {
-					// ActionEvent-parameter based methods
-
-					mAction = traverse.getClass().getMethod( name, ActionEvent.class );
-				} catch ( NoSuchMethodException e2 ) {
-					throw WidgetProcessorException.newException( e2 );
-				}
+			} catch ( Exception e ) {
+				throw WidgetProcessorException.newException( e );
 			}
 		}
 
@@ -202,11 +195,7 @@ public class ReflectionBindingProcessor
 		// Public methods
 		//
 
-		public void actionPerformed( ActionEvent event ) {
-
-			String actionName = (String) getValue( Action.NAME );
-
-			// Traverse to the last Object
+		public void onClick( View viewClicked ) {
 
 			Object traverse = mBindTo;
 
@@ -220,11 +209,7 @@ public class ReflectionBindingProcessor
 			}
 
 			try {
-				if ( mAction.getParameterTypes().length == 0 ) {
-					mAction.invoke( traverse, (Object[]) null );
-				} else {
-					mAction.invoke( traverse, new ActionEvent( mBindTo, 0, actionName ) );
-				}
+				mAction.invoke( traverse, (Object[]) null );
 			} catch ( Exception e ) {
 				throw WidgetProcessorException.newException( e );
 			}

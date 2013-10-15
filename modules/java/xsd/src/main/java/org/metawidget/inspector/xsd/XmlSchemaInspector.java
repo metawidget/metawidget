@@ -115,7 +115,7 @@ public class XmlSchemaInspector
 
 		// 'simpleType' is a top-level element
 
-		if ( SIMPLE_TYPE.equals( topLevel.getLocalName() ) ) {
+		if ( SIMPLE_TYPE.equals( XmlUtils.getLocalName( topLevel ) ) ) {
 			return topLevel;
 		}
 
@@ -123,7 +123,7 @@ public class XmlSchemaInspector
 
 		Element complexType;
 
-		if ( COMPLEX_TYPE.equals( topLevel.getLocalName() ) ) {
+		if ( COMPLEX_TYPE.equals( XmlUtils.getLocalName( topLevel ) ) ) {
 
 			complexType = topLevel;
 
@@ -153,14 +153,14 @@ public class XmlSchemaInspector
 
 			// 'simpleType' is a top-level element, so stop here
 
-			if ( SIMPLE_TYPE.equals( complexType.getLocalName() ) ) {
+			if ( SIMPLE_TYPE.equals( XmlUtils.getLocalName( complexType ) ) ) {
 				return topLevel;
 			}
 
 			// Should be at a 'complexType' by now
 
-			if ( !COMPLEX_TYPE.equals( complexType.getLocalName() ) ) {
-				throw InspectorException.newException( "Unexpected child node '" + complexType.getLocalName() + "'" );
+			if ( !COMPLEX_TYPE.equals( XmlUtils.getLocalName( complexType ) ) ) {
+				throw InspectorException.newException( "Unexpected child node '" + XmlUtils.getLocalName( complexType ) + "'" );
 			}
 		}
 
@@ -174,11 +174,11 @@ public class XmlSchemaInspector
 
 		// Skip over 'annotation' (if any)
 
-		String sequenceLocalName = sequence.getLocalName();
+		String sequenceLocalName = XmlUtils.getLocalName( sequence );
 
 		if ( "annotation".equals( sequenceLocalName ) ) {
 			sequence = XmlUtils.getNextSiblingElement( sequence );
-			sequenceLocalName = sequence.getLocalName();
+			sequenceLocalName = XmlUtils.getLocalName( sequence );
 		}
 
 		if ( CHOICE.equals( sequenceLocalName )) {
@@ -225,7 +225,7 @@ public class XmlSchemaInspector
 
 		// Simple type (inherit @type attribute)
 
-		if ( SIMPLE_TYPE.equals( toInspectToUse.getLocalName() ) ) {
+		if ( SIMPLE_TYPE.equals( XmlUtils.getLocalName( toInspectToUse ) ) ) {
 
 			Map<String, String> attributes = CollectionUtils.newHashMap();
 			inspectRestriction( toInspectToUse, attributes );
@@ -235,7 +235,7 @@ public class XmlSchemaInspector
 
 		// Simple content (inherit @type attribute)
 
-		if ( SIMPLE_CONTENT.equals( toInspectToUse.getLocalName() ) ) {
+		if ( SIMPLE_CONTENT.equals( XmlUtils.getLocalName( toInspectToUse ) ) ) {
 
 			Map<String, String> attributes = CollectionUtils.newHashMap();
 			inspectExtension( toInspectToUse, attributes );
@@ -246,7 +246,7 @@ public class XmlSchemaInspector
 
 		// Complex content (inherit @type attribute)
 
-		if ( COMPLEX_CONTENT.equals( toInspectToUse.getLocalName() ) ) {
+		if ( COMPLEX_CONTENT.equals( XmlUtils.getLocalName( toInspectToUse ) ) ) {
 
 			toInspectToUse = XmlUtils.getChildNamed( toInspectToUse, EXTENSION );
 
@@ -265,17 +265,17 @@ public class XmlSchemaInspector
 			Element baseElement = XmlUtils.getChildWithAttributeValue( toInspectToUse.getOwnerDocument().getDocumentElement(), getTopLevelTypeAttribute(), base );
 			Element baseSequence = XmlUtils.getFirstChildElement( baseElement );
 
-			if ( COMPLEX_CONTENT.equals( baseSequence.getLocalName() ) ) {
+			if ( COMPLEX_CONTENT.equals( baseXmlUtils.getLocalName( sequence ) ) ) {
 				inspectTraits( baseSequence, toAddTo );
 				return;
 			}
 
-			if ( "anyAttribute".equals( baseSequence.getLocalName() ) ) {
+			if ( "anyAttribute".equals( baseXmlUtils.getLocalName( sequence ) ) ) {
 				return;
 			}
 
-			if ( !SEQUENCE.equals( baseSequence.getLocalName() ) ) {
-				throw InspectorException.newException( "Unexpected child node '" + baseSequence.getLocalName() + "'" );
+			if ( !SEQUENCE.equals( baseXmlUtils.getLocalName( sequence ) ) ) {
+				throw InspectorException.newException( "Unexpected child node '" + baseXmlUtils.getLocalName( sequence ) + "'" );
 			}
 
 			inspectTraits( baseSequence, toAddTo );
@@ -284,8 +284,8 @@ public class XmlSchemaInspector
 
 			toInspectToUse = XmlUtils.getFirstChildElement( toInspectToUse );
 
-			if ( !SEQUENCE.equals( toInspectToUse.getLocalName() ) ) {
-				throw InspectorException.newException( "Unexpected child node '" + toInspectToUse.getLocalName() + "'" );
+			if ( !SEQUENCE.equals( XmlUtils.getLocalName( toInspectToUse ) ) ) {
+				throw InspectorException.newException( "Unexpected child node '" + XmlUtils.getLocalName( toInspectToUse ) + "'" );
 			}
 		}
 
@@ -307,7 +307,7 @@ public class XmlSchemaInspector
 
 			// All bets are off for xs:any
 
-			if ( "any".equals( toInspectToUse.getLocalName() ) ) {
+			if ( "any".equals( XmlUtils.getLocalName( toInspectToUse ) ) ) {
 				return null;
 			}
 
@@ -346,7 +346,7 @@ public class XmlSchemaInspector
 
 			// Complex type may just contain a simple content
 
-			if ( COMPLEX_TYPE.equals( toInspectToUse.getLocalName() ) ) {
+			if ( COMPLEX_TYPE.equals( XmlUtils.getLocalName( toInspectToUse ) ) ) {
 
 				Element simpleContent = XmlUtils.getChildNamed( toInspectToUse, SIMPLE_CONTENT );
 
@@ -393,7 +393,7 @@ public class XmlSchemaInspector
 					inspectExtension( simpleContent, attributes );
 					inspectRestriction( simpleContent, attributes );
 				}
-			} else if ( SIMPLE_TYPE.equals( element.getLocalName() ) ) {
+			} else if ( SIMPLE_TYPE.equals( XmlUtils.getLocalName( element ) ) ) {
 
 				inspectRestriction( element, attributes );
 

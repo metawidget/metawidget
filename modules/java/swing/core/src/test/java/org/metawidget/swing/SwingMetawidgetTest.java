@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,7 @@ import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
 import org.metawidget.swing.layout.BoxLayout;
@@ -421,9 +423,60 @@ public class SwingMetawidgetTest
 		assertTrue( needToBuildWidgets.getBoolean( metawidget ) );
 	}
 
+	/**
+	 * Tests <code>buildWidgets</code> uses <code>configureOnce</code>.
+	 */
+
+	public void testConfigureOnce() {
+
+		List<String> configured = new ArrayList<String>();
+		SwingMetawidget metawidget = new ConfiguredSwingMetawidget( configured );
+		metawidget.setToInspect( new Foo() );
+		metawidget.getComponentCount();
+
+		metawidget.setToInspect( new Foo() );
+		metawidget.getComponentCount();
+		assertEquals( 2, configured.size() );
+	}
+
 	//
 	// Inner class
 	//
+
+	protected static class ConfiguredSwingMetawidget
+		extends SwingMetawidget {
+
+		//
+		// Private members
+		//
+
+		private List<String>	mConfigured;
+
+		//
+		// Constructor
+		//
+
+		public ConfiguredSwingMetawidget( List<String> configured ) {
+
+			mConfigured = configured;
+		}
+
+		public ConfiguredSwingMetawidget() {
+
+		}
+
+		//
+		// Protected methods
+		//
+
+		protected String getDefaultConfiguration() {
+
+			if ( mConfigured != null ) {
+				mConfigured.add( "called" );
+			}
+			return super.getDefaultConfiguration();
+		}
+	}
 
 	public static class Foo {
 

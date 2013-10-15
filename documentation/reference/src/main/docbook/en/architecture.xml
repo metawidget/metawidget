@@ -2369,6 +2369,7 @@ void onEndBuild( M metawidget );</programlisting>
 							<td>Android</td>
 							<td><programlisting language="xml">&lt;array&gt;
 	&lt;simpleBindingProcessor /&gt;
+	&lt;reflectionBindingProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>

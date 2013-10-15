@@ -51,7 +51,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Utilities for working with XML.
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -117,7 +117,7 @@ public final class XmlUtils {
 	 * <p>
 	 * An array of several names may be passed, in which case they will be traversed in a simple
 	 * XPath-like fashion.
-	 *
+	 * 
 	 * @return the child with the given name, or null if no such child
 	 */
 
@@ -140,7 +140,7 @@ public final class XmlUtils {
 
 				child = (Element) node;
 
-				if ( name.equals( getLocalName( child ) )) {
+				if ( name.equals( getLocalName( child ) ) ) {
 					children = child.getChildNodes();
 					continue outer;
 				}
@@ -246,7 +246,7 @@ public final class XmlUtils {
 
 	/**
 	 * Gets the next sibling to the given element with the given name.
-	 *
+	 * 
 	 * @return the next sibling, or null if no such sibling
 	 */
 
@@ -277,7 +277,7 @@ public final class XmlUtils {
 
 	/**
 	 * Gets the next sibling to the given element with the given attribute.
-	 *
+	 * 
 	 * @return the next sibling, or null if no such sibling
 	 */
 
@@ -626,7 +626,7 @@ public final class XmlUtils {
 
 				// For arrays, 'properties' is inside 'items'
 
-				if ( "array".equals( element.getAttribute( TYPE ))) {
+				if ( "array".equals( element.getAttribute( TYPE ) ) ) {
 					jsonBuilder.insert( 0, "\"items\":{" );
 					jsonBuilder.append( '}' );
 				}
@@ -677,8 +677,11 @@ public final class XmlUtils {
 
 	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength" };
 
-	// TODO: getLocalName unreliable on Android?
-
+	/**
+	 * Gets the localName of the given node. Or the nodeName if the localName returns null (as we've
+	 * seen it do on Android)
+	 */
+	
 	private static String getLocalName( Node node ) {
 
 		String localName = node.getLocalName();
@@ -1462,7 +1465,7 @@ public final class XmlUtils {
 	 * </code>
 	 * <p>
 	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
-	 *
+	 * 
 	 * @param indent
 	 *            how much to indent the output. -1 for no indent.
 	 */

@@ -26,7 +26,7 @@ import android.widget.FrameLayout.LayoutParams;
 
 /**
  * Dummy implementation for unit testing.
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -57,6 +57,8 @@ public class View {
 	private Object			mTag;
 
 	private int				mVisibility	= View.VISIBLE;
+
+	private OnClickListener	mOnClickListener;
 
 	//
 	// Constructor
@@ -205,6 +207,16 @@ public class View {
 		// Do nothing
 	}
 
+	public void setOnClickListener( OnClickListener onClickListener ) {
+
+		mOnClickListener = onClickListener;
+	}
+	
+	public OnClickListener getOnClickListener() {
+		
+		return mOnClickListener;
+	}
+
 	//
 	// Protected methods
 	//
@@ -222,5 +234,14 @@ public class View {
 	protected void postInvalidate() {
 
 		// Do nothing
+	}
+
+	//
+	// Inner class
+	//
+
+	public interface OnClickListener {
+
+		void onClick( View view );
 	}
 }

@@ -30,6 +30,7 @@ import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.ReadOnlyWidgetBuilder;
 import org.metawidget.android.widget.widgetprocessor.binding.simple.SimpleBindingProcessor;
+import org.metawidget.android.widget.widgetprocessor.reflection.ReflectionBindingProcessor;
 import org.metawidget.config.iface.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -256,8 +257,6 @@ public class AndroidMetawidget
 		mPipeline.setInspectionResultProcessors( inspectionResultProcessors );
 		invalidateInspection();
 	}
-
-	// TODO: test getInspectionResultProcessor
 
 	public <T> T getInspectionResultProcessor( Class<T> inspectionResultProcessorClass ) {
 
@@ -669,8 +668,6 @@ public class AndroidMetawidget
 			return;
 		}
 
-		// TODO: test configureOnce
-		
 		mPipeline.configureOnce();
 
 		mNeedToBuildWidgets = false;
@@ -747,7 +744,7 @@ public class AndroidMetawidget
 
 			if ( mPipeline.getWidgetProcessors() == null ) {
 				if ( DEFAULT_WIDGETPROCESSORS == null ) {
-					DEFAULT_WIDGETPROCESSORS = new WidgetProcessor[] { new SimpleBindingProcessor() };
+					DEFAULT_WIDGETPROCESSORS = new WidgetProcessor[] { new SimpleBindingProcessor(), new ReflectionBindingProcessor() };
 				}
 
 				mPipeline.setWidgetProcessors( DEFAULT_WIDGETPROCESSORS );
