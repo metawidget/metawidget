@@ -51,7 +51,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Utilities for working with XML.
- * 
+ *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -117,7 +117,7 @@ public final class XmlUtils {
 	 * <p>
 	 * An array of several names may be passed, in which case they will be traversed in a simple
 	 * XPath-like fashion.
-	 * 
+	 *
 	 * @return the child with the given name, or null if no such child
 	 */
 
@@ -246,7 +246,7 @@ public final class XmlUtils {
 
 	/**
 	 * Gets the next sibling to the given element with the given name.
-	 * 
+	 *
 	 * @return the next sibling, or null if no such sibling
 	 */
 
@@ -277,7 +277,7 @@ public final class XmlUtils {
 
 	/**
 	 * Gets the next sibling to the given element with the given attribute.
-	 * 
+	 *
 	 * @return the next sibling, or null if no such sibling
 	 */
 
@@ -681,7 +681,7 @@ public final class XmlUtils {
 	 * Gets the localName of the given node. Or the nodeName if the localName returns null (as we've
 	 * seen it do on Android)
 	 */
-	
+
 	private static String getLocalName( Node node ) {
 
 		String localName = node.getLocalName();
@@ -1465,7 +1465,7 @@ public final class XmlUtils {
 	 * </code>
 	 * <p>
 	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
-	 * 
+	 *
 	 * @param indent
 	 *            how much to indent the output. -1 for no indent.
 	 */

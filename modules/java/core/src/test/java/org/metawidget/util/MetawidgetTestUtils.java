@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -262,6 +263,29 @@ public final class MetawidgetTestUtils {
 			}
 		} catch ( Exception e ) {
 			throw new RuntimeException( e );
+		}
+	}
+
+	public static void setPrivateField( Object owner, String fieldName, Object value ) {
+
+		Class<?> superClass = owner.getClass();
+
+		while ( true ) {
+
+			try {
+				Field field = superClass.getDeclaredField( fieldName );
+				field.setAccessible( true );
+				field.set( owner, value );
+				break;
+
+			} catch ( Exception e ) {
+
+				superClass = superClass.getSuperclass();
+
+				if ( superClass == null ) {
+					throw new RuntimeException( e );
+				}
+			}
 		}
 	}
 

@@ -16,10 +16,9 @@
 
 package org.metawidget.android.widget.inspectionresultprocessor;
 
-import java.lang.reflect.Field;
-
 import junit.framework.TestCase;
 
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,13 +39,24 @@ public class InspectionResultProcessorTest
 
 		String xml = "<foo><bar>Test 1</bar><baz>Test 2</baz></foo>";
 		Document document = XmlUtils.documentFromString( xml );
-		
-		// Android has a null localName
-		
-		Element child = XmlUtils.getFirstChildElement( document.getDocumentElement() );
-		// TODO: setPrivateField
-		Element bar = XmlUtils.getChildNamed( document.getDocumentElement(), "bar" );
-		System.out.println( bar.getClass() );
-		Element baz = XmlUtils.getSiblingNamed( document.getDocumentElement(), "baz" );
+
+		// Android has a null localName sometimes
+
+		Element root = document.getDocumentElement();
+		Element child = XmlUtils.getFirstChildElement( root );
+		assertEquals( "bar", child.getLocalName() );
+		MetawidgetTestUtils.setPrivateField( child, "localName", null );
+		assertEquals( null, child.getLocalName() );
+		child = XmlUtils.getNextSiblingElement( child );
+		assertEquals( "baz", child.getLocalName() );
+		MetawidgetTestUtils.setPrivateField( child, "localName", null );
+		assertEquals( null, child.getLocalName() );
+
+		// Should fall back to nodeName in this case
+
+		Element bar = XmlUtils.getChildNamed( root, "bar" );
+		assertTrue( bar != null );
+		Element baz = XmlUtils.getSiblingNamed( bar, "baz" );
+		assertTrue( baz != null );
 	}
 }
