@@ -484,6 +484,14 @@ var metawidget = metawidget || {};
 
 		function _startBuild( pipeline, mw ) {
 
+			// Mark overridden widgets. This is useful for Angular so that it
+			// doesn't $compile them again. It's useful for JQuery Mobile so it
+			// doesn't .trigger( 'create' ) them again
+
+			for ( var loop = 0, length = mw.overriddenNodes.length; loop < length; loop++ ) {
+				mw.overriddenNodes[loop].overridden = true;
+			}
+
 			if ( pipeline.widgetBuilder.onStartBuild !== undefined ) {
 				pipeline.widgetBuilder.onStartBuild( mw );
 			}

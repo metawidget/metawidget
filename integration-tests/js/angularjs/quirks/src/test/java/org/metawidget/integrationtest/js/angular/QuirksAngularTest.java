@@ -29,7 +29,7 @@ public class QuirksAngularTest
 	// Public methods
 	//
 
-	public void testRest() {
+	public void testQuirks() {
 
 		runScenarioRunner( "http://localhost:8180/quirks-angularjs/test-runner.html" );
 	}

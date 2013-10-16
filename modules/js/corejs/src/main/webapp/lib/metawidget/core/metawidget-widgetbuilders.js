@@ -131,13 +131,6 @@ var metawidget = metawidget || {};
 			var child = mw.overriddenNodes[loop];
 			if ( child.nodeType === 1 && child.getAttribute( 'id' ) === overrideId ) {
 				mw.overriddenNodes.splice( loop, 1 );
-
-				// Mark this widget as being an overridden widget. This is
-				// useful for Angular so that it doesn't $compile it again. It's
-				// useful for JQuery Mobile so it doesn't .trigger( 'create' )
-				// again
-				
-				child.overridden = true;
 				return child;
 			}
 		}
