@@ -131,6 +131,13 @@ var metawidget = metawidget || {};
 			var child = mw.overriddenNodes[loop];
 			if ( child.nodeType === 1 && child.getAttribute( 'id' ) === overrideId ) {
 				mw.overriddenNodes.splice( loop, 1 );
+
+				// Mark this widget as being an overridden widget. This is
+				// useful for Angular so that it doesn't $compile it again. It's
+				// useful for JQuery Mobile so it doesn't .trigger( 'create' )
+				// again
+				
+				child.overridden = true;
 				return child;
 			}
 		}
@@ -279,10 +286,10 @@ var metawidget = metawidget || {};
 				var button = metawidget.util.createElement( mw, 'input' );
 				if ( metawidget.util.isTrueOrTrueString( attributes.submit ) ) {
 					button.setAttribute( 'type', 'submit' );
-				} else {				
+				} else {
 					button.setAttribute( 'type', 'button' );
 				}
-				button.setAttribute( 'value', metawidget.util.getLabelString( attributes, mw ));
+				button.setAttribute( 'value', metawidget.util.getLabelString( attributes, mw ) );
 				return button;
 			}
 
@@ -413,18 +420,18 @@ var metawidget = metawidget || {};
 			typeAndNames.names.push( '0' );
 
 			var inspectionResult = mw.inspect( mw.toInspect, typeAndNames.type, typeAndNames.names );
-			
+
 			if ( inspectionResult !== undefined ) {
-			
+
 				var tbody = metawidget.util.createElement( mw, 'tbody' );
-	
+
 				if ( inspectionResult.properties === undefined ) {
-	
+
 					// Simple, single-column table. It is still useful to pass
 					// 'type', but we must be careful not to pass 'name'.
-	
+
 					table.appendChild( tbody );
-	
+
 					if ( value !== undefined ) {
 						for ( var row = 0, rows = value.length; row < rows; row++ ) {
 							this.addRow( tbody, value, row, [ {
@@ -432,21 +439,21 @@ var metawidget = metawidget || {};
 							} ], elementName, attributes, mw );
 						}
 					}
-	
+
 				} else {
 					var inspectionResultProperties = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
-	
+
 					// Create headers
-	
+
 					var thead = metawidget.util.createElement( mw, 'thead' );
 					table.appendChild( thead );
-	
+
 					var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
-	
+
 					// Create body
-	
+
 					table.appendChild( tbody );
-	
+
 					if ( value !== undefined ) {
 						for ( var row = 0, rows = value.length; row < rows; row++ ) {
 							this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
@@ -502,11 +509,11 @@ var metawidget = metawidget || {};
 			}
 
 			var th = metawidget.util.createElement( mw, 'th' );
-			
+
 			if ( attributes.type !== 'function' ) {
 				th.innerHTML = metawidget.util.getLabelString( attributes, mw );
 			}
-			
+
 			tr.appendChild( th );
 
 			return true;
@@ -575,7 +582,7 @@ var metawidget = metawidget || {};
 				} else {
 					attributes.name = '[' + row + '].' + attributes.name;
 				}
-				
+
 				if ( elementName !== 'entity' ) {
 					attributes.name = tableAttributes.name + attributes.name;
 				}

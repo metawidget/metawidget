@@ -295,7 +295,7 @@ var metawidget = metawidget || {};
 		var typeAndNames = metawidget.util.splitPath( mw.path );
 
 		if ( typeAndNames.names === undefined ) {
-			toInspect = metawidget.util.traversePath( mw.toInspect );
+			toInspect = mw.toInspect;
 		} else {
 			var namesToParent = typeAndNames.names.slice( 0, typeAndNames.names.length - 1 );
 			var parent = metawidget.util.traversePath( mw.toInspect, namesToParent );

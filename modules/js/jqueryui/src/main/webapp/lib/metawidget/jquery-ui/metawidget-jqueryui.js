@@ -16,13 +16,6 @@
 //
 // Author: Richard Kennard (http://kennardconsulting.com)
 
-/**
- * @namespace Metawidget for pure JavaScript environments.
- * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
- */
-
-var metawidget = metawidget || {};
-
 ( function() {
 
 	'use strict';
