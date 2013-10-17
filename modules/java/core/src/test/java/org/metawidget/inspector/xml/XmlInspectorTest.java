@@ -179,7 +179,6 @@ public class XmlInspectorTest
 		assertEquals( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ), null );
 	}
 
-	@SuppressWarnings( "unused" )
 	public void testDefaultConfig() {
 
 		try {
@@ -816,6 +815,45 @@ public class XmlInspectorTest
 		assertEquals( 2, entity.getChildNodes().getLength() );
 	}
 
+	public void testSetDocument() {
+
+		String xml1 = "<?xml version=\"1.0\"?>";
+		xml1 += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml1 += "<entity type=\"Foo\">";
+		xml1 += "<property name=\"abc\"/>";
+		xml1 += "</entity>";
+		xml1 += "</inspection-result>";		
+		Document document1 = XmlUtils.documentFromString( xml1 ); 
+
+		String xml2 = "<?xml version=\"1.0\"?>";
+		xml2 += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml2 += "<entity type=\"Foo\">";
+		xml2 += "<property name=\"def\"/>";
+		xml2 += "</entity>";
+		xml2 += "</inspection-result>";		
+		Document document2 = XmlUtils.documentFromString( xml2 ); 
+
+		XmlInspector inspector = new XmlInspector( new XmlInspectorConfig().setDocuments( document1, document2 ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "Foo" ) );
+
+		Element entity = (Element) document.getDocumentElement().getFirstChild();
+		assertEquals( ENTITY, entity.getNodeName() );
+		assertEquals( "Foo", entity.getAttribute( TYPE ) );
+		assertEquals( 1, entity.getAttributes().getLength() );
+
+		Element property = (Element) entity.getFirstChild();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "abc", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		property = (Element) property.getNextSibling();
+		assertEquals( PROPERTY, property.getNodeName() );
+		assertEquals( "def", property.getAttribute( NAME ) );
+		assertEquals( 1, property.getAttributes().getLength() );
+
+		assertEquals( 2, entity.getChildNodes().getLength() );
+	}
+	
 	//
 	// Protected methods
 	//

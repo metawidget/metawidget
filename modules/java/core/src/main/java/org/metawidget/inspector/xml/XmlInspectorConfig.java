@@ -20,6 +20,7 @@ import java.io.InputStream;
 
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.w3c.dom.Document;
 
 /**
  * Configures an XmlInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -51,6 +52,16 @@ public class XmlInspectorConfig
 	public XmlInspectorConfig setInputStream( InputStream stream ) {
 
 		return (XmlInspectorConfig) super.setInputStream( stream );
+	}
+
+	/**
+	 * Overridden to provide a covariant return type for our fluent interface.
+	 */
+
+	@Override
+	public XmlInspectorConfig setDocuments( Document... documents ) {
+
+		return (XmlInspectorConfig) super.setDocuments( documents );
 	}
 
 	/**

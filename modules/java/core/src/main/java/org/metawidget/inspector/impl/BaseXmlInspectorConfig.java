@@ -23,12 +23,13 @@ import org.metawidget.config.iface.ResourceResolver;
 import org.metawidget.config.impl.SimpleResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.simple.ObjectUtils;
+import org.w3c.dom.Document;
 
 /**
  * Base class for BaseXmlInspectorConfig configurations.
  * <p>
  * Handles specifying XML file input.
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -52,6 +53,8 @@ public class BaseXmlInspectorConfig
 
 	private InputStream[]		mInputStreams;
 
+	private Document[]			mDocuments;
+
 	private PropertyStyle		mRestrictAgainstObject;
 
 	private boolean				mInferInheritanceHierarchy;
@@ -67,7 +70,7 @@ public class BaseXmlInspectorConfig
 	 * <p>
 	 * This method is more advanced than <code>setInputStream</code>, as it combines multiple files,
 	 * but it is slightly more cumbersome to configure in <code>metawidget.xml</code>.
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -80,7 +83,7 @@ public class BaseXmlInspectorConfig
 
 	/**
 	 * Sets the InputStream of the XML.
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -100,6 +103,22 @@ public class BaseXmlInspectorConfig
 	}
 
 	/**
+	 * Sets the XML using a DOM Document.
+	 * 
+	 * @return this, as part of a fluent interface
+	 */
+
+	public BaseXmlInspectorConfig setDocuments( Document... document ) {
+		
+		mDefaultFile = null;
+		mDocuments = document;
+		
+		// Fluent interface
+		
+		return this;
+	}
+	
+	/**
 	 * Sets the property style used to restrict XML inspection against the given Object. This
 	 * applies when mixing XML-based <code>Inspector</code>s (e.g. <code>XmlInspector</code>) and
 	 * Object-based <code>Inspector</code>s (e.g. <code>PropertyTypeInspector</code>) in the same
@@ -115,7 +134,7 @@ public class BaseXmlInspectorConfig
 	 * references, and not return any XML. In addition, setting <code>restrictAgainstObject</code>
 	 * allows the XML <code>Inspector</code> to traverse child relationships and infer their types
 	 * using the Object. This saves having to explicitly specify those relationships in the XML.
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -136,7 +155,7 @@ public class BaseXmlInspectorConfig
 	 * Note this does <em>not</em> infer child relationships. For that, use
 	 * <code>setRestrictAgainstObject</code> (which also implies
 	 * <code>setInferInheritanceHierarchy</code>).
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -152,7 +171,7 @@ public class BaseXmlInspectorConfig
 	/**
 	 * Sets the property style used to validate whether properties defined in the XML match those
 	 * defined by the corresponding Java <code>Classes</code>.
-	 *
+	 * 
 	 * @return this, as part of a fluent interface
 	 */
 
@@ -188,6 +207,10 @@ public class BaseXmlInspectorConfig
 			return false;
 		}
 
+		if ( !ObjectUtils.nullSafeEquals( mDocuments, ( (BaseXmlInspectorConfig) that ).mDocuments ) ) {
+			return false;
+		}
+
 		if ( !ObjectUtils.nullSafeEquals( mRestrictAgainstObject, ( (BaseXmlInspectorConfig) that ).mRestrictAgainstObject ) ) {
 			return false;
 		}
@@ -210,6 +233,7 @@ public class BaseXmlInspectorConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDefaultFile );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInputStreams );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDocuments );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRestrictAgainstObject );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInferInheritanceHierarchy );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mValidateAgainstClasses );
@@ -247,6 +271,11 @@ public class BaseXmlInspectorConfig
 		}
 
 		return mResourceResolver;
+	}
+
+	protected Document[] getDocuments() {
+
+		return mDocuments;
 	}
 
 	protected PropertyStyle getRestrictAgainstObject() {
