@@ -250,7 +250,22 @@ var metawidget = metawidget || {};
 
 					// Special support for enumTitles
 
-					widget.innerHTML = metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
+					if ( attributes.type === 'array' ) {
+						
+						for( var loop = 0, length = value.length; loop < length; loop++ ) {
+						
+							if ( loop == 0 ) {
+								widget.innerHTML = '';
+							} else {
+								widget.innerHTML += ', ';
+							}
+							
+							widget.innerHTML += metawidget.util.lookupEnumTitle( value[loop], attributes['enum'], attributes.enumTitles );
+						}
+						
+					} else {
+						widget.innerHTML = metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
+					}					
 
 				} else if ( attributes.type === 'boolean' ) {
 

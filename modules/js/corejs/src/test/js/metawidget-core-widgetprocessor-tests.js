@@ -145,7 +145,8 @@
 					select: false,
 					number: 42,
 					password: 'fooBar',
-					array: [ 'Bar' ]
+					array: [ 'Bar' ],
+					multiArray: [ 2, 4 ]
 				},
 				path: "testPath"
 			};
@@ -206,6 +207,16 @@
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( 'bazValue' );
+
+			attributes = {
+				name: "multiArray",
+				type: "array",
+				enum: [ 1, 2, 3, 4, 5 ],
+				enumTitles: [ "One", "Two", "Three", "Four", "Five" ]
+			};
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.toString() ).toBe( 'output' );
+			expect( widget.innerHTML ).toBe( 'Two, Four' );
 
 			// Masked
 
