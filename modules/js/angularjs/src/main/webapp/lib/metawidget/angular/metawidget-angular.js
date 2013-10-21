@@ -160,6 +160,8 @@
 
 	metawidget.angular = metawidget.angular || {};
 
+	var _nestedMetawidgetConfigId = 0;
+	
 	metawidget.angular.AngularMetawidget = function( element, attrs, transclude, scope, $compile, $parse ) {
 
 		if ( ! ( this instanceof metawidget.angular.AngularMetawidget ) ) {
@@ -359,17 +361,20 @@
 			// Duck-type our 'pipeline' as the 'config' of the nested
 			// Metawidget. This neatly passes everything down, including a
 			// decremented 'maximumInspectionDepth'
+			//
+			// Use a private counter to stop configIds conflicting. This is
+			// because scope.$parent is a very broad scope - it's hard to
+			// know what might be in it
 
-			// TODO: can this conflict in the scope?
-
-			scope.$parent._metawidgetConfig = _pipeline;
+			var configId = '_metawidgetConfig' + _nestedMetawidgetConfigId++;
+			scope.$parent[configId] = _pipeline;
 
 			if ( config !== undefined ) {
-				scope.$parent._metawidgetConfig2 = config;
-				nestedMetawidget.setAttribute( 'configs', '[_metawidgetConfig,_metawidgetConfig2]' );
+				var configId2 = '_metawidgetConfig' + _nestedMetawidgetConfigId++;
+				scope.$parent[configId2] = config;
+				nestedMetawidget.setAttribute( 'configs', '[' + configId + ',' + configId2 + ']' );
 			} else {
-				// TODO: why must this be configs
-				nestedMetawidget.setAttribute( 'configs', '_metawidgetConfig' );
+				nestedMetawidget.setAttribute( 'config', configId );
 			}
 
 			return nestedMetawidget;
