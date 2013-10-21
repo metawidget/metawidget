@@ -167,7 +167,7 @@
 				name: "bar"
 			};
 			widget = simpleDocument.createElement( 'input' );
-			widget.setAttribute( 'type', 'button' )
+			widget.setAttribute( 'type', 'button' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'input type="button"' );
 			expect( widget.onclick.toString() ).toContain( 'return mw.toInspect[attributes.name]();' );
@@ -175,7 +175,7 @@
 			// Submit inputs
 
 			widget = simpleDocument.createElement( 'input' );
-			widget.setAttribute( 'type', 'submit' )
+			widget.setAttribute( 'type', 'submit' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'input type="submit"' );
 			expect( widget.onclick.toString() ).toContain( 'return mw.toInspect[attributes.name]();' );
@@ -251,7 +251,7 @@
 			expect( widget.checked ).toBe( true );
 
 			// Arrays of check boxes
-			
+
 			attributes = {
 				name: "array",
 				type: "array",
@@ -288,7 +288,7 @@
 			expect( mw.toInspect.array[0] ).toBe( 'Foo' );
 			expect( mw.toInspect.array[1] ).toBe( 'Baz' );
 			expect( mw.toInspect.array.length ).toBe( 2 );
-			
+
 			delete mw.toInspect.array;
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( childNode1.checked ).toBe( false );
@@ -304,6 +304,73 @@
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'select' );
 			expect( widget.value ).toBe( false );
+
+			// Radio button booleans
+
+			attributes = {
+				name: "boolean",
+				type: "boolean",
+				componentType: "radio",
+				enum: [ true, false ]
+			};
+			widget = simpleDocument.createElement( 'div' );
+			widget.setAttribute( 'id', 'topId' );
+			var labelTrue = simpleDocument.createElement( 'label' );
+			var inputTrue = simpleDocument.createElement( 'input' );
+			inputTrue.setAttribute( 'type', 'radio' );
+			inputTrue.value = 'true';
+			labelTrue.appendChild( inputTrue );
+			var labelFalse = simpleDocument.createElement( 'label' );
+			var inputFalse = simpleDocument.createElement( 'input' );
+			inputFalse.setAttribute( 'type', 'radio' );
+			inputFalse.value = 'false';
+			labelFalse.appendChild( inputFalse );
+			widget.appendChild( labelTrue );
+			widget.appendChild( labelFalse );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.toString() ).toBe( 'div id="topId"' );
+			expect( inputTrue.toString() ).toBe( 'input type="radio" name="topId"' );
+			expect( inputTrue.checked ).toBe( true );
+			expect( inputFalse.toString() ).toBe( 'input type="radio" name="topId"' );
+			expect( inputFalse.checked ).toBe( false );
+			inputTrue.checked = false;
+			inputFalse.checked = true;
+			expect( mw.toInspect.boolean ).toBe( true );
+			processor.save( mw );
+			expect( mw.toInspect.boolean ).toBe( false );
+
+			// Radio button non-booleans
+
+			attributes = {
+				name: "foo",
+				componentType: "radio",
+				enum: [ 'fooValue', 'fooNewValue' ]
+			};
+			widget = simpleDocument.createElement( 'div' );
+			widget.setAttribute( 'id', 'topId' );
+			var label1 = simpleDocument.createElement( 'label' );
+			var input1 = simpleDocument.createElement( 'input' );
+			input1.setAttribute( 'type', 'radio' );
+			input1.value = 'fooValue';
+			label1.appendChild( input1 );
+			var label2 = simpleDocument.createElement( 'label' );
+			var input2 = simpleDocument.createElement( 'input' );
+			input2.setAttribute( 'type', 'radio' );
+			input2.value = 'fooNewValue';
+			label2.appendChild( input2 );
+			widget.appendChild( label1 );
+			widget.appendChild( label2 );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.toString() ).toBe( 'div id="topId"' );
+			expect( input1.toString() ).toBe( 'input type="radio" name="topId"' );
+			expect( input1.checked ).toBe( true );
+			expect( input2.toString() ).toBe( 'input type="radio" name="topId"' );
+			expect( input2.checked ).toBe( false );
+			input1.checked = false;
+			input2.checked = true;
+			expect( mw.toInspect.foo ).toBe( "fooValue" );
+			processor.save( mw );
+			expect( mw.toInspect.foo ).toBe( "fooNewValue" );
 
 			// Root-level
 

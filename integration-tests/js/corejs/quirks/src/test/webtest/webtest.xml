@@ -24,13 +24,29 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/select/@id" text="booleanEnum"/>
 				<setSelectField name="booleanEnum" value="true"/>
 				
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/@id" text="description"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/@id" text="table-save-row"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@id" text="save"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@type" text="button"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/input/@value" text="Save"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/@id" text="table-booleanEnumRadio-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/th/label" text="Boolean Enum Radio:"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/th/label/@for" text="booleanEnumRadio"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/@id" text="booleanEnumRadio"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/label[1]" text="true"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/label[1]/input[1]/@type" text="radio"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/label[1]/input[1]/@value" text="true"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/label[2]" text="false"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/label[2]/input[1]/@type" text="radio"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/label[2]/input[1]/@value" text="false"/>
+				<not>
+					<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/label[1]/input[1]/@checked"/>
+					<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/div/label[2]/input[1]/@checked"/>
+				</not>
+				<setRadioButton name="booleanEnumRadio" value="true"/>
 
-				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="4"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/output/@id" text="description"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/@id" text="table-save-row"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/td/input/@id" text="save"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/td/input/@type" text="button"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[5]/td/input/@value" text="Save"/>
+
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="5"/>
 				<clickButton label="Save"/>
 
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[1]/td/output/@id" text="numericEnum"/>
@@ -39,10 +55,13 @@
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/output/@id" text="booleanEnum"/>
 				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[2]/td/output/text()" text="Yes"/>
 
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/@id" text="description"/>
-				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/text()" text="numericEnum is a number and booleanEnum is a boolean"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/@id" text="booleanEnumRadio"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[3]/td/output/text()" text="Yes"/>
 
-				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="3"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/output/@id" text="description"/>
+				<verifyXPath xpath="/html/body/form/div[@id='metawidget']/table/tbody/tr[4]/td/output/text()" text="numericEnum is a number and booleanEnum is a boolean"/>
+
+				<verifyXPath xpath="count(/html/body/form/div[@id='metawidget']/table/tbody/tr)" text="4"/>
 			</steps>
 		</webtest>
 	</target>

@@ -212,20 +212,32 @@ var metawidget = metawidget || {};
 			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
 		}
 
-		// Special support for arrays of checkboxes
-		// TODO: divs of radio buttons?
+		// Special support for arrays of checkboxes/radio buttons
 
-		if ( attributes.type === 'array' && attributes['enum'] !== undefined && widget.tagName === 'DIV' ) {
+		if ( attributes['enum'] !== undefined && widget.tagName === 'DIV' ) {
 
-			isBindable = true;
-
-			for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
-				var childNode = widget.childNodes[loop];
-				if ( childNode.tagName === 'LABEL' ) {
-					var labelChildNode = childNode.childNodes[0];
-					if ( labelChildNode.tagName === 'INPUT' && attributes['enum'].valueOf( labelChildNode.value ) !== -1 ) {
-						labelChildNode.setAttribute( 'name', widget.getAttribute( 'id' ) );
-						labelChildNode.checked = ( value !== undefined && value.indexOf( labelChildNode.value ) !== -1 );
+			if ( attributes.type === 'array' || attributes.componentType !== undefined ) { 
+			
+				isBindable = true;
+	
+				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+					var childNode = widget.childNodes[loop];
+					if ( childNode.tagName === 'LABEL' ) {
+						var labelChildNode = childNode.childNodes[0];
+						if ( labelChildNode.tagName === 'INPUT' ) {
+							
+							// Name must be common across group
+							
+							labelChildNode.setAttribute( 'name', widget.getAttribute( 'id' ) );
+							
+							if ( attributes.type === 'array' ) {
+								labelChildNode.checked = ( value !== undefined && value.indexOf( labelChildNode.value ) !== -1 );
+							} else if ( attributes.type === 'boolean' ) {
+								labelChildNode.checked = ( value === labelChildNode.value || labelChildNode.value === '' + value );
+							} else {
+								labelChildNode.checked = ( value === labelChildNode.value );
+							}
+						}
 					}
 				}
 			}
@@ -380,26 +392,39 @@ var metawidget = metawidget || {};
 			return parsed;
 		}
 
-		// Support non-checkbox booleans
+		// Support arrays of checkboxes/radio buttons
+
+		if ( binding.attributes['enum'] !== undefined && binding.widget.tagName === 'DIV' ) {
+
+			if ( binding.attributes.type === 'array' || binding.attributes.componentType !== undefined ) { 
+
+				var toReturn = [];
+				for ( var loop = 0, length = binding.widget.childNodes.length; loop < length; loop++ ) {
+					var childNode = binding.widget.childNodes[loop];
+					if ( childNode.tagName === 'LABEL' ) {
+						var labelChildNode = childNode.childNodes[0];
+						if ( labelChildNode.checked ) {
+							
+							if ( binding.attributes.type === 'boolean' ) {
+								return ( labelChildNode.value === true || labelChildNode.value === 'true' );
+							}
+							
+							if ( binding.attributes.type !== 'array' ) {
+								return labelChildNode.value;
+							}
+							
+							toReturn.push( labelChildNode.value );
+						}
+					}
+				}
+				return toReturn;
+			}
+		}
+
+		// Support non-checkbox booleans (e.g. a select box)
 
 		if ( binding.attributes.type === 'boolean' ) {
 			return ( binding.widget.value === true || binding.widget.value === 'true' );
-		}
-
-		// Support arrays of checkboxes
-
-		if ( binding.attributes.type === 'array' ) {
-			var toReturn = [];
-			for ( var loop = 0, length = binding.widget.childNodes.length; loop < length; loop++ ) {
-				var childNode = binding.widget.childNodes[loop];
-				if ( childNode.tagName === 'LABEL' ) {
-					var labelChildNode = childNode.childNodes[0];
-					if ( labelChildNode.checked ) {
-						toReturn.push( labelChildNode.value );
-					}
-				}
-			}
-			return toReturn;
 		}
 
 		// Avoid pushing back 'null'
