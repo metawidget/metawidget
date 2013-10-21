@@ -136,6 +136,49 @@
 			expect( element.childNodes.length ).toBe( 2 );
 		} );
 
+		it( "has a Layout that supports configurable Bootstrap styles", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: function() {
+
+					return {
+						properties: {
+							foo: {
+								type: "string"
+							},
+							bar: {
+								type: "string",
+								required: true
+							}
+						}
+					};
+				},
+				layout: new metawidget.bootstrap.layout.BootstrapDivLayout( {
+					appendRequiredClassOnLabelDiv: 'label-required',
+					appendRequiredClassOnWidgetDiv: 'widget-required'
+				} )
+			} );
+
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" class="control-label"' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( element.childNodes[1].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="label-required"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" class="control-label"' );
+			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="controls widget-required"' );
+			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
+			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 2 );
+		} );
+
 		it( "has a Layout that supports Bootstrap tabs", function() {
 
 			var element = simpleDocument.createElement( 'div' );

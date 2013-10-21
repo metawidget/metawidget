@@ -117,8 +117,6 @@
 			throw new Error( "Constructor called as a function" );
 		}
 
-		// TODO: test passing appendRequiredClassOnWidgetDiv down the chain
-
 		if ( config === undefined ) {
 			config = {};
 		}
