@@ -259,6 +259,7 @@
 								<li>Groovy</li>
 								<li>Hibernate</li>
 								<li>Hibernate Validator</li>
+								<li>Jackson</li>
 								<li>JavaBeans</li>
 								<li>Java API for XML Binding (JAXB)</li>
 								<li>Java Persistence API (JPA)</li>

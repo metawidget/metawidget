@@ -43,6 +43,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
+			<artifactId>metawidget-jackson</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules</groupId>
 			<artifactId>metawidget-jbpm</artifactId>
 			<version>${project.version}</version>
 		</dependency>

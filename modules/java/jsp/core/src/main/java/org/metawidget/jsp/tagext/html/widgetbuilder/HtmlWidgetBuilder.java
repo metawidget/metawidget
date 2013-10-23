@@ -49,6 +49,9 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  */
 
 // TODO: Better JSP validation support
+// TODO: Spring in-line valdiation
+// TODO: commercial license
+// TODO: KC update
 
 public class HtmlWidgetBuilder
 	implements WidgetBuilder<Tag, MetawidgetTag> {

@@ -863,6 +863,37 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 			</section>
 
+			<section id="section-inspectors-jackson">
+				<title>JacksonInspector</title>
+				
+				<para>
+					<classname>JacksonInspector</classname> inspects Jackson annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Jackson Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>hidden</parameter></td>
+							<td>
+								<classname>@JsonIgnore</classname>
+							</td>
+						</tr>
+					</tbody>
+				</informaltable>
+
+			</section>
+
 			<section id="section-inspectors-jaxb">
 				<title>JaxbInspector</title>
 				

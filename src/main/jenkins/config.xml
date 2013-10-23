@@ -139,7 +139,7 @@
           <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
         </hudson.tasks.Maven>
         <hudson.tasks.Maven>
-          <targets>-X -f modules/pom.xml -Dmaven.test.skip=true deploy</targets>
+          <targets>-X -f modules/pom.xml deploy</targets>
           <mavenName>(Default)</mavenName>
           <usePrivateRepository>false</usePrivateRepository>
           <settings class="jenkins.mvn.DefaultSettingsProvider"/>

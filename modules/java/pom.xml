@@ -24,6 +24,7 @@
 		<module>hibernate</module>
 		<module>javassist</module>
 		<module>jaxb</module>
+		<module>jackson</module>
 		<module>jbpm</module>
 		<module>jpa</module>
 		<module>json</module>
