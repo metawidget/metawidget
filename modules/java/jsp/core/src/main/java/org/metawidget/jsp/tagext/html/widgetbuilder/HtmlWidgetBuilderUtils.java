@@ -68,16 +68,19 @@ public final class HtmlWidgetBuilderUtils {
 
 		StringBuilder builder = new StringBuilder();
 
-		builder.append( " name=\"" );
-
 		String name = attributes.get( NAME );
 
-		if ( metawidget.getPathPrefix() != null ) {
-			name = metawidget.getPathPrefix() + name;
-		}
+		if ( name != null ) {
 
-		builder.append( name );
-		builder.append( "\"" );
+			builder.append( " name=\"" );
+	
+			if ( metawidget.getPathPrefix() != null ) {
+				name = metawidget.getPathPrefix() + name;
+			}
+	
+			builder.append( name );
+			builder.append( "\"" );
+		}
 
 		// CSS
 

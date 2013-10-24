@@ -48,10 +48,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-// TODO: Better JSP validation support
 // TODO: Spring in-line valdiation
 // TODO: commercial license
-// TODO: KC update
 
 public class HtmlWidgetBuilder
 	implements WidgetBuilder<Tag, MetawidgetTag> {
@@ -107,10 +105,16 @@ public class HtmlWidgetBuilder
 				return createCheckboxTag( attributes, metawidget );
 			}
 
-			// Primitives
+			// chars
+
+			if ( char.class.equals( clazz ) ) {
+				return createCheckboxTag( attributes, metawidget );
+			}
+
+			// Other primitives
 
 			if ( clazz.isPrimitive() ) {
-				return createTextTag( attributes, metawidget );
+				return createTextTag( "number", attributes, metawidget );
 			}
 
 			// String
@@ -150,7 +154,7 @@ public class HtmlWidgetBuilder
 			// Numbers
 
 			if ( Number.class.isAssignableFrom( clazz ) ) {
-				return createTextTag( attributes, metawidget );
+				return createTextTag( "number", attributes, metawidget );
 			}
 
 			// Collections
@@ -215,6 +219,30 @@ public class HtmlWidgetBuilder
 				builder.append( maximumLength );
 				builder.append( "\"" );
 			}
+		}
+
+		// minimumValue and maximumValue
+		
+		String minimumValue = attributes.get( MINIMUM_VALUE );
+
+		if ( minimumValue != null && !"".equals( minimumValue ) ) {
+			builder.append( " min=\"" );
+			builder.append( minimumValue );
+			builder.append( "\"" );
+		}
+
+		String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+		if ( maximumValue != null && !"".equals( maximumValue ) ) {
+			builder.append( " max=\"" );
+			builder.append( maximumValue );
+			builder.append( "\"" );
+		}
+
+		// required
+
+		if ( TRUE.equals( attributes.get( REQUIRED ))) {
+			builder.append( " required" );
 		}
 
 		builder.append( "/>" );

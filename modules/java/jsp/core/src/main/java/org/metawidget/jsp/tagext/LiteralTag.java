@@ -27,7 +27,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * <p>
  * LiteralTag provides a way to return fragments of HTML as Tags. The output of a LiteralTag is the
  * given String, without escaping. Plain JSP lacks a component model that abstracts &lt;input&gt;,
- * &lt;select&gt; and other sorts of tag.
+ * &lt;select&gt; and other sorts of tag, and Metawidget does not try to introduce one.
  * <p>
  * <strong>LiteralTag is an internal tag for use by WidgetBuilders, WidgetProcessors and Layouts. It
  * is not available in any TLD.</strong>

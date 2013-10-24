@@ -781,7 +781,10 @@
 								primitive wrapper (e.g. <classname>Integer</classname> or <classname>Float</classname>)
 								except <classname>java.lang.Boolean</classname>.
 								Also if property is of unknown type but <parameter>dont-expand</parameter>.
-								If <parameter>maximum-length</parameter>, adds <parameter>maxlength="..."</parameter></td>							
+								If specified, adds <parameter>maximum-length</parameter>,
+								<parameter>minimum-value</parameter>,
+								<parameter>maximum-value</parameter>
+								and <parameter>required</parameter></td>							
 							</tr>
 							<tr>
 								<td></td>

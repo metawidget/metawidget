@@ -18,6 +18,7 @@
 			<li>JavaScript support for collections of radio buttons</li>
 			<li>JacksonInspector</li>
 			<li>Android ReflectionBindingProcessor</li>
+			<li>JSP validation improvements</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
