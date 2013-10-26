@@ -43,7 +43,7 @@ import org.metawidget.inspector.annotation._
 import org.metawidget.inspector.impl.propertystyle.scala._;
 
 /**
- * @author Richard Kennard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 //

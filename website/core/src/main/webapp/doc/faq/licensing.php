@@ -3,19 +3,20 @@
 	<?php $useQuickStart = true; require_once '../../include/body-start.php'; ?>
 
 		<h2>Frequently Asked Questions - Licensing</h2>
-		
+
+		<p>
+			Metawidget is dual licensed under both the
+			<a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL</a>
+			and a commercial license.		
+		</p>
+				
 		<h3>Metawidget (LGPL)</h3>
 		
 		<p>
-			Metawidget is Free Software.
-		</p>
-	
-		<p>
-			Metawidget is licensed under the <a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL</a>. The LGPL is sufficiently flexible
-			to allow the use of Metawidget in both open source and commercial projects.
+			The LGPL is sufficiently flexible to allow the use of Metawidget in both open source and commercial projects.
 			The LGPL guarantees that Metawidget and any modifications made to Metawidget will stay open source, protecting our and your work. Anyone who
 			wanted to release Metawidget under a different license would have to obtain permission from everybody who has contributed code to Metawidget,
-			which would be impractical. Metawidget is and will be open source distributed under the LGPL.
+			which would be impractical. Metawidget is and will always be open source distributed under the LGPL.
 		</p>
 		
 		<p>
@@ -41,6 +42,7 @@
 				(please submit them to our <a href="/issues.php">issue tracker</a>)
 			</li>
 			<li>We work to add sufficient hooks that you can subclass the originals and override methods</li>
+			<li>You switch to a commercial license</li>
 		</ol>
 		
 		<p>
@@ -63,6 +65,24 @@
 			a <a href="/support.php">small commercial support package</a> and we can make the required changes within that
 			time frame.
 		</p>
+		
+		<p>
+			For option 3, see below.
+		</p>
+
+		<h3>Metawidget (commercial)</h3>
+		
+		<p>
+			Some organizations have blanket policies against the use of Open Source software, or against the
+			use of GPL software (including LGPL). For those scenarios, commercial licenses are available for
+			portions of Metawidget. The commercially licensed portions are the
+			<em>exact same code</em>, but can be used without any of the obligations of the LGPL.
+		</p>
+		
+		<p>		
+			For more details on commercial licensing, please
+			<a href="mailto:support@metawidget.org">contact us</a>.
+		</p>
 
 		<h3>Metawidget Examples (BSD)</h3>
 		
@@ -73,7 +93,7 @@
 		<p>
 			They are licensed under the <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">BSD 2-Clause License</a>. This allows
 			redistribution and use in source and binary forms, with or without modification. You can freely copy code from the examples, modify it
-			and redistribute it. This is <em>not</em> the case for Metawidget itself, which is licensed under LGPL (see above).
+			and redistribute it. This is <em>not</em> the case for Metawidget itself, which is licensed under the LGPL (see above).
 		</p>
 		
 	<?php require_once '../../include/body-end.php'; ?>		

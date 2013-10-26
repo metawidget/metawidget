@@ -54,7 +54,7 @@ import org.w3c.dom.Element;
 /**
  * Metawidget for SWT environments.
  *
- * @author Stefan Ackermann, Richard Kennard
+ * @author Stefan Ackermann, <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class SwtMetawidget

@@ -44,7 +44,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Richard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class PenguinBean {

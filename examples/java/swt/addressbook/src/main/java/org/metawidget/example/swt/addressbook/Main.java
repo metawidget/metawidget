@@ -59,7 +59,7 @@ import org.metawidget.swt.layout.RowLayout;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * @author Stefan Ackermann, Richard Kennard
+ * @author Stefan Ackermann, <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class Main {

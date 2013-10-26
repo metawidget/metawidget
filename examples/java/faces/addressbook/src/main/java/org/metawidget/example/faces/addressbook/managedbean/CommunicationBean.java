@@ -32,7 +32,7 @@ package org.metawidget.example.faces.addressbook.managedbean;
 import org.metawidget.example.shared.addressbook.model.Communication;
 
 /**
- * @author Richard
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 public class CommunicationBean {

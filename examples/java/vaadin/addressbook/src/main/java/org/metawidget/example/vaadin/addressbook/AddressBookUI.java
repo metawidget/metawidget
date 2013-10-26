@@ -61,7 +61,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 /**
- * @author Loghman Barari, Richard Kennard
+ * @author Loghman Barari, <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
 @Theme( "addressbook" )
