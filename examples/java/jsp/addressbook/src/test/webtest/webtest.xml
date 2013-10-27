@@ -198,7 +198,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']" text="Surname is required"/>
 				
 				<setInputField name="contact.surname" value="Contact"/>				
-				<setInputField name="contact.numberOfStaff" value="2"/>
+				<forceInputFieldAttribute xpath="//input[name='contact.numberOfStaff' and type='number']" attributeName="value" attributeValue="2"/>
 				<setSelectField name="communication.type" value="Mobile"/>
 				<setInputField name="communication.value" value="(0402) 456 123"/>
 				<clickButton label="Add"/>
