@@ -3009,7 +3009,7 @@ void onEndBuild(M metawidget);</programlisting>
 							<td>Spring</td>
 							<td><programlisting language="xml">&lt;headingTagLayoutDecorator config="HeadingTagLayoutDecoratorConfig"&gt;
 	&lt;layout&gt;
-		&lt;htmlTableLayout/&gt;
+		&lt;springTableLayout/&gt;
 	&lt;/layout&gt;
 &lt;/headingTagLayoutDecorator&gt;</programlisting></td>
 						</tr>

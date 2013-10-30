@@ -1190,6 +1190,38 @@
 					</informaltable>
 				</section>
 				
+				<section id="section-layouts-web-jsp-springtable">
+					<title>SpringTableLayout</title>
+					
+					<para>
+						Extends <classname>HtmlTableLayout</classname> to add inline
+						error validation.arrange widgets
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>errorStyle</parameter></td>
+								<td>CSS styles to apply to inline error</td>
+							</tr>
+							<tr>
+								<td><parameter>errorStyleClass</parameter></td>
+								<td>CSS style class to apply to inline error</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
 				<section id="section-layouts-web-jsp-simple">
 					<title>SimpleLayout</title>
 				

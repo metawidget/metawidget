@@ -19,6 +19,7 @@
 			<li>JacksonInspector</li>
 			<li>Android ReflectionBindingProcessor</li>
 			<li>JSP validation improvements</li>
+			<li>Spring inline error validation</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

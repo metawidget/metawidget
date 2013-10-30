@@ -31,7 +31,7 @@ import org.metawidget.layout.iface.LayoutException;
 import org.springframework.web.servlet.tags.form.ErrorsTag;
 
 /**
- * Layout to arrange widgets in a table, with Spring in-line validation.
+ * Layout to arrange widgets in a table, with Spring inline error validation.
  * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
