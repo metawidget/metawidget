@@ -50,7 +50,7 @@
 		<layout>
 			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
 				<layout>
-					<htmlTableLayout/>
+					<springTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout.spring"/>
 				</layout>
 			</headingTagLayoutDecorator>
 		</layout>

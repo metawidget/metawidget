@@ -8,6 +8,7 @@
 			<props>
 				<prop key="/index.html">quirksController</prop>
 				<prop key="/hiddenField.html">hiddenFieldController</prop>
+				<prop key="/inlineError.html">inlineErrorController</prop>
 			</props>
 		</property>
 	</bean>
@@ -24,6 +25,13 @@
 		<property name="commandClass"><value>org.metawidget.integrationtest.spring.quirks.model.HiddenFieldQuirks</value></property>
 		<property name="formView"><value>hiddenField</value></property>
 		<property name="successView"><value>hiddenField</value></property>		
+	</bean>
+
+	<bean id="inlineErrorController" class="org.metawidget.integrationtest.spring.quirks.controller.InlineErrorController">
+		<property name="commandName"><value>inlineErrorCommand</value></property>
+		<property name="commandClass"><value>org.metawidget.integrationtest.spring.quirks.model.InlineErrorQuirks</value></property>
+		<property name="formView"><value>inlineError</value></property>
+		<property name="successView"><value>inlineError</value></property>		
 	</bean>
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

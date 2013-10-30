@@ -53,9 +53,6 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-// TODO: Spring in-line valdiation
-// TODO: commercial license
-
 public class HtmlWidgetBuilder
 	implements WidgetBuilder<Tag, MetawidgetTag> {
 

@@ -21,27 +21,24 @@
 
 package org.metawidget.jsp.tagext.html.widgetbuilder;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_LENGTH;
+import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_VALUE;
+import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_VALUE;
+import static org.metawidget.inspector.InspectionResultConstants.PROPERTY;
+import static org.metawidget.inspector.InspectionResultConstants.REQUIRED;
+import static org.metawidget.inspector.InspectionResultConstants.TRUE;
+import static org.metawidget.inspector.InspectionResultConstants.TYPE;
 
-import java.awt.Color;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.jsp.tagext.Tag;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
-import org.metawidget.jsp.tagext.html.HtmlStubTag;
-import org.metawidget.jsp.tagext.layout.SimpleLayout;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 

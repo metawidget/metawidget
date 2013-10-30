@@ -81,6 +81,43 @@
 
 			</steps>
 		</webtest>
+
+		<webtest name="test-inlineError">
+			<config host="${host}" port="${port}" resultpath="${resultpath}" basepath="${basepath}"/>
+			<steps>
+				<invoke url="/inlineError.html" />
+				
+				<verifyXPath xpath="normalize-space(/html/body/h1)" text="Spring Inline Error Test"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-inlineErrorCommand']"/>
+				
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@name" text="foo"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/input/@value" text=""/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/span"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/th" text="Foo:"/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/input/@name" text="foo"/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/input/@value" text=""/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/span"/>
+				</not>
+
+				<clickButton label="Validate"/>
+
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/span/@id" text="foo.errors"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/span" text="Inline Error!"/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/span/@style"/>
+					<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/span/@class"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/span/@id" text="foo.errors"/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/span" text="Inline Error!"/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/span/@style" text="anErrorStyle"/>
+				<verifyXPath xpath="/html/body/form/table[2]/tbody/tr[1]/td[1]/span/@class" text="anErrorStyleClass"/>
+
+			</steps>
+		</webtest>
 	</target>
 	
 </project>

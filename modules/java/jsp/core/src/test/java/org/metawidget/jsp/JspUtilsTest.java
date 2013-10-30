@@ -406,7 +406,6 @@ public class JspUtilsTest
 					throw new UnsupportedOperationException();
 				}
 
-				@SuppressWarnings( "deprecation" )
 				public Servlet getServlet( String arg0 ) {
 
 					throw new UnsupportedOperationException();
@@ -417,13 +416,11 @@ public class JspUtilsTest
 					throw new UnsupportedOperationException();
 				}
 
-				@SuppressWarnings( "deprecation" )
 				public Enumeration<?> getServletNames() {
 
 					throw new UnsupportedOperationException();
 				}
 
-				@SuppressWarnings( "deprecation" )
 				public Enumeration<?> getServlets() {
 
 					throw new UnsupportedOperationException();
@@ -434,7 +431,6 @@ public class JspUtilsTest
 					throw new UnsupportedOperationException();
 				}
 
-				@SuppressWarnings( "deprecation" )
 				public void log( Exception arg0, String arg1 ) {
 
 					throw new UnsupportedOperationException();

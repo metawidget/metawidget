@@ -22,7 +22,7 @@
 		<layout>
 			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
 				<layout>
-					<htmlTableLayout config="HtmlTableLayoutConfig">
+					<springTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout.spring" config="SpringTableLayoutConfig">
 						<tableStyleClass>
 							<string>table-form</string>
 						</tableStyleClass>
@@ -35,8 +35,11 @@
 						</columnStyleClasses>
 						<footerStyleClass>
 							<string>buttons</string>
-						</footerStyleClass>				
-					</htmlTableLayout>
+						</footerStyleClass>
+						<errorStyleClass>
+							<string>inline-error</string>
+						</errorStyleClass>			
+					</springTableLayout>
 				</layout>
 				<styleClass>
 					<string>section-heading</string>

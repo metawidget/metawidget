@@ -42,6 +42,7 @@ import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.spring.addressbook.editor.DateEditor;
 import org.metawidget.example.spring.addressbook.editor.EnumEditor;
+import org.metawidget.util.simple.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
@@ -148,7 +149,16 @@ public class ContactController
 			try {
 				controller.save( contact );
 			} catch ( Exception e ) {
-				errors.reject( null, e.getMessage() );
+				String message = e.getMessage();
+				
+				// Example of inline validation
+				
+				if ( message.endsWith( " is required" )) {
+					String field = StringUtils.substringBefore( message, " is required" );				
+					errors.rejectValue( field.toLowerCase(), null, message );
+				} else {
+					errors.reject( null, message );
+				}
 			}
 
 			return;

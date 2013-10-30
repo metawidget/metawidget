@@ -185,7 +185,8 @@
 				<setInputField name="communication.value" value="miss@business.contact.com"/>
 				<clickButton label="Add"/>
 			
-				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']" text="Firstname is required"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[1]/span" text="Firstname is required"/>				
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[1]/span/@class" text="inline-error"/>				
 				<verifyInputField name="communication.value" value=""/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="miss@business.contact.com"/>				
 				<verifySelectField name="title" value="Mr"/>
@@ -195,7 +196,11 @@
 				<setInputField name="company" value="Some Company"/>
 				<clickButton label="Save"/>
 				<verifyInputField name="company" value="Some Company"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']" text="Surname is required"/>
+				<not>
+					<verifyText text="Firstname is required"/>
+				</not>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[1]/span" text="Surname is required"/>				
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[1]/span/@class" text="inline-error"/>				
 				
 				<setInputField name="surname" value="Contact"/>				
 				<setInputField name="numberOfStaff" value="2"/>
