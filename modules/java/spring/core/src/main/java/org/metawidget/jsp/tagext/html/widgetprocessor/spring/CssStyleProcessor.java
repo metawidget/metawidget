@@ -44,6 +44,8 @@ public class CssStyleProcessor
 	// Public methods
 	//
 
+	// TODO: required/min/max attribute processor
+	
 	public Tag processWidget( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidget ) {
 
 		if ( tag instanceof AbstractHtmlElementTag ) {

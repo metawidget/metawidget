@@ -70,33 +70,40 @@ public class SpringTableLayout
 
 	protected void layoutAfterChild( Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
 
-		try {
+		// If we have a path (i.e. we are not a section heading), render an
+		// inline error tag
+		
+		String path = attributes.get( NAME );
 
-			// Setup
+		if ( path != null ) {
 
-			ErrorsTag errorsTag = new ErrorsTag();
-			errorsTag.setPageContext( metawidgetTag.getPageContext() );
-			errorsTag.setCssStyle( mErrorStyle );
-			errorsTag.setCssClass( mErrorStyleClass );
+			try {
 
-			// Set path
+				// Setup
 
-			String path = attributes.get( NAME );
-			String pathPrefix = metawidgetTag.getPathPrefix();
+				ErrorsTag errorsTag = new ErrorsTag();
+				errorsTag.setPageContext( metawidgetTag.getPageContext() );
+				errorsTag.setCssStyle( mErrorStyle );
+				errorsTag.setCssClass( mErrorStyleClass );
 
-			if ( pathPrefix != null ) {
-				path = pathPrefix + path;
+				// Set path
+
+				String pathPrefix = metawidgetTag.getPathPrefix();
+
+				if ( pathPrefix != null ) {
+					path = pathPrefix + path;
+				}
+
+				errorsTag.setPath( path );
+
+				// Render
+
+				errorsTag.doStartTag();
+				errorsTag.doEndTag();
+
+			} catch ( Exception e ) {
+				throw LayoutException.newException( e );
 			}
-
-			errorsTag.setPath( path );
-
-			// Render
-
-			errorsTag.doStartTag();
-			errorsTag.doEndTag();
-
-		} catch ( Exception e ) {
-			throw LayoutException.newException( e );
 		}
 
 		super.layoutAfterChild( attributes, metawidgetTag );

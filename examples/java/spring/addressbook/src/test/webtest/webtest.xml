@@ -100,6 +100,9 @@
 				<setSelectField name="communication.type" value="Fax"/>
 				<clickButton label="Add"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']" text="Communication value is required"/>
+				<not>
+					<verifyXPath xpath="//span[@class = 'inline-error']"/>
+				</not>
 				<setSelectField name="communication.type" value="Fax"/>
 				<setInputField name="communication.value" value="(939) 555-0114"/>
 				<clickButton label="Add"/>
@@ -186,7 +189,8 @@
 				<clickButton label="Add"/>
 			
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[1]/span" text="Firstname is required"/>				
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[1]/span/@class" text="inline-error"/>				
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[1]/span/@class" text="inline-error"/>
+				<verifyXPath xpath="//span[@class = 'inline-error']"/>
 				<verifyInputField name="communication.value" value=""/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="miss@business.contact.com"/>				
 				<verifySelectField name="title" value="Mr"/>
