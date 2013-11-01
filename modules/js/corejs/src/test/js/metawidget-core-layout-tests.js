@@ -496,6 +496,87 @@
 		} );
 	} );
 
+	describe( "The DefinitionListLayout", function() {
+
+		it( "arranges widgets using dl tags", function() {
+
+			var layout = new metawidget.layout.DefinitionListLayout( {
+				labelStyleClass: 'labelStyle',
+				labelSuffix: '#'
+			});
+
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'id', 'widget1' );
+			var widget2 = simpleDocument.createElement( 'input' );
+			widget2.setAttribute( 'id', 'widget2' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				path: "testPath",
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+			}, container, mw );
+			layout.layoutWidget( widget2, "property", {
+				name: "widget2",
+				title: "widgetLabel 2"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'dl id="dl-testPath"' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'dt' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" class="labelStyle"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1#' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'dd' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[2].toString() ).toBe( 'dt' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'label for="widget2" class="labelStyle"' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].innerHTML ).toBe( 'widgetLabel 2#' );
+			expect( container.childNodes[0].childNodes[3].toString() ).toBe( 'dd' );
+			expect( container.childNodes[0].childNodes[3].childNodes[0] ).toBe( widget2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 4 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "ignores empty stubs", function() {
+
+			var layout = new metawidget.layout.DefinitionListLayout();
+
+			var stub = simpleDocument.createElement( 'stub' );
+			var widget1 = simpleDocument.createElement( 'widget1' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( stub, "property", {}, container, mw );
+			layout.layoutWidget( widget1, "property", {}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'dl' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'dd' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+
+			stub.appendChild( simpleDocument.createElement( 'widget2' ) );
+
+			layout.layoutWidget( stub, "property", {}, container, mw );
+
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'dd' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( stub );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+	} );
+
 	describe( "The TableLayout", function() {
 
 		it( "arranges widgets in a table", function() {

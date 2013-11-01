@@ -574,6 +574,43 @@
 
 				</section>
 
+				<section id="section-layouts-web-javascript-definitionlist">
+					<title>DefinitionListLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to arrange widgets using <parameter>dl</parameter>,
+						<parameter>dd</parameter> and <parameter>dt</parameter> tags.
+						This <classname>Layout</classname> recognizes the following configuration properties:
+					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelStyleClass</parameter></td>
+								<td>
+									Style class to apply to the generated label.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>
+									Suffix to append to the generated label.
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
 				<section id="section-layouts-web-javascript-div">
 					<title>DivLayout</title>
 					

@@ -59,6 +59,84 @@ var metawidget = metawidget || {};
 	};
 
 	/**
+	 * @class Layout to arrange widgets using dl/dt/dd tags.
+	 */
+
+	metawidget.layout.DefinitionListLayout = function( config ) {
+
+		if ( ! ( this instanceof metawidget.layout.DefinitionListLayout ) ) {
+			throw new Error( 'Constructor called as a function' );
+		}
+
+		var _labelStyleClass = config !== undefined ? config.labelStyleClass : undefined;
+		var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
+
+		this.startContainerLayout = function( container, mw ) {
+
+			var dl = metawidget.util.createElement( mw, 'dl' );
+			if ( mw.path !== undefined ) {
+				var id = metawidget.util.getId( "property", {}, mw );
+				if ( id !== undefined ) {
+					dl.setAttribute( 'id', 'dl-' + id );
+				}
+			}
+
+			container.appendChild( dl );
+		};
+
+		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
+
+			if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
+				return;
+			}
+
+			// Label
+
+			var dl = container.childNodes[container.childNodes.length - 1];
+			this.layoutLabel( dl, widget, elementName, attributes, mw );
+
+			// Widget
+
+			var dd = metawidget.util.createElement( mw, 'dd' );
+			dd.appendChild( widget );
+			dl.appendChild( dd );
+		};
+
+		this.layoutLabel = function( dl, widget, elementName, attributes, mw ) {
+
+			if ( elementName === 'entity' || elementName === 'action' ) {
+				return;
+			}
+
+			if ( attributes.name === undefined && attributes.title === undefined ) {
+				return;
+			}
+
+			var labelString = metawidget.util.getLabelString( attributes, mw );
+
+			if ( labelString === '' ) {
+				return;
+			}
+
+			var dt = metawidget.util.createElement( mw, 'dt' );
+
+			var label = metawidget.util.createElement( mw, 'label' );
+			if ( widget.getAttribute( 'id' ) !== null ) {
+				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+			}
+
+			if ( _labelStyleClass !== undefined ) {
+				label.setAttribute( 'class', _labelStyleClass );
+			}
+
+			label.innerHTML = labelString + _labelSuffix;
+
+			dt.appendChild( label );
+			dl.appendChild( dt );
+		};
+	};
+
+	/**
 	 * @class Layout to arrange widgets using div tags.
 	 */
 
