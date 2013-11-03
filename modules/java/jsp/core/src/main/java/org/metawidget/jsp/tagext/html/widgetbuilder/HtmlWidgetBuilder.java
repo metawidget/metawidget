@@ -110,7 +110,7 @@ public class HtmlWidgetBuilder
 			// chars
 
 			if ( char.class.equals( clazz ) ) {
-				return createCheckboxTag( attributes, metawidget );
+				return createTextTag( attributes, metawidget );
 			}
 
 			// Other primitives
@@ -266,7 +266,7 @@ public class HtmlWidgetBuilder
 	}
 
 	private String writeCheckedAttribute( Map<String, String> attributes, MetawidgetTag metawidget ) {
-
+		
 		Boolean result = (Boolean) HtmlWidgetBuilderUtils.evaluate( attributes, metawidget );
 
 		if ( result != null && result.booleanValue() ) {

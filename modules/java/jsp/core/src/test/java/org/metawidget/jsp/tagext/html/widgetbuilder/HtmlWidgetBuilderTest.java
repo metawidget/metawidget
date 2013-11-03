@@ -94,5 +94,12 @@ public class HtmlWidgetBuilderTest
 		attributes.put( MAXIMUM_VALUE, "99" );
 		literalTag = (LiteralTag) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget );
 		assertEquals( "<input type=\"number\" min=\"1\" max=\"99\"/>", JspUtils.writeTag( dummyMetawidget.getPageContext(), literalTag, dummyMetawidget ));
+
+		// Char
+
+		attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, char.class.getName() );
+		literalTag = (LiteralTag) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawidget );
+		assertEquals( "<input type=\"text\" maxlength=\"1\"/>", JspUtils.writeTag( dummyMetawidget.getPageContext(), literalTag, dummyMetawidget ));
 	}
 }
