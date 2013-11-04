@@ -24,7 +24,6 @@ package org.metawidget.android.widget.widgetprocessor;
 import static org.metawidget.inspector.InspectionResultConstants.DISABLED;
 import static org.metawidget.inspector.InspectionResultConstants.TRUE;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.metawidget.android.widget.AndroidMetawidget;

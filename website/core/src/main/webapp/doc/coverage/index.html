@@ -3,9 +3,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="gwt:property" content="locale=en_GB">
 <meta http-equiv="X-UA-Compatible" content="IE=9">
-<link rel="shortcut icon" type="image/x-icon" href="#">
+<link rel="shortcut icon" type="image/x-icon" href="http://localhost:9000/images/favicon.ico?1357544762">
 
-<link rel="alternate" title="Sonar Alerts on Metawidget" href="#">
+<link rel="alternate" title="Sonar Alerts on Metawidget" href="http://localhost:9000/feeds/project/org.metawidget:metawidget-parent?category=Alert" type="application/atom+xml">
 
 <title>Sonar - Metawidget</title>
 
@@ -25,7 +25,7 @@ $j(document).ready(function () {$j('.open-modal').modal()});
 <div id="nav-left">
 <ul>
 <li>
-<a href="#">Dashboards</a>
+<a href="http://localhost:9000/">Dashboards</a>
 </li>
 <script>
 if (supports_html5_storage()) {
@@ -43,7 +43,7 @@ var sonarRecentHistory = new Sonar.RecentHistory();
 <div>
 <ul>
 
-<li><a href="#">All Projects</a></li>
+<li><a href="http://localhost:9000/all_projects?qualifier=TRK">All Projects</a></li>
 
 </ul>
 </div>
@@ -62,10 +62,10 @@ sonarRecentHistory.add('org.metawidget:metawidget-parent',
 
 </script>
 <li>
-<a href="#">Measures</a>
+<a href="http://localhost:9000/measures">Measures</a>
 </li>
 <li>
-<a href="#">Reviews</a>
+<a href="http://localhost:9000/reviews/index">Reviews</a>
 </li>
 </ul>
 </div>
@@ -76,13 +76,13 @@ sonarRecentHistory.add('org.metawidget:metawidget-parent',
 <img src="sonar/loading-small.gif" id="searchingResources" style="display:none">
 </li>
 
-<li><a href="#">Log in</a></li>
+<li><a href="http://localhost:9000/sessions/new?return_to=%2Fdashboard%2Findex%2Forg.metawidget%3Ametawidget-parent">Log in</a></li>
 
 <li>
 <a href="#" onclick="showDropdownMenu('admin-panel'); return false;" class="link-more">Settings</a>
 <div id="admin-panel" class="dropdown-menu" style="display: none">
 <ul>
-<li><a href="#">Quality Profiles</a></li>
+<li><a href="http://localhost:9000/profiles">Quality Profiles</a></li>
 
 </ul>
 </div>
@@ -106,7 +106,7 @@ sonarRecentHistory.add('org.metawidget:metawidget-parent',
 
 <li>
 <img alt="" src="sonar/TRK.png" title="" height="16" width="16">&nbsp;
-<a href="#">Metawidget</a></li>
+<a href="http://localhost:9000/dashboard/index/org.metawidget:metawidget-parent">Metawidget</a></li>
 
 </ul>
 </div>
@@ -118,44 +118,44 @@ sonarRecentHistory.add('org.metawidget:metawidget-parent',
 
 
 <li class="active">
-<a href="#">Dashboard</a>
+<a href="http://localhost:9000/dashboard/index/1937?did=1">Dashboard</a>
 </li>
 
 <li class="">
-<a href="#">Hotspots</a>
+<a href="http://localhost:9000/dashboard/index/1937?did=2">Hotspots</a>
 </li>
 
 <li class="">
-<a href="#">Reviews</a>
+<a href="http://localhost:9000/dashboard/index/1937?did=3">Reviews</a>
 </li>
 
 <li class="">
-<a href="#">Time Machine</a>
+<a href="http://localhost:9000/dashboard/index/1937?did=4">Time Machine</a>
 </li>
 
 <li class="spacer"></li>
 <li class="sidebar-title">Tools</li>
 <li class="">
-<a href="#">Components</a>
+<a href="http://localhost:9000/components/index/1937">Components</a>
 </li>
 <li class="">
-<a href="#">Violations Drilldown</a>
-</li>
-
-<li class="">
-<a href="#">Design</a>
+<a href="http://localhost:9000/drilldown/violations/1937">Violations Drilldown</a>
 </li>
 
 <li class="">
-<a href="#">Libraries</a>
+<a href="http://localhost:9000/plugins/resource/1937?page=org.sonar.plugins.design.ui.page.DesignPage">Design</a>
 </li>
 
 <li class="">
-<a href="#">Clouds</a>
+<a href="http://localhost:9000/plugins/resource/1937?page=org.sonar.plugins.design.ui.libraries.LibrariesPage">Libraries</a>
 </li>
 
 <li class="">
-<a href="#">Compare</a>
+<a href="http://localhost:9000/cloud/index/1937">Clouds</a>
+</li>
+
+<li class="">
+<a href="http://localhost:9000/comparison/index?resource=org.metawidget:metawidget-parent">Compare</a>
 </li>
 
 
@@ -186,12 +186,12 @@ sonarRecentHistory.add('org.metawidget:metawidget-parent',
 
 <div id="snapshot_title" class="page_title">
 <h4>
-Version 3.3-SNAPSHOT - 26 Mar 2013 20:22
-<form method="GET" action="/dashboard/index/1" style="display: inline" class="spacer-left">
+Version 3.7-SNAPSHOT - 04 Nov 2013 19:53
+<form method="GET" action="/dashboard/index/1937" style="display: inline" class="spacer-left">
 <input name="did" value="1" type="hidden">
 <select id="select-comparison" name="period" onchange="submit()" class="small">
 <option selected="selected" value="">Time changes...</option>
-<option value="1">Δ since previous analysis (2013 Mar 26)</option><option value="2">Δ over 5 days</option><option value="3">Δ over 30 days</option></select>
+<option value="1">? since previous analysis (2013 Nov 04)</option><option value="2">? over 5 days</option><option value="3">? over 30 days</option></select>
 </form>
 
 </h4>
@@ -221,18 +221,18 @@ Version 3.3-SNAPSHOT - 26 Mar 2013 20:22
 
 <h3>Lines of code</h3>
 <p>
-<span class="big"><a href="#">38,341</span></a></span>
-<img alt="-2-black-small" src="sonar/-2-black-small.png"></p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=ncloc" class="" rel="" title=""><span id="m_ncloc">40,512</span></a></span>
+<img alt="2-black-small" src="sonar/2-black-small.png"></p>
 
-<p><a href="#"></p>
+<p><a href="http://localhost:9000/drilldown/measures/1937?metric=lines" class="" rel="" title=""><span id="m_lines">102,240</span> lines</a> <img alt="2-black-small" src="sonar/2-black-small.png"></p>
 
 
 
 <p>
-<a href="#"></p>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=statements" class="" rel="" title=""><span id="m_statements">17,937</span> statements</a> <img alt="2-black-small" src="sonar/2-black-small.png"></p>
 
 
-<p><a href="#"></p>
+<p><a href="http://localhost:9000/drilldown/measures/1937?metric=files" class="" rel="" title=""><span id="m_files">838</span> files</a> <img alt="2-black-small" src="sonar/2-black-small.png"></p>
 
 
 </div>
@@ -243,13 +243,13 @@ Version 3.3-SNAPSHOT - 26 Mar 2013 20:22
 
 <h3>Classes</h3>
 <p>
-<span class="big"><a href="#">727</span></a></span>
-<img alt="-2-black-small" src="sonar/-2-black-small.png"></p>
-<p><a href="#">235</span> packages</a> </p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=classes" class="" rel="" title=""><span id="m_classes">771</span></a></span>
+<img alt="2-black-small" src="sonar/2-black-small.png"></p>
+<p><a href="http://localhost:9000/drilldown/measures/1937?metric=packages" class="" rel="" title=""><span id="m_packages">253</span> packages</a> <img alt="1-black-small" src="sonar/1-black-small.png"></p>
 
-<p><a href="#"></p>
+<p><a href="http://localhost:9000/drilldown/measures/1937?metric=functions" class="" rel="" title=""><span id="m_functions">3,155</span> methods</a> <img alt="2-black-small" src="sonar/2-black-small.png"></p>
 
-<p><a href="#">501</span> accessors</a> </p>
+<p><a href="http://localhost:9000/drilldown/measures/1937?metric=accessors" class="" rel="" title=""><span id="m_accessors">508</span> accessors</a> <img alt="1-black-small" src="sonar/1-black-small.png"></p>
 
 
 </div>
@@ -282,18 +282,18 @@ Version 3.3-SNAPSHOT - 26 Mar 2013 20:22
 <div class="dashbox">
 <h3>Comments</h3>
 <p>
-<span class="big"><a href="#">35.2%</span></a></span>
-</p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=comment_lines_density" class="" rel="" title=""><span id="m_comment_lines_density">37.4%</span></a></span>
+<img alt="1-green-small" src="sonar/1-green-small.png"></p>
 <p>
-<a href="#">20,864</span> lines</a>
-<img alt="-2-black-small" src="sonar/-2-black-small.png"></p>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=comment_lines" class="" rel="" title=""><span id="m_comment_lines">24,246</span> lines</a>
+<img alt="2-black-small" src="sonar/2-black-small.png"></p>
 
 <p>
-<a href="#">46.8%</span> docu. API</a>
+<a href="http://localhost:9000/drilldown/measures/1937?highlight=public_documented_api_density&amp;metric=public_undocumented_api" class="" rel="" title=""><span id="m_public_documented_api_density">47.4%</span> docu. API</a>
 </p>
 <p>
-<a href="#">1,259</span> undocu. API</a>
-<img alt="-2-green-small" src="sonar/-2-green-small.png"></p>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=public_undocumented_api" class="" rel="" title=""><span id="m_public_undocumented_api">1,327</span> undocu. API</a>
+<img alt="2-red-small" src="sonar/2-red-small.png"></p>
 <p>
 
 </p>
@@ -305,16 +305,16 @@ Version 3.3-SNAPSHOT - 26 Mar 2013 20:22
 <div class="dashbox">
 <h3>Duplications</h3>
 <p>
-<span class="big"><a href="#">0.4%</span></a></span>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?highlight=duplicated_lines_density&amp;metric=duplicated_lines" class="" rel="" title=""><span id="m_duplicated_lines_density">0.3%</span></a></span>
 </p>
 <p>
-<a href="#">342</span> lines</a>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=duplicated_lines" class="" rel="" title=""><span id="m_duplicated_lines">342</span> lines</a>
 </p>
 <p>
-<a href="#">14</span> blocks</a>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=duplicated_blocks" class="" rel="" title=""><span id="m_duplicated_blocks">14</span> blocks</a>
 </p>
 <p>
-<a href="#">11</span> files</a>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=duplicated_files" class="" rel="" title=""><span id="m_duplicated_files">11</span> files</a>
 </p>
 </div>
 
@@ -348,20 +348,20 @@ Version 3.3-SNAPSHOT - 26 Mar 2013 20:22
 <h3>Complexity</h3>
 
 <p>
-<span class="big"><a href="#">3.3</span></a></span> /method</p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=function_complexity" class="" rel="" title=""><span id="m_function_complexity">3.3</span></a></span> /method</p>
 
 
 
 <p>
-<span class="big"><a href="#">13.4</span></a></span> /class</p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=class_complexity" class="" rel="" title=""><span id="m_class_complexity">13.4</span></a></span> /class</p>
 
 
 <p>
-<span class="big"><a href="#">12.3</span></a></span> /file</p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=file_complexity" class="" rel="" title=""><span id="m_file_complexity">12.3</span></a></span> /file</p>
 
 
 <p>
-Total: <a href="#"></p>
+Total: <a href="http://localhost:9000/drilldown/measures/1937?metric=complexity" class="" rel="" title=""><span id="m_complexity">10,338</span></a> <img alt="2-black-small" src="sonar/2-black-small.png"></p>
 
 </div>
 </td>
@@ -490,9 +490,45 @@ $('show_more_events_' + widgetId).hide();
 <tbody>
 
 <tr style="" class="even event cat_version">
-<td x="Tue Mar 26 20:22:03 +1100 2013">26 Mar 2013</td>
+<td x="Mon Nov 04 19:53:15 +1100 2013">04 Nov 2013</td>
 <td>Version</td>
-<td>3.3-SNAPSHOT</td>
+<td>3.7-SNAPSHOT</td>
+<td>
+
+</td>
+</tr>
+
+<tr style="" class="odd event cat_version">
+<td x="Fri Sep 20 19:18:26 +1000 2013">20 Sep 2013</td>
+<td>Version</td>
+<td>3.6</td>
+<td>
+
+</td>
+</tr>
+
+<tr style="" class="even event cat_version">
+<td x="Fri Sep 20 12:46:32 +1000 2013">20 Sep 2013</td>
+<td>Version</td>
+<td>3.6-SNAPSHOT</td>
+<td>
+
+</td>
+</tr>
+
+<tr style="" class="odd event cat_version">
+<td x="Sat Jul 27 16:18:27 +1000 2013">27 Jul 2013</td>
+<td>Version</td>
+<td>3.5</td>
+<td>
+
+</td>
+</tr>
+
+<tr style="" class="even event cat_version">
+<td x="Fri Jul 26 13:20:46 +1000 2013">26 Jul 2013</td>
+<td>Version</td>
+<td>3.5-SNAPSHOT</td>
 <td>
 
 </td>
@@ -545,13 +581,13 @@ changeCategory('all', 4);
 
 <tr>
 <td>Profile:</td>
-<td><span id="resource_profile"><a href="#">1</span>)</td>
+<td><span id="resource_profile"><a href="http://localhost:9000/rules_configuration/index/2" id="profile_link">Sonar way</a></span> (version <span id="m_profile_version">1</span>)</td>
 </tr>
 
 
 <tr>
 <td>Alerts: </td>
-<td><img alt="Rss-12x12" src="sonar/rss-12x12.png"> <a href="#">RSS Feed</a></td>
+<td><img alt="Rss-12x12" src="sonar/rss-12x12.png"> <a href="http://localhost:9000/feeds/project/org.metawidget:metawidget-parent?category=Alert" class="action">RSS Feed</a></td>
 </tr>
 
 
@@ -561,8 +597,8 @@ changeCategory('all', 4);
 
 <div>
 
-<img alt="Developer connection" src="sonar/scm_dev.png" title="Developer connection"><a href="#" onclick="$('link_616').toggle();return false;">Developer connection</a>
-<div id="link_616" style="padding-left: 20px; display:none">scm:git:git@github.com:metawidget/metawidget.git</div>
+<img alt="Developer connection" src="sonar/scm_dev.png" title="Developer connection"><a href="#" onclick="$('link_1376').toggle();return false;">Developer connection</a>
+<div id="link_1376" style="padding-left: 20px; display:none">scm:git:git@github.com:metawidget/metawidget.git</div>
 
 </div>
 
@@ -617,14 +653,14 @@ changeCategory('all', 4);
 <h3>Violations</h3>
 <div class="marginbottom10">
 <span class="big">
-<a href="#">940</span></a></span>
-<img alt="-2-green-small" src="sonar/-2-green-small.png">
+<a href="http://localhost:9000/drilldown/violations/org.metawidget:metawidget-parent" class="" rel="" title=""><span id="m_violations">943</span></a></span>
+<img alt="2-red-small" src="sonar/2-red-small.png">
 </div>
 
 <h3>Rules compliance</h3>
 <div>
 <span class="big">
-<a href="#">94.0%</span></a></span>
+<a href="http://localhost:9000/drilldown/measures/1937?highlight=weighted_violations&amp;metric=weighted_violations" class="" rel="" title=""><span id="m_violations_density">94.4%</span></a></span>
 </div>
 
 </div>
@@ -634,7 +670,7 @@ changeCategory('all', 4);
 <table class="clear width100">
 <tbody><tr>
 <td><img alt="Blocker" src="sonar/BLOCKER.png"></td>
-<td> &nbsp;<a href="#">Blocker</a></td>
+<td> &nbsp;<a href="http://localhost:9000/drilldown/violations/org.metawidget:metawidget-parent?severity=BLOCKER">Blocker</a></td>
 <td style="padding: 0 10px;" align="right">
 <span id="m_blocker_violations">0</span></td>
 <td>
@@ -649,7 +685,7 @@ changeCategory('all', 4);
 </tr>
 <tr>
 <td><img alt="Critical" src="sonar/CRITICAL.png"></td>
-<td> &nbsp;<a href="#">Critical</a></td>
+<td> &nbsp;<a href="http://localhost:9000/drilldown/violations/org.metawidget:metawidget-parent?severity=CRITICAL">Critical</a></td>
 <td style="padding: 0 10px;" align="right">
 <span id="m_critical_violations">0</span></td>
 <td>
@@ -664,11 +700,11 @@ changeCategory('all', 4);
 </tr>
 <tr>
 <td><img alt="Major" src="sonar/MAJOR.png"></td>
-<td> &nbsp;<a href="#">Major</a></td>
+<td> &nbsp;<a href="http://localhost:9000/drilldown/violations/org.metawidget:metawidget-parent?severity=MAJOR">Major</a></td>
 <td style="padding: 0 10px;" align="right">
-<span id="m_major_violations">677</span></td>
+<span id="m_major_violations">671</span></td>
 <td>
-<img alt="-2-green-small" src="sonar/-2-green-small.png"></td>
+<img alt="2-red-small" src="sonar/2-red-small.png"></td>
 <td style="padding-bottom:2px; padding-top:2px;" align="left">
 
 
@@ -679,24 +715,24 @@ changeCategory('all', 4);
 </tr>
 <tr>
 <td><img alt="Minor" src="sonar/MINOR.png"></td>
-<td> &nbsp;<a href="#">Minor</a></td>
+<td> &nbsp;<a href="http://localhost:9000/drilldown/violations/org.metawidget:metawidget-parent?severity=MINOR">Minor</a></td>
 <td style="padding: 0 10px;" align="right">
-<span id="m_minor_violations">263</span></td>
+<span id="m_minor_violations">271</span></td>
 <td>
-<img alt="-2-green-small" src="sonar/-2-green-small.png"></td>
+<img alt="1-red-small" src="sonar/1-red-small.png"></td>
 <td style="padding-bottom:2px; padding-top:2px;" align="left">
 
 
-<div class="barchart" style="width: 70px"><div style="width: 38%;background-color:#777;"></div></div>
+<div class="barchart" style="width: 70px"><div style="width: 40%;background-color:#777;"></div></div>
 
 
 </td>
 </tr>
 <tr>
 <td><img alt="Info" src="sonar/INFO.png"></td>
-<td> &nbsp;<a href="#">Info</a></td>
+<td> &nbsp;<a href="http://localhost:9000/drilldown/violations/org.metawidget:metawidget-parent?severity=INFO">Info</a></td>
 <td style="padding: 0 10px;" align="right">
-<span id="m_info_violations">0</span></td>
+<span id="m_info_violations">1</span></td>
 <td>
 <img alt="" src="sonar/transparent.gif" title="" width="16"></td>
 <td style="padding-bottom:2px; padding-top:2px;" align="left">
@@ -747,10 +783,10 @@ changeCategory('all', 4);
 <div class="dashbox">
 <p class="title">Package tangle index</p>
 <p>
-<span class="big"><a href="#">9.6%</span></a></span> </p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=package_tangle_index" class="" rel="" title=""><span id="m_package_tangle_index">10.4%</span></a></span> </p>
 
 <p>
-&gt; <a href="#">15</span> cycles</a> </p>
+&gt; <a href="http://localhost:9000/drilldown/measures/1937?metric=package_cycles" class="" rel="" title=""><span id="m_package_cycles">18</span> cycles</a> <img alt="1-red-small" src="sonar/1-red-small.png"></p>
 
 </div>
 </td>
@@ -759,11 +795,11 @@ changeCategory('all', 4);
 <div class="dashbox">
 <p class="title">Dependencies to cut</p>
 <p>
-<a href="#">12</span> between packages</a>
-</p>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=package_feedback_edges" class="" rel="" title=""><span id="m_package_feedback_edges">15</span> between packages</a>
+<img alt="1-black-small" src="sonar/1-black-small.png"></p>
 <p>
-<a href="#">25</span> between files</a>
-</p>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=package_tangles" class="" rel="" title=""><span id="m_package_tangles">28</span> between files</a>
+<img alt="1-black-small" src="sonar/1-black-small.png"></p>
 </div>
 
 </td>
@@ -796,17 +832,17 @@ changeCategory('all', 4);
 <div class="dashbox">
 <p class="title">Unit tests coverage</p>
 <p>
-<span class="big"><a href="#">67.6%</span></a></span>
-<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=coverage" class="" rel="" title=""><span id="m_coverage">69.6%</span></a></span>
+<img alt="2-green-small" src="sonar/2-green-small.png"></p>
 
 <p>
-<a href="#">68.0%</span> line coverage</a>
-<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+<a href="http://localhost:9000/drilldown/measures/1937?highlight=line_coverage&amp;metric=uncovered_lines" class="" rel="" title=""><span id="m_line_coverage">70.0%</span> line coverage</a>
+<img alt="2-green-small" src="sonar/2-green-small.png"></p>
 
 
 <p>
-<a href="#">66.7%</span> branch coverage</a>
-<img alt="1-green-small" src="sonar/1-green-small.png"></p>
+<a href="http://localhost:9000/drilldown/measures/1937?highlight=branch_coverage&amp;metric=uncovered_conditions" class="" rel="" title=""><span id="m_branch_coverage">68.6%</span> branch coverage</a>
+<img alt="2-green-small" src="sonar/2-green-small.png"></p>
 
 
 </div>
@@ -816,21 +852,21 @@ changeCategory('all', 4);
 <div class="dashbox">
 <h3>Unit test success</h3>
 <p><span class="big">
-<a href="#">100.0%</span></a></span>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=test_success_density" class="" rel="" title=""><span id="m_test_success_density">100.0%</span></a></span>
 </p>
 <p>
-<a href="#">0</span> failures</a>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=test_failures" class="" rel="" title=""><span id="m_test_failures">0</span> failures</a>
 </p>
 <p>
-<a href="#">0</span> errors</a>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=test_errors" class="" rel="" title=""><span id="m_test_errors">0</span> errors</a>
 </p>
 <p>
-<a href="#">612</span> tests</a>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=tests" class="" rel="" title=""><span id="m_tests">697</span> tests</a>
 <img alt="2-black-small" src="sonar/2-black-small.png"></p>
 
 <p>
-<a href="#">3:53 min</span></a>
-<img alt="-2-black-small" src="sonar/-2-black-small.png"></p>
+<a href="http://localhost:9000/drilldown/measures/1937?metric=test_execution_time" class="" rel="" title=""><span id="m_test_execution_time">4:46 min</span></a>
+<img alt="2-black-small" src="sonar/2-black-small.png"></p>
 </div>
 
 </td>
@@ -860,17 +896,17 @@ changeCategory('all', 4);
 <div class="dashbox">
 <p class="title">Integration tests coverage</p>
 <p>
-<span class="big"><a href="#">40.5%</span></a></span>
-<img alt="2-green-small" src="sonar/2-green-small.png"></p>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=it_coverage" class="" rel="" title=""><span id="m_it_coverage">38.8%</span></a></span>
+</p>
 
 <p>
-<a href="#">42.7%</span> line coverage</a>
-<img alt="2-green-small" src="sonar/2-green-small.png"></p>
+<a href="http://localhost:9000/drilldown/measures/1937?highlight=it_line_coverage&amp;metric=it_uncovered_lines" class="" rel="" title=""><span id="m_it_line_coverage">40.8%</span> line coverage</a>
+</p>
 
 
 <p>
-<a href="#">35.9%</span> branch coverage</a>
-<img alt="2-green-small" src="sonar/2-green-small.png"></p>
+<a href="http://localhost:9000/drilldown/measures/1937?highlight=it_branch_coverage&amp;metric=it_uncovered_conditions" class="" rel="" title=""><span id="m_it_branch_coverage">34.5%</span> branch coverage</a>
+</p>
 
 </div>
 </td>
@@ -878,16 +914,16 @@ changeCategory('all', 4);
 <div class="dashbox">
 <p class="title">Overall coverage</p>
 <p>
-<span class="big"><a href="#">80.2%</span></a></span>
+<span class="big"><a href="http://localhost:9000/drilldown/measures/1937?metric=overall_coverage" class="" rel="" title=""><span id="m_overall_coverage">81.5%</span></a></span>
 <img alt="1-green-small" src="sonar/1-green-small.png"></p>
 
 <p>
-<a href="#">81.6%</span> line coverage</a>
+<a href="http://localhost:9000/drilldown/measures/1937?highlight=overall_line_coverage&amp;metric=overall_uncovered_lines" class="" rel="" title=""><span id="m_overall_line_coverage">82.8%</span> line coverage</a>
 <img alt="1-green-small" src="sonar/1-green-small.png"></p>
 
 
 <p>
-<a href="#">77.4%</span> branch coverage</a>
+<a href="http://localhost:9000/drilldown/measures/1937?highlight=overall_branch_coverage&amp;metric=overall_uncovered_conditions" class="" rel="" title=""><span id="m_overall_branch_coverage">78.6%</span> branch coverage</a>
 <img alt="1-green-small" src="sonar/1-green-small.png"></p>
 
 </div>

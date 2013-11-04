@@ -584,7 +584,7 @@ public final class XmlUtils {
 
 	public static String elementToJsonSchema( Element inspectionResult ) {
 
-		return _elementToJsonSchema( XmlUtils.getFirstChildElement( inspectionResult ), false );
+		return elementToJsonSchema( XmlUtils.getFirstChildElement( inspectionResult ), false );
 	}
 
 	/**
@@ -619,7 +619,7 @@ public final class XmlUtils {
 
 	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength" };
 
-	private static String _elementToJsonSchema( Element element, boolean excludeName ) {
+	private static String elementToJsonSchema( Element element, boolean excludeName ) {
 
 		StringBuilder jsonBuilder = new StringBuilder();
 
@@ -637,7 +637,7 @@ public final class XmlUtils {
 
 					// ..recurse into it...
 
-					String traitSchema = _elementToJsonSchema( trait, true );
+					String traitSchema = elementToJsonSchema( trait, true );
 
 					if ( traitSchema.length() > 0 ) {
 
