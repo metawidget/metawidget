@@ -661,6 +661,17 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 			
 			<section id="section-widgetprocessors-mobile-android">
 				<title>Android WidgetProcessors</title>
+
+				<section id="section-widgetprocessors-mobile-android-disabledattributeprocessor">
+					<title>DisabledAttributeProcessor</title>
+					
+					<para>
+						<classname>DisabledAttributeProcessor</classname> calls <parameter>setEnabled(false)</parameter>
+						on a <classname>View</classname>, based on the <parameter>disabled</parameter>
+						attribute.
+					</para>
+					
+				</section>
 				
 				<section id="section-widgetprocessors-mobile-android-simplebindingprocessor">
 					<title>SimpleBindingProcessor</title>

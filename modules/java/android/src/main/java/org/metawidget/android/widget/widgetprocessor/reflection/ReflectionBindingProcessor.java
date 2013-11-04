@@ -24,12 +24,9 @@ package org.metawidget.android.widget.widgetprocessor.reflection;
 import static org.metawidget.inspector.InspectionResultConstants.ACTION;
 import static org.metawidget.inspector.InspectionResultConstants.NAME;
 
-import java.awt.event.ActionEvent;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
-
-import javax.swing.Action;
 
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
@@ -51,7 +48,7 @@ import android.view.View.OnClickListener;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-// TODO: DisabledAttributeProcessor?
+// TODO: HTML DisabledAttributeProcessor
 
 public class ReflectionBindingProcessor
 	implements AdvancedWidgetProcessor<View, AndroidMetawidget> {
@@ -65,7 +62,6 @@ public class ReflectionBindingProcessor
 		metawidget.putClientProperty( ReflectionBindingProcessor.class, null );
 	}
 
-	@SuppressWarnings( "serial" )
 	public View processWidget( View view, String elementName, Map<String, String> attributes, AndroidMetawidget metawidget ) {
 
 		// Nested Metawidgets are not bound, only remembered

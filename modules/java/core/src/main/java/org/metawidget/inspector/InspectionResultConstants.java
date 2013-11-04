@@ -116,6 +116,12 @@ public final class InspectionResultConstants {
 	public static final String	REQUIRED						= "required";
 
 	/**
+	 * Disabled field attribute.
+	 */
+
+	public static final String	DISABLED						= "disabled";
+
+	/**
 	 * Hidden field attribute.
 	 * <p>
 	 * Even though a field is 'hidden' from the user, it may still be a necessary part of the User

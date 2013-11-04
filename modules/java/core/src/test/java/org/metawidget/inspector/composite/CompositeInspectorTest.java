@@ -117,7 +117,6 @@ public class CompositeInspectorTest
 		assertEquals( null, inspector.inspect( null, null ) );
 	}
 
-	@SuppressWarnings( "unused" )
 	public void testDefensiveCopy()
 		throws Exception {
 

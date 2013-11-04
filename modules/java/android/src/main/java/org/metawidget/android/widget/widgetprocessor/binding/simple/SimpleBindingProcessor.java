@@ -21,8 +21,12 @@
 
 package org.metawidget.android.widget.widgetprocessor.binding.simple;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.ACTION;
+import static org.metawidget.inspector.InspectionResultConstants.NAME;
+import static org.metawidget.inspector.InspectionResultConstants.PROPERTY;
+import static org.metawidget.inspector.InspectionResultConstants.TRUE;
+import static org.metawidget.inspector.InspectionResultConstants.TYPE;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.NO_GETTER;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -111,7 +115,7 @@ public class SimpleBindingProcessor
 			State state = getState( metawidget );
 
 			if ( state.nestedMetawidgets == null ) {
-				state.nestedMetawidgets = new HashSet<AndroidMetawidget>();
+				state.nestedMetawidgets = CollectionUtils.newHashSet();
 			}
 
 			state.nestedMetawidgets.add( (AndroidMetawidget) view );

@@ -63,6 +63,8 @@ public class View {
 
 	private int				mVisibility	= View.VISIBLE;
 
+	private boolean			mEnabled = true;
+
 	private OnClickListener	mOnClickListener;
 
 	//
@@ -216,12 +218,22 @@ public class View {
 
 		mOnClickListener = onClickListener;
 	}
-	
+
 	public OnClickListener getOnClickListener() {
-		
+
 		return mOnClickListener;
 	}
 
+	public void setEnabled( boolean enabled ) {
+		
+		mEnabled = enabled;
+	}
+	
+	public boolean isEnabled() {
+		
+		return mEnabled;
+	}
+	
 	//
 	// Protected methods
 	//

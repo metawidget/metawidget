@@ -93,7 +93,8 @@
 		<p>
 			They are licensed under the <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">BSD 2-Clause License</a>. This allows
 			redistribution and use in source and binary forms, with or without modification. You can freely copy code from the examples, modify it
-			and redistribute it. This is <em>not</em> the case for Metawidget itself, which is licensed under the LGPL (see above).
+			and redistribute it. This is <em>not</em> the case for Metawidget itself, which is
+			dual licensed under both the LGPL and a commercial license (see above).
 		</p>
 		
 	<?php require_once '../../include/body-end.php'; ?>		

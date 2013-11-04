@@ -21,7 +21,9 @@
 
 package org.metawidget.android.widget;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.LABEL;
+import static org.metawidget.inspector.InspectionResultConstants.NAME;
+import static org.metawidget.inspector.InspectionResultConstants.PROPERTY;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -34,6 +36,7 @@ import org.metawidget.android.widget.layout.TextViewLayoutDecoratorConfig;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.ReadOnlyWidgetBuilder;
+import org.metawidget.android.widget.widgetprocessor.DisabledAttributeProcessor;
 import org.metawidget.android.widget.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.android.widget.widgetprocessor.reflection.ReflectionBindingProcessor;
 import org.metawidget.config.iface.ConfigReader;
@@ -749,7 +752,7 @@ public class AndroidMetawidget
 
 			if ( mPipeline.getWidgetProcessors() == null ) {
 				if ( DEFAULT_WIDGETPROCESSORS == null ) {
-					DEFAULT_WIDGETPROCESSORS = new WidgetProcessor[] { new SimpleBindingProcessor(), new ReflectionBindingProcessor() };
+					DEFAULT_WIDGETPROCESSORS = new WidgetProcessor[] { new SimpleBindingProcessor(), new ReflectionBindingProcessor(), new DisabledAttributeProcessor() };
 				}
 
 				mPipeline.setWidgetProcessors( DEFAULT_WIDGETPROCESSORS );
