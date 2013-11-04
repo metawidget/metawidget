@@ -48,8 +48,6 @@ import android.view.View.OnClickListener;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-// TODO: HTML DisabledAttributeProcessor
-
 public class ReflectionBindingProcessor
 	implements AdvancedWidgetProcessor<View, AndroidMetawidget> {
 

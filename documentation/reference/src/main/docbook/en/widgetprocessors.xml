@@ -360,6 +360,15 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 				</section>
 
+				<section id="section-widgetprocessors-web-javascript-disabled">
+					<title>DisabledAttributeProcessor</title>
+					
+					<para>
+						WidgetProcessor that sets the 'disabled' attribute.
+					</para>
+					
+				</section>
+
 				<section id="section-widgetprocessors-web-javascript-id">
 					<title>IdProcessor</title>
 					

@@ -1438,7 +1438,7 @@ static class State {
 					Unless explicitly specified, each Metawidget will instantiate default <classname>WidgetBuilder</classname>s to match
 					the target platform. For example, <classname>SwingMetawidget</classname> will by default
 					instantiate an
-					<classname>OverriddenWidgetBuilder</classname>, <classname>ReadOnlyWidgetBuilder</classname> and <classname>SwingWidgetBuilder</classname>.
+					<classname>OverriddenWidgetBuilder</classname>, <classname>WidgetBuilder</classname> and <classname>SwingWidgetBuilder</classname>.
 				</para>
 				
 				<para>
