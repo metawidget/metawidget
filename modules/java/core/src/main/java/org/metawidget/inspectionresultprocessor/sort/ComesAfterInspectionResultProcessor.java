@@ -21,13 +21,18 @@
 
 package org.metawidget.inspectionresultprocessor.sort;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.COMES_AFTER;
+import static org.metawidget.inspector.InspectionResultConstants.ENTITY;
+import static org.metawidget.inspector.InspectionResultConstants.NAME;
+import static org.metawidget.inspector.InspectionResultConstants.NAMESPACE;
+import static org.metawidget.inspector.InspectionResultConstants.ROOT;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
@@ -42,7 +47,7 @@ import org.w3c.dom.Element;
  * <p>
  * <code>comes-after</code> attributes can be added using the <code>UiComesAfter</code> annotation,
  * among other ways.
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -74,15 +79,22 @@ public class ComesAfterInspectionResultProcessor<M>
 			// Record all traits (ie. properties/actions) that have comes-after
 
 			Map<Element, String[]> traitsWithComesAfter = new LinkedHashMap<Element, String[]>();
+			Set<String> traitNames = CollectionUtils.newHashSet();
 			Element trait = XmlUtils.getFirstChildElement( entity );
 
-			while( trait != null ) {
-
-				// (if no comes-after, move them across to the new document)
+			while ( trait != null ) {
 
 				if ( hasComesAfter( trait, metawidget ) ) {
-					traitsWithComesAfter.put( trait, ArrayUtils.fromString( getComesAfter( trait, metawidget ) ) );
+					String[] comesAfter = ArrayUtils.fromString( getComesAfter( trait, metawidget ) );
+					traitsWithComesAfter.put( trait, comesAfter );
+					
+					if ( comesAfter.length > 0 ) {
+						traitNames.add( trait.getAttribute( NAME ) );
+					}
 				} else {
+
+					// (if no comes-after, move them across to the new document immediately)
+
 					newEntity.appendChild( XmlUtils.importElement( newDocument, trait ) );
 				}
 
@@ -90,20 +102,17 @@ public class ComesAfterInspectionResultProcessor<M>
 			}
 
 			// Next, sort the traits
-			//
-			// TODO: this has high big-O complexity. We could plug-in something smarter for large
-			// numbers of traits.
 
 			int infiniteLoop = traitsWithComesAfter.size();
 			infiniteLoop *= infiniteLoop;
 
 			while ( !traitsWithComesAfter.isEmpty() ) {
-				// Infinite loop? Explain why
+				// Infinite loop? Output a detailed explanation
 
 				infiniteLoop--;
 
 				if ( infiniteLoop < 0 ) {
-					List<String> comesAfterNames = CollectionUtils.newArrayList();
+					List<String> infiniteLoopNames = CollectionUtils.newArrayList();
 
 					for ( Map.Entry<Element, String[]> entry : traitsWithComesAfter.entrySet() ) {
 
@@ -115,14 +124,14 @@ public class ComesAfterInspectionResultProcessor<M>
 							value = "after " + ArrayUtils.toString( entry.getValue(), " and " );
 						}
 
-						comesAfterNames.add( entry.getKey().getAttribute( NAME ) + " comes " + value );
+						infiniteLoopNames.add( entry.getKey().getAttribute( NAME ) + " comes " + value );
 					}
 
 					// (sort for unit tests)
 
-					Collections.sort( comesAfterNames );
+					Collections.sort( infiniteLoopNames );
 
-					throw InspectionResultProcessorException.newException( "Infinite loop detected when sorting " + COMES_AFTER + ": " + CollectionUtils.toString( comesAfterNames, ", but " ) );
+					throw InspectionResultProcessorException.newException( "Infinite loop detected when sorting " + COMES_AFTER + ": " + CollectionUtils.toString( infiniteLoopNames, ", but " ) );
 				}
 
 				// For each entry in the Map...
@@ -136,10 +145,8 @@ public class ComesAfterInspectionResultProcessor<M>
 					// other 'comesAfter everything's left...
 
 					if ( comesAfter.length == 0 ) {
-						for ( String[] traitWithComesAfterExisting : traitsWithComesAfter.values() ) {
-							if ( traitWithComesAfterExisting.length > 0 ) {
-								continue outer;
-							}
+						if ( !traitNames.isEmpty() ) {
+							continue;
 						}
 
 						newEntity.appendChild( XmlUtils.importElement( newDocument, traitWithComesAfter ) );
@@ -155,22 +162,20 @@ public class ComesAfterInspectionResultProcessor<M>
 							if ( name.equals( comeAfter ) ) {
 								throw InspectionResultProcessorException.newException( "'" + comeAfter + "' " + COMES_AFTER + " itself" );
 							}
-
-							for ( Element traitExisting : traitsWithComesAfter.keySet() ) {
-								if ( comeAfter.equals( traitExisting.getAttribute( NAME ) ) ) {
-									continue outer;
-								}
+							if ( traitNames.contains( comeAfter ) ) {
+								continue outer;
 							}
 						}
 
-						// Insert it at the earliest point. This seems most 'natural'
+						// Insert it at the earliest possible point. This seems most 'natural'
 
+						traitNames.remove( name );
 						Element newTrait = XmlUtils.getFirstChildElement( newEntity );
 						Element insertBefore = newTrait;
 
-						while( newTrait != null ) {
+						while ( newTrait != null ) {
 
-							if ( ArrayUtils.contains( comesAfter, newTrait.getAttribute( NAME ) ) ) {
+							if ( ArrayUtils.contains( comesAfter, newTrait.getAttribute( NAME ))) {
 								newTrait = XmlUtils.getNextSiblingElement( newTrait );
 								insertBefore = newTrait;
 								continue;
@@ -208,7 +213,7 @@ public class ComesAfterInspectionResultProcessor<M>
 	 * attribute, and choose between them based on some property of the Metawidget. Similar to the
 	 * approach discussed here:
 	 * http://blog.kennardconsulting.com/2010/07/customizing-which-form-fields-are_14.html
-	 *
+	 * 
 	 * @param metawidget
 	 *            Metawidget doing the rendering
 	 */
@@ -226,7 +231,7 @@ public class ComesAfterInspectionResultProcessor<M>
 	 * attribute, and choose between them based on some property of the Metawidget. Similar to the
 	 * approach discussed here:
 	 * http://blog.kennardconsulting.com/2010/07/customizing-which-form-fields-are_14.html
-	 *
+	 * 
 	 * @param metawidget
 	 *            Metawidget doing the rendering
 	 */
