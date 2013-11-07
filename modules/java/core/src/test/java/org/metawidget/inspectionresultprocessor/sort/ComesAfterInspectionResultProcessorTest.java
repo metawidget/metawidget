@@ -182,8 +182,8 @@ public class ComesAfterInspectionResultProcessorTest
 		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 		validateXml += "<entity type=\"Foo\">";
 		validateXml += "<property name=\"baz\"/>";
-		validateXml += "<property name=\"bar\" comes-after=\"baz\"/>";
 		validateXml += "<property name=\"foo\" comes-after=\"baz\"/>";
+		validateXml += "<property name=\"bar\" comes-after=\"baz\"/>";
 		validateXml += "<property name=\"abc\"/>";
 		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
@@ -213,13 +213,13 @@ public class ComesAfterInspectionResultProcessorTest
 
 		String validateXml = "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" version=\"1.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\">";
 		validateXml += "<entity type=\"Foo\">";
-		validateXml += "<property name=\"baz\"/>";
 		validateXml += "<property name=\"abc\"/>";
 		validateXml += "<property name=\"bar\" comes-after=\"abc\"/>";
 		validateXml += "<property name=\"foo\" comes-after=\"bar\"/>";
+		validateXml += "<property name=\"baz\"/>";
 		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
-
+		
 		assertEquals( validateXml, outputXml );
 	}
 

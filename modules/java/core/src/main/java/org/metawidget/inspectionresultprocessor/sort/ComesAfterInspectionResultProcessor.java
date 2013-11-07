@@ -27,12 +27,10 @@ import static org.metawidget.inspector.InspectionResultConstants.NAME;
 import static org.metawidget.inspector.InspectionResultConstants.NAMESPACE;
 import static org.metawidget.inspector.InspectionResultConstants.ROOT;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.inspectionresultprocessor.impl.BaseInspectionResultProcessor;
@@ -55,6 +53,12 @@ public class ComesAfterInspectionResultProcessor<M>
 	extends BaseInspectionResultProcessor<M> {
 
 	//
+	// Private statics
+	//
+
+	private static final int	PERMANENT_MARK	= -1;
+
+	//
 	// Public methods
 	//
 
@@ -62,137 +66,82 @@ public class ComesAfterInspectionResultProcessor<M>
 	public Element processInspectionResultAsDom( Element inspectionResult, M metawidget, Object toInspect, String type, String... names ) {
 
 		try {
-			// Start a new document
-			//
-			// (Android 1.1 did not cope well with shuffling the nodes of an existing document)
+			Element entity = XmlUtils.getFirstChildElement( inspectionResult );
+
+			// Prepare all traits as a topological graph (use LinkedHashMap and List
+			// so we get a consistent ordering)
+
+			Map<String, TopologicalElement> topologicalElements = CollectionUtils.newLinkedHashMap();
+
+			Element trait = XmlUtils.getFirstChildElement( entity );
+
+			while ( trait != null ) {
+				topologicalElements.put( trait.getAttribute( NAME ), new TopologicalElement( trait ) );
+				trait = XmlUtils.getNextSiblingElement( trait );
+			}
+
+			Collection<TopologicalElement> unmarkedNodes = CollectionUtils.newArrayList();
+
+			for ( TopologicalElement topologicalElement : topologicalElements.values() ) {
+
+				unmarkedNodes.add( topologicalElement );
+				trait = topologicalElement.getElement();
+
+				if ( hasComesAfter( trait, metawidget ) ) {
+
+					String[] comesAfters = ArrayUtils.fromString( getComesAfter( trait, metawidget ) );
+
+					if ( comesAfters.length == 0 ) {
+						for ( TopologicalElement comesAfter : topologicalElements.values() ) {
+
+							if ( !comesAfter.equals( topologicalElement ) ) {
+								topologicalElement.addComesAfter( comesAfter );
+							}
+						}
+						continue;
+					}
+
+					String traitName = trait.getAttribute( NAME );
+
+					for ( String comesAfter : comesAfters ) {
+
+						if ( comesAfter.equals( traitName ) ) {
+							throw InspectionResultProcessorException.newException( '\'' + traitName + "' " + COMES_AFTER + " itself" );
+						}
+
+						TopologicalElement comesAfterElement = topologicalElements.get( comesAfter );
+						
+						if ( comesAfterElement == null ) {
+							continue;
+						}
+						
+						topologicalElement.addComesAfter( comesAfterElement );
+					}
+				}
+			}
+
+			// Sort the graph
+
+			List<Element> sorted = CollectionUtils.newArrayList();
+			topologicalSort( unmarkedNodes, sorted );
+
+			// Reconstruct the DOM. First, start a new document (Android 1.1 did
+			// not cope well with shuffling the nodes of an existing document)...
 
 			Document newDocument = XmlUtils.newDocument();
 			Element newInspectionResult = newDocument.createElementNS( NAMESPACE, ROOT );
 			XmlUtils.setMapAsAttributes( newInspectionResult, XmlUtils.getAttributesAsMap( inspectionResult ) );
 			newDocument.appendChild( newInspectionResult );
 
-			Element entity = XmlUtils.getFirstChildElement( inspectionResult );
 			Element newEntity = newDocument.createElementNS( NAMESPACE, ENTITY );
 			XmlUtils.setMapAsAttributes( newEntity, XmlUtils.getAttributesAsMap( entity ) );
 			newInspectionResult.appendChild( newEntity );
 
-			// Record all traits (ie. properties/actions) that have comes-after
+			// ...then import our sorted traits into it
 
-			Map<Element, String[]> traitsWithComesAfter = new LinkedHashMap<Element, String[]>();
-			Set<String> traitNames = CollectionUtils.newHashSet();
-			Element trait = XmlUtils.getFirstChildElement( entity );
+			for ( Element sortedTrait : sorted ) {
 
-			while ( trait != null ) {
-
-				if ( hasComesAfter( trait, metawidget ) ) {
-					String[] comesAfter = ArrayUtils.fromString( getComesAfter( trait, metawidget ) );
-					traitsWithComesAfter.put( trait, comesAfter );
-					
-					if ( comesAfter.length > 0 ) {
-						traitNames.add( trait.getAttribute( NAME ) );
-					}
-				} else {
-
-					// (if no comes-after, move them across to the new document immediately)
-
-					newEntity.appendChild( XmlUtils.importElement( newDocument, trait ) );
-				}
-
-				trait = XmlUtils.getNextSiblingElement( trait );
-			}
-
-			// Next, sort the traits
-
-			int infiniteLoop = traitsWithComesAfter.size();
-			infiniteLoop *= infiniteLoop;
-
-			while ( !traitsWithComesAfter.isEmpty() ) {
-				// Infinite loop? Output a detailed explanation
-
-				infiniteLoop--;
-
-				if ( infiniteLoop < 0 ) {
-					List<String> infiniteLoopNames = CollectionUtils.newArrayList();
-
-					for ( Map.Entry<Element, String[]> entry : traitsWithComesAfter.entrySet() ) {
-
-						String value;
-
-						if ( entry.getValue().length == 0 ) {
-							value = "at the end";
-						} else {
-							value = "after " + ArrayUtils.toString( entry.getValue(), " and " );
-						}
-
-						infiniteLoopNames.add( entry.getKey().getAttribute( NAME ) + " comes " + value );
-					}
-
-					// (sort for unit tests)
-
-					Collections.sort( infiniteLoopNames );
-
-					throw InspectionResultProcessorException.newException( "Infinite loop detected when sorting " + COMES_AFTER + ": " + CollectionUtils.toString( infiniteLoopNames, ", but " ) );
-				}
-
-				// For each entry in the Map...
-
-				outer: for ( Iterator<Map.Entry<Element, String[]>> i = traitsWithComesAfter.entrySet().iterator(); i.hasNext(); ) {
-					Map.Entry<Element, String[]> entry = i.next();
-					Element traitWithComesAfter = entry.getKey();
-					String[] comesAfter = entry.getValue();
-
-					// ...if it 'comesAfter everything', make sure there are only
-					// other 'comesAfter everything's left...
-
-					if ( comesAfter.length == 0 ) {
-						if ( !traitNames.isEmpty() ) {
-							continue;
-						}
-
-						newEntity.appendChild( XmlUtils.importElement( newDocument, traitWithComesAfter ) );
-					}
-
-					// ...or, if it 'comesAfter' something, make sure none of those
-					// somethings are left...
-
-					else {
-						String name = traitWithComesAfter.getAttribute( NAME );
-
-						for ( String comeAfter : comesAfter ) {
-							if ( name.equals( comeAfter ) ) {
-								throw InspectionResultProcessorException.newException( "'" + comeAfter + "' " + COMES_AFTER + " itself" );
-							}
-							if ( traitNames.contains( comeAfter ) ) {
-								continue outer;
-							}
-						}
-
-						// Insert it at the earliest possible point. This seems most 'natural'
-
-						traitNames.remove( name );
-						Element newTrait = XmlUtils.getFirstChildElement( newEntity );
-						Element insertBefore = newTrait;
-
-						while ( newTrait != null ) {
-
-							if ( ArrayUtils.contains( comesAfter, newTrait.getAttribute( NAME ))) {
-								newTrait = XmlUtils.getNextSiblingElement( newTrait );
-								insertBefore = newTrait;
-								continue;
-							}
-
-							newTrait = XmlUtils.getNextSiblingElement( newTrait );
-						}
-
-						if ( insertBefore == null ) {
-							newEntity.appendChild( XmlUtils.importElement( newDocument, traitWithComesAfter ) );
-						} else {
-							newEntity.insertBefore( XmlUtils.importElement( newDocument, traitWithComesAfter ), insertBefore );
-						}
-					}
-
-					i.remove();
-				}
+				newEntity.appendChild( XmlUtils.importElement( newDocument, sortedTrait ) );
 			}
 
 			return newInspectionResult;
@@ -239,5 +188,144 @@ public class ComesAfterInspectionResultProcessor<M>
 	protected String getComesAfter( Element element, M metawidget ) {
 
 		return element.getAttribute( COMES_AFTER );
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * Visit the next unmarked node.
+	 */
+
+	private void topologicalSort( Collection<TopologicalElement> unmarkedNodes, List<Element> sorted ) {
+
+		while ( !unmarkedNodes.isEmpty() ) {
+
+			TopologicalElement node = unmarkedNodes.iterator().next();
+			topologicalVisit( node, unmarkedNodes, sorted, unmarkedNodes.size() );
+		}
+	}
+
+	private void topologicalVisit( TopologicalElement node, Collection<TopologicalElement> unmarkedNodes, List<Element> sorted, int temporaryMark ) {
+
+		// If node has a permanent mark then all done
+
+		if ( node.getMark() == PERMANENT_MARK ) {
+			return;
+		}
+
+		// If node has a temporary mark then error
+
+		if ( node.getMark() == temporaryMark ) {
+			List<String> infiniteLoopNames = CollectionUtils.newArrayList();
+
+			for ( TopologicalElement infiniteLoopNode : unmarkedNodes ) {
+
+				String value;
+				Element trait = infiniteLoopNode.getElement();
+				String comesAfter = getComesAfter( trait, null );
+
+				if ( comesAfter == null ) {
+					continue;
+				}
+
+				if ( comesAfter.length() == 0 ) {
+					value = "at the end";
+				} else {
+					value = "after " + comesAfter.replace( ",", " and " );
+				}
+
+				infiniteLoopNames.add( trait.getAttribute( NAME ) + " comes " + value );
+			}
+
+			// (sort for unit tests)
+
+			Collections.sort( infiniteLoopNames );
+
+			throw InspectionResultProcessorException.newException( "Infinite loop detected when sorting " + COMES_AFTER + ": " + CollectionUtils.toString( infiniteLoopNames, ", but " ) );
+		}
+
+		// Mark node temporarily
+
+		node.setMark( temporaryMark );
+
+		// Visit each dependent node
+
+		for ( TopologicalElement comesAfter : node.getComesAfter() ) {
+			topologicalVisit( comesAfter, unmarkedNodes, sorted, temporaryMark );
+		}
+
+		// Mark node permanently
+
+		node.setMark( PERMANENT_MARK );
+		unmarkedNodes.remove( node );
+
+		// Add node to sorted list
+
+		sorted.add( node.getElement() );
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Holds elements during topological sort.
+	 */
+
+	private static class TopologicalElement {
+
+		//
+		// Private members
+		//
+
+		private Element							mElement;
+
+		private int								mMark;
+
+		/**
+		 * Use a List, not a Set, so that sorting is stable.
+		 */
+
+		private Collection<TopologicalElement>	mComesAfter	= CollectionUtils.newArrayList();
+
+		//
+		// Constructor
+		//
+
+		public TopologicalElement( Element element ) {
+
+			mElement = element;
+		}
+
+		//
+		// Public methods
+		//
+
+		public Element getElement() {
+
+			return mElement;
+		}
+
+		public Collection<TopologicalElement> getComesAfter() {
+
+			return mComesAfter;
+		}
+
+		public void addComesAfter( TopologicalElement comesAfter ) {
+
+			mComesAfter.add( comesAfter );
+		}
+
+		public void setMark( int mark ) {
+
+			mMark = mark;
+		}
+
+		public int getMark() {
+
+			return mMark;
+		}
 	}
 }
