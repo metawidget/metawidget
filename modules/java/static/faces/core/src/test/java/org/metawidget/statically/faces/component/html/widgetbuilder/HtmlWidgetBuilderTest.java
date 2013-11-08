@@ -371,7 +371,7 @@ public class HtmlWidgetBuilderTest
 		}
 
 		@UiRequired
-		@UiComesAfter( "baz" )
+		@UiComesAfter( "bar" )
 		public String getAbc() {
 
 			return null;

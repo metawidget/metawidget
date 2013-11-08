@@ -66,13 +66,12 @@ public class ComesAfterInspectionResultProcessor<M>
 	public Element processInspectionResultAsDom( Element inspectionResult, M metawidget, Object toInspect, String type, String... names ) {
 
 		try {
-			Element entity = XmlUtils.getFirstChildElement( inspectionResult );
-
 			// Prepare all traits as a topological graph (use LinkedHashMap and List
 			// so we get a consistent ordering)
 
 			Map<String, TopologicalElement> topologicalElements = CollectionUtils.newLinkedHashMap();
 
+			Element entity = XmlUtils.getFirstChildElement( inspectionResult );
 			Element trait = XmlUtils.getFirstChildElement( entity );
 
 			while ( trait != null ) {
@@ -88,10 +87,12 @@ public class ComesAfterInspectionResultProcessor<M>
 				trait = topologicalElement.getElement();
 
 				if ( hasComesAfter( trait, metawidget ) ) {
+					
+					String comesAfters = getComesAfter( trait, metawidget );
 
-					String[] comesAfters = ArrayUtils.fromString( getComesAfter( trait, metawidget ) );
-
-					if ( comesAfters.length == 0 ) {
+					// For comes-after all, gather all nodes
+					
+					if ( "".equals( comesAfters )) {
 						for ( TopologicalElement comesAfter : topologicalElements.values() ) {
 
 							if ( !comesAfter.equals( topologicalElement ) ) {
@@ -101,15 +102,20 @@ public class ComesAfterInspectionResultProcessor<M>
 						continue;
 					}
 
+					// For others, lookup each dependent node
+					
+					String[] comesAftersArray = ArrayUtils.fromString( comesAfters );
 					String traitName = trait.getAttribute( NAME );
 
-					for ( String comesAfter : comesAfters ) {
+					for ( String comesAfter : comesAftersArray ) {
 
 						if ( comesAfter.equals( traitName ) ) {
 							throw InspectionResultProcessorException.newException( '\'' + traitName + "' " + COMES_AFTER + " itself" );
 						}
 
 						TopologicalElement comesAfterElement = topologicalElements.get( comesAfter );
+					
+						// (node may not be in the graph)
 						
 						if ( comesAfterElement == null ) {
 							continue;
@@ -122,8 +128,8 @@ public class ComesAfterInspectionResultProcessor<M>
 
 			// Sort the graph
 
-			List<Element> sorted = CollectionUtils.newArrayList();
-			topologicalSort( unmarkedNodes, sorted );
+			List<Element> sortedTraits = CollectionUtils.newArrayList();
+			topologicalSort( unmarkedNodes, sortedTraits );
 
 			// Reconstruct the DOM. First, start a new document (Android 1.1 did
 			// not cope well with shuffling the nodes of an existing document)...
@@ -139,7 +145,7 @@ public class ComesAfterInspectionResultProcessor<M>
 
 			// ...then import our sorted traits into it
 
-			for ( Element sortedTrait : sorted ) {
+			for ( Element sortedTrait : sortedTraits ) {
 
 				newEntity.appendChild( XmlUtils.importElement( newDocument, sortedTrait ) );
 			}

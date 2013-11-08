@@ -142,7 +142,7 @@ public class SwtAddressBookTest
 		assertTrue( ( (Control) metawidgetContact.getControl( "firstname" ) ) instanceof Label );
 		assertEquals( "MALE", ( (Label) metawidgetContact.getControl( "gender" ) ).getText() );
 		assertTrue( metawidgetContact.getChildren()[12] instanceof Composite );
-		assertEquals( "Contact Details", ( (Label) ( (Composite) metawidgetContact.getChildren()[12] ).getChildren()[0] ).getText() );
+		assertEquals( "Contact Details", ( (Label) ( (Composite) metawidgetContact.getChildren()[10] ).getChildren()[0] ).getText() );
 		assertEquals( 1, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
 		assertEquals( "Address:", ( (Label) metawidgetContact.getControl( "address_label" ) ).getText() );
 		assertEquals( 1, ( (GridData) ( (Control) metawidgetContact.getControl( "address_label" ) ).getLayoutData() ).horizontalSpan );
@@ -196,7 +196,7 @@ public class SwtAddressBookTest
 		assertEquals( "MALE", ( (Combo) metawidgetContact.getControl( "gender" ) ).getText() );
 		metawidgetContact.setValue( "Sapien", "surname" );
 		assertTrue( metawidgetContact.getChildren()[12] instanceof Composite );
-		assertEquals( "Contact Details", ( (Label) ( (Composite) metawidgetContact.getChildren()[12] ).getChildren()[0] ).getText() );
+		assertEquals( "Contact Details", ( (Label) ( (Composite) metawidgetContact.getChildren()[10] ).getChildren()[0] ).getText() );
 		assertEquals( 1, ( (GridData) metawidgetContact.getChildren()[13].getLayoutData() ).horizontalSpan );
 		assertEquals( metawidgetContact.getChildren().length, 21 );
 

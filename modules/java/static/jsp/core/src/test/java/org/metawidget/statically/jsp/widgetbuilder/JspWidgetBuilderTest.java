@@ -229,7 +229,7 @@ public class JspWidgetBuilderTest
 		}
 
 		@UiRequired
-		@UiComesAfter( "baz" )
+		@UiComesAfter( "bar" )
 		public String getAbc() {
 
 			return null;
