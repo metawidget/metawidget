@@ -44,7 +44,7 @@ var metawidget = metawidget || {};
 
 	metawidget.Metawidget = function( element, config ) {
 
-		if ( ! ( this instanceof metawidget.Metawidget ) ) {
+		if ( !( this instanceof metawidget.Metawidget ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 
@@ -199,7 +199,7 @@ var metawidget = metawidget || {};
 
 	metawidget.Pipeline = function( element ) {
 
-		if ( ! ( this instanceof metawidget.Pipeline ) ) {
+		if ( !( this instanceof metawidget.Pipeline ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 
@@ -605,6 +605,14 @@ var metawidget = metawidget || {};
 			}
 		}
 	};
+
+	/**
+	 * Layout the given widget by delegating to the configured Layout.
+	 * <p>
+	 * Subclasses can override this method to perform any post-processing of the
+	 * widget, following layout. For <em>pre</em>-processing, subclasses
+	 * should use a WidgetProcessor.
+	 */
 
 	metawidget.Pipeline.prototype.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 

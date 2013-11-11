@@ -19,7 +19,7 @@
 //
 // Commercial License: See http://metawidget.org for details
 
-package org.metawidget.js.jqueryui;
+package org.metawidget.js.jquery.mobile;
 
 import org.metawidget.util.JavaScriptTestCase;
 
@@ -27,7 +27,7 @@ import org.metawidget.util.JavaScriptTestCase;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-public class JQueryUIMetawidgetTest
+public class JQueryMobileMetawidgetTest
 	extends JavaScriptTestCase {
 
 	//
@@ -37,7 +37,7 @@ public class JQueryUIMetawidgetTest
 	public void testMetawidget()
 		throws Exception {
 
-		run( "src/test/js/metawidget-jqueryui-tests.js" );
+		run( "src/test/js/metawidget-jquerymobile-tests.js" );
 	}
 
 	//
@@ -51,13 +51,13 @@ public class JQueryUIMetawidgetTest
 
 		initializeEnvJs();
 
-		evaluateResource( "/js/jquery-ui-1.9.2.custom.min.js" );
-		evaluateJavaScript( "target/metawidget-jqueryui/lib/metawidget/core/metawidget.js" );
-		evaluateJavaScript( "target/metawidget-jqueryui/lib/metawidget/core/metawidget-inspectors.js" );
-		evaluateJavaScript( "target/metawidget-jqueryui/lib/metawidget/core/metawidget-widgetbuilders.js" );
-		evaluateJavaScript( "target/metawidget-jqueryui/lib/metawidget/core/metawidget-widgetprocessors.js" );
-		evaluateJavaScript( "target/metawidget-jqueryui/lib/metawidget/core/metawidget-layouts.js" );
-		evaluateJavaScript( "target/metawidget-jqueryui/lib/metawidget/core/metawidget-utils.js" );
-		evaluateJavaScript( "src/main/webapp/lib/metawidget/jquery-ui/metawidget-jqueryui.js" );
+		evaluateResource( "/js/jquery.mobile-1.3.2.min.js" );
+		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget.js" );
+		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget-inspectors.js" );
+		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget-widgetbuilders.js" );
+		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget-widgetprocessors.js" );
+		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget-layouts.js" );
+		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget-utils.js" );
+		evaluateJavaScript( "src/main/webapp/lib/metawidget/jquery-mobile/metawidget-jquerymobile.js" );
 	}
 }

@@ -15,6 +15,7 @@
 		</p>
 		
 		<ul>
+			<li>JQuery Mobile support</li>
 			<li>JavaScript support for collections of radio buttons</li>
 			<li>JavaScript DefinitionListLayout</li>
 			<li>JacksonInspector</li>

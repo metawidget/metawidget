@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.metawidget.modules.js</groupId>
+		<artifactId>js-parent</artifactId>
+		<version>3.7-SNAPSHOT</version>
+		<relativePath>../../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>metawidget-jqueryui</artifactId>
+	<packaging>war</packaging>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<!-- Filter license.txt -->
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>		
+		<plugins>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<configuration>
+					<aggregations>
+						<aggregation>
+							<removeIncluded>true</removeIncluded>
+							<insertNewLine>true</insertNewLine>							
+							<output>${project.build.directory}/${project.build.finalName}/lib/metawidget/jquery-ui/metawidget-jqueryui.min.js</output>
+							<includes>
+								<include>${project.build.directory}/classes/license.txt</include>
+								<include>**/*.js</include>
+							</includes>
+						</aggregation>
+					</aggregations>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<overlays>
+						<overlay>
+							<groupId>org.metawidget.modules.js</groupId>
+							<artifactId>metawidget-corejs</artifactId>
+						</overlay>
+					</overlays>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>war</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.metawidget.modules.js</groupId>
+			<artifactId>metawidget-corejs</artifactId>
+			<version>${project.version}</version><!--$NO-MVN-MAN-VER$ -->
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.modules.js</groupId>
+			<artifactId>metawidget-corejs</artifactId>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mozilla</groupId>
+			<artifactId>rhino</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

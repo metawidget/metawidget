@@ -55,7 +55,14 @@
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/jqueryui/target/metawidget-jqueryui</directory>
+			<directory>/modules/js/jquery/mobile/target/metawidget-jquerymobile</directory>
+			<includes>
+				<include>**/*.js</include>
+			</includes>
+			<outputDirectory>/js</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>/modules/js/jquery/ui/target/metawidget-jqueryui</directory>
 			<includes>
 				<include>**/*.js</include>
 			</includes>

@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>angularjs/addressbook</module>
+		<module>jquery/mobile/addressbook</module>
 	</modules>
 
 	<build>

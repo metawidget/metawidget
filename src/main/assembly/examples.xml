@@ -73,6 +73,14 @@
 			</excludes>
 			<outputDirectory>/examples/js/angular/addressbook</outputDirectory>
 		</fileSet>
+		<fileSet>
+			<directory>/examples/js/jquery/mobile/addressbook/target/addressbook-jquerymobile</directory>
+			<excludes>
+				<exclude>META-INF/**</exclude>
+				<exclude>WEB-INF/**</exclude>
+			</excludes>
+			<outputDirectory>/examples/js/jquery/mobile/addressbook</outputDirectory>
+		</fileSet>
 	</fileSets>
 	<files>
 		<file>

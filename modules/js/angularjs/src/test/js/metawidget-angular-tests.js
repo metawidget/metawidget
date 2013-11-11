@@ -604,13 +604,13 @@
 										expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<div id="fooBar" class="ng-scope"><label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
+														'<div id="fooBar" class="ng-scope"><label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
+														'<label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="_mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
+														'<label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
 										expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
 									} );
 						} );
@@ -981,7 +981,7 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="_mwLookupEnumTitle[&quot;foo.bar&quot;](foo.bar)" class="ng-scope ng-binding">Two</output>' );
+						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="mwLookupEnumTitle[&quot;foo.bar&quot;](foo.bar)" class="ng-scope ng-binding">Two</output>' );
 					} );
 
 					// Mismatched
@@ -1020,7 +1020,7 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="_mwLookupEnumTitle[&quot;foo.bar&quot;](foo.bar)" class="ng-scope ng-binding">2</output>' );
+						expect( mw.innerHTML ).toContain( '<output id="fooBar" ng-bind="mwLookupEnumTitle[&quot;foo.bar&quot;](foo.bar)" class="ng-scope ng-binding">2</output>' );
 					} );
 				} );
 
@@ -1062,7 +1062,7 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<label for="fooPassword" id="table-fooPassword-label">Password:</label>' );
-						expect( mw.innerHTML ).toContain( '<output id="fooPassword" ng-bind="_mwMaskedOutput(foo.password)" class="ng-scope ng-binding">******</output>' );
+						expect( mw.innerHTML ).toContain( '<output id="fooPassword" ng-bind="mwMaskedOutput(foo.password)" class="ng-scope ng-binding">******</output>' );
 					} );
 				} );
 
@@ -1458,11 +1458,11 @@
 				};
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', attributes, mw );
-				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "_mwMaskedOutput(testPath.bar)" );
-				expect( typeof ( scope._mwMaskedOutput ) ).toBe( 'function' );
-				expect( scope._mwMaskedOutput() ).toBeUndefined();
-				expect( scope._mwMaskedOutput( '' ) ).toBe( '' );
-				expect( scope._mwMaskedOutput( 'Foo1' ) ).toBe( '****' );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "mwMaskedOutput(testPath.bar)" );
+				expect( typeof ( scope.mwMaskedOutput ) ).toBe( 'function' );
+				expect( scope.mwMaskedOutput() ).toBeUndefined();
+				expect( scope.mwMaskedOutput( '' ) ).toBe( '' );
+				expect( scope.mwMaskedOutput( 'Foo1' ) ).toBe( '****' );
 
 				// Enums
 
@@ -1481,20 +1481,20 @@
 				};
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', attributes, mw );
-				expect( widget.getAttribute( 'ng-bind' ) ).toBe( '_mwLookupEnumTitle["testPath.enumTitleBaz"](testPath.enumTitleBaz)' );
-				expect( typeof ( scope._mwLookupEnumTitle['testPath.enumTitleBaz'] ) ).toBe( 'function' );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'mwLookupEnumTitle["testPath.enumTitleBaz"](testPath.enumTitleBaz)' );
+				expect( typeof ( scope.mwLookupEnumTitle['testPath.enumTitleBaz'] ) ).toBe( 'function' );
 				scope.$parent.testPath = {
 					enumTitleBaz: '2'
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( 'Two' );
+				expect( scope.mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( 'Two' );
 				scope.$parent.testPath = {
 					enumTitleBaz: 3
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( 'Three' );
+				expect( scope.mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( 'Three' );
 				scope.$parent.testPath = {
 					enumTitleBaz: '3'
 				};
-				expect( scope._mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( '3' );
+				expect( scope.mwLookupEnumTitle['testPath.enumTitleBaz']( scope.$parent.testPath.enumTitleBaz ) ).toBe( '3' );
 
 				// Root-level
 

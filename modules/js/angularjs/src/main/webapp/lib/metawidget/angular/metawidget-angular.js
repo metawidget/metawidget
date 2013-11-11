@@ -491,8 +491,8 @@
 
 					// Special support for masked output
 
-					scope.$parent._mwMaskedOutput = _maskedOutput;
-					widget.setAttribute( 'ng-bind', '_mwMaskedOutput(' + binding + ')' );
+					scope.$parent.mwMaskedOutput = _maskedOutput;
+					widget.setAttribute( 'ng-bind', 'mwMaskedOutput(' + binding + ')' );
 				} else if ( attributes.type === 'array' ) {
 
 					// Special support for outputting arrays
@@ -502,12 +502,12 @@
 
 					// Special support for enumTitles
 
-					scope.$parent._mwLookupEnumTitle = scope.$parent._mwLookupEnumTitle || {};
-					scope.$parent._mwLookupEnumTitle[binding] = function( value ) {
+					scope.$parent.mwLookupEnumTitle = scope.$parent.mwLookupEnumTitle || {};
+					scope.$parent.mwLookupEnumTitle[binding] = function( value ) {
 
 						return metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
 					};
-					widget.setAttribute( 'ng-bind', '_mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
+					widget.setAttribute( 'ng-bind', 'mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
 
 				} else {
 					widget.setAttribute( 'ng-bind', binding );
@@ -530,8 +530,8 @@
 								child.setAttribute( 'ng-model', binding );
 							} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
 								child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.value + "')>=0" );
-								scope.$parent._mwUpdateSelection = _updateSelection;
-								child.setAttribute( 'ng-click', "_mwUpdateSelection($event,'" + binding + "')" );
+								scope.$parent.mwUpdateSelection = _updateSelection;
+								child.setAttribute( 'ng-click', "mwUpdateSelection($event,'" + binding + "')" );
 							}
 						}
 					}

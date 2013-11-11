@@ -1,0 +1,6 @@
+// Metawidget ${project.version} minified
+//
+// This library is dual licensed under both LGPL and a commercial
+// license. See http://metawidget.org for details 
+//
+// Author: Richard Kennard (http://kennardconsulting.com)

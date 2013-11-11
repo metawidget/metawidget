@@ -1,0 +1,242 @@
+// Metawidget ${project.version}
+//
+// This library is dual licensed under both LGPL and a commercial
+// license.
+//
+// LGPL: this library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+//
+// Commercial License: See http://metawidget.org for details
+
+( function() {
+
+	'use strict';
+
+	/**
+	 * @namespace Metawidget for JQuery Mobile environments.
+	 */
+
+	metawidget.jquerymobile = metawidget.jquerymobile || {};
+
+	/**
+	 * JQuery Mobile WidgetFactory-based Metawidget.
+	 */
+
+	$.widget( "mobile.metawidget", {
+
+		/**
+		 * Default configuration
+		 */
+
+		options: {
+			readOnly: false,
+			inspector: new metawidget.inspector.PropertyTypeInspector(),
+			widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+					new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
+			widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
+					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(),
+					new metawidget.widgetprocessor.SimpleBindingProcessor() ],
+			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
+		},
+
+		/**
+		 * Constructor
+		 */
+
+		_create: function() {
+
+			// Pipeline (private, based on convention here:
+			// http://forum.jquery.com/topic/what-s-the-right-way-to-store-private-data-in-widget-s-instance)
+
+			this._pipeline = new metawidget.Pipeline( this.element[0] );
+
+			// Configure defaults
+
+			this._pipeline.configure( this.options );
+
+			// JQuery Mobile automatically augments widgets with additional
+			// HTML. Clients must call trigger( 'create' ) manually for
+			// dynamically created components. This must be done on the widget's
+			// container, not the widget itself. However, it cannot be done at
+			// the top Metawidget-level, as that will 'double augment' any
+			// overridden widgets
+
+			var _superLayoutWidget = this._pipeline.layoutWidget;
+			this._pipeline.layoutWidget = function( widget, elementName, attributes, container, mw ) {
+
+				_superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
+				if ( widget.overridden === undefined ) {
+					var childNodes = container.childNodes;
+					$( childNodes[childNodes.length - 1] ).trigger( 'create' );
+				}
+			};
+
+			// First time in, capture the contents of the Metawidget (if any)
+
+			this._overriddenNodes = [];
+
+			var element = this.element[0];
+
+			var mw = this;
+
+			element.getMetawidget = function() {
+
+				return mw;
+			};
+
+			for ( var loop = 0; loop < element.childNodes.length; ) {
+				if ( element.childNodes[loop].nodeType !== 1 ) {
+					loop++;
+					continue;
+				}
+
+				var childNode = element.childNodes[loop];
+				element.removeChild( childNode );
+				this._overriddenNodes.push( childNode );
+			}
+		},
+
+		/**
+		 * Called when created, and later when changing options.
+		 */
+
+		_refresh: function( inspectionResult ) {
+
+			// Defensive copy
+
+			this.overriddenNodes = [];
+
+			for ( var loop = 0, length = this._overriddenNodes.length; loop < length; loop++ ) {
+				this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
+			}
+
+			// Inspect (if necessary)
+
+			if ( inspectionResult === undefined ) {
+
+				// Safeguard against improperly implementing:
+				// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
+
+				if ( arguments.length > 0 ) {
+					throw new Error( "Calling _refresh( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
+				}
+
+				var splitPath = metawidget.util.splitPath( this.path );
+				inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
+			}
+
+			// Build widgets
+
+			this._pipeline.buildWidgets( inspectionResult, this );
+		},
+
+		/**
+		 * _setOptions is called with a hash of all options that are changing.
+		 */
+
+		_setOptions: function() {
+
+			this._superApply( arguments );
+			this._pipeline.configure( this.options );
+			this._refresh();
+		},
+
+		/**
+		 * _setOption is called for each individual option that is changing.
+		 */
+
+		_setOption: function( key, value ) {
+
+			if ( key === "readOnly" ) {
+				this.readOnly = value;
+			}
+
+			this._super( key, value );
+		},
+
+		/**
+		 * Useful for WidgetBuilders to perform nested inspections (eg. for
+		 * Collections).
+		 */
+
+		inspect: function( toInspect, type, names ) {
+
+			return this._pipeline.inspect( toInspect, type, names, this );
+		},
+
+		/**
+		 * Inspect the given toInspect/path and build widgets.
+		 * <p>
+		 * Invoke using
+		 * <tt>$( '#metawidget' ).metawidget( "buildWidgets", toInspect, path )</tt>.
+		 */
+
+		buildWidgets: function( toInspect, path ) {
+
+			if ( toInspect !== undefined ) {
+				this.toInspect = toInspect;
+				this.path = undefined;
+			}
+
+			if ( path !== undefined ) {
+				this.path = path;
+			}
+
+			this._refresh();
+		},
+
+		getWidgetProcessor: function( testInstanceOf ) {
+
+			return this._pipeline.getWidgetProcessor( testInstanceOf );
+		},
+
+		/**
+		 * Returns the element this Metawidget is attached to.
+		 */
+
+		getElement: function() {
+
+			return this._pipeline.element;
+		},
+
+		buildNestedMetawidget: function( attributes, config ) {
+
+			// Create a 'div' not a 'metawidget', because whilst it's up to the
+			// user what they want their top-level element to be, for browser
+			// compatibility we should stick with something benign for nested
+			// elements
+
+			var nestedWidget = metawidget.util.createElement( this, 'div' );
+
+			// Duck-type our 'pipeline' as the 'config' of the nested
+			// Metawidget. This neatly passes everything down, including a
+			// decremented 'maximumInspectionDepth'
+
+			var nestedMetawidget = $( nestedWidget ).metawidget( [ this._pipeline, config ] );
+
+			nestedMetawidget.metawidget( "option", "readOnly", this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ) );
+			var nestedToInspect = this.toInspect;
+			var nestedPath = metawidget.util.appendPath( attributes, this );
+
+			// Attach ourselves as a property of the tag, rather than try to
+			// 'extend' the built-in HTML tags. This is used
+			// by SimpleBindingProcessor, among others
+
+			nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
+
+			nestedMetawidget.metawidget( "buildWidgets", nestedToInspect, nestedPath );
+			return nestedWidget;
+		}
+	} );
+} )();

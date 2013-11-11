@@ -218,6 +218,7 @@
 									<ul>
 										<li>AngularJS</li>
 										<li>Bootstrap</li>
+										<li>JQuery Mobile</li>
 										<li>JQuery UI</li>
 										<li>Node.js</li>
 									</ul></li>								

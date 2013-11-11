@@ -15,7 +15,8 @@
 		<module>angularjs</module>
 		<module>bootstrap</module>
 		<module>corejs</module>
-		<module>jqueryui</module>
+		<module>jquery/mobile</module>
+		<module>jquery/ui</module>
 		<module>nodejs</module>
 	</modules>
 

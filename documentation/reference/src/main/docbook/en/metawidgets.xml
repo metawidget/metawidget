@@ -620,38 +620,97 @@
 					</para>
 				</section>
 				
-				<section id="section-metawidgets-web-javascript-nodejs">
-					<title>Node.js</title>
-					
+			<section id="section-metawidgets-web-jqueryui">
+				<title>JQuery UI Metawidget</title>
+	
+				<para>
+					<filename>metawidget-jqueryui.js</filename> wraps the JavaScript Metawidget into
+					a JQuery UI component. For an introduction
+					to <filename>metawidget.js</filename>, see <xref linkend="section-introduction-javascript-part1"/>.
+				</para>
+
+				<section id="section-metawidgets-web-jqueryui-installation">
+					<title>Installation</title>
+
 					<para>
-						Metawidget tries hard not to dictate your architecture. So although
-						<filename>metawidget.js</filename> is predominantly a client-side
-						technology, there are no restrictions on using it for server-side
-						UI generation if you prefer.
+						There are three steps to installing <filename>metawidget-jqueryui.js</filename> within a web application:
 					</para>
 					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget-core.min.js</filename> into <filename>/lib/metawidget/core</filename>
+								and <filename>metawidget-jqueryui.min.js</filename> into <filename>/lib/metawidget/jquery-ui</filename>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Add a <parameter>script</parameter> tags to the top of your page:
+							</para>
+							<programlisting language="xml">&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" type="text/javascript"&gt;&lt;/script&gt;</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Wrap Metawidget around a DOM element:
+							</para>
+							<programlisting language="xml">$('#metawidget').metawidget();
+$('#metawidget').metawidget('buildWidgets',toInspect);</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Optionally configure the Metawidget, as described below.
+							</para>
+						</listitem>
+					</orderedlist>
+				</section>
+
+				<section id="section-metawidgets-web-jquery-configuration">
+					<title>Configuration</title>
+										
 					<para>
-						Metawidget comes packaged as a Node.js module. Install it using:
+						<filename>metawidget-jqueryui.js</filename> is preconfigured with sensible defaults. You can change this configuration
+						by passing JQuery UI <parameter>option</parameter>s:
 					</para>
 					
-					<programlisting language="shell">npm install metawidget</programlisting>
-					
-					<para>
-						The Metawidget module must be used in combination with a DOM implementation. This can either
-						be jsdom, envjs, or even a simple implementation of your own
-						(see <filename>test/render.js</filename> inside the Metawidget module for an example).
-						Metawidget must be wrapped
-						around a DOM element. The Metawidget constructor takes this element, and thereafter
-						always uses <parameter>element.ownerDocument</parameter> rather than referencing any
-						global <parameter>document</parameter> object.
-					</para>
-					
-					<para>
-						See <filename>test/render.js</filename> inside the npm module for a full example
-						how to use Metawidget. But briefly:
-					</para>
-					
-					<programlisting language="java">var metawidget = require( 'metawidget' );
+					<programlisting language="java">$('#metawidget').metawidget('option','layout',
+	new metawidget.layout.SimpleLayout());</programlisting>
+
+				</section>
+			</section>
+
+			<section id="section-metawidgets-web-javascript-nodejs">
+				<title>Node.js</title>
+				
+				<para>
+					Metawidget tries hard not to dictate your architecture. So although
+					<filename>metawidget.js</filename> is predominantly a client-side
+					technology, there are no restrictions on using it for server-side
+					UI generation if you prefer.
+				</para>
+				
+				<para>
+					Metawidget comes packaged as a Node.js module. Install it using:
+				</para>
+				
+				<programlisting language="shell">npm install metawidget</programlisting>
+				
+				<para>
+					The Metawidget module must be used in combination with a DOM implementation. This can either
+					be jsdom, envjs, or even a simple implementation of your own
+					(see <filename>test/render.js</filename> inside the Metawidget module for an example).
+					Metawidget must be wrapped
+					around a DOM element. The Metawidget constructor takes this element, and thereafter
+					always uses <parameter>element.ownerDocument</parameter> rather than referencing any
+					global <parameter>document</parameter> object.
+				</para>
+				
+				<para>
+					See <filename>test/render.js</filename> inside the npm module for a full example
+					how to use Metawidget. But briefly:
+				</para>
+				
+				<programlisting language="java">var metawidget = require( 'metawidget' );
 ...
 var mw = new metawidget.Metawidget( yourElement );
 mw.toInspect = {
@@ -661,8 +720,6 @@ mw.toInspect = {
 mw.buildWidgets();
 ...
 // yourElement is now populated with child components</programlisting>
-
-				</section>
 
 			</section>
 
