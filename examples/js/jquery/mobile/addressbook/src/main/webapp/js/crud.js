@@ -4,51 +4,6 @@ var crud = crud || {};
 
 	'use strict';
 
-	var crudWidgetProcessor = function( widget, elementName, attributes, mw ) {
-
-		if ( widget.tagName === 'DIV' && attributes.type === 'array' ) {
-
-			var fieldset = metawidget.util.createElement( mw, 'fieldset' );
-			fieldset.setAttribute( 'data-role', 'controlgroup' );
-
-			while ( widget.childNodes.length > 0 ) {
-				var label = widget.childNodes[0];
-				var id = widget.getAttribute( 'id' ) + widget.childNodes.length;
-				label.setAttribute( 'for', id );
-				var input = label.childNodes[0];
-				input.setAttribute( 'id', id );
-
-				fieldset.appendChild( input );
-				fieldset.appendChild( label );
-			}
-
-			widget = fieldset;
-		}
-
-		return widget;
-	};
-
-	var crudLayout = new metawidget.layout.DivLayout( {
-		suppressLabelSuffixOnCheckboxes: true
-	} );
-	var _superLayoutWidget = crudLayout.layoutWidget;
-	crudLayout.layoutWidget = function( widget, elementName, attributes, container, mw ) {
-
-		_superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
-		if ( widget.overridden === undefined ) {
-			$( container.childNodes[container.childNodes.length - 1] ).trigger( 'create' );
-		}
-	};
-
-	/**
-	 * Metawidget config
-	 */
-
-	crud.metawidgetConfig = {
-		widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), crudWidgetProcessor ],
-		layout: crudLayout
-	};
-
 	/**
 	 * Model
 	 */
@@ -146,7 +101,7 @@ var crud = crud || {};
 		}
 	} );
 
-	// Create
+	// Create, Retrieve, Update, Delete
 
 	crud.create = function( event ) {
 

@@ -30,6 +30,49 @@
 	metawidget.jquerymobile = metawidget.jquerymobile || {};
 
 	/**
+	 * @namespace JQuery Mobile WidgetProcessors.
+	 */
+
+	metawidget.jquerymobile.widgetprocessor = metawidget.jquerymobile.widgetprocessor || {};
+
+	/**
+	 * @class adapts to JQuery Mobile-specific syntax.
+	 */
+
+	metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor = function() {
+
+		if ( ! ( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor ) ) {
+			throw new Error( "Constructor called as a function" );
+		}
+	};
+
+	metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
+	
+		// JQuery Mobile has a special syntax for arrays
+		
+		if ( widget.tagName === 'DIV' && attributes.type === 'array' ) {
+
+			var fieldset = metawidget.util.createElement( mw, 'fieldset' );
+			fieldset.setAttribute( 'data-role', 'controlgroup' );
+
+			while ( widget.childNodes.length > 0 ) {
+				var label = widget.childNodes[0];
+				var id = widget.getAttribute( 'id' ) + widget.childNodes.length;
+				label.setAttribute( 'for', id );
+				var input = label.childNodes[0];
+				input.setAttribute( 'id', id );
+
+				fieldset.appendChild( input );
+				fieldset.appendChild( label );
+			}
+
+			widget = fieldset;
+		}
+
+		return widget;
+	};
+	
+	/**
 	 * JQuery Mobile WidgetFactory-based Metawidget.
 	 */
 
@@ -46,8 +89,11 @@
 					new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
 			widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
 					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(),
-					new metawidget.widgetprocessor.SimpleBindingProcessor() ],
-			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
+					new metawidget.widgetprocessor.SimpleBindingProcessor(),
+					new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor() ],
+			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout( {
+				suppressLabelSuffixOnCheckboxes: true
+			} ))
 		},
 
 		/**
