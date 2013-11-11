@@ -59,7 +59,7 @@
 							expect( element.getMetawidget() ).toBeDefined();
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label" class="ui-input-text">Foo:</label></th><td id="table-foo-cell"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></td><td/></tr></tbody></table>' );
+											'<div><div><label for="foo" class="ui-input-text">Foo:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div></div>' );
 
 							// Configured
 
@@ -86,7 +86,7 @@
 
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><div id="foo"><table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label" class="ui-input-text">Bar:</label></th><td id="table-fooBar-cell"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></td><td/></tr></tbody></table></div></td><td/></tr></tbody></table>' );
+											'<div><div><label for="foo">Foo:</label></div><div><div id="foo"><div><div><label for="fooBar" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
 
 							// Type and sub name
 
@@ -101,7 +101,7 @@
 
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label" class="ui-input-text">Bar:</label></th><td id="table-fooBar-cell"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></td><td/></tr></tbody></table>' );
+											'<div><div><label for="fooBar" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div>' );
 						} );
 
 				it( "defensively copies overridden widgets", function() {
@@ -122,18 +122,18 @@
 						bar: "Bar"
 					} );
 
-					expect( element.innerHTML ).toContain( '<td id="table-foo-cell"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></td>' );
-					expect( element.innerHTML ).toContain( '<td id="table-bar-cell"><span id="bar"/></td>' );
-					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
-					expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
-					expect( element.childNodes.length ).toBe( 1 );
+					expect( element.innerHTML ).toContain( '<div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div>' );
+					expect( element.innerHTML ).toContain( '<div><span id="bar"/></div>' );
+					expect( element.innerHTML ).toContain( '<div><span id="baz"/></div>' );
+					expect( element.childNodes[0].childNodes.length ).toBe( 2 );
+					expect( element.childNodes.length ).toBe( 3 );
 
 					expect( mw.overriddenNodes.length ).toBe( 0 );
 					mw.overriddenNodes.push( document.createElement( 'defensive' ) );
 					expect( mw.overriddenNodes.length ).toBe( 1 );
 					mw.buildWidgets();
 					expect( mw.overriddenNodes.length ).toBe( 0 );
-					expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+					expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 				} );
 
 				it( "can be used purely for layout", function() {
@@ -151,10 +151,10 @@
 					$( '#metawidget' ).metawidget();
 					$( '#metawidget' ).metawidget( "buildWidgets" );
 
-					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="bar"/></td>' );
-					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
+					expect( element.innerHTML ).toContain( '<div><span id="bar"/></div>' );
+					expect( element.innerHTML ).toContain( '<div><span id="baz"/></div>' );
 					expect( element.innerHTML ).toNotContain( 'ignore' );
-					expect( element.childNodes.length ).toBe( 1 );
+					expect( element.childNodes.length ).toBe( 2 );
 				} );
 
 				it( "ignores embedded text nodes", function() {
@@ -213,7 +213,7 @@
 
 					var element = $( '#metawidget' )[0];
 
-					expect( element.innerHTML ).toContain( '<label for="bar" id="table-bar-label">Bar:</label>' );
+					expect( element.innerHTML ).toContain( '<label for="bar">Bar:</label>' );
 					expect( element.innerHTML ).toContain( '<table id="bar"' );
 					expect( element.innerHTML ).toContain( '<thead><tr><th>Firstname</th><th>Surname</th></tr></thead>' );
 					expect( element.innerHTML ).toContain(
