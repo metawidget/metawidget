@@ -54,6 +54,8 @@
 								foo: "Foo"
 							} );
 
+							expect( $( "metawidget" ).data( "metawidget" )).toBeDefined();
+							expect( $( "metawidget" ).data( "metawidget" ).toInspect ).toBeDefined();
 							var element = $( '#metawidget' )[0];
 
 							expect( element.getMetawidget() ).toBeDefined();
@@ -64,6 +66,7 @@
 							// Configured
 
 							$( '#metawidget' ).metawidget( "option", "layout", new metawidget.layout.SimpleLayout() );
+							$( '#metawidget' ).metawidget( "buildWidgets" );
 
 							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
 							expect( element.childNodes[0].value ).toBe( 'Foo' );

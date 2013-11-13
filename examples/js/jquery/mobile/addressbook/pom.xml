@@ -37,14 +37,6 @@
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
-			<!-- Selenium requires 1.6 -->
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
@@ -81,8 +73,8 @@
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>selenium-maven-plugin</artifactId>
-			</plugin>
+				<artifactId>webtest-maven-plugin</artifactId>
+			</plugin>			
 		</plugins>
 	</build>
 

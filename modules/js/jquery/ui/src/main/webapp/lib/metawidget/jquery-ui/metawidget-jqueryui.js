@@ -354,7 +354,6 @@
 
 			this._superApply( arguments );
 			this._pipeline.configure( this.options );
-			this._refresh();
 		},
 
 		/**
@@ -363,11 +362,11 @@
 
 		_setOption: function( key, value ) {
 
+			this._super( key, value );
+			
 			if ( key === "readOnly" ) {
 				this.readOnly = value;
 			}
-
-			this._super( key, value );
 		},
 
 		/**

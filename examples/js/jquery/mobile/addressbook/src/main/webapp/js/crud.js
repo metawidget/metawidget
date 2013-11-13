@@ -8,6 +8,8 @@ var crud = crud || {};
 	 * Model
 	 */
 
+	var _id = 10;
+	
 	var _model = [ {
 		id: 0,
 		firstname: "Homer",
@@ -15,17 +17,46 @@ var crud = crud || {};
 	}, {
 		id: 1,
 		firstname: "Marge",
-		surname: "Simpson"
+		surname: "Simpson",
+		retired: true
 	} ];
 
+	function _loadById( id ) {
+	
+		for( var loop = 0, length = _model.length; loop < length; loop++ ) {
+			
+			if ( _model[loop].id === id ) {
+				return _model[loop];
+			}
+		}
+	}
+	
+	function _save( entity ) {
+		
+		if ( entity.id === undefined ) {
+			entity.id = _id++;
+			_model.push( entity );
+		}
+	}
+
+	function _deleteById( id ) {
+		
+		for( var loop = 0, length = _model.length; loop < length; loop++ ) {
+			
+			if ( _model[loop].id === id ) {
+				_model.splice( loop, 1 );
+				break;
+			}
+		}
+	}
+
 	/**
-	 * Page init
+	 * Summary page
 	 */
 
 	$( document ).on( 'pagebeforeshow', '#summary-page', function( event ) {
 
 		var page = $( event.target );
-		var entity = page.data( 'crud' );
 		var summary = page.find( '#summary' );
 		var listview = $( '<ul>' ).attr( 'data-role', 'listview' );
 
@@ -35,7 +66,7 @@ var crud = crud || {};
 
 				crud.id = value.id;
 
-				$.mobile.changePage( entity + '.html', {
+				$.mobile.changePage( page.data( 'detail-page' ) + '.html', {
 					transition: 'slide'
 				} );
 			} );
@@ -50,50 +81,72 @@ var crud = crud || {};
 	$( document ).on( 'pageinit', '#detail-page', function( event ) {
 
 		var page = $( event.target );
-		var mw = page.find( '#metawidget' );
-		
-		// TODO: this should autoinit in JQuery Mobile 1.4.0
-		
-		mw.metawidget();
-		mw.metawidget( "option", "inspector", new metawidget.inspector.JsonSchemaInspector( {
-			properties: {
-				firstname: {
-					type: "string"
-				},
-				surname: {
-					type: "string"
-				},
-				retired: {
-					type: "boolean"
-				}
-			}
-		} ));
-		//mw.path = page.data( 'crud' );
+
+		// This should autoinit in JQuery Mobile 1.4.0
+
+		page.find( '#metawidget' ).metawidget();
+		page.find( '#metawidget' ).metawidget( "option", "inspectionResultProcessors", [ function( inspectionResult, mw, toInspect, type, names ) {
+
+			// Simulate asynchronous schema lookup (e.g. from a REST service)
+
+			setTimeout( function() {
+				var schema = {
+					properties: {
+						firstname: {
+							type: "string"
+						},
+						surname: {
+							type: "string"
+						},
+						retired: {
+							type: "boolean"
+						}
+					}
+				};
+				mw._refresh( schema );
+			}, 1 );
+
+		} ] );
 	} );
 
+	/**
+	 * Create
+	 */
+	
+	crud.create = function( event ) {
+
+		delete crud.id;
+		var page = $( event ).parents( 'article' );
+
+		$.mobile.changePage( page.data( 'detail-page' ) + '.html', {
+			transition: 'slide'
+		} );
+	};
+
+	/**
+	 * Retrieve
+	 */
+	
 	$( document ).on( 'pagebeforeshow', '#detail-page', function( event ) {
 
 		var page = $( event.target );
-		var mw = page.find( '#metawidget' )[0].getMetawidget();
+		var mw = page.find( '#metawidget' );
 
 		if ( crud.id === undefined ) {
-			mw.toInspect = {};
-			mw.readOnly = false;
-			mw.buildWidgets();
+			mw.metawidget( 'option', 'readOnly', false );
+			mw.metawidget( 'buildWidgets', {} );
 
 			page.find( '#nav-create' ).show();
 			page.find( '#nav-edit' ).hide();
 			page.find( '#nav-view' ).hide();
 		} else {
-			$.ajax( {
-				url: 'rest/' + mw.path + '/' + crud.id,
-				dataType: 'json'
-			} ).done( function( data ) {
+			// Simulate asynchronous data lookup (e.g. from a REST service)
 
-				mw.toInspect = data;
-				mw.readOnly = true;
-				mw.buildWidgets();
-			} );
+			setTimeout( function() {			
+
+				mw.metawidget( 'option', 'readOnly', true );
+				mw.metawidget( 'buildWidgets', _loadById( crud.id ));
+			}, 1 );
 
 			page.find( '#nav-create' ).hide();
 			page.find( '#nav-edit' ).hide();
@@ -101,23 +154,11 @@ var crud = crud || {};
 		}
 	} );
 
-	// Create, Retrieve, Update, Delete
-
-	crud.create = function( event ) {
-
-		delete crud.id;
-
-		var page = $( event ).parents( 'article' );
-		var entity = page.data( 'crud' );
-
-		$.mobile.changePage( entity + '.html', {
-			transition: 'slide'
-		} );
-	};
-
 	crud.cancel = function( event ) {
 
-		$.mobile.changePage( 'index.html', {
+		var page = $( event ).parents( 'article' );
+
+		$.mobile.changePage( page.data( 'summary-page' ) + '.html', {
 			transition: 'slide',
 			reverse: true
 		} );
@@ -126,9 +167,8 @@ var crud = crud || {};
 	crud.edit = function( event ) {
 
 		var page = $( event ).parents( 'article' );
-		var mw = page.find( '#metawidget' )[0].getMetawidget();
-		mw.readOnly = false;
-		mw.buildWidgets();
+		page.find( '#metawidget' ).metawidget( 'option', 'readOnly', false );
+		page.find( '#metawidget' ).metawidget( 'buildWidgets' );
 
 		page.find( '#nav-view' ).hide( 400 );
 		page.find( '#nav-edit' ).show( 400 );
@@ -137,60 +177,47 @@ var crud = crud || {};
 	crud.view = function( event ) {
 
 		var page = $( event ).parents( 'article' );
-		var mw = page.find( '#metawidget' )[0].getMetawidget();
-		mw.readOnly = true;
-		mw.buildWidgets();
+		page.find( '#metawidget' ).metawidget( 'option', 'readOnly', true );
+		page.find( '#metawidget' ).metawidget( 'buildWidgets' );
 
 		page.find( '#nav-edit' ).hide( 400 );
 		page.find( '#nav-view' ).show( 400 );
 	};
 
+	/**
+	 * Update
+	 */
+	
 	crud.update = function( event ) {
 
 		var page = $( event ).parents( 'article' );
-		var mw = page.find( '#metawidget' )[0].getMetawidget();
-		mw.getWidgetProcessor( function( widgetProcessor ) {
+		
+		var mw = page.find( '#metawidget' ).data( 'metawidget' );
+		page.find( '#metawidget' ).metawidget( 'getWidgetProcessor', function( widgetProcessor ) {
 
 			return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 		} ).save( mw );
 
-		$.ajax( {
-			url: 'rest/' + mw.path,
-			type: 'POST',
-			data: JSON.stringify( mw.toInspect ),
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function() {
+		_save( mw.toInspect );
 
-				$.mobile.changePage( mw.crudSummaryUrl, {
-					transition: 'slidedown'
-				} );
-			},
-			error: function( jqXHR ) {
-
-				console.log( jqXHR.responseText );
-			}
+		$.mobile.changePage( page.data( 'summary-page' ) + '.html', {
+			transition: 'slidedown'
 		} );
 	};
 
+	/**
+	 * Delete
+	 */
+	
 	crud["delete"] = function( event ) {
 
 		var page = $( event ).parents( 'article' );
-		var mw = page.find( '#metawidget' )[0].getMetawidget();
+		var mw = page.find( '#metawidget' ).data( 'metawidget' );		
+		_deleteById( mw.toInspect.id );
 
-		$.ajax( {
-			url: mw.crudRestUrl + mw.path + '/' + mw.toInspect.id,
-			type: 'DELETE',
-			success: function() {
-
-				$.mobile.changePage( mw.crudSummaryUrl, {
-					transition: 'slidedown'
-				} );
-			},
-			error: function( jqXHR, textStatus, errorThrown ) {
-
-				console.log( jqXHR.responseText );
-			}
+		$.mobile.changePage( page.data( 'summary-page' ) + '.html', {
+			transition: 'slide',
+			reverse: true
 		} );
 	};
 

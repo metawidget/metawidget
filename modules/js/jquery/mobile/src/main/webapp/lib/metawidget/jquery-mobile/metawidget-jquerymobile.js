@@ -128,6 +128,11 @@
 				}
 			};
 
+			// Force a useful convention from JQuery UI that JQuery Mobile
+			// doesn't seem to have (yet?)
+			
+			this.element.data( 'metawidget', this );
+			
 			// First time in, capture the contents of the Metawidget (if any)
 
 			this._overriddenNodes = [];
@@ -195,7 +200,6 @@
 
 			this._superApply( arguments );
 			this._pipeline.configure( this.options );
-			this._refresh();
 		},
 
 		/**
@@ -204,11 +208,11 @@
 
 		_setOption: function( key, value ) {
 
+			this._super( key, value );
+			
 			if ( key === "readOnly" ) {
 				this.readOnly = value;
 			}
-
-			this._super( key, value );
 		},
 
 		/**

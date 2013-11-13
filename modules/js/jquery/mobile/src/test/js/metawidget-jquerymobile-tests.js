@@ -54,6 +54,8 @@
 								foo: "Foo"
 							} );
 
+							expect( $( "metawidget" ).data( "metawidget" )).toBeDefined();
+							expect( $( "metawidget" ).data( "metawidget" ).toInspect ).toBeDefined();
 							var element = $( '#metawidget' )[0];
 
 							expect( element.getMetawidget() ).toBeDefined();
@@ -64,6 +66,7 @@
 							// Configured
 
 							$( '#metawidget' ).metawidget( "option", "layout", new metawidget.layout.SimpleLayout() );
+							$( '#metawidget' ).metawidget( 'buildWidgets' );
 
 							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
 							expect( element.childNodes[0].value ).toBe( 'Foo' );
@@ -115,7 +118,7 @@
 					element.appendChild( baz );
 
 					$( '#metawidget' ).metawidget();
-					var mw = $( '#metawidget' )[0].getMetawidget();
+					var mw = $( '#metawidget' ).data( 'metawidget' );
 
 					$( '#metawidget' ).metawidget( "buildWidgets", {
 						foo: "Foo",
@@ -165,7 +168,7 @@
 					element.appendChild( document.createTextNode( 'text2' ) );
 
 					$( '#metawidget' ).metawidget();
-					var mw = $( '#metawidget' )[0].getMetawidget();
+					var mw = $( '#metawidget' ).data( 'metawidget' );
 					mw.onEndBuild = function() {
 
 						// Do not clean up overriddenNodes
@@ -221,4 +224,35 @@
 				} );
 
 			} );
+	
+	describe( "The JQueryMobileWidgetProcessor", function() {
+
+		beforeEach( function() {
+
+			var element = document.createElement( 'metawidget' );
+			element.setAttribute( 'id', 'metawidget' );
+			document.body.appendChild( element );
+		} );
+
+		afterEach( function() {
+
+			document.body.removeChild( $( '#metawidget' )[0] );
+		} );
+
+		it( "wraps arrays", function() {
+
+			var processor = new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor();
+			$( '#metawidget' ).metawidget();
+
+			var widget = $( '<div id="myArray"><label><input type="checkbox"/>Foo</label><label><input type="checkbox"/>Bar</label></div>' )[0];
+			attributes = {
+				type: 'array'
+			}
+			widget = processor.processWidget( widget, "property", attributes, $( '#metawidget' ).data( 'metawidget' ));
+			expect( widget.outerHTML ).toBe( '<fieldset data-role="controlgroup"><input type="checkbox" id="myArray2"/><label for="myArray2">Foo</label><input type="checkbox" id="myArray1"/><label for="myArray1">Bar</label></fieldset>' );
+			expect( widget.outerHTML ).toContain( '<fieldset data-role="controlgroup">' );
+			expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray2"/><label for="myArray2">Foo</label>' );
+			expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray1"/><label for="myArray1">Bar</label>' );
+		} );
+	} );
 } )();

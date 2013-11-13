@@ -10,7 +10,7 @@
 		<script src="js/crud.js"></script>
 	</head>
 	<body>
-		<article id="detail-page" data-role="page" data-crud="person">
+		<article id="detail-page" data-role="page" data-summary-page="index">
 			<header data-role="header" data-position="fixed" data-tap-toggle="false" data-transition="none">
 				<h1></h1>
 			</header>	
@@ -29,7 +29,7 @@
 					</ul>
 					<ul id="nav-edit" style="display: none">
 						<li><a href="#" onclick="crud.update( this )" data-icon="check" data-iconpos="top">Save</a></li>
-						<li><a href="#" onclick="crud.promptDelete( this )" data-icon="delete" data-iconpos="top">Delete</a></li>
+						<li><a href="#" onclick="crud.delete( this )" data-icon="delete" data-iconpos="top">Delete</a></li>
 						<li><a href="#" onclick="crud.view( this )" data-icon="back" data-iconpos="top">Cancel</a></li>
 					</ul>
 				</div>

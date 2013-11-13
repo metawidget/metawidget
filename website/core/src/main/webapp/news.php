@@ -18,6 +18,7 @@
 			<li>JQuery Mobile support</li>
 			<li>JavaScript support for collections of radio buttons</li>
 			<li>JavaScript DefinitionListLayout</li>
+			<li>Angular 1.2 support</li>
 			<li>JacksonInspector</li>
 			<li>Android ReflectionBindingProcessor</li>
 			<li>JSP validation improvements</li>
