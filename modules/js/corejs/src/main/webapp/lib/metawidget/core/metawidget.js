@@ -449,7 +449,7 @@ var metawidget = metawidget || {};
 		// inspection
 
 		_endBuild( this, mw );
-
+		
 		//
 		// Private methods
 		//

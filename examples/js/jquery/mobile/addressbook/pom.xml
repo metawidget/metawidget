@@ -59,7 +59,7 @@
 				<groupId>com.github.searls</groupId>
 				<artifactId>jasmine-maven-plugin</artifactId>
 				<configuration>
-					<customRunnerTemplate>src/test/javascript/test.html</customRunnerTemplate>
+					<customRunnerTemplate>src/test/javascript/index.html</customRunnerTemplate>
 					<webDriverClassName>org.openqa.selenium.firefox.FirefoxDriver</webDriverClassName>
 				</configuration>
 				<executions>

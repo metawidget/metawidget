@@ -70,6 +70,14 @@
 
 							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
 							expect( element.childNodes[0].value ).toBe( 'Foo' );
+							
+							// Read-only
+							
+							$( '#metawidget' ).metawidget( "setReadOnly", true );
+							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
+
+							$( '#metawidget' ).metawidget( "buildWidgets" );
+							expect( element.childNodes[0].outerHTML ).toBe( '<output id="foo">Foo</output>' );
 						} );
 
 				it(

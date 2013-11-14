@@ -1650,14 +1650,15 @@ public class Main {
 				
 				<para>
 					As there are a large number of Web application frameworks to choose from, this example comes written
-					in seven of the most popular: AngularJS, Google Web Toolkit (GWT), Java Server Faces (JSF) 1.x and 2.x (using Facelets),
-					Java Server Pages (JSP), Spring Web MVC, Struts and Vaadin. We recommend you follow along using the one most relevant to you.
+					in eight of the most popular: AngularJS, Google Web Toolkit (GWT), Java Server Faces (JSF) 1.x and 2.x (using Facelets),
+					Java Server Pages (JSP), JQuery Mobile, Spring Web MVC, Struts and Vaadin. We recommend you follow along
+					using the one most relevant to you.
 				</para>
 				
 				<para>
 					Web-based applications are inherently more difficult to setup and run than desktop-based
-					applications because they require a container application (this is true even for the pure client-side, AngularJS-based
-					version of the Address Book as it uses REST calls back to the server).
+					applications because they require a container application (this is true even for the pure client-side, JavaScript-based
+					versions of the Address Book as they use REST calls back to the server).
 					For this tutorial we recommend using Apache Tomcat as it is one of the easier containers
 					to get running (the examples are tested against Tomcat <?eval ${tomcatVersion}?>).
 					Tomcat can be downloaded from <ulink url="http://tomcat.apache.org">http://tomcat.apache.org</ulink>.
@@ -1666,6 +1667,7 @@ public class Main {
 				<para>
 					Take a fresh install of Tomcat. The Address Book application is pre-built for you in
 					either <filename>examples/js/angular/addressbook</filename>,
+					<filename>examples/js/jquery/mobile/addressbook</filename>,
 					<filename>examples/java/faces/addressbook-faces.war</filename>, <filename>examples/java/gwt/addressbook-gwt.war</filename>,
 					<filename>examples/java/jsp/addressbook-jsp.war</filename>, <filename>examples/java/spring/addressbook-spring.war</filename>,
 					<filename>examples/java/struts/addressbook-struts.war</filename> or <filename>examples/java/vaadin/addressbook-struts.war</filename>.
@@ -2173,6 +2175,12 @@ public class Main {
 					</screenshot>
 				</figure>
 				
+				<tip>
+					<title>Note</title>
+					The Android Address Book is a native mobile application. For an example of an HTML 5
+					mobile application see the JQuery Mobile Address Book in the previous section.
+				</tip>				
+
 				<para>
 					Alternatively download the Android SDK
 					from <ulink url="http://code.google.com/android/download.html">http://code.google.com/android/download.html</ulink>

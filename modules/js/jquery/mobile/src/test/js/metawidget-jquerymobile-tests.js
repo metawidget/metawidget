@@ -54,7 +54,7 @@
 								foo: "Foo"
 							} );
 
-							expect( $( "metawidget" ).data( "metawidget" )).toBeDefined();
+							expect( $( "metawidget" ).data( "metawidget" ) ).toBeDefined();
 							expect( $( "metawidget" ).data( "metawidget" ).toInspect ).toBeDefined();
 							var element = $( '#metawidget' )[0];
 
@@ -70,6 +70,14 @@
 
 							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
 							expect( element.childNodes[0].value ).toBe( 'Foo' );
+
+							// Read-only
+
+							$( '#metawidget' ).metawidget( "setReadOnly", true );
+							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
+
+							$( '#metawidget' ).metawidget( "buildWidgets" );
+							expect( element.childNodes[0].outerHTML ).toBe( '<output id="foo">Foo</output>' );
 						} );
 
 				it(
@@ -107,37 +115,41 @@
 											'<div><div><label for="fooBar" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div>' );
 						} );
 
-				it( "defensively copies overridden widgets", function() {
+				it(
+						"defensively copies overridden widgets",
+						function() {
 
-					var element = $( '#metawidget' )[0];
-					var bar = document.createElement( 'span' );
-					bar.setAttribute( 'id', 'bar' );
-					element.appendChild( bar );
-					var baz = document.createElement( 'span' );
-					baz.setAttribute( 'id', 'baz' );
-					element.appendChild( baz );
+							var element = $( '#metawidget' )[0];
+							var bar = document.createElement( 'span' );
+							bar.setAttribute( 'id', 'bar' );
+							element.appendChild( bar );
+							var baz = document.createElement( 'span' );
+							baz.setAttribute( 'id', 'baz' );
+							element.appendChild( baz );
 
-					$( '#metawidget' ).metawidget();
-					var mw = $( '#metawidget' ).data( 'metawidget' );
+							$( '#metawidget' ).metawidget();
+							var mw = $( '#metawidget' ).data( 'metawidget' );
 
-					$( '#metawidget' ).metawidget( "buildWidgets", {
-						foo: "Foo",
-						bar: "Bar"
-					} );
+							$( '#metawidget' ).metawidget( "buildWidgets", {
+								foo: "Foo",
+								bar: "Bar"
+							} );
 
-					expect( element.innerHTML ).toContain( '<div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div>' );
-					expect( element.innerHTML ).toContain( '<div><span id="bar"/></div>' );
-					expect( element.innerHTML ).toContain( '<div><span id="baz"/></div>' );
-					expect( element.childNodes[0].childNodes.length ).toBe( 2 );
-					expect( element.childNodes.length ).toBe( 3 );
+							expect( element.innerHTML )
+									.toContain(
+											'<div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div>' );
+							expect( element.innerHTML ).toContain( '<div><span id="bar"/></div>' );
+							expect( element.innerHTML ).toContain( '<div><span id="baz"/></div>' );
+							expect( element.childNodes[0].childNodes.length ).toBe( 2 );
+							expect( element.childNodes.length ).toBe( 3 );
 
-					expect( mw.overriddenNodes.length ).toBe( 0 );
-					mw.overriddenNodes.push( document.createElement( 'defensive' ) );
-					expect( mw.overriddenNodes.length ).toBe( 1 );
-					mw.buildWidgets();
-					expect( mw.overriddenNodes.length ).toBe( 0 );
-					expect( element.childNodes[0].childNodes.length ).toBe( 2 );
-				} );
+							expect( mw.overriddenNodes.length ).toBe( 0 );
+							mw.overriddenNodes.push( document.createElement( 'defensive' ) );
+							expect( mw.overriddenNodes.length ).toBe( 1 );
+							mw.buildWidgets();
+							expect( mw.overriddenNodes.length ).toBe( 0 );
+							expect( element.childNodes[0].childNodes.length ).toBe( 2 );
+						} );
 
 				it( "can be used purely for layout", function() {
 
@@ -222,37 +234,42 @@
 					expect( element.innerHTML ).toContain(
 							'<tbody><tr><td>firstname1</td><td>surname1</td></tr><tr><td>firstname2</td><td>surname2</td></tr><tr><td>firstname3</td><td>surname3</td></tr></tbody>' );
 				} );
-
 			} );
-	
-	describe( "The JQueryMobileWidgetProcessor", function() {
 
-		beforeEach( function() {
+	describe(
+			"The JQueryMobileWidgetProcessor",
+			function() {
 
-			var element = document.createElement( 'metawidget' );
-			element.setAttribute( 'id', 'metawidget' );
-			document.body.appendChild( element );
-		} );
+				beforeEach( function() {
 
-		afterEach( function() {
+					var element = document.createElement( 'metawidget' );
+					element.setAttribute( 'id', 'metawidget' );
+					document.body.appendChild( element );
+				} );
 
-			document.body.removeChild( $( '#metawidget' )[0] );
-		} );
+				afterEach( function() {
 
-		it( "wraps arrays", function() {
+					document.body.removeChild( $( '#metawidget' )[0] );
+				} );
 
-			var processor = new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor();
-			$( '#metawidget' ).metawidget();
+				it(
+						"wraps arrays",
+						function() {
 
-			var widget = $( '<div id="myArray"><label><input type="checkbox"/>Foo</label><label><input type="checkbox"/>Bar</label></div>' )[0];
-			attributes = {
-				type: 'array'
-			}
-			widget = processor.processWidget( widget, "property", attributes, $( '#metawidget' ).data( 'metawidget' ));
-			expect( widget.outerHTML ).toBe( '<fieldset data-role="controlgroup"><input type="checkbox" id="myArray2"/><label for="myArray2">Foo</label><input type="checkbox" id="myArray1"/><label for="myArray1">Bar</label></fieldset>' );
-			expect( widget.outerHTML ).toContain( '<fieldset data-role="controlgroup">' );
-			expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray2"/><label for="myArray2">Foo</label>' );
-			expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray1"/><label for="myArray1">Bar</label>' );
-		} );
-	} );
+							var processor = new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor();
+							$( '#metawidget' ).metawidget();
+
+							var widget = $( '<div id="myArray"><label><input type="checkbox"/>Foo</label><label><input type="checkbox"/>Bar</label></div>' )[0];
+							attributes = {
+								type: 'array'
+							}
+							widget = processor.processWidget( widget, "property", attributes, $( '#metawidget' ).data( 'metawidget' ) );
+							expect( widget.outerHTML )
+									.toBe(
+											'<fieldset data-role="controlgroup"><input type="checkbox" id="myArray2"/><label for="myArray2">Foo</label><input type="checkbox" id="myArray1"/><label for="myArray1">Bar</label></fieldset>' );
+							expect( widget.outerHTML ).toContain( '<fieldset data-role="controlgroup">' );
+							expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray2"/><label for="myArray2">Foo</label>' );
+							expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray1"/><label for="myArray1">Bar</label>' );
+						} );
+			} );
 } )();

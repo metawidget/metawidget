@@ -83,7 +83,6 @@
 		 */
 
 		options: {
-			readOnly: false,
 			inspector: new metawidget.inspector.PropertyTypeInspector(),
 			widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 					new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
@@ -202,17 +201,9 @@
 			this._pipeline.configure( this.options );
 		},
 
-		/**
-		 * _setOption is called for each individual option that is changing.
-		 */
+		setReadOnly: function( readOnly ) {
 
-		_setOption: function( key, value ) {
-
-			this._super( key, value );
-			
-			if ( key === "readOnly" ) {
-				this.readOnly = value;
-			}
+			this.readOnly = readOnly;
 		},
 
 		/**

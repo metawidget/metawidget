@@ -20,17 +20,17 @@
 			<footer data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none">
 				<div id="footer-navbar" data-role="navbar">
 					<ul id="nav-create" style="display: none">
-						<li><a href="#" onclick="crud.update( this )" data-icon="check" data-iconpos="top">Save</a></li>
-						<li><a href="#" onclick="crud.cancel( this )" data-icon="back" data-iconpos="top">Cancel</a></li>
+						<li><a id="createUpdate" href="#" onclick="crud.update( this )" data-icon="check" data-iconpos="top">Save</a></li>
+						<li><a id="createCancel" href="#" onclick="crud.cancel( this )" data-icon="back" data-iconpos="top">Cancel</a></li>
 					</ul>
 					<ul id="nav-view" style="display: none">
-						<li><a href="#" onclick="crud.edit( this )" data-icon="edit" data-iconpos="top">Edit</a></li>
-						<li><a href="#" onclick="crud.cancel( this )" data-icon="back" data-iconpos="top">Back</a></li>
+						<li><a id="viewEdit" href="#" onclick="crud.edit( this )" data-icon="edit" data-iconpos="top">Edit</a></li>
+						<li><a id="viewCancel" href="#" onclick="crud.cancel( this )" data-icon="back" data-iconpos="top">Back</a></li>
 					</ul>
 					<ul id="nav-edit" style="display: none">
-						<li><a href="#" onclick="crud.update( this )" data-icon="check" data-iconpos="top">Save</a></li>
-						<li><a href="#" onclick="crud.delete( this )" data-icon="delete" data-iconpos="top">Delete</a></li>
-						<li><a href="#" onclick="crud.view( this )" data-icon="back" data-iconpos="top">Cancel</a></li>
+						<li><a id="editUpdate" href="#" onclick="crud.update( this )" data-icon="check" data-iconpos="top">Save</a></li>
+						<li><a id="editDelete" href="#" onclick="crud.delete( this )" data-icon="delete" data-iconpos="top">Delete</a></li>
+						<li><a id="editView" href="#" onclick="crud.view( this )" data-icon="back" data-iconpos="top">Cancel</a></li>
 					</ul>
 				</div>
 			</footer>

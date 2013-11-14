@@ -8,7 +8,7 @@ var crud = crud || {};
 	 * Model
 	 */
 
-	var _id = 10;
+	var _nextId = 10;
 	
 	var _model = [ {
 		id: 0,
@@ -34,7 +34,7 @@ var crud = crud || {};
 	function _save( entity ) {
 		
 		if ( entity.id === undefined ) {
-			entity.id = _id++;
+			entity.id = _nextId++;
 			_model.push( entity );
 		}
 	}
@@ -77,7 +77,25 @@ var crud = crud || {};
 
 		summary.html( listview ).trigger( 'create' );
 	} );
+	
+	/**
+	 * Create
+	 */
+	
+	crud.create = function( event ) {
 
+		delete crud.id;
+		var page = $( event ).parents( 'article' );
+
+		$.mobile.changePage( page.data( 'detail-page' ) + '.html', {
+			transition: 'slide'
+		} );
+	};
+
+	/**
+	 * Retrieve
+	 */
+	
 	$( document ).on( 'pageinit', '#detail-page', function( event ) {
 
 		var page = $( event.target );
@@ -109,31 +127,13 @@ var crud = crud || {};
 		} ] );
 	} );
 
-	/**
-	 * Create
-	 */
-	
-	crud.create = function( event ) {
-
-		delete crud.id;
-		var page = $( event ).parents( 'article' );
-
-		$.mobile.changePage( page.data( 'detail-page' ) + '.html', {
-			transition: 'slide'
-		} );
-	};
-
-	/**
-	 * Retrieve
-	 */
-	
 	$( document ).on( 'pagebeforeshow', '#detail-page', function( event ) {
 
 		var page = $( event.target );
 		var mw = page.find( '#metawidget' );
 
 		if ( crud.id === undefined ) {
-			mw.metawidget( 'option', 'readOnly', false );
+			mw.metawidget( 'setReadOnly', false );
 			mw.metawidget( 'buildWidgets', {} );
 
 			page.find( '#nav-create' ).show();
@@ -144,7 +144,7 @@ var crud = crud || {};
 
 			setTimeout( function() {			
 
-				mw.metawidget( 'option', 'readOnly', true );
+				mw.metawidget( 'setReadOnly', true );
 				mw.metawidget( 'buildWidgets', _loadById( crud.id ));
 			}, 1 );
 
@@ -167,7 +167,7 @@ var crud = crud || {};
 	crud.edit = function( event ) {
 
 		var page = $( event ).parents( 'article' );
-		page.find( '#metawidget' ).metawidget( 'option', 'readOnly', false );
+		page.find( '#metawidget' ).metawidget( 'setReadOnly', false );
 		page.find( '#metawidget' ).metawidget( 'buildWidgets' );
 
 		page.find( '#nav-view' ).hide( 400 );
@@ -177,7 +177,7 @@ var crud = crud || {};
 	crud.view = function( event ) {
 
 		var page = $( event ).parents( 'article' );
-		page.find( '#metawidget' ).metawidget( 'option', 'readOnly', true );
+		page.find( '#metawidget' ).metawidget( 'setReadOnly', true );
 		page.find( '#metawidget' ).metawidget( 'buildWidgets' );
 
 		page.find( '#nav-edit' ).hide( 400 );
@@ -192,13 +192,14 @@ var crud = crud || {};
 
 		var page = $( event ).parents( 'article' );
 		
-		var mw = page.find( '#metawidget' ).data( 'metawidget' );
-		page.find( '#metawidget' ).metawidget( 'getWidgetProcessor', function( widgetProcessor ) {
+		var mw = page.find( '#metawidget' );
+		var mwData = mw.data( 'metawidget' );
+		mw.metawidget( 'getWidgetProcessor', function( widgetProcessor ) {
 
 			return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
-		} ).save( mw );
+		} ).save( mwData );
 
-		_save( mw.toInspect );
+		_save( mwData.toInspect );
 
 		$.mobile.changePage( page.data( 'summary-page' ) + '.html', {
 			transition: 'slidedown'
@@ -212,8 +213,9 @@ var crud = crud || {};
 	crud["delete"] = function( event ) {
 
 		var page = $( event ).parents( 'article' );
-		var mw = page.find( '#metawidget' ).data( 'metawidget' );		
-		_deleteById( mw.toInspect.id );
+		var mw = page.find( '#metawidget' );
+		var mwData = mw.data( 'metawidget' );
+		_deleteById( mwData.toInspect.id );
 
 		$.mobile.changePage( page.data( 'summary-page' ) + '.html', {
 			transition: 'slide',
