@@ -29,6 +29,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
+ * Utility class to load Selenium and wait for a test case to complete. Designed to
+ * integrate into JUnit and Maven.
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 

@@ -34,8 +34,9 @@ import org.mozilla.javascript.tools.shell.Global;
 import org.mozilla.javascript.tools.shell.Main;
 
 /**
- * Utility class to load Rhino, Envjs, JQuery and Jasmine, and run a Jasmine test case.
- *
+ * Utility class to load Rhino, Envjs, JQuery and Jasmine, and run a Jasmine test case. Designed to
+ * integrate into JUnit and Maven.
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -98,7 +99,7 @@ public abstract class JavaScriptTestCase
 
 	/**
 	 * Evaluate the given Javascript file.
-	 *
+	 * 
 	 * @param filename
 	 *            the filename. File path is relative to the project root
 	 */
@@ -114,7 +115,7 @@ public abstract class JavaScriptTestCase
 
 	/**
 	 * Evaluate the given HTML file.
-	 *
+	 * 
 	 * @param url
 	 *            or filename
 	 *            the url or filename. If the latter, file path is relative to the project root

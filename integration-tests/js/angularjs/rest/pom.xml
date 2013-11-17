@@ -33,6 +33,13 @@
 			<type>test-jar</type>
 		</dependency>
 		<dependency>
+			<groupId>org.metawidget.modules.js</groupId>
+			<artifactId>metawidget-corejs</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 		</dependency>
