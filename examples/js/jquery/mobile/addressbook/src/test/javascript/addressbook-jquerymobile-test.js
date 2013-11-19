@@ -1,14 +1,14 @@
 describe( 'The JQuery Mobile AddressBook', function() {
 
-	it( 'supports CRUD operations', function() {
+	it( 'supports editing contacts', function() {
 		
 		var _done = false;
-
-		expect( $( 'article h1' ).text() ).toBe( 'People' );
 
 		$( document ).one( 'pageshow', '#summary-page', function( event ) {
 
 			var page = $( event.target );
+			expect( page.find( 'h1' ).text() ).toBe( 'People' );
+
 			var summary = page.find( '#summary' );
 			expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Homer Simpson' );
 			expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Marge Simpson' );
@@ -45,6 +45,54 @@ describe( 'The JQuery Mobile AddressBook', function() {
 						_done = true;
 					} );
 				}, 1000 );
+			} );			
+		} );
+
+		waitsFor( function() {
+
+			return _done;
+		});
+	} );
+
+	it( 'supports creating contacts', function() {
+		
+		var _done = false;
+
+		$.mobile.changePage( 'index.html',
+				{
+					reloadPage: true
+				});
+		
+		$( document ).one( 'pageshow', '#summary-page', function( event ) {
+
+			var page = $( event.target );
+			expect( page.find( 'h1' ).text() ).toBe( 'People' );
+
+			var summary = page.find( '#summary' );
+			expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Homer Jay Simpson' );
+			expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Marge Simpson' );
+			page.find( '#summaryCreate' ).click();
+
+			$( document ).one( 'pageshow', '#detail-page', function( event ) {
+				
+				page = $( event.target );
+				var mw = page.find( '#metawidget' );
+				
+				mw.find( '#firstname' ).val( 'Business' );
+				mw.find( '#surname' ).val( 'Contact' );
+				
+				page.find( '#createUpdate' ).click();
+
+				$( document ).one( 'pageshow', '#summary-page', function( event ) {
+				
+					page = $( event.target );
+					summary = page.find( '#summary' );
+					expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Homer Jay Simpson' );
+					expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Marge Simpson' );
+					expect( summary.find( 'li:eq(2) a' ).text() ).toBe( 'Business Contact' );
+	
+					_done = true;
+				} );
 			} );			
 		} );
 

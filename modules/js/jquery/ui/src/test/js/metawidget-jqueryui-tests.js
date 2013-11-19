@@ -51,17 +51,31 @@
 
 							$( '#metawidget' ).metawidget();
 							$( '#metawidget' ).metawidget( "buildWidgets", {
-								foo: "Foo"
+								foo: "Foo",
+								bar: {
+									baz: "Baz",
+									abc: "Abc"
+								}
 							} );
 
-							expect( $( "metawidget" ).data( "metawidget" )).toBeDefined();
+							expect( $( "metawidget" ).data( "metawidget" ) ).toBeDefined();
 							expect( $( "metawidget" ).data( "metawidget" ).toInspect ).toBeDefined();
 							var element = $( '#metawidget' )[0];
 
 							expect( element.getMetawidget() ).toBeDefined();
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td><td/></tr></tbody></table>' );
+											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td><td/></tr><tr id="table-bar-row"><th id="table-bar-label-cell"><label for="bar" id="table-bar-label">Bar:</label></th><td id="table-bar-cell"><div id="bar"><table id="table-bar"><tbody><tr id="table-barBaz-row"><th id="table-barBaz-label-cell"><label for="barBaz" id="table-barBaz-label">Baz:</label></th><td id="table-barBaz-cell"><input type="text" id="barBaz" name="barBaz"/></td><td/></tr><tr id="table-barAbc-row"><th id="table-barAbc-label-cell"><label for="barAbc" id="table-barAbc-label">Abc:</label></th><td id="table-barAbc-cell"><input type="text" id="barAbc" name="barAbc"/></td><td/></tr></tbody></table></div></td><td/></tr></tbody></table>' );
+							expect( element.childNodes[0].outerHTML ).toContain(
+									'<th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td>' );
+							expect( element.childNodes[0].outerHTML ).toContain(
+									'<th id="table-bar-label-cell"><label for="bar" id="table-bar-label">Bar:</label></th><td id="table-bar-cell"><div id="bar"><table id="table-bar">' );
+							expect( element.childNodes[0].outerHTML )
+									.toContain(
+											'<th id="table-barBaz-label-cell"><label for="barBaz" id="table-barBaz-label">Baz:</label></th><td id="table-barBaz-cell"><input type="text" id="barBaz" name="barBaz"/></td><td/>' );
+							expect( element.childNodes[0].outerHTML )
+									.toContain(
+											'<th id="table-barAbc-label-cell"><label for="barAbc" id="table-barAbc-label">Abc:</label></th><td id="table-barAbc-cell"><input type="text" id="barAbc" name="barAbc"/></td><td/>' );
 
 							// Configured
 
@@ -70,14 +84,17 @@
 
 							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
 							expect( element.childNodes[0].value ).toBe( 'Foo' );
-							
+							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><input type="text" id="barBaz" name="barBaz"/><input type="text" id="barAbc" name="barAbc"/></div>' );
+
 							// Read-only
-							
+
 							$( '#metawidget' ).metawidget( "setReadOnly", true );
 							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
+							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><input type="text" id="barBaz" name="barBaz"/><input type="text" id="barAbc" name="barAbc"/></div>' );
 
 							$( '#metawidget' ).metawidget( "buildWidgets" );
 							expect( element.childNodes[0].outerHTML ).toBe( '<output id="foo">Foo</output>' );
+							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><output id="barBaz">Baz</output><output id="barAbc">Abc</output></div>' );
 						} );
 
 				it(

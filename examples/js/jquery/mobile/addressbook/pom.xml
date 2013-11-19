@@ -51,7 +51,8 @@
 						lib/metawidget/core/metawidget-utils.js,
 						lib/metawidget/core/metawidget-widgetbuilders.js,
 						lib/metawidget/core/metawidget-widgetprocessors.js,
-						lib/metawidget/jquery-mobile/metawidget-jquerymobile.js
+						lib/metawidget/jquery-mobile/metawidget-jquerymobile.js,
+						WEB-INF/**
 					</packagingExcludes>
 				</configuration>
 			</plugin>

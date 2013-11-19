@@ -1,0 +1,47 @@
+{
+	"properties": {
+		"id": {
+			"hidden": true
+		},
+		"type": {
+			"hidden": true
+		},
+		"title": {
+			"enum": [ "Mr", "Mrs", "Miss", "Dr", "Cpt" ],
+			"required": true,
+			"propertyOrder": 1
+		},
+		"firstname": {
+			"type": "string",
+			"required": true,
+			"propertyOrder": 2			
+		},
+		"surname": {
+			"type": "string",
+			"required": true,
+			"propertyOrder": 3			
+		},
+		"gender": {
+			"enum": [ "Male", "Female" ],
+			"propertyOrder": 4			
+		},
+		"dateOfBirth": {
+			"type": "date",
+			"title": "Date of Birth",
+			"propertyOrder": 5			
+		},
+		"address": {
+			"section": "Contact Details",
+			"propertyOrder": 6
+		},
+		"communications": {
+			"propertyOrder": 7		
+		},
+		"notes": {
+			"type": "string",
+			"large": true,
+			"section": "Other",
+			"propertyOrder": 8			
+		}
+	}
+}

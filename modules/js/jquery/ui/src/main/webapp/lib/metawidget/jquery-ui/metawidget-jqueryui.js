@@ -418,17 +418,11 @@
 			// Metawidget. This neatly passes everything down, including a
 			// decremented 'maximumInspectionDepth'
 
-			var nestedMetawidget = $( nestedWidget ).metawidget( [ this._pipeline, config ] );
+			var nestedMetawidget = $( nestedWidget ).metawidget( this._pipeline );
 
-			nestedMetawidget.metawidget( "option", "readOnly", this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ) );
+			nestedMetawidget.metawidget( "setReadOnly", this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ) );
 			var nestedToInspect = this.toInspect;
 			var nestedPath = metawidget.util.appendPath( attributes, this );
-
-			// Attach ourselves as a property of the tag, rather than try to
-			// 'extend' the built-in HTML tags. This is used
-			// by SimpleBindingProcessor, among others
-
-			nestedWidget.metawidget = $( nestedWidget ).data( 'metawidget' );
 
 			nestedMetawidget.metawidget( "buildWidgets", nestedToInspect, nestedPath );
 			return nestedWidget;

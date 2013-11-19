@@ -50,84 +50,7 @@
 	 * App-specific Metawidget configuration.
 	 */
 
-	.factory( 'metawidgetConfig', function() {
-
-		// Construct JSON schemas for metadata
-		//
-		// Note: 'enum' is not a reserved word in later versions of JavaScript,
-		// but we escape it anyway for IE8 compatibility
-
-		var _contact = {
-			properties: {
-				id: {
-					hidden: true
-				},
-				title: {
-					"enum": [ "Mr", "Mrs", "Miss", "Dr", "Cpt" ],
-					required: true,
-					propertyOrder: 1
-				},
-				firstname: {
-					type: "string",
-					required: true,
-					propertyOrder: 2
-				},
-				surname: {
-					type: "string",
-					required: true,
-					propertyOrder: 3
-				},
-				gender: {
-					"enum": [ "Male", "Female" ],
-					propertyOrder: 10
-				},
-				address: {
-					section: "Contact Details",
-					propertyOrder: 20
-				},
-				communications: {
-					propertyOrder: 21
-				},
-				notes: {
-					type: "string",
-					large: true,
-					section: "Other",
-					propertyOrder: 30
-				},
-				type: {
-					hidden: true
-				}
-			}
-		};
-
-		var _personalContact = {
-			properties: {}
-		};
-		for ( var propertyName in _contact.properties ) {
-			_personalContact.properties[propertyName] = _contact.properties[propertyName];
-		}
-		_personalContact.properties.dateOfBirth = {
-			type: "date",
-			title: "Date of Birth",
-			propertyOrder: 11
-		};
-		var _businessContact = {
-			properties: {}
-		};
-		for ( var propertyName in _contact.properties ) {
-			_businessContact.properties[propertyName] = _contact.properties[propertyName];
-		}
-		_businessContact.properties.company = {
-			type: "string",
-			propertyOrder: 4
-		};
-		_businessContact.properties.numberOfStaff = {
-			type: "number",
-			minimum: 0,
-			maximum: 100,
-			section: "Other",
-			propertyOrder: 29
-		};
+	.factory( 'metawidgetConfig', function( $http ) {
 
 		// Custom layout
 
@@ -169,14 +92,10 @@
 			form: {
 				inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-					if ( names === undefined ) {
-						if ( toInspect !== undefined && toInspect.type === 'business' ) {
-							return _businessContact;
-						}
-						return _personalContact;
-					}
+					if ( names !== undefined && names.length === 1 && names[0] === 'address' ) {
 
-					if ( names.length === 1 && names[0] === 'address' ) {
+						// Example of client-side schema
+
 						return {
 							properties: {
 								street: {
@@ -195,6 +114,20 @@
 						};
 					}
 				} ] ),
+				inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
+
+					// Example of server-side, asynchronous schema
+
+					if ( names === undefined && toInspect !== undefined && toInspect.type !== undefined ) {
+						$http.get( 'js/' + toInspect.type + '-contact-schema.json' ).then( function( result ) {
+
+							metawidget.util.combineInspectionResults( inspectionResult, result.data );
+							mw.buildWidgets( inspectionResult );
+						} );
+					} else {
+						return inspectionResult;
+					}
+				} ],
 				layout: _tableLayout
 			},
 

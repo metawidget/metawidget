@@ -1,0 +1,58 @@
+[ {
+	"id": 1,
+	"title": "Mr",
+	"firstname": "Homer",
+	"surname": "Simpson",
+	"gender": "Male",
+	"address": {
+		"street": "742 Evergreen Terrace",
+		"city": "Springfield",
+		"state": "Anytown",
+		"postcode": "90701"
+	},
+	"communications": [ {
+		"type": "Telephone",
+		"value": "(939) 555-0113"
+	} ],
+	"type": "personal"
+}, {
+	"id": 2,
+	"title": "Mrs",
+	"firstname": "Marjorie",
+	"surname": "Simpson",
+	"gender": "Female",
+	"address": {
+		"street": "742 Evergreen Terrace",
+		"city": "Springfield"
+	},
+	"notes": "Known as 'Marge'",
+	"type": "personal"
+}, {
+	"id": 3,
+	"title": "Mr",
+	"firstname": "Nedward",
+	"surname": "Flanders",
+	"gender": "Male",
+	"type": "personal"
+}, {
+	"id": 4,
+	"title": "Mrs",
+	"firstname": "Maude",
+	"surname": "Flanders",
+	"gender": "Female",
+	"type": "personal"
+}, {
+	"id": 5,
+	"title": "Mr",
+	"firstname": "Charles Montgomery",
+	"surname": "Burns",
+	"gender": "Male",
+	"type": "business"
+}, {
+	"id": 6,
+	"title": "Mr",
+	"firstname": "Waylon",
+	"surname": "Smithers",
+	"gender": "Male",
+	"type": "business"
+} ]

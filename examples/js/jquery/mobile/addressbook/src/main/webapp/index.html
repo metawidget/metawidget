@@ -13,14 +13,15 @@
 		<article id="summary-page" data-role="page" data-detail-page="person">
 			<header data-role="header" data-position="fixed" data-tap-toggle="false" data-transition="none">
 				<h1>People</h1>
-			</header>	
+			</header>
 			<section data-role="content">
 				<div id="summary"></div>
 			</section>
 			<footer data-role="footer" data-position="fixed" data-tap-toggle="false" data-transition="none">
 				<div id="footer-navbar" data-role="navbar">
 					<ul>
-						<li><a onclick="crud.create( this )" data-icon="add" data-iconpos="top">Add</a></li>
+						<li><a id="summaryCreate" onclick="crud.createPersonal( this )" data-icon="add" data-iconpos="top">New Personal Contact</a></li>
+						<li><a id="summaryCreate" onclick="crud.createBusiness( this )" data-icon="add" data-iconpos="top">New Business Contact</a></li>
 					</ul>
 				</div>
 			</footer>

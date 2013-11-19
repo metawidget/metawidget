@@ -9,30 +9,20 @@ var crud = crud || {};
 	 */
 
 	var _nextId = 10;
-	
-	var _model = [ {
-		id: 0,
-		firstname: "Homer",
-		surname: "Simpson"
-	}, {
-		id: 1,
-		firstname: "Marge",
-		surname: "Simpson",
-		retired: true
-	} ];
+	var _model = undefined;
 
 	function _loadById( id ) {
-	
+
 		for( var loop = 0, length = _model.length; loop < length; loop++ ) {
-			
+
 			if ( _model[loop].id === id ) {
 				return _model[loop];
 			}
 		}
 	}
-	
+
 	function _save( entity ) {
-		
+
 		if ( entity.id === undefined ) {
 			entity.id = _nextId++;
 			_model.push( entity );
@@ -40,9 +30,9 @@ var crud = crud || {};
 	}
 
 	function _deleteById( id ) {
-		
+
 		for( var loop = 0, length = _model.length; loop < length; loop++ ) {
-			
+
 			if ( _model[loop].id === id ) {
 				_model.splice( loop, 1 );
 				break;
@@ -55,6 +45,18 @@ var crud = crud || {};
 	 */
 
 	$( document ).on( 'pagebeforeshow', '#summary-page', function( event ) {
+
+		if ( _model === undefined ) {
+			$.getJSON( 'js/contacts.json', {}, function( data ) {
+				_model = data;
+				_populateSummaryPage( event );
+			} );
+		} else {
+			_populateSummaryPage( event );
+		}
+	} );
+
+	function _populateSummaryPage( event ) {
 
 		var page = $( event.target );
 		var summary = page.find( '#summary' );
@@ -76,13 +78,25 @@ var crud = crud || {};
 		} );
 
 		summary.html( listview ).trigger( 'create' );
-	} );
-	
+	}
+
 	/**
 	 * Create
 	 */
-	
-	crud.create = function( event ) {
+
+	crud.createPersonal = function( event ) {
+
+		crud.type = 'personal';
+		_create( event );
+	};
+
+	crud.createBusiness = function( event ) {
+
+		crud.type = 'business';
+		_create( event );
+	};
+
+	function _create( event ) {
 
 		delete crud.id;
 		var page = $( event ).parents( 'article' );
@@ -90,12 +104,12 @@ var crud = crud || {};
 		$.mobile.changePage( page.data( 'detail-page' ) + '.html', {
 			transition: 'slide'
 		} );
-	};
+	}
 
 	/**
 	 * Retrieve
 	 */
-	
+
 	$( document ).on( 'pageinit', '#detail-page', function( event ) {
 
 		var page = $( event.target );
@@ -103,26 +117,43 @@ var crud = crud || {};
 		// This should autoinit in JQuery Mobile 1.4.0
 
 		page.find( '#metawidget' ).metawidget();
-		page.find( '#metawidget' ).metawidget( "option", "inspectionResultProcessors", [ function( inspectionResult, mw, toInspect, type, names ) {
+		page.find( '#metawidget' ).metawidget( "option", "inspector", new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-			// Simulate asynchronous schema lookup (e.g. from a REST service)
+			if ( names !== undefined && names.length === 1 && names[0] === 'address' ) {
 
-			setTimeout( function() {
-				var schema = {
+				// Example of client-side schema
+
+				return {
 					properties: {
-						firstname: {
+						street: {
 							type: "string"
 						},
-						surname: {
+						city: {
 							type: "string"
 						},
-						retired: {
-							type: "boolean"
+						state: {
+							"enum": [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
+						},
+						postcode: {
+							type: "string"
 						}
 					}
 				};
-				mw._refresh( schema );
-			}, 1 );
+			}
+		} ] ));
+		page.find( '#metawidget' ).metawidget( "option", "inspectionResultProcessors", [ function( inspectionResult, mw, toInspect, type, names ) {
+
+			// Example of server-side, asynchronous schema
+
+			if ( names === undefined && toInspect !== undefined && toInspect.type !== undefined ) {
+				$.getJSON( 'js/' + toInspect.type + '-contact-schema.json', {}, function( data ) {
+
+					metawidget.util.combineInspectionResults( inspectionResult, data );
+					mw._refresh( inspectionResult );
+				} );
+			} else {
+				return inspectionResult;
+			}
 
 		} ] );
 	} );
@@ -130,24 +161,30 @@ var crud = crud || {};
 	$( document ).on( 'pagebeforeshow', '#detail-page', function( event ) {
 
 		var page = $( event.target );
+
+		if ( _model === undefined ) {
+			$.mobile.changePage( page.data( 'summary-page' ) + '.html' );
+			return;
+		}
+
 		var mw = page.find( '#metawidget' );
 
 		if ( crud.id === undefined ) {
 			mw.metawidget( 'setReadOnly', false );
-			mw.metawidget( 'buildWidgets', {} );
+			mw.metawidget( 'buildWidgets', {
+				type: crud.type
+			} );
 
+			page.find( 'h1' ).text( 'New Contact' );
 			page.find( '#nav-create' ).show();
 			page.find( '#nav-edit' ).hide();
 			page.find( '#nav-view' ).hide();
 		} else {
-			// Simulate asynchronous data lookup (e.g. from a REST service)
+			mw.metawidget( 'setReadOnly', true );
+			var person = _loadById( crud.id );
+			mw.metawidget( 'buildWidgets', person );
 
-			setTimeout( function() {			
-
-				mw.metawidget( 'setReadOnly', true );
-				mw.metawidget( 'buildWidgets', _loadById( crud.id ));
-			}, 1 );
-
+			page.find( 'h1' ).text( person.firstname + ' ' + person.surname );
 			page.find( '#nav-create' ).hide();
 			page.find( '#nav-edit' ).hide();
 			page.find( '#nav-view' ).show();
@@ -187,11 +224,11 @@ var crud = crud || {};
 	/**
 	 * Update
 	 */
-	
+
 	crud.update = function( event ) {
 
 		var page = $( event ).parents( 'article' );
-		
+
 		var mw = page.find( '#metawidget' );
 		var mwData = mw.data( 'metawidget' );
 		mw.metawidget( 'getWidgetProcessor', function( widgetProcessor ) {
@@ -209,7 +246,7 @@ var crud = crud || {};
 	/**
 	 * Delete
 	 */
-	
+
 	crud["delete"] = function( event ) {
 
 		var page = $( event ).parents( 'article' );

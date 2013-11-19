@@ -80,6 +80,9 @@
 							<artifactId>addressbook-shared-webapp</artifactId>
 						</overlay>
 					</overlays>
+					<packagingExcludes>
+						js/**
+					</packagingExcludes>
 				</configuration>
 			</plugin>
 		</plugins>
