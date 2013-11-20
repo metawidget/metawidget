@@ -1685,7 +1685,8 @@ public class Main {
 				<tip>
 					<title>Note</title>
 					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget-all.jar</filename> to
-					<filename>WEB-INF/lib</filename>. For GWT, you'll also need to include <filename>metawidget-all.jar</filename>
+					<filename>WEB-INF/lib</filename> or <filename>metawidget-core.min.js</filename> to <filename>lib/metawidget</filename>.
+					For GWT, you'll also need to include <filename>metawidget-all.jar</filename>
 					and <filename>additional/gwt/metawidget-all-sources.jar</filename> in the <parameter>CLASSPATH</parameter>
 					during your <parameter>GWTCompiler</parameter> step.
 				</tip>				
@@ -1707,7 +1708,7 @@ public class Main {
 				<para>
 					As with the Desktop Address Book, the three search filter fields are created
 					by Metawidget (this time <classname>AngularMetawidget</classname>, <classname>UIMetawidget</classname>,
-					<classname>GwtMetawidget</classname>, <classname>HtmlMetawidgetTag</classname>,
+					<classname>GwtMetawidget</classname>, <classname>HtmlMetawidgetTag</classname>,					
 					<classname>SpringMetawidgetTag</classname>, <classname>StrutsMetawidgetTag</classname>
 					or <classname>VaadinMetawidget</classname>) based on the <classname>ContactSearch</classname> business class:
 				</para>
@@ -1730,7 +1731,8 @@ public class Main {
 				</tip>				
 
 				<para>
-					The look of the Web page relies entirely on HTML and CSS technologies. These are configured in <filename>metawidget.xml</filename>
+					The look of the Web page relies entirely on HTML and CSS technologies. The CSS classes to
+					use are configured in <filename>metawidget.xml</filename>
 					(or <filename>services.js</filename> for AngularJS):
 				</para>
 

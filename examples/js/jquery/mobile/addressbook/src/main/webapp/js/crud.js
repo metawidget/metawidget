@@ -40,6 +40,8 @@ var crud = crud || {};
 		}
 	}
 
+	crud.restUrl = crud.restUrl || '';
+	
 	/**
 	 * Summary page
 	 */
@@ -47,7 +49,7 @@ var crud = crud || {};
 	$( document ).on( 'pagebeforeshow', '#summary-page', function( event ) {
 
 		if ( _model === undefined ) {
-			$.getJSON( 'js/contacts.json', {}, function( data ) {
+			$.getJSON( crud.restUrl + 'js/contacts.json', {}, function( data ) {
 				_model = data;
 				_populateSummaryPage( event );
 			} );
@@ -146,7 +148,7 @@ var crud = crud || {};
 			// Example of server-side, asynchronous schema
 
 			if ( names === undefined && toInspect !== undefined && toInspect.type !== undefined ) {
-				$.getJSON( 'js/' + toInspect.type + '-contact-schema.json', {}, function( data ) {
+				$.getJSON( crud.restUrl + 'js/' + toInspect.type + '-contact-schema.json', {}, function( data ) {
 
 					metawidget.util.combineInspectionResults( inspectionResult, data );
 					mw._refresh( inspectionResult );
