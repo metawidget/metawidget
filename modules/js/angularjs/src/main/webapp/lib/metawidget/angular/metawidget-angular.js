@@ -112,6 +112,8 @@
 						}
 					} );
 
+					// TODO: can pass true to watch arrays?
+
 					scope.$watch( 'config', function( newValue, oldValue ) {
 
 						// Watch for config changes. These are rare, but
@@ -168,7 +170,7 @@
 	metawidget.angular = metawidget.angular || {};
 
 	var _nestedMetawidgetConfigId = 0;
-	
+
 	metawidget.angular.AngularMetawidget = function( element, attrs, transclude, scope, $compile, $parse ) {
 
 		if ( ! ( this instanceof metawidget.angular.AngularMetawidget ) ) {
@@ -396,7 +398,7 @@
 
 	/**
 	 * @class InspectionResultProcessor to evaluate Angular expressions.
-	 * 
+	 *
 	 * @param scope
 	 *            scope of the Metawidget directive
 	 * @param buildWidgets
@@ -411,6 +413,8 @@
 		}
 
 		this.processInspectionResult = function( inspectionResult, mw ) {
+
+			mw._angularInspectionResultProcessor = mw._angularInspectionResultProcessor || [];
 
 			// For each property in the inspection result...
 
@@ -442,13 +446,21 @@
 
 				// ...and watch it for future changes
 
-				scope.$parent.$watch( expression, function( newValue, oldValue ) {
+				var watch = scope.$parent.$watch( expression, function( newValue, oldValue ) {
 
 					if ( newValue !== oldValue ) {
+						
+						// Before reinspect, clear all watches
+						
+						for( var loop = 0, length = mw._angularInspectionResultProcessor.length; loop < length; loop++ ) {
+							mw._angularInspectionResultProcessor[loop]();
+						}
 						mw.invalidateInspection();
 						mw.buildWidgets();
 					}
 				} );
+
+				mw._angularInspectionResultProcessor.push( watch );
 			}
 
 			return inspectionResult;
@@ -463,7 +475,7 @@
 
 	/**
 	 * @class WidgetProcessor to add Angular bindings and validation.
-	 * 
+	 *
 	 * @returns {metawidget.angular.AngularWidgetProcessor}
 	 */
 

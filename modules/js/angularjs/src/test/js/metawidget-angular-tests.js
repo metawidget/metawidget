@@ -1242,104 +1242,7 @@
 						expect( mw.innerHTML ).toContain( '<option value="null">Null</option><option value="2">Two</option>' );
 					} );
 				} );
-			} );
-
-	describe(
-			"The AngularInspectionResultProcessor",
-			function() {
-
-				it( "executes Angular expressions inside inspection results", function() {
-
-					var injector = angular.bootstrap();
-
-					injector.invoke( function( $rootScope ) {
-
-						var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( $rootScope.$new() );
-						var inspectionResult = {
-							properties: {
-								"foo": {
-									value: "{{1+2}}",
-									ignore: 3,
-									missing: undefined
-								}
-							}
-						};
-
-						inspectionResult = processor.processInspectionResult( inspectionResult );
-
-						expect( inspectionResult.properties.foo.value ).toBe( '3' );
-					} );
-				} );
-
-				it(
-						"watches expressions and invalidates inspection results",
-						function() {
-
-							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
-							var controller = myApp.controller( 'TestController', function( $scope ) {
-
-								$scope.readOnlyz = true;
-
-								$scope.foo = {
-									edit: function() {
-
-									},
-									save: function() {
-
-									}
-								};
-
-								$scope.metawidgetConfig = {
-									inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
-
-										return {
-											properties: {
-												edit: {
-													"hidden": "{{!readOnlyz}}"
-												},
-												save: {
-													"hidden": "{{readOnlyz}}"
-												}
-											}
-										};
-									} ] )
-								};
-							} );
-
-							var mw = document.createElement( 'metawidget' );
-							mw.setAttribute( 'ng-model', 'foo' );
-							mw.setAttribute( 'config', 'metawidgetConfig' );
-
-							var body = document.createElement( 'body' );
-							body.setAttribute( 'ng-controller', 'TestController' );
-							body.appendChild( mw );
-
-							var injector = angular.bootstrap( body, [ 'test-app' ] );
-
-							injector
-									.invoke( function() {
-
-										expect( mw.innerHTML )
-												.toBe(
-														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"/><td id="table-fooEdit-cell"><input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/></td><td/></tr></tbody></table>' );
-
-										expect( mw.innerHTML ).toContain( '<input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/>' );
-
-										var scope = angular.element( body ).scope();
-										scope.readOnlyz = false;
-										scope.$digest();
-
-										expect( mw.innerHTML ).toNotContain( 'fooEdit' );
-										expect( mw.innerHTML ).toContain( '<input type="button" value="Save" id="fooSave" ng-click="foo.save()" class="ng-scope"/>' );
-
-										scope.readOnlyz = true;
-										scope.$digest();
-
-										expect( mw.innerHTML ).toNotContain( 'fooSave' );
-										expect( mw.innerHTML ).toContain( '<input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/>' );
-									} );
-						} );
-
+				
 				it(
 						"supports namespaces (for IE8)",
 						function() {
@@ -1370,6 +1273,119 @@
 												.toBe(
 														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+									} );
+						} );
+			} );
+
+	describe(
+			"The AngularInspectionResultProcessor",
+			function() {
+
+				it( "executes Angular expressions inside inspection results", function() {
+
+					var injector = angular.bootstrap();
+
+					injector.invoke( function( $rootScope ) {
+
+						var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( $rootScope.$new() );
+						var inspectionResult = {
+							properties: {
+								"foo": {
+									value: "{{1+2}}",
+									ignore: 3,
+									missing: undefined
+								}
+							}
+						};
+
+						inspectionResult = processor.processInspectionResult( inspectionResult, {} );
+
+						expect( inspectionResult.properties.foo.value ).toBe( '3' );
+					} );
+				} );
+
+				it(
+						"watches expressions and invalidates inspection results",
+						function() {
+
+							var inspectionCount = 0;
+							var buildingCount = 0;
+							
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var controller = myApp.controller( 'TestController', function( $scope ) {
+
+								$scope.readOnlyz = true;
+
+								$scope.foo = {
+									edit: function() {
+
+									},
+									save: function() {
+
+									}
+								};
+
+								$scope.metawidgetConfig = {
+									inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
+
+										inspectionCount++;
+										
+										return {
+											properties: {
+												edit: {
+													"hidden": "{{!readOnlyz}}"
+												},
+												save: {
+													"hidden": "{{readOnlyz}}"
+												}
+											}
+										};
+									} ] ),
+									addWidgetProcessors: [ function( widget, attributes, mw ) {
+
+										buildingCount++;
+										return widget;
+									} ]									
+								};
+							} );
+
+							var mw = document.createElement( 'metawidget' );
+							mw.setAttribute( 'ng-model', 'foo' );
+							mw.setAttribute( 'config', 'metawidgetConfig' );
+
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+							body.appendChild( mw );
+
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML )
+												.toBe(
+														'<table id="table-foo"><tbody><tr id="table-fooEdit-row"><th id="table-fooEdit-label-cell"/><td id="table-fooEdit-cell"><input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/></td><td/></tr></tbody></table>' );
+
+										expect( mw.innerHTML ).toContain( '<input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/>' );
+										expect( inspectionCount ).toBe( 1 );
+										expect( buildingCount ).toBe( 2 );
+										
+										var scope = angular.element( body ).scope();
+										scope.readOnlyz = false;
+										scope.$digest();
+
+										expect( mw.innerHTML ).toNotContain( 'fooEdit' );
+										expect( mw.innerHTML ).toContain( '<input type="button" value="Save" id="fooSave" ng-click="foo.save()" class="ng-scope"/>' );
+										expect( inspectionCount ).toBe( 2 );
+										expect( buildingCount ).toBe( 4 );
+
+										scope.readOnlyz = true;
+										scope.$digest();
+
+										expect( mw.innerHTML ).toNotContain( 'fooSave' );
+										expect( mw.innerHTML ).toContain( '<input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/>' );
+										expect( inspectionCount ).toBe( 3 );
+										expect( buildingCount ).toBe( 6 );
 									} );
 						} );
 			} );

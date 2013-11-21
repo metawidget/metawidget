@@ -42,6 +42,7 @@ This has a larger JAR size, but may be useful to obtain line numbers while debug
 Other Stuff
 -----------
 
-This software is distributed under the terms of the FSF Lesser GNU Public License (see lgpl.txt).
+This software is dual licensed under both the FSF Lesser GNU Public License (see lgpl.txt) and
+a commercial license (see http://metawidget.org).
 
 This product includes software developed by the Apache Software Foundation (http://www.apache.org).
