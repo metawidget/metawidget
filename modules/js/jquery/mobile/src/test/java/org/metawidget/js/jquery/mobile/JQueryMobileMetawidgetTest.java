@@ -58,6 +58,6 @@ public class JQueryMobileMetawidgetTest
 		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget-widgetprocessors.js" );
 		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget-layouts.js" );
 		evaluateJavaScript( "target/metawidget-jquerymobile/lib/metawidget/core/metawidget-utils.js" );
-		evaluateJavaScript( "src/main/webapp/lib/metawidget/jquery-mobile/metawidget-jquerymobile.js" );
+		evaluateJavaScript( "src/main/webapp/lib/metawidget/jquery.mobile/metawidget-jquerymobile.js" );
 	}
 }

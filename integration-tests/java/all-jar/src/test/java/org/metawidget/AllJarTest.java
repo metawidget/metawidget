@@ -138,7 +138,8 @@ public class AllJarTest
 
 		testJavaScript( "angularjs/target/metawidget-angularjs/lib/metawidget/angular/metawidget-angular.min.js" );
 		testJavaScript( "corejs/target/metawidget-corejs/lib/metawidget/core/metawidget-core.min.js" );
-		testJavaScript( "jqueryui/target/metawidget-jqueryui/lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" );
+		testJavaScript( "jquery/ui/target/metawidget-jqueryui/lib/metawidget/jquery-ui/metawidget-jqueryui.min.js" );
+		testJavaScript( "jquery/mobile/target/metawidget-jquerymobile/lib/metawidget/jquery.mobile/metawidget-jquerymobile.min.js" );
 	}
 
 	//

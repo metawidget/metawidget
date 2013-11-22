@@ -18,9 +18,10 @@
 		<module>corejs/allwidgets</module>
 		<module>corejs/quirks</module>
 		<module>corejs/rest</module>
-		<module>jqueryui/allwidgets</module>
-		<module>jqueryui/quirks</module>
-		<module>jqueryui/rest</module>
+		<module>jquery/mobile/allwidgets</module>
+		<module>jquery/ui/allwidgets</module>
+		<module>jquery/ui/quirks</module>
+		<module>jquery/ui/rest</module>
 	</modules>
 
 	<build>
