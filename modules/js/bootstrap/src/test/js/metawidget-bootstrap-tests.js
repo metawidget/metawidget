@@ -126,14 +126,14 @@
 
 			expect( element.childNodes[0].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" class="control-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label" class="control-label"' );
 			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
 			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[1].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" class="control-label"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label" class="control-label"' );
 			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="controls"' );
 			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
 			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
@@ -169,14 +169,14 @@
 
 			expect( element.childNodes[0].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" class="control-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label" class="control-label"' );
 			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
 			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[1].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="label-required"' );
-			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" class="control-label"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label" class="control-label"' );
 			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="controls widget-required"' );
 			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
 			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
@@ -217,7 +217,7 @@
 
 			expect( element.childNodes[0].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" class="control-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label" class="control-label"' );
 			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
 			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
@@ -237,14 +237,14 @@
 			expect( tabContent.childNodes[0].toString() ).toBe( 'div class="tab-pane active" id="bar-tabs1"' );
 			expect( tabContent.childNodes[0].childNodes[0].toString() ).toBe( 'div class="control-group"' );
 			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" class="control-label"' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label" class="control-label"' );
 			expect( tabContent.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
 			expect( tabContent.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
 			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( tabContent.childNodes[1].toString() ).toBe( 'div class="tab-pane" id="bar-tabs2"' );
 			expect( tabContent.childNodes[1].childNodes[0].toString() ).toBe( 'div class="control-group"' );
 			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="baz" class="control-label"' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="baz" id="baz-label" class="control-label"' );
 			expect( tabContent.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
 			expect( tabContent.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
 			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
@@ -252,7 +252,7 @@
 			expect( element.childNodes[1].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[2].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label for="abc" class="control-label"' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label for="abc" id="abc-label" class="control-label"' );
 			expect( element.childNodes[2].childNodes[1].toString() ).toBe( 'div class="controls"' );
 			expect( element.childNodes[2].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="abc" name="abc"' );
 			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );

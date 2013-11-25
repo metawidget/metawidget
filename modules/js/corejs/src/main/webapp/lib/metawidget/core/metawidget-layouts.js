@@ -238,6 +238,7 @@ var metawidget = metawidget || {};
 			var label = metawidget.util.createElement( mw, 'label' );
 			if ( widget.getAttribute( 'id' ) !== null ) {
 				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+				label.setAttribute( 'id', widget.getAttribute( 'id' ) + '-label' );
 			}
 
 			if ( _labelStyleClass !== undefined ) {
