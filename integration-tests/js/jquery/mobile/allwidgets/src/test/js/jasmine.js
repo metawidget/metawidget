@@ -485,7 +485,7 @@ if (isCommonJS) exports.spyOn = spyOn;
 /**
  * Creates a Jasmine spec that will be added to the current suite.
  *
- * // TODO: pending tests
+ * // TOxDO: pending tests
  *
  * @example
  * it('should be true', function() {
@@ -592,9 +592,9 @@ if (isCommonJS) exports.afterEach = afterEach;
  * of setup in some tests.
  *
  * @example
- * // TODO: a simple suite
+ * // TOxDO: a simple suite
  *
- * // TODO: a simple suite with a nested describe block
+ * // TOxDO: a simple suite with a nested describe block
  *
  * @param {String} description A string, usually the class under test.
  * @param {Function} specDefinitions function that defines several specs.
