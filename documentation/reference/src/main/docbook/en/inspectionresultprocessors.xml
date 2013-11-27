@@ -266,7 +266,7 @@ public class ContactController {
 		xhr.onreadystatechange = function () {
 		    if ( xhr.readyState == 4 &amp;&amp; xhr.status == 200 ) {
 		    	
-		    	inspectionResult = metawidget.util.combineInspectionResults( inspectionResult,
+		    	metawidget.util.combineInspectionResults( inspectionResult,
 		    		JSON.parse( xhr.responseText ));
 		    	
 		    	// Resume Metawidget operation
@@ -291,11 +291,11 @@ public class ContactController {
 
 		$.ajax( 'rest/metadata/get' ).done( function ( data ) {
 
-			inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, JSON.parse( data ));
+			metawidget.util.combineInspectionResults( inspectionResult, JSON.parse( data ));
 
 			// Resume Metawidget operation
 			
-	    	mw._refresh( inspectionResult );
+			mw._refresh( inspectionResult );
 		} );
 
 		// Return nothing to suspend Metawidget operation
@@ -312,7 +312,7 @@ public class ContactController {
 
 		$http.get( 'rest/metadata/get' ).then( function( result ) {
 
-			inspectionResult = metawidget.util.combineInspectionResults( inspectionResult, result.data );
+			metawidget.util.combineInspectionResults( inspectionResult, result.data );
 
 			// Resume Metawidget operation
 			
