@@ -65,10 +65,10 @@
 							expect( element.getMetawidget() ).toBeDefined();
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<div><div><label for="foo" class="ui-input-text">Foo:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div></div>' );
+											'<div><div><label for="foo" id="foo-label" class="ui-input-text">Foo:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div></div>' );
 							expect( element.childNodes[1].outerHTML )
 							.toBe(
-									'<div><div><label for="bar">Bar:</label></div><div><div id="bar"><div><div><label for="barBaz" class="ui-input-text">Baz:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></div></div><div><div><label for="barAbc" class="ui-input-text">Abc:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
+									'<div><div><label for="bar" id="bar-label">Bar:</label></div><div><div id="bar"><div><div><label for="barBaz" id="barBaz-label" class="ui-input-text">Baz:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></div></div><div><div><label for="barAbc" id="barAbc-label" class="ui-input-text">Abc:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
 							
 							// Configured
 
@@ -107,7 +107,7 @@
 
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<div><div><label for="foo">Foo:</label></div><div><div id="foo"><div><div><label for="fooBar" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
+											'<div><div><label for="foo" id="foo-label">Foo:</label></div><div><div id="foo"><div><div><label for="fooBar" id="fooBar-label" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
 
 							// Type and sub name
 
@@ -122,7 +122,7 @@
 
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<div><div><label for="fooBar" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div>' );
+											'<div><div><label for="fooBar" id="fooBar-label" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div>' );
 						} );
 
 				it(
@@ -238,7 +238,7 @@
 
 					var element = $( '#metawidget' )[0];
 
-					expect( element.innerHTML ).toContain( '<label for="bar">Bar:</label>' );
+					expect( element.innerHTML ).toContain( '<label for="bar" id="bar-label">Bar:</label>' );
 					expect( element.innerHTML ).toContain( '<table id="bar"' );
 					expect( element.innerHTML ).toContain( '<thead><tr><th>Firstname</th><th>Surname</th></tr></thead>' );
 					expect( element.innerHTML ).toContain(

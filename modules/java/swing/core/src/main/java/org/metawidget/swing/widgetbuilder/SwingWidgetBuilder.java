@@ -65,6 +65,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
+// TODO: default collection support
+
 public class SwingWidgetBuilder
 	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider {
 

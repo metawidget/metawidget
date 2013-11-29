@@ -43,6 +43,7 @@
 							mw.setAttribute( 'ng-model', 'foo' );
 							mw.setAttribute( 'read-only', 'readOnly' );
 							mw.setAttribute( 'config', 'metawidgetConfig' );
+							mw.setAttribute( 'configs', '[ metawidgetConfigInArray ]' );
 
 							var body = document.createElement( 'body' );
 							body.setAttribute( 'ng-controller', 'TestController' );
@@ -85,6 +86,16 @@
 
 										expect( mw.innerHTML ).toBe( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 										expect( mw.innerHTML ).toNotContain( '<table' );
+
+										// Test *not* watching config array
+
+										scope.metawidgetConfigInArray = {
+											layout: new metawidget.layout.DivLayout()
+										};
+										scope.$digest();
+
+										expect( mw.innerHTML ).toBe( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
+										expect( mw.innerHTML ).toNotContain( '<div' );
 									} );
 						} );
 

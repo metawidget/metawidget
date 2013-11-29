@@ -112,8 +112,6 @@
 						}
 					} );
 
-					// TODO: can pass true to watch arrays?
-
 					scope.$watch( 'config', function( newValue, oldValue ) {
 
 						// Watch for config changes. These are rare, but
