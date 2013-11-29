@@ -70,10 +70,11 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<configuration>
+						<configuration>						
 							<target>
+								<!-- start-and-wait not compatible with JBoss 6.x -->
 								<echo message="Waiting 60 seconds for JBoss to start" />
-								<sleep seconds="60" />
+								<sleep seconds="300" />
 							</target>
 						</configuration>
 					</execution>
