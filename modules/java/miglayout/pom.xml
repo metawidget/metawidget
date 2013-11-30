@@ -24,12 +24,10 @@
 		<dependency>
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${swt.groupId}</groupId>
 			<artifactId>${swt.artifactId}</artifactId>
-			<scope>provided</scope>
 		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>

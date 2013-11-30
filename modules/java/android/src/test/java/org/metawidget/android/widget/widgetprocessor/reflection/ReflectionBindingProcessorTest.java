@@ -24,7 +24,6 @@ package org.metawidget.android.widget.widgetprocessor.reflection;
 import junit.framework.TestCase;
 
 import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.android.widget.layout.SimpleLayout;
 import org.metawidget.inspector.annotation.UiAction;
 
 import android.widget.Button;
@@ -55,10 +54,10 @@ public class ReflectionBindingProcessorTest
 		// Click
 
 		Button button = metawidget.findViewWithTags( "doAction" );
-		assertEquals( ReflectionBindingProcessor.class.getName() + "$BoundAction", button.getOnClickListener().getClass().getName() );		
+		assertEquals( ReflectionBindingProcessor.class.getName() + "$BoundAction", button.getOnClickListener().getClass().getName() );
 
 		assertEquals( 0, foo.readClicked() );
-		button.getOnClickListener().onClick( null );	
+		button.getOnClickListener().onClick( null );
 		assertEquals( 1, foo.readClicked() );
 	}
 
@@ -71,9 +70,9 @@ public class ReflectionBindingProcessorTest
 		//
 		// Private members
 		//
-		
+
 		private int mClicked;
-		
+
 		//
 		// Public methods
 		//
@@ -83,9 +82,9 @@ public class ReflectionBindingProcessorTest
 
 			mClicked++;
 		}
-		
+
 		public int readClicked() {
-			
+
 			return mClicked;
 		}
 	}

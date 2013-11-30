@@ -23,7 +23,6 @@ package org.metawidget.swing;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.beans.BeanInfo;
@@ -50,7 +49,6 @@ import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
 import org.metawidget.swing.layout.BoxLayout;
@@ -147,7 +145,6 @@ public class SwingMetawidgetTest
 	 * http://www.mail-archive.com/users@maven.apache.org/msg106906.html
 	 */
 
-	@SuppressWarnings( "cast" )
 	public void testMaximumInspectionDepth() {
 
 		Foo foo1 = new Foo();
@@ -166,17 +163,17 @@ public class SwingMetawidgetTest
 
 		metawidget.setMaximumInspectionDepth( 1 );
 		assertEquals( 1, metawidget.getMaximumInspectionDepth() );
-		assertTrue( ( (Component) metawidget.getComponent( "foo" ) ) instanceof SwingMetawidget );
-		assertTrue( ( (Component) metawidget.getComponent( "foo", "name" ) ) instanceof JTextField );
-		assertEquals( "name", ( (Component) metawidget.getComponent( "foo", "name" ) ).getName() );
+		assertTrue( ( metawidget.getComponent( "foo" ) ) instanceof SwingMetawidget );
+		assertTrue( ( metawidget.getComponent( "foo", "name" ) ) instanceof JTextField );
+		assertEquals( "name", metawidget.getComponent( "foo", "name" ).getName() );
 		assertEquals( metawidget.getComponent( "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 2 );
-		assertTrue( ( (Component) metawidget.getComponent( "foo", "foo" ) ) instanceof SwingMetawidget );
+		assertTrue( ( metawidget.getComponent( "foo", "foo" ) ) instanceof SwingMetawidget );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 3 );
-		assertTrue( ( (Component) metawidget.getComponent( "foo", "foo", "foo" ) ) instanceof SwingMetawidget );
+		assertTrue( ( metawidget.getComponent( "foo", "foo", "foo" ) ) instanceof SwingMetawidget );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo" ), null );
 
 		metawidget.setMaximumInspectionDepth( 4 );
@@ -186,7 +183,7 @@ public class SwingMetawidgetTest
 		// ...but because we know the type of the child property, we end up putting an empty
 		// Metawidget
 
-		assertTrue( ( (Component) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ) instanceof SwingMetawidget );
+		assertTrue( ( metawidget.getComponent( "foo", "foo", "foo", "foo" ) ) instanceof SwingMetawidget );
 		assertEquals( 0, ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
 		assertEquals( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ), null );
 	}
@@ -474,6 +471,7 @@ public class SwingMetawidgetTest
 		// Protected methods
 		//
 
+		@Override
 		protected String getDefaultConfiguration() {
 
 			if ( mConfigured != null ) {

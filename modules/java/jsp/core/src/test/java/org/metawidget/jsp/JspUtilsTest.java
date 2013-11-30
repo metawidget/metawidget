@@ -257,6 +257,7 @@ public class JspUtilsTest
 	// Inner class
 	//
 
+	@SuppressWarnings( "deprecation" )
 	public static class DummyPageContext
 		extends PageContext {
 

@@ -21,8 +21,7 @@
 
 package org.metawidget.android.widget;
 
-import static org.metawidget.inspector.InspectionResultConstants.LABEL;
-import static org.metawidget.inspector.InspectionResultConstants.NAME;
+import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -170,40 +169,41 @@ public class AndroidMetawidgetTest
 	public void testGetInspectionResultProcessor() {
 
 		MyInspectionResultProcessor myInspectionResultProcessor = new MyInspectionResultProcessor();
-		
+
 		@SuppressWarnings( "unchecked" )
-		InspectionResultProcessor<AndroidMetawidget>[] inspectionResultProcessors = new InspectionResultProcessor[]{
+		InspectionResultProcessor<AndroidMetawidget>[] inspectionResultProcessors = new InspectionResultProcessor[] {
 				new ComesAfterInspectionResultProcessor<AndroidMetawidget>(),
 				myInspectionResultProcessor
 		};
-		
+
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
 		androidMetawidget.setInspectionResultProcessors( inspectionResultProcessors );
-		
-		assertEquals( myInspectionResultProcessor, androidMetawidget.getInspectionResultProcessor( MyInspectionResultProcessor.class ));
+
+		assertEquals( myInspectionResultProcessor, androidMetawidget.getInspectionResultProcessor( MyInspectionResultProcessor.class ) );
 	}
 
 	public void testConfigureOnce() {
-		
+
 		final List<String> configuredDefaults = new ArrayList<String>();
-		
+
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null ) {
-			
+
+			@Override
 			protected void configureDefaults() {
-				
+
 				configuredDefaults.add( "called" );
 				super.configureDefaults();
 			}
 		};
-		
+
 		androidMetawidget.setToInspect( new Foo() );
 		androidMetawidget.buildWidgets();
 		androidMetawidget.setToInspect( new Foo() );
 		androidMetawidget.buildWidgets();
-		
+
 		assertEquals( 1, configuredDefaults.size() );
 	}
-	
+
 	//
 	// Inner class
 	//
@@ -221,13 +221,13 @@ public class AndroidMetawidgetTest
 		}
 	}
 
-	private static class MyInspectionResultProcessor
+	/* pacakge private */static class MyInspectionResultProcessor
 		implements InspectionResultProcessor<AndroidMetawidget> {
 
 		//
 		// Public methods
 		//
-		
+
 		public String processInspectionResult( String inspectionResult, AndroidMetawidget metawidget, Object toInspect, String type, String... names ) {
 
 			return null;

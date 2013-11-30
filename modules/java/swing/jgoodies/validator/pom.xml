@@ -19,7 +19,6 @@
 		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>validation</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

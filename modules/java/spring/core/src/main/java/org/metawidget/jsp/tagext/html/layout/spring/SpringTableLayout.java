@@ -21,7 +21,7 @@
 
 package org.metawidget.jsp.tagext.html.layout.spring;
 
-import static org.metawidget.inspector.InspectionResultConstants.NAME;
+import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
@@ -32,7 +32,7 @@ import org.springframework.web.servlet.tags.form.ErrorsTag;
 
 /**
  * Layout to arrange widgets in a table, with Spring inline error validation.
- * 
+ *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -68,11 +68,12 @@ public class SpringTableLayout
 	// Protected methods
 	//
 
+	@Override
 	protected void layoutAfterChild( Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
 
 		// If we have a path (i.e. we are not a section heading), render an
 		// inline error tag
-		
+
 		String path = attributes.get( NAME );
 
 		if ( path != null ) {

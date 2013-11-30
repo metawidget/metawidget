@@ -35,7 +35,6 @@
 		<swt.artifactId>x86</swt.artifactId>
 		<!-- 3.4 and above avoid the swt.dll loading problem -->
 		<swt.version>3.6.0-v3659</swt.version>
-		<swt.examples.scope>compile</swt.examples.scope>
 
 	</properties>
 
@@ -123,7 +122,6 @@
 				<swt.groupId>org.eclipse.swt.win32.win32</swt.groupId>
 				<swt.artifactId>x86_64</swt.artifactId>
 				<swt.version>3.6.2</swt.version>
-				<swt.examples.scope>provided</swt.examples.scope>
 			</properties>
 		</profile>
 
@@ -139,7 +137,6 @@
 				<swt.groupId>org.eclipse.swt.win32.win32</swt.groupId>
 				<swt.artifactId>x86_64</swt.artifactId>
 				<swt.version>3.6.2</swt.version>
-				<swt.examples.scope>provided</swt.examples.scope>
 			</properties>
 		</profile>
 
@@ -155,7 +152,6 @@
 				<swt.groupId>org.eclipse.swt.gtk.linux</swt.groupId>
 				<swt.artifactId>x86_64</swt.artifactId>
 				<swt.version>3.6.2</swt.version>
-				<swt.examples.scope>provided</swt.examples.scope>
 			</properties>
 		</profile>
 
@@ -171,7 +167,6 @@
 				<swt.groupId>org.eclipse.swt.gtk.linux</swt.groupId>
 				<swt.artifactId>x86_64</swt.artifactId>
 				<swt.version>3.6.2</swt.version>
-				<swt.examples.scope>provided</swt.examples.scope>
 			</properties>
 		</profile>
 
@@ -250,10 +245,10 @@
 
 	</profiles>
 
-	<!-- Dependencies (all scopes are 'provided' so that metawidget-all.jar has no mandatory dependencies) -->
+	<!-- Repositories -->
 
 	<repositories>
-		<!-- Try Central Repository first. It will resolve most things -->
+		<!-- Try Central Repository first. It will resolve most things quickly -->
 		<repository>
 			<id>maven-central</id>
 			<url>http://repo1.maven.org/maven2</url>
@@ -277,6 +272,8 @@
 		</repository>
 	</repositories>
 
+	<!-- Dependencies (all scopes are 'provided' so that metawidget-all.jar has no mandatory dependencies) -->
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -295,16 +292,19 @@
 				<groupId>com.google.android</groupId>
 				<artifactId>android-test</artifactId>
 				<version>1.5_r4</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.myfaces.tomahawk</groupId>
 				<artifactId>tomahawk</artifactId>
 				<version>1.1.9</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.richfaces.ui</groupId>
 				<artifactId>richfaces-ui</artifactId>
 				<version>3.1.6.GA</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<artifactId>jsf-api</artifactId>
@@ -327,16 +327,19 @@
 				<groupId>org.richfaces.ui</groupId>
 				<artifactId>richfaces-components-ui</artifactId>
 				<version>4.0.0.Final</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.richfaces.core</groupId>
 				<artifactId>richfaces-core-impl</artifactId>
 				<version>4.0.0.Final</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.icefaces</groupId>
 				<artifactId>icefaces</artifactId>
 				<version>1.8.2</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<groupId>javax.servlet</groupId>
@@ -360,16 +363,19 @@
 				<groupId>org.icefaces</groupId>
 				<artifactId>icefaces-comps</artifactId>
 				<version>1.8.2</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.primefaces</groupId>
 				<artifactId>primefaces</artifactId>
 				<version>3.2</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.swinglabs</groupId>
 				<artifactId>swingx</artifactId>
 				<version>1.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.google.gwt</groupId>
@@ -387,6 +393,7 @@
 				<groupId>com.google.gwt</groupId>
 				<artifactId>gwt-servlet</artifactId>
 				<version>2.2.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.extjs</groupId>
@@ -399,11 +406,13 @@
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-jexl</artifactId>
 				<version>2.1.1</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
 				<version>1.1.1</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<groupId>log4j</groupId>
@@ -427,6 +436,7 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>3.1.0.GA</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
@@ -438,37 +448,44 @@
 				<groupId>com.miglayout</groupId>
 				<artifactId>miglayout</artifactId>
 				<version>3.7.3</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.jdesktop</groupId>
 				<artifactId>beansbinding</artifactId>
 				<version>1.2.1</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
 				<version>1.8.3</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.jgoodies</groupId>
 				<artifactId>validation</artifactId>
 				<version>2.0.1</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.oval</groupId>
 				<artifactId>oval</artifactId>
 				<version>1.32</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>3.1</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.groovy</groupId>
 				<artifactId>groovy-all</artifactId>
 				<!-- Groovy 1.7 requires JDK 1.6 for java.awt.Dialog.ModalExclusionType -->
 				<version>1.6.9</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<artifactId>ant</artifactId>
@@ -488,6 +505,7 @@
 				<groupId>org.scala-lang</groupId>
 				<artifactId>scala-library</artifactId>
 				<version>2.9.0-1</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -499,6 +517,7 @@
 				<groupId>struts</groupId>
 				<artifactId>struts</artifactId>
 				<version>1.2.9</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<artifactId>antlr</artifactId>
@@ -530,6 +549,7 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
 				<version>2.5.6</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<artifactId>aopalliance</artifactId>
@@ -545,16 +565,19 @@
 				<groupId>displaytag</groupId>
 				<artifactId>displaytag</artifactId>
 				<version>1.2</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.jdesktop</groupId>
 				<artifactId>appframework</artifactId>
 				<version>1.0.3</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.swinglabs</groupId>
 				<artifactId>swing-worker</artifactId>
 				<version>1.1</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.spec</groupId>
@@ -567,21 +590,25 @@
 				<groupId>com.sun.faces</groupId>
 				<artifactId>jsf-api</artifactId>
 				<version>2.1.7</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish</groupId>
 				<artifactId>javax.faces</artifactId>
 				<version>2.1.7</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.myfaces.core</groupId>
 				<artifactId>myfaces-api</artifactId>
 				<version>1.2.10</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.myfaces.core</groupId>
 				<artifactId>myfaces-impl</artifactId>
 				<version>1.2.10</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
@@ -605,6 +632,7 @@
 				<groupId>org.eclipse.equinox</groupId>
 				<artifactId>org.eclipse.equinox.common</artifactId>
 				<version>3.6.0.v20100503</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<artifactId>org.eclipse.osgi</artifactId>
@@ -615,43 +643,50 @@
 			<dependency>
 				<groupId>${swt.groupId}</groupId>
 				<artifactId>${swt.artifactId}</artifactId>
-				<!-- 3.4+ avoid the swt.dll loading problem -->
 				<version>${swt.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.core</groupId>
 				<artifactId>databinding</artifactId>
 				<version>1.2.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.core.databinding</groupId>
 				<artifactId>beans</artifactId>
 				<version>1.2.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.core.databinding</groupId>
 				<artifactId>observable</artifactId>
 				<version>1.2.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.core.databinding</groupId>
 				<artifactId>property</artifactId>
 				<version>1.2.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.ibm.icu</groupId>
 				<artifactId>base</artifactId>
 				<version>3.4.5</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>taglibs</groupId>
 				<artifactId>standard</artifactId>
 				<version>1.1.2</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jstl</artifactId>
 				<version>1.1.2</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
 						<groupId>javax.servlet</groupId>
@@ -663,6 +698,7 @@
 				<groupId>com.sun.facelets</groupId>
 				<artifactId>jsf-facelets</artifactId>
 				<version>1.1.14</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.persistence</groupId>
@@ -674,11 +710,13 @@
 				<groupId>org.apache.ant</groupId>
 				<artifactId>ant</artifactId>
 				<version>1.8.2</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>bcel</groupId>
 				<artifactId>bcel</artifactId>
 				<version>5.1</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.vaadin</groupId>
@@ -714,16 +752,19 @@
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-server</artifactId>
 				<version>1.16</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-json</artifactId>
 				<version>1.16</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-servlet</artifactId>
 				<version>1.16</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>

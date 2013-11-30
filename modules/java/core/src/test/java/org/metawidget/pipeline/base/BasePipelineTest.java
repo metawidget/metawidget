@@ -21,8 +21,7 @@
 
 package org.metawidget.pipeline.base;
 
-import static org.metawidget.inspector.InspectionResultConstants.READ_ONLY;
-import static org.metawidget.inspector.InspectionResultConstants.TRUE;
+import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
 import java.util.List;
@@ -330,7 +329,7 @@ public class BasePipelineTest
 		}
 	}
 
-	private static class MyInspectionResultProcessor
+	/* package private */static class MyInspectionResultProcessor
 		implements InspectionResultProcessor<JComponent> {
 
 		//

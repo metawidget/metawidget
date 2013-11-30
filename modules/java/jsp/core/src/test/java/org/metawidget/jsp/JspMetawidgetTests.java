@@ -230,6 +230,7 @@ public class JspMetawidgetTests {
 		}
 	}
 
+	@SuppressWarnings( "deprecation" )
 	static class MockServletContext
 		implements ServletContext {
 

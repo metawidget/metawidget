@@ -19,7 +19,6 @@
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<scope>provided</scope>
 		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>
