@@ -269,7 +269,7 @@
 		</repository>
 		<repository>
 			<id>local-repository</id>
-			<url>https://metawidget.svn.sourceforge.net/svnroot/metawidget/trunk/repository</url>
+			<url>https://raw.github.com/metawidget/metawidget/master/repository</url>
 		</repository>
 		<repository>
 			<id>prime-repo</id>
