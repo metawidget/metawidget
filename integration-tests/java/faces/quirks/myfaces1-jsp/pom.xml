@@ -23,7 +23,7 @@
 						</overlay>
 					</overlays>
 				</configuration>
-			</plugin>		
+			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
@@ -47,7 +47,7 @@
 			<groupId>org.metawidget.integration-tests.faces</groupId>
 			<artifactId>quirks-faces-mojarra1-jsp</artifactId>
 			<version>${project.version}</version>
-			<type>war</type>		
+			<type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules</groupId>
@@ -58,7 +58,7 @@
 			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-facesannotation</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-richfaces</artifactId>
@@ -67,23 +67,38 @@
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
 			<artifactId>myfaces-api</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
 			<artifactId>myfaces-impl</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-		</dependency>		
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-ui</artifactId>
-		</dependency>		
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
-	
+
 </project>
