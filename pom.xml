@@ -128,7 +128,7 @@
 		</profile>
 
 		<profile>
-			<id>win32_x86_64</id>
+			<id>win32_amd64</id>
 			<activation>
 				<os>
 					<family>windows</family>
@@ -160,7 +160,7 @@
 		</profile>
 
 		<profile>
-			<id>linux_x86_64</id>
+			<id>linux_amd64</id>
 			<activation>
 				<os>
 					<family>unix</family>
