@@ -31,12 +31,10 @@
 
 		<!-- Default SWT to 32-bit -->
 
-		<swt.win32.artifactId>x86</swt.win32.artifactId>
+		<swt.groupId>org.eclipse.swt.win32.win32</swt.groupId>
+		<swt.artifactId>x86</swt.artifactId>
 		<!-- 3.4 and above avoid the swt.dll loading problem -->
-		<swt.win32.version>3.6.0-v3659</swt.win32.version>
-
-		<swt.artifactId>${swt.win32.artifactId}</swt.artifactId>
-		<swt.version>${swt.win32.version}</swt.version>
+		<swt.version>3.6.0-v3659</swt.version>
 		<swt.examples.scope>compile</swt.examples.scope>
 
 	</properties>
@@ -111,17 +109,66 @@
 			</properties>
 		</profile>
 
-		<!-- SWT 64-bit -->
+		<!-- SWT profiles (activate automatically based on OS architecture) -->
 
 		<profile>
-			<id>x86_64</id>
+			<id>win32_x86_64</id>
 			<activation>
-				<property>
-					<name>sun.arch.data.model</name>
-					<value>64</value>
-				</property>
+				<os>
+					<family>windows</family>
+					<arch>x86_64</arch>
+				</os>
 			</activation>
 			<properties>
+				<swt.groupId>org.eclipse.swt.win32.win32</swt.groupId>
+				<swt.artifactId>x86_64</swt.artifactId>
+				<swt.version>3.6.2</swt.version>
+				<swt.examples.scope>provided</swt.examples.scope>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>win32_x86_64</id>
+			<activation>
+				<os>
+					<family>windows</family>
+					<arch>amd64</arch>
+				</os>
+			</activation>
+			<properties>
+				<swt.groupId>org.eclipse.swt.win32.win32</swt.groupId>
+				<swt.artifactId>x86_64</swt.artifactId>
+				<swt.version>3.6.2</swt.version>
+				<swt.examples.scope>provided</swt.examples.scope>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>linux_x86_64</id>
+			<activation>
+				<os>
+					<family>unix</family>
+					<arch>x86_64</arch>
+				</os>
+			</activation>
+			<properties>
+				<swt.groupId>org.eclipse.swt.gtk.linux</swt.groupId>
+				<swt.artifactId>x86_64</swt.artifactId>
+				<swt.version>3.6.2</swt.version>
+				<swt.examples.scope>provided</swt.examples.scope>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>linux_x86_64</id>
+			<activation>
+				<os>
+					<family>unix</family>
+					<arch>amd64</arch>
+				</os>
+			</activation>
+			<properties>
+				<swt.groupId>org.eclipse.swt.gtk.linux</swt.groupId>
 				<swt.artifactId>x86_64</swt.artifactId>
 				<swt.version>3.6.2</swt.version>
 				<swt.examples.scope>provided</swt.examples.scope>
@@ -566,7 +613,7 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>org.eclipse.swt.win32.win32</groupId>
+				<groupId>${swt.groupId}</groupId>
 				<artifactId>${swt.artifactId}</artifactId>
 				<!-- 3.4+ avoid the swt.dll loading problem -->
 				<version>${swt.version}</version>

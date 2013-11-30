@@ -18,7 +18,7 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.swt.win32.win32</groupId>
+			<groupId>${swt.groupId}</groupId>
 			<artifactId>${swt.artifactId}</artifactId>
 		</dependency>
 		<dependency>
