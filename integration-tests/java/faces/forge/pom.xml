@@ -73,7 +73,7 @@
 						<configuration>						
 							<target>
 								<!-- start-and-wait not compatible with JBoss 6.x -->
-								<echo message="Waiting 60 seconds for JBoss to start" />
+								<echo message="Waiting 5 minutes for JBoss to start" />
 								<sleep seconds="300" />
 							</target>
 						</configuration>
