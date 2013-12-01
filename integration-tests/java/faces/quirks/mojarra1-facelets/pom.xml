@@ -63,7 +63,7 @@
 			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-facesannotation</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.metawidget.modules.faces</groupId>
 			<artifactId>metawidget-richfaces</artifactId>
@@ -94,6 +94,16 @@
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-ui</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
