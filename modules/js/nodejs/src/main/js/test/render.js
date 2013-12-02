@@ -27,6 +27,8 @@ var metawidget = require( 'metawidget' );
 var simpleDocument = {
 	createElement: function( elementName ) {
 
+		var _eventListeners = [];
+
 		return {
 			nodeType: 1,
 			tagName: elementName.toUpperCase(),
@@ -77,6 +79,24 @@ var simpleDocument = {
 				}
 				return clone;
 			},
+			addEventListener: function( name, callback ) {
+				
+				_eventListeners.push( {
+					name: name,
+					callback: callback
+				} );
+			},
+			dispatchEvent: function( event ) {
+
+				for( var loop = 0, length = _eventListeners.length; loop < length; loop++ ) {
+					
+					var eventListener = _eventListeners[loop];
+					
+					if ( eventListener.name === event.name ) {
+						eventListener.callback( event );
+					}
+				}
+			},			
 			ownerDocument: this,
 			toString: function() {
 
@@ -115,7 +135,17 @@ var simpleDocument = {
 				return data;
 			}
 		}
-	}
+	},
+	createEvent: function() {
+
+		return {
+		
+			initEvent: function( name ) {
+
+				this.name = name;
+			}
+		};
+	}	
 };
 
 var element = simpleDocument.createElement( 'div' );
