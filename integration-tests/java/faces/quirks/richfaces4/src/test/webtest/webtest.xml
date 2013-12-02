@@ -64,7 +64,7 @@
 					<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/div/table/tbody/tr/td[6]/@class, 'rf-tab-hdr-act')"/>
 				</not>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/th/label" text="Date:"/>				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]" text="(08/04|09/04|04/08|04/09|Apr 9,)/1975" regex="true"/>				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[1]/td[1]" text="(08/04|09/04|04/08|04/09|Apr 9\,)/1975" regex="true"/>				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/th/label" text="Suggestion:"/>				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div[4]/div/table/tbody/tr[2]/td[1]" text="ab"/>				
 
