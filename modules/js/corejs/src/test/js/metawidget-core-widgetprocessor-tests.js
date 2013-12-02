@@ -150,6 +150,7 @@
 					select: false,
 					number: 42,
 					password: 'fooBar',
+					search: 'My Search',
 					array: [ 'Bar' ],
 					multiArray: [ 2, 4 ]
 				},
@@ -233,6 +234,21 @@
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
 			expect( widget.innerHTML ).toBe( '******' );
+
+			// Search
+
+			attributes = {
+				name: "search",
+				componentType: "search"
+			};
+			widget = simpleDocument.createElement( 'input' );
+			widget.setAttribute( 'type', 'search' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.toString() ).toBe( 'input type="search"' );
+			expect( widget.value ).toBe( 'My Search' );
+			widget.value = 'My Search Updated';
+			processor.save( mw );
+			expect( mw.toInspect.search ).toBe( 'My Search Updated' );
 
 			// Textareas
 

@@ -121,7 +121,7 @@ var metawidget = metawidget || {};
 
 		return widget;
 	};
-	
+
 	/**
 	 * @class Simple data/action binding implementation. Frameworks that supply
 	 *        their own data-binding mechanisms (such as Angular JS) should
@@ -199,7 +199,7 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Bind the given widget to the given value.
-	 * 
+	 *
 	 * @return true if this binding should be remembered for when the user calls
 	 *         'save'
 	 */
@@ -219,20 +219,20 @@ var metawidget = metawidget || {};
 
 		if ( attributes['enum'] !== undefined && widget.tagName === 'DIV' ) {
 
-			if ( attributes.type === 'array' || attributes.componentType !== undefined ) { 
-			
+			if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
+
 				isBindable = true;
-	
+
 				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 					var childNode = widget.childNodes[loop];
 					if ( childNode.tagName === 'LABEL' ) {
 						var labelChildNode = childNode.childNodes[0];
 						if ( labelChildNode.tagName === 'INPUT' ) {
-							
+
 							// Name must be common across group
-							
+
 							labelChildNode.setAttribute( 'name', widget.getAttribute( 'id' ) );
-							
+
 							if ( attributes.type === 'array' ) {
 								labelChildNode.checked = ( value !== undefined && value.indexOf( labelChildNode.value ) !== -1 );
 							} else if ( attributes.type === 'boolean' ) {
@@ -266,21 +266,21 @@ var metawidget = metawidget || {};
 					// Special support for enumTitles
 
 					if ( attributes.type === 'array' ) {
-						
+
 						for( var loop = 0, length = value.length; loop < length; loop++ ) {
-						
+
 							if ( loop == 0 ) {
 								widget.innerHTML = '';
 							} else {
 								widget.innerHTML += ', ';
 							}
-							
+
 							widget.innerHTML += metawidget.util.lookupEnumTitle( value[loop], attributes['enum'], attributes.enumTitles );
 						}
-						
+
 					} else {
 						widget.innerHTML = metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
-					}					
+					}
 
 				} else if ( attributes.type === 'boolean' ) {
 
@@ -310,7 +310,7 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Save the bindings associated with the given Metawidget.
-	 * 
+	 *
 	 * @return true if data was actually changed. False otherwise. Can be useful
 	 *         for 'dirty' flags
 	 */
@@ -352,13 +352,14 @@ var metawidget = metawidget || {};
 		for ( var name in mw._simpleBindingProcessor.bindings ) {
 
 			var binding = mw._simpleBindingProcessor.bindings[name];
+			var widgetFromBinding = this.getWidgetFromBinding( binding, mw );
 
-			if ( binding.widget.getMetawidget !== undefined ) {
-				this.save( binding.widget.getMetawidget() );
+			if ( widgetFromBinding.getMetawidget !== undefined ) {
+				this.save( widgetFromBinding.getMetawidget() );
 				continue;
 			}
 
-			var value = this.saveFromWidget( binding );
+			var value = this.saveFromWidget( binding, mw );
 
 			if ( dirty === false && toInspect[name] !== value ) {
 				dirty = true;
@@ -374,17 +375,19 @@ var metawidget = metawidget || {};
 	 * @return the given binding's widget value
 	 */
 
-	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.saveFromWidget = function( binding ) {
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.saveFromWidget = function( binding, mw ) {
 
-		if ( binding.widget.getAttribute( 'type' ) === 'checkbox' ) {
-			return binding.widget.checked;
+		var widget = this.getWidgetFromBinding( binding, mw );
+
+		if ( widget.getAttribute( 'type' ) === 'checkbox' ) {
+			return widget.checked;
 		}
 
 		if ( binding.attributes.type === 'number' ) {
 
 			// parseFloat can parse ints, but parseInt can't parse floats
 
-			var parsed = parseFloat( binding.widget.value );
+			var parsed = parseFloat( widget.value );
 
 			// Avoid pushing back 'NaN'
 
@@ -397,25 +400,25 @@ var metawidget = metawidget || {};
 
 		// Support arrays of checkboxes/radio buttons
 
-		if ( binding.attributes['enum'] !== undefined && binding.widget.tagName === 'DIV' ) {
+		if ( binding.attributes['enum'] !== undefined && widget.tagName === 'DIV' ) {
 
-			if ( binding.attributes.type === 'array' || binding.attributes.componentType !== undefined ) { 
+			if ( binding.attributes.type === 'array' || binding.attributes.componentType !== undefined ) {
 
 				var toReturn = [];
-				for ( var loop = 0, length = binding.widget.childNodes.length; loop < length; loop++ ) {
-					var childNode = binding.widget.childNodes[loop];
+				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+					var childNode = widget.childNodes[loop];
 					if ( childNode.tagName === 'LABEL' ) {
 						var labelChildNode = childNode.childNodes[0];
 						if ( labelChildNode.checked ) {
-							
+
 							if ( binding.attributes.type === 'boolean' ) {
 								return ( labelChildNode.value === true || labelChildNode.value === 'true' );
 							}
-							
+
 							if ( binding.attributes.type !== 'array' ) {
 								return labelChildNode.value;
 							}
-							
+
 							toReturn.push( labelChildNode.value );
 						}
 					}
@@ -427,16 +430,26 @@ var metawidget = metawidget || {};
 		// Support non-checkbox booleans (e.g. a select box)
 
 		if ( binding.attributes.type === 'boolean' ) {
-			return ( binding.widget.value === true || binding.widget.value === 'true' );
+			return ( widget.value === true || widget.value === 'true' );
 		}
 
 		// Avoid pushing back 'null'
 
-		if ( binding.widget.value === '' || binding.widget.value === null ) {
+		if ( widget.value === '' || widget.value === null ) {
 			return;
 		}
 
-		return binding.widget.value;
+		return widget.value;
+	};
+
+	/**
+	 * Returns the widget associated with the given binding. By default, calls
+	 * <tt>binding.widget</tt>. Subclasses may override this method if their framework
+	 * has swapped out the widget.
+	 */
+
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.getWidgetFromBinding = function( binding, mw ) {
+		return binding.widget;
 	};
 
 	/**
@@ -454,16 +467,17 @@ var metawidget = metawidget || {};
 		for ( var name in mw._simpleBindingProcessor.bindings ) {
 
 			var binding = mw._simpleBindingProcessor.bindings[name];
+			var widgetFromBinding = this.getWidgetFromBinding( binding, mw );
 
-			if ( binding.widget.getMetawidget !== undefined ) {
-				this.reload( reloadFrom, binding.widget.getMetawidget() );
+			if ( widgetFromBinding.getMetawidget !== undefined ) {
+				this.reload( reloadFrom, widgetFromBinding.getMetawidget() );
 				continue;
 			}
 
 			// Use id, not name, to support arrays of checkboxes (id should be
 			// the same as name anyway)
 
-			this.bindToWidget( binding.widget, reloadFrom[binding.widget.getAttribute( 'id' )], binding.elementName, binding.attributes, mw );
+			this.bindToWidget( widgetFromBinding, reloadFrom[widgetFromBinding.getAttribute( 'id' )], binding.elementName, binding.attributes, mw );
 		}
 	};
 

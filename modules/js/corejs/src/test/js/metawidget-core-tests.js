@@ -31,9 +31,16 @@
 
 		it( "populates itself with widgets to match the properties of business objects", function() {
 
+			var firedBuildEndEvent = 0;
+			
 			// Defaults
 
 			var element = simpleDocument.createElement( 'div' );
+			
+			element.addEventListener( 'buildEnd', function() {
+				firedBuildEndEvent++;
+			} );
+			
 			var mw = new metawidget.Metawidget( element );
 
 			expect( mw.getElement() ).toBe( element );
@@ -44,6 +51,7 @@
 			};
 			mw.buildWidgets();
 			
+			expect( firedBuildEndEvent ).toBe( 1 );
 			expect( element.childNodes[0].toString() ).toBe( 'table' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-foo-row"' );
@@ -58,6 +66,9 @@
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes.length ).toBe( 1 );
+
+			mw.buildWidgets();
+			expect( firedBuildEndEvent ).toBe( 2 );
 
 			// Configured
 

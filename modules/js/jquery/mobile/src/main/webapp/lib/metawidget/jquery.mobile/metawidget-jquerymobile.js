@@ -41,15 +41,15 @@
 
 	metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor = function() {
 
-		if ( ! ( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor ) ) {
+		if ( !( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor ) ) {
 			throw new Error( "Constructor called as a function" );
 		}
 	};
 
 	metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
-	
+
 		// JQuery Mobile has a special syntax for arrays
-		
+
 		if ( widget.tagName === 'DIV' && attributes.type === 'array' ) {
 
 			var fieldset = metawidget.util.createElement( mw, 'fieldset' );
@@ -71,7 +71,34 @@
 
 		return widget;
 	};
-	
+
+	metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor = function() {
+
+		if ( !( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor ) ) {
+			throw new Error( "Constructor called as a function" );
+		}
+
+		var processor = new metawidget.widgetprocessor.SimpleBindingProcessor();
+
+		// Overridden because some JQuery Mobile widgets (such as search inputs)
+		// swap out the existing DOM. We can resolve this using JQuery more
+		// safely then with pure JavaScript, because we can find *within* a node
+
+		processor.getWidgetFromBinding = function( binding, mw ) {
+
+			if ( binding.widget.getAttribute( 'type' ) === 'search' ) {
+				return $( mw.getElement() ).find( '#' + binding.widget.getAttribute( 'id' ) )[0];
+			}
+
+			// Try not to use a DOM search, because mobile is very performance
+			// sensitive
+
+			return binding.widget;
+		}
+
+		return processor;
+	};
+
 	/**
 	 * JQuery Mobile WidgetFactory-based Metawidget.
 	 */
@@ -88,11 +115,10 @@
 					new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
 			widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
 					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(),
-					new metawidget.widgetprocessor.SimpleBindingProcessor(),
-					new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor() ],
+					new metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor(), new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor() ],
 			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout( {
 				suppressLabelSuffixOnCheckboxes: true
-			} ))
+			} ) )
 		},
 
 		/**
@@ -122,16 +148,31 @@
 
 				_superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
 				if ( widget.overridden === undefined ) {
+
 					var childNodes = container.childNodes;
-					$( childNodes[childNodes.length - 1] ).trigger( 'create' );
+					var containerNode = childNodes[childNodes.length - 1];
+
+					if ( containerNode === widget ) {
+
+						// Support SimpleLayout
+
+						container.removeChild( widget );
+						var wrapper = $( '<span>' ).append( widget );
+						container.appendChild( wrapper[0] );
+						wrapper.trigger( 'create' );
+
+					} else {
+
+						$( containerNode ).trigger( 'create' );
+					}
 				}
 			};
 
 			// Force a useful convention from JQuery UI that JQuery Mobile
 			// doesn't seem to have (yet?)
-			
+
 			this.element.data( 'metawidget', this );
-			
+
 			// First time in, capture the contents of the Metawidget (if any)
 
 			this._overriddenNodes = [];

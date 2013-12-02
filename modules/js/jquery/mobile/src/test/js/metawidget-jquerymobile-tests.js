@@ -47,9 +47,14 @@
 						"populates itself with widgets to match the properties of business objects",
 						function() {
 
+							var firedBuildEndEvent = 0;
+							
 							// Defaults
 
 							$( '#metawidget' ).metawidget();
+							$( '#metawidget' ).on( 'buildEnd', function() {
+								firedBuildEndEvent++;
+							} );
 							$( '#metawidget' ).metawidget( 'buildWidgets', {
 								foo: "Foo",
 								bar: {
@@ -58,9 +63,10 @@
 								}
 							} );
 
+							expect( firedBuildEndEvent ).toBe( 1 );
 							expect( $( "metawidget" ).data( "metawidget" ) ).toBeDefined();
 							expect( $( "metawidget" ).data( "metawidget" ).toInspect ).toBeDefined();
-							var element = $( '#metawidget' )[0];
+							var element = $( '#metawidget' )[0];							
 
 							expect( element.getMetawidget() ).toBeDefined();
 							expect( element.childNodes[0].outerHTML )
@@ -75,19 +81,21 @@
 							$( '#metawidget' ).metawidget( "option", "layout", new metawidget.layout.SimpleLayout() );
 							$( '#metawidget' ).metawidget( 'buildWidgets' );
 
-							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
-							expect( element.childNodes[0].value ).toBe( 'Foo' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div>' );																			
+							expect( firedBuildEndEvent ).toBe( 2 );
+							expect( element.childNodes[0].outerHTML ).toBe( '<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
+							expect( element.childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
+							expect( element.childNodes[1].outerHTML ).toBe( '<span><div id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );																			
 							
 							// Read-only
 
 							$( '#metawidget' ).metawidget( "setReadOnly", true );
-							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div>' );
+							expect( element.childNodes[0].outerHTML ).toBe( '<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
+							expect( element.childNodes[1].outerHTML ).toBe( '<span><div id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );
 
 							$( '#metawidget' ).metawidget( "buildWidgets" );
-							expect( element.childNodes[0].outerHTML ).toBe( '<output id="foo">Foo</output>' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><output id="barBaz">Baz</output><output id="barAbc">Abc</output></div>' );
+							expect( firedBuildEndEvent ).toBe( 3 );
+							expect( element.childNodes[0].outerHTML ).toBe( '<span><output id="foo">Foo</output></span>' );
+							expect( element.childNodes[1].outerHTML ).toBe( '<span><div id="bar"><span><output id="barBaz">Baz</output></span><span><output id="barAbc">Abc</output></span></div></span>' );
 						} );
 
 				it(

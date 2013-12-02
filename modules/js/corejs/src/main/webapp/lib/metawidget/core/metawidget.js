@@ -449,7 +449,11 @@ var metawidget = metawidget || {};
 		// inspection
 
 		_endBuild( this, mw );
-		
+
+		// Throw an event for interested parties (such as tests)
+
+		this.element.dispatchEvent( metawidget.util.createEvent( mw, 'buildEnd' ));
+
 		//
 		// Private methods
 		//

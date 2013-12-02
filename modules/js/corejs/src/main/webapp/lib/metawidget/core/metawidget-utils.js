@@ -660,6 +660,20 @@ var metawidget = metawidget || {};
 		return mw.getElement().ownerDocument.createTextNode( text );
 	};
 
+	/**
+	 * Creates an event by calling <tt>mw.getElement().ownerDocument</tt>
+	 * rather than simply <tt>document</tt>. This stops us relying on a
+	 * global <tt>document</tt> variable.
+	 */
+
+	metawidget.util.createEvent = function( mw, name ) {
+
+		var event = mw.getElement().ownerDocument.createEvent( 'Event' );
+		event.initEvent( name, true, true );
+		
+		return event;
+	};
+
 	//
 	// Private methods
 	//

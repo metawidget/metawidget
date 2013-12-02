@@ -8,22 +8,20 @@ var addressbook = addressbook || {};
 	 * Model
 	 */
 
-	var _nextId = 10;
 	var _model = undefined;
 
 	function _save( entity ) {
 
-		if ( entity.id === undefined ) {
-			entity.id = _nextId++;
+		if ( _model.indexOf( entity ) == -1 ) {
 			_model.push( entity );
 		}
 	}
 
-	function _deleteById( id ) {
+	function _delete( entity ) {
 
 		for ( var loop = 0, length = _model.length; loop < length; loop++ ) {
 
-			if ( _model[loop].id === id ) {
+			if ( _model[loop] === entity ) {
 				_model.splice( loop, 1 );
 				break;
 			}
@@ -36,7 +34,51 @@ var addressbook = addressbook || {};
 	 * Summary page
 	 */
 
+	$( document ).on( 'pageinit', '#contacts-page', function( event ) {
+
+		var page = $( event.target );
+
+		page.find( '#metawidget' ).metawidget( {
+			inspector: new metawidget.inspector.JsonSchemaInspector( {
+
+				properties: {
+					firstname: {
+						type: 'string',
+						placeholder: 'Firstname',
+						componentType: 'search'
+					},
+					surname: {
+						type: 'string',
+						placeholder: 'Surname',
+						componentType: 'search'
+					},
+					search: {
+						type: 'function'
+					}
+				}
+			} ),
+			layout: new metawidget.layout.SimpleLayout()
+		} );
+	} );
+
+	var _search = {};
+
 	$( document ).on( 'pagebeforeshow', '#contacts-page', function( event ) {
+
+		var page = $( event.target );
+		var mw = page.find( '#metawidget' );
+
+		_search.search = function() {
+
+			mw.metawidget( 'getWidgetProcessor', function( widgetProcessor ) {
+
+				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( mw.data( 'metawidget' ) );
+
+			_populateSummaryPage( event );
+		};
+
+		mw.metawidget( "buildWidgets", _search );
 
 		if ( _model === undefined ) {
 			$.getJSON( addressbook.restUrl + 'js/contacts.json', {}, function( data ) {
@@ -52,9 +94,22 @@ var addressbook = addressbook || {};
 
 		var page = $( event.target );
 		var summary = page.find( '#summary' );
+		summary.empty();
 		var listview = $( '<ul>' ).attr( 'data-role', 'listview' );
 
 		$.each( _model, function( key, value ) {
+
+			// Filter
+
+			if ( _search.firstname !== undefined && value.firstname.indexOf( _search.firstname ) === -1 ) {
+				return;
+			}
+
+			if ( _search.surname !== undefined && value.surname.indexOf( _search.surname ) === -1 ) {
+				return;
+			}
+
+			// List
 
 			var anchor = $( '<a>' ).on( 'click', function() {
 
@@ -107,89 +162,29 @@ var addressbook = addressbook || {};
 			'#contact-page',
 			function( event ) {
 
-				var page = $( event.target );
+				// Example of adding edit buttons to a table
 
-				// This should autoinit in JQuery Mobile 1.4.0
-
-				page.find( '#metawidget' ).metawidget();
-				page.find( '#metawidget' ).metawidget( "option", "inspector",
-						new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), new metawidget.inspector.JsonSchemaInspector( {
-
-							// Example of client-side schema
-
-							properties: {
-								
-								address: {
-									properties: {
-										street: {
-											type: "string"
-										},
-										city: {
-											type: "string"
-										},
-										state: {
-											"enum": [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
-										},
-										postcode: {
-											type: "string"
-										}
-									}
-								},
-								
-								communications: {
-									type: 'array',
-									items: {
-										properties: {
-											type: {
-												type: "string"
-											},
-											value: {
-												type: "string"
-											}
-										}
-									}
-								}
-							}
-						} ) ] ) );
-				page.find( '#metawidget' ).metawidget( "option", "inspectionResultProcessors", [ function( inspectionResult, mw, toInspect, type, names ) {
-
-					// Example of server-side, asynchronous schema
-
-					if ( names === undefined && toInspect !== undefined && toInspect.type !== undefined ) {
-						$.getJSON( addressbook.restUrl + 'js/' + toInspect.type + '-contact-schema.json', {}, function( data ) {
-
-							metawidget.util.combineInspectionResults( inspectionResult, data );
-							mw._refresh( inspectionResult );
-						} );
-					} else {
-						return inspectionResult;
-					}
-				} ] );
-
-				// Example of edit buttons within a table
-				
 				var communicationsWidgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
-				
+
 				var superCreateTable = communicationsWidgetBuilder.createTable;
 				communicationsWidgetBuilder.createTable = function( elementName, attributes, mw ) {
 					var table = superCreateTable.call( communicationsWidgetBuilder, elementName, attributes, mw );
-					
+
 					if ( mw.readOnly === false ) {
-						$( table ).append( $( '<tfoot>' ).append( $( '<tr>' ).append( $( '<td>' ).append(
-								$( '<button>' ).val( 'Add' ).on( 'click', function() {
-									
-									delete addressbook.currentCommunication;
-	
-									$.mobile.changePage( 'communication.html', {
-										transition: 'slide',
-										reverse: true
-									} );
-								} )))));
+						$( table ).append( $( '<tfoot>' ).append( $( '<tr>' ).append( $( '<td>' ).append( $( '<button>' ).val( 'Add' ).on( 'click', function() {
+
+							delete addressbook.currentCommunication;
+
+							$.mobile.changePage( 'communication.html', {
+								transition: 'slide',
+								reverse: true
+							} );
+						} ) ) ) ) );
 					}
-					
+
 					return table;
 				};
-				
+
 				var superAddRow = communicationsWidgetBuilder.addRow;
 				communicationsWidgetBuilder.addRow = function( tbody, value, row, columnAttributesArray, elementName, tableAttributes, mw ) {
 
@@ -197,9 +192,9 @@ var addressbook = addressbook || {};
 
 					if ( mw.readOnly === false ) {
 						$( tr ).append( $( '<td>' ).append( $( '<button>' ).val( 'Edit' ).on( 'click', function() {
-	
+
 							addressbook.currentCommunication = value[row];
-	
+
 							$.mobile.changePage( 'communication.html', {
 								transition: 'slide',
 								reverse: true
@@ -210,11 +205,67 @@ var addressbook = addressbook || {};
 					return tr;
 				};
 
+				var page = $( event.target );
 				page.find( '#metawidget' ).metawidget(
-						"option",
-						"widgetBuilder",
-						new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
-								communicationsWidgetBuilder ] ) );
+						{
+
+							inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), new metawidget.inspector.JsonSchemaInspector( {
+
+								// Example of client-side schema
+
+								properties: {
+
+									address: {
+										properties: {
+											street: {
+												type: "string"
+											},
+											city: {
+												type: "string"
+											},
+											state: {
+												"enum": [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
+											},
+											postcode: {
+												type: "string"
+											}
+										}
+									},
+
+									communications: {
+										type: 'array',
+										items: {
+											properties: {
+												type: {
+													type: "string"
+												},
+												value: {
+													type: "string"
+												}
+											}
+										}
+									}
+								}
+							} ) ] ),
+
+							inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
+
+								// Example of server-side, asynchronous schema
+
+								if ( names === undefined && toInspect !== undefined && toInspect.type !== undefined ) {
+									$.getJSON( addressbook.restUrl + 'js/' + toInspect.type + '-contact-schema.json', {}, function( data ) {
+
+										metawidget.util.combineInspectionResults( inspectionResult, data );
+										mw._refresh( inspectionResult );
+									} );
+								} else {
+									return inspectionResult;
+								}
+							} ],
+
+							widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(),
+									new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), communicationsWidgetBuilder ] )
+						} );
 			} );
 
 	$( document ).on( 'pagebeforeshow', '#contact-page', function( event ) {
@@ -309,7 +360,7 @@ var addressbook = addressbook || {};
 		var page = $( event ).parents( 'article' );
 		var mw = page.find( '#metawidget' );
 		var mwData = mw.data( 'metawidget' );
-		_deleteById( mwData.toInspect.id );
+		_delete( mwData.toInspect );
 
 		$.mobile.changePage( 'index.html', {
 			transition: 'slide',
@@ -321,29 +372,24 @@ var addressbook = addressbook || {};
 	 * Communication
 	 */
 
-	$( document ).on(
-			'pageinit',
-			'#communication-page',
-			function( event ) {
+	$( document ).on( 'pageinit', '#communication-page', function( event ) {
 
-				var page = $( event.target );
+		var page = $( event.target );
 
-				// This should autoinit in JQuery Mobile 1.4.0
+		page.find( '#metawidget' ).metawidget( {
+			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), new metawidget.inspector.JsonSchemaInspector( {
 
-				page.find( '#metawidget' ).metawidget();
-				page.find( '#metawidget' ).metawidget( "option", "inspector",
-						new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), new metawidget.inspector.JsonSchemaInspector( {
-
-							properties: {
-								type: {
-									"enum": [ "Telephone", "Mobile", "Fax", "E-mail" ]
-								},
-								value: {
-									type: "string"
-								}
-							}
-						} ) ] ) );
-			} );
+				properties: {
+					type: {
+						"enum": [ "Telephone", "Mobile", "Fax", "E-mail" ]
+					},
+					value: {
+						type: "string"
+					}
+				}
+			} ) ] )
+		} );
+	} );
 
 	$( document ).on( 'pagebeforeshow', '#communication-page', function( event ) {
 
@@ -415,7 +461,7 @@ var addressbook = addressbook || {};
 			var indexOf = addressbook.current.communications.indexOf( addressbook.currentCommunication );
 			addressbook.current.communications.splice( indexOf, 1 );
 		}
-		
+
 		$.mobile.changePage( 'contact.html', {
 			transition: 'slide',
 			reverse: true

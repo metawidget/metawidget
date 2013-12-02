@@ -40,7 +40,7 @@
 	reporter.reportSuiteStarting = function( suite ) {
 
 		reporter.log( suite.getFullName() );
-	}
+	};
 
 	reporter.reportSpecResults = function( spec ) {
 
@@ -57,7 +57,7 @@
 				throw new Error( spec.description + ': ' + toLog );
 			}
 		}
-	}
+	};
 
 	var jasmineEnv = jasmine.getEnv();
 	jasmineEnv.updateInterval = 0;
@@ -66,7 +66,7 @@
 	this.runJasmine = function() {
 
 		jasmineEnv.execute();
-	}
+	};
 
 	/**
 	 * Simple document implementation (can be replaced by EnvJS).
@@ -79,6 +79,8 @@
 
 	this.simpleDocument = {
 		createElement: function( elementName ) {
+
+			var _eventListeners = [];
 
 			return {
 				nodeType: 1,
@@ -108,7 +110,7 @@
 					return ( this.getAttribute( name ) !== null );
 				},
 				getAttribute: function( name ) {
-					
+
 					for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
 						if ( this.attributes[loop].nodeName === name ) {
 							return this.attributes[loop].nodeValue;
@@ -149,6 +151,24 @@
 
 					throw new Error( "childNode not found: " + childNode );
 				},
+				addEventListener: function( name, callback ) {
+					
+					_eventListeners.push( {
+						name: name,
+						callback: callback
+					} );
+				},
+				dispatchEvent: function( event ) {
+
+					for( var loop = 0, length = _eventListeners.length; loop < length; loop++ ) {
+						
+						var eventListener = _eventListeners[loop];
+						
+						if ( eventListener.name === event.name ) {
+							eventListener.callback( event );
+						}
+					}
+				},
 				ownerDocument: this,
 				toString: function() {
 
@@ -171,7 +191,17 @@
 
 					return data;
 				}
-			}
+			};
+		},
+		createEvent: function() {
+
+			return {
+			
+				initEvent: function( name ) {
+
+					this.name = name;
+				}
+			};
 		}
 	};
 } )();

@@ -50,7 +50,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
-		if ( ! ( this instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ) ) {
+		if ( !( this instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 
@@ -116,7 +116,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.OverriddenWidgetBuilder = function() {
 
-		if ( ! ( this instanceof metawidget.widgetbuilder.OverriddenWidgetBuilder ) ) {
+		if ( !( this instanceof metawidget.widgetbuilder.OverriddenWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -145,7 +145,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.ReadOnlyWidgetBuilder = function() {
 
-		if ( ! ( this instanceof metawidget.widgetbuilder.ReadOnlyWidgetBuilder ) ) {
+		if ( !( this instanceof metawidget.widgetbuilder.ReadOnlyWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -193,7 +193,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.HtmlWidgetBuilder = function( config ) {
 
-		if ( ! ( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
+		if ( !( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 
@@ -348,14 +348,19 @@ var metawidget = metawidget || {};
 					return metawidget.util.createElement( mw, 'textarea' );
 				}
 
-				var text = metawidget.util.createElement( mw, 'input' );
-				text.setAttribute( 'type', 'text' );
+				var input = metawidget.util.createElement( mw, 'input' );
 
-				if ( attributes.maxLength !== undefined ) {
-					text.setAttribute( 'maxlength', attributes.maxLength );
+				if ( attributes.componentType !== undefined ) {
+					input.setAttribute( 'type', attributes.componentType );
+				} else {
+					input.setAttribute( 'type', 'text' );
 				}
 
-				return text;
+				if ( attributes.maxLength !== undefined ) {
+					input.setAttribute( 'maxlength', attributes.maxLength );
+				}
+
+				return input;
 			}
 
 			// Collection
