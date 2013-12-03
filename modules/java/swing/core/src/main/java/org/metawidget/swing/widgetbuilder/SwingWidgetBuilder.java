@@ -21,23 +21,7 @@
 
 package org.metawidget.swing.widgetbuilder;
 
-import static org.metawidget.inspector.InspectionResultConstants.ACTION;
-import static org.metawidget.inspector.InspectionResultConstants.DONT_EXPAND;
-import static org.metawidget.inspector.InspectionResultConstants.HIDDEN;
-import static org.metawidget.inspector.InspectionResultConstants.LARGE;
-import static org.metawidget.inspector.InspectionResultConstants.LOOKUP;
-import static org.metawidget.inspector.InspectionResultConstants.LOOKUP_LABELS;
-import static org.metawidget.inspector.InspectionResultConstants.MASKED;
-import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_FRACTIONAL_DIGITS;
-import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_INTEGER_DIGITS;
-import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_VALUE;
-import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_FRACTIONAL_DIGITS;
-import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_INTEGER_DIGITS;
-import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_VALUE;
-import static org.metawidget.inspector.InspectionResultConstants.NAME;
-import static org.metawidget.inspector.InspectionResultConstants.PARAMETERIZED_TYPE;
-import static org.metawidget.inspector.InspectionResultConstants.REQUIRED;
-import static org.metawidget.inspector.InspectionResultConstants.TRUE;
+import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.Component;
 import java.text.DecimalFormat;
@@ -84,7 +68,7 @@ import org.w3c.dom.NodeList;
  * <p>
  * Creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
  * <code>JComboBox</code>, to suit the inspected fields.
- * 
+ *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -96,23 +80,23 @@ public class SwingWidgetBuilder
 	//
 	// Private members
 	//
-	
+
 	private PropertyStyle	mPropertyStyle;
 
 	//
 	// Constructor
 	//
-	
+
 	public SwingWidgetBuilder() {
-		
+
 		this( new SwingWidgetBuilderConfig() );
 	}
-	
+
 	public SwingWidgetBuilder( SwingWidgetBuilderConfig config ) {
-	
+
 		mPropertyStyle = config.getPropertyStyle();
 	}
-	
+
 	//
 	// Public methods
 	//
@@ -170,7 +154,7 @@ public class SwingWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			JComboBox<Object> comboBox = new JComboBox<Object>();
+			JComboBox comboBox = new JComboBox();
 
 			// Add an empty choice (if nullable, and not required)
 
@@ -402,31 +386,31 @@ public class SwingWidgetBuilder
 		if ( inspectedType != null ) {
 			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
 			NodeList elements = root.getFirstChild().getChildNodes();
-	
+
 			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
-	
+
 				Node node = elements.item( loop );
 				columns.add( metawidget.getLabelString( XmlUtils.getAttributesAsMap( node ) ) );
 			}
 		}
 
 		// Fetch the data (if any)
-		
+
 		Collection<?> collection = null;
-		
+
 		if ( metawidget.getToInspect() != null && mPropertyStyle != null ) {
 			String type = metawidget.getToInspect().getClass().getName();
 			Map<String, Property> properties = mPropertyStyle.getProperties( type );
-			
+
 			if ( properties != null ) {
 				Property property = properties.get( attributes.get( NAME ) );
-				
+
 				if ( property != null ) {
 					collection = (Collection<?>) property.read( metawidget.getToInspect() );
 				}
 			}
 		}
-		
+
 		// Return the JTable
 
 		@SuppressWarnings( { "unchecked", "rawtypes" } )
@@ -507,7 +491,7 @@ public class SwingWidgetBuilder
 		//
 
 		@Override
-		public Component getListCellRendererComponent( @SuppressWarnings( "rawtypes" ) JList list, Object value, int index, boolean selected, boolean hasFocus ) {
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean selected, boolean hasFocus ) {
 
 			Component component = super.getListCellRendererComponent( list, value, index, selected, hasFocus );
 

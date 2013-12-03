@@ -89,6 +89,7 @@ public class SwtMetawidgetTest
 		// Protected methods
 		//
 
+		@Override
 		protected String getDefaultConfiguration() {
 
 			if ( mConfigured != null ) {
