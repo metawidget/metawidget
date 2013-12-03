@@ -19,6 +19,7 @@
 			<li>JavaScript DefinitionListLayout</li>
 			<li>Angular 1.2 support</li>
 			<li>JavaScript support for collections of radio buttons</li>
+			<li>SwingMetawidget collections support</li>
 			<li>JacksonInspector</li>
 			<li>Android ReflectionBindingProcessor</li>
 			<li>JSP validation improvements</li>

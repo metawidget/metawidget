@@ -21,8 +21,21 @@
 
 package org.metawidget.swing.widgetbuilder;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.LARGE;
+import static org.metawidget.inspector.InspectionResultConstants.LOOKUP;
+import static org.metawidget.inspector.InspectionResultConstants.LOOKUP_LABELS;
+import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_FRACTIONAL_DIGITS;
+import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_VALUE;
+import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_FRACTIONAL_DIGITS;
+import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_INTEGER_DIGITS;
+import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_VALUE;
+import static org.metawidget.inspector.InspectionResultConstants.NAME;
+import static org.metawidget.inspector.InspectionResultConstants.PARAMETERIZED_TYPE;
+import static org.metawidget.inspector.InspectionResultConstants.PROPERTY;
+import static org.metawidget.inspector.InspectionResultConstants.TRUE;
+import static org.metawidget.inspector.InspectionResultConstants.TYPE;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.swing.JComboBox;
@@ -32,6 +45,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
@@ -42,6 +56,7 @@ import junit.framework.TestCase;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.MetawidgetTestUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -166,7 +181,7 @@ public class SwingWidgetBuilderTest
 		editor = (BasicComboBoxEditor) comboBox.getEditor();
 		editor.setItem( null );
 		assertEquals( "", editor.getItem() );
-		editor.setItem( MockEnum.FOO  );
+		editor.setItem( MockEnum.FOO );
 		assertEquals( "", editor.getItem() );
 		editor.setItem( "FOO" );
 		assertEquals( "Foo Label", editor.getItem() );
@@ -292,6 +307,38 @@ public class SwingWidgetBuilderTest
 		attributes.put( MINIMUM_INTEGER_DIGITS, "4" );
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 4, ( (JSpinner.NumberEditor) spinner.getEditor() ).getFormat().getMinimumIntegerDigits() );
+
+		// Collections
+
+		attributes.put( TYPE, Collection.class.getName() );
+
+		JTable table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getViewport().getView();
+		CollectionTableModel<?> model = (CollectionTableModel<?>) table.getModel();
+		assertEquals( 0, model.getColumnCount() );
+
+		attributes.put( NAME, "bar" );
+		attributes.put( PARAMETERIZED_TYPE, Bar.class.getName() );
+
+		table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getViewport().getView();
+		model = (CollectionTableModel<?>) table.getModel();
+		assertEquals( 2, model.getColumnCount() );
+		assertEquals( 0, model.getRowCount() );
+		
+		Foo foo = new Foo();
+		foo.addBar( new Bar() );
+		metawidget.setToInspect( foo );
+
+		table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getViewport().getView();
+		model = (CollectionTableModel<?>) table.getModel();
+		assertEquals( 2, model.getColumnCount() );
+		assertEquals( 1, model.getRowCount() );
+	}
+
+	public void testConfig() {
+
+		MetawidgetTestUtils.testEqualsAndHashcode( SwingWidgetBuilderConfig.class, new SwingWidgetBuilderConfig() {
+			// Subclass
+		} );
 	}
 
 	//
@@ -316,6 +363,38 @@ public class SwingWidgetBuilderTest
 		public Object convertFromString( String value, Class<?> expectedType ) {
 
 			return MockEnum.valueOf( value );
+		}
+	}
+
+	public static class Foo {
+
+		private Collection<Bar> mCollection = CollectionUtils.newHashSet();
+		
+		//
+		// Public methods
+		//
+		
+		public Collection<Bar> getBar() {
+
+			return mCollection;
+		}
+		
+		public void addBar( Bar bar ) {
+			
+			mCollection.add( bar );
+		}
+	}
+
+	public static class Bar {
+
+		public String getFirstname() {
+
+			return null;
+		}
+
+		public String getSurname() {
+
+			return null;
 		}
 	}
 }

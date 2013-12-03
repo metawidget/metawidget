@@ -445,10 +445,13 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 62 ) instanceof JLabel );
 		assertEquals( "Read Only", metawidget.getValue( "readOnly" ) );
 
-		assertTrue( metawidget.getComponent( 63 ) instanceof JButton );
-		assertEquals( 3, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).gridx );
-		assertEquals( GridBagConstraints.NONE, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 63 ) ).fill );
-		JButton button = ( (JButton) metawidget.getComponent( 63 ) );
+		assertEquals( "Collection:", ( (JLabel) metawidget.getComponent( 63 ) ).getText() );
+		assertTrue( metawidget.getComponent( 64 ) instanceof JScrollPane );
+
+		assertTrue( metawidget.getComponent( 65 ) instanceof JButton );
+		assertEquals( 1, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 65 ) ).gridx );
+		assertEquals( GridBagConstraints.NONE, ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 65 ) ).fill );
+		JButton button = ( (JButton) metawidget.getComponent( 65 ) );
 		assertEquals( "Do Action", button.getText() );
 		assertTrue( button.isEnabled() );
 		try {
@@ -458,7 +461,7 @@ public class SwingAllWidgetsTest
 			assertEquals( "doAction called", e.getCause().getCause().getMessage() );
 		}
 
-		assertEquals( 64, metawidget.getComponentCount() );
+		assertEquals( 66, metawidget.getComponentCount() );
 
 		// Check painting
 

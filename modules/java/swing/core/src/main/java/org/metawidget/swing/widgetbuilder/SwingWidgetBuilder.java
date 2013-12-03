@@ -21,7 +21,23 @@
 
 package org.metawidget.swing.widgetbuilder;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.InspectionResultConstants.ACTION;
+import static org.metawidget.inspector.InspectionResultConstants.DONT_EXPAND;
+import static org.metawidget.inspector.InspectionResultConstants.HIDDEN;
+import static org.metawidget.inspector.InspectionResultConstants.LARGE;
+import static org.metawidget.inspector.InspectionResultConstants.LOOKUP;
+import static org.metawidget.inspector.InspectionResultConstants.LOOKUP_LABELS;
+import static org.metawidget.inspector.InspectionResultConstants.MASKED;
+import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_FRACTIONAL_DIGITS;
+import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_INTEGER_DIGITS;
+import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_VALUE;
+import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_FRACTIONAL_DIGITS;
+import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_INTEGER_DIGITS;
+import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_VALUE;
+import static org.metawidget.inspector.InspectionResultConstants.NAME;
+import static org.metawidget.inspector.InspectionResultConstants.PARAMETERIZED_TYPE;
+import static org.metawidget.inspector.InspectionResultConstants.REQUIRED;
+import static org.metawidget.inspector.InspectionResultConstants.TRUE;
 
 import java.awt.Component;
 import java.text.DecimalFormat;
@@ -40,6 +56,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -47,6 +64,8 @@ import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.JTextComponent;
 
+import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
@@ -54,14 +73,18 @@ import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * WidgetBuilder for Swing environments.
  * <p>
  * Creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
  * <code>JComboBox</code>, to suit the inspected fields.
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -70,6 +93,26 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 public class SwingWidgetBuilder
 	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider {
 
+	//
+	// Private members
+	//
+	
+	private PropertyStyle	mPropertyStyle;
+
+	//
+	// Constructor
+	//
+	
+	public SwingWidgetBuilder() {
+		
+		this( new SwingWidgetBuilderConfig() );
+	}
+	
+	public SwingWidgetBuilder( SwingWidgetBuilderConfig config ) {
+	
+		mPropertyStyle = config.getPropertyStyle();
+	}
+	
 	//
 	// Public methods
 	//
@@ -127,7 +170,7 @@ public class SwingWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			JComboBox comboBox = new JComboBox();
+			JComboBox<Object> comboBox = new JComboBox<Object>();
 
 			// Add an empty choice (if nullable, and not required)
 
@@ -259,19 +302,19 @@ public class SwingWidgetBuilder
 				DecimalFormat format = editor.getFormat();
 
 				if ( attributes.containsKey( MINIMUM_FRACTIONAL_DIGITS ) ) {
-					format.setMinimumFractionDigits( Integer.parseInt( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) ));
+					format.setMinimumFractionDigits( Integer.parseInt( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) ) );
 				}
 
 				if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) ) {
-					format.setMaximumFractionDigits( Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ));
+					format.setMaximumFractionDigits( Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
 				}
 
 				if ( attributes.containsKey( MINIMUM_INTEGER_DIGITS ) ) {
-					format.setMinimumIntegerDigits( Integer.parseInt( attributes.get( MINIMUM_INTEGER_DIGITS ) ));
+					format.setMinimumIntegerDigits( Integer.parseInt( attributes.get( MINIMUM_INTEGER_DIGITS ) ) );
 				}
 
 				if ( attributes.containsKey( MAXIMUM_INTEGER_DIGITS ) ) {
-					format.setMaximumIntegerDigits( Integer.parseInt( attributes.get( MAXIMUM_INTEGER_DIGITS ) ));
+					format.setMaximumIntegerDigits( Integer.parseInt( attributes.get( MAXIMUM_INTEGER_DIGITS ) ) );
 				}
 
 				return spinner;
@@ -328,7 +371,7 @@ public class SwingWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return new Stub();
+				return createTable( attributes, metawidget );
 			}
 		}
 
@@ -341,6 +384,55 @@ public class SwingWidgetBuilder
 		// Nested Metawidget
 
 		return null;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected JComponent createTable( Map<String, String> attributes, SwingMetawidget metawidget ) {
+
+		String componentType = attributes.get( PARAMETERIZED_TYPE );
+		String inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+
+		// Determine columns
+
+		List<String> columns = CollectionUtils.newArrayList();
+
+		if ( inspectedType != null ) {
+			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
+			NodeList elements = root.getFirstChild().getChildNodes();
+	
+			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
+	
+				Node node = elements.item( loop );
+				columns.add( metawidget.getLabelString( XmlUtils.getAttributesAsMap( node ) ) );
+			}
+		}
+
+		// Fetch the data (if any)
+		
+		Collection<?> collection = null;
+		
+		if ( metawidget.getToInspect() != null && mPropertyStyle != null ) {
+			String type = metawidget.getToInspect().getClass().getName();
+			Map<String, Property> properties = mPropertyStyle.getProperties( type );
+			
+			if ( properties != null ) {
+				Property property = properties.get( attributes.get( NAME ) );
+				
+				if ( property != null ) {
+					collection = (Collection<?>) property.read( metawidget.getToInspect() );
+				}
+			}
+		}
+		
+		// Return the JTable
+
+		@SuppressWarnings( { "unchecked", "rawtypes" } )
+		CollectionTableModel<?> tableModel = new CollectionTableModel( collection, columns );
+
+		return new JScrollPane( new JTable( tableModel ) );
 	}
 
 	//
@@ -415,7 +507,7 @@ public class SwingWidgetBuilder
 		//
 
 		@Override
-		public Component getListCellRendererComponent( JList list, Object value, int index, boolean selected, boolean hasFocus ) {
+		public Component getListCellRendererComponent( @SuppressWarnings( "rawtypes" ) JList list, Object value, int index, boolean selected, boolean hasFocus ) {
 
 			Component component = super.getListCellRendererComponent( list, value, index, selected, hasFocus );
 

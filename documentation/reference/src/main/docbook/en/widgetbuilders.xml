@@ -148,6 +148,12 @@
 							</tr>
 							<tr>
 								<td></td>
+								<td><classname>JTable</classname></td>
+								<td><parameter>type="java.util.Collection"</parameter>. The <classname>JTable</classname> is
+								automatically wrapped in a <classname>JScrollPane</classname></td>
+							</tr>
+							<tr>
+								<td></td>
 								<td><classname>JTextArea</classname></td>
 								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter>. The <classname>JTextArea</classname> is
 								automatically wrapped in a <classname>JScrollPane</classname></td>
