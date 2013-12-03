@@ -23,6 +23,7 @@ package org.metawidget.config.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -147,7 +148,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			fail();
 		} catch ( MetawidgetException e ) {
-			assertTrue( e.getMessage().contains( "\\tmp\\no.such.file" ) );
+			assertTrue( e.getMessage(), e.getMessage().contains( File.separatorChar + "tmp" + File.separatorChar + "no.such.file" ));
 		}
 	}
 

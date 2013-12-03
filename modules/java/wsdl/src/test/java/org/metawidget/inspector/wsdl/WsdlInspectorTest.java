@@ -212,7 +212,7 @@ public class WsdlInspectorTest
 
 	public void testStockQuoteWsdl() {
 
-		Inspector inspector = new WsdlInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/wsdl/stockquote.wsdl" ) ) );
+		Inspector inspector = new WsdlInspector( new XmlSchemaInspectorConfig().setInputStream( new SimpleResourceResolver().openResource( "org/metawidget/inspector/wsdl/stockQuote.wsdl" ) ) );
 
 		// GetEndorsingBoarder
 

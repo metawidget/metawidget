@@ -39,7 +39,7 @@
 				
 				<clickButton label="Save"/>
 				
-				<!-- TODO: <verifyText text="Quirks (PrimeFaces Test) Saved" />-->
+				<verifyText text="Quirks (PrimeFaces Test) Saved" />
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/ul/li/a" text="Section #1"/>		
 				<verifyXPath xpath="contains(/html/body/form/table/tbody/tr/td/div/ul/li/@class, 'ui-state-active')"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr/td/div/div/div/table/tbody/tr[1]/th/label" text="Name:"/>
