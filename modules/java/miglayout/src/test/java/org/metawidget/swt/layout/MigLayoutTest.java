@@ -230,7 +230,7 @@ public class MigLayoutTest
 
 		// (padding is different on different OS')
 
-		assertTrue( String.valueOf( padding[0].getValue() ), padding[0].getValue() >= 2 );
+		assertTrue( String.valueOf( padding[0].getValue() ), padding[0].getValue() >= 0 );
 		assertTrue( String.valueOf( padding[1].getValue() ), padding[1].getValue() == 0 );
 		assertTrue( String.valueOf( padding[2].getValue() ), padding[2].getValue() == padding[0].getValue() );
 		assertTrue( String.valueOf( padding[3].getValue() ), padding[3].getValue() == 0 );
