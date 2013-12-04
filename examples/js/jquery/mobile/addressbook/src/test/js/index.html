@@ -8,6 +8,7 @@
 			addressbook.restUrl = '/target/addressbook-jquerymobile/';
 		</script>
 		<link rel="stylesheet" href="target/addressbook-jquerymobile/lib/jquery.mobile/jquery.mobile-1.3.2.min.css" />
+		<link rel="stylesheet" type="text/css" href="target/addressbook-jquerymobile/css/framework-specific-addressbook.css" media="all"/>
 		<script type="text/javascript" src="target/addressbook-jquerymobile/lib/jquery/jquery-1.8.3.min.js"></script>
 		<script type="text/javascript" src="target/addressbook-jquerymobile/lib/jquery.mobile/jquery.mobile-1.3.2.min.js"></script>
 		<script type="text/javascript" src="target/addressbook-jquerymobile/lib/metawidget/core/metawidget-core.min.js"></script>
@@ -18,19 +19,19 @@
 		<script type="text/javascript" src="src/test/js/addressbook-jquerymobile-test.js"></script>
 	</head>
 	<body>
-		<!-- Test DOM -->
 		<article id="contacts-page" data-role="page" data-contact-page="target/addressbook-jquerymobile/contact">
 			<header data-role="header" data-position="fixed" data-tap-toggle="false">
 				<h1>Contacts</h1>
 			</header>
 			<section data-role="content">
-				<div id="summary"></div>
+				<div id="metawidget" data-role="metawidget"></div>
+				<div id="summary" style="margin-top: 30px"></div>
 			</section>
 			<footer data-role="footer" data-position="fixed" data-tap-toggle="false">
 				<div id="footer-navbar" data-role="navbar">
 					<ul>
-						<li><a id="summaryCreate" onclick="addressbook.createPersonal( this )" data-icon="add" data-iconpos="top">New Personal Contact</a></li>
-						<li><a id="summaryCreate" onclick="addressbook.createBusiness( this )" data-icon="add" data-iconpos="top">New Business Contact</a></li>
+						<li><a id="summaryCreatePersonal" onclick="addressbook.createPersonal( this )" data-icon="add" data-iconpos="top">New Personal Contact</a></li>
+						<li><a id="summaryCreateBusiness" onclick="addressbook.createBusiness( this )" data-icon="add" data-iconpos="top">New Business Contact</a></li>
 					</ul>
 				</div>
 			</footer>

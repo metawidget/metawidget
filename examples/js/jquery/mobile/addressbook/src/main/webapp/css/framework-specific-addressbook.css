@@ -1,0 +1,44 @@
+#metawidget table {
+	width: 100%;
+	border: 1px solid #cccccc;
+	border-collapse: collapse;
+	border-radius: 3px;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+#metawidget table thead tr th {
+	background-color: #dddddd;
+	padding: 10px;
+	border: 1px solid #cccccc;
+}
+
+#metawidget table tbody tr td {
+	padding: 10px;	
+}
+
+#metawidget table tbody tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+#metawidget #communications tbody tr td {	
+	text-align: center;
+}
+
+#metawidget h1 {
+	border-bottom: 1px solid #cccccc;
+}
+
+#metawidget label, label.ui-input-text, label.ui-select {
+	font-weight: bold;
+}
+
+#metawidget output {
+	display: block;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#metawidget textarea.ui-input-text {
+	height: 100px;
+}
