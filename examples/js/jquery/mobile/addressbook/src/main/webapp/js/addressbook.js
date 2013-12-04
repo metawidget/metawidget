@@ -171,7 +171,7 @@ var addressbook = addressbook || {};
 					var table = superCreateTable.call( communicationsWidgetBuilder, elementName, attributes, mw );
 
 					if ( mw.readOnly === false ) {
-						$( table ).append( $( '<tfoot>' ).append( $( '<tr>' ).append( $( '<td>' ).append( $( '<button>' ).val( 'Add' ).on( 'click', function() {
+						$( table ).append( $( '<tfoot>' ).append( $( '<tr>' ).append( $( '<td></td><td></td>' ).after( $( '<td>' ).append( $( '<button>' ).val( 'Add' ).on( 'click', function() {
 
 							delete addressbook.currentCommunication;
 
@@ -179,10 +179,22 @@ var addressbook = addressbook || {};
 								transition: 'slide',
 								reverse: true
 							} );
-						} ) ) ) ) );
+						} ) ) ) ) ) );
 					}
 
 					return table;
+				};
+
+				var superAddHeaderRow = communicationsWidgetBuilder.addHeaderRow;
+				communicationsWidgetBuilder.addHeaderRow = function( thead, inspectionResultProperties, mw ) {
+
+					var columnAttributes = superAddHeaderRow.call( communicationsWidgetBuilder, thead, inspectionResultProperties, mw );
+
+					if ( mw.readOnly === false ) {
+						$( thead ).find( 'tr' ).append( $( '<th>' ).text( ' ' ) );
+					}
+
+					return columnAttributes;
 				};
 
 				var superAddRow = communicationsWidgetBuilder.addRow;
@@ -216,6 +228,7 @@ var addressbook = addressbook || {};
 								properties: {
 
 									address: {
+										title: "",
 										properties: {
 											street: {
 												type: "string"
@@ -233,11 +246,13 @@ var addressbook = addressbook || {};
 									},
 
 									communications: {
-										type: 'array',
+										type: "array",
+										title: "",
 										items: {
 											properties: {
 												type: {
-													type: "string"
+													type: "string",
+													title: "Communication"
 												},
 												value: {
 													type: "string"

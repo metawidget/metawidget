@@ -1,8 +1,66 @@
 describe( 'The JQuery Mobile AddressBook', function() {
 
+	it( 'supports searching contacts', function() {
+		
+		var _done = false;
+
+		$( document ).one( 'pageshow', '#contacts-page', function( event ) {
+
+			setTimeout( function() {
+
+				var page = $( event.target );
+				expect( page.find( 'h1' ).text() ).toBe( 'Contacts' );
+	
+				var summary = page.find( '#summary' );
+				expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Homer Simpson' );
+				expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Marjorie Simpson' );
+				expect( summary.find( 'li:eq(2) a' ).text() ).toBe( 'Nedward Flanders' );
+				expect( summary.find( 'li:eq(3) a' ).text() ).toBe( 'Maude Flanders' );
+				expect( summary.find( 'li:eq(4) a' ).text() ).toBe( 'Charles Montgomery Burns' );
+				expect( summary.find( 'li:eq(5) a' ).text() ).toBe( 'Waylon Smithers' );
+				expect( summary.find( 'li' ).size() ).toBe( 6 );
+				summary.find( 'li:eq(0) a' ).click();
+				
+				var mw = page.find( '#metawidget' );
+				expect( mw.find( '#firstname' ).data( 'type' ) ).toBe( 'search' );
+				expect( mw.find( '#surname' ).data( 'type' ) ).toBe( 'search' );
+				mw.find( '#surname' ).val( 'Flanders' );
+				mw.find( '#search' ).click();
+
+				expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Nedward Flanders' );
+				expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Maude Flanders' );
+				expect( summary.find( 'li' ).size() ).toBe( 2 );
+
+				mw.find( '#firstname' ).val( 'ude' );
+				mw.find( '#search' ).click();
+
+				expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Maude Flanders' );
+				expect( summary.find( 'li' ).size() ).toBe( 1 );
+
+				mw.find( '#firstname' ).val( null );
+				mw.find( '#surname' ).val( null );
+				mw.find( '#search' ).click();
+
+				expect( summary.find( 'li' ).size() ).toBe( 6 );
+
+				_done = true;
+			}, 1000 );
+		} );
+
+		waitsFor( function() {
+		
+			return _done;
+		});
+	} );
+	
 	it( 'supports editing contacts', function() {
 		
 		var _done = false;
+
+		$.mobile.changePage( 'index.html',
+				{
+					reloadPage: true
+				});
 
 		$( document ).one( 'pageshow', '#contacts-page', function( event ) {
 
