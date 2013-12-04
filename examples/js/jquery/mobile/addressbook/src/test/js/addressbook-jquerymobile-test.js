@@ -216,7 +216,7 @@ describe( 'The JQuery Mobile AddressBook', function() {
 									_done = true;
 								} );
 							} );
-						} );
+						}, 1000 );
 					} );
 				} );
 			} );
@@ -297,7 +297,7 @@ describe( 'The JQuery Mobile AddressBook', function() {
 										_done = true;
 									} );
 								} );
-							} );
+							}, 1000 );
 						} );
 					} );
 				}, 1000 );
