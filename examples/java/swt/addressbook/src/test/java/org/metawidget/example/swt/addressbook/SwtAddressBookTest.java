@@ -241,9 +241,12 @@ public class SwtAddressBookTest
 		combo = (Combo) communicationMetawidget.getChildren()[0];
 		combo.setText( "Mobile" );
 		event.y = 0;
-		assertEquals( communicationsTable.getItemCount(), 2 );
-		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		assertEquals( communicationsTable.getItemCount(), 3 );
+		assertEquals( 2, communicationsTable.getItemCount() );
+		
+		if ( "windows".equals( System.getProperty( "os.name" ))) {		
+			communicationsTable.notifyListeners( SWT.MouseDown, event );
+			assertEquals( 3, communicationsTable.getItemCount() );
+		}
 
 		event.x = communicationsTable.getItem( 1 ).getBounds( 2 ).x;
 		event.y = communicationsTable.getItem( 1 ).getBounds( 2 ).y;
@@ -253,7 +256,7 @@ public class SwtAddressBookTest
 		text.setText( "(0402) 123 456" );
 		event.y = 0;
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		assertEquals( communicationsTable.getItemCount(), 3 );
+		assertEquals( 3, communicationsTable.getItemCount() );
 
 		// Check deleting a communication
 

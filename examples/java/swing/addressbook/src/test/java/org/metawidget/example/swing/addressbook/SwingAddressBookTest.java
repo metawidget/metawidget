@@ -29,7 +29,6 @@
 
 package org.metawidget.example.swing.addressbook;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -43,6 +42,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
@@ -148,7 +148,7 @@ public class SwingAddressBookTest
 
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 		assertEquals( "Homer", metawidgetContact.getValue( "firstname" ) );
-		assertTrue( ( (Component) metawidgetContact.getComponent( "firstname" ) ) instanceof JLabel );
+		assertTrue( ( metawidgetContact.getComponent( "firstname" ) ) instanceof JLabel );
 		assertEquals( "Male", ( (JLabel) metawidgetContact.getComponent( "gender" ) ).getText() );
 		assertTrue( metawidgetContact.getComponent( 10 ) instanceof JPanel );
 		assertEquals( "Contact Details", ( (JLabel) ( (JPanel) metawidgetContact.getComponent( 10 ) ).getComponent( 0 ) ).getText() );
@@ -302,7 +302,12 @@ public class SwingAddressBookTest
 		assertEquals( "Simpson", contact.getSurname() );
 		contact = contactsController.load( 1 );
 		assertEquals( "Sapien", contact.getSurname() );
-		assertEquals( new DateConverter().convertReverse( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
+
+		if ( Locale.US.equals( Locale.getDefault() )) {
+			assertEquals( new DateConverter().convertReverse( "05/12/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
+		} else {
+			assertEquals( new DateConverter().convertReverse( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
+		}
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
 		Communication communication = iterator.next();
