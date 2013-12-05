@@ -72,8 +72,6 @@ import org.w3c.dom.NodeList;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-// TODO: default collection support
-
 public class SwingWidgetBuilder
 	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider {
 

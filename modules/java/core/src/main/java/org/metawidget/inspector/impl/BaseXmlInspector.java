@@ -109,7 +109,6 @@ import org.w3c.dom.Element;
  */
 
 // TODO: rework BaseXmlInspector to support arbitrary nesting for XML Schemas
-// TODO: Metadata Driven User Interface
 
 public abstract class BaseXmlInspector
 	implements DomInspector<Element> {

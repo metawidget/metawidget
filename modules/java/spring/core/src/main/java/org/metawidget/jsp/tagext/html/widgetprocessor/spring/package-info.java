@@ -21,6 +21,8 @@
 
 /**
  * Spring support: widget processors.
+ * <p>
+ * Note: HTML 5 attributes such as required, min and max are only available in Spring MVC 3+
  *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
