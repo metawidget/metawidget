@@ -44,7 +44,7 @@
 			<li><a href="/support.php">providing feedback on the forums</a></li>
 			<li><a href="/issues.php">reporting issues</a></li>
 			<li><a href="/support.php">adding to the Wiki</a></li>
-			<li>contributing enhancements to the code and documentation</li>
+			<li>contributing enhancements to the code and documentation (see below)</li>
 		</ul>
 		
 		<h2 class="h2-underneath">How To Contribute</h2>

@@ -52,8 +52,9 @@ var addressbook = addressbook || {};
 						placeholder: 'Surname',
 						componentType: 'search'
 					},
-					search: {
-						type: 'function'
+					runSearch: {
+						type: 'function',
+						title: 'Search'
 					}
 				}
 			} ),
@@ -68,7 +69,7 @@ var addressbook = addressbook || {};
 		var page = $( event.target );
 		var mw = page.find( '#metawidget' );
 
-		_search.search = function() {
+		_search.runSearch = function() {
 
 			mw.metawidget( 'getWidgetProcessor', function( widgetProcessor ) {
 

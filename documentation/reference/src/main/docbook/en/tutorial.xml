@@ -11,7 +11,7 @@
 		<para>
 			If you are using a Java-based framework (including Android, and Java-based web frameworks
 			such as GWT or Java Server Faces) you should follow <xref linkend="section-introduction-java-part1" />. If you
-			are using a pure JavaScript-based framework (such as AngularJS) you should follow
+			are using a pure JavaScript-based framework (such as AngularJS or JQuery Mobile) you should follow
 			<xref linkend="section-introduction-javascript-part1" />. 
 		</para>
 
@@ -1706,17 +1706,17 @@ public class Main {
 				</figure>
 
 				<figure id="section-introduction-part2-web-opening-screenshot-jquerymobile">
-					<title>JQuery Mobile Address Book opening screen</title>
+					<title>Web Address Book opening screen (JQuery Mobile version)</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/web-addressbook-jquerymobile.jpg" width="50mm" />
 					</screenshot>
 				</figure>
 
 				<para>
-					As with the Desktop Address Book, the three search filter fields are created
+					As with the Desktop Address Book, the search filter fields are created
 					by Metawidget (this time <classname>AngularMetawidget</classname>, <classname>UIMetawidget</classname>,
 					<classname>GwtMetawidget</classname>, <classname>HtmlMetawidgetTag</classname>,					
-					<classname>SpringMetawidgetTag</classname>, <classname>StrutsMetawidgetTag</classname>
+					<classname>JQueryMobileMetawidget</classname>, <classname>SpringMetawidgetTag</classname>, <classname>StrutsMetawidgetTag</classname>
 					or <classname>VaadinMetawidget</classname>) based on the <classname>ContactSearch</classname> business class:
 				</para>
 				
@@ -2187,7 +2187,7 @@ public class Main {
 				<tip>
 					<title>Note</title>
 					The Android Address Book is a native mobile application. For an example of an HTML 5
-					mobile application see the JQuery Mobile Address Book in the previous section.
+					hybrid mobile application see the JQuery Mobile Address Book in the previous section.
 				</tip>				
 
 				<para>
@@ -3006,17 +3006,7 @@ metawidget.setToInspect( animal )</programlisting>
 				<para>
 					Alternatively, there are Forge plugins that can generate scaffolds for different environments. For example the
 					Spring plugin uses <classname>StaticSpringMetawidget</classname> to generate Spring scaffolds, and the AeroGear plugin
-					uses <classname>StaticHtmlMetawidget</classname> to generate mobile scaffolds:
-				</para>
-				
-				<figure id="section-introduction-part3-static-mobile-screenshot">
-					<title>JBoss Forge, AeroGear and Static Metawidget generate mobile applications</title>
-					<screenshot>
-						<graphic fileref="images/screenshots/static-mobile.jpg" width="100mm" />
-					</screenshot>
-				</figure>
-				
-				<para>
+					uses <classname>StaticHtmlMetawidget</classname> to generate mobile scaffolds.
 					For more information on JBoss Forge and how Metawidget relates to it, see the
 					<ulink url="https://docs.jboss.org/author/display/FORGE/UI+Scaffolding">UI scaffolding section</ulink>
 					of the Forge documentation.

@@ -73,7 +73,7 @@
 		<h3>Metawidget (commercial)</h3>
 		
 		<p>
-			Some organizations have blanket policies against the use of Open Source software, or against the
+			Some organizations have policies against the use of Open Source software, or against the
 			use of GPL software (including LGPL). For those scenarios, commercial licenses are available for
 			portions of Metawidget. The commercially licensed portions are the
 			<em>exact same code</em>, but can be used without any of the obligations of the LGPL.

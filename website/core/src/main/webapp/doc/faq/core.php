@@ -59,7 +59,8 @@
 		<h3><a name="usage">Who uses Metawidget?</a></h3>
 
 		<p>
-			The AngularJS, GWT, HTML 5, Java Server Faces, Spring, Struts and Swing Metawidgets are all deployed
+			The AngularJS, GWT, HTML 5, Java Server Faces, JavaScript, JQuery Mobile,
+			Spring, Struts and Swing Metawidgets are all known to be deployed
 			in production systems. Large clients include <a href="http://redhat.com">Red Hat</a>,
 			<a href="http://telefonica.com">Telefonica</a> and <a href="http://scisys.co.uk">SCISYS</a>.
 			For more information on organizations deploying
@@ -73,14 +74,15 @@
 		</p>
 
 		<ul>
-			<li>a 'widget' is the technical term for a Graphical User Interface component (such as a text box). A 'meta' widget is therefore a widget composed of other widgets.</li>
-			<li>Metawidget is a widget built by metadata gathered from the back-end</li>
+			<li>a <a href="http://wikipedia.org/wiki/GUI_widget" target="_blank">widget</a> is the technical term for a Graphical User Interface component (such as a text box). A 'meta' widget is therefore a widget composed of other widgets.</li>
+			<li>Metawidget is a widget built by metadata gathered from the back-end.</li>
 		</ul>
 
 		<h3><a name="who">Who makes Metawidget?</a></h3>
 
 		<p>
-			Metawidget is an Open Source project licensed under the <a href="/doc/faq/licensing.php">LGPL</a>. It is developed by the
+			Metawidget is an Open Source project dual licensed under both
+			the <a href="/doc/faq/licensing.php">LGPL</a> and a commercial license. It is developed by the
 			community. It was founded by Richard Kennard of <a href="http://www.kennardconsulting.com" target="_blank">Kennard Consulting</a>.
 		</p>
 

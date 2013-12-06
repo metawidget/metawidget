@@ -77,8 +77,8 @@
 		<p>
 			Such separation maximizes reuse. For example, you don't have to redefine how to
 			construct a <tt>div</tt>-based layout for both the summary and the detail screens of your app - you only
-			have to hook in a different <tt>InspectionResultProcessor</tt> to prepare the metadata differently.
-			For example, your <tt>InspectionResultProcessor</tt> may limit the number of fields for the summary screen.
+			have to hook in a different <tt>InspectionResultProcessor</tt> to prepare the metadata differently
+			(such as limiting the number of fields for the summary screen).
 		</p>
 
 	<?php require_once '../../include/body-end.php'; ?>		

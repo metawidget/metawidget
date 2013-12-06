@@ -25,21 +25,21 @@ describe( 'The JQuery Mobile AddressBook', function() {
 				expect( mw.find( '#firstname' ).data( 'type' ) ).toBe( 'search' );
 				expect( mw.find( '#surname' ).data( 'type' ) ).toBe( 'search' );
 				mw.find( '#surname' ).val( 'Flanders' );
-				mw.find( '#search' ).click();
+				mw.find( '#runSearch' ).click();
 
 				expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Nedward Flanders' );
 				expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Maude Flanders' );
 				expect( summary.find( 'li' ).size() ).toBe( 2 );
 
 				mw.find( '#firstname' ).val( 'ude' );
-				mw.find( '#search' ).click();
+				mw.find( '#runSearch' ).click();
 
 				expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Maude Flanders' );
 				expect( summary.find( 'li' ).size() ).toBe( 1 );
 
 				mw.find( '#firstname' ).val( null );
 				mw.find( '#surname' ).val( null );
-				mw.find( '#search' ).click();
+				mw.find( '#runSearch' ).click();
 
 				expect( summary.find( 'li' ).size() ).toBe( 6 );
 
