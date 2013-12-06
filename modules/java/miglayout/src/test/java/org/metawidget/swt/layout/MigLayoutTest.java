@@ -230,7 +230,7 @@ public class MigLayoutTest
 
 		// (padding is different on different OS')
 
-		if ( "windows".equals( System.getProperty( "os.name" ))) {
+		if ( System.getProperty( "os.name" ).startsWith( "Windows" )) {		
 			assertTrue( String.valueOf( padding[0].getValue() ), padding[0].getValue() >= 2 );
 		}
 

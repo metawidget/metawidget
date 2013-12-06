@@ -244,7 +244,7 @@ public class SwtAddressBookTest
 		assertEquals( 2, communicationsTable.getItemCount() );
 		communicationsTable.notifyListeners( SWT.MouseDown, event );
 		
-		if ( "windows".equals( System.getProperty( "os.name" ))) {		
+		if ( System.getProperty( "os.name" ).startsWith( "Windows" )) {		
 			assertEquals( 3, communicationsTable.getItemCount() );
 
 			event.x = communicationsTable.getItem( 1 ).getBounds( 2 ).x;
@@ -298,7 +298,7 @@ public class SwtAddressBookTest
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
 
-		if ( "windows".equals( System.getProperty( "os.name" ))) {		
+		if ( System.getProperty( "os.name" ).startsWith( "Windows" )) {		
 			Iterator<Communication> iterator = contact.getCommunications().iterator();
 			Communication communication = iterator.next();
 			assertEquals( "Mobile", communication.getType() );
