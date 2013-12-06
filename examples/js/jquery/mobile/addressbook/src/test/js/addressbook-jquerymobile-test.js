@@ -167,55 +167,59 @@ describe( 'The JQuery Mobile AddressBook', function() {
 			$( document ).one( 'pageshow', '#contact-page', function( event ) {
 
 				page = $( event.target );
-				var mw = page.find( '#metawidget' );
 
-				mw.find( '#firstname' ).val( 'Business' );
-				mw.find( '#surname' ).val( 'Contact' );
-				mw.find( '#company' ).val( 'Some Company' );
+				setTimeout( function() {
 
-				page.find( '#createUpdate' ).click();
-
-				$( document ).one( 'pageshow', '#contacts-page', function( event ) {
-
-					page = $( event.target );
-					summary = page.find( '#summary' );
-					expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Homer Jay Simpson' );
-					expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Marjorie Simpson' );
-					expect( summary.find( 'li:eq(6) a' ).text() ).toBe( 'Business Contact' );
-
-					summary.find( 'li:eq(6) a' ).click();
-
-					$( document ).one( 'pageshow', '#contact-page', function( event ) {
-
-						setTimeout( function() {
-
-							page = $( event.target );
-							var mw = page.find( '#metawidget' );
-							expect( mw.find( '#firstname' )[0].tagName ).toBe( 'OUTPUT' );
-							expect( mw.find( '#firstname' ).text() ).toBe( 'Business' );
-							expect( mw.find( '#surname' )[0].tagName ).toBe( 'OUTPUT' );
-							expect( mw.find( '#surname' ).text() ).toBe( 'Contact' );
-							expect( mw.find( '#company' )[0].tagName ).toBe( 'OUTPUT' );
-							expect( mw.find( '#company' ).text() ).toBe( 'Some Company' );
-
-							page.find( '#viewEdit' ).click();
-
-							mw.one( 'buildEnd', function() {
-
-								page.find( '#editDelete' ).click();
-
-								$( document ).one( 'pageshow', '#contacts-page', function( event ) {
-
-									page = $( event.target );
-									summary = page.find( '#summary' );
-									expect( summary.find( 'li' ).size() ).toBe( 6 );
-
-									_done = true;
+					var mw = page.find( '#metawidget' );
+	
+					mw.find( '#firstname' ).val( 'Business' );
+					mw.find( '#surname' ).val( 'Contact' );
+					mw.find( '#company' ).val( 'Some Company' );
+	
+					page.find( '#createUpdate' ).click();
+	
+					$( document ).one( 'pageshow', '#contacts-page', function( event ) {
+	
+						page = $( event.target );
+						summary = page.find( '#summary' );
+						expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Homer Jay Simpson' );
+						expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Marjorie Simpson' );
+						expect( summary.find( 'li:eq(6) a' ).text() ).toBe( 'Business Contact' );
+	
+						summary.find( 'li:eq(6) a' ).click();
+	
+						$( document ).one( 'pageshow', '#contact-page', function( event ) {
+	
+							setTimeout( function() {
+	
+								page = $( event.target );
+								var mw = page.find( '#metawidget' );
+								expect( mw.find( '#firstname' )[0].tagName ).toBe( 'OUTPUT' );
+								expect( mw.find( '#firstname' ).text() ).toBe( 'Business' );
+								expect( mw.find( '#surname' )[0].tagName ).toBe( 'OUTPUT' );
+								expect( mw.find( '#surname' ).text() ).toBe( 'Contact' );
+								expect( mw.find( '#company' )[0].tagName ).toBe( 'OUTPUT' );
+								expect( mw.find( '#company' ).text() ).toBe( 'Some Company' );
+	
+								page.find( '#viewEdit' ).click();
+	
+								mw.one( 'buildEnd', function() {
+	
+									page.find( '#editDelete' ).click();
+	
+									$( document ).one( 'pageshow', '#contacts-page', function( event ) {
+	
+										page = $( event.target );
+										summary = page.find( '#summary' );
+										expect( summary.find( 'li' ).size() ).toBe( 6 );
+	
+										_done = true;
+									} );
 								} );
-							} );
-						}, 1000 );
+							}, 1000 );
+						} );
 					} );
-				} );
+				}, 1000 );
 			} );
 		} );
 
@@ -246,55 +250,59 @@ describe( 'The JQuery Mobile AddressBook', function() {
 			$( document ).one( 'pageshow', '#contact-page', function( event ) {
 
 				page = $( event.target );
-				var mw = page.find( '#metawidget' );
 				
-				mw.find( '#firstname' ).val( 'Personal' );
-				mw.find( '#surname' ).val( 'Contact' );
-				mw.find( '#dateOfBirth' ).val( '1/1/1975' );
-
-				page.find( '#createUpdate' ).click();
-
-				$( document ).one( 'pageshow', '#contacts-page', function( event ) {
-
-					page = $( event.target );
-					summary = page.find( '#summary' );
-					expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Homer Jay Simpson' );
-					expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Marjorie Simpson' );
-					expect( summary.find( 'li:eq(6) a' ).text() ).toBe( 'Personal Contact' );
-
-					summary.find( 'li:eq(6) a' ).click();
-
-					$( document ).one( 'pageshow', '#contact-page', function( event ) {
-
-						setTimeout( function() {
-
-							page = $( event.target );
-							var mw = page.find( '#metawidget' );
-							expect( mw.find( '#firstname' )[0].tagName ).toBe( 'OUTPUT' );
-							expect( mw.find( '#firstname' ).text() ).toBe( 'Personal' );
-							expect( mw.find( '#surname' )[0].tagName ).toBe( 'OUTPUT' );
-							expect( mw.find( '#surname' ).text() ).toBe( 'Contact' );
-							expect( mw.find( '#dateOfBirth' )[0].tagName ).toBe( 'OUTPUT' );
-							expect( mw.find( '#dateOfBirth' ).text() ).toBe( '1/1/1975' );
-
-							page.find( '#viewEdit' ).click();
-
-							mw.one( 'buildEnd', function() {
-
-								page.find( '#editDelete' ).click();
-
-								$( document ).one( 'pageshow', '#contacts-page', function( event ) {
-
-									page = $( event.target );
-									summary = page.find( '#summary' );
-									expect( summary.find( 'li' ).size() ).toBe( 6 );
-
-									_done = true;
+				setTimeout( function() {
+				
+					var mw = page.find( '#metawidget' );
+					
+					mw.find( '#firstname' ).val( 'Personal' );
+					mw.find( '#surname' ).val( 'Contact' );
+					mw.find( '#dateOfBirth' ).val( '1/1/1975' );
+	
+					page.find( '#createUpdate' ).click();
+	
+					$( document ).one( 'pageshow', '#contacts-page', function( event ) {
+	
+						page = $( event.target );
+						summary = page.find( '#summary' );
+						expect( summary.find( 'li:eq(0) a' ).text() ).toBe( 'Homer Jay Simpson' );
+						expect( summary.find( 'li:eq(1) a' ).text() ).toBe( 'Marjorie Simpson' );
+						expect( summary.find( 'li:eq(6) a' ).text() ).toBe( 'Personal Contact' );
+	
+						summary.find( 'li:eq(6) a' ).click();
+	
+						$( document ).one( 'pageshow', '#contact-page', function( event ) {
+	
+							setTimeout( function() {
+	
+								page = $( event.target );
+								var mw = page.find( '#metawidget' );
+								expect( mw.find( '#firstname' )[0].tagName ).toBe( 'OUTPUT' );
+								expect( mw.find( '#firstname' ).text() ).toBe( 'Personal' );
+								expect( mw.find( '#surname' )[0].tagName ).toBe( 'OUTPUT' );
+								expect( mw.find( '#surname' ).text() ).toBe( 'Contact' );
+								expect( mw.find( '#dateOfBirth' )[0].tagName ).toBe( 'OUTPUT' );
+								expect( mw.find( '#dateOfBirth' ).text() ).toBe( '1/1/1975' );
+	
+								page.find( '#viewEdit' ).click();
+	
+								mw.one( 'buildEnd', function() {
+	
+									page.find( '#editDelete' ).click();
+	
+									$( document ).one( 'pageshow', '#contacts-page', function( event ) {
+	
+										page = $( event.target );
+										summary = page.find( '#summary' );
+										expect( summary.find( 'li' ).size() ).toBe( 6 );
+	
+										_done = true;
+									} );
 								} );
-							} );
-						}, 1000 );
+							}, 1000 );
+						} );
 					} );
-				} );
+				}, 1000 );
 			} );
 		} );
 
