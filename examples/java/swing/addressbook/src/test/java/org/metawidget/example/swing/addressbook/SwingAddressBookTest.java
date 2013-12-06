@@ -304,7 +304,7 @@ public class SwingAddressBookTest
 		assertEquals( "Sapien", contact.getSurname() );
 
 		if ( Locale.US.equals( Locale.getDefault() )) {
-			assertEquals( new DateConverter().convertReverse( "05/12/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
+			assertEquals( new DateConverter().convertReverse( "5/12/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
 		} else {
 			assertEquals( new DateConverter().convertReverse( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
 		}
@@ -326,7 +326,11 @@ public class SwingAddressBookTest
 		dialog = addressBook.createContactDialog( contact );
 		metawidgetContact = dialog.mContactMetawidget;
 		assertEquals( "Sapien", metawidgetContact.getValue( "surname" ) );
-		assertEquals( "12/05/57", metawidgetContact.getValue( "dateOfBirth" ) );
+		if ( Locale.US.equals( Locale.getDefault() )) {
+			assertEquals( "5/12/57", metawidgetContact.getValue( "dateOfBirth" ) );
+		} else {
+			assertEquals( "12/05/57", metawidgetContact.getValue( "dateOfBirth" ) );
+		}
 
 		scrollPane = metawidgetContact.getComponent( "communications" );
 		communications = (JTable) scrollPane.getViewport().getView();

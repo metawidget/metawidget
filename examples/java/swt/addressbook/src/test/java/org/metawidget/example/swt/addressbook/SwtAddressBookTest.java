@@ -242,29 +242,29 @@ public class SwtAddressBookTest
 		combo.setText( "Mobile" );
 		event.y = 0;
 		assertEquals( 2, communicationsTable.getItemCount() );
+		communicationsTable.notifyListeners( SWT.MouseDown, event );
 		
 		if ( "windows".equals( System.getProperty( "os.name" ))) {		
+			assertEquals( 3, communicationsTable.getItemCount() );
+
+			event.x = communicationsTable.getItem( 1 ).getBounds( 2 ).x;
+			event.y = communicationsTable.getItem( 1 ).getBounds( 2 ).y;
+			communicationsTable.notifyListeners( SWT.MouseDown, event );
+			communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
+			text = (Text) communicationMetawidget.getChildren()[0];
+			text.setText( "(0402) 123 456" );
+			event.y = 0;
 			communicationsTable.notifyListeners( SWT.MouseDown, event );
 			assertEquals( 3, communicationsTable.getItemCount() );
+
+			// Check deleting a communication
+	
+			dialog.mCommunicationsTable.getMenu().notifyListeners( SWT.Show, null );
+			assertTrue( dialog.mCommunicationsTable.getMenu().getItem( 0 ).getEnabled() );
+			dialog.mCommunicationsTable.setSelection( 0 );
+			dialog.mCommunicationsTable.getMenu().getItem( 0 ).notifyListeners( SWT.Selection, null );
 		}
-
-		event.x = communicationsTable.getItem( 1 ).getBounds( 2 ).x;
-		event.y = communicationsTable.getItem( 1 ).getBounds( 2 ).y;
-		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		communicationMetawidget = (SwtMetawidget) dialog.mCommunicationsEditor.getEditor();
-		text = (Text) communicationMetawidget.getChildren()[0];
-		text.setText( "(0402) 123 456" );
-		event.y = 0;
-		communicationsTable.notifyListeners( SWT.MouseDown, event );
-		assertEquals( 3, communicationsTable.getItemCount() );
-
-		// Check deleting a communication
-
-		dialog.mCommunicationsTable.getMenu().notifyListeners( SWT.Show, null );
-		assertTrue( dialog.mCommunicationsTable.getMenu().getItem( 0 ).getEnabled() );
-		dialog.mCommunicationsTable.setSelection( 0 );
-		dialog.mCommunicationsTable.getMenu().getItem( 0 ).notifyListeners( SWT.Selection, null );
-
+	
 		// Check 'adding' a blank communication
 
 		event.x = communicationsTable.getItem( 1 ).getBounds( 1 ).x;
@@ -298,11 +298,14 @@ public class SwtAddressBookTest
 		assertEquals( "Sapien", contact.getSurname() );
 		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
 
-		Iterator<Communication> iterator = contact.getCommunications().iterator();
-		Communication communication = iterator.next();
-		assertEquals( "Mobile", communication.getType() );
-		assertEquals( "(0402) 123 456", communication.getValue() );
-		assertFalse( iterator.hasNext() );
+		if ( "windows".equals( System.getProperty( "os.name" ))) {		
+			Iterator<Communication> iterator = contact.getCommunications().iterator();
+			Communication communication = iterator.next();
+			assertEquals( "Mobile", communication.getType() );
+			assertEquals( "(0402) 123 456", communication.getValue() );
+			assertFalse( iterator.hasNext() );
+		}
+		
 		dialog.dispose();
 
 		// Check re-viewing
