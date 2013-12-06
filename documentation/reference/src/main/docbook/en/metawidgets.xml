@@ -656,7 +656,7 @@
 								Wrap Metawidget around a DOM element:
 							</para>
 							<programlisting language="xml">$('#metawidget').metawidget();
-$('#metawidget').metawidget('buildWidgets',toInspect);</programlisting>
+$('#metawidget').metawidget('buildWidgets', toInspect);</programlisting>
 						</listitem>
 						<listitem>
 							<para>
@@ -670,14 +670,21 @@ $('#metawidget').metawidget('buildWidgets',toInspect);</programlisting>
 					<title>Configuration</title>
 										
 					<para>
-						<filename>metawidget-jqueryui.js</filename> is preconfigured with sensible defaults. You can change this configuration
-						by passing JQuery UI <parameter>option</parameter>s:
+						<filename>metawidget-jqueryui.js</filename> is preconfigured with sensible defaults.
+						You can change this configuration either at construction time:
 					</para>
 					
-					<programlisting language="java">$('#metawidget').metawidget('option','layout',
-	new metawidget.layout.SimpleLayout());</programlisting>
+					<programlisting language="java">$('#metawidget').metawidget( {
+	layout: new metawidget.layout.SimpleLayout()
+} );</programlisting>
 
+					<para>
+						Or by passing JQuery UI <parameter>option</parameter>s:
+					</para>
+					
+					<programlisting language="java">$('#metawidget').metawidget('option','layout',new metawidget.layout.SimpleLayout());</programlisting>
 				</section>
+				
 			</section>
 
 			<section id="section-metawidgets-web-javascript-nodejs">
@@ -1694,14 +1701,14 @@ mPerson.setFirstname( (String) metawidget.getValue( "firstname" ) );</programlis
 
 					<para>
 						There are three steps to installing <filename>metawidget-jquerymobile.js</filename> within
-						an HTML 5 application:
+						an HTML 5 hybrid application:
 					</para>
 					
 					<orderedlist>
 						<listitem>
 							<para>
 								Add <filename>metawidget-core.min.js</filename> into <filename>/lib/metawidget/core</filename>
-								and <filename>metawidget-jquerymobile.min.js</filename> into <filename>/lib/metawidget/jquery-mobile</filename>
+								and <filename>metawidget-jquerymobile.min.js</filename> into <filename>/lib/metawidget/jquery.mobile</filename>
 							</para>
 						</listitem>
 						<listitem>
@@ -1709,14 +1716,14 @@ mPerson.setFirstname( (String) metawidget.getValue( "firstname" ) );</programlis
 								Add <parameter>script</parameter> tags to the top of your page:
 							</para>
 							<programlisting language="xml">&lt;script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"&gt;&lt;/script&gt;
-&lt;script src="lib/metawidget/jquery-mobile/metawidget-jquerymobile.min.js" type="text/javascript"&gt;&lt;/script&gt;</programlisting>
+&lt;script src="lib/metawidget/jquery.mobile/metawidget-jquerymobile.min.js" type="text/javascript"&gt;&lt;/script&gt;</programlisting>
 						</listitem>
 						<listitem>
 							<para>
 								Wrap Metawidget around a DOM element:
 							</para>
 							<programlisting language="xml">$('#metawidget').metawidget();
-$('#metawidget').metawidget('buildWidgets',toInspect);</programlisting>
+$('#metawidget').metawidget('buildWidgets', toInspect);</programlisting>
 						</listitem>
 						<listitem>
 							<para>
@@ -1730,12 +1737,19 @@ $('#metawidget').metawidget('buildWidgets',toInspect);</programlisting>
 					<title>Configuration</title>
 										
 					<para>
-						<filename>metawidget-jquerymobile.js</filename> is preconfigured with sensible defaults. You can change this configuration
-						by passing JQueryMobile <parameter>option</parameter>s:
+						<filename>metawidget-jquerymobile.js</filename> is preconfigured with sensible defaults.
+						You can change this configuration either at construction time:
 					</para>
 					
-					<programlisting language="java">$('#metawidget').metawidget('option','layout',
-	new metawidget.layout.SimpleLayout());</programlisting>
+					<programlisting language="java">$('#metawidget').metawidget( {
+	layout: new metawidget.layout.SimpleLayout()
+} );</programlisting>
+
+					<para>
+						Or by passing JQueryMobile <parameter>option</parameter>s:
+					</para>
+					
+					<programlisting language="java">$('#metawidget').metawidget('option','layout',new metawidget.layout.SimpleLayout());</programlisting>
 
 				</section>
 			</section>
