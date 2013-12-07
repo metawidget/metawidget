@@ -8,13 +8,13 @@
 // are met:
 //
 // * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
+// this list of conditions and the following disclaimer.
 // * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
+// this list of conditions and the following disclaimer in the documentation
+// and/or other materials provided with the distribution.
 // * Neither the name of Richard Kennard nor the names of its contributors may
-//   be used to endorse or promote products derived from this software without
-//   specific prior written permission.
+// be used to endorse or promote products derived from this software without
+// specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -42,7 +42,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
@@ -90,7 +89,7 @@ public class SwingAddressBookTest
 	// Public methods
 	//
 
-	@SuppressWarnings( { "cast", "deprecation" } )
+	@SuppressWarnings( "deprecation" )
 	public void testAddressBook()
 		throws Exception {
 
@@ -303,11 +302,7 @@ public class SwingAddressBookTest
 		contact = contactsController.load( 1 );
 		assertEquals( "Sapien", contact.getSurname() );
 
-		if ( Locale.US.equals( Locale.getDefault() )) {
-			assertEquals( new DateConverter().convertReverse( "5/12/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
-		} else {
-			assertEquals( new DateConverter().convertReverse( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
-		}
+		assertEquals( new DateConverter().convertReverse( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 57, Calendar.MAY, 12 ) ) ), ( (PersonalContact) contact ).getDateOfBirth() );
 
 		Iterator<Communication> iterator = contact.getCommunications().iterator();
 		Communication communication = iterator.next();
@@ -326,11 +321,7 @@ public class SwingAddressBookTest
 		dialog = addressBook.createContactDialog( contact );
 		metawidgetContact = dialog.mContactMetawidget;
 		assertEquals( "Sapien", metawidgetContact.getValue( "surname" ) );
-		if ( Locale.US.equals( Locale.getDefault() )) {
-			assertEquals( "5/12/57", metawidgetContact.getValue( "dateOfBirth" ) );
-		} else {
-			assertEquals( "12/05/57", metawidgetContact.getValue( "dateOfBirth" ) );
-		}
+		assertEquals( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 57, Calendar.MAY, 12 ) ), metawidgetContact.getValue( "dateOfBirth" ) );
 
 		scrollPane = metawidgetContact.getComponent( "communications" );
 		communications = (JTable) scrollPane.getViewport().getView();

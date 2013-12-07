@@ -289,14 +289,14 @@ public class SwtAddressBookTest
 			assertEquals( "java.text.ParseException: Unparseable date: \"foo\"", e.getCause().getMessage() );
 		}
 
-		metawidgetContact.setValue( "12/05/57", "dateOfBirth" );
+		metawidgetContact.setValue( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 57, Calendar.MAY, 12 ) ), "dateOfBirth" );
 		buttonFacet = (Facet) metawidgetContact.getChildren()[metawidgetContact.getChildren().length - 1];
 		Button saveButton = (Button) buttonsMetawidget.getChildren()[3];
 		assertEquals( "Save", saveButton.getText() );
 		saveButton.notifyListeners( SWT.Selection, null );
 
 		assertEquals( "Sapien", contact.getSurname() );
-		assertEquals( new StringToDateConverter().convert( "12/05/57" ), ( (PersonalContact) contact ).getDateOfBirth() );
+		assertEquals( new StringToDateConverter().convert( DateFormat.getDateInstance( DateFormat.SHORT ).format( new Date( 57, Calendar.MAY, 12 ) ) ), ( (PersonalContact) contact ).getDateOfBirth() );
 
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" )) {		
 			Iterator<Communication> iterator = contact.getCommunications().iterator();
