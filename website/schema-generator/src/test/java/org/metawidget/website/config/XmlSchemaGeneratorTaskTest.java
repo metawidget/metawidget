@@ -146,10 +146,10 @@ public class XmlSchemaGeneratorTaskTest
 
 		// No config
 
-		schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.swing.widgetbuilder", "SwingWidgetBuilder" );
+		schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.swing.widgetbuilder", "ReadOnlyWidgetBuilder" );
 
-		assertTrue( schema.contains( "\r\n\t<!-- SwingWidgetBuilder -->\r\n" ) );
-		assertTrue( schema.contains( "\t<xs:element name=\"swingWidgetBuilder\">\r\n" ) );
+		assertTrue( schema.contains( "\r\n\t<!-- ReadOnlyWidgetBuilder -->\r\n" ) );
+		assertTrue( schema.contains( "\t<xs:element name=\"readOnlyWidgetBuilder\">\r\n" ) );
 		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ) );
 		assertTrue( schema.contains( "\t\t\t<xs:attribute name=\"config\" type=\"xs:string\" use=\"prohibited\"/>\r\n" ) );
 		assertTrue( schema.contains( "\t\t</xs:complexType>\r\n" ) );
