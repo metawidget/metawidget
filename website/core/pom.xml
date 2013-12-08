@@ -168,7 +168,7 @@
 						
 						<!-- Try to have something at xmlns URIs -->
 
-						<copy file="../../modules/java/core/src/main/resources/org/metawidget/inspector/inspection-result-1.0.xsd" todir="target/ROOT/inspection-result/index.html"/>
+						<copy file="../../modules/java/core/src/main/resources/org/metawidget/inspector/inspection-result-1.0.xsd" todir="target/ROOT/inspection-result"/>
 
 						<!-- Try to have something at TLD URIs -->
 
