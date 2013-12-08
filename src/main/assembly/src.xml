@@ -25,17 +25,17 @@
 			</excludes>
 		</fileSet>
 		<fileSet>
-			<directory>/src/main/resources/for-src</directory>
+			<directory>src/main/resources/for-src</directory>
 			<outputDirectory>/src</outputDirectory>
 		</fileSet>
 	</fileSets>
 	<files>
 		<file>
-			<source>/src/main/resources/for-bin/lgpl.txt</source>
+			<source>src/main/resources/for-bin/lgpl.txt</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
 		<file>
-			<source>/readme.txt</source>
+			<source>readme.txt</source>
 			<outputDirectory>/</outputDirectory>
 		</file>		
 	</files>
