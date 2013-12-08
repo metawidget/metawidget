@@ -6,15 +6,15 @@
 	<baseDirectory>metawidget-${project.version}</baseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>/modules/java/target/site/apidocs</directory>
+			<directory>modules/java/target/site/apidocs</directory>
 			<outputDirectory>/doc/api</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/corejs/target/jsdoc</directory>
+			<directory>modules/js/corejs/target/jsdoc</directory>
 			<outputDirectory>/doc/jsdoc</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/java/target/site/tlddoc</directory>
+			<directory>modules/java/target/site/tlddoc</directory>
 			<outputDirectory>/doc/taglib</outputDirectory>
 		</fileSet>
 		<fileSet>
@@ -34,35 +34,35 @@
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/angularjs/target/metawidget-angularjs</directory>
+			<directory>modules/js/angularjs/target/metawidget-angularjs</directory>
 			<includes>
 				<include>**/*.js</include>
 			</includes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/bootstrap/target/metawidget-bootstrap</directory>
+			<directory>modules/js/bootstrap/target/metawidget-bootstrap</directory>
 			<includes>
 				<include>**/*.js</include>
 			</includes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/corejs/target/metawidget-corejs</directory>
+			<directory>modules/js/corejs/target/metawidget-corejs</directory>
 			<includes>
 				<include>**/*.js</include>
 			</includes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/jquery/mobile/target/metawidget-jquerymobile</directory>
+			<directory>modules/js/jquery/mobile/target/metawidget-jquerymobile</directory>
 			<includes>
 				<include>**/*.js</include>
 			</includes>
 			<outputDirectory>/js</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/modules/js/jquery/ui/target/metawidget-jqueryui</directory>
+			<directory>modules/js/jquery/ui/target/metawidget-jqueryui</directory>
 			<includes>
 				<include>**/*.js</include>
 			</includes>
@@ -71,15 +71,15 @@
 	</fileSets>
 	<files>
 		<file>
-			<source>/modules/java/all/target/metawidget-all-sources.jar</source>
+			<source>modules/java/all/target/metawidget-all-sources.jar</source>
 			<outputDirectory>/java/gwt</outputDirectory>
 		</file>
 		<file>
-			<source>/modules/java/all/target/metawidget-all.jar</source>
+			<source>modules/java/all/target/metawidget-all.jar</source>
 			<outputDirectory>/java</outputDirectory>
 		</file>
 		<file>
-			<source>/readme.txt</source>
+			<source>readme.txt</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
 	</files>
