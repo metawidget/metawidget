@@ -17,6 +17,10 @@
 	padding: 10px;	
 }
 
+#metawidget table tfoot tr td {
+	padding: 10px;	
+}
+
 #metawidget table tbody tr:nth-child(even) {
 	background-color: #ffffff;
 }

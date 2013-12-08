@@ -99,16 +99,20 @@
 						return {
 							properties: {
 								street: {
-									type: "string"
+									type: "string",
+									propertyOrder: 1
 								},
 								city: {
-									type: "string"
+									type: "string",
+									propertyOrder: 2
 								},
 								state: {
-									"enum": [ "Anytown", "Cyberton", "Lostville", "Whereverton" ]
+									"enum": [ "Anytown", "Cyberton", "Lostville", "Whereverton" ],
+									propertyOrder: 3
 								},
 								postcode: {
-									type: "string"
+									type: "string",
+									propertyOrder: 4
 								}
 							}
 						};

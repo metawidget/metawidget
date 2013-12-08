@@ -15,7 +15,7 @@
 		</p>
 		
 		<ul>
-			<li>JQuery Mobile support</li>
+			<li><a href="http://blog.kennardconsulting.com/2013/12/jquery-mobile-ui-generator.html">JQuery Mobile support</a></li>
 			<li>JavaScript DefinitionListLayout</li>
 			<li>Angular 1.2 support</li>
 			<li>JavaScript support for collections of radio buttons</li>
@@ -24,7 +24,7 @@
 			<li>Android ReflectionBindingProcessor</li>
 			<li>JSP validation improvements</li>
 			<li>Spring inline error validation</li>
-			<li>CloudBees build</li>
+			<li><a href="https://kennardconsulting.ci.cloudbees.com/job/Metawidget">CloudBees build</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
