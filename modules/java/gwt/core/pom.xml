@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.modules.gwt</groupId>
 		<artifactId>gwt-parent</artifactId>
-		<version>3.7-SNAPSHOT</version>
+		<version>3.7</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
