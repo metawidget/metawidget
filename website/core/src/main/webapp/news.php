@@ -23,7 +23,7 @@
 			<li>JacksonInspector</li>
 			<li>Android ReflectionBindingProcessor</li>
 			<li>JSP validation improvements</li>
-			<li>Spring inline error validation</li>
+			<li><a href="https://sourceforge.net/p/metawidget/discussion/747623/thread/3dd6fc51/">Spring inline error validation</a></li>
 			<li><a href="https://kennardconsulting.ci.cloudbees.com/job/Metawidget">CloudBees build</a></li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
