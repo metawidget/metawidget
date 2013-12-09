@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.modules.faces</groupId>
 		<artifactId>faces-parent</artifactId>
-		<version>3.7</version>
+		<version>3.8-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
