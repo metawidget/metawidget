@@ -337,7 +337,13 @@
 				
 				<para>
 					Depending on the type of inspector, it may use the given <classname>toInspect</classname> to access the runtime
-					object for the given <classname>type</classname>. Or it may ignore the <classname>toInspect</classname> and look up
+					object for the given <classname>type</classname>. For example:
+				</para>
+				
+				<programlisting language="java">metawidget.setToInspect( myPerson );	// Will be passed to Inspector</programlisting>
+				
+				<para>
+					Or it may ignore the <classname>toInspect</classname> and look up
 					information for the given <classname>type</classname> from an XML file or a database schema. This allows Metawidget
 					to inspect types that have no corresponding Java object. For example: 
 				</para>

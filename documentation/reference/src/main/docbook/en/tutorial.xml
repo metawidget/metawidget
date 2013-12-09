@@ -2957,7 +2957,7 @@ metawidget.setToInspect( animal )</programlisting>
 				<title>Static Metawidget Example</title>
 	
 				<para>
-					Although Metawidget is focussed on runtime UI generation, its static mode (see <xref linkend="section-metawidgets-static"/>) can
+					Although Metawidget is focused on runtime UI generation, its static mode (see <xref linkend="section-metawidgets-static"/>) can
 					sometimes be more appropriate. The <ulink url="http://jboss.org/forge">JBoss Forge</ulink> project provides a thorough, real
 					world demonstration of static Metawidget in action. JBoss Forge uses Metawidget internally for its UI scaffolding generation.
 				</para>

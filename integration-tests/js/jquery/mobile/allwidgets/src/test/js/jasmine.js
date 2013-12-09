@@ -87,7 +87,7 @@ jasmine.clearInterval = jasmine.bindOriginal_(jasmine.getGlobal(), 'clearInterva
 jasmine.MessageResult = function(values) {
   this.type = 'log';
   this.values = values;
-  this.trace = new Error(); // todo: test better
+  this.trace = new Error(); // toxdo: test better
 };
 
 jasmine.MessageResult.prototype.toString = function() {
@@ -1184,12 +1184,12 @@ jasmine.Matchers = function(env, actual, spec, opt_isNot) {
   this.reportWasCalled_ = false;
 };
 
-// todo: @deprecated as of Jasmine 0.11, remove soon [xw]
+// toxdo: @deprecated as of Jasmine 0.11, remove soon [xw]
 jasmine.Matchers.pp = function(str) {
   throw new Error("jasmine.Matchers.pp() is no longer supported, please use jasmine.pp() instead!");
 };
 
-// todo: @deprecated Deprecated as of Jasmine 0.10. Rewrite your custom matchers to return true or false. [xw]
+// toxdo: @deprecated Deprecated as of Jasmine 0.10. Rewrite your custom matchers to return true or false. [xw]
 jasmine.Matchers.prototype.report = function(result, failing_message, details) {
   throw new Error("As of jasmine 0.11, custom matchers must be implemented differently -- please see jasmine docs");
 };

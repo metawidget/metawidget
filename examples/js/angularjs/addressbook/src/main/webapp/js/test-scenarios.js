@@ -159,21 +159,21 @@
 			expect( element( '#currentAddressPostcode' ).text() ).toBe( '90701' );
 			expect( element( '#table-currentAddress tbody tr' ).count() ).toBe( 4 );
 
-			expect( element( '#table-current tbody > tr:eq(7) th:eq(0)' ).text() ).toBe( 'Communications:' );
-			expect( element( '#table-current tbody > tr:eq(7) th:eq(0) label' ).attr( 'for' ) ).toBe( 'currentCommunications' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table' ).attr( 'id' ) ).toBe( 'currentCommunications' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table' ).attr( 'id' ) ).toBe( 'currentCommunications' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(0) td:eq(0)' ).text() ).toBe( 'Telephone' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(0) td:eq(1)' ).text() ).toBe( '(939) 555-0113' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr' ).count() ).toBe( 1 );
-			expect( element( '#currentCommunications tfoot' ).attr( 'style' ) ).toContain( 'display: none' );
+			expect( element( '#table-current > tbody > tr:eq(7) > th:eq(0)' ).text() ).toBe( 'Communications:' );
+			expect( element( '#table-current > tbody > tr:eq(7) > th:eq(0) label' ).attr( 'for' ) ).toBe( 'currentCommunications' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table' ).attr( 'id' ) ).toBe( 'currentCommunications' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table' ).attr( 'id' ) ).toBe( 'currentCommunications' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr:eq(0) td:eq(0)' ).text() ).toBe( 'Telephone' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr:eq(0) td:eq(1)' ).text() ).toBe( '(939) 555-0113' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr' ).count() ).toBe( 1 );
+			expect( element( '#currentCommunications > tfoot' ).attr( 'ng-show' ) ).toBe( '!readOnly' );
 
-			expect( element( '#table-current tbody > tr:eq(8) td' ).attr( 'colspan' ) ).toBe( '2' );
-			expect( element( '#table-current tbody > tr:eq(8) td h1' ).text() ).toBe( 'Other' );
+			expect( element( '#table-current > tbody > tr:eq(8) > td' ).attr( 'colspan' ) ).toBe( '2' );
+			expect( element( '#table-current > tbody > tr:eq(8) > td h1' ).text() ).toBe( 'Other' );
 
-			expect( element( '#table-current tbody > tr:eq(9) th:eq(0)' ).text() ).toBe( 'Notes:' );
-			expect( element( '#table-current tbody > tr:eq(9) th:eq(0) label' ).attr( 'for' ) ).toBe( 'currentNotes' );
-			expect( element( '#table-current tbody > tr:eq(9) td:eq(0) output' ).attr( 'id' ) ).toBe( 'currentNotes' );
+			expect( element( '#table-current > tbody > tr:eq(9) > th:eq(0)' ).text() ).toBe( 'Notes:' );
+			expect( element( '#table-current > tbody > tr:eq(9) > th:eq(0) label' ).attr( 'for' ) ).toBe( 'currentNotes' );
+			expect( element( '#table-current > tbody > tr:eq(9) > td:eq(0) output' ).attr( 'id' ) ).toBe( 'currentNotes' );
 			expect( element( '#table-current tfoot:eq(0) tr td' ).attr( 'colspan' ) ).toBe( '2' );
 			expect( element( '#table-current tfoot:eq(0) tr td' ).attr( 'class' ) ).toBe( 'buttons' );
 			expect( element( '#table-current tfoot:eq(0) tr td input' ).count() ).toBe( 2 );
@@ -211,32 +211,32 @@
 			expect( element( '#table-currentAddress tbody tr:eq(3) td input' ).attr( 'id' ) ).toBe( 'currentAddressPostcode' );
 			expect( input( 'current.address.postcode' ).val() ).toBe( '90701' );
 
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table' ).attr( 'id' ) ).toBe( 'currentCommunications' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table' ).attr( 'id' ) ).toBe( 'currentCommunications' );
 			expect( element( '#currentCommunications tfoot tr td:eq(0) select' ).attr( 'id' ) ).toBe( 'communicationType' );
 			expect( element( '#currentCommunications tfoot tr td:eq(1) input' ).attr( 'id' ) ).toBe( 'communicationValue' );
 
-			expect( element( '#table-current tbody > tr:eq(8) td' ).attr( 'colspan' ) ).toBe( '2' );
-			expect( element( '#table-current tbody > tr:eq(8) td h1' ).text() ).toBe( 'Other' );
+			expect( element( '#table-current > tbody > tr:eq(8) > td' ).attr( 'colspan' ) ).toBe( '2' );
+			expect( element( '#table-current > tbody > tr:eq(8) > td h1' ).text() ).toBe( 'Other' );
 
-			expect( element( '#table-current tbody > tr:eq(9) td:eq(0) textarea' ).attr( 'id' ) ).toBe( 'currentNotes' );
+			expect( element( '#table-current > tbody > tr:eq(9) > td:eq(0) textarea' ).attr( 'id' ) ).toBe( 'currentNotes' );
 
 			input( 'current.firstname' ).enter( 'Homer Jay' );
 			select( 'communication.type' ).option( 'Fax' );
 			input( 'communication.value' ).enter( '(939) 555-0114' );
 			element( '#currentCommunications tfoot tr td:eq(2) button' ).click();
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(1) td:eq(0)' ).text() ).toBe( 'Fax' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(1) td:eq(1)' ).text() ).toBe( '(939) 555-0114' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr' ).count() ).toBe( 2 );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr:eq(1) td:eq(0)' ).text() ).toBe( 'Fax' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr:eq(1) td:eq(1)' ).text() ).toBe( '(939) 555-0114' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr' ).count() ).toBe( 2 );
 			expect( input( 'communication.type' ).val() ).toBe( '' );
 			select( 'communication.type' ).option( 'E-mail' );
 			input( 'communication.value' ).enter( 'homer@simpsons.com' );
 			expect( element( '#currentCommunications tfoot tr td:eq(2)' ).attr( 'class' ) ).toBe( 'column-tiny, table-buttons' );
 			element( '#currentCommunications tfoot tr td:eq(2) button' ).click();
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(2) td:eq(0)' ).text() ).toBe( 'E-mail' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(2) td:eq(1)' ).text() ).toBe( 'homer@simpsons.com' );
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr' ).count() ).toBe( 3 );
-			element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr:eq(0) td:eq(2) button' ).click();
-			expect( element( '#table-current tbody > tr:eq(7) td:eq(0) table tbody tr' ).count() ).toBe( 2 );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr:eq(2) td:eq(0)' ).text() ).toBe( 'E-mail' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr:eq(2) td:eq(1)' ).text() ).toBe( 'homer@simpsons.com' );
+			expect( element( '#table-current > tbody > tr:eq(7) > td:eq(0) table tbody tr' ).count() ).toBe( 3 );
+			element( '#table-current > tbody > tr:eq(7) td:eq(0) table tbody tr:eq(0) td:eq(2) button' ).click();
+			expect( element( '#table-current > tbody > tr:eq(7) td:eq(0) table tbody tr' ).count() ).toBe( 2 );
 			input( 'current.address.street' ).enter( '742 Evergreen Terrace #2' );
 			input( 'current.address.city' ).enter( 'Springfield #2' );
 			select( 'current.address.state' ).option( 'Cyberton' );
@@ -272,9 +272,9 @@
 			expect( element( '#dialog-image' ).prop( 'src' ) ).toContain( '/media/business.gif' );
 			element( '#crudActionsEdit' ).click();
 
-			expect( element( '#table-current tbody > tr:eq(9) td:eq(0) input' ).attr( 'type' ) ).toBe( 'range' );
-			expect( element( '#table-current tbody > tr:eq(9) td:eq(0) input' ).attr( 'min' ) ).toBe( '0' );
-			expect( element( '#table-current tbody > tr:eq(9) td:eq(0) input' ).attr( 'max' ) ).toBe( '100' );
+			expect( element( '#table-current > tbody > tr:eq(9) > td:eq(0) input' ).attr( 'type' ) ).toBe( 'range' );
+			expect( element( '#table-current > tbody > tr:eq(9) > td:eq(0) input' ).attr( 'min' ) ).toBe( '0' );
+			expect( element( '#table-current > tbody > tr:eq(9) > td:eq(0) input' ).attr( 'max' ) ).toBe( '100' );
 		} );
 
 		it( 'should allow creating new contacts', function() {

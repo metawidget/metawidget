@@ -33,7 +33,7 @@
 
 	/* App Module */
 
-	angular.module( 'addressBook', [ 'controllers', 'services', 'metawidget' ] )
+	angular.module( 'addressBook', [ 'ngRoute', 'controllers', 'services', 'metawidget' ] )
 
 	.config( [ '$routeProvider', function( $routeProvider ) {
 
