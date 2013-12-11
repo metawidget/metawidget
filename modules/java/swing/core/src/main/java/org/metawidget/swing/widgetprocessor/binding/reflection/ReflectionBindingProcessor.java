@@ -63,7 +63,6 @@ public class ReflectionBindingProcessor
 		metawidget.putClientProperty( ReflectionBindingProcessor.class, null );
 	}
 
-	@SuppressWarnings( "serial" )
 	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
 
 		// Nested Metawidgets are not bound, only remembered
