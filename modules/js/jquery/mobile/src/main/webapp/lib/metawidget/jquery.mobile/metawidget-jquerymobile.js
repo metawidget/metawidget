@@ -19,6 +19,8 @@
 //
 // Commercial License: See http://metawidget.org for details
 
+var metawidget = metawidget || {};
+
 ( function() {
 
 	'use strict';

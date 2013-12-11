@@ -73,7 +73,7 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
+	metawidget.widgetprocessor.RequiredAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes ) {
 
 		if ( metawidget.util.isTrueOrTrueString( attributes.required ) ) {
 			widget.setAttribute( 'required', 'required' );
@@ -93,7 +93,7 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.widgetprocessor.PlaceholderAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
+	metawidget.widgetprocessor.PlaceholderAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes ) {
 
 		if ( attributes.placeholder !== undefined ) {
 			widget.setAttribute( 'placeholder', attributes.placeholder );
@@ -113,7 +113,7 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.widgetprocessor.DisabledAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
+	metawidget.widgetprocessor.DisabledAttributeProcessor.prototype.processWidget = function( widget, elementName, attributes ) {
 
 		if ( metawidget.util.isTrueOrTrueString( attributes.disabled ) ) {
 			widget.setAttribute( 'disabled', 'disabled' );
@@ -148,7 +148,7 @@ var metawidget = metawidget || {};
 				try {
 					return mw.toInspect[attributes.name]();
 				} catch ( e ) {
-					if ( alert ) {
+					if ( alert !== undefined ) {
 						alert( e );
 					} else {
 						throw e;
@@ -215,6 +215,8 @@ var metawidget = metawidget || {};
 			widget.setAttribute( 'name', widget.getAttribute( 'id' ) );
 		}
 
+		var loop, length;
+		
 		// Special support for arrays of checkboxes/radio buttons
 
 		if ( attributes['enum'] !== undefined && widget.tagName === 'DIV' ) {
@@ -223,7 +225,8 @@ var metawidget = metawidget || {};
 
 				isBindable = true;
 
-				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+				length = widget.childNodes.length;
+				for ( loop = 0; loop < length; loop++ ) {
 					var childNode = widget.childNodes[loop];
 					if ( childNode.tagName === 'LABEL' ) {
 						var labelChildNode = childNode.childNodes[0];
@@ -267,9 +270,10 @@ var metawidget = metawidget || {};
 
 					if ( attributes.type === 'array' ) {
 
-						for( var loop = 0, length = value.length; loop < length; loop++ ) {
+						length = value.length;
+						for( loop = 0; loop < length; loop++ ) {
 
-							if ( loop == 0 ) {
+							if ( loop === 0 ) {
 								widget.innerHTML = '';
 							} else {
 								widget.innerHTML += ', ';

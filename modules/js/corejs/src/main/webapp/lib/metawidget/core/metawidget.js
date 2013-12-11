@@ -24,6 +24,8 @@
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
+// TODO: hoisting
+
 var metawidget = metawidget || {};
 
 ( function() {
@@ -412,7 +414,6 @@ var metawidget = metawidget || {};
 				for ( var loop = 0, length = inspectionResultProperties.length; loop < length; loop++ ) {
 
 					copiedAttributes = _forceReadOnly( inspectionResultProperties[loop], mw );
-					var elementName;
 
 					if ( copiedAttributes.type === 'function' ) {
 						elementName = "action";
@@ -420,7 +421,7 @@ var metawidget = metawidget || {};
 						elementName = "property";
 					}
 
-					var widget = _buildWidget( this, elementName, copiedAttributes, mw );
+					widget = _buildWidget( this, elementName, copiedAttributes, mw );
 
 					if ( widget === undefined ) {
 
@@ -491,11 +492,15 @@ var metawidget = metawidget || {};
 
 		function _startBuild( pipeline, mw ) {
 
+			var loop, length;
+			
 			// Mark overridden widgets. This is useful for Angular so that it
 			// doesn't $compile them again. It's useful for JQuery Mobile so it
 			// doesn't .trigger( 'create' ) them again
 
-			for ( var loop = 0, length = mw.overriddenNodes.length; loop < length; loop++ ) {
+			length = mw.overriddenNodes.length;
+			
+			for ( loop = 0; loop < length; loop++ ) {
 				mw.overriddenNodes[loop].overridden = true;
 			}
 
@@ -503,7 +508,9 @@ var metawidget = metawidget || {};
 				pipeline.widgetBuilder.onStartBuild( mw );
 			}
 
-			for ( var loop = 0, length = pipeline.widgetProcessors.length; loop < length; loop++ ) {
+			length = pipeline.widgetProcessors.length;
+			
+			for ( loop = 0; loop < length; loop++ ) {
 
 				var widgetProcessor = pipeline.widgetProcessors[loop];
 
@@ -552,6 +559,8 @@ var metawidget = metawidget || {};
 
 		function _endBuild( pipeline, mw ) {
 
+			var loop, length;
+			
 			if ( mw.onEndBuild !== undefined ) {
 				mw.onEndBuild();
 			} else {
@@ -573,7 +582,8 @@ var metawidget = metawidget || {};
 					};
 
 					if ( child.tagName === 'STUB' ) {
-						for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+						length = child.attributes.length;
+						for ( loop = 0; loop < length; loop++ ) {
 							var prop = child.attributes[loop];
 							childAttributes[prop.nodeName] = prop.nodeValue;
 						}
@@ -595,7 +605,8 @@ var metawidget = metawidget || {};
 				pipeline.layout.onEndBuild( mw );
 			}
 
-			for ( var loop = 0, length = pipeline.widgetProcessors.length; loop < length; loop++ ) {
+			length = pipeline.widgetProcessors.length;
+			for ( loop = 0; loop < length; loop++ ) {
 
 				var widgetProcessor = pipeline.widgetProcessors[loop];
 

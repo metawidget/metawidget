@@ -20,11 +20,11 @@
 			header('Expires: '.gmdate('D, d M Y H:i:s', time()+360).' GMT');		
 			if ( $useTooltips ) {
 				echo '<script src="/js/newsticker.js" type="text/javascript"></script>';
-				echo '<script src="/js/tooltip-v0.2.js" type="text/javascript"></script>';
+				echo '<script src="/js/tooltip-v0.2.min.js" type="text/javascript"></script>';
 			}			
 			if ( $useThumbailViewer ) {
 				echo '<link rel="stylesheet" type="text/css" href="/css/lightbox.css" />';
-				echo '<script type="text/javascript" src="/js/lightbox.js"></script>';
+				echo '<script type="text/javascript" src="/js/lightbox.min.js"></script>';
 			}
 		?>
 	</head>	

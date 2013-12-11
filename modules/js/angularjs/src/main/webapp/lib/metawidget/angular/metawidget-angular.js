@@ -23,6 +23,8 @@
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
+var metawidget = metawidget || {};
+
 ( function() {
 
 	'use strict';
@@ -79,12 +81,12 @@
 
 					// Build
 
-					var _oldToInspect = undefined;
+					var _oldToInspect;
 					_buildWidgets();
 
 					// Observe
 
-					scope.$watch( 'ngModel', function( newValue, oldValue ) {
+					scope.$watch( 'ngModel', function( newValue ) {
 
 						// Cannot test against mw.toInspect, because is pointed
 						// at the splitPath.type
@@ -101,7 +103,7 @@
 						}
 					} );
 
-					scope.$watch( 'readOnly', function( newValue, oldValue ) {
+					scope.$watch( 'readOnly', function( newValue ) {
 
 						// Test against mw.readOnly, not oldValue, because it
 						// may have been reset already by _buildWidgets
@@ -196,7 +198,7 @@
 			}
 		};
 
-		var _lastInspectionResult = undefined;
+		var _lastInspectionResult;
 
 		this.invalidateInspection = function() {
 
@@ -303,7 +305,8 @@
 					continue;
 				}
 
-				var childAttributes = undefined;
+				var childAttributes;
+				var loop, length;
 
 				// Lookup binding attribute
 				//
@@ -313,7 +316,8 @@
 				// names are case-insensitive and Angular's template mechanism
 				// lowercases them
 
-				for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+				length = child.attributes.length;
+				for ( loop = 0; loop < length; loop++ ) {
 					var attribute = child.attributes[loop];
 					var normalizedName = attrs.$normalize( attribute.name ).toLowerCase();
 
@@ -336,7 +340,8 @@
 				// Stubs can supply their own metadata (such as 'title')
 
 				if ( child.tagName === 'STUB' ) {
-					for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
+					length = child.attributes.length;
+					for ( loop = 0; loop < length; loop++ ) {
 						var prop = child.attributes[loop];
 						childAttributes[prop.nodeName] = prop.nodeValue;
 					}

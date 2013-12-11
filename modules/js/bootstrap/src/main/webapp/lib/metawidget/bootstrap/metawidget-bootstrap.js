@@ -25,6 +25,8 @@
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
+var metawidget = metawidget || {};
+
 ( function() {
 
 	'use strict';
@@ -77,9 +79,10 @@
 				}
 				if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
 					var div = metawidget.util.createElement( mw, 'div' );
+					var span;
 					if ( attributes.inputPrepend !== undefined ) {
 						div.setAttribute( 'class', 'input-prepend' );
-						var span = metawidget.util.createElement( mw, 'span' );
+						span = metawidget.util.createElement( mw, 'span' );
 						span.setAttribute( 'class', 'add-on' );
 						span.innerHTML = attributes.inputPrepend;
 						div.appendChild( span );
@@ -91,7 +94,7 @@
 						} else {
 							div.setAttribute( 'class', 'input-append' );
 						}
-						var span = metawidget.util.createElement( mw, 'span' );
+						span = metawidget.util.createElement( mw, 'span' );
 						span.setAttribute( 'class', 'add-on' );
 						span.innerHTML = attributes.inputAppend;
 						div.appendChild( span );
@@ -159,14 +162,16 @@
 
 		// Whole new tabbed pane?
 
+		var ul, content;
+		
 		if ( tabs === undefined ) {
 			tabs = metawidget.util.createElement( mw, 'div' );
 			tabs.setAttribute( 'id', metawidget.util.getId( "property", attributes, mw ) + '-tabs' );
 			tabs.setAttribute( 'class', 'tabs' );
-			var ul = metawidget.util.createElement( mw, 'ul' );
+			ul = metawidget.util.createElement( mw, 'ul' );
 			ul.setAttribute( 'class', 'nav nav-tabs' );
 			tabs.appendChild( ul );
-			var content = metawidget.util.createElement( mw, 'div' );
+			content = metawidget.util.createElement( mw, 'div' );
 			content.setAttribute( 'class', 'tab-content' );
 			tabs.appendChild( content );
 			this.getDelegate().layoutWidget( tabs, "property", {
@@ -181,7 +186,7 @@
 
 		// New Tab
 
-		var ul = tabs.childNodes[0];
+		ul = tabs.childNodes[0];
 		var tabId = tabs.getAttribute( 'id' ) + ( ul.childNodes.length + 1 );
 		var li = metawidget.util.createElement( mw, 'li' );
 		if ( ul.childNodes.length === 0 ) {
@@ -194,7 +199,7 @@
 		li.appendChild( a );
 		ul.appendChild( li );
 
-		var content = tabs.childNodes[1];
+		content = tabs.childNodes[1];
 		var tab = metawidget.util.createElement( mw, 'div' );
 		if ( content.childNodes.length === 0 ) {
 			tab.setAttribute( 'class', 'tab-pane active' );

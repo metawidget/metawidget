@@ -49,7 +49,6 @@ import org.w3c.dom.Element;
 public class XmlSchemaInspectorTest
 	extends TestCase {
 
-	@SuppressWarnings( "unused" )
 	public void testMissingFile() {
 
 		try {

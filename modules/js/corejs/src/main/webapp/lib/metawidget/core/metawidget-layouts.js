@@ -49,7 +49,7 @@ var metawidget = metawidget || {};
 		}
 	};
 
-	metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, elementName, attributes, container, mw ) {
+	metawidget.layout.SimpleLayout.prototype.layoutWidget = function( widget, elementName, attributes, container ) {
 
 		if ( widget.tagName === 'STUB' && !metawidget.util.hasChildElements( widget ) ) {
 			return;
@@ -382,7 +382,7 @@ var metawidget = metawidget || {};
 			// Id
 
 			var table = container.childNodes[container.childNodes.length - 1];
-			var idPrefix = undefined;
+			var idPrefix;
 
 			if ( attributes.name !== undefined ) {
 				if ( table.hasAttribute( 'id' ) ) {
@@ -599,6 +599,8 @@ var metawidget = metawidget || {};
 
 		decorator.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
+			var section;
+			
 			// If our delegate is itself a NestedSectionLayoutDecorator, strip
 			// the section
 
@@ -606,7 +608,7 @@ var metawidget = metawidget || {};
 
 				// Stay where we are?
 
-				var section = metawidget.util.stripSection( attributes );
+				section = metawidget.util.stripSection( attributes );
 
 				if ( section === undefined || section === container[decoratorName].currentSection ) {
 					return decorator.getDelegate().layoutWidget( widget, elementName, attributes, container, mw );
@@ -650,7 +652,7 @@ var metawidget = metawidget || {};
 				}
 
 				for ( var level = 0; level < sections.length; level++ ) {
-					var section = sections[level];
+					section = sections[level];
 
 					// ...that are different from our current...
 

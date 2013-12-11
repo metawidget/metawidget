@@ -215,19 +215,22 @@ var metawidget = metawidget || {};
 
 			if ( attributes['enum'] !== undefined ) {
 
+				var loop, length, option;
+				
 				// Multi-select and radio buttons
 
 				if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
 
 					var div = metawidget.util.createElement( mw, 'div' );
+					length = attributes['enum'].length;
 
-					for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
+					for ( loop = 0; loop < length; loop++ ) {
 
 						// Uses 'implicit label association':
 						// http://www.w3.org/TR/html4/interact/forms.html#h-17.9.1
 
 						var label = metawidget.util.createElement( mw, 'label' );
-						var option = metawidget.util.createElement( mw, 'input' );
+						option = metawidget.util.createElement( mw, 'input' );
 
 						if ( attributes.componentType !== undefined ) {
 							option.setAttribute( 'type', attributes.componentType );
@@ -257,8 +260,10 @@ var metawidget = metawidget || {};
 					select.appendChild( metawidget.util.createElement( mw, 'option' ) );
 				}
 
-				for ( var loop = 0, length = attributes['enum'].length; loop < length; loop++ ) {
-					var option = metawidget.util.createElement( mw, 'option' );
+				length = attributes['enum'].length;
+				
+				for ( loop = 0; loop < length; loop++ ) {
+					option = metawidget.util.createElement( mw, 'option' );
 
 					// HtmlUnit needs an 'option' to have a 'value', even if the
 					// same as the innerHTML
@@ -404,7 +409,7 @@ var metawidget = metawidget || {};
 				typeAndNames.names = [];
 			}
 
-			var value = undefined;
+			var value;
 
 			if ( elementName !== 'entity' && toInspect !== undefined ) {
 				value = toInspect[attributes.name];
@@ -425,6 +430,7 @@ var metawidget = metawidget || {};
 			if ( inspectionResult !== undefined ) {
 
 				var tbody = metawidget.util.createElement( mw, 'tbody' );
+				var row, rows;
 
 				if ( inspectionResult.properties === undefined ) {
 
@@ -434,7 +440,8 @@ var metawidget = metawidget || {};
 					table.appendChild( tbody );
 
 					if ( value !== undefined ) {
-						for ( var row = 0, rows = value.length; row < rows; row++ ) {
+						rows = value.length;
+						for ( row = 0; row < rows; row++ ) {
 							this.addRow( tbody, value, row, [ {
 								type: inspectionResult.type
 							} ], elementName, attributes, mw );
@@ -456,7 +463,8 @@ var metawidget = metawidget || {};
 					table.appendChild( tbody );
 
 					if ( value !== undefined ) {
-						for ( var row = 0, rows = value.length; row < rows; row++ ) {
+						rows = value.length;
+						for ( var row = 0; row < rows; row++ ) {
 							this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
 						}
 					}
