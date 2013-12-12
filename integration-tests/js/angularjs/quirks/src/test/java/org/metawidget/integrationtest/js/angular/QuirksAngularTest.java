@@ -38,4 +38,14 @@ public class QuirksAngularTest
 
 		runScenarioRunner( "http://localhost:8180/quirks-angularjs/test-runner.html" );
 	}
+	
+	//
+	// Protected methods
+	//
+	
+	@Override
+	protected int getExpectedNumberOfTests() {
+
+		return 1;
+	}	
 }

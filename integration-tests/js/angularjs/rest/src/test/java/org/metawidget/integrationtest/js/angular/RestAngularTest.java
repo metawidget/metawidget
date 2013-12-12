@@ -38,4 +38,14 @@ public class RestAngularTest
 
 		runScenarioRunner( "http://localhost:8180/rest-angularjs/test-runner.html" );
 	}
+
+	//
+	// Protected methods
+	//
+	
+	@Override
+	protected int getExpectedNumberOfTests() {
+
+		return 1;
+	}	
 }

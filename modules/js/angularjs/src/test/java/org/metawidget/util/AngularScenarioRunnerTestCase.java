@@ -21,6 +21,8 @@
 
 package org.metawidget.util;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -38,7 +40,17 @@ public abstract class AngularScenarioRunnerTestCase
 
 	protected Boolean applyExpectedCondition( WebDriver driver ) {
 
-		for ( WebElement test : driver.findElements( By.className( "test-it" ) ) ) {
+		List<WebElement> testElements = driver.findElements( By.className( "test-it" ) );
+
+		// Test elements may not appear until they start running
+		
+		if ( testElements.size() < getExpectedNumberOfTests() ) {
+			return false;
+		}
+
+		// Once all test elements on the page, check them all
+		
+		for ( WebElement test : testElements ) {
 			String classAttribute = test.getAttribute( "class" );
 
 			if ( classAttribute.contains( "status-pending" ) ) {
@@ -48,6 +60,8 @@ public abstract class AngularScenarioRunnerTestCase
 
 		return true;
 	}
+
+	protected abstract int getExpectedNumberOfTests();
 
 	protected void displayResult( WebDriver driver ) {
 

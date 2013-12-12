@@ -46,4 +46,14 @@ public class AddressBookAngularTest
 
 		runScenarioRunner( "http://localhost:8180/addressbook-angularjs/test-runner.html" );
 	}
+
+	//
+	// Protected methods
+	//
+	
+	@Override
+	protected int getExpectedNumberOfTests() {
+
+		return 4;
+	}
 }
