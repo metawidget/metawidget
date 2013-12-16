@@ -464,7 +464,7 @@ var metawidget = metawidget || {};
 
 					if ( value !== undefined ) {
 						rows = value.length;
-						for ( var row = 0; row < rows; row++ ) {
+						for ( row = 0; row < rows; row++ ) {
 							this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
 						}
 					}
