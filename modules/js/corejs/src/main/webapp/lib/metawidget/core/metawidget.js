@@ -492,15 +492,11 @@ var metawidget = metawidget || {};
 
 		function _startBuild( pipeline, mw ) {
 
-			var loop, length;
-			
 			// Mark overridden widgets. This is useful for Angular so that it
 			// doesn't $compile them again. It's useful for JQuery Mobile so it
 			// doesn't .trigger( 'create' ) them again
 
-			length = mw.overriddenNodes.length;
-			
-			for ( loop = 0; loop < length; loop++ ) {
+			for ( var loop = 0, length = mw.overriddenNodes.length; loop < length; loop++ ) {
 				mw.overriddenNodes[loop].overridden = true;
 			}
 
@@ -508,16 +504,7 @@ var metawidget = metawidget || {};
 				pipeline.widgetBuilder.onStartBuild( mw );
 			}
 
-			length = pipeline.widgetProcessors.length;
-			
-			for ( loop = 0; loop < length; loop++ ) {
-
-				var widgetProcessor = pipeline.widgetProcessors[loop];
-
-				if ( widgetProcessor.onStartBuild !== undefined ) {
-					widgetProcessor.onStartBuild( mw );
-				}
-			}
+			_onStartEndBuild( 'onStartBuild', pipeline, mw );
 
 			if ( pipeline.layout.onStartBuild !== undefined ) {
 				pipeline.layout.onStartBuild( mw );
@@ -559,8 +546,6 @@ var metawidget = metawidget || {};
 
 		function _endBuild( pipeline, mw ) {
 
-			var loop, length;
-			
 			if ( mw.onEndBuild !== undefined ) {
 				mw.onEndBuild();
 			} else {
@@ -581,9 +566,8 @@ var metawidget = metawidget || {};
 						section: ''
 					};
 
-					if ( child.tagName === 'STUB' ) {
-						length = child.attributes.length;
-						for ( loop = 0; loop < length; loop++ ) {
+					if ( child.tagName === 'STUB' ) {						
+						for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
 							var prop = child.attributes[loop];
 							childAttributes[prop.nodeName] = prop.nodeValue;
 						}
@@ -605,18 +589,22 @@ var metawidget = metawidget || {};
 				pipeline.layout.onEndBuild( mw );
 			}
 
-			length = pipeline.widgetProcessors.length;
-			for ( loop = 0; loop < length; loop++ ) {
-
-				var widgetProcessor = pipeline.widgetProcessors[loop];
-
-				if ( widgetProcessor.onEndBuild !== undefined ) {
-					widgetProcessor.onEndBuild( mw );
-				}
-			}
+			_onStartEndBuild( 'onEndBuild', pipeline, mw );
 
 			if ( pipeline.widgetBuilder.onEndBuild !== undefined ) {
 				pipeline.widgetBuilder.onEndBuild( mw );
+			}
+		}
+		
+		function _onStartEndBuild( functionName, pipeline, mw ) {
+
+			for ( var loop = 0, length = pipeline.widgetProcessors.length; loop < length; loop++ ) {
+
+				var widgetProcessor = pipeline.widgetProcessors[loop];
+
+				if ( widgetProcessor[functionName] !== undefined ) {
+					widgetProcessor[functionName]( mw );
+				}
 			}
 		}
 	};

@@ -101,7 +101,7 @@ var metawidget = metawidget || {};
 		this.onEndBuild = function() {
 
 			_onStartEndBuild( 'onEndBuild' );
-		}
+		};
 	};
 
 	/**
