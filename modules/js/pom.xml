@@ -11,6 +11,10 @@
 	<artifactId>js-parent</artifactId>
 	<packaging>pom</packaging>
 
+	<properties>
+		<sonar.language>javascript</sonar.language>
+	</properties>
+
 	<modules>
 		<module>angularjs</module>
 		<module>bootstrap</module>

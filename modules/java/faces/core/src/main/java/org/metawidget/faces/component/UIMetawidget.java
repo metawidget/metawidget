@@ -1207,7 +1207,7 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		return ( contextImplementationVersion.endsWith( "2.0.0" ) || contextImplementationVersion.endsWith( "2.0.1" ) || contextImplementationVersion.endsWith( "2.0.2" ) );
+		return contextImplementationVersion.endsWith( "2.0.0" ) || contextImplementationVersion.endsWith( "2.0.1" ) || contextImplementationVersion.endsWith( "2.0.2" );
 	}
 
 	//
@@ -1578,7 +1578,7 @@ public abstract class UIMetawidget
 
 		public boolean isListenerForSource( Object source ) {
 
-			return ( source instanceof UIViewRoot );
+			return source instanceof UIViewRoot;
 		}
 
 		public void processEvent( SystemEvent event ) {

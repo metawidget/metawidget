@@ -31,7 +31,7 @@ import org.metawidget.integrationtest.shared.allwidgets.model.AllWidgets;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-public class AllWidgetsProxy {
+public final class AllWidgetsProxy {
 
 	/**
 	 * Models a proxied entity.
@@ -62,4 +62,13 @@ public class AllWidgetsProxy {
 
 		// Just a proxy
 	}
+	
+	//
+	// Prviate constructor
+	//
+	
+	private AllWidgetsProxy() {
+
+		// Can never be called
+	}	
 }

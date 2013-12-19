@@ -418,7 +418,7 @@ public class JavaBeanPropertyStyle
 		String fieldName;
 
 		synchronized ( mPrivateFieldConvention ) {
-			fieldName = mPrivateFieldConvention.format( arguments, new StringBuffer(), null ).toString();
+			fieldName = mPrivateFieldConvention.format( arguments );
 		}
 
 		// Go looking for such a field, traversing the superclass heirarchy as necessary
@@ -566,7 +566,7 @@ public class JavaBeanPropertyStyle
 
 		public boolean isReadable() {
 
-			return ( mReadMethod != null );
+			return mReadMethod != null;
 		}
 
 		/**
@@ -586,7 +586,7 @@ public class JavaBeanPropertyStyle
 
 		public boolean isWritable() {
 
-			return ( mWriteMethod != null );
+			return mWriteMethod != null;
 		}
 
 		public void write( Object obj, Object value ) {

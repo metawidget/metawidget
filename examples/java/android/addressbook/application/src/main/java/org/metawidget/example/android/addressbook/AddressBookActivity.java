@@ -131,8 +131,8 @@ public class AddressBookActivity
 			case R.string.search: {
 				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 				contacts.setAdapter( new ArrayAdapter<Contact>( AddressBookActivity.this, android.R.layout.simple_list_item_1, application.getContactsController().getAllByExample( mContactSearch ) ) );
-				break;
 			}
+			break;
 
 			case R.string.addPersonal: {
 				Intent intent = new Intent();
@@ -140,8 +140,8 @@ public class AddressBookActivity
 				intent.putExtra( "contactType", "personal" );
 
 				startActivityForResult( intent, 0 );
-				break;
 			}
+			break;
 
 			case R.string.addBusiness: {
 				Intent intent = new Intent();
@@ -149,8 +149,8 @@ public class AddressBookActivity
 				intent.putExtra( "contactType", "business" );
 
 				startActivityForResult( intent, 0 );
-				break;
 			}
+			break;
 		}
 
 		return true;

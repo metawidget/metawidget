@@ -8,13 +8,13 @@
 // are met:
 //
 // * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
+// this list of conditions and the following disclaimer.
 // * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
+// this list of conditions and the following disclaimer in the documentation
+// and/or other materials provided with the distribution.
 // * Neither the name of Richard Kennard nor the names of its contributors may
-//   be used to endorse or promote products derived from this software without
-//   specific prior written permission.
+// be used to endorse or promote products derived from this software without
+// specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -243,11 +243,7 @@ public class AddressBook {
 			final ImageIcon iconPersonal = new ImageIcon( personalIconUrl );
 			final ImageIcon iconBusiness = new ImageIcon( businessIconUrl );
 
-			table.setDefaultRenderer( Class.class, new DefaultTableCellRenderer() {
-
-				{
-					setHorizontalAlignment( SwingConstants.CENTER );
-				}
+			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
 
 				@Override
 				public void setValue( Object value ) {
@@ -258,7 +254,10 @@ public class AddressBook {
 						setIcon( iconBusiness );
 					}
 				}
-			} );
+			};
+
+			renderer.setHorizontalAlignment( SwingConstants.CENTER );
+			table.setDefaultRenderer( Class.class, renderer );
 		}
 
 		table.setRowHeight( 35 );

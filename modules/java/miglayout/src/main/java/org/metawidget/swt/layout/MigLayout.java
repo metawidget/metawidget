@@ -132,7 +132,7 @@ public class MigLayout
 		// Special support for large controls
 
 		State state = getState( container );
-		boolean spanAllColumns = ( control instanceof SwtMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) );
+		boolean spanAllColumns = control instanceof SwtMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes );
 
 		if ( spanAllColumns && state.currentColumn > 0 ) {
 			state.currentColumn = 0;
@@ -222,7 +222,7 @@ public class MigLayout
 		// Add label
 
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) ) {
-			Label label = new Label( ( (Composite) container ), SWT.None );
+			Label label = new Label( (Composite) container, SWT.None );
 
 			// Required
 

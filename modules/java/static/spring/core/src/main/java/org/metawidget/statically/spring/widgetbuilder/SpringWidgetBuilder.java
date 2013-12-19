@@ -92,11 +92,11 @@ public class SpringWidgetBuilder
 
 		if ( springLookup != null && !"".equals( springLookup ) ) {
 
-		    if (attributes.get(NAME) != null ) {
-		        return createFormSelectTag( StaticJspUtils.wrapExpression( attributes.get(NAME) ), attributes );
-		    }
+			if ( attributes.get( NAME ) != null ) {
+				return createFormSelectTag( StaticJspUtils.wrapExpression( attributes.get( NAME ) ), attributes );
+			}
 
-		    return null;
+			return null;
 		}
 
 		// String Lookups
@@ -211,7 +211,7 @@ public class SpringWidgetBuilder
 
 		FormInputTag input = new FormInputTag();
 
-		if ( !"".equals( attributes.get( MAXIMUM_LENGTH ))) {
+		if ( !"".equals( attributes.get( MAXIMUM_LENGTH ) ) ) {
 			input.putAttribute( MAX_LENGTH, attributes.get( MAXIMUM_LENGTH ) );
 		}
 
@@ -243,56 +243,51 @@ public class SpringWidgetBuilder
 
 		FormSelectTag selectTag = new FormSelectTag();
 
-        String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
-        String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
+		String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+		String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
 
-        // Empty option
+		// Empty option
 
-        if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
-            FormOptionTag emptyOption = new FormOptionTag();
-            emptyOption.putAttribute( "value", "" );
+		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) ) {
+			FormOptionTag emptyOption = new FormOptionTag();
+			emptyOption.putAttribute( "value", "" );
 
-            // Add the empty option to the SELECT tag
+			// Add the empty option to the SELECT tag
 
-            selectTag.getChildren().add( emptyOption );
+			selectTag.getChildren().add( emptyOption );
 
-            FormOptionsTag optionsTag = new FormOptionsTag();
+			FormOptionsTag optionsTag = new FormOptionsTag();
 
-            /*
-             * The 'items' attribute of <form:select> or <form:options> is expected to be a JSP
-             * EL expression.  Thus, Metawidget populates the generated dropdown with whatever
-             * object is added with a key equal to the name attribute.  Such objects can be
-             * added in Spring using the org.springframework.ui.Model interface or the
-             * Spring MVC @ModelAttribute annotation.
-             */
+			/*
+			 * The 'items' attribute of <form:select> or <form:options> is expected to be a JSP
+			 * EL expression. Thus, Metawidget populates the generated dropdown with whatever
+			 * object is added with a key equal to the name attribute. Such objects can be
+			 * added in Spring using the org.springframework.ui.Model interface or the
+			 * Spring MVC @ModelAttribute annotation.
+			 */
 
-            optionsTag.putAttribute( "items", StaticJspUtils.wrapExpression( attributes.get(NAME) ) );
+			optionsTag.putAttribute( "items", StaticJspUtils.wrapExpression( attributes.get( NAME ) ) );
 
-            if ( itemValue != null )
-            {
-                optionsTag.putAttribute( "itemValue", itemValue );
-            }
+			if ( itemValue != null ) {
+				optionsTag.putAttribute( "itemValue", itemValue );
+			}
 
-            if ( itemLabel != null )
-            {
-                optionsTag.putAttribute( "itemLabel", itemLabel );
-            }
+			if ( itemLabel != null ) {
+				optionsTag.putAttribute( "itemLabel", itemLabel );
+			}
 
-            selectTag.getChildren().add( optionsTag );
-        }
-        else {
-            selectTag.putAttribute( "items", StaticJspUtils.wrapExpression(expression) );
+			selectTag.getChildren().add( optionsTag );
+		} else {
+			selectTag.putAttribute( "items", StaticJspUtils.wrapExpression( expression ) );
 
-            if ( itemValue != null )
-            {
-                selectTag.putAttribute( "itemValue", itemValue );
-            }
+			if ( itemValue != null ) {
+				selectTag.putAttribute( "itemValue", itemValue );
+			}
 
-            if ( itemLabel != null )
-            {
-                selectTag.putAttribute( "itemLabel", itemLabel );
-            }
-        }
+			if ( itemLabel != null ) {
+				selectTag.putAttribute( "itemLabel", itemLabel );
+			}
+		}
 
 		return selectTag;
 	}

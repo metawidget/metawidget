@@ -553,6 +553,10 @@ public class VaadinMetawidget
 		mComponents.clear();
 	}
 
+	/**
+	 * @deprecated
+	 */
+	
 	@SuppressWarnings( "deprecation" )
 	@Override
 	@Deprecated
@@ -560,6 +564,10 @@ public class VaadinMetawidget
 
 		return iterator();
 	}
+
+	/**
+	 * @deprecated
+	 */
 
 	@SuppressWarnings( "deprecation" )
 	@Override
@@ -569,6 +577,10 @@ public class VaadinMetawidget
 		addComponentAttachListener( listener );
 	}
 
+	/**
+	 * @deprecated
+	 */
+
 	@SuppressWarnings( "deprecation" )
 	@Override
 	@Deprecated
@@ -577,6 +589,10 @@ public class VaadinMetawidget
 		removeComponentAttachListener( listener );
 	}
 
+	/**
+	 * @deprecated
+	 */
+
 	@SuppressWarnings( "deprecation" )
 	@Override
 	@Deprecated
@@ -584,6 +600,10 @@ public class VaadinMetawidget
 
 		addComponentDetachListener( listener );
 	}
+
+	/**
+	 * @deprecated
+	 */
 
 	@SuppressWarnings( "deprecation" )
 	@Override

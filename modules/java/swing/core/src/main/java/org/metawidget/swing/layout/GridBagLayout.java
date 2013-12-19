@@ -198,7 +198,7 @@ public class GridBagLayout
 		componentConstraints.insets = INSETS_COMPONENT;
 
 		if ( spanAllColumns ) {
-			componentConstraints.gridwidth = ( mRequiredAlignment == SwingConstants.RIGHT ? ( numberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
+			componentConstraints.gridwidth = mRequiredAlignment == SwingConstants.RIGHT ? ( numberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER;
 			state.currentColumn = numberOfColumns - 1;
 		}
 

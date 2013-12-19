@@ -11,6 +11,10 @@
 	<artifactId>modules-java-parent</artifactId>
 	<packaging>pom</packaging>
 
+	<properties>
+		<sonar.language>java</sonar.language>
+	</properties>
+
 	<modules>
 		<!-- Not 'all' until http://jira.codehaus.org/browse/MNG-2805 can suppress maven-source-plugin -->
 		<module>android</module>

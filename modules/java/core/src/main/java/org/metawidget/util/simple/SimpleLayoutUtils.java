@@ -144,6 +144,7 @@ public final class SimpleLayoutUtils {
 					if ( mnemonicIndex == -1 ) {
 						mnemonicIndex = markerIndex - numberOfDoubleMarkers;
 					}
+					break;
 			}
 
 			// Record the string without mnemonics

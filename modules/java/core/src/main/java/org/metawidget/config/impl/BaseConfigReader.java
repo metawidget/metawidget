@@ -868,8 +868,8 @@ public class BaseConfigReader
 						}
 
 						mExpecting = ExpectingState.METHOD;
-						break;
 					}
+					break;
 
 					case OBJECT: {
 						if ( mCachingContentHandler == null || !mCachingContentHandler.isPaused() ) {
@@ -899,8 +899,8 @@ public class BaseConfigReader
 						}
 
 						mExpecting = handleNonNativeObject( uri, localName, attributes );
-						break;
 					}
+					break;
 
 					case METHOD: {
 						// Screen names
@@ -936,13 +936,11 @@ public class BaseConfigReader
 						mEncountered.push( EncounteredState.METHOD );
 
 						mExpecting = ExpectingState.OBJECT;
-						break;
 					}
+					break;
 
-					case CLOSE_OBJECT_WITH_REFID: {
-
+					case CLOSE_OBJECT_WITH_REFID:
 						throw InspectorException.newException( "<" + name + "> not expected here. Elements with a 'refId' must have an empty body" );
-					}
 				}
 			} catch ( RuntimeException e ) {
 				throw e;
@@ -1043,8 +1041,8 @@ public class BaseConfigReader
 						addToConstructing( createNative( localName, constructing.getClass(), endRecording() ) );
 
 						mExpecting = ExpectingState.OBJECT;
-						return;
 					}
+					return;
 
 					case NATIVE_COLLECTION_TYPE: {
 						Object nativeCollectionType = mConstructing.pop();
@@ -1054,8 +1052,8 @@ public class BaseConfigReader
 						parameters.add( nativeCollectionType );
 
 						mExpecting = ExpectingState.OBJECT;
-						return;
 					}
+					return;
 
 					case CONFIGURED_TYPE:
 					case JAVA_OBJECT: {
@@ -1133,8 +1131,8 @@ public class BaseConfigReader
 						addToConstructing( object );
 
 						mExpecting = ExpectingState.OBJECT;
-						return;
 					}
+					return;
 
 					case METHOD: {
 						@SuppressWarnings( "unchecked" )
@@ -1172,8 +1170,8 @@ public class BaseConfigReader
 						}
 
 						mExpecting = ExpectingState.METHOD;
-						return;
 					}
+					return;
 
 					case WRONG_TYPE:
 						return;
