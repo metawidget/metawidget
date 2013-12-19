@@ -417,6 +417,27 @@ var metawidget = metawidget || {};
 
 		this.processInspectionResult = function( inspectionResult, mw ) {
 
+			/**
+			 * When a watched expression changes, reinspect and rebuild.
+			 */
+			
+			function _watchExpression( newValue, oldValue ) {
+
+				if ( newValue !== oldValue ) {
+					
+					// Clear all watches...
+					
+					for( var loop = 0, length = mw._angularInspectionResultProcessor.length; loop < length; loop++ ) {
+						mw._angularInspectionResultProcessor[loop]();
+					}
+					
+					// ..and then reinspect
+					
+					mw.invalidateInspection();
+					mw.buildWidgets();
+				}
+			}
+
 			mw._angularInspectionResultProcessor = mw._angularInspectionResultProcessor || [];
 
 			// For each property in the inspection result...
@@ -455,27 +476,6 @@ var metawidget = metawidget || {};
 			}
 
 			return inspectionResult;
-			
-			/**
-			 * When a watched expression changes, reinspect and rebuild.
-			 */
-			
-			function _watchExpression( newValue, oldValue ) {
-
-				if ( newValue !== oldValue ) {
-					
-					// Clear all watches...
-					
-					for( var loop = 0, length = mw._angularInspectionResultProcessor.length; loop < length; loop++ ) {
-						mw._angularInspectionResultProcessor[loop]();
-					}
-					
-					// ..and then reinspect
-					
-					mw.invalidateInspection();
-					mw.buildWidgets();
-				}
-			}
 		};
 	};
 
