@@ -449,24 +449,33 @@ var metawidget = metawidget || {};
 
 				// ...and watch it for future changes
 
-				var watch = scope.$parent.$watch( expression, function( newValue, oldValue ) {
-
-					if ( newValue !== oldValue ) {
-						
-						// Before reinspect, clear all watches
-						
-						for( var loop = 0, length = mw._angularInspectionResultProcessor.length; loop < length; loop++ ) {
-							mw._angularInspectionResultProcessor[loop]();
-						}
-						mw.invalidateInspection();
-						mw.buildWidgets();
-					}
-				} );
+				var watch = scope.$parent.$watch( expression, _watchExpression );
 
 				mw._angularInspectionResultProcessor.push( watch );
 			}
 
 			return inspectionResult;
+			
+			/**
+			 * When a watched expression changes, reinspect and rebuild.
+			 */
+			
+			function _watchExpression( newValue, oldValue ) {
+
+				if ( newValue !== oldValue ) {
+					
+					// Clear all watches...
+					
+					for( var loop = 0, length = mw._angularInspectionResultProcessor.length; loop < length; loop++ ) {
+						mw._angularInspectionResultProcessor[loop]();
+					}
+					
+					// ..and then reinspect
+					
+					mw.invalidateInspection();
+					mw.buildWidgets();
+				}
+			}
 		};
 	};
 
