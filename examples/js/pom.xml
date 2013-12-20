@@ -12,7 +12,7 @@
 	<packaging>pom</packaging>
 	
 	<properties>
-		<sonar.language>javascript</sonar.language>
+		<sonar.language>js</sonar.language>
 	</properties>
 
 	<modules>

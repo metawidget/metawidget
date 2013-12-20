@@ -85,7 +85,7 @@ public class HtmlMetawidget
 	@Override
 	public Object saveState( FacesContext context ) {
 
-		Object values[] = new Object[3];
+		Object[] values = new Object[3];
 		values[0] = super.saveState( context );
 		values[1] = mStyle;
 		values[2] = mStyleClass;
@@ -96,7 +96,7 @@ public class HtmlMetawidget
 	@Override
 	public void restoreState( FacesContext context, Object state ) {
 
-		Object values[] = (Object[]) state;
+		Object[] values = (Object[]) state;
 		super.restoreState( context, values[0] );
 
 		mStyle = (String) values[1];

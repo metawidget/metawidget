@@ -134,7 +134,7 @@ public final class ObjectUtils {
 	 * by GWT 1.7.
 	 */
 
-	private static int deepHashCode( Object a[] ) {
+	private static int deepHashCode( Object[] a ) {
 
 		if ( a == null ) {
 			return 0;
