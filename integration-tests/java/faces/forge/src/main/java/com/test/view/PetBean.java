@@ -248,6 +248,7 @@ public class PetBean
 		return predicatesList.toArray( new Predicate[predicatesList.size()] );
 	}
 
+	@SuppressWarnings( "unchecked" )
 	public ListDataModel<Pet> getPageItems() {
 
 		// getPageItems must be stored 'above' request level. See
@@ -255,9 +256,7 @@ public class PetBean
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
-		@SuppressWarnings( "unchecked" )
-		ListDataModel<Pet> pageItems = (ListDataModel<Pet>) sessionMap.get( Pet.class.getName() );
-		return pageItems;
+		return (ListDataModel<Pet>) sessionMap.get( Pet.class.getName() );
 	}
 
 	public long getCount() {

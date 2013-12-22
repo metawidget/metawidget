@@ -120,6 +120,7 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 	}
 
 	@Override
+	@SuppressWarnings( { "cast", "unchecked" } )
 	protected Map<String, String> getAttributesAsMap( Element element ) {
 
 		NamedNodeMap nodes = element.getAttributes();
@@ -127,9 +128,7 @@ public abstract class GwtPipeline<W, C extends W, M extends C>
 		int length = nodes.getLength();
 
 		if ( length == 0 ) {
-			@SuppressWarnings( { "cast", "unchecked" } )
-			Map<String, String> empty = (Map<String, String>) Collections.EMPTY_MAP;
-			return empty;
+			return (Map<String, String>) Collections.EMPTY_MAP;
 		}
 
 		Map<String, String> attributes = new HashMap<String, String>( length );

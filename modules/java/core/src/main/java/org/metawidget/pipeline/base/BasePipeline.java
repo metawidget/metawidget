@@ -634,6 +634,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 	 *            Inspector was a DomInspector
 	 */
 
+	@SuppressWarnings( "unchecked" )
 	protected E processInspectionResult( Object inspectionResult, Object toInspect, String type, String... names ) {
 
 		Object inspectionResultToProcess = inspectionResult;
@@ -646,14 +647,11 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 					if ( inspectionResultToProcess instanceof String ) {
 						inspectionResultToProcess = stringToElement( (String) inspectionResultToProcess );
 					}
-					@SuppressWarnings( "unchecked" )
 					DomInspectionResultProcessor<E, M> domInspectionResultProcessor = (DomInspectionResultProcessor<E, M>) inspectionResultProcessor;
-					@SuppressWarnings( "unchecked" )
 					E inspectionResultToProcessElement = (E) inspectionResultToProcess;
 					inspectionResultToProcess = domInspectionResultProcessor.processInspectionResultAsDom( inspectionResultToProcessElement, pipelineOwner, toInspect, type, names );
 				} else {
 					if ( !( inspectionResultToProcess instanceof String ) ) {
-						@SuppressWarnings( "unchecked" )
 						E inspectionResultToProcessElement = (E) inspectionResultToProcess;
 						inspectionResultToProcess = elementToString( inspectionResultToProcessElement );
 					}
@@ -673,9 +671,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C> {
 			return stringToElement( (String) inspectionResultToProcess );
 		}
 
-		@SuppressWarnings( "unchecked" )
-		E processedInspectionResult = (E) inspectionResultToProcess;
-		return processedInspectionResult;
+		return (E) inspectionResultToProcess;
 	}
 
 	/**
