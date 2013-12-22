@@ -75,6 +75,8 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<!-- For Sonar -->
+		<sourceDirectory>src/main/webapp</sourceDirectory>
 	</build>
 
 </project>

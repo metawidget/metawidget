@@ -128,19 +128,19 @@ public final class FacesUtils {
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		if ( isJsf2() ) {
-			return ( FacesContext.getCurrentInstance().isValidationFailed() );
+			return FacesContext.getCurrentInstance().isValidationFailed();
 		}
 
 		// Under JSF 1.2, any severity (even SEVERITY_INFO) is considered a validation error. See
 		// http://java.net/jira/browse/JAVASERVERFACES_SPEC_PUBLIC-1035
 
-		return ( context.getMaximumSeverity() != null );
+		return context.getMaximumSeverity() != null;
 	}
 
 	public static boolean isPartialStateSavingDisabled() {
 
 		FacesContext context = FacesContext.getCurrentInstance();
-		return ( "false".equals( context.getExternalContext().getInitParameter( "javax.faces.PARTIAL_STATE_SAVING" ) ) );
+		return "false".equals( context.getExternalContext().getInitParameter( "javax.faces.PARTIAL_STATE_SAVING" ) );
 	}
 
 	/**

@@ -62,16 +62,21 @@ var metawidget = metawidget || {};
 			_widgetBuilders = config.slice( 0 );
 		}
 
-		this.onStartBuild = function() {
+		function _onStartEndBuild( functionName ) {
 
 			for ( var loop = 0, length = _widgetBuilders.length; loop < length; loop++ ) {
 
 				var widgetBuilder = _widgetBuilders[loop];
 
-				if ( widgetBuilder.onStartBuild !== undefined ) {
-					widgetBuilder.onStartBuild();
+				if ( widgetBuilder[functionName] !== undefined ) {
+					widgetBuilder[functionName]();
 				}
 			}
+		}
+
+		this.onStartBuild = function() {
+
+			_onStartEndBuild( 'onStartBuild' );
 		};
 
 		this.buildWidget = function( elementName, attributes, mw ) {
@@ -95,14 +100,7 @@ var metawidget = metawidget || {};
 
 		this.onEndBuild = function() {
 
-			for ( var loop = 0, length = _widgetBuilders.length; loop < length; loop++ ) {
-
-				var widgetBuilder = _widgetBuilders[loop];
-
-				if ( widgetBuilder.onEndBuild !== undefined ) {
-					widgetBuilder.onEndBuild();
-				}
-			}
+			_onStartEndBuild( 'onEndBuild' );
 		};
 	};
 
@@ -216,7 +214,7 @@ var metawidget = metawidget || {};
 			if ( attributes['enum'] !== undefined ) {
 
 				var loop, length, option;
-				
+
 				// Multi-select and radio buttons
 
 				if ( attributes.type === 'array' || attributes.componentType !== undefined ) {
@@ -261,7 +259,7 @@ var metawidget = metawidget || {};
 				}
 
 				length = attributes['enum'].length;
-				
+
 				for ( loop = 0; loop < length; loop++ ) {
 					option = metawidget.util.createElement( mw, 'option' );
 
@@ -464,7 +462,7 @@ var metawidget = metawidget || {};
 
 					if ( value !== undefined ) {
 						rows = value.length;
-						for ( var row = 0; row < rows; row++ ) {
+						for ( row = 0; row < rows; row++ ) {
 							this.addRow( tbody, value, row, columnAttributes, elementName, attributes, mw );
 						}
 					}

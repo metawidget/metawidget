@@ -573,6 +573,7 @@ public final class ClassUtils {
 	 * This approach is important for proxied classes, which don't always retain annotations.
 	 */
 
+	@SuppressWarnings( "unchecked" )
 	public static <T extends Annotation> T getOriginalAnnotation( Method method, Class<T> annotationClass ) {
 
 		Map<Class<? extends Annotation>, Annotation> cache = ORIGINAL_ANNOTATION_CACHE.get( method );
@@ -590,9 +591,7 @@ public final class ClassUtils {
 			// Use 'containsKey', because we may cache it as being 'null'
 
 			if ( cache.containsKey( annotationClass ) ) {
-				@SuppressWarnings( "unchecked" )
-				T annotation = (T) cache.get( annotationClass );
-				return annotation;
+				return (T) cache.get( annotationClass );
 			}
 
 			T annotation = internalGetOriginalAnnotation( method, annotationClass );

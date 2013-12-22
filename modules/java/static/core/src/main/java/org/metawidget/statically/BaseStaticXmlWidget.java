@@ -229,7 +229,7 @@ public abstract class BaseStaticXmlWidget
 
 	protected boolean isSelfClosing() {
 
-		return ( getTextContent() == null || getTextContent().length() == 0 );
+		return getTextContent() == null || getTextContent().length() == 0;
 	}
 
 	//

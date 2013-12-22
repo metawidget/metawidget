@@ -39,6 +39,8 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
+		<!-- For Sonar -->
+		<sourceDirectory>src/main/webapp</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>

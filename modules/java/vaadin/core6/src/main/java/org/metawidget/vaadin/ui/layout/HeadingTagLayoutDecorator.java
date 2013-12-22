@@ -32,7 +32,7 @@ import com.vaadin.ui.Label;
 /**
  * Layout to decorate widgets from different sections using <code>Label</code>s with
  * <code>styleName</code>s of h1, h2 etc.
- *
+ * 
  * @author Loghman Barari
  */
 
@@ -73,7 +73,8 @@ public class HeadingTagLayoutDecorator
 			label.setValue( localizedSection );
 		}
 
-		label.setStyleName( "h" + String.valueOf( level + 1 ));
+		int headingLevel = level + 1;
+		label.setStyleName( "h" + headingLevel );
 
 		// Add to parent container
 

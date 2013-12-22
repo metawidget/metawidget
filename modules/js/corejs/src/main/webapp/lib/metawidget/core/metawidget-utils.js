@@ -66,6 +66,26 @@ var metawidget = metawidget || {};
 
 	metawidget.util.getLabelString = function( attributes, mw ) {
 
+		/**
+		 * @returns true if the character is a digit.
+		 */
+		
+		function _isDigit( c ) {
+
+			var charCode = c.charCodeAt( 0 );
+			return ( charCode >= 48 && charCode <= 57 );
+		}
+
+		/**
+		 * @returns true if the character is an upper or lower case letter.
+		 */
+
+		function _isLetter( c ) {
+
+			var charCode = c.charCodeAt( 0 );
+			return ( charCode >= 65 && charCode <= 90 ) || ( charCode >= 97 && charCode <= 122 );
+		}
+
 		// Explicit title
 
 		if ( attributes.title !== undefined ) {
@@ -93,7 +113,7 @@ var metawidget = metawidget || {};
 			if ( first === true ) {
 				uncamelCasedName += c.toUpperCase();
 				first = false;
-			} else if ( _isUpperCase( c ) && ( !_isUpperCase( lastChar ) || ( loop < name.length - 1 && name[loop + 1] != ' ' && !_isUpperCase( name[loop + 1] ) ) ) ) {
+			} else if ( _isUpperCase( c ) && ( !_isUpperCase( lastChar ) || ( loop < name.length - 1 && name[loop + 1] !== ' ' && !_isUpperCase( name[loop + 1] ) ) ) ) {
 				if ( lastChar !== ' ' ) {
 					uncamelCasedName += ' ';
 				}
@@ -107,7 +127,7 @@ var metawidget = metawidget || {};
 				// Birth'
 
 				uncamelCasedName += c;
-			} else if ( _isDigit( c ) && _isLetter( lastChar ) && lastChar != ' ' ) {
+			} else if ( _isDigit( c ) && _isLetter( lastChar ) && lastChar !== ' ' ) {
 				uncamelCasedName += ' ' + c;
 			} else {
 				uncamelCasedName += c;
@@ -117,22 +137,6 @@ var metawidget = metawidget || {};
 		}
 
 		return uncamelCasedName;
-
-		//
-		// Private methods
-		//
-
-		function _isDigit( c ) {
-
-			var charCode = c.charCodeAt( 0 );
-			return ( charCode >= 48 && charCode <= 57 );
-		}
-
-		function _isLetter( c ) {
-
-			var charCode = c.charCodeAt( 0 );
-			return ( charCode >= 65 && charCode <= 90 ) || ( charCode >= 97 && charCode <= 122 );
-		}
 	};
 
 	/**
@@ -314,7 +318,7 @@ var metawidget = metawidget || {};
 
 			if ( attributes.name && elementName !== 'entity' ) {
 				splitPath.push( attributes.name );
-			} else if ( splitPath.length == 0 ) {
+			} else if ( splitPath.length === 0 ) {
 				return undefined;
 			}
 
@@ -612,7 +616,7 @@ var metawidget = metawidget || {};
 				delete attributes.section;
 				return section[0];
 
-			case 2:
+			default:
 				attributes.section = section.slice( 1 );
 				return section[0];
 		}

@@ -253,7 +253,7 @@ public class GroovyPropertyStyle
 
 		public boolean isReadable() {
 
-			return ( mProperty.getGetter() != null );
+			return mProperty.getGetter() != null;
 		}
 
 		public Object read( Object obj ) {
@@ -267,7 +267,7 @@ public class GroovyPropertyStyle
 
 		public boolean isWritable() {
 
-			return ( mProperty.getSetter() != null );
+			return mProperty.getSetter() != null;
 		}
 
 		public void write( Object obj, Object value ) {

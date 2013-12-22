@@ -759,7 +759,7 @@ public abstract class UIMetawidget
 	@Override
 	public Object saveState( FacesContext context ) {
 
-		Object values[] = new Object[6];
+		Object[] values = new Object[6];
 		values[0] = super.saveState( context );
 		values[1] = mExplicitRendererType;
 		values[2] = mReadOnly;
@@ -773,7 +773,7 @@ public abstract class UIMetawidget
 	@Override
 	public void restoreState( FacesContext context, Object state ) {
 
-		Object values[] = (Object[]) state;
+		Object[] values = (Object[]) state;
 		super.restoreState( context, values[0] );
 
 		mExplicitRendererType = (Boolean) values[1];
@@ -1207,7 +1207,7 @@ public abstract class UIMetawidget
 			return false;
 		}
 
-		return ( contextImplementationVersion.endsWith( "2.0.0" ) || contextImplementationVersion.endsWith( "2.0.1" ) || contextImplementationVersion.endsWith( "2.0.2" ) );
+		return contextImplementationVersion.endsWith( "2.0.0" ) || contextImplementationVersion.endsWith( "2.0.1" ) || contextImplementationVersion.endsWith( "2.0.2" );
 	}
 
 	//
@@ -1578,7 +1578,7 @@ public abstract class UIMetawidget
 
 		public boolean isListenerForSource( Object source ) {
 
-			return ( source instanceof UIViewRoot );
+			return source instanceof UIViewRoot;
 		}
 
 		public void processEvent( SystemEvent event ) {

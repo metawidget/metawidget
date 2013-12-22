@@ -261,6 +261,7 @@ public class PersonBean
 		return predicatesList.toArray( new Predicate[predicatesList.size()] );
 	}
 
+	@SuppressWarnings( "unchecked" )
 	public ListDataModel<Person> getPageItems() {
 
 		// getPageItems must be stored 'above' request level. See
@@ -268,9 +269,7 @@ public class PersonBean
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
-		@SuppressWarnings( "unchecked" )
-		ListDataModel<Person> pageItems = (ListDataModel<Person>) sessionMap.get( Person.class.getName() );
-		return pageItems;
+		return (ListDataModel<Person>) sessionMap.get( Person.class.getName() );
 	}
 
 	public long getCount() {

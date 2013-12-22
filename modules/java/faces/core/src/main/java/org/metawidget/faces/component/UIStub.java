@@ -182,7 +182,7 @@ public class UIStub
 	@Override
 	public Object saveState( FacesContext context ) {
 
-		Object values[] = new Object[2];
+		Object[] values = new Object[2];
 		values[0] = super.saveState( context );
 		values[1] = mStubAttributes;
 
@@ -192,7 +192,7 @@ public class UIStub
 	@Override
 	public void restoreState( FacesContext context, Object state ) {
 
-		Object values[] = (Object[]) state;
+		Object[] values = (Object[]) state;
 		super.restoreState( context, values[0] );
 
 		mStubAttributes = (String) values[1];

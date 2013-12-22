@@ -99,6 +99,8 @@
 				<artifactId>selenium-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<!-- For Sonar -->
+		<sourceDirectory>src/main/webapp</sourceDirectory>
 	</build>
 
 </project>

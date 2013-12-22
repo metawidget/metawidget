@@ -452,7 +452,7 @@ var metawidget = metawidget || {};
 	 * has swapped out the widget.
 	 */
 
-	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.getWidgetFromBinding = function( binding, mw ) {
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.getWidgetFromBinding = function( binding ) {
 		return binding.widget;
 	};
 

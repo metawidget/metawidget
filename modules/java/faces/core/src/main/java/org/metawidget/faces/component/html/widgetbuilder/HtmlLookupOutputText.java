@@ -139,7 +139,7 @@ public class HtmlLookupOutputText
 	@Override
 	public Object saveState( FacesContext context ) {
 
-		Object values[] = new Object[3];
+		Object[] values = new Object[3];
 		values[0] = super.saveState( context );
 		values[1] = mValues;
 		values[2] = mLabels;
@@ -151,7 +151,7 @@ public class HtmlLookupOutputText
 	@SuppressWarnings( "unchecked" )
 	public void restoreState( FacesContext context, Object state ) {
 
-		Object values[] = (Object[]) state;
+		Object[] values = (Object[]) state;
 		super.restoreState( context, values[0] );
 
 		mValues = (List<String>) values[1];

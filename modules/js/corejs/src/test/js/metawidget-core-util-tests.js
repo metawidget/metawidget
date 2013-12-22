@@ -133,7 +133,7 @@
 			expect( metawidget.util.capitalize( 'JAXBElementLongConverter' ) ).toBe( 'JAXBElementLongConverter' );
 		} );
 	} );
-	
+
 	describe( "The decapitalize function", function() {
 
 		it( "decapitalizes strings", function() {
@@ -145,22 +145,23 @@
 			expect( metawidget.util.decapitalize( 'ID' ) ).toBe( 'ID' );
 
 			// See: https://community.jboss.org/thread/203202?start=0&tstart=0
-			
+
 			expect( metawidget.util.decapitalize( 'aFIELD' ) ).toBe( 'aFIELD' );
 			expect( metawidget.util.decapitalize( 'aI' ) ).toBe( 'aI' );
 		} );
-		
-		it( "is the inverse of capitalize", function() {
-			
-			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'fooBah' )) ).toBe( 'fooBah' );
-			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'x' )) ).toBe( 'x' );
-			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'URL' )) ).toBe( 'URL' );
-			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'ID' )) ).toBe( 'ID' );
 
-			// These are only the inverse of each other because of the 'second character' clause
-			
-			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'aFIELD' )) ).toBe( 'aFIELD' );
-			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'aI' )) ).toBe( 'aI' );
+		it( "is the inverse of capitalize", function() {
+
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'fooBah' ) ) ).toBe( 'fooBah' );
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'x' ) ) ).toBe( 'x' );
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'URL' ) ) ).toBe( 'URL' );
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'ID' ) ) ).toBe( 'ID' );
+
+			// These are only the inverse of each other because of the 'second
+			// character' clause
+
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'aFIELD' ) ) ).toBe( 'aFIELD' );
+			expect( metawidget.util.decapitalize( metawidget.util.capitalize( 'aI' ) ) ).toBe( 'aI' );
 		} );
 	} );
 
@@ -511,34 +512,41 @@
 
 			var attributes = {
 				section: ''
-			}
+			};
 			expect( metawidget.util.stripSection( attributes ) ).toBe( '' );
 			expect( attributes.section ).toBeUndefined();
 
 			var attributes = {
 				section: []
-			}
+			};
 			expect( metawidget.util.stripSection( attributes ) ).toBe( '' );
 			expect( attributes.section ).toBeUndefined();
 
 			attributes = {
 				section: 'Foo'
-			}
+			};
 			expect( metawidget.util.stripSection( attributes ) ).toBe( 'Foo' );
 			expect( attributes.section ).toBeUndefined();
 
 			attributes = {
 				section: [ 'Foo' ]
-			}
+			};
 			expect( metawidget.util.stripSection( attributes ) ).toBe( 'Foo' );
 			expect( attributes.section ).toBeUndefined();
 
 			attributes = {
 				section: [ 'Foo', 'Bar' ]
-			}
+			};
 			expect( metawidget.util.stripSection( attributes ) ).toBe( 'Foo' );
 			expect( attributes.section[0] ).toBe( 'Bar' );
 			expect( attributes.section.length ).toBe( 1 );
+
+			attributes = {
+				section: [ 'Foo', 'Bar', 'Baz' ]
+			};
+			expect( metawidget.util.stripSection( attributes ) ).toBe( 'Foo' );
+			expect( attributes.section[0] ).toBe( 'Bar' );
+			expect( attributes.section.length ).toBe( 2 );
 		} );
 	} );
 

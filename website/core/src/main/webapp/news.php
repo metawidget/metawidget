@@ -24,6 +24,20 @@
 		</p>
 
 		<hr/>
+		
+		<h3>Metawidget on CloudBees</h3>
+		<h4>December 2013</h4>
+		
+		<p>
+			The awesome folks over at <a href="http://cloudbees.com">CloudBees</a> have kindly donated a FOSS account
+			for our nightly builds! This means you can now
+			<a href="https://kennardconsulting.ci.cloudbees.com/job/Metawidget">download snapshot bundles</a>
+			of Metawidget. These are complete ZIPs containing all binaries, minified JavaScript libraries, API documentation,
+			Reference Guide PDFs and pre-built examples. Of course, Maven snapshot JARs will
+			<a href="http://repository.jboss.org/nexus/content/repositories/snapshots">still be available</a>.
+		</p>
+
+		<hr/>
 
 		<h3>Metawidget v3.7 Released!</h3>
 		<h4>8th December 2013</h4>
