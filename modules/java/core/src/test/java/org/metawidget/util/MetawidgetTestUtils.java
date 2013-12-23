@@ -46,7 +46,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for running unit tests.
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -66,7 +66,7 @@ public final class MetawidgetTestUtils {
 
 	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, String... exclude ) {
 
-		testEqualsAndHashcode( clazz, subclass, (Map<?,?>) null, exclude );
+		testEqualsAndHashcode( clazz, subclass, (Map<?, ?>) null, exclude );
 	}
 
 	public static <T, S extends T> void testEqualsAndHashcode( Class<T> clazz, S subclass, Map<?, ?> dummyTypes, String... exclude ) {
@@ -80,7 +80,7 @@ public final class MetawidgetTestUtils {
 
 	public static <T, S extends T> void testObjectEqualsAndHashcode( T object1, T object2, S subclass, String... exclude ) {
 
-		testEqualsAndHashcode( object1, object2, subclass, (Map<?,?>) null, exclude );
+		testEqualsAndHashcode( object1, object2, subclass, (Map<?, ?>) null, exclude );
 	}
 
 	/**
@@ -139,7 +139,7 @@ public final class MetawidgetTestUtils {
 
 						// (this isn't always safe to invoke to test for null)
 
-						if ( !InputStream.class.equals( propertyType ) && !InputStream[].class.equals( propertyType )) {
+						if ( !InputStream.class.equals( propertyType ) && !InputStream[].class.equals( propertyType ) ) {
 
 							if ( readMethod != null && readMethod.invoke( object1 ) != null ) {
 								writeMethod.invoke( object1, new Object[] { null } );
@@ -172,7 +172,7 @@ public final class MetawidgetTestUtils {
 				} else if ( boolean.class.equals( propertyType ) ) {
 					// (toggle from the default)
 
-					if ( readMethod != null  ) {
+					if ( readMethod != null ) {
 						toSet = !( (Boolean) readMethod.invoke( object1 ) );
 					} else {
 						toSet = true;
@@ -277,12 +277,10 @@ public final class MetawidgetTestUtils {
 
 		while ( true ) {
 
-			try {
-				Field field = superClass.getDeclaredField( fieldName );
-				field.setAccessible( true );
-				field.set( owner, value );
-				break;
+			Field field;
 
+			try {
+				field = superClass.getDeclaredField( fieldName );
 			} catch ( Exception e ) {
 
 				superClass = superClass.getSuperclass();
@@ -290,6 +288,15 @@ public final class MetawidgetTestUtils {
 				if ( superClass == null ) {
 					throw new RuntimeException( e );
 				}
+
+				continue;
+			}
+
+			try {
+				field.setAccessible( true );
+				field.set( owner, value );
+			} catch ( Exception e ) {
+				throw new RuntimeException( e );
 			}
 		}
 	}
@@ -323,10 +330,10 @@ public final class MetawidgetTestUtils {
 				try {
 					Method method = currentClass.getDeclaredMethod( ClassUtils.JAVABEAN_IS_PREFIX + propertyUppercased );
 
-					// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification, 'is'
-					// only applies to boolean (little 'b')
+					// As per section 8.3.2 (Boolean properties) of The JavaBeans API specification,
+					// 'is' only applies to boolean (little 'b')
 
-					if ( boolean.class.equals( method.getReturnType() )) {
+					if ( boolean.class.equals( method.getReturnType() ) ) {
 
 						method.setAccessible( true );
 						return method;
