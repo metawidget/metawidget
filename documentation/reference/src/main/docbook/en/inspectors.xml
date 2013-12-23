@@ -231,12 +231,12 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						
 						<para>
 							Javassist is used to inspect the debug line numbering information embedded in JVM bytecode
-							to sort getters/setters according to their original declaration order in the source code. This saves business objects
+							to sort getters/setters according to their original declaration order in the source code. This saves domain objects
 							having to use <classname>@UiComesAfter</classname> (or an XML file, or some other method) to impose an ordering.
 						</para>
 						
 						<para>
-							However, a danger of this approach is that if the business objects are ever recompiled <emphasis>without</emphasis> debug
+							However, a danger of this approach is that if the domain objects are ever recompiled <emphasis>without</emphasis> debug
 							line numbering information (e.g. when moving from development to production) the UI fields will lose their
 							ordering. Such a subtle bug may not be picked up, so as a safeguard <classname>JavassistPropertyStyle</classname>
 							'fails hard' with an <classname>InspectorException</classname> if line numbers are not available.

@@ -117,7 +117,7 @@ public abstract class UIMetawidget
 	 * <p>
 	 * By default, Metawidget destroys and recreates every component after
 	 * <code>processUpdates</code> and before <code>encodeBegin</code>. This allows components to
-	 * update to reflect changed state in underlying business objects. For example, components may
+	 * update to reflect changed state in underlying domain objects. For example, components may
 	 * change from being <code>UIOutput</code> labels to <code>UIInput</code> text boxes after the
 	 * user clicks <code>Edit</code>.
 	 * <p>

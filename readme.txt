@@ -3,7 +3,7 @@ Metawidget
 
 http://www.metawidget.org
 
-Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match the properties of your business objects.
+Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match the properties of your domain objects.
  
 Metawidget does this without introducing new technologies. It inspects your *existing* back-end architecture (such as JavaBeans, existing annotations, existing XML configuration files) and creates widgets native to your *existing* front-end framework (such as Swing, Java Server Faces, Struts, Android).
  

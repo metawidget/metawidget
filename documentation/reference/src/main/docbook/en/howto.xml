@@ -136,8 +136,8 @@
 			<title>Deploy As An Enterprise ARchive (EAR)</title>
 			
 			<para>
-				If your application is deployed as a Enterprise ARchive (EAR), typically your business objects will be in an EJB tier and your
-				UI screens in a WAR tier. To use Metawidget-specific annotations on your business objects (such as <classname>@UiComesAfter</classname>)
+				If your application is deployed as a Enterprise ARchive (EAR), typically your domain objects will be in an EJB tier and your
+				UI screens in a WAR tier. To use Metawidget-specific annotations on your domain objects (such as <classname>@UiComesAfter</classname>)
 				you must therefore deploy Metawidget under <filename>ear/lib</filename>. Depending on your application server, you may encounter
 				a few problems doing this. Specifically: 
 			</para>

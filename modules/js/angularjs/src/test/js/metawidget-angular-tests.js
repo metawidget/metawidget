@@ -28,7 +28,7 @@
 			function() {
 
 				it(
-						"populates itself with widgets to match the properties of business objects",
+						"populates itself with widgets to match the properties of domain objects",
 						function() {
 
 							var myApp = angular.module( 'test-app', [ 'metawidget' ] );

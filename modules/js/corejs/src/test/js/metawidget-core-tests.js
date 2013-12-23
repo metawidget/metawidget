@@ -29,7 +29,7 @@
 
 	describe( "The core Metawidget", function() {
 
-		it( "populates itself with widgets to match the properties of business objects", function() {
+		it( "populates itself with widgets to match the properties of domain objects", function() {
 
 			var firedBuildEndEvent = 0;
 			

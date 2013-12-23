@@ -145,7 +145,7 @@
 		</p>
 		
 		<p>
-			Note Metawidget is not an application framework. It does not compete with, say, GWT, JSF, Spring, Struts, or any number of other excellent
+			Note Metawidget is not an application framework. It does not compete with, say, GWT, JSF, Spring, or any number of other excellent
 			frameworks. Rather, Metawidget <em>uses</em> those frameworks in its goal to address automatic UI generation.
 		</p>
 

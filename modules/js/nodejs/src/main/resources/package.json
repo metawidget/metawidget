@@ -1,6 +1,6 @@
 {
   "name": "metawidget",
-  "description": "User Interface widget that populates itself with UI components to match the properties of your business objects. Can be used through Node.js for server-side UI generation",
+  "description": "User Interface widget that populates itself with UI components to match the properties of your domain objects. Can be used through Node.js for server-side UI generation",
   "version": "${project.version}.0",
   "homepage": "http://metawidget.org",
   "readmeFilename": "Readme.md",

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <maven2-moduleset plugin="maven-plugin@1.509.4.1">
 	<actions />
-	<description>Metawidget is a smart widget that populates itself, either statically or at runtime, with UI components to match the properties of your business objects.</description>
+	<description>Metawidget is a smart widget that populates itself, either statically or at runtime, with UI components to match the properties of your domain objects.</description>
 	<logRotator class="hudson.tasks.LogRotator">
 		<daysToKeep>60</daysToKeep>
 		<numToKeep>-1</numToKeep>

@@ -762,7 +762,7 @@ mw.buildWidgets();
 ...</programlisting>
 							<para>
 								Note that plain JSP doesn't provide any automatic management of
-								business objects. You must manually add objects (<parameter>foo</parameter>
+								domain objects. You must manually add objects (<parameter>foo</parameter>
 								in the example above) into the scope. This can be done in several ways. The
 								Address Book sample application uses embedded Java code:
 							</para>

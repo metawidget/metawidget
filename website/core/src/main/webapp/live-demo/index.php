@@ -6,7 +6,7 @@
 		
 		<p style="font-style: italic">
 			Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match
-			the properties of your business objects.			
+			the properties of your domain objects.			
 		</p>
 		<p style="margin-bottom: 40px; font-style: italic">
 			Even though Metawidget is Free Software, licensed under the <a href="http://www.gnu.org/licenses/lgpl.html">LGPL</a>, we

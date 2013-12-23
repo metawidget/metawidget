@@ -42,7 +42,7 @@
 	<description>
 		Metawidget is a smart User Interface widget that populates itself,
 		either statically or at runtime,
-		with UI components to match the properties of your business objects.
+		with UI components to match the properties of your domain objects.
 	</description>
 
 	<url>http://metawidget.org</url>

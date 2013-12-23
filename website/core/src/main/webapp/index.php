@@ -132,18 +132,18 @@
 	<?php $useQuickStart = true; require_once 'include/body-start.php'; ?>
 
 		<h1 style="font-family: Arial, sans-serif; font-size: 12pt; font-weight: bold; margin-right: 175px">
-			Building User Interfaces for business objects is time-consuming and error-prone.
+			Building User Interfaces for domain objects is time-consuming and error-prone.
 		</h1>
 
 		<h2 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: bold; margin-right: 175px">
 			Metawidget is a smart widget that populates itself, either statically or at runtime, with UI components to match
-			the properties of your business objects.
+			the properties of your domain objects.
 		</h2>
 
 		<h3 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal; margin-right: 175px">
 			Metawidget does this without introducing new technologies. It inspects your <em>existing</em> back-end
 			architecture (such as JavaBeans, existing annotations, existing XML configuration files) and creates widgets native to your
-			<em>existing</em> front-end framework (such as Swing, JavaScript, Java Server Faces, Struts, Android).
+			<em>existing</em> front-end framework (such as Swing, JavaScript, Java Server Faces, Android).
 		</h3>
 
 		<p style="margin-right: 175px">

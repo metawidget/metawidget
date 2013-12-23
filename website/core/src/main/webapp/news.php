@@ -1203,7 +1203,7 @@
 		</p>
 		
 		<ul>
-			<li>Read-only mode for displaying (rather than editing) business objects</li>
+			<li>Read-only mode for displaying (rather than editing) domain objects</li>
 			<li>Facelets support</li>
 			<li>Mixin to ease development of custom Metawidgets</li>
 		</ul>

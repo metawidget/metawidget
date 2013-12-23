@@ -1452,7 +1452,7 @@ public class Main {
 				
 				<para>
 					The Desktop Address Book is essentially a larger version of the application developed in
-					Part 1 - it just has more business objects and more widgets.
+					Part 1 - it just has more domain objects and more widgets.
 				</para>
 				
 				<tip>
@@ -2528,7 +2528,7 @@ bin\run</programlisting>
 				
 				<para>
  					This time, as well as generating <classname>UIComponent</classname>s
-					for business objects such as <classname>com.jboss.dvd.seam.Customer</classname>, Metawidget inspects jBPM
+					for domain objects such as <classname>com.jboss.dvd.seam.Customer</classname>, Metawidget inspects jBPM
 					pageflow files like
 					<filename>newuser.jpdl.xml</filename> and <filename>checkout.jpdl.xml</filename> to generate the
 					correct <classname>UICommand</classname> buttons for each screen.				
@@ -2751,7 +2751,7 @@ metawidget.setToInspect( animal );
 				<para>
 					The Animal Races code is written purely in Scala, located at
 					<filename>src/examples/swing/animalraces/src/main/scala/org/metawidget/example/swing/animalraces/AnimalRaces.scala</filename>. It uses
-					<classname>ScalaPropertyStyle</classname> to allow Metawidget to inspect Scala-based business objects: 
+					<classname>ScalaPropertyStyle</classname> to allow Metawidget to inspect Scala-based domain objects: 
 				</para>
 				
 				<programlisting language="xml">&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"
@@ -2763,7 +2763,7 @@ metawidget.setToInspect( animal );
 
 				<para>
 					In addition, it uses <classname>BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA</classname> to bind <classname>JComponent</classname>s
-					to Scala-based business objects:
+					to Scala-based domain objects:
 				</para>
 					
 				<programlisting language="scala">val metawidget = new SwingMetawidget()
@@ -2777,7 +2777,7 @@ metawidget.setToInspect( animal )</programlisting>
 				<title>GWT Client Side Example</title>
 	
 				<para>
-					By default, <classname>GwtMetawidget</classname> uses server-side inspection of business objects. This
+					By default, <classname>GwtMetawidget</classname> uses server-side inspection of domain objects. This
 					is because client-side JavaScript does not support reflections or annotations. However if you don't need reflections or annotations, and
 					have your own way of retrieving inspection results, you can plug in your own <classname>Inspector</classname> and keep everything client-side. This
 					example implements a <classname>TextAreaInspector</classname> that retrieves inspection results from a textarea and generates the UI. 

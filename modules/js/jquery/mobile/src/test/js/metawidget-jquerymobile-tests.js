@@ -44,7 +44,7 @@
 				} );
 
 				it(
-						"populates itself with widgets to match the properties of business objects",
+						"populates itself with widgets to match the properties of domain objects",
 						function() {
 
 							var firedBuildEndEvent = 0;

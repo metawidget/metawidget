@@ -22,9 +22,9 @@
 package org.metawidget.gwt.client.widgetprocessor.binding.simple;
 
 /**
- * Adapter around business objects to support <code>SimpleBindingProcessor</code>.
+ * Adapter around domain objects to support <code>SimpleBindingProcessor</code>.
  * <p>
- * All business objects used by <code>SimpleBindingProcessor</code> must be wrapped by a
+ * All domain objects used by <code>SimpleBindingProcessor</code> must be wrapped by a
  * <code>SimpleBindingProcessorAdapter</code>. The supplied
  * <code>SimpleBindingProcessorAdapterGenerator</code> automates the creation of adapters.
  *

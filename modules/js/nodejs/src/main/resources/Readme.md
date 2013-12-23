@@ -2,7 +2,7 @@
 
 Metawidget ${project.version} is a smart User Interface widget that
 populates itself with UI components to match the properties of your
-business objects. Can be used through Node.js for server-side UI generation.
+domain objects. Can be used through Node.js for server-side UI generation.
 
 ## Introduction
 For an introduction to Metawidget, please see the tutorial at

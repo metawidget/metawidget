@@ -43,10 +43,10 @@ import org.metawidget.util.CollectionUtils;
  * information embedded in JVM bytecode to sort getters and setters according to their original
  * declaration order in the source code.
  * <p>
- * This saves business objects having to use the <code>UiComesAfter</code> annotation (or an XML
+ * This saves domain objects having to use the <code>UiComesAfter</code> annotation (or an XML
  * file, or some other method) to impose an ordering.
  * <p>
- * However, a danger of this approach is that if the business objects are ever recompiled
+ * However, a danger of this approach is that if the domain objects are ever recompiled
  * <em>without</em> debug line numbering information (eg. when moving from development to
  * production) the UI fields will lose their ordering. Such a subtle bug may not be picked up, so as
  * a safeguard <code>JavassistPropertyStyle</code> 'fails hard' with an
