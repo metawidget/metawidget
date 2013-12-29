@@ -26,9 +26,9 @@
 		<para>
 			As much as possible, Metawidget does this without introducing new technologies. As shown in
 			<xref linkend="preface-diagram" />, Metawidget inspects an application's
-			<emphasis>existing</emphasis> back-end architecture (such as JavaBeans, XML configuration files,
-			annotations) and creates widgets native to its <emphasis>existing</emphasis>
-			front-end framework (such as Swing, JavaScript, Java Server Faces, Struts or Android).
+			<emphasis>existing</emphasis> back-end architecture (such as REST, annotations, configuration files)
+			and creates widgets native to its <emphasis>existing</emphasis>
+			front-end framework (such as JavaScript, Java Server Faces, Android).
 		</para>
 
 		<figure id="preface-diagram">

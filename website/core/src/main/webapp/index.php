@@ -142,8 +142,8 @@
 
 		<h3 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal; margin-right: 175px">
 			Metawidget does this without introducing new technologies. It inspects your <em>existing</em> back-end
-			architecture (such as JavaBeans, existing annotations, existing XML configuration files) and creates widgets native to your
-			<em>existing</em> front-end framework (such as Swing, JavaScript, Java Server Faces, Android).
+			architecture (such as REST, existing annotations, existing configuration files) and creates widgets native to your
+			<em>existing</em> front-end framework (such as JavaScript, Java Server Faces, Android).
 		</h3>
 
 		<p style="margin-right: 175px">

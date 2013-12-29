@@ -5,7 +5,7 @@ http://www.metawidget.org
 
 Metawidget is a smart User Interface widget that populates itself, either statically or at runtime, with UI components to match the properties of your domain objects.
  
-Metawidget does this without introducing new technologies. It inspects your *existing* back-end architecture (such as JavaBeans, existing annotations, existing XML configuration files) and creates widgets native to your *existing* front-end framework (such as Swing, Java Server Faces, Struts, Android).
+Metawidget does this without introducing new technologies. It inspects your *existing* back-end architecture (such as REST, existing annotations, existing configuration files) and creates widgets native to your *existing* front-end framework (such as JavaScript, Java Server Faces, Android).
  
 Metawidget does not replace or hide your existing UI framework and guarantees that your investment in its technology and knowledge is as valid as always. The LGPL Open Source license allows the use of Metawidget in open source and commercial projects.
 
