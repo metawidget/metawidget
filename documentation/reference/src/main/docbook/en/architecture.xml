@@ -21,7 +21,7 @@
 			http://www.websequencediagrams.com
 			
 			Metawidget->Inspector: asks for inspection
-			Inspector->Inspector: inspects\nbusiness object
+			Inspector->Inspector: inspects\ndomain object
 			Inspector->Metawidget: returns inspection result
 			Metawidget->InspectionResultProcessor: asks to process
 			InspectionResultProcessor->InspectionResultProcessor: sorts result
@@ -259,7 +259,7 @@
 					<listitem>
 						<para>
 							<emphasis role="bold">InspectionResultProcessors</emphasis> can be plugged in to the pipeline to
-							include, exclude or sort business object properties.
+							include, exclude or sort domain object properties.
 						</para>
 					</listitem>
 					<listitem>
@@ -329,7 +329,7 @@
 				
 				<para>
 					Each <classname>Inspector</classname> must look to the <parameter>type</parameter> parameter and the <parameter>names</parameter> array. These
-					form a path into the business object domain model. For example the <parameter>type</parameter> may be <parameter>com.myapp.Person</parameter>
+					form a path into the domain object model. For example the <parameter>type</parameter> may be <parameter>com.myapp.Person</parameter>
 					and the <parameter>names</parameter> may be <parameter>address</parameter> and <parameter>street</parameter>.
 					This would form a path into the domain model of	<parameter>com.myapp.Person/address/street</parameter> (i.e. return information
 					on the <parameter>street</parameter> property within the <parameter>address</parameter> property of the <parameter>Person</parameter> type).
@@ -1208,7 +1208,7 @@ public class CastorInspector
 
 				<para>
 					Here is an example of a custom <classname>InspectionResultProcessor</classname> that chooses,
-					and sorts, business object properties based on a <classname>JComponent</classname> client property. It extends the code from the tutorial
+					and sorts, domain object properties based on a <classname>JComponent</classname> client property. It extends the code from the tutorial
 					(see <xref linkend="section-introduction-java-part1"/>).
 				</para>
 				
@@ -2826,7 +2826,7 @@ void onEndBuild(M metawidget);</programlisting>
 
 				<para>
 					A <classname>LayoutDecorator</classname> can also decorate another <classname>LayoutDecorator</classname> to provide
-					fine-grained control over nested sections. For example, the business object...
+					fine-grained control over nested sections. For example, the domain object...
 				</para>
 
 				<programlisting language="java">public class Person {

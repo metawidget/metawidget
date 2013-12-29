@@ -37,8 +37,8 @@ var metawidget = metawidget || {};
 	 *            <tt>function( toInspect, type, names )</tt>
 	 *            <p>
 	 *            Each Inspector must look to the 'type' parameter and the
-	 *            'names' array. These form a path into the business object
-	 *            domain model. For example the 'type' may be 'person' and the
+	 *            'names' array. These form a path into the domain object
+	 *            model. For example the 'type' may be 'person' and the
 	 *            'names' may be [ 'address', 'street' ]. This would form a path
 	 *            into the domain model of 'person/address/street' (i.e. return
 	 *            information on the 'street' property within the 'address'

@@ -25,8 +25,8 @@ import java.lang.annotation.Annotation;
 
 /**
  * Interface common to both <code>org.metawidget.inspector.impl.propertystyle.Property</code>
- * (business object properties) and <code>org.metawidget.inspector.impl.actionstyle.Action</code>
- * (business object actions).
+ * (domain object properties) and <code>org.metawidget.inspector.impl.actionstyle.Action</code>
+ * (domain object actions).
  * <p>
  * This is essentially <code>java.lang.reflect.AnnotatedElement</code>, but simplified with fewer
  * methods.

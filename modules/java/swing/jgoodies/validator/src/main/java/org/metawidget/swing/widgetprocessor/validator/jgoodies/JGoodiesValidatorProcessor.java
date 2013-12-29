@@ -118,7 +118,7 @@ public class JGoodiesValidatorProcessor
 	 * @param attributes
 	 *            attributes of the widget to layout. Never null
 	 * @param path
-	 *            path to the business object property (of the form com.myapp.Foo/bar/baz)
+	 *            path to the domain object property (of the form com.myapp.Foo/bar/baz)
 	 * @param metawidget
 	 *            the owning Metawidget. May be useful if you wish to look up other WidgetProcessors
 	 *            (such as

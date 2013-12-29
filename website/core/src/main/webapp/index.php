@@ -148,8 +148,7 @@
 
 		<p style="margin-right: 175px">
 			Metawidget does not replace or restrict your existing UI framework. It does not try to 'own' your UI.
-			The <a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL</a> Open
-			Source license allows the use of Metawidget in open source and commercial projects.
+			Its <a href="doc/faq/licensing.php" target="_blank">Open Source license</a> allows the use of Metawidget in open source and commercial projects.
 		</p>
 
 		<map id="overview-map" name="overiew-map">
@@ -251,7 +250,7 @@
 						</td>
 						<td>
 							<h3>2. Back-Ends</h3>
-							<em>Metawidget can read business object<br/>information from all of these</em>
+							<em>Metawidget can read domain object<br/>information from all of these</em>
 							<ul>
 								<li>Annotations</li>
 								<li>Bean Validation (JSR 303)</li>

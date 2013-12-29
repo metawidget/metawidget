@@ -31,7 +31,7 @@
 		<ul>
 			<li>running the code</li>
 			<li>changing the business model code (adding fields, altering annotations etc.)</li>
-			<li>importing your own business object JARs to see how Metawidget renders them</li>
+			<li>importing your own domain object JARs to see how Metawidget renders them</li>
 		</ul>
 		
 		<center>

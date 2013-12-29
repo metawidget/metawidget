@@ -233,7 +233,7 @@
 					</para>
 						
 					<para>
-						<classname>SimpleBindingProcessor</classname> expects every business object to be wrapped with a <classname>SimpleBindingProcessorAdapter</classname>.
+						<classname>SimpleBindingProcessor</classname> expects every domain object to be wrapped with a <classname>SimpleBindingProcessorAdapter</classname>.
 						The supplied <classname>SimpleBindingProcessorAdapterGenerator</classname> automates this process. To configure it, add the following
 						to the <filename>application-name.gwt.xml</filename> file...
 					</para>
@@ -397,7 +397,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 					<para>
 						<classname>SimpleBindingProcessor</classname> binds properties using <function>widget.value</function>. To
-						save values back into the business object, clients must call <function>save</function>:
+						save values back into the domain object, clients must call <function>save</function>:
 					</para>
 					
 					<programlisting language="java">mw.getWidgetProcessor( function( widgetProcessor ) {
@@ -616,7 +616,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 
 					<para>
 						<classname>SimpleBindingProcessor</classname> binds properties using <function>setValue</function>. To
-						save values back into the business object, clients must call <function>save</function>:
+						save values back into the domain object, clients must call <function>save</function>:
 					</para>
 					
 					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( myMetawidget )</programlisting>
@@ -695,7 +695,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 
 					<para>
 						<classname>SimpleBindingProcessor</classname> binds properties using <function>setValue</function>. To
-						save values back into the business object, clients must call <function>save</function>:
+						save values back into the domain object, clients must call <function>save</function>:
 					</para>
 					
 					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( myMetawidget )</programlisting>

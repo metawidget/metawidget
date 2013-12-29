@@ -1844,7 +1844,7 @@ public class Main {
 				<para>
 					<classname>GwtMetawidget</classname> uses stubs around GWT widgets like <classname>FlexTable</classname>, but can use
 					the overriding widget directly if it supports the <classname>HasName</classname> interface (e.g. TextBox, CheckBox, etc)
-					and has a name matching the name of the business object property.
+					and has a name matching the name of the domain object property.
 				</para>
 
 				<section id="section-introduction-part2-web-mixing">
@@ -2614,7 +2614,7 @@ public PenguinCondition getCondition() { ...}</programlisting>
 					The Swing AppFramework Car Demo demonstrates using Metawidget with the
 					<ulink url="https://appframework.dev.java.net">Swing AppFramework</ulink>. Metawidget
 					can use Swing AppFramework's <classname>@Action</classname> annotation to identify actions, both amongst
-					a business object's properties and in external controllers, and automatically generate <classname>JButton</classname>s
+					a domain object's properties and in external controllers, and automatically generate <classname>JButton</classname>s
 					for them.
 				</para>
 	

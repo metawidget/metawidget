@@ -32,7 +32,7 @@ import org.metawidget.iface.Immutable;
  * to store state, they should use the Metawidget passed to each method.
  * <p>
  * Processing an inspection result can be useful in a variety of cases. For example, you can sort
- * business object properties based on a defined ordering, or choose only certain properties based
+ * domain object properties based on a defined ordering, or choose only certain properties based
  * on the UI screen being displayed. In more advanced cases, you could 'unpack' an inspection result
  * that contained nested entities so that you could, say, iterate over a Collection.
  * <p>

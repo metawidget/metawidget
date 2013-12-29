@@ -80,7 +80,7 @@
 		</para>
 
 		<para>
-			Metawidget can read business object information from any combination of supported
+			Metawidget can read domain object information from any combination of supported
 			back-end technologies. This support includes: annotations, Bean Validation (JSR 303), Commons
 			JEXL, Commons Validator, Groovy, Hibernate, Hibernate Validator, Jackson, JavaBeans, Java Persistence
 			Architecture (JPA), Javassist, JBoss Forge, JBoss jBPM, JSON, JSON Schema, OVal, REST, Scala, Seam and

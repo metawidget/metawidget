@@ -37,7 +37,7 @@ var metawidget = metawidget || {};
 	 * 
 	 * @param element
 	 *            the element to populate with UI components matching the
-	 *            properties of the business object
+	 *            properties of the domain object
 	 * @param config
 	 *            optional configuration object (see
 	 *            metawidget.Pipeline.configure)

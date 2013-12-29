@@ -402,8 +402,8 @@
 						User->Browser: hits page
 						Browser->Browser: creates\nbusiness\nobject
 						Browser->GwtMetawidget: creates metawidget
-						Browser->GwtMetawidget: sets business object
-						GwtMetawidget->Server: sends business object
+						Browser->GwtMetawidget: sets domain object
+						GwtMetawidget->Server: sends domain object
 						Server->Server: runs inspector
 						Server->GwtMetawidget: returns inspection results
 						GwtMetawidget->Browser: renders HTML widgets
@@ -424,12 +424,12 @@
 					<orderedlist>
 						<listitem>
 							<para>
-								instantiate the business object on the client-side as normal (i.e. as JavaScript)
+								instantiate the domain object on the client-side as normal (i.e. as JavaScript)
 							</para>
 						</listitem>
 						<listitem>
 							<para>
-								give the business object to <classname>GwtMetawidget</classname> (a client-side, JavaScript GWT <classname>Widget</classname>)
+								give the domain object to <classname>GwtMetawidget</classname> (a client-side, JavaScript GWT <classname>Widget</classname>)
 							</para>
 						</listitem>
 						<listitem>
@@ -1633,7 +1633,7 @@ mw.buildWidgets();
 &lt;/resources&gt;</programlisting>
 
 					<para>
-						And your business object had a property:
+						And your domain object had a property:
 					</para>
 					
 					<programlisting language="java">class Person {
