@@ -537,8 +537,15 @@ var metawidget = metawidget || {};
 					widget.setAttribute( 'ng-bind', binding );
 				}
 
-			} else if ( widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'button' || widget.getAttribute( 'type' ) === 'submit' ) ) {
+			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'submit' ) {
+				
+				// input type='submit' should not be bound: should go via ng-submit
+				// at the form level
+				
+			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) {
+				
 				widget.setAttribute( 'ng-click', binding + '()' );
+				
 			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
 				// Special support for multi-selects and radio buttons

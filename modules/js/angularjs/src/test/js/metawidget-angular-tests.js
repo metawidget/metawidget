@@ -1457,7 +1457,8 @@
 				widget = document.createElement( 'input' );
 				widget.setAttribute( 'type', 'submit' );
 				processor.processWidget( widget, 'property', attributes, mw );
-				expect( widget.getAttribute( 'ng-click' ) ).toBe( 'testPath.bar()' );
+				expect( widget.getAttribute( 'ng-click' ) ).toBe( null );
+				expect( widget.getAttribute( 'ng-model' ) ).toBe( null );
 				expect( widget.getAttribute( 'ng-required' ) ).toBe( null );
 				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
 				expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( null );

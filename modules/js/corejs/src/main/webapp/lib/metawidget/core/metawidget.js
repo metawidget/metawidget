@@ -24,8 +24,6 @@
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-// TODO: hoisting
-
 var metawidget = metawidget || {};
 
 ( function() {
