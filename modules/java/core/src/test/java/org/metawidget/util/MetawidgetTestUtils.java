@@ -295,6 +295,7 @@ public final class MetawidgetTestUtils {
 			try {
 				field.setAccessible( true );
 				field.set( owner, value );
+				break;
 			} catch ( Exception e ) {
 				throw new RuntimeException( e );
 			}
