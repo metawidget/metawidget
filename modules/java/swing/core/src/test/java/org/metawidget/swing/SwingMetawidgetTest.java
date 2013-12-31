@@ -79,7 +79,7 @@ public class SwingMetawidgetTest
 		assertTrue( info.getIcon( BeanInfo.ICON_COLOR_16x16 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_MONO_32x32 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_COLOR_32x32 ) != null );
-		assertEquals( info.getIcon( 5 ), null );
+		assertTrue( info.getIcon( 5 ) != null );
 	}
 
 	@SuppressWarnings( "serial" )

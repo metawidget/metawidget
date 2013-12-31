@@ -65,7 +65,5 @@ public class SwingMetawidgetBeanInfo
 			default:
 				return loadImage( "icon/color-32x32.gif" );
 		}
-
-		return null;
 	}
 }
