@@ -537,10 +537,14 @@ var metawidget = metawidget || {};
 					widget.setAttribute( 'ng-bind', binding );
 				}
 
-			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) {
+			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'submit' ) {
 				
 				// input type='submit' should not be bound: should go via ng-submit
 				// at the form level
+				
+				widget.removeAttribute( 'ng-click' );
+				
+			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) {
 				
 				widget.setAttribute( 'ng-click', binding + '()' );
 				
