@@ -62,45 +62,40 @@ var metawidget = metawidget || {};
 
 	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
-		switch ( widget.tagName ) {
+		if ( widget.tagName === 'TABLE' ) {
 
-			case 'TABLE':
-				metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
-				break;
+			metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
 
-			case 'INPUT':
-				if ( widget.getAttribute( 'type' ) === 'submit' ) {
-					metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
-					break;
+		} else if ( widget.tagName === 'INPUT' ) {
+
+			if ( widget.getAttribute( 'type' ) === 'submit' ) {
+				metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
+			} else if ( widget.getAttribute( 'type' ) === 'button' ) {
+				metawidget.util.appendToAttribute( widget, 'class', 'btn' );
+			} else if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
+				var div = metawidget.util.createElement( mw, 'div' );
+				var span;
+				if ( attributes.inputPrepend !== undefined ) {
+					div.setAttribute( 'class', 'input-prepend' );
+					span = metawidget.util.createElement( mw, 'span' );
+					span.setAttribute( 'class', 'add-on' );
+					span.innerHTML = attributes.inputPrepend;
+					div.appendChild( span );
 				}
-				if ( widget.getAttribute( 'type' ) === 'button' ) {
-					metawidget.util.appendToAttribute( widget, 'class', 'btn' );
-					break;
-				}
-				if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
-					var div = metawidget.util.createElement( mw, 'div' );
-					var span;
+				div.appendChild( widget );
+				if ( attributes.inputAppend !== undefined ) {
 					if ( attributes.inputPrepend !== undefined ) {
-						div.setAttribute( 'class', 'input-prepend' );
-						span = metawidget.util.createElement( mw, 'span' );
-						span.setAttribute( 'class', 'add-on' );
-						span.innerHTML = attributes.inputPrepend;
-						div.appendChild( span );
+						div.setAttribute( 'class', 'input-prepend input-append' );
+					} else {
+						div.setAttribute( 'class', 'input-append' );
 					}
-					div.appendChild( widget );
-					if ( attributes.inputAppend !== undefined ) {
-						if ( attributes.inputPrepend !== undefined ) {
-							div.setAttribute( 'class', 'input-prepend input-append' );
-						} else {
-							div.setAttribute( 'class', 'input-append' );
-						}
-						span = metawidget.util.createElement( mw, 'span' );
-						span.setAttribute( 'class', 'add-on' );
-						span.innerHTML = attributes.inputAppend;
-						div.appendChild( span );
-					}
-					return div;
+					span = metawidget.util.createElement( mw, 'span' );
+					span.setAttribute( 'class', 'add-on' );
+					span.innerHTML = attributes.inputAppend;
+					div.appendChild( span );
 				}
+				return div;
+			}
 		}
 
 		return widget;
@@ -163,7 +158,7 @@ var metawidget = metawidget || {};
 		// Whole new tabbed pane?
 
 		var ul, content;
-		
+
 		if ( tabs === undefined ) {
 			tabs = metawidget.util.createElement( mw, 'div' );
 			tabs.setAttribute( 'id', metawidget.util.getId( "property", attributes, mw ) + '-tabs' );
