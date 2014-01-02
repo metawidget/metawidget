@@ -96,7 +96,7 @@ var metawidget = metawidget || {};
 			// sensitive
 
 			return binding.widget;
-		}
+		};
 
 		return processor;
 	};

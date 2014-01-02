@@ -33,9 +33,7 @@
 
 	/* Controllers */
 
-	var module = angular.module( 'controllers', [] )
-
-	.controller( 'contactsController', function( $scope, $location, contacts, metawidgetConfig ) {
+	angular.module( 'controllers', [] ).controller( 'contactsController', function( $scope, $location, contacts, metawidgetConfig ) {
 
 		// Load all contacts
 
@@ -150,12 +148,14 @@
 
 				contacts.then( function( result ) {
 
+					var loop, length;
+					
 					if ( $scope.current.id === undefined ) {
 
 						// Save new
 
 						var nextId = 0;
-						for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
+						for ( loop = 0, length = result.data.length; loop < length; loop++ ) {
 							if ( result.data[loop].id > nextId ) {
 								nextId = result.data[loop].id;
 							}
@@ -166,7 +166,7 @@
 
 						// Update existing
 
-						for ( var loop = 0, length = result.data.length; loop < length; loop++ ) {
+						for ( loop = 0, length = result.data.length; loop < length; loop++ ) {
 							if ( result.data[loop].id === $scope.current.id ) {
 								result.data.splice( loop, 1, $scope.current );
 								break;

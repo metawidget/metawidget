@@ -12,7 +12,7 @@ var addressbook = addressbook || {};
 
 	function _save( entity ) {
 
-		if ( _model.indexOf( entity ) == -1 ) {
+		if ( _model.indexOf( entity ) === -1 ) {
 			_model.push( entity );
 		}
 	}
