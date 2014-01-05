@@ -5,33 +5,38 @@
 		<h2>Frequently Asked Questions - Licensing</h2>
 
 		<p>
-			Metawidget is dual licensed under both the
-			<a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL</a>
+			Metawidget is licensed under both the
+			<a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL</a>/<a href="http://www.eclipse.org/legal/epl-v10.html">EPL</a>
 			and a commercial license.		
 		</p>
 				
-		<h3>Metawidget (LGPL)</h3>
+		<h3>Metawidget (LGPL/EPL)</h3>
 		
 		<p>
-			The LGPL is sufficiently flexible to allow the use of Metawidget in both open source and commercial projects.
-			The LGPL guarantees that Metawidget and any modifications made to Metawidget will stay open source, protecting our and your work. Anyone who
-			wanted to release Metawidget under a different license would have to obtain permission from everybody who has contributed code to Metawidget,
-			which would be impractical. Metawidget is and will always be open source distributed under the LGPL.
+			Metawidget may be used under the terms of either the GNU Lesser General Public License (LGPL) or the
+			Eclipse Public License (EPL). As a recipient of Metawidget, you may choose to receive it under either
+			the LGPL or the EPL. 
+		</p>
+		
+		<p>
+			Both the LGPL and EPL are weak copyleft licenses. They are sufficiently flexible to allow the use of Metawidget in both
+			open source and commercial projects. They guarantee that Metawidget and any modifications made to Metawidget will stay
+			open source, protecting our and your work.
 		</p>
 		
 		<p>
 			Using Metawidget (by importing Metawidget's public interfaces in your code) and extending Metawidget (by subclassing or implementation of an
-			extension interface) is considered by the authors of Metawidget to be dynamic linking. Hence our interpretation of the LGPL is that the use
+			extension interface) is considered by the authors of Metawidget to be dynamic linking. Hence our interpretation of the LGPL/EPL is that the use
 			of the unmodified Metawidget source does not affect the license of your application code.
 		</p>
 		
 		<p>
 			The use of the unmodified Metawidget binary of course never affects the license of your application or distribution. For example, you
-			can distribute a commercially licensed, or Apache licensed, application that includes the LGPL Metawidget binary.			
+			can distribute a commercially licensed application that includes the LGPL/EPL Metawidget binary.			
 		</p>
 		
 		<p>
-			If you modify Metawidget and redistribute your modifications, the LGPL applies. This cannot be avoided simply by attaching a different
+			If you modify Metawidget and redistribute your modifications, the LGPL/EPL applies. This cannot be avoided simply by attaching a different
 			source file header and/or providing proper attribution (i.e. a statement clarifying the code is modified from the original). Rather, you must pursue
 			one of the following options:
 		</p>
@@ -73,10 +78,9 @@
 		<h3>Metawidget (commercial)</h3>
 		
 		<p>
-			Some organizations have policies against the use of Open Source software, or against the
-			use of GPL software (including LGPL). For those scenarios, commercial licenses are available for
-			portions of Metawidget. The commercially licensed portions are the
-			<em>exact same code</em>, but can be used without any of the obligations of the LGPL.
+			Some organizations have policies against the use of Open Source software. For those scenarios, commercial
+			licenses are available for most portions of Metawidget. The commercially licensed portions are the
+			<em>exact same code</em>, but can be used without any of the obligations of the LGPL/EPL.
 		</p>
 		
 		<p>		
@@ -91,10 +95,11 @@
 		</p>
 		
 		<p>
-			They are licensed under the <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">BSD 2-Clause License</a>. This allows
+			They are licensed under the <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">BSD 2-Clause License</a>
+			(also know as the "Simplified BSD License" or "FreeBSD License"). This is a permissive license. It allows
 			redistribution and use in source and binary forms, with or without modification. You can freely copy code from the examples, modify it
 			and redistribute it. This is <em>not</em> the case for Metawidget itself, which is
-			dual licensed under both the LGPL and a commercial license (see above).
+			dual licensed under both the LGPL/EPL and a commercial license (see above).
 		</p>
 		
 	<?php require_once '../../include/body-end.php'; ?>		

@@ -15,7 +15,7 @@
 		</p>
 		
 		<ul>
-			<li>Improved XML Schema inspection</li>
+			<li>Re-licensed under LGPL/EPL and a commercial license</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

@@ -31,6 +31,7 @@
 	</fileSets>
 	<files>
 		<file>
+			<source>src/main/resources/for-bin/epl.txt</source>
 			<source>src/main/resources/for-bin/lgpl.txt</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
