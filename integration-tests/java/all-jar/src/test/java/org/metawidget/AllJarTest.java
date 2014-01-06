@@ -143,7 +143,7 @@ public class AllJarTest
 		IOUtils.streamBetween( new FileInputStream( new File( "../../../modules/js/" + filename ) ), streamOut );
 		String contents = streamOut.toString();
 
-		assertTrue( contents.contains( "This library is dual licensed" ) );
+		assertTrue( contents.contains( "This file is dual licensed" ) );
 		assertTrue( contents.contains( "minified" ) );
 		assertTrue( contents, !contents.contains( "${" ) );
 		assertTrue( contents, !contents.contains( "config." ) );
