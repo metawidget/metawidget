@@ -78,7 +78,7 @@
 	<jdk>(Default)</jdk>
 	<triggers>
 		<hudson.triggers.TimerTrigger>
-			<spec>@midnight</spec>
+			<spec>0 0 */2 * *</spec>
 		</hudson.triggers.TimerTrigger>
 	</triggers>
 	<concurrentBuild>false</concurrentBuild>
