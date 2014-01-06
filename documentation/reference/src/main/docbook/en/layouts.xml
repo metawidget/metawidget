@@ -568,10 +568,31 @@
 					
 					<para> 
 						This layout extends <classname>metawidget.layout.DivLayout</classname>. It adds Bootstrap
-						CSS classes such as <parameter>control-group</parameter> and <parameter>control-label</parameter>
-						to the divs.
+						CSS classes such as <parameter>form-group</parameter> and <parameter>control-label</parameter>
+						to the divs. This <classname>Layout</classname> recognizes the following configuration properties:
 					</para>
 
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>version</parameter></td>
+								<td>
+									Specify '2' to use Bootstrap 2.x CSS class names
+									(Bootstrap 3.x names are used by default)
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>
 				</section>
 
 				<section id="section-layouts-web-javascript-definitionlist">

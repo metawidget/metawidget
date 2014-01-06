@@ -624,7 +624,7 @@ var metawidget = metawidget || {};
 
 		if ( existingAttribute === null ) {
 			widget.setAttribute( attributeName, toAppend );
-		} else {
+		} else if ( existingAttribute !== toAppend && existingAttribute.indexOf( toAppend ) == -1 ) {
 			widget.setAttribute( attributeName, existingAttribute + ' ' + toAppend );
 		}
 	};

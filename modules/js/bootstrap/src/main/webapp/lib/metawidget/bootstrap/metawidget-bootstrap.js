@@ -9,8 +9,6 @@
 // Commercial licenses are also available. See http://metawidget.org
 // for details.
 
-// TODO: Bootstrap 3
-
 /**
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
@@ -52,39 +50,61 @@ var metawidget = metawidget || {};
 
 	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
-		if ( widget.tagName === 'TABLE' ) {
-
+		var tagName = widget.tagName;
+		
+		if ( tagName === 'TABLE' ) {
+			
 			metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
+			
+		} else if ( tagName === 'OUTPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA' ) {
 
-		} else if ( widget.tagName === 'INPUT' ) {
+			metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
+			
+		} else if ( tagName === 'INPUT' ) {
 
-			if ( widget.getAttribute( 'type' ) === 'submit' ) {
-				metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
-			} else if ( widget.getAttribute( 'type' ) === 'button' ) {
-				metawidget.util.appendToAttribute( widget, 'class', 'btn' );
-			} else if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
-				var div = metawidget.util.createElement( mw, 'div' );
-				var span;
-				if ( attributes.inputPrepend !== undefined ) {
-					div.setAttribute( 'class', 'input-prepend' );
-					span = metawidget.util.createElement( mw, 'span' );
-					span.setAttribute( 'class', 'add-on' );
-					span.innerHTML = attributes.inputPrepend;
-					div.appendChild( span );
-				}
-				div.appendChild( widget );
-				if ( attributes.inputAppend !== undefined ) {
-					if ( attributes.inputPrepend !== undefined ) {
-						div.setAttribute( 'class', 'input-prepend input-append' );
-					} else {
-						div.setAttribute( 'class', 'input-append' );
+			var type = widget.getAttribute( 'type' );
+				
+			switch( type ) {
+				
+				case 'submit':
+					metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
+					break;
+					
+				case 'button':
+					metawidget.util.appendToAttribute( widget, 'class', 'btn' );
+					break;
+					
+				default: {
+					
+					if ( type !== 'checkbox' ) {
+						metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
 					}
-					span = metawidget.util.createElement( mw, 'span' );
-					span.setAttribute( 'class', 'add-on' );
-					span.innerHTML = attributes.inputAppend;
-					div.appendChild( span );
+					
+					if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
+						var div = metawidget.util.createElement( mw, 'div' );
+						var span;
+						if ( attributes.inputPrepend !== undefined ) {
+							div.setAttribute( 'class', 'input-prepend' );
+							span = metawidget.util.createElement( mw, 'span' );
+							span.setAttribute( 'class', 'add-on' );
+							span.innerHTML = attributes.inputPrepend;
+							div.appendChild( span );
+						}
+						div.appendChild( widget );
+						if ( attributes.inputAppend !== undefined ) {
+							if ( attributes.inputPrepend !== undefined ) {
+								div.setAttribute( 'class', 'input-prepend input-append' );
+							} else {
+								div.setAttribute( 'class', 'input-append' );
+							}
+							span = metawidget.util.createElement( mw, 'span' );
+							span.setAttribute( 'class', 'add-on' );
+							span.innerHTML = attributes.inputAppend;
+							div.appendChild( span );
+						}
+						return div;
+					}
 				}
-				return div;
 			}
 		}
 
@@ -102,7 +122,7 @@ var metawidget = metawidget || {};
 	 *        'form-horizontal' Bootstrap layouts.
 	 *        <p>
 	 *        This Layout extends metawidget.layout.DivLayout. It adds Bootstrap
-	 *        CSS classes such as 'control-group' and 'control-label' to the
+	 *        CSS classes such as 'form-group' and 'control-label' to the
 	 *        divs.
 	 * 
 	 * @returns {metawidget.bootstrap.layout.BootstrapDivLayout}
@@ -117,14 +137,39 @@ var metawidget = metawidget || {};
 		if ( config === undefined ) {
 			config = {};
 		}
-		if ( config.divStyleClasses === undefined ) {
-			config.divStyleClasses = [ 'control-group', undefined, 'controls' ];
-		}
-		if ( config.labelStyleClass === undefined ) {
-			config.labelStyleClass = 'control-label';
+		
+		if ( config.version === 2 ) {
+			if ( config.divStyleClasses === undefined ) {
+				config.divStyleClasses = [ 'control-group', undefined, 'controls' ];
+			}
+			if ( config.labelStyleClass === undefined ) {
+				config.labelStyleClass = 'control-label';
+			}
+		} else {
+			if ( config.divStyleClasses === undefined ) {
+				config.divStyleClasses = [ 'form-group', 'col-sm-2 control-label', 'col-sm-10' ];
+			}
 		}
 
-		return new metawidget.layout.DivLayout( config );
+		var layout = new metawidget.layout.DivLayout( config );
+		
+		// If there is no label, Bootstrap 3 requires an explicit grid position to be set
+		// or the widget div will not automatically 'pull right'
+		
+		if ( config.version !== 2 ) {
+			var superLayoutWidget = layout.layoutWidget;
+			layout.layoutWidget = function( widget, elementName, attributes, container, mw ) {		
+			
+				superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
+
+				var outerDiv = container.childNodes[ container.childNodes.length - 1 ];
+				if ( outerDiv.childNodes.length === 1 ) {
+					metawidget.util.appendToAttribute( outerDiv.childNodes[0], 'class', 'col-sm-offset-2' );
+				}
+			};
+		}
+		
+		return layout;
 	};
 
 	/**
@@ -180,7 +225,11 @@ var metawidget = metawidget || {};
 		var a = metawidget.util.createElement( mw, 'a' );
 		a.setAttribute( 'data-toggle', 'tab' );
 		a.setAttribute( 'href', '#' + tabId );
-		a.hash = '#' + tabId;
+		
+		// If Bootstrap is used with AngularJS, target=_self stops Angular from
+		// rewriting this link: https://groups.google.com/forum/#!topic/angular/yKv8jXYBsBI
+		
+		a.setAttribute( 'target', '_self' );
 		li.appendChild( a );
 		ul.appendChild( li );
 

@@ -16,6 +16,7 @@
 		
 		<ul>
 			<li>Re-licensed under LGPL/EPL and a commercial license</li>
+			<li>Bootstrap 3 support</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

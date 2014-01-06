@@ -550,6 +550,12 @@
 			metawidget.util.appendToAttribute( widget, 'class', 'btn' )
 			expect( widget.getAttribute( 'class' ) ).toBe( 'btn' );
 
+			metawidget.util.appendToAttribute( widget, 'class', 'btn' )
+			expect( widget.getAttribute( 'class' ) ).toBe( 'btn' );
+
+			metawidget.util.appendToAttribute( widget, 'class', 'btn2' )
+			expect( widget.getAttribute( 'class' ) ).toBe( 'btn btn2' );
+
 			metawidget.util.appendToAttribute( widget, 'class', 'btn2' )
 			expect( widget.getAttribute( 'class' ) ).toBe( 'btn btn2' );
 		} );

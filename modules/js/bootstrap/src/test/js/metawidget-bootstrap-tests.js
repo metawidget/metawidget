@@ -53,30 +53,30 @@
 			var processor = new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor();
 
 			// Prepend
-			
+
 			var widget = processor.processWidget( widget, 'property', {
 				inputPrepend: '$'
 			}, mw );
 			expect( widget.toString() ).toBe( 'div class="input-prepend"' );
 			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on"' );
 			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
-			expect( widget.childNodes[1].toString() ).toBe( 'input' );
+			expect( widget.childNodes[1].toString() ).toBe( 'input class="form-control"' );
 			expect( widget.childNodes.length ).toBe( 2 );
 
 			// Append
-			
+
 			widget = simpleDocument.createElement( 'input' );
 			widget = processor.processWidget( widget, 'property', {
 				inputAppend: '%'
 			}, mw );
 			expect( widget.toString() ).toBe( 'div class="input-append"' );
-			expect( widget.childNodes[0].toString() ).toBe( 'input' );
+			expect( widget.childNodes[0].toString() ).toBe( 'input class="form-control"' );
 			expect( widget.childNodes[1].toString() ).toBe( 'span class="add-on"' );
 			expect( widget.childNodes[1].innerHTML ).toBe( '%' );
 			expect( widget.childNodes.length ).toBe( 2 );
 
 			// Both
-			
+
 			widget = simpleDocument.createElement( 'input' );
 			widget = processor.processWidget( widget, 'property', {
 				inputPrepend: '$',
@@ -85,13 +85,13 @@
 			expect( widget.toString() ).toBe( 'div class="input-prepend input-append"' );
 			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on"' );
 			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
-			expect( widget.childNodes[1].toString() ).toBe( 'input' );
+			expect( widget.childNodes[1].toString() ).toBe( 'input class="form-control"' );
 			expect( widget.childNodes[2].toString() ).toBe( 'span class="add-on"' );
 			expect( widget.childNodes[2].innerHTML ).toBe( '.00' );
 			expect( widget.childNodes.length ).toBe( 3 );
 		} );
 
-		it( "has a Layout that supports Bootstrap styles", function() {
+		it( "has a Layout that supports Bootstrap 3.x styles", function() {
 
 			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element, {
@@ -105,11 +105,66 @@
 							bar: {
 								type: "string",
 								required: true
+							},
+							baz: {
+								type: "string",
+								title: ''								
 							}
 						}
 					};
 				},
 				layout: new metawidget.bootstrap.layout.BootstrapDivLayout()
+			} );
+
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label"' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( element.childNodes[1].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label"' );
+			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
+			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
+			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( element.childNodes[2].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div class="col-sm-10 col-sm-offset-2"' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[2].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 3 );
+		} );
+
+		it( "has a Layout that supports Bootstrap 2.x styles", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: function() {
+
+					return {
+						properties: {
+							foo: {
+								type: "string"
+							},
+							bar: {
+								type: "string",
+								required: true
+							},
+							baz: {
+								type: "string",
+								title: ''								
+							}
+						}
+					};
+				},
+				layout: new metawidget.bootstrap.layout.BootstrapDivLayout( {
+					version: 2
+				} )
 			} );
 
 			mw.buildWidgets();
@@ -128,7 +183,12 @@
 			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
 			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[1].childNodes.length ).toBe( 2 );
-			expect( element.childNodes.length ).toBe( 2 );
+			expect( element.childNodes[2].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[2].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 3 );
 		} );
 
 		it( "has a Layout that supports configurable Bootstrap styles", function() {
@@ -157,17 +217,17 @@
 
 			mw.buildWidgets();
 
-			expect( element.childNodes[0].toString() ).toBe( 'div class="control-group"' );
-			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label" class="control-label"' );
-			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[0].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label"' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
 			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
-			expect( element.childNodes[1].toString() ).toBe( 'div class="control-group"' );
-			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="label-required"' );
-			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label" class="control-label"' );
-			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="controls widget-required"' );
+			expect( element.childNodes[1].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label label-required"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label"' );
+			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="col-sm-10 widget-required"' );
 			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
 			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[1].childNodes.length ).toBe( 2 );
@@ -205,45 +265,45 @@
 
 			mw.buildWidgets();
 
-			expect( element.childNodes[0].toString() ).toBe( 'div class="control-group"' );
-			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label" class="control-label"' );
-			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[0].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label"' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
 			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
-			expect( element.childNodes[1].toString() ).toBe( 'div class="control-group"' );
-			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[1].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="col-sm-10 col-sm-offset-2"' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div id="bar-tabs" class="tabs"' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'ul class="nav nav-tabs"' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'li class="active"' );
-			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'a data-toggle="tab" href="#bar-tabs1"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'a data-toggle="tab" href="#bar-tabs1" target="_self"' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Tab 1' );
-			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'a data-toggle="tab" href="#bar-tabs2"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'a data-toggle="tab" href="#bar-tabs2" target="_self"' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Tab 2' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
-			var tabContent = element.childNodes[1].childNodes[0].childNodes[0].childNodes[1]; 
+			var tabContent = element.childNodes[1].childNodes[0].childNodes[0].childNodes[1];
 			expect( tabContent.toString() ).toBe( 'div class="tab-content"' );
 			expect( tabContent.childNodes[0].toString() ).toBe( 'div class="tab-pane active" id="bar-tabs1"' );
-			expect( tabContent.childNodes[0].childNodes[0].toString() ).toBe( 'div class="control-group"' );
-			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label" class="control-label"' );
-			expect( tabContent.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( tabContent.childNodes[0].childNodes[0].toString() ).toBe( 'div class="form-group"' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label"' );
+			expect( tabContent.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
 			expect( tabContent.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
 			expect( tabContent.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( tabContent.childNodes[1].toString() ).toBe( 'div class="tab-pane" id="bar-tabs2"' );
-			expect( tabContent.childNodes[1].childNodes[0].toString() ).toBe( 'div class="control-group"' );
-			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="baz" id="baz-label" class="control-label"' );
-			expect( tabContent.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( tabContent.childNodes[1].childNodes[0].toString() ).toBe( 'div class="form-group"' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="baz" id="baz-label"' );
+			expect( tabContent.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
 			expect( tabContent.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
 			expect( tabContent.childNodes[1].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( tabContent.childNodes.length ).toBe( 2 );
 			expect( element.childNodes[1].childNodes.length ).toBe( 1 );
-			expect( element.childNodes[2].toString() ).toBe( 'div class="control-group"' );
-			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div' );
-			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label for="abc" id="abc-label" class="control-label"' );
-			expect( element.childNodes[2].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[2].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label for="abc" id="abc-label"' );
+			expect( element.childNodes[2].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
 			expect( element.childNodes[2].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="abc" name="abc"' );
 			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[2].childNodes.length ).toBe( 2 );
