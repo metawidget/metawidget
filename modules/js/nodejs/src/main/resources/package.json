@@ -17,8 +17,16 @@
   },
   "licenses": [
     {
-      "type": "LGPL/EPL",
-      "url": "http://metawidget.org/doc/faq/licensing.php"
-    }
+    	"type": "LGPL",
+	    "url": "https://github.com/metawidget/metawidget/blob/master/src/main/resources/for-bin/lgpl.txt"
+    },
+    {
+    	"type": "EPL",
+	    "url": "https://github.com/metawidget/metawidget/blob/master/src/main/resources/for-bin/epl.txt"
+    },
+    {
+    	"type": "Commercial",
+	    "url": "http://metawidget.org/doc/faq/licensing.php"
+    }    
   ]
 }
