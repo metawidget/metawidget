@@ -38,6 +38,24 @@
 			widget = simpleDocument.createElement( 'table' );
 			expect( processor.processWidget( widget ) ).toBe( widget );
 			expect( widget.getAttribute( 'class' ) ).toBe( 'table table-striped table-bordered table-hover' );
+
+			widget = simpleDocument.createElement( 'output' );
+			expect( processor.processWidget( widget ) ).toBe( widget );
+			expect( widget.getAttribute( 'style' ) ).toBe( 'padding:6px 12px' );
+
+			widget = simpleDocument.createElement( 'output' );
+			widget.setAttribute( 'style', 'some: style' );
+			expect( processor.processWidget( widget ) ).toBe( widget );
+			expect( widget.getAttribute( 'style' ) ).toBe( 'some: style;padding:6px 12px' );
+
+			widget = simpleDocument.createElement( 'input' );
+			expect( processor.processWidget( widget, 'property', {} ) ).toBe( widget );
+			expect( widget.getAttribute( 'class' ) ).toBe( 'form-control' );
+
+			widget = simpleDocument.createElement( 'input' );
+			widget.setAttribute( 'type', 'checkbox' );
+			expect( processor.processWidget( widget, 'property', {} ) ).toBe( widget );
+			expect( widget.getAttribute( 'class' ) ).toBe( null );
 		} );
 
 		it( "has a WidgetProcessor that supports input-prepend and input-append", function() {

@@ -51,35 +51,42 @@ var metawidget = metawidget || {};
 	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
 		var tagName = widget.tagName;
-		
+
 		if ( tagName === 'TABLE' ) {
-			
+
 			metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
-			
-		} else if ( tagName === 'OUTPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA' ) {
+
+		} else if ( tagName === 'SELECT' || tagName === 'TEXTAREA' ) {
 
 			metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
+
+		} else if ( tagName === 'OUTPUT' ) {
+
+			// Pad output tags the same way as .form-control pads input tags. See:
+			// https://github.com/twbs/bootstrap/issues/9969
 			
+			metawidget.util.appendToAttribute( widget, 'style', 'padding:6px 12px', ';' );
+
 		} else if ( tagName === 'INPUT' ) {
 
 			var type = widget.getAttribute( 'type' );
-				
-			switch( type ) {
-				
+
+			switch ( type ) {
+
 				case 'submit':
 					metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
 					break;
-					
+
 				case 'button':
 					metawidget.util.appendToAttribute( widget, 'class', 'btn' );
 					break;
-					
+
 				default: {
-					
+
 					if ( type !== 'checkbox' ) {
 						metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
 					}
-					
+
 					if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
 						var div = metawidget.util.createElement( mw, 'div' );
 						var span;
@@ -122,8 +129,7 @@ var metawidget = metawidget || {};
 	 *        'form-horizontal' Bootstrap layouts.
 	 *        <p>
 	 *        This Layout extends metawidget.layout.DivLayout. It adds Bootstrap
-	 *        CSS classes such as 'form-group' and 'control-label' to the
-	 *        divs.
+	 *        CSS classes such as 'form-group' and 'control-label' to the divs.
 	 * 
 	 * @returns {metawidget.bootstrap.layout.BootstrapDivLayout}
 	 */
@@ -137,7 +143,7 @@ var metawidget = metawidget || {};
 		if ( config === undefined ) {
 			config = {};
 		}
-		
+
 		if ( config.version === 2 ) {
 			if ( config.divStyleClasses === undefined ) {
 				config.divStyleClasses = [ 'control-group', undefined, 'controls' ];
@@ -152,23 +158,24 @@ var metawidget = metawidget || {};
 		}
 
 		var layout = new metawidget.layout.DivLayout( config );
-		
-		// If there is no label, Bootstrap 3 requires an explicit grid position to be set
+
+		// If there is no label, Bootstrap 3 requires an explicit grid position
+		// to be set
 		// or the widget div will not automatically 'pull right'
-		
+
 		if ( config.version !== 2 ) {
 			var superLayoutWidget = layout.layoutWidget;
-			layout.layoutWidget = function( widget, elementName, attributes, container, mw ) {		
-			
+			layout.layoutWidget = function( widget, elementName, attributes, container, mw ) {
+
 				superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
 
-				var outerDiv = container.childNodes[ container.childNodes.length - 1 ];
+				var outerDiv = container.childNodes[container.childNodes.length - 1];
 				if ( outerDiv.childNodes.length === 1 ) {
 					metawidget.util.appendToAttribute( outerDiv.childNodes[0], 'class', 'col-sm-offset-2' );
 				}
 			};
 		}
-		
+
 		return layout;
 	};
 
@@ -225,10 +232,11 @@ var metawidget = metawidget || {};
 		var a = metawidget.util.createElement( mw, 'a' );
 		a.setAttribute( 'data-toggle', 'tab' );
 		a.setAttribute( 'href', '#' + tabId );
-		
+
 		// If Bootstrap is used with AngularJS, target=_self stops Angular from
-		// rewriting this link: https://groups.google.com/forum/#!topic/angular/yKv8jXYBsBI
-		
+		// rewriting this link:
+		// https://groups.google.com/forum/#!topic/angular/yKv8jXYBsBI
+
 		a.setAttribute( 'target', '_self' );
 		li.appendChild( a );
 		ul.appendChild( li );

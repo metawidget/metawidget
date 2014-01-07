@@ -59,7 +59,7 @@ var metawidget = metawidget || {};
 		/**
 		 * @returns true if the character is a digit.
 		 */
-		
+
 		function _isDigit( c ) {
 
 			var charCode = c.charCodeAt( 0 );
@@ -616,16 +616,23 @@ var metawidget = metawidget || {};
 	 * Sets the given 'toAppend' to the given widget's 'attributeName'. If the
 	 * given widget already has a value for 'attributeName', appends a space and
 	 * then adds 'toAppend'.
+	 * 
+	 * @param separator
+	 *            separator to use (defaults to a space)
 	 */
 
-	metawidget.util.appendToAttribute = function( widget, attributeName, toAppend ) {
+	metawidget.util.appendToAttribute = function( widget, attributeName, toAppend, separator ) {
 
 		var existingAttribute = widget.getAttribute( attributeName );
 
+		if ( separator === undefined ) {
+			separator = ' ';
+		}
+
 		if ( existingAttribute === null ) {
 			widget.setAttribute( attributeName, toAppend );
-		} else if ( existingAttribute !== toAppend && existingAttribute.indexOf( toAppend ) == -1 ) {
-			widget.setAttribute( attributeName, existingAttribute + ' ' + toAppend );
+		} else if ( existingAttribute !== toAppend && existingAttribute.indexOf( toAppend + separator ) === -1 && existingAttribute.indexOf( separator + toAppend ) === -1 ) {
+			widget.setAttribute( attributeName, existingAttribute + separator + toAppend );
 		}
 	};
 
@@ -664,7 +671,7 @@ var metawidget = metawidget || {};
 
 		var event = mw.getElement().ownerDocument.createEvent( 'Event' );
 		event.initEvent( name, true, true );
-		
+
 		return event;
 	};
 
