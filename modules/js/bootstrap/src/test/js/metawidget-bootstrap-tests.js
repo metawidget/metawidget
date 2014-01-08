@@ -75,8 +75,8 @@
 			var widget = processor.processWidget( widget, 'property', {
 				inputPrepend: '$'
 			}, mw );
-			expect( widget.toString() ).toBe( 'div class="input-prepend"' );
-			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on"' );
+			expect( widget.toString() ).toBe( 'div class="input-prepend input-group"' );
+			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on input-group-addon"' );
 			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
 			expect( widget.childNodes[1].toString() ).toBe( 'input class="form-control"' );
 			expect( widget.childNodes.length ).toBe( 2 );
@@ -87,9 +87,9 @@
 			widget = processor.processWidget( widget, 'property', {
 				inputAppend: '%'
 			}, mw );
-			expect( widget.toString() ).toBe( 'div class="input-append"' );
+			expect( widget.toString() ).toBe( 'div class="input-append input-group"' );
 			expect( widget.childNodes[0].toString() ).toBe( 'input class="form-control"' );
-			expect( widget.childNodes[1].toString() ).toBe( 'span class="add-on"' );
+			expect( widget.childNodes[1].toString() ).toBe( 'span class="add-on input-group-addon"' );
 			expect( widget.childNodes[1].innerHTML ).toBe( '%' );
 			expect( widget.childNodes.length ).toBe( 2 );
 
@@ -100,11 +100,11 @@
 				inputPrepend: '$',
 				inputAppend: '.00'
 			}, mw );
-			expect( widget.toString() ).toBe( 'div class="input-prepend input-append"' );
-			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on"' );
+			expect( widget.toString() ).toBe( 'div class="input-prepend input-append input-group"' );
+			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on input-group-addon"' );
 			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
 			expect( widget.childNodes[1].toString() ).toBe( 'input class="form-control"' );
-			expect( widget.childNodes[2].toString() ).toBe( 'span class="add-on"' );
+			expect( widget.childNodes[2].toString() ).toBe( 'span class="add-on input-group-addon"' );
 			expect( widget.childNodes[2].innerHTML ).toBe( '.00' );
 			expect( widget.childNodes.length ).toBe( 3 );
 		} );

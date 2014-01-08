@@ -91,21 +91,21 @@ var metawidget = metawidget || {};
 						var div = metawidget.util.createElement( mw, 'div' );
 						var span;
 						if ( attributes.inputPrepend !== undefined ) {
-							div.setAttribute( 'class', 'input-prepend' );
+							div.setAttribute( 'class', 'input-prepend input-group' );
 							span = metawidget.util.createElement( mw, 'span' );
-							span.setAttribute( 'class', 'add-on' );
+							span.setAttribute( 'class', 'add-on input-group-addon' );
 							span.innerHTML = attributes.inputPrepend;
 							div.appendChild( span );
 						}
 						div.appendChild( widget );
 						if ( attributes.inputAppend !== undefined ) {
 							if ( attributes.inputPrepend !== undefined ) {
-								div.setAttribute( 'class', 'input-prepend input-append' );
+								div.setAttribute( 'class', 'input-prepend input-append input-group' );
 							} else {
-								div.setAttribute( 'class', 'input-append' );
+								div.setAttribute( 'class', 'input-append input-group' );
 							}
 							span = metawidget.util.createElement( mw, 'span' );
-							span.setAttribute( 'class', 'add-on' );
+							span.setAttribute( 'class', 'add-on input-group-addon' );
 							span.innerHTML = attributes.inputAppend;
 							div.appendChild( span );
 						}
