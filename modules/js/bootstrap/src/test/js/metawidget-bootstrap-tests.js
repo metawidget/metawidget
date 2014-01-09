@@ -24,7 +24,7 @@
 			var processor = new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor();
 
 			expect( processor.processWidget( widget ) ).toBe( widget );
-			expect( widget.getAttribute( 'class' ) ).toBe( 'btn' );
+			expect( widget.getAttribute( 'class' ) ).toBe( 'btn btn-default' );
 
 			widget = simpleDocument.createElement( 'input' );
 			widget.setAttribute( 'type', 'submit' );

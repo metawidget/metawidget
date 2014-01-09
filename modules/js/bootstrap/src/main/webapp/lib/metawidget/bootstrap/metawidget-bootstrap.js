@@ -78,7 +78,7 @@ var metawidget = metawidget || {};
 					break;
 
 				case 'button':
-					metawidget.util.appendToAttribute( widget, 'class', 'btn' );
+					metawidget.util.appendToAttribute( widget, 'class', 'btn btn-default' );
 					break;
 
 				default: {
