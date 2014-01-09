@@ -62,9 +62,10 @@ var metawidget = metawidget || {};
 
 		} else if ( tagName === 'OUTPUT' ) {
 
-			// Pad output tags the same way as .form-control pads input tags. See:
+			// Pad output tags the same way as .form-control pads input tags.
+			// See:
 			// https://github.com/twbs/bootstrap/issues/9969
-			
+
 			metawidget.util.appendToAttribute( widget, 'style', 'padding:6px 12px', ';' );
 
 		} else if ( tagName === 'INPUT' ) {
@@ -155,13 +156,15 @@ var metawidget = metawidget || {};
 			if ( config.divStyleClasses === undefined ) {
 				config.divStyleClasses = [ 'form-group', 'col-sm-2 control-label', 'col-sm-10' ];
 			}
+			if ( config.widgetDivOffsetClass === undefined ) {
+				config.widgetDivOffsetClass = 'col-sm-offset-2';
+			}
 		}
 
 		var layout = new metawidget.layout.DivLayout( config );
 
 		// If there is no label, Bootstrap 3 requires an explicit grid position
-		// to be set
-		// or the widget div will not automatically 'pull right'
+		// to be set or the widget div will not automatically 'pull right'
 
 		if ( config.version !== 2 ) {
 			var superLayoutWidget = layout.layoutWidget;
@@ -171,7 +174,7 @@ var metawidget = metawidget || {};
 
 				var outerDiv = container.childNodes[container.childNodes.length - 1];
 				if ( outerDiv.childNodes.length === 1 ) {
-					metawidget.util.appendToAttribute( outerDiv.childNodes[0], 'class', 'col-sm-offset-2' );
+					metawidget.util.appendToAttribute( outerDiv.childNodes[0], 'class', config.widgetDivOffsetClass );
 				}
 			};
 		}
