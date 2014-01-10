@@ -93,15 +93,16 @@ public class StringUtilsTest
 		assertEquals( "12 Foo", StringUtils.uncamelCase( "12Foo" ) );
 		assertEquals( "123 Foo", StringUtils.uncamelCase( "123Foo" ) );
 		assertEquals( "123 Foo", StringUtils.uncamelCase( "123 Foo" ) );
+		assertEquals( "_foo Bar", StringUtils.uncamelCase( "_fooBar" ) );
 
 		// camelCase
 
-		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown #Foo" ) );
+		assertEquals( "dropdown#Foo", StringUtils.camelCase( "Dropdown #Foo" ) );
 		assertEquals( "dropdownFoo", StringUtils.camelCase( "Dropdown#foo", '#' ) );
-		assertEquals( "dropdownfoo", StringUtils.camelCase( "Dropdown#foo" ) );
-		assertEquals( "dropdown2", StringUtils.camelCase( "Dropdown #2" ) );
+		assertEquals( "dropdown#foo", StringUtils.camelCase( "Dropdown#foo" ) );
+		assertEquals( "dropdown#2", StringUtils.camelCase( "Dropdown #2" ) );
 		assertEquals( "", StringUtils.camelCase( "" ) );
-		assertEquals( "", StringUtils.camelCase( "_" ) );
+		assertEquals( "_", StringUtils.camelCase( "_" ) );
 		assertEquals( "a", StringUtils.camelCase( "A" ) );
 		assertEquals( "AZ", StringUtils.camelCase( "AZ" ) );
 		assertEquals( "aBC", StringUtils.camelCase( "A b c" ) );
@@ -109,11 +110,12 @@ public class StringUtilsTest
 		assertEquals( "AZBC", StringUtils.camelCase( "AZ B C" ) );
 		assertEquals( "SPOUSE", StringUtils.camelCase( "SPOUSE" ) );
 		assertEquals( "PERMANENTSTAFF", StringUtils.camelCase( "PERMANENT STAFF" ) );
-		assertEquals( "itembar", StringUtils.camelCase( "_item.bar" ) );
-		assertEquals( "itemBar", StringUtils.camelCase( "_item.bar", '.' ) );
+		assertEquals( "_item.bar", StringUtils.camelCase( "_item.bar" ) );
+		assertEquals( "_itemBar", StringUtils.camelCase( "_item.bar", '.' ) );
 		assertEquals( "DOBirth", StringUtils.camelCase( "DO Birth" ) );
 		assertEquals( "fooDOBirthBar", StringUtils.camelCase( "Foo DO Birth Bar" ) );
 		assertEquals( "1Foo", StringUtils.camelCase( "1 Foo" ) );
+		assertEquals( "_fooBar", StringUtils.camelCase( "_foo bar" ) );
 	}
 
 	public void testSubstringBefore()

@@ -224,10 +224,6 @@ public final class StringUtils {
 				continue;
 			}
 
-			if ( !Character.isLetter( c ) && !Character.isDigit( c ) ) {
-				continue;
-			}
-
 			if ( lastWasSeparator ) {
 				builder.append( Character.toUpperCase( c ) );
 				lastWasSeparator = false;
