@@ -27,6 +27,26 @@ public class ComesAfterInspectionResultProcessorTest
 	// Public methods
 	//
 
+	public void testBadInput()
+		throws Exception {
+
+		// Set up
+
+		String inputXml = "<?xml version=\"1.0\"?>";
+		inputXml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
+		inputXml += "<form type=\"Foo\"/>";
+		inputXml += "</inspection-result>";
+
+		// Run processor
+
+		try {
+			new ComesAfterInspectionResultProcessor<Object>().processInspectionResult( inputXml, null, null, null );
+			assertTrue( false );
+		} catch ( InspectionResultProcessorException e ) {
+			assertEquals( "Top-level element name should be entity, not form", e.getMessage() );
+		}
+	}
+
 	public void testNoComesAfter()
 		throws Exception {
 
@@ -209,7 +229,7 @@ public class ComesAfterInspectionResultProcessorTest
 		validateXml += "<property name=\"baz\"/>";
 		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
-		
+
 		assertEquals( validateXml, outputXml );
 	}
 

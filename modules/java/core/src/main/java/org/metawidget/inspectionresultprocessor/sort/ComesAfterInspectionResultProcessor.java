@@ -56,12 +56,20 @@ public class ComesAfterInspectionResultProcessor<M>
 	public Element processInspectionResultAsDom( Element inspectionResult, M metawidget, Object toInspect, String type, String... names ) {
 
 		try {
+			Element entity = XmlUtils.getFirstChildElement( inspectionResult );
+			
+			// Sanity check
+
+			String elementName = entity.getNodeName();
+
+			if ( !ENTITY.equals( elementName ) ) {
+				throw InspectionResultProcessorException.newException( "Top-level element name should be " + ENTITY + ", not " + elementName );
+			}
+			
 			// Prepare all traits as a topological graph (use LinkedHashMap and List
 			// so we get a consistent ordering)
 
 			Map<String, TopologicalElement> topologicalElements = CollectionUtils.newLinkedHashMap();
-
-			Element entity = XmlUtils.getFirstChildElement( inspectionResult );
 			Element trait = XmlUtils.getFirstChildElement( entity );
 
 			while ( trait != null ) {
