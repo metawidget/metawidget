@@ -391,7 +391,7 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @class InspectionResultProcessor to evaluate Angular expressions.
-	 *
+	 * 
 	 * @param scope
 	 *            scope of the Metawidget directive
 	 * @param buildWidgets
@@ -410,19 +410,19 @@ var metawidget = metawidget || {};
 			/**
 			 * When a watched expression changes, reinspect and rebuild.
 			 */
-			
+
 			function _watchExpression( newValue, oldValue ) {
 
 				if ( newValue !== oldValue ) {
-					
+
 					// Clear all watches...
-					
-					for( var loop = 0, length = mw._angularInspectionResultProcessor.length; loop < length; loop++ ) {
+
+					for ( var loop = 0, length = mw._angularInspectionResultProcessor.length; loop < length; loop++ ) {
 						mw._angularInspectionResultProcessor[loop]();
 					}
-					
+
 					// ..and then reinspect
-					
+
 					mw.invalidateInspection();
 					mw.buildWidgets();
 				}
@@ -477,7 +477,7 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @class WidgetProcessor to add Angular bindings and validation.
-	 *
+	 * 
 	 * @returns {metawidget.angular.AngularWidgetProcessor}
 	 */
 
@@ -528,16 +528,17 @@ var metawidget = metawidget || {};
 				}
 
 			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'submit' ) {
-				
-				// input type='submit' should not be bound: should go via ng-submit
+
+				// input type='submit' should not be bound: should go via
+				// ng-submit
 				// at the form level
-				
+
 				widget.removeAttribute( 'ng-click' );
-				
+
 			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) {
-				
+
 				widget.setAttribute( 'ng-click', binding + '()' );
-				
+
 			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
 				// Special support for multi-selects and radio buttons
@@ -559,7 +560,7 @@ var metawidget = metawidget || {};
 						}
 					}
 				}
-			} else {
+			} else if ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' ) {
 				widget.setAttribute( 'ng-model', binding );
 			}
 

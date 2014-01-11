@@ -17,6 +17,7 @@
 		<ul>
 			<li>Re-licensed under LGPL/EPL and a commercial license</li>
 			<li>Bootstrap 3 support</li>
+			<li>HTML 5 color picker support</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		
@@ -27,7 +28,7 @@
 		<hr/>
 		
 		<h3>Metawidget on CloudBees</h3>
-		<h4>December 2013</h4>
+		<h4>1st January 2014</h4>
 		
 		<p>
 			The awesome folks over at <a href="http://cloudbees.com">CloudBees</a> have kindly donated a FOSS account

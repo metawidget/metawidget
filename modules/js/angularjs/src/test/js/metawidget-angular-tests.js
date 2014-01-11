@@ -905,10 +905,10 @@
 
 										expect( mw.innerHTML )
 												.toBe(
-														'<table id="table-model"><tbody><tr id="table-modelFoo-row"><th id="table-modelFoo-label-cell"><label for="modelFoo" id="table-modelFoo-label">Foo:</label></th><td id="table-modelFoo-cell"><div class="input-append ng-scope ng-pristine ng-valid" id="modelFoo" ng-model="model.foo"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div></td><td/></tr><tr id="table-modelBar-row"><th id="table-modelBar-label-cell"><label for="modelBar" id="table-modelBar-label">Bar:</label></th><td id="table-modelBar-cell"><div class="input-append ng-scope ng-pristine ng-valid" id="modelBar" ng-model="model.bar"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div></td><td/></tr></tbody></table>' );
+														'<table id="table-model"><tbody><tr id="table-modelFoo-row"><th id="table-modelFoo-label-cell"><label for="modelFoo" id="table-modelFoo-label">Foo:</label></th><td id="table-modelFoo-cell"><div class="input-append ng-scope" id="modelFoo"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div></td><td/></tr><tr id="table-modelBar-row"><th id="table-modelBar-label-cell"><label for="modelBar" id="table-modelBar-label">Bar:</label></th><td id="table-modelBar-cell"><div class="input-append ng-scope" id="modelBar"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div></td><td/></tr></tbody></table>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<div class="input-append ng-scope ng-pristine ng-valid" id="modelFoo" ng-model="model.foo"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div>' );
+														'<div class="input-append ng-scope" id="modelFoo"><input type="text" data-type="date" mask="date" class="input-small" value=""/><span class="add-on"/></div>' );
 									} );
 						} );
 
@@ -1098,7 +1098,7 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<label for="fooBar" id="table-fooBar-label">Bar:</label>' );
-						expect( mw.innerHTML ).toContain( '<table id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid">' );
+						expect( mw.innerHTML ).toContain( '<table id="fooBar" class="ng-scope">' );
 						expect( mw.innerHTML ).toContain( '<thead><tr><th>Firstname</th><th>Surname</th></tr></thead>' );
 						expect( mw.innerHTML ).toContain(
 								'<tbody><tr><td>firstname1</td><td>surname1</td></tr><tr><td>firstname2</td><td>surname2</td></tr><tr><td>firstname3</td><td>surname3</td></tr></tbody>' );
