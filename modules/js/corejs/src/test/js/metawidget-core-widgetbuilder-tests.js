@@ -212,6 +212,10 @@
 				type: "date"
 			}, mw ).toString() ).toBe( 'output' );
 			expect( widgetBuilder.buildWidget( "property", {
+				readOnly: "true",
+				type: "color"
+			}, mw ).toString() ).toBe( 'output' );
+			expect( widgetBuilder.buildWidget( "property", {
 				hidden: "true",
 				readOnly: "true",
 				type: "string"
@@ -404,6 +408,10 @@
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "date"
 			}, mw ).toString() ).toBe( 'input type="date"' );
+
+			expect( widgetBuilder.buildWidget( "property", {
+				type: "color"
+			}, mw ).toString() ).toBe( 'input type="color"' );
 
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "string",

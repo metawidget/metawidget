@@ -40,7 +40,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.CompositeWidgetBuilder = function( config ) {
 
-		if ( !( this instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ) ) {
+		if ( ! ( this instanceof metawidget.widgetbuilder.CompositeWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 
@@ -104,7 +104,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.OverriddenWidgetBuilder = function() {
 
-		if ( !( this instanceof metawidget.widgetbuilder.OverriddenWidgetBuilder ) ) {
+		if ( ! ( this instanceof metawidget.widgetbuilder.OverriddenWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -133,7 +133,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.ReadOnlyWidgetBuilder = function() {
 
-		if ( !( this instanceof metawidget.widgetbuilder.ReadOnlyWidgetBuilder ) ) {
+		if ( ! ( this instanceof metawidget.widgetbuilder.ReadOnlyWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -152,7 +152,8 @@ var metawidget = metawidget || {};
 			return metawidget.util.createElement( mw, 'stub' );
 		}
 
-		if ( attributes['enum'] !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date' ) {
+		if ( attributes['enum'] !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date'
+				|| attributes.type === 'color' ) {
 			return metawidget.util.createElement( mw, 'output' );
 		}
 
@@ -181,7 +182,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetbuilder.HtmlWidgetBuilder = function( config ) {
 
-		if ( !( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
+		if ( ! ( this instanceof metawidget.widgetbuilder.HtmlWidgetBuilder ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 
@@ -319,6 +320,14 @@ var metawidget = metawidget || {};
 			if ( attributes.type === 'date' ) {
 				var date = metawidget.util.createElement( mw, 'input' );
 				date.setAttribute( 'type', 'date' );
+				return date;
+			}
+
+			// Color
+
+			if ( attributes.type === 'color' ) {
+				var date = metawidget.util.createElement( mw, 'input' );
+				date.setAttribute( 'type', 'color' );
 				return date;
 			}
 
