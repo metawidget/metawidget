@@ -48,6 +48,7 @@ public class JsonTypeMappingProcessorTest
 		inputXml += "<property name=\"aDouble\" type=\"double\"/>";
 		inputXml += "<property name=\"aBoolean\" type=\"boolean\"/>";
 		inputXml += "<property name=\"aChar\" type=\"char\"/>";
+		inputXml += "<property name=\"aColor\" type=\"java.awt.Color\"/>";
 		inputXml += "</entity></inspection-result>";
 
 		// Run processor
@@ -75,6 +76,7 @@ public class JsonTypeMappingProcessorTest
 		validateXml += "<property name=\"aDouble\" type=\"number\"/>";
 		validateXml += "<property name=\"aBoolean\" type=\"boolean\"/>";
 		validateXml += "<property name=\"aChar\" type=\"string\"/>";
+		validateXml += "<property name=\"aColor\" type=\"color\"/>";
 		validateXml += "</entity>";
 		validateXml += "</inspection-result>";
 

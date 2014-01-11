@@ -11,6 +11,7 @@
 
 package org.metawidget.inspectionresultprocessor.json;
 
+import java.awt.Color;
 import java.util.Date;
 
 import org.metawidget.inspectionresultprocessor.type.TypeMappingInspectionResultProcessorConfig;
@@ -44,6 +45,7 @@ public class JsonTypeMappingProcessorConfig
 		setTypeMapping( Boolean.class.getName(), "boolean" );
 		setTypeMapping( Character.class.getName(), "string" );
 		setTypeMapping( Date.class.getName(), "date" );
+		setTypeMapping( Color.class.getName(), "color" );
 
 		setRemoveUnmappedTypes( true );
 	}
