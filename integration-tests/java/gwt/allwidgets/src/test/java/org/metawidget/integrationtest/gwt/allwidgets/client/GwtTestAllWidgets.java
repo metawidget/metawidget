@@ -492,7 +492,7 @@ public class GwtTestAllWidgets
 																				assertEquals( "Nested Textbox 1.1 (further)", ( (Label) readOnlyFlexTableFurtherNested.getWidget( 1, 1 ) ).getText() );
 																				assertEquals( "Nested Textbox 2.2 (further)", ( (Label) readOnlyFlexTableFurtherNested.getWidget( 2, 1 ) ).getText() );
 
-																				assertEquals( "???nestedTextbox1???:", readOnlyFlexTableNested.getText( 1, 0 ) );
+																				assertEquals( "???nestedTextbox#1???:", readOnlyFlexTableNested.getText( 1, 0 ) );
 																				assertEquals( "Nested Textbox 1.1", ( (Label) readOnlyFlexTableNested.getWidget( 1, 1 ) ).getText() );
 																				assertEquals( "Nested Textbox 2 (i18n):", readOnlyFlexTableNested.getText( 2, 0 ) );
 																				assertEquals( "Nested Textbox 2.2", ( (Label) readOnlyFlexTableNested.getWidget( 2, 1 ) ).getText() );
