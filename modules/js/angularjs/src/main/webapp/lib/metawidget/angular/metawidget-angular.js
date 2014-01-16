@@ -50,8 +50,9 @@ var metawidget = metawidget || {};
 			},
 
 			/**
-			 * Metawidget must transclude, so that transcluded DOM doesn't have
-			 * to reference 'ng-model'.
+			 * Metawidget must transclude child wigets, so that bindings in the
+			 * child widgets can natually refer to names in our parent scope,
+			 * rather than having to reference 'ng-model'.
 			 */
 
 			transclude: true,
@@ -62,6 +63,8 @@ var metawidget = metawidget || {};
 			 */
 
 			compile: function( element, attrs, transclude ) {
+
+				// Return postLink function
 
 				return function( scope, element, attrs ) {
 
@@ -76,7 +79,7 @@ var metawidget = metawidget || {};
 
 					// Observe
 
-					scope.$watch( 'ngModel', function( newValue ) {
+					var _watchModel = scope.$watch( 'ngModel', function( newValue ) {
 
 						// Cannot test against mw.toInspect, because is pointed
 						// at the splitPath.type
@@ -93,7 +96,7 @@ var metawidget = metawidget || {};
 						}
 					} );
 
-					scope.$watch( 'readOnly', function( newValue ) {
+					var _watchReadOnly = scope.$watch( 'readOnly', function( newValue ) {
 
 						// Test against mw.readOnly, not oldValue, because it
 						// may have been reset already by _buildWidgets
@@ -104,7 +107,7 @@ var metawidget = metawidget || {};
 						}
 					} );
 
-					scope.$watch( 'config', function( newValue, oldValue ) {
+					var _watchConfig = scope.$watch( 'config', function( newValue, oldValue ) {
 
 						// Watch for config changes. These are rare, but
 						// otherwise we'd need to provide a way to externally
@@ -114,6 +117,15 @@ var metawidget = metawidget || {};
 							mw.configure( newValue );
 							_buildWidgets();
 						}
+					} );
+
+					// Clean up watches when element is destroyed
+					
+					element.on( '$destroy', function() {
+
+						_watchModel();
+						_watchReadOnly();
+						_watchConfig();
 					} );
 
 					//
@@ -272,6 +284,11 @@ var metawidget = metawidget || {};
 				_lastInspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
 
+			// Cleanup children using Angular, so that $destroy gets triggered
+			// TODO: unit test this is happening
+			
+			element.children().remove();
+			
 			// Build widgets
 
 			_pipeline.buildWidgets( _lastInspectionResult, this );
@@ -530,8 +547,7 @@ var metawidget = metawidget || {};
 			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'submit' ) {
 
 				// input type='submit' should not be bound: should go via
-				// ng-submit
-				// at the form level
+				// ng-submit at the form level
 
 				widget.removeAttribute( 'ng-click' );
 
