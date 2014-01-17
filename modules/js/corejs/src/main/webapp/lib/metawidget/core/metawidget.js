@@ -258,6 +258,8 @@ var metawidget = metawidget || {};
 
 		// Support prepending/adding to the existing array of WidgetProcessors
 		// (it may be hard for clients to redefine the originals)
+		
+		// REFACTOR: name it appendInspectionResultProcessors, appendWidgetProcessors not addWidgetProcessors
 
 		if ( config.prependWidgetProcessors !== undefined ) {
 			for ( loop = 0; loop < config.prependWidgetProcessors.length; loop++ ) {

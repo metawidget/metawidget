@@ -326,9 +326,9 @@ var metawidget = metawidget || {};
 			// Color
 
 			if ( attributes.type === 'color' ) {
-				var date = metawidget.util.createElement( mw, 'input' );
-				date.setAttribute( 'type', 'color' );
-				return date;
+				var color = metawidget.util.createElement( mw, 'input' );
+				color.setAttribute( 'type', 'color' );
+				return color;
 			}
 
 			// String
