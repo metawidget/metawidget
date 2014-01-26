@@ -34,11 +34,20 @@ class CollectionTableModel<T>
 
 	private List<String>	mColumns;
 
+	private List<String>	mColumnNames;
+
 	//
 	// Constructor
 	//
 
-	public CollectionTableModel( Collection<T> collection, List<String> columns ) {
+	/**
+	 * @param columns
+	 *            attribute names of the columns (eg. foo, bar)
+	 * @param columnNames
+	 *            human readable names of the columns (eg. Foo, Bar)
+	 */
+
+	public CollectionTableModel( Collection<T> collection, List<String> columns, List<String> columnNames ) {
 
 		if ( collection instanceof List<?> ) {
 			mList = (List<T>) collection;
@@ -46,6 +55,7 @@ class CollectionTableModel<T>
 			mList = CollectionUtils.newArrayList( collection );
 		}
 		mColumns = columns;
+		mColumnNames = columnNames;
 	}
 
 	//
@@ -64,7 +74,7 @@ class CollectionTableModel<T>
 			return null;
 		}
 
-		return mColumns.get( columnIndex );
+		return mColumnNames.get( columnIndex );
 	}
 
 	public int getRowCount() {
@@ -72,7 +82,7 @@ class CollectionTableModel<T>
 		if ( mList == null ) {
 			return 0;
 		}
-		
+
 		return mList.size();
 	}
 
@@ -97,6 +107,6 @@ class CollectionTableModel<T>
 			return null;
 		}
 
-		return ClassUtils.getProperty( t, getColumnName( columnIndex ) );
+		return ClassUtils.getProperty( t, mColumns.get( columnIndex ) );
 	}
 }

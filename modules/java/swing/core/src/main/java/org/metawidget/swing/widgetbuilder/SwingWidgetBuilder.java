@@ -50,7 +50,6 @@ import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -370,6 +369,7 @@ public class SwingWidgetBuilder
 		// Determine columns
 
 		List<String> columns = CollectionUtils.newArrayList();
+		List<String> columnNames = CollectionUtils.newArrayList();
 
 		if ( inspectedType != null ) {
 			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
@@ -377,8 +377,9 @@ public class SwingWidgetBuilder
 
 			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
 
-				Node node = elements.item( loop );
-				columns.add( metawidget.getLabelString( XmlUtils.getAttributesAsMap( node ) ) );
+				Map<String, String> columnAttributes = XmlUtils.getAttributesAsMap( elements.item( loop ) );
+				columns.add( columnAttributes.get( NAME ) );
+				columnNames.add( metawidget.getLabelString( columnAttributes ) );
 			}
 		}
 
@@ -402,7 +403,7 @@ public class SwingWidgetBuilder
 		// Return the JTable
 
 		@SuppressWarnings( { "unchecked", "rawtypes" } )
-		CollectionTableModel<?> tableModel = new CollectionTableModel( collection, columns );
+		CollectionTableModel<?> tableModel = new CollectionTableModel( collection, columns, columnNames );
 
 		return new JScrollPane( new JTable( tableModel ) );
 	}

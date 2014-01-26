@@ -9,55 +9,41 @@
 // Commercial licenses are also available. See http://metawidget.org
 // for details.
 
-package org.metawidget.swing;
-
-import static org.metawidget.inspector.InspectionResultConstants.*;
+package org.metawidget.swing.widgetbuilder;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
 
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
-import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
-import org.metawidget.util.ClassUtils;
+import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.WidgetBuilderUtils;
-import org.metawidget.util.XmlUtils;
-import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
-import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
-import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-public class SwingCollectionsTest
+public class CollectionTableModelTest
 	extends TestCase {
 
 	//
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public void testCollections()
 		throws Exception {
 
@@ -74,10 +60,6 @@ public class SwingCollectionsTest
 				new CompositeInspectorConfig().setInspectors(
 						new PropertyTypeInspector(),
 						new MetawidgetAnnotationInspector() ) ) );
-		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>(
-				new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders(
-						new CollectionWidgetBuilder(),
-						new SwingWidgetBuilder() ) ) );
 		metawidget.setToInspect( person );
 
 		// Test
@@ -95,14 +77,19 @@ public class SwingCollectionsTest
 		assertEquals( "Addresses:", ( (JLabel) metawidget.getComponent( 6 ) ).getText() );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JScrollPane );
 		JTable table = (JTable) ( (JScrollPane) metawidget.getComponent( 7 ) ).getViewport().getView();
-		assertEquals( "Street", table.getColumnName( 0 ) );
+		assertEquals( "The Street", table.getColumnName( 0 ) );
 		assertEquals( "City", table.getColumnName( 1 ) );
 		assertEquals( "State", table.getColumnName( 2 ) );
 		assertEquals( 3, table.getColumnCount() );
+		assertEquals( "Street 1", table.getModel().getValueAt( 0, 0 ) );
+		assertEquals( "City 1", table.getModel().getValueAt( 0, 1 ) );
+		assertEquals( "State 1", table.getModel().getValueAt( 0, 2 ) );
+		assertEquals( "Street 2", table.getModel().getValueAt( 1, 0 ) );
+		assertEquals( "City 2", table.getModel().getValueAt( 1, 1 ) );
+		assertEquals( "State 2", table.getModel().getValueAt( 1, 2 ) );
 		assertEquals( 2, table.getRowCount() );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public void testDirectCollection()
 		throws Exception {
 
@@ -113,17 +100,13 @@ public class SwingCollectionsTest
 				new CompositeInspectorConfig().setInspectors(
 						new PropertyTypeInspector(),
 						new MetawidgetAnnotationInspector() ) ) );
-		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>(
-				new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders(
-						new CollectionWidgetBuilder(),
-						new SwingWidgetBuilder() ) ) );
 		metawidget.setPath( List.class.getName() + "<" + Address.class.getName() + ">" );
 
 		// Test
 
 		assertTrue( metawidget.getComponent( 0 ) instanceof JScrollPane );
 		JTable table = (JTable) ( (JScrollPane) metawidget.getComponent( 0 ) ).getViewport().getView();
-		assertEquals( "Street", table.getColumnName( 0 ) );
+		assertEquals( "The Street", table.getColumnName( 0 ) );
 		assertEquals( "City", table.getColumnName( 1 ) );
 		assertEquals( "State", table.getColumnName( 2 ) );
 		assertEquals( 3, table.getColumnCount() );
@@ -217,6 +200,7 @@ public class SwingCollectionsTest
 			mState = state;
 		}
 
+		@UiLabel( "The Street" )
 		public String getStreet() {
 
 			return mStreet;
@@ -247,127 +231,6 @@ public class SwingCollectionsTest
 		public void setState( String state ) {
 
 			mState = state;
-		}
-	}
-
-	static class CollectionWidgetBuilder
-		implements WidgetBuilder<JComponent, SwingMetawidget> {
-
-		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
-
-			// Not for us?
-
-			if ( TRUE.equals( attributes.get( HIDDEN ) ) || attributes.containsKey( LOOKUP ) ) {
-				return null;
-			}
-
-			String type = attributes.get( TYPE );
-
-			if ( type == null || "".equals( type ) ) {
-				return null;
-			}
-
-			final Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( clazz == null ) {
-				return null;
-			}
-
-			if ( !List.class.isAssignableFrom( clazz ) ) {
-				return null;
-			}
-
-			// Inspect type of List
-
-			String componentType = WidgetBuilderUtils.getComponentType( attributes );
-			String inspectedType = metawidget.inspect( null, componentType );
-
-			// Determine columns
-
-			List<String> columns = CollectionUtils.newArrayList();
-			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
-			NodeList elements = root.getFirstChild().getChildNodes();
-
-			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
-
-				Node node = elements.item( loop );
-				columns.add( metawidget.getLabelString( XmlUtils.getAttributesAsMap( node ) ) );
-			}
-
-			// Fetch the data. This part could be improved to use BeansBinding or similar
-
-			List<?> list;
-
-			if ( metawidget.getToInspect() == null) {
-				list = CollectionUtils.newArrayList();
-			} else {
-				list = (List<?>) ClassUtils.getProperty( metawidget.getToInspect(), attributes.get( NAME ) );
-			}
-
-			// Return the JTable
-
-			@SuppressWarnings( { "unchecked", "rawtypes" } )
-			ListTableModel<?> tableModel = new ListTableModel( list, columns );
-
-			return new JScrollPane( new JTable( tableModel ) );
-		}
-	}
-
-	static class ListTableModel<T>
-		extends AbstractTableModel {
-
-		private List<T>			mList;
-
-		private List<String>	mColumns;
-
-		public ListTableModel( List<T> list, List<String> columns ) {
-
-			mList = list;
-			mColumns = columns;
-		}
-
-		public int getColumnCount() {
-
-			return mColumns.size();
-		}
-
-		@Override
-		public String getColumnName( int columnIndex ) {
-
-			if ( columnIndex >= getColumnCount() ) {
-				return null;
-			}
-
-			return mColumns.get( columnIndex );
-		}
-
-		public int getRowCount() {
-
-			return mList.size();
-		}
-
-		public T getValueAt( int rowIndex ) {
-
-			if ( rowIndex >= getRowCount() ) {
-				return null;
-			}
-
-			return mList.get( rowIndex );
-		}
-
-		public Object getValueAt( int rowIndex, int columnIndex ) {
-
-			if ( columnIndex >= getColumnCount() ) {
-				return null;
-			}
-
-			T t = getValueAt( rowIndex );
-
-			if ( t == null ) {
-				return null;
-			}
-
-			return ClassUtils.getProperty( t, getColumnName( columnIndex ) );
 		}
 	}
 }
