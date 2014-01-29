@@ -345,6 +345,9 @@ public class SimpleBindingProcessorAdapterGenerator
 						}
 						break;
 						
+					case WRITE_ACTION:
+						break;
+						
 					default:
 						throw new UnsupportedOperationException( String.valueOf( writeType ));
 				}
