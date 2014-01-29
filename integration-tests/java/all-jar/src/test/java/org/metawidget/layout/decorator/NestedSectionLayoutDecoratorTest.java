@@ -67,10 +67,10 @@ public class NestedSectionLayoutDecoratorTest
 		// If empty stub, should ignore
 
 		assertTrue( triggered.isEmpty() );
-		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget, null );
-		nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection = "Foo";
+		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).getCurrentSectionWidget(), null );
+		nestedSectionLayoutDecorator.getState( container, metawidget ).setCurrentSection( "Foo" );
 		nestedSectionLayoutDecorator.layoutWidget( new Stub(), PROPERTY, attributes, container, metawidget );
-		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "Foo" );
+		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).getCurrentSection(), "Foo" );
 		assertEquals( triggered.get( 0 ), "layoutWidget class org.metawidget.swing.Stub" );
 		assertEquals( triggered.size(), 1 );
 		assertTrue( !attributes.containsKey( SECTION ));
@@ -79,8 +79,8 @@ public class NestedSectionLayoutDecoratorTest
 
 		attributes.put( SECTION, "Bar" );
 		nestedSectionLayoutDecorator.layoutWidget( new JTextArea(), PROPERTY, attributes, container, metawidget );
-		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "Bar" );
-		JComponent currentSectionWidget = nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget;
+		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).getCurrentSection(), "Bar" );
+		JComponent currentSectionWidget = nestedSectionLayoutDecorator.getState( container, metawidget ).getCurrentSectionWidget();
 		assertNotSame( currentSectionWidget, null );
 		assertEquals( triggered.get( 1 ), "layoutWidget class javax.swing.JTabbedPane" );
 		assertEquals( triggered.get( 2 ), "layoutWidget class javax.swing.JTextArea" );
@@ -90,8 +90,8 @@ public class NestedSectionLayoutDecoratorTest
 
 		attributes.remove( SECTION );
 		nestedSectionLayoutDecorator.layoutWidget( new JTextField(), PROPERTY, attributes, container, metawidget );
-		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "Bar" );
-		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget, currentSectionWidget );
+		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).getCurrentSection(), "Bar" );
+		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).getCurrentSectionWidget(), currentSectionWidget );
 		assertEquals( triggered.get( 3 ), "layoutWidget class javax.swing.JTextField" );
 		assertEquals( triggered.size(), 4 );
 
@@ -99,8 +99,8 @@ public class NestedSectionLayoutDecoratorTest
 
 		attributes.put( SECTION, "" );
 		nestedSectionLayoutDecorator.layoutWidget( new JSpinner(), PROPERTY, attributes, container, metawidget );
-		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSection, "" );
-		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).currentSectionWidget, null );
+		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).getCurrentSection(), "" );
+		assertEquals( nestedSectionLayoutDecorator.getState( container, metawidget ).getCurrentSectionWidget(), null );
 		assertEquals( triggered.get( 4 ), "layoutWidget class javax.swing.JSpinner" );
 		assertEquals( triggered.size(), 5 );
 	}
