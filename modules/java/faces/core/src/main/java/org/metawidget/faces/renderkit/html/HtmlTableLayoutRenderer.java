@@ -352,7 +352,7 @@ public class HtmlTableLayoutRenderer
 		if ( metadataAttributes != null ) {
 			// Large components get a whole row
 
-			boolean largeComponent = ( metawidget instanceof UIData || TRUE.equals( metadataAttributes.get( LARGE ) ) );
+			boolean largeComponent = metawidget instanceof UIData || TRUE.equals( metadataAttributes.get( LARGE ) );
 
 			if ( largeComponent && state.currentColumn != 1 ) {
 				writer.endElement( "tr" );
@@ -429,17 +429,15 @@ public class HtmlTableLayoutRenderer
 			if ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) {
 				colspan++;
 			}
-		}
+		} else if ( !labelWritten ) {
+			
+			// Components without labels span two columns
 
-		// Components without labels span two columns
-
-		else if ( !labelWritten ) {
 			colspan = 2;
-		}
+		} else {
+			
+			// Everyone else spans just one
 
-		// Everyone else spans just one
-
-		else {
 			colspan = 1;
 		}
 

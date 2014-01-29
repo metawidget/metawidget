@@ -46,7 +46,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 		super.startContainerLayout( container, metawidget );
 
 		State state = getState( container, metawidget );
-		state.currentSections = null;
+		state.setCurrentSections( null );
 	}
 
 	@Override
@@ -64,18 +64,18 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 			//
 			// Note: Ignore empty stubs. Do not create a new section in case it ends up being empty
 
-			if ( isIgnored( widget ) || section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) ) {
+			if ( isIgnored( widget ) || section == null || ( state.getCurrentSections() != null && section.equals( state.getCurrentSections()[0] ) ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}
 
 			// End nested LayoutDecorator's current section
 
-			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) ) {
+			if ( state.getCurrentSections() != null && !section.equals( state.getCurrentSections()[0] ) ) {
 				super.endContainerLayout( container, metawidget );
 			}
 
-			state.currentSections = new String[] { section };
+			state.setCurrentSections( new String[] { section } );
 
 			// Add a heading
 
@@ -90,7 +90,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 			//
 			// Note: Ignore empty stubs. Do not create a new section in case it ends up being empty
 
-			if ( isIgnored( widget ) || sections.length == 0 || Arrays.equals( sections, state.currentSections ) ) {
+			if ( isIgnored( widget ) || sections.length == 0 || Arrays.equals( sections, state.getCurrentSections() ) ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 				return;
 			}
@@ -106,7 +106,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 					continue;
 				}
 
-				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) ) {
+				if ( state.getCurrentSections() != null && level < state.getCurrentSections().length && section.equals( state.getCurrentSections()[level] ) ) {
 					continue;
 				}
 
@@ -119,7 +119,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				addSectionWidget( section, level, container, metawidget );
 			}
 
-			state.currentSections = sections;
+			state.setCurrentSections( sections );
 		}
 
 		// Add component as normal
@@ -168,6 +168,24 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 	public static class State {
 
-		public String[]	currentSections;
+		//
+		// Private members
+		//
+
+		private String[]	mCurrentSections;
+
+		//
+		// Public methods
+		//
+
+		public String[] getCurrentSections() {
+
+			return mCurrentSections;
+		}
+
+		public void setCurrentSections( String[] currentSections ) {
+
+			this.mCurrentSections = currentSections;
+		}
 	}
 }

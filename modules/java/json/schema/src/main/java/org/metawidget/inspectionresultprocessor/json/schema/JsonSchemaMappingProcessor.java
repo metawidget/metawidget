@@ -103,7 +103,7 @@ public class JsonSchemaMappingProcessor<M>
 
 	protected boolean shouldRemove( Element element ) {
 
-		return ( TRUE.equals( element.getAttribute( HIDDEN ) ) );
+		return TRUE.equals( element.getAttribute( HIDDEN ) );
 	}
 
 	/**

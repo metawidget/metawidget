@@ -79,10 +79,8 @@ public final class StringUtils {
 
 		// Second letter uppercase?
 
-		if ( in.length() > 1 ) {
-			if ( Character.isUpperCase( in.charAt( 1 ) ) ) {
-				return in;
-			}
+		if ( in.length() > 1 && Character.isUpperCase( in.charAt( 1 ) ) ) {
+			return in;
 		}
 
 		return Character.toLowerCase( firstChar ) + in.substring( 1 );
@@ -107,10 +105,8 @@ public final class StringUtils {
 
 		// Second letter uppercase?
 
-		if ( in.length() > 1 ) {
-			if ( Character.isUpperCase( in.charAt( 1 ) ) ) {
-				return in;
-			}
+		if ( in.length() > 1 && Character.isUpperCase( in.charAt( 1 ) ) ) {
+			return in;
 		}
 
 		return Character.toUpperCase( in.charAt( 0 ) ) + in.substring( 1 );

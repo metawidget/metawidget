@@ -130,11 +130,10 @@ public class SaveAction
 
 				return mapping.findForward( "contact" );
 			}
-		}
+		} else if ( request.getParameter( "deleteCommunication" ) != null ) {
+			
+			// Delete Communication (if any)
 
-		// Delete Communication (if any)
-
-		else if ( request.getParameter( "deleteCommunication" ) != null ) {
 			String id = request.getParameter( "deleteCommunicationId" );
 			contact.removeCommunication( Long.parseLong( id ) );
 			formContact.setCommunications( contact.getCommunications() );

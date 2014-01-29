@@ -103,11 +103,10 @@ public class PrimeFacesWidgetBuilder
 
 				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
 					component = FacesUtils.createComponent( SelectManyCheckbox.COMPONENT_TYPE, "org.primefaces.component.SelectManyCheckboxRenderer" );
-				}
-
-				// ...otherwise just a UISelectOne
-
-				else {
+				} else {
+					
+					// ...otherwise just a UISelectOne
+					
 					component = FacesUtils.createComponent( SelectOneMenu.COMPONENT_TYPE, "org.primefaces.component.SelectOneMenuRenderer" );
 				}
 
@@ -136,11 +135,10 @@ public class PrimeFacesWidgetBuilder
 
 					if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 						component = FacesUtils.createComponent( SelectManyCheckbox.COMPONENT_TYPE, "org.primefaces.component.SelectManyCheckboxRenderer" );
-					}
+					} else {
+						
+						// ...otherwise just a UISelectOne
 
-					// ...otherwise just a UISelectOne
-
-					else {
 						component = FacesUtils.createComponent( SelectOneMenu.COMPONENT_TYPE, "org.primefaces.component.SelectOneMenuRenderer" );
 					}
 

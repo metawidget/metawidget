@@ -28,18 +28,19 @@ public abstract class AngularScenarioRunnerTestCase
 	// Protected methods
 	//
 
+	@Override
 	protected Boolean applyExpectedCondition( WebDriver driver ) {
 
 		List<WebElement> testElements = driver.findElements( By.className( "test-it" ) );
 
 		// Test elements may not appear until they start running
-		
+
 		if ( testElements.size() < getExpectedNumberOfTests() ) {
 			return false;
 		}
 
 		// Once all test elements on the page, check them all
-		
+
 		for ( WebElement test : testElements ) {
 			String classAttribute = test.getAttribute( "class" );
 
@@ -53,6 +54,7 @@ public abstract class AngularScenarioRunnerTestCase
 
 	protected abstract int getExpectedNumberOfTests();
 
+	@Override
 	protected void displayResult( WebDriver driver ) {
 
 		// Display the result

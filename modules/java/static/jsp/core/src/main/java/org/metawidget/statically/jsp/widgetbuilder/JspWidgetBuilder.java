@@ -169,11 +169,10 @@ public class JspWidgetBuilder
 			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
 			columnAttributes.put( NAME, attributes.get( NAME ) );
 			addColumnComponent( row, forEach, attributes, ENTITY, columnAttributes, metawidget );
-		}
+		} else {
+			
+			// ...otherwise, iterate over the component type and add multiple columns.
 
-		// ...otherwise, iterate over the component type and add multiple columns.
-
-		else {
 			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
 			NodeList elements = root.getFirstChild().getChildNodes();
 			addColumnComponents( table, forEach, attributes, elements, metawidget );

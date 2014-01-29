@@ -38,8 +38,7 @@ public class CssStyleProcessor
 
             if( existingCssStyle == null || "".equals(existingCssStyle) ) {
                 widget.putAttribute( "cssStyle", cssStyle );
-            }
-            else {
+            } else {
                 widget.putAttribute( "cssStyle", existingCssStyle + " " + cssStyle );
             }
         }
@@ -51,8 +50,7 @@ public class CssStyleProcessor
 
             if ( existingCssClass == null || "".equals( existingCssClass) ) {
                 widget.putAttribute( "cssClass", cssClass );
-            }
-            else {
+            } else {
                 widget.putAttribute( "cssClass", existingCssClass + " " + cssClass );
             }
         }

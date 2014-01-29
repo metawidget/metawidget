@@ -58,25 +58,25 @@ public abstract class SwtNestedSectionLayoutDecorator
 
 		// Stay where we are?
 
-		if ( section == null || section.equals( state.currentSection ) ) {
-			if ( state.currentSectionWidget == null ) {
+		if ( section == null || section.equals( state.getCurrentSection() ) ) {
+			if ( state.getCurrentSectionWidget() == null ) {
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 			}
 
-			return delegateStartBuildWidget( elementName, attributes, state.currentSectionWidget, metawidget );
+			return delegateStartBuildWidget( elementName, attributes, state.getCurrentSectionWidget(), metawidget );
 		}
 
-		state.currentSection = section;
+		state.setCurrentSection( section );
 
-		Composite previousSectionWidget = state.currentSectionWidget;
+		Composite previousSectionWidget = state.getCurrentSectionWidget();
 
 		// End current section
 
-		if ( state.currentSectionWidget != null ) {
-			super.endContainerLayout( state.currentSectionWidget, metawidget );
+		if ( state.getCurrentSectionWidget() != null ) {
+			super.endContainerLayout( state.getCurrentSectionWidget(), metawidget );
 		}
 
-		state.currentSectionWidget = null;
+		state.setCurrentSectionWidget( null );
 
 		// No new section?
 
@@ -84,10 +84,10 @@ public abstract class SwtNestedSectionLayoutDecorator
 			return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 		}
 
-		state.currentSectionWidget = createSectionWidget( previousSectionWidget, section, attributes, container, metawidget );
-		super.startContainerLayout( state.currentSectionWidget, metawidget );
+		state.setCurrentSectionWidget( createSectionWidget( previousSectionWidget, section, attributes, container, metawidget ));
+		super.startContainerLayout( state.getCurrentSectionWidget(), metawidget );
 
-		return delegateStartBuildWidget( elementName, attributes, state.currentSectionWidget, metawidget );
+		return delegateStartBuildWidget( elementName, attributes, state.getCurrentSectionWidget(), metawidget );
 	}
 
 	@Override
@@ -95,10 +95,10 @@ public abstract class SwtNestedSectionLayoutDecorator
 
 		State<Composite> state = getState( container, metawidget );
 
-		if ( state.currentSectionWidget == null ) {
+		if ( state.getCurrentSectionWidget() == null ) {
 			getDelegate().layoutWidget( widget, elementName, attributes, container, metawidget );
 		} else {
-			getDelegate().layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
+			getDelegate().layoutWidget( widget, elementName, attributes, state.getCurrentSectionWidget(), metawidget );
 		}
 	}
 
@@ -129,7 +129,7 @@ public abstract class SwtNestedSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored( Control control ) {
 
-		return ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 );
+		return control instanceof Stub && ( (Stub) control ).getChildren().length == 0;
 	}
 
 	//

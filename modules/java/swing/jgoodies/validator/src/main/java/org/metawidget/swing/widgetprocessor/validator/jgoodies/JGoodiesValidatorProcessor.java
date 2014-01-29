@@ -56,7 +56,7 @@ public class JGoodiesValidatorProcessor
 
 		// Required?
 
-		boolean required = ( TRUE.equals( attributes.get( REQUIRED ) ) );
+		boolean required = TRUE.equals( attributes.get( REQUIRED ) );
 
 		if ( required ) {
 			ValidationComponentUtils.setMandatory( component, true );

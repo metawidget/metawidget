@@ -113,8 +113,8 @@ public class HtmlTableLayout
 
 			writer.write( " id=\"" );
 			writer.write( TABLE_PREFIX );
-			state.tableType = StringUtils.camelCase( metawidgetTag.getPath(), StringUtils.SEPARATOR_DOT_CHAR );
-			writer.write( state.tableType );
+			state.setTableType( StringUtils.camelCase( metawidgetTag.getPath(), StringUtils.SEPARATOR_DOT_CHAR ) );
+			writer.write( state.getTableType() );
 			writer.write( "\"" );
 
 			// Styles
@@ -203,12 +203,7 @@ public class HtmlTableLayout
 				// and a label)
 
 				State state = getState( metawidgetTag );
-
-				if ( state.hiddenFields == null ) {
-					state.hiddenFields = CollectionUtils.newArrayList();
-				}
-
-				state.hiddenFields.add( literal );
+				state.addHiddenField( literal );
 
 				return;
 			}
@@ -244,8 +239,8 @@ public class HtmlTableLayout
 
 			State state = getState( metawidgetTag );
 
-			if ( state.hiddenFields != null ) {
-				for ( String hiddenField : state.hiddenFields ) {
+			if ( state.getHiddenFields() != null ) {
+				for ( String hiddenField : state.getHiddenFields() ) {
 					writer.write( "\r\n" );
 					writer.write( hiddenField );
 				}
@@ -262,7 +257,7 @@ public class HtmlTableLayout
 	protected void layoutBeforeChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag ) {
 
 		State state = getState( metawidgetTag );
-		state.currentColumn++;
+		state.incrementCurrentColumn();
 
 		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
@@ -281,23 +276,23 @@ public class HtmlTableLayout
 					id = StringUtils.capitalize( StringUtils.camelCase( id ) );
 				}
 
-				if ( SimpleLayoutUtils.isSpanAllColumns( attributes ) && state.currentColumn != 1 ) {
+				if ( SimpleLayoutUtils.isSpanAllColumns( attributes ) && state.getCurrentColumn() != 1 ) {
 					writer.write( "</tr>" );
-					state.currentColumn = 1;
+					state.setCurrentColumn( 1 );
 				}
 			}
 
 			// Start a new row, if necessary
 
-			if ( state.currentColumn == 1 || state.currentColumn > mNumberOfColumns ) {
-				state.currentColumn = 1;
+			if ( state.getCurrentColumn() == 1 || state.getCurrentColumn() > mNumberOfColumns ) {
+				state.setCurrentColumn( 1 );
 
 				writer.write( "\r\n<tr" );
 
 				if ( id != null ) {
 					writer.write( " id=\"" );
 					writer.write( TABLE_PREFIX );
-					writer.write( state.tableType );
+					writer.write( state.getTableType() );
 					writer.write( id );
 					writer.write( ROW_SUFFIX );
 					writer.write( "\"" );
@@ -318,7 +313,7 @@ public class HtmlTableLayout
 				if ( id != null ) {
 					writer.write( " id=\"" );
 					writer.write( TABLE_PREFIX );
-					writer.write( state.tableType );
+					writer.write( state.getTableType() );
 					writer.write( id );
 					writer.write( ROW_SUFFIX );
 					writer.write( "2\"" );
@@ -334,7 +329,7 @@ public class HtmlTableLayout
 			if ( id != null ) {
 				writer.write( " id=\"" );
 				writer.write( TABLE_PREFIX );
-				writer.write( state.tableType );
+				writer.write( state.getTableType() );
 				writer.write( id );
 				writer.write( CELL_SUFFIX );
 				writer.write( "\"" );
@@ -350,7 +345,7 @@ public class HtmlTableLayout
 
 			if ( tag instanceof MetawidgetTag || SimpleLayoutUtils.isSpanAllColumns( attributes ) ) {
 				colspan = ( mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
-				state.currentColumn = mNumberOfColumns;
+				state.setCurrentColumn( mNumberOfColumns );
 
 				if ( !labelWritten ) {
 					colspan++;
@@ -362,17 +357,15 @@ public class HtmlTableLayout
 				if ( tag instanceof MetawidgetTag ) {
 					colspan++;
 				}
-			}
+			} else if ( !labelWritten ) {
 
-			// Components without labels span two columns
+				// Components without labels span two columns
 
-			else if ( !labelWritten ) {
 				colspan = 2;
-			}
+			} else {
 
-			// Everyone else spans just one
+				// Everyone else spans just one
 
-			else {
 				colspan = 1;
 			}
 
@@ -410,8 +403,8 @@ public class HtmlTableLayout
 
 			// End the row, if necessary
 
-			if ( state.currentColumn >= mNumberOfColumns ) {
-				state.currentColumn = 0;
+			if ( state.getCurrentColumn() >= mNumberOfColumns ) {
+				state.setCurrentColumn( 0 );
 				writer.write( "</tr>" );
 			}
 		} catch ( IOException e ) {
@@ -514,10 +507,57 @@ public class HtmlTableLayout
 
 	/* package private */static class State {
 
-		public int			currentColumn;
+		//
+		// Private members
+		//
 
-		public List<String>	hiddenFields;
+		private int				mCurrentColumn;
 
-		public String		tableType;
+		private List<String>	mHiddenFields;
+
+		private String			mTableType;
+
+		//
+		// Public methods
+		//
+
+		public int getCurrentColumn() {
+
+			return mCurrentColumn;
+		}
+
+		public void setCurrentColumn( int currentColumn ) {
+
+			mCurrentColumn = currentColumn;
+		}
+
+		public void incrementCurrentColumn() {
+
+			mCurrentColumn++;
+		}
+
+		public List<String> getHiddenFields() {
+
+			return mHiddenFields;
+		}
+
+		public void addHiddenField( String hiddenField ) {
+
+			if ( mHiddenFields == null ) {
+				mHiddenFields = CollectionUtils.newArrayList();
+			}
+
+			mHiddenFields.add( hiddenField );
+		}
+
+		public String getTableType() {
+
+			return mTableType;
+		}
+
+		public void setTableType( String tableType ) {
+
+			mTableType = tableType;
+		}
 	}
 }

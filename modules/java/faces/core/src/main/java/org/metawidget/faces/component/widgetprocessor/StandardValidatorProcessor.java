@@ -137,20 +137,18 @@ public class StandardValidatorProcessor
 		String minimumLength = attributes.get( MINIMUM_LENGTH );
 		String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-		if ( minimumLength != null || maximumLength != null ) {
-			if ( !hasExistingValidator( editableValueHolder, LengthValidator.class ) ) {
-				LengthValidator validator = (LengthValidator) application.createValidator( LengthValidator.VALIDATOR_ID );
+		if (( minimumLength != null || maximumLength != null ) && !hasExistingValidator( editableValueHolder, LengthValidator.class ) ) {
+			LengthValidator validator = (LengthValidator) application.createValidator( LengthValidator.VALIDATOR_ID );
 
-				if ( minimumLength != null && !"".equals( minimumLength ) ) {
-					validator.setMinimum( Integer.parseInt( minimumLength ) );
-				}
-
-				if ( maximumLength != null && !"".equals( maximumLength ) ) {
-					validator.setMaximum( Integer.parseInt( maximumLength ) );
-				}
-
-				editableValueHolder.addValidator( validator );
+			if ( minimumLength != null && !"".equals( minimumLength ) ) {
+				validator.setMinimum( Integer.parseInt( minimumLength ) );
 			}
+
+			if ( maximumLength != null && !"".equals( maximumLength ) ) {
+				validator.setMaximum( Integer.parseInt( maximumLength ) );
+			}
+
+			editableValueHolder.addValidator( validator );
 		}
 
 		return component;

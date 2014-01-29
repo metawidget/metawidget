@@ -139,7 +139,7 @@ public class MigLayout
 		// Special support for large components
 
 		State state = getState( container );
-		boolean spanAllColumns = ( component instanceof JScrollPane || component instanceof SwingMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) );
+		boolean spanAllColumns = component instanceof JScrollPane || component instanceof SwingMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes );
 
 		if ( spanAllColumns && state.currentColumn > 0 ) {
 			state.currentColumn = 0;

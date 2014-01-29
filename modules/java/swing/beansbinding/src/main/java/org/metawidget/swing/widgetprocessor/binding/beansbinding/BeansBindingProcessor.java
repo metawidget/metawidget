@@ -108,8 +108,8 @@ public class BeansBindingProcessor
 
 		State state = getState( metawidget );
 
-		if ( state.bindings != null ) {
-			for ( org.jdesktop.beansbinding.Binding<?, ?, ? extends Component, ?> binding : state.bindings ) {
+		if ( state.getBindings() != null ) {
+			for ( org.jdesktop.beansbinding.Binding<?, ?, ? extends Component, ?> binding : state.getBindings() ) {
 				binding.unbind();
 			}
 		}
@@ -132,12 +132,7 @@ public class BeansBindingProcessor
 		if ( componentToBind instanceof SwingMetawidget ) {
 
 			State state = getState( metawidget );
-
-			if ( state.nestedMetawidgets == null ) {
-				state.nestedMetawidgets = CollectionUtils.newHashSet();
-			}
-
-			state.nestedMetawidgets.add( (SwingMetawidget) component );
+			state.addNestedMetawidget( (SwingMetawidget) component );
 			return component;
 		}
 
@@ -162,8 +157,8 @@ public class BeansBindingProcessor
 
 		// Our bindings
 
-		if ( state.bindings != null ) {
-			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : state.bindings ) {
+		if ( state.getBindings() != null ) {
+			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : state.getBindings() ) {
 				binding.unbind();
 				binding.setSourceObject( toRebind );
 				binding = processBinding( binding, metawidget );
@@ -184,8 +179,8 @@ public class BeansBindingProcessor
 
 		// Nested Metawidgets
 
-		if ( state.nestedMetawidgets != null ) {
-			for ( SwingMetawidget nestedMetawidget : state.nestedMetawidgets ) {
+		if ( state.getNestedMetawidgets() != null ) {
+			for ( SwingMetawidget nestedMetawidget : state.getNestedMetawidgets() ) {
 				rebind( toRebind, nestedMetawidget );
 			}
 		}
@@ -201,8 +196,8 @@ public class BeansBindingProcessor
 
 		// Our bindings
 
-		if ( state.bindings != null ) {
-			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : state.bindings ) {
+		if ( state.getBindings() != null ) {
+			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : state.getBindings() ) {
 				Object sourceObject = binding.getSourceObject();
 				@SuppressWarnings( "unchecked" )
 				BeanProperty<Object, Object> sourceProperty = (BeanProperty<Object, Object>) binding.getSourceProperty();
@@ -229,8 +224,8 @@ public class BeansBindingProcessor
 
 		// Nested Metawidgets
 
-		if ( state.nestedMetawidgets != null ) {
-			for ( SwingMetawidget nestedMetawidget : state.nestedMetawidgets ) {
+		if ( state.getNestedMetawidgets() != null ) {
+			for ( SwingMetawidget nestedMetawidget : state.getNestedMetawidgets() ) {
 				save( nestedMetawidget );
 			}
 		}
@@ -353,12 +348,7 @@ public class BeansBindingProcessor
 		// Save the binding
 
 		State state = getState( metawidget );
-
-		if ( state.bindings == null ) {
-			state.bindings = CollectionUtils.newHashSet();
-		}
-
-		state.bindings.add( (org.jdesktop.beansbinding.Binding<Object, V, T, W>) binding );
+		state.addBinding( (org.jdesktop.beansbinding.Binding<Object, V, T, W>) binding );
 
 		return binding;
 	}
@@ -461,9 +451,45 @@ public class BeansBindingProcessor
 
 	protected static class State {
 
-		public Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
+		//
+		// Private members
+		//
 
-		public Set<SwingMetawidget>															nestedMetawidgets;
+		private Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	mBindings;
+
+		private Set<SwingMetawidget>														mNestedMetawidgets;
+
+		//
+		// Public methods
+		//
+
+		public Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>> getBindings() {
+
+			return mBindings;
+		}
+
+		public void addBinding( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding ) {
+
+			if ( mBindings == null ) {
+				mBindings = CollectionUtils.newHashSet();
+			}
+
+			mBindings.add( binding );
+		}
+
+		public Set<SwingMetawidget> getNestedMetawidgets() {
+
+			return mNestedMetawidgets;
+		}
+
+		public void addNestedMetawidget( SwingMetawidget nestedMetawidgets ) {
+
+			if ( mNestedMetawidgets == null ) {
+				mNestedMetawidgets = CollectionUtils.newHashSet();
+			}
+
+			mNestedMetawidgets.add( nestedMetawidgets );
+		}
 	}
 
 	/* package private */static final class ConvertFromTo<S, T> {

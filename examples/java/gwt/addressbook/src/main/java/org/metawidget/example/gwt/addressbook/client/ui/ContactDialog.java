@@ -310,10 +310,8 @@ public class ContactDialog
 
 			public void onClick( ClickEvent event ) {
 
-				if ( mAddressBookModule.getPanel() instanceof RootPanel ) {
-					if ( !Window.confirm( "Sure you want to delete this contact?" ) ) {
-						return;
-					}
+				if ( mAddressBookModule.getPanel() instanceof RootPanel && !Window.confirm( "Sure you want to delete this contact?" ) ) {
+					return;
 				}
 
 				mAddressBookModule.getContactsService().delete( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Boolean>() {
@@ -412,7 +410,7 @@ public class ContactDialog
 		final Contact contact = mMetawidget.getToInspect();
 		Set<Communication> communications = contact.getCommunications();
 		final boolean readOnly = mMetawidget.isReadOnly();
-		final boolean confirm = ( mAddressBookModule.getPanel() instanceof RootPanel );
+		final boolean confirm = mAddressBookModule.getPanel() instanceof RootPanel;
 
 		// Communications
 
@@ -439,10 +437,8 @@ public class ContactDialog
 
 						public void onClick( ClickEvent event ) {
 
-							if ( confirm ) {
-								if ( !Window.confirm( "Sure you want to delete this communication?" ) ) {
-									return;
-								}
+							if ( confirm && !Window.confirm( "Sure you want to delete this communication?" ) ) {
+								return;
 							}
 
 							contact.removeCommunication( communication );

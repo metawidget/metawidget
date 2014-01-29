@@ -199,11 +199,10 @@ public class BaseConfigReader
 
 				if ( cachingContentHandler != null ) {
 					cachingContentHandler.replay( configHandler );
-				}
 
-				// ...or cache a new one
+				} else {
 
-				else {
+					// ...or cache a new one
 
 					LOG.debug( "Reading resource from {0}", locationKey );
 					cachingContentHandler = new CachingContentHandler( configHandler );
@@ -534,11 +533,10 @@ public class BaseConfigReader
 
 				return null;
 			}
-		}
+		} else if ( toResolveTo.isEnum() && nativeValue instanceof String ) {
 
-		// Enums
+			// Enums
 
-		else if ( toResolveTo.isEnum() && nativeValue instanceof String ) {
 			try {
 				return Enum.valueOf( (Class<? extends Enum>) toResolveTo, (String) nativeValue );
 			} catch ( IllegalArgumentException e ) {
@@ -617,7 +615,7 @@ public class BaseConfigReader
 
 	protected boolean isImmutable( Class<?> clazz ) {
 
-		return ( Immutable.class.isAssignableFrom( clazz ) );
+		return Immutable.class.isAssignableFrom( clazz );
 	}
 
 	//
@@ -798,7 +796,7 @@ public class BaseConfigReader
 						}
 						break;
 
-					case TO_CONFIGURE: {
+					case TO_CONFIGURE:
 						// Initial elements must be at depth == 2
 
 						if ( mDepth != 2 ) {
@@ -828,11 +826,9 @@ public class BaseConfigReader
 							}
 
 							handleNonNativeObject( uri, localName, attributes );
-						}
+						} else {
 
-						// ...or instance of Object
-
-						else {
+							// ...or instance of Object
 
 							// If already constructed Object of correct type, or if this element has
 							// wrong @type...
@@ -858,10 +854,9 @@ public class BaseConfigReader
 						}
 
 						mExpecting = ExpectingState.METHOD;
-					}
-					break;
+						break;
 
-					case OBJECT: {
+					case OBJECT:
 						if ( mCachingContentHandler == null || !mCachingContentHandler.isPaused() ) {
 							mLocationIndex++;
 						}
@@ -889,10 +884,9 @@ public class BaseConfigReader
 						}
 
 						mExpecting = handleNonNativeObject( uri, localName, attributes );
-					}
-					break;
+						break;
 
-					case METHOD: {
+					case METHOD:
 						// Screen names
 
 						if ( mNames != null ) {
@@ -926,11 +920,13 @@ public class BaseConfigReader
 						mEncountered.push( EncounteredState.METHOD );
 
 						mExpecting = ExpectingState.OBJECT;
-					}
-					break;
+						break;
 
 					case CLOSE_OBJECT_WITH_REFID:
 						throw InspectorException.newException( "<" + name + "> not expected here. Elements with a 'refId' must have an empty body" );
+
+					default:
+						throw new UnsupportedOperationException( mExpecting.toString() );
 				}
 			} catch ( RuntimeException e ) {
 				throw e;
@@ -1014,7 +1010,7 @@ public class BaseConfigReader
 				EncounteredState encountered = mEncountered.pop();
 
 				switch ( encountered ) {
-					case NATIVE_TYPE: {
+					case NATIVE_TYPE:
 						// Pop/push to peek at namespace
 
 						Object methodParameters = mConstructing.pop();
@@ -1031,10 +1027,9 @@ public class BaseConfigReader
 						addToConstructing( createNative( localName, constructing.getClass(), endRecording() ) );
 
 						mExpecting = ExpectingState.OBJECT;
-					}
-					return;
+						return;
 
-					case NATIVE_COLLECTION_TYPE: {
+					case NATIVE_COLLECTION_TYPE:
 						Object nativeCollectionType = mConstructing.pop();
 
 						@SuppressWarnings( "unchecked" )
@@ -1042,11 +1037,10 @@ public class BaseConfigReader
 						parameters.add( nativeCollectionType );
 
 						mExpecting = ExpectingState.OBJECT;
-					}
-					return;
+						return;
 
 					case CONFIGURED_TYPE:
-					case JAVA_OBJECT: {
+					case JAVA_OBJECT:
 						Object object = mConstructing.pop();
 
 						if ( encountered == EncounteredState.CONFIGURED_TYPE ) {
@@ -1088,20 +1082,19 @@ public class BaseConfigReader
 										putImmutableById( id, immutable );
 									}
 								}
-							} else if ( isImmutable( classToConstruct ) ) {
+							} else if ( isImmutable( classToConstruct ) && mCachingContentHandler != null && mDepth < mIgnoreImmutableAfterDepth ) {
+
 								// Unpause caching (if any)
 
-								if ( mCachingContentHandler != null && mDepth < mIgnoreImmutableAfterDepth ) {
-									mCachingContentHandler.unpause( true );
-									mIgnoreImmutableAfterDepth = -1;
+								mCachingContentHandler.unpause( true );
+								mIgnoreImmutableAfterDepth = -1;
 
-									// If the configuredObject was cached by class, it may have come
-									// from a different 'location' (either a different resource, or
-									// a different mLocationIndex within this same resource) so we
-									// still need to cache it at this new location
+								// If the configuredObject was cached by class, it may have come
+								// from a different 'location' (either a different resource, or
+								// a different mLocationIndex within this same resource) so we
+								// still need to cache it at this new location
 
-									putImmutableByLocation( (Immutable) configuredObject );
-								}
+								putImmutableByLocation( (Immutable) configuredObject );
 							}
 
 							// Use the configured object (not its config) as the 'object' from now
@@ -1121,24 +1114,23 @@ public class BaseConfigReader
 						addToConstructing( object );
 
 						mExpecting = ExpectingState.OBJECT;
-					}
-					return;
+						return;
 
-					case METHOD: {
+					case METHOD:
 						@SuppressWarnings( "unchecked" )
-						List<Object> parameters = (List<Object>) mConstructing.pop();
-						Object constructing = mConstructing.peek();
+						List<Object> parameters1 = (List<Object>) mConstructing.pop();
+						Object constructing1 = mConstructing.peek();
 
-						if ( constructing instanceof ConfigAndId ) {
-							constructing = ( (ConfigAndId) constructing ).getConfig();
+						if ( constructing1 instanceof ConfigAndId ) {
+							constructing1 = ( (ConfigAndId) constructing1 ).getConfig();
 						}
 
-						Class<?> constructingClass = constructing.getClass();
+						Class<?> constructingClass = constructing1.getClass();
 						String methodName = "set" + StringUtils.capitalize( localName );
 
 						try {
-							Method method = classGetMethod( constructingClass, methodName, parameters );
-							method.invoke( constructing, parameters.toArray() );
+							Method method = classGetMethod( constructingClass, methodName, parameters1 );
+							method.invoke( constructing1, parameters1.toArray() );
 						} catch ( NoSuchMethodException e ) {
 							// Hint for config-based constructors
 
@@ -1160,14 +1152,16 @@ public class BaseConfigReader
 						}
 
 						mExpecting = ExpectingState.METHOD;
-					}
-					return;
+						return;
 
 					case WRONG_TYPE:
 						return;
 
 					case WRONG_NAME:
 						return;
+
+					default:
+						throw new UnsupportedOperationException( encountered.toString() );
 				}
 			} catch ( RuntimeException e ) {
 				throw e;
@@ -1254,40 +1248,37 @@ public class BaseConfigReader
 
 			// Configured types
 
-			if ( object == null ) {
+			if ( object == null && configClassName != null ) {
+				String configToConstruct;
 
-				if ( configClassName != null ) {
-					String configToConstruct;
-
-					if ( configClassName.indexOf( '.' ) == -1 ) {
-						configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
-					} else {
-						configToConstruct = configClassName;
-					}
-
-					Class<?> configClass = lookupClass( configToConstruct, mToConfigure.getClass().getClassLoader() );
-					if ( configClass == null ) {
-						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
-					}
-
-					Object config = configClass.newInstance();
-
-					if ( config instanceof NeedsResourceResolver ) {
-						( (NeedsResourceResolver) config ).setResourceResolver( getResourceResolver() );
-					}
-
-					mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ) );
-					mEncountered.push( EncounteredState.CONFIGURED_TYPE );
-
-					// Pause caching (if any)
-
-					if ( mIgnoreImmutableAfterDepth == -1 && mCachingContentHandler != null && isImmutable( classToConstruct ) ) {
-						mCachingContentHandler.pause( true );
-						mIgnoreImmutableAfterDepth = mDepth;
-					}
-
-					return ExpectingState.METHOD;
+				if ( configClassName.indexOf( '.' ) == -1 ) {
+					configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
+				} else {
+					configToConstruct = configClassName;
 				}
+
+				Class<?> configClass = lookupClass( configToConstruct, mToConfigure.getClass().getClassLoader() );
+				if ( configClass == null ) {
+					throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
+				}
+
+				Object config = configClass.newInstance();
+
+				if ( config instanceof NeedsResourceResolver ) {
+					( (NeedsResourceResolver) config ).setResourceResolver( getResourceResolver() );
+				}
+
+				mConstructing.push( new ConfigAndId( config, attributes.getValue( "id" ) ) );
+				mEncountered.push( EncounteredState.CONFIGURED_TYPE );
+
+				// Pause caching (if any)
+
+				if ( mIgnoreImmutableAfterDepth == -1 && mCachingContentHandler != null && isImmutable( classToConstruct ) ) {
+					mCachingContentHandler.pause( true );
+					mIgnoreImmutableAfterDepth = mDepth;
+				}
+
+				return ExpectingState.METHOD;
 			}
 
 			// Already cached (without config)?

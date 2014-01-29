@@ -148,7 +148,7 @@ public final class ArrayUtils {
 
 	public static <T> boolean contains( T[] array, T contains ) {
 
-		return ( indexOf( array, contains ) != -1 );
+		return indexOf( array, contains ) != -1;
 	}
 
 	/**

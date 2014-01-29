@@ -75,6 +75,6 @@ public abstract class AndroidNestedSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored( View view ) {
 
-		return ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 );
+		return view instanceof Stub && ( (Stub) view ).getChildCount() == 0;
 	}
 }

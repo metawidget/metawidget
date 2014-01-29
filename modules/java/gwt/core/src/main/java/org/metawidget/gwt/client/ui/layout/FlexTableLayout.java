@@ -207,17 +207,15 @@ public class FlexTableLayout
 			if ( widget instanceof GwtMetawidget ) {
 				colspan++;
 			}
-		}
+		} else if ( labelText == null ) {
 
-		// Components without labels span two columns
+			// Components without labels span two columns
 
-		else if ( labelText == null ) {
 			colspan = 2;
-		}
-
-		// Everyone else spans just one
-
-		else {
+		} else {
+			
+			// Everyone else spans just one
+			
 			colspan = 1;
 		}
 

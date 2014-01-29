@@ -499,11 +499,10 @@ public abstract class UIMetawidget
 			if ( bundleMap.containsKey( key ) ) {
 				localizedKey = bundleMap.get( key );
 			}
-		}
+		} else if ( appBundle != null ) {
 
-		// App-specific bundle
+			// App-specific bundle
 
-		else if ( appBundle != null ) {
 			try {
 				localizedKey = ResourceBundle.getBundle( appBundle, context.getViewRoot().getLocale() ).getString( key );
 			} catch ( MissingResourceException e ) {
@@ -512,11 +511,10 @@ public abstract class UIMetawidget
 
 				return null;
 			}
-		}
+		} else {
+			
+			// No bundle
 
-		// No bundle
-
-		else {
 			return null;
 		}
 

@@ -50,7 +50,7 @@ public abstract class BaseTrait
 
 	public boolean isAnnotationPresent( Class<? extends Annotation> annotation ) {
 
-		return ( getAnnotation( annotation ) != null );
+		return getAnnotation( annotation ) != null;
 	}
 
 	@Override

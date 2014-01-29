@@ -249,12 +249,10 @@ public class HtmlWidgetBuilder
 			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
 			columnAttributes.put( NAME, attributes.get( NAME ) );
 			addColumnHeader( table, columnAttributes, metawidget );
-		}
+		} else {
 
-		// ...otherwise, iterate over the component type and add multiple columns.
-
-		else {
-
+			// ...otherwise, iterate over the component type and add multiple columns.
+			//
 			// Assign an id so that it gets propagated to our children
 
 			IdProcessor processor = metawidget.getWidgetProcessor( IdProcessor.class );

@@ -74,6 +74,6 @@ public abstract class GwtFlatSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored( Widget widget ) {
 
-		return ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 );
+		return widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0;
 	}
 }

@@ -54,8 +54,8 @@ public class FieldsetLayoutDecorator
 		// to come before <table> or <div>
 
 		State<BodyTag> state = getState( container, metawidget );
-		state.currentSection = null;
-		state.currentSectionWidget = null;
+		state.setCurrentSection( null );
+		state.setCurrentSectionWidget( null );
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class FieldsetLayoutDecorator
 
 		State<BodyTag> state = getState( container, metawidgetTag );
 
-		if ( state.currentSectionWidget != null ) {
+		if ( state.getCurrentSectionWidget() != null ) {
 			try {
 				JspWriter writer = metawidgetTag.getPageContext().getOut();
 				writer.write( "</fieldset>" );

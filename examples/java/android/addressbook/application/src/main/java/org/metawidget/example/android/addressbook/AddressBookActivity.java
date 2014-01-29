@@ -128,29 +128,29 @@ public class AddressBookActivity
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
 		switch ( item.getItemId() ) {
-			case R.string.search: {
+			case R.string.search:
 				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 				contacts.setAdapter( new ArrayAdapter<Contact>( AddressBookActivity.this, android.R.layout.simple_list_item_1, application.getContactsController().getAllByExample( mContactSearch ) ) );
-			}
-			break;
+				break;
 
-			case R.string.addPersonal: {
+			case R.string.addPersonal:
 				Intent intent = new Intent();
 				intent.setClass( AddressBookActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "personal" );
 
 				startActivityForResult( intent, 0 );
-			}
-			break;
+				break;
 
-			case R.string.addBusiness: {
+			case R.string.addBusiness:
 				Intent intent = new Intent();
 				intent.setClass( AddressBookActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "business" );
 
 				startActivityForResult( intent, 0 );
-			}
-			break;
+				break;
+
+			default:
+				throw new UnsupportedOperationException( item.getItemId() );
 		}
 
 		return true;

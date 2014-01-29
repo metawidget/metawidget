@@ -177,11 +177,10 @@ public class HtmlWidgetBuilder
 
 				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
 					component = application.createComponent( HtmlSelectManyCheckbox.COMPONENT_TYPE );
-				}
+				} else {
+					
+					// ...otherwise just a UISelectOne
 
-				// ...otherwise just a UISelectOne
-
-				else {
 					component = application.createComponent( HtmlSelectOneMenu.COMPONENT_TYPE );
 				}
 			}
@@ -255,17 +254,16 @@ public class HtmlWidgetBuilder
 					} else {
 						component = application.createComponent( HtmlInputText.COMPONENT_TYPE );
 					}
-				}
+				} else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 
-				// Supported Collections
+					// Supported Collections
 
-				else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 					return createDataTableComponent( elementName, attributes, metawidget );
-				}
+					
+				} else if ( Collection.class.isAssignableFrom( clazz ) ) {
 
-				// Unsupported Collections
+					// Unsupported Collections
 
-				else if ( Collection.class.isAssignableFrom( clazz ) ) {
 					return application.createComponent( UIStub.COMPONENT_TYPE );
 				}
 			}
@@ -432,11 +430,10 @@ public class HtmlWidgetBuilder
 			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
 			columnAttributes.put( NAME, attributes.get( NAME ) );
 			addColumnComponent( dataTable, attributes, ENTITY, columnAttributes, metawidget );
-		}
+		} else {
 
-		// ...otherwise, iterate over the component type and add multiple columns
+			// ...otherwise, iterate over the component type and add multiple columns
 
-		else {
 			addColumnComponents( dataTable, attributes, elements, metawidget );
 		}
 

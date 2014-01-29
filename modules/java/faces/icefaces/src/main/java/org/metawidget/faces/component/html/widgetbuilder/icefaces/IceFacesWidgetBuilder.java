@@ -52,7 +52,7 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
  * Note: because some ICEfaces components use
  * <code>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code> this WidgetBuilder should be used
  * in conjunction with <code>OverriddenWidgetBuilder</code>.
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -90,7 +90,7 @@ public class IceFacesWidgetBuilder
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
-	 *
+	 * 
 	 * @return the widget to use in non-read-only scenarios
 	 */
 
@@ -138,11 +138,10 @@ public class IceFacesWidgetBuilder
 			if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) ) {
 				component = application.createComponent( HtmlSelectManyCheckbox.COMPONENT_TYPE );
 				( (HtmlSelectManyCheckbox) component ).setPartialSubmit( mPartialSubmit );
-			}
+			} else {
 
-			// ...otherwise just a UISelectOne
+				// ...otherwise just a UISelectOne
 
-			else {
 				component = application.createComponent( HtmlSelectOneMenu.COMPONENT_TYPE );
 				( (HtmlSelectOneMenu) component ).setPartialSubmit( mPartialSubmit );
 			}
@@ -176,11 +175,10 @@ public class IceFacesWidgetBuilder
 				if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 					component = application.createComponent( HtmlSelectManyCheckbox.COMPONENT_TYPE );
 					( (HtmlSelectManyCheckbox) component ).setPartialSubmit( mPartialSubmit );
-				}
+				} else {
+					
+					// ...otherwise just a UISelectOne
 
-				// ...otherwise just a UISelectOne
-
-				else {
 					component = application.createComponent( HtmlSelectOneMenu.COMPONENT_TYPE );
 					( (HtmlSelectOneMenu) component ).setPartialSubmit( mPartialSubmit );
 				}

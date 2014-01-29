@@ -102,10 +102,8 @@ public class OverriddenWidgetBuilder
 
 				// (note: ValueBinding.equals() does not compare expression strings)
 
-				if ( expressionString.equals( childValueBinding.getExpressionString() ) ) {
-					if ( child.isRendered() ) {
-						return child;
-					}
+				if ( expressionString.equals( childValueBinding.getExpressionString() ) && child.isRendered() ) {
+					return child;
 				}
 			}
 
@@ -155,10 +153,8 @@ public class OverriddenWidgetBuilder
 
 			// (note: MethodBinding.equals() does not compare expression strings)
 
-			if ( expressionString.equals( childMethodBinding.getExpressionString() ) ) {
-				if ( child.isRendered() ) {
-					return child;
-				}
+			if ( expressionString.equals( childMethodBinding.getExpressionString() ) && child.isRendered() ) {
+				return child;
 			}
 
 			// Recurse into section decorators. This is only needed if we have components marked

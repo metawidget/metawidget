@@ -238,11 +238,10 @@ public class HtmlWidgetBuilder
 			Map<String, String> columnAttributes = CollectionUtils.newHashMap();
 			columnAttributes.put( NAME, attributes.get( NAME ) );
 			addColumnComponent( dataTable, attributes, ENTITY, columnAttributes, metawidget );
-		}
+		} else {
+			
+			// ...otherwise, iterate over the component type and add multiple columns
 
-		// ...otherwise, iterate over the component type and add multiple columns
-
-		else {
 			addColumnComponents( dataTable, attributes, elements, metawidget );
 		}
 

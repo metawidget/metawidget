@@ -115,11 +115,10 @@ public class JavassistPropertyStyle
 
 					if ( method != null ) {
 						ctMethod = getCtMethod( ctClass, method );
-					}
+					} else {
+						
+						// ...or its setter...
 
-					// ...or its setter...
-
-					else {
 						method = javaBeanProperty.getWriteMethod();
 						ctMethod = getCtMethod( ctClass, method, pool.get( property.getType() ) );
 					}

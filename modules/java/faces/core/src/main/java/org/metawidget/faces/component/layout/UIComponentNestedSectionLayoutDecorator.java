@@ -84,7 +84,7 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored( UIComponent component ) {
 
-		return ( component instanceof UIStub && component.getChildren().isEmpty() );
+		return component instanceof UIStub && component.getChildren().isEmpty();
 	}
 
 	/**
@@ -115,11 +115,11 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 
 			// ...that has a section we can use...
 
-			List<String> temporarySectionDecorator = state.existingSectionsUsed.get( child );
+			List<String> temporarySectionDecorator = state.getExistingSectionsUsed().get( child );
 
 			if ( temporarySectionDecorator == null ) {
 				temporarySectionDecorator = CollectionUtils.newArrayList( storedSectionDecorator );
-				state.existingSectionsUsed.put( child, temporarySectionDecorator );
+				state.getExistingSectionsUsed().put( child, temporarySectionDecorator );
 			}
 
 			// ...remove it so we don't use it twice...
@@ -151,11 +151,11 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 
 					@SuppressWarnings( "unchecked" )
 					List<String> nestedSavedChildSectionDecorator = (List<String>) nestedChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_SECTION_DECORATOR );
-					List<String> nestedTemporarySectionDecorator = state.existingSectionsUsed.get( nestedChild );
+					List<String> nestedTemporarySectionDecorator = state.getExistingSectionsUsed().get( nestedChild );
 
 					if ( nestedTemporarySectionDecorator == null ) {
 						nestedTemporarySectionDecorator = CollectionUtils.newArrayList( nestedSavedChildSectionDecorator );
-						state.existingSectionsUsed.put( nestedChild, nestedTemporarySectionDecorator );
+						state.getExistingSectionsUsed().put( nestedChild, nestedTemporarySectionDecorator );
 					}
 
 					if ( nestedTemporarySectionDecorator.remove( section ) ) {
@@ -191,8 +191,8 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 
 			// Tag this section widget as 'used'
 
-			if ( state.existingSectionsUsed.get( taggedSectionWidget ) == null ) {
-				state.existingSectionsUsed.put( taggedSectionWidget, new ArrayList<String>() );
+			if ( state.getExistingSectionsUsed().get( taggedSectionWidget ) == null ) {
+				state.getExistingSectionsUsed().put( taggedSectionWidget, new ArrayList<String>() );
 			}
 
 			sectionDecorator.add( section );
@@ -239,11 +239,24 @@ public abstract class UIComponentNestedSectionLayoutDecorator
 	public static class UIComponentState
 		extends State<UIComponent> {
 
+		//
+		// Private members
+		//
+
 		/**
 		 * Map to track which existing sections we have already reused. This is important when two
 		 * or more sections on the page have the same name.
 		 */
 
-		public Map<UIComponent, List<String>>	existingSectionsUsed	= CollectionUtils.newHashMap();
+		private Map<UIComponent, List<String>>	mExistingSectionsUsed	= CollectionUtils.newHashMap();
+
+		//
+		// Public methods
+		//
+
+		public Map<UIComponent, List<String>> getExistingSectionsUsed() {
+
+			return mExistingSectionsUsed;
+		}
 	}
 }

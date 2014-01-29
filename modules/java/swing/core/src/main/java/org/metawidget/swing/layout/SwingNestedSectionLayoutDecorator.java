@@ -77,6 +77,6 @@ public abstract class SwingNestedSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored( JComponent component ) {
 
-		return ( component instanceof Stub && component.getComponentCount() == 0 );
+		return component instanceof Stub && component.getComponentCount() == 0;
 	}
 }

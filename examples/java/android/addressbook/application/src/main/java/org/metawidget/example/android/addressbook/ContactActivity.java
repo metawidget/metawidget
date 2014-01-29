@@ -108,11 +108,10 @@ public class ContactActivity
 			mContact = application.getContactsController().load( id );
 			builderTitle.append( mContact.getFullname() );
 			builderTitle.append( " - " );
-		}
+		} else {
+			
+			// Create contact
 
-		// Create contact
-
-		else {
 			String contactType = intent.getStringExtra( "contactType" );
 
 			if ( "business".equals( contactType ) ) {
@@ -253,6 +252,9 @@ public class ContactActivity
 					}
 				} ).show();
 				break;
+				
+			default:
+				throw new UnsupportedOperationException( item.getItemId() );
 		}
 
 		return false;

@@ -55,7 +55,7 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C> {
 			return false;
 		}
 
-		return ( ObjectUtils.nullSafeEquals( mLayout, ( (LayoutDecoratorConfig<W, C, M>) that ).mLayout ) );
+		return ObjectUtils.nullSafeEquals( mLayout, ( (LayoutDecoratorConfig<W, C, M>) that ).mLayout );
 	}
 
 	@Override

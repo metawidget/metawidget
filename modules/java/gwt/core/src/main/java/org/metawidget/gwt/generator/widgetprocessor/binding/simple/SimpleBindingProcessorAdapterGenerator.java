@@ -344,6 +344,9 @@ public class SimpleBindingProcessorAdapterGenerator
 							sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) throw new RuntimeException( \"No setter for name '" + decapitalizedPropertyName + "'\" );" );
 						}
 						break;
+						
+					default:
+						throw new UnsupportedOperationException( String.valueOf( writeType ));
 				}
 
 				writeSubtypes( sourceWriter, nestedClassType, nestedVariableName, nextNameIndex, writeType, depth + 1 );
@@ -379,6 +382,9 @@ public class SimpleBindingProcessorAdapterGenerator
 				case WRITE_ACTION:
 					sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) throw new RuntimeException( \"Cannot execute '" + decapitalizedPropertyName + "' - is a property, not an action\" );" );
 					break;
+					
+				default:
+					throw new UnsupportedOperationException( String.valueOf( writeType ));
 			}
 
 			sourceWriter.outdent();

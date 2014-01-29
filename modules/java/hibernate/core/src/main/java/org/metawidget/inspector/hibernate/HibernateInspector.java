@@ -138,11 +138,10 @@ public class HibernateInspector
 					documentMaster = parsed.getOwnerDocument();
 					continue;
 				}
-			}
+			} else if ( HIBERNATE_MAPPING_ELEMENT.equals( nodeName ) ) {
+				
+				// ...otherwise, read hibernate-mapping files
 
-			// ...otherwise, read hibernate-mapping files
-
-			else if ( HIBERNATE_MAPPING_ELEMENT.equals( nodeName ) ) {
 				preprocessDocument( documentParsed );
 
 				if ( documentMaster == null || !documentMaster.hasChildNodes() ) {

@@ -64,20 +64,18 @@ public class StandardBindingProcessor
 
 				if ( facesExpression != null ) {
 					methodBinding = application.createMethodBinding( facesExpression, null );
-				}
+				} else if ( name != null && !"".equals( name ) ) {
 
-				// ...otherwise try and construct a binding...
+					// ...otherwise try and construct a binding...
 
-				else if ( name != null && !"".equals( name ) ) {
 					if ( metawidgetValueBinding != null ) {
 						String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
 						facesExpression = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + name );
 						methodBinding = application.createMethodBinding( facesExpression, null );
-					}
+					} else {
+						
+						// ...or just use the raw value (for jBPM)
 
-					// ...or just use the raw value (for jBPM)
-
-					else {
 						methodBinding = application.createMethodBinding( name, null );
 					}
 				}
@@ -106,11 +104,10 @@ public class StandardBindingProcessor
 					if ( metawidgetValueBinding != null ) {
 						valueBindingExpression = metawidgetValueBinding.getExpressionString();
 					}
-				}
+				} else if ( metawidgetValueBinding != null && name != null && !"".equals( name ) ) {
 
-				// ...if we are not at the top level, try and construct the binding
+					// ...if we are not at the top level, try and construct the binding
 
-				else if ( metawidgetValueBinding != null && name != null && !"".equals( name ) ) {
 					String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
 					valueBindingExpression = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + name );
 				}

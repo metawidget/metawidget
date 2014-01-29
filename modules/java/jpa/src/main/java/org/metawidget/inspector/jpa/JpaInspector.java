@@ -161,6 +161,8 @@ public class JpaInspector
 				case TIMESTAMP:
 					attributes.put( DATETIME_TYPE, "both" );
 					break;
+				default:
+					throw new UnsupportedOperationException( temporal.value().toString() );
 			}
 		}
 

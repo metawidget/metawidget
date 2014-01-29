@@ -67,17 +67,17 @@ public abstract class SwtFlatSectionLayoutDecorator
 
 			// Stay where we are?
 
-			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ) ) {
+			if ( section == null || ( state.getCurrentSections() != null && section.equals( state.getCurrentSections()[0] ) ) ) {
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 			}
 
 			// End nested LayoutDecorator's current section
 
-			if ( state.currentSections != null && !section.equals( state.currentSections[0] ) ) {
+			if ( state.getCurrentSections() != null && !section.equals( state.getCurrentSections()[0] ) ) {
 				super.endContainerLayout( container, metawidget );
 			}
 
-			state.currentSections = new String[] { section };
+			state.setCurrentSections( new String[] { section } );
 
 			// Add a heading
 
@@ -89,7 +89,7 @@ public abstract class SwtFlatSectionLayoutDecorator
 
 			// Stay where we are?
 
-			if ( sections.length == 0 || Arrays.equals( sections, state.currentSections ) ) {
+			if ( sections.length == 0 || Arrays.equals( sections, state.getCurrentSections() ) ) {
 				return delegateStartBuildWidget( elementName, attributes, container, metawidget );
 			}
 
@@ -104,7 +104,7 @@ public abstract class SwtFlatSectionLayoutDecorator
 					continue;
 				}
 
-				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) ) {
+				if ( state.getCurrentSections() != null && level < state.getCurrentSections().length && section.equals( state.getCurrentSections()[level] ) ) {
 					continue;
 				}
 
@@ -113,7 +113,7 @@ public abstract class SwtFlatSectionLayoutDecorator
 				addSectionWidget( section, level, container, metawidget );
 			}
 
-			state.currentSections = sections;
+			state.setCurrentSections( sections );
 		}
 
 		// Add component as normal
@@ -159,7 +159,7 @@ public abstract class SwtFlatSectionLayoutDecorator
 	@Override
 	protected boolean isIgnored( Control control ) {
 
-		return ( control instanceof Stub && ( (Stub) control ).getChildren().length == 0 );
+		return control instanceof Stub && ( (Stub) control ).getChildren().length == 0;
 	}
 
 	//

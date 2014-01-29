@@ -201,11 +201,10 @@ public abstract class BaseObjectInspector
 						ClassUtils.registerAlienClassLoader( childToInspect.getClass().getClassLoader() );
 					}
 				}
-			}
+			} else {
+				
+				// ...otherwise, just start at the end point
 
-			// ...otherwise, just start at the end point
-
-			else {
 				childToInspect = toInspect;
 				childName = null;
 				declaredChildType = type;

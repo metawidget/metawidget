@@ -42,8 +42,8 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		super.startContainerLayout( container, metawidget );
 
 		State<C> state = getState( container, metawidget );
-		state.currentSection = null;
-		state.currentSectionWidget = null;
+		state.setCurrentSection( null );
+		state.setCurrentSectionWidget( null );
 	}
 
 	@Override
@@ -56,11 +56,11 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		String section = stripSection( attributes );
 		State<C> state = getState( container, metawidget );
 
-		if ( isIgnored( widget ) || section == null || section.equals( state.currentSection ) ) {
-			if ( state.currentSectionWidget == null ) {
+		if ( isIgnored( widget ) || section == null || section.equals( state.getCurrentSection() ) ) {
+			if ( state.getCurrentSectionWidget()== null ) {
 				super.layoutWidget( widget, elementName, attributes, container, metawidget );
 			} else {
-				super.layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
+				super.layoutWidget( widget, elementName, attributes, state.getCurrentSectionWidget(), metawidget );
 			}
 
 			return;
@@ -68,14 +68,14 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 		// End current section
 
-		C previousSectionWidget = state.currentSectionWidget;
+		C previousSectionWidget = state.getCurrentSectionWidget();
 
-		if ( state.currentSectionWidget != null ) {
-			super.endContainerLayout( state.currentSectionWidget, metawidget );
+		if ( state.getCurrentSectionWidget()!= null ) {
+			super.endContainerLayout( state.getCurrentSectionWidget(), metawidget );
 		}
 
-		state.currentSection = section;
-		state.currentSectionWidget = null;
+		state.setCurrentSection( section );
+		state.setCurrentSectionWidget( null );
 
 		// No new section?
 
@@ -86,12 +86,12 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 		// Start new section
 
-		state.currentSectionWidget = createSectionWidget( previousSectionWidget, section, attributes, container, metawidget );
-		super.startContainerLayout( state.currentSectionWidget, metawidget );
+		state.setCurrentSectionWidget( createSectionWidget( previousSectionWidget, section, attributes, container, metawidget ));
+		super.startContainerLayout( state.getCurrentSectionWidget(), metawidget );
 
 		// Add component to new section
 
-		super.layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
+		super.layoutWidget( widget, elementName, attributes, state.getCurrentSectionWidget(), metawidget );
 	}
 
 	@Override
@@ -101,13 +101,13 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 		State<C> state = getState( container, metawidget );
 
-		if ( state.currentSectionWidget != null ) {
-			super.endContainerLayout( state.currentSectionWidget, metawidget );
+		if ( state.getCurrentSectionWidget()!= null ) {
+			super.endContainerLayout( state.getCurrentSectionWidget(), metawidget );
 		}
 
 		super.endContainerLayout( container, metawidget );
-		state.currentSection = null;
-		state.currentSectionWidget = null;
+		state.setCurrentSection( null );
+		state.setCurrentSectionWidget( null );
 	}
 
 	//
@@ -140,8 +140,36 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 
 	public static class State<C> {
 
-		public String	currentSection;
+		//
+		// Private members
+		//
 
-		public C		currentSectionWidget;
+		private String	mCurrentSection;
+
+		private C		mCurrentSectionWidget;
+
+		//
+		// Public methods
+		//
+
+		public String getCurrentSection() {
+
+			return mCurrentSection;
+		}
+
+		public void setCurrentSection( String currentSection ) {
+
+			mCurrentSection = currentSection;
+		}
+
+		public C getCurrentSectionWidget() {
+
+			return mCurrentSectionWidget;
+		}
+
+		public void setCurrentSectionWidget( C currentSectionWidget ) {
+
+			mCurrentSectionWidget = currentSectionWidget;
+		}
 	}
 }

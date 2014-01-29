@@ -78,7 +78,7 @@ public final class ObjectUtils {
 	public static boolean nullSafeEquals( Object object1, Object object2 ) {
 
 		if ( object1 == null ) {
-			return ( object2 == null );
+			return object2 == null;
 		}
 
 		// Array.equals is broken by default

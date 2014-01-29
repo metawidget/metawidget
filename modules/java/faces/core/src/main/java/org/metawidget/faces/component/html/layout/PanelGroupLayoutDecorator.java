@@ -78,7 +78,7 @@ public class PanelGroupLayoutDecorator
 
 		// Section name as style class
 
-		String sectionStyleClass = StringUtils.camelCase( getState( container, metawidget ).currentSection );
+		String sectionStyleClass = StringUtils.camelCase( getState( container, metawidget ).getCurrentSection() );
 
 		if ( mStyleClass == null ) {
 			panel.setStyleClass( sectionStyleClass );

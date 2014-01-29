@@ -126,11 +126,10 @@ public class ContactController
 				errors.reject( null, e.getMessage() );
 				return;
 			}
-		}
+		} else if ( request.getParameter( "deleteCommunication" ) != null ) {
+			
+			// Delete Communication (if any)
 
-		// Delete Communication (if any)
-
-		else if ( request.getParameter( "deleteCommunication" ) != null ) {
 			String id = request.getParameter( "deleteCommunicationId" );
 
 			try {

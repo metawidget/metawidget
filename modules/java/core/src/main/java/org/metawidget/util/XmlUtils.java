@@ -361,7 +361,7 @@ public final class XmlUtils {
 
 	public static String nodeToString( Node node, boolean pretty ) {
 
-		return nodeToString( node, ( pretty ? 0 : -1 ) );
+		return nodeToString( node, pretty ? 0 : -1 );
 	}
 
 	/**

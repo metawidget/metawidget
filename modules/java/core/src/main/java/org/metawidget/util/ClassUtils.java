@@ -500,7 +500,7 @@ public final class ClassUtils {
 
 	public static boolean isPrimitive( String className ) {
 
-		return ( getPrimitive( className ) != null );
+		return getPrimitive( className ) != null;
 	}
 
 	/**
