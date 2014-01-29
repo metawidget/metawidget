@@ -142,7 +142,7 @@ public class AddressBookActivity
 				break;
 
 			case R.string.addBusiness:
-				Intent intent = new Intent();
+				intent = new Intent();
 				intent.setClass( AddressBookActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "business" );
 
@@ -150,7 +150,7 @@ public class AddressBookActivity
 				break;
 
 			default:
-				throw new UnsupportedOperationException( item.getItemId() );
+				throw new UnsupportedOperationException( String.valueOf( item.getItemId() ));
 		}
 
 		return true;
