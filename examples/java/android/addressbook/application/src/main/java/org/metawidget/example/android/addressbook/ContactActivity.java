@@ -254,7 +254,7 @@ public class ContactActivity
 				break;
 				
 			default:
-				throw new UnsupportedOperationException( item.getItemId() );
+				throw new UnsupportedOperationException( String.valueOf( item.getItemId() ));
 		}
 
 		return false;
