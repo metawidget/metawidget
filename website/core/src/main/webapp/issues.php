@@ -15,7 +15,7 @@
 		</p>
 	
 		<p>
-			Metawidget's Issue Tracker is hosted on SourceForge. <a href="https://sourceforge.net/p/metawidget/bugs/?source=navbar">Click here</a> to visit the Issue Tracker.
+			Metawidget's Issue Tracker is hosted on GitHub. <a href="https://github.com/metawidget/metawidget/issues">Click here</a> to visit the Issue Tracker.
 		</p>
 		
 		<h2 class="h2-underneath">Code Coverage</h2>

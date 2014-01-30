@@ -122,7 +122,7 @@ var metawidget = metawidget || {};
 					throw new Error( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 				}
 
-				var splitPath = metawidget.util.splitPath( this.path );
+				var splitPath = metawidget.util.splitPath( this.path );				
 				inspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
 

@@ -317,65 +317,6 @@
 			expect( inspectionResult.bar ).toBe( 'Bar' );
 		} );
 
-		it( "screens by type", function() {
-
-			var inspector = new metawidget.inspector.JsonSchemaInspector( {
-				type: "MySchema",
-				foo: "Foo",
-				bar: "Bar"
-			} );
-
-			var inspectionResult = inspector.inspect( undefined, 'MySchema' );
-			expect( inspectionResult.foo ).toBe( 'Foo' );
-			expect( inspectionResult.bar ).toBe( 'Bar' );
-
-			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
-			expect( inspectionResult ).toBeUndefined();
-		} );
-
-		it( "does not screen by primitive type", function() {
-
-			var inspector = new metawidget.inspector.JsonSchemaInspector( {
-				type: "array",
-				foo: "Foo",
-				bar: "Bar"
-			} );
-
-			var inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
-			expect( inspectionResult.foo ).toBe( 'Foo' );
-			expect( inspectionResult.bar ).toBe( 'Bar' );
-
-			inspector = new metawidget.inspector.JsonSchemaInspector( {
-				type: "boolean",
-				foo: "Foo",
-				bar: "Bar"
-			} );
-
-			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
-			expect( inspectionResult.foo ).toBe( 'Foo' );
-			expect( inspectionResult.bar ).toBe( 'Bar' );
-
-			inspector = new metawidget.inspector.JsonSchemaInspector( {
-				type: "number",
-				foo: "Foo",
-				bar: "Bar"
-			} );
-
-			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
-			expect( inspectionResult.foo ).toBe( 'Foo' );
-			expect( inspectionResult.bar ).toBe( 'Bar' );
-
-			inspector = new metawidget.inspector.JsonSchemaInspector( {
-				type: "string",
-				foo: "Foo",
-				bar: "Bar"
-			} );
-
-			inspectionResult = inspector.inspect( undefined, 'NotMySchema' );
-			expect( inspectionResult.foo ).toBe( 'Foo' );
-			expect( inspectionResult.bar ).toBe( 'Bar' );
-		} );
-
 		it( "understands array indexes", function() {
 
 			var inspector = new metawidget.inspector.JsonSchemaInspector( {
