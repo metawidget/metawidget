@@ -49,6 +49,11 @@ var metawidget = metawidget || {};
 
 			while ( widget.childNodes.length > 0 ) {
 				var label = widget.childNodes[0];
+				
+				if ( label.tagName !== 'LABEL' ) {
+					return widget;
+				}
+				
 				var id = widget.getAttribute( 'id' ) + widget.childNodes.length;
 				label.setAttribute( 'for', id );
 				var input = label.childNodes[0];

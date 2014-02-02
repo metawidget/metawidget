@@ -279,5 +279,20 @@
 							expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray2"/><label for="myArray2">Foo</label>' );
 							expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray1"/><label for="myArray1">Bar</label>' );
 						} );
+
+				it(
+						"does not wrap non-arrays",
+						function() {
+
+							var processor = new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor();
+							$( '#metawidget' ).metawidget();
+
+							var widget = $( '<div id="myArray">foo</div>' )[0];
+							attributes = {
+								type: 'array'
+							}
+							widget = processor.processWidget( widget, "property", attributes, $( '#metawidget' ).data( 'metawidget' ) );
+							expect( widget.outerHTML ).toBe( '<div id="myArray">foo</div>' );
+						} );
 			} );
 } )();
