@@ -718,7 +718,7 @@ public final class XmlUtils {
 				propertyBuilder.append( "[" );
 				propertyBuilder.append( arrayToJsonSchema( attributeValue ) );
 				propertyBuilder.append( "]" );
-			} else if ( ArrayUtils.contains( JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES, attributeName ) ) {
+			} else if ( ArrayUtils.contains( JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES, attributeName ) && !attributeValue.contains( "{" )) {
 				propertyBuilder.append( attributeValue );
 			} else {
 

@@ -288,6 +288,11 @@ public class XmlUtilsTest
 		document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" hidden=\"true\" required=\"false\" minimum=\"42\" maximum=\"43\"/></inspection-result>" );
 		assertEquals( "{\"hidden\":true,\"maximum\":43,\"minimum\":42,\"name\":\"root\",\"required\":false}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 
+		// Special attribute types with expressions
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" hidden=\"{{foo}}\"/></inspection-result>" );
+		assertEquals( "{\"hidden\":\"{{foo}}\",\"name\":\"root\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+
 		// Nested elements are honoured, root attributes are optional
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" barAttr=\"2\" data=\"bar2\"><property name=\"nested\" nestedAttr=\"3\"/></property></entity></inspection-result>" );
