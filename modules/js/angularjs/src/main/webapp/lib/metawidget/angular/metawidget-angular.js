@@ -120,7 +120,7 @@ var metawidget = metawidget || {};
 					} );
 
 					// Clean up watches when element is destroyed
-					
+
 					element.on( '$destroy', function() {
 
 						_watchModel();
@@ -210,11 +210,11 @@ var metawidget = metawidget || {};
 		// Configure defaults
 
 		_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-		_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope ) ];
+		_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope.$parent ) ];
 		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),
-				new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope ) ];
+				new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope.$parent ) ];
 		_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
 		this.configure = function( config ) {
@@ -286,9 +286,9 @@ var metawidget = metawidget || {};
 
 			// Cleanup children using Angular, so that $destroy gets triggered
 			// TODO: unit test this is happening
-			
+
 			element.children().remove();
-			
+
 			// Build widgets
 
 			_pipeline.buildWidgets( _lastInspectionResult, this );
@@ -410,7 +410,7 @@ var metawidget = metawidget || {};
 	 * @class InspectionResultProcessor to evaluate Angular expressions.
 	 * 
 	 * @param scope
-	 *            scope of the Metawidget directive
+	 *            parent scope of the Metawidget directive
 	 * @param buildWidgets
 	 *            a function to use to rebuild the widgets following a $watch
 	 * @returns {metawidget.angular.AngularInspectionResultProcessor}
@@ -473,11 +473,11 @@ var metawidget = metawidget || {};
 				// ...evaluate it...
 
 				expression = expression.slice( 2, expression.length - 2 );
-				inspectionResult[propertyName] = scope.$parent.$eval( expression ) + '';
+				inspectionResult[propertyName] = scope.$eval( expression ) + '';
 
 				// ...and watch it for future changes
 
-				var watch = scope.$parent.$watch( expression, _watchExpression );
+				var watch = scope.$watch( expression, _watchExpression );
 
 				mw._angularInspectionResultProcessor.push( watch );
 			}
@@ -494,6 +494,9 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @class WidgetProcessor to add Angular bindings and validation.
+	 * 
+	 * @param scope
+	 *            parent scope of the Metawidget directive
 	 * 
 	 * @returns {metawidget.angular.AngularWidgetProcessor}
 	 */
@@ -570,7 +573,7 @@ var metawidget = metawidget || {};
 								child.setAttribute( 'ng-model', binding );
 							} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
 								child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.value + "')>=0" );
-								scope.$parent.mwUpdateSelection = _updateSelection;
+								scope.mwUpdateSelection = _updateSelection;
 								child.setAttribute( 'ng-click', "mwUpdateSelection($event,'" + binding + "')" );
 							}
 						}
@@ -613,11 +616,11 @@ var metawidget = metawidget || {};
 
 			// Lookup the bound array (if any)...
 
-			var selected = scope.$parent.$eval( binding );
+			var selected = scope.$eval( binding );
 
 			if ( selected === undefined ) {
 				selected = [];
-				$parse( binding ).assign( scope.$parent, selected );
+				$parse( binding ).assign( scope, selected );
 			}
 
 			// ...and either add our checkbox's value into it...
