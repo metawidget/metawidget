@@ -28,7 +28,14 @@ public class JsonSchemaMappingProcessorConfig {
 	// Private members
 	//
 
-	private String[]	mRemoveAttributes	= new String[] { COMES_AFTER, HIDDEN, PARAMETERIZED_TYPE };
+	/**
+	 * Remove attributes that do not apply in JSON Schema.
+	 * <p>
+	 * HIDDEN is not removed, but the whole property is hidden by default if HIDDEN equals TRUE.
+	 * COMES_AFTER is removed, but is replaced by 'propertyOrder'.
+	 */
+
+	private String[]	mRemoveAttributes	= new String[] { COMES_AFTER, PARAMETERIZED_TYPE };
 
 	//
 	// Public methods

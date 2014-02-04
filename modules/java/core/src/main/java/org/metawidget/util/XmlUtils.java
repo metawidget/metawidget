@@ -607,7 +607,7 @@ public final class XmlUtils {
 	 * Reserved JSON Schema attributes that are known to be non-strings (e.g. numbers or booleans).
 	 */
 
-	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength" };
+	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength", "propertyOrder" };
 
 	private static String elementToJsonSchema( Element element, boolean excludeName ) {
 

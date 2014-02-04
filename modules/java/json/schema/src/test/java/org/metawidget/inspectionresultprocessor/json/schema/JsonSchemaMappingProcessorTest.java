@@ -40,19 +40,19 @@ public class JsonSchemaMappingProcessorTest
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" minimum-value=\"0\" maximum-value=\"1\" minimum-length=\"2\" maximum-length=\"3\" label=\"Foo\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>().processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"foo\":{\"maxLength\":3,\"maximum\":1,\"minLength\":2,\"minimum\":0,\"title\":\"Foo\"}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"foo\":{\"maxLength\":3,\"maximum\":1,\"minLength\":2,\"minimum\":0,\"propertyOrder\":0,\"title\":\"Foo\"}}}", XmlUtils.elementToJsonSchema( element ) );
 
 		// Test nested child mappings
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" minimum-value=\"0\" label=\"Foo\"><property name=\"bar\" maximum-value=\"1\" minimum-length=\"2\" maximum-length=\"3\"/></property></entity></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>().processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"foo\":{\"minimum\":0,\"title\":\"Foo\",\"properties\":{\"bar\":{\"maxLength\":3,\"maximum\":1,\"minLength\":2}}}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"foo\":{\"minimum\":0,\"propertyOrder\":0,\"title\":\"Foo\",\"properties\":{\"bar\":{\"maxLength\":3,\"maximum\":1,\"minLength\":2,\"propertyOrder\":0}}}}}", XmlUtils.elementToJsonSchema( element ) );
 
 		// Test removing hidden
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" minimum-value=\"0\" hidden=\"false\" comes-after=\"ignore\" parameterized-type=\"ignore\"/><property name=\"bar\" hidden=\"true\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>().processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"foo\":{\"minimum\":0}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"foo\":{\"hidden\":false,\"minimum\":0,\"propertyOrder\":0}}}", XmlUtils.elementToJsonSchema( element ) );
 	}
 
 	public void testConfiguredProcessor() {
@@ -67,7 +67,7 @@ public class JsonSchemaMappingProcessorTest
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"name\" foo=\"Foo\" bar=\"Bar\" baz=\"Baz\" abc=\"Abc\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>( new JsonSchemaMappingProcessorConfig().setRemoveAttributes( "bar", "baz" ) ).processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"name\":{\"abc\":\"Abc\",\"foo\":\"Foo\"}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"name\":{\"abc\":\"Abc\",\"foo\":\"Foo\",\"propertyOrder\":0}}}", XmlUtils.elementToJsonSchema( element ) );
 	}
 
 	public void testConfig() {

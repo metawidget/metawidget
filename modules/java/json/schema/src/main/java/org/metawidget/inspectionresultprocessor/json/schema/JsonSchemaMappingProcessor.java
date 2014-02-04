@@ -65,6 +65,7 @@ public class JsonSchemaMappingProcessor<M>
 
 		// For each trait...
 
+		int propertyOrder = 0;
 		Element trait = XmlUtils.getFirstChildElement( entity );
 
 		while ( trait != null ) {
@@ -87,6 +88,11 @@ public class JsonSchemaMappingProcessor<M>
 			if ( trait.getChildNodes().getLength() > 0 && attributes.containsKey( NAME ) ) {
 				processTraits( trait, metawidget, toInspect, type, ArrayUtils.add( names, attributes.get( NAME ) ) );
 			}
+
+			// ...impose an ordering (JSON Schema is not ordered)...
+
+			trait.setAttribute( "propertyOrder", String.valueOf( propertyOrder ) );
+			propertyOrder++;
 
 			// ...and map the rest
 
