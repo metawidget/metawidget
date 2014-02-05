@@ -58,8 +58,9 @@ var metawidget = metawidget || {};
 			transclude: true,
 
 			/**
-			 * Angular compile function. Configures an Angular-specific
-			 * Metawidget and invokes buildWidgets on it.
+			 * Angular compile function. Captures transcluded widgets, then
+			 * returns a <tt>postLink</tt> function that configures an
+			 * Angular-specific Metawidget and invokes buildWidgets on it.
 			 */
 
 			compile: function( element, attrs, transclude ) {

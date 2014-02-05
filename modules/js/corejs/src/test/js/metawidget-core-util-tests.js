@@ -19,62 +19,6 @@
 
 	describe( "The getLabelString function", function() {
 
-		it( "uncamel cases strings", function() {
-
-			expect( metawidget.util.getLabelString( {
-				name: 'foo'
-			}, {} ) ).toBe( 'Foo' );
-			expect( metawidget.util.getLabelString( {
-				name: 'fooBar'
-			}, {} ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.getLabelString( {
-				name: 'FooBar'
-			}, {} ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.getLabelString( {
-				name: 'FooBar1'
-			}, {} ) ).toBe( 'Foo Bar 1' );
-		} );
-
-		it( "doesn't mangle strings that are already uncamel-cased", function() {
-
-			expect( metawidget.util.getLabelString( {
-				name: 'Foo Bar'
-			}, {} ) ).toBe( 'Foo Bar' );
-			expect( metawidget.util.getLabelString( {
-				name: 'Foo barBaz Abc'
-			}, {} ) ).toBe( 'Foo bar Baz Abc' );
-			expect( metawidget.util.getLabelString( {
-				name: 'ID'
-			}, {} ) ).toBe( 'ID' );
-			expect( metawidget.util.getLabelString( {
-				name: 'DOB'
-			}, {} ) ).toBe( 'DOB' );
-			expect( metawidget.util.getLabelString( {
-				name: 'DOBirth'
-			}, {} ) ).toBe( 'DO Birth' );
-			expect( metawidget.util.getLabelString( {
-				name: 'fooDOBirthBar'
-			}, {} ) ).toBe( 'Foo DO Birth Bar' );
-			expect( metawidget.util.getLabelString( {
-				name: '123'
-			}, {} ) ).toBe( '123' );
-			expect( metawidget.util.getLabelString( {
-				name: 'foo1'
-			}, {} ) ).toBe( 'Foo 1' );
-			expect( metawidget.util.getLabelString( {
-				name: 'foo12'
-			}, {} ) ).toBe( 'Foo 12' );
-			expect( metawidget.util.getLabelString( {
-				name: 'foo123'
-			}, {} ) ).toBe( 'Foo 123' );
-			expect( metawidget.util.getLabelString( {
-				name: '123foo'
-			}, {} ) ).toBe( '123foo' );
-			expect( metawidget.util.getLabelString( {
-				name: '123Foo'
-			}, {} ) ).toBe( '123 Foo' );
-		} );
-
 		it( "supports localization", function() {
 
 			expect( metawidget.util.getLabelString( {
@@ -105,6 +49,33 @@
 					fooBaz: 'Foo Baz (i10n)'
 				}
 			} ) ).toBe( 'Foo Bar' );
+		} );
+	} );
+
+	describe( "The uncamelCase function", function() {
+
+		it( "uncamel cases strings", function() {
+
+			expect( metawidget.util.uncamelCase( 'foo' )).toBe( 'Foo' );
+			expect( metawidget.util.uncamelCase( 'fooBar' )).toBe( 'Foo Bar' );
+			expect( metawidget.util.uncamelCase( 'FooBar' )).toBe( 'Foo Bar' );
+			expect( metawidget.util.uncamelCase( 'FooBar1' )).toBe( 'Foo Bar 1' );
+		} );
+
+		it( "doesn't mangle strings that are already uncamel-cased", function() {
+
+			expect( metawidget.util.uncamelCase( 'Foo Bar' )).toBe( 'Foo Bar' );
+			expect( metawidget.util.uncamelCase( 'Foo barBaz Abc' )).toBe( 'Foo bar Baz Abc' );
+			expect( metawidget.util.uncamelCase( 'ID' )).toBe( 'ID' );
+			expect( metawidget.util.uncamelCase( 'DOB' )).toBe( 'DOB' );
+			expect( metawidget.util.uncamelCase( 'DOBirth' )).toBe( 'DO Birth' );
+			expect( metawidget.util.uncamelCase( 'fooDOBirthBar' )).toBe( 'Foo DO Birth Bar' );
+			expect( metawidget.util.uncamelCase( '123' )).toBe( '123' );
+			expect( metawidget.util.uncamelCase( 'foo1' )).toBe( 'Foo 1' );
+			expect( metawidget.util.uncamelCase( 'foo12' )).toBe( 'Foo 12' );
+			expect( metawidget.util.uncamelCase( 'foo123' )).toBe( 'Foo 123' );
+			expect( metawidget.util.uncamelCase( '123foo' )).toBe( '123foo' );
+			expect( metawidget.util.uncamelCase( '123Foo' )).toBe( '123 Foo' );
 		} );
 	} );
 

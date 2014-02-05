@@ -56,6 +56,32 @@ var metawidget = metawidget || {};
 
 	metawidget.util.getLabelString = function( attributes, mw ) {
 
+		// Explicit title
+
+		if ( attributes.title !== undefined ) {
+			return metawidget.util.getLocalizedString( attributes.title, mw );
+		}
+
+		// Localize if possible
+
+		var name = attributes.name;
+
+		if ( mw.l10n !== undefined && mw.l10n[name] !== undefined ) {
+			return mw.l10n[name];
+		}
+
+		// Default name, uncamel case
+
+		return metawidget.util.uncamelCase( name );
+	};
+
+	/**
+	 * Uncamel case the given name (e.g. from 'fooBarBaz1' to 'Foo Bar Baz 1').
+	 * Ported from StringUtils.uncamelCase.
+	 */
+
+	metawidget.util.uncamelCase = function( name ) {
+
 		/**
 		 * @returns true if the character is a digit.
 		 */
@@ -75,23 +101,6 @@ var metawidget = metawidget || {};
 			var charCode = c.charCodeAt( 0 );
 			return ( charCode >= 65 && charCode <= 90 ) || ( charCode >= 97 && charCode <= 122 );
 		}
-
-		// Explicit title
-
-		if ( attributes.title !== undefined ) {
-			return metawidget.util.getLocalizedString( attributes.title, mw );
-		}
-
-		// Localize if possible
-
-		var name = attributes.name;
-
-		if ( mw.l10n !== undefined && mw.l10n[name] !== undefined ) {
-			return mw.l10n[name];
-		}
-
-		// Default name, uncamel case (e.g. from 'fooBarBaz1' to 'Foo Bar Baz
-		// 1'). Ported from StringUtils.uncamelCase
 
 		var uncamelCasedName = '';
 		var first = true;
