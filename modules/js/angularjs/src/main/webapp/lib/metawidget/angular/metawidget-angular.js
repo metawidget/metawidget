@@ -548,7 +548,7 @@ var metawidget = metawidget || {};
 					
 					// Special support for date formatting
 					
-					widget.setAttribute( 'ng-bind', binding + "|date:'shortDate'");	
+					widget.setAttribute( 'ng-bind', binding + "|date");	
 					
 				} else {
 					widget.setAttribute( 'ng-bind', binding );

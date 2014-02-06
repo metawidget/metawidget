@@ -1475,7 +1475,7 @@
 				};
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', attributes, mw );
-				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar|date:'shortDate'" );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar|date" );
 
 				// Masked
 
