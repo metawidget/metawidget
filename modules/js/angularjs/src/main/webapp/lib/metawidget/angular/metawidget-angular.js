@@ -544,6 +544,12 @@ var metawidget = metawidget || {};
 					};
 					widget.setAttribute( 'ng-bind', 'mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
 
+				} else if ( attributes.type === 'date' ) {
+					
+					// Special support for date formatting
+					
+					widget.setAttribute( 'ng-bind', binding + "|date:'shortDate'");	
+					
 				} else {
 					widget.setAttribute( 'ng-bind', binding );
 				}

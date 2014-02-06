@@ -1243,7 +1243,7 @@
 						expect( mw.innerHTML ).toContain( '<option value="null">Null</option><option value="2">Two</option>' );
 					} );
 				} );
-				
+
 				it(
 						"supports namespaces (for IE8)",
 						function() {
@@ -1311,7 +1311,7 @@
 
 							var inspectionCount = 0;
 							var buildingCount = 0;
-							
+
 							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 							var controller = myApp.controller( 'TestController', function( $scope ) {
 
@@ -1330,7 +1330,7 @@
 									inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
 										inspectionCount++;
-										
+
 										return {
 											properties: {
 												edit: {
@@ -1346,7 +1346,7 @@
 
 										buildingCount++;
 										return widget;
-									} ]									
+									} ]
 								};
 							} );
 
@@ -1370,7 +1370,7 @@
 										expect( mw.innerHTML ).toContain( '<input type="button" value="Edit" id="fooEdit" ng-click="foo.edit()" class="ng-scope"/>' );
 										expect( inspectionCount ).toBe( 1 );
 										expect( buildingCount ).toBe( 2 );
-										
+
 										var scope = angular.element( body ).scope();
 										scope.readOnlyz = false;
 										scope.$digest();
@@ -1466,6 +1466,16 @@
 				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar.join(', ')" );
+
+				// Date outputs
+				
+				attributes = {
+					name: "bar",
+					type: "date"
+				};
+				widget = document.createElement( 'output' );
+				processor.processWidget( widget, 'property', attributes, mw );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar|date:'shortDate'" );
 
 				// Masked
 
