@@ -8,13 +8,13 @@
 // are met:
 //
 // * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
+// this list of conditions and the following disclaimer.
 // * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
+// this list of conditions and the following disclaimer in the documentation
+// and/or other materials provided with the distribution.
 // * Neither the name of Richard Kennard nor the names of its contributors may
-//   be used to endorse or promote products derived from this software without
-//   specific prior written permission.
+// be used to endorse or promote products derived from this software without
+// specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -29,55 +29,68 @@
 
 package org.metawidget.example.spring.addressbook.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.spring.addressbook.editor.EnumEditor;
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-public class ContactSearchController
-	extends SimpleFormController {
+@Controller
+@RequestMapping( value = "/index.html" )
+public class ContactSearchController {
+
+	//
+	// Private members
+	//
+
+	@Autowired
+	private ContactsController	mContactsController;
 
 	//
 	// Protected methods
 	//
 
-	@Override
-	protected void initBinder( HttpServletRequest request, ServletRequestDataBinder binder )
-		throws Exception {
-
-		super.initBinder( request, binder );
+	@InitBinder
+	protected void initBinder( WebDataBinder binder ) {
 
 		binder.registerCustomEditor( ContactType.class, new EnumEditor<ContactType>( ContactType.class ) );
 	}
 
-	@Override
-	protected ModelAndView onSubmit( HttpServletRequest request, HttpServletResponse response, Object command, BindException errors )
-		throws Exception {
+	@RequestMapping( method = RequestMethod.GET )
+	public String initForm( @ModelAttribute( "contactSearch" ) ContactSearch contactSearch, ModelMap model ) {
 
-		// Add Personal
+		model.put( "contactResults", mContactsController.getAllByExample( contactSearch ) );
+		return "index";
+	}
 
-		if ( request.getParameter( "addPersonal" ) != null ) {
-			return new ModelAndView( new RedirectView( "contact.html" ) );
-		}
+	@RequestMapping( method = RequestMethod.POST, params={"addPersonal"} )
+	public String addPersonal() {
 
-		// Add Business
+		return "redirect:contact.html";
+	}
 
-		if ( request.getParameter( "addBusiness" ) != null ) {
-			return new ModelAndView( new RedirectView( "contact.html?business" ) );
-		}
+	@RequestMapping( method = RequestMethod.POST, params={"addBusiness"} )
+	public String addBusiness() {
 
-		// Search
+		return "redirect:contact.html?business";
+	}
 
-		return showForm( request, response, errors );
+	@RequestMapping( method = RequestMethod.POST )
+	public String search( @ModelAttribute( "contactSearch" ) ContactSearch contactSearch, ModelMap model ) {
+
+		model.put( "contactSearch", contactSearch );
+		model.put( "contactResults", mContactsController.getAllByExample( contactSearch ) );
+		return "index";
 	}
 }

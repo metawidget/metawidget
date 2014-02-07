@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
 
 	<display-name>
 		Address Book (Metawidget Spring Web MVC Example)
 	</display-name>
 
-	<!-- Spring -->
+	<!-- Needed for SPRING_LOOKUP expressions -->
+	
+	<context-param>
+		<param-name>springJspExpressionSupport</param-name>
+		<param-value>true</param-value>
+	</context-param>
 
-	<servlet>
-		<servlet-name>context</servlet-name>
-		<servlet-class>org.springframework.web.context.ContextLoaderServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+	<!-- Spring -->
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 
 	<servlet>
 		<servlet-name>addressbook</servlet-name>
@@ -25,6 +28,6 @@
 		<servlet-name>addressbook</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
-	
+
 </web-app>
 

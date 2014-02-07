@@ -12,7 +12,7 @@
 <tags:page>
 
 	<c:choose>
-		<c:when test="${contactCommand['class'].simpleName == 'PersonalContact'}">
+		<c:when test="${contact['class'].simpleName == 'PersonalContact'}">
 			<div id="page-image">
 				<img src="media/personal.gif">
 			</div>
@@ -28,11 +28,13 @@
 		</c:otherwise>
 	</c:choose>
 
-		<form:form commandName="contactCommand">
+		<form:form method="post" action="contact.html" modelAttribute="contact">
 
 			<form:errors cssClass="errors"/>
+			
+			<form:errors path="firstname"/>
 		
-			<m:metawidget path="contactCommand" readOnly="${readOnly}">
+			<m:metawidget path="contact" readOnly="${readOnly}">
 
 				<m:stub path="communications">
 					<input type="hidden" name="deleteCommunicationId" id="deleteCommunicationId"/>
@@ -45,7 +47,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${a:sortSet(contactCommand.communications)}" var="_communication">
+							<c:forEach items="${a:sortSet(contact.communications)}" var="_communication">
 								<tr>
 									<td class="column-half">${_communication.type}</td>
 									<td class="column-half">${_communication.value}</td>

@@ -8,13 +8,13 @@
 // are met:
 //
 // * Redistributions of source code must retain the above copyright notice,
-//   this list of conditions and the following disclaimer.
+// this list of conditions and the following disclaimer.
 // * Redistributions in binary form must reproduce the above copyright notice,
-//   this list of conditions and the following disclaimer in the documentation
-//   and/or other materials provided with the distribution.
+// this list of conditions and the following disclaimer in the documentation
+// and/or other materials provided with the distribution.
 // * Neither the name of Richard Kennard nor the names of its contributors may
-//   be used to endorse or promote products derived from this software without
-//   specific prior written permission.
+// be used to endorse or promote products derived from this software without
+// specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -32,7 +32,6 @@ package org.metawidget.example.spring.addressbook.controller;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
@@ -43,36 +42,49 @@ import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.spring.addressbook.editor.DateEditor;
 import org.metawidget.example.spring.addressbook.editor.EnumEditor;
 import org.metawidget.util.simple.StringUtils;
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-public class ContactController
-	extends SimpleFormController {
+@Controller
+@SessionAttributes( "contact" )
+@RequestMapping( "/contact.html" )
+public class ContactController {
+
+	//
+	// Private members
+	//
+
+	@Autowired
+	private ContactsController	mContactsController;
 
 	//
 	// Protected methods
 	//
 
-	@Override
-	protected void initBinder( HttpServletRequest request, ServletRequestDataBinder binder )
-		throws Exception {
-
-		super.initBinder( request, binder );
+	@InitBinder
+	protected void initBinder( WebDataBinder binder ) {
 
 		binder.registerCustomEditor( Gender.class, new EnumEditor<Gender>( Gender.class ) );
 		binder.registerCustomEditor( Date.class, new DateEditor() );
 	}
 
-	@Override
-	protected Object formBackingObject( HttpServletRequest request )
-		throws Exception {
+	@RequestMapping( method = RequestMethod.GET )
+	public String initForm( ModelMap model, HttpServletRequest request ) {
 
 		String id = request.getParameter( "id" );
 
@@ -81,11 +93,13 @@ public class ContactController
 
 			// Look up the ContactsController...
 
-			ContactsController controller = (ContactsController) getWebApplicationContext().getBean( "contacts" );
+			WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext( request.getSession().getServletContext() );
+			ContactsController controller = (ContactsController) webApplicationContext.getBean( "contacts" );
 
 			// ...and use it to load the Contact...
 
-			return controller.load( Long.parseLong( id ) );
+			model.put( "contact", controller.load( Long.parseLong( id ) ) );
+			return "contact";
 		}
 
 		request.getSession().setAttribute( "readOnly", Boolean.FALSE );
@@ -93,96 +107,84 @@ public class ContactController
 		// Create business
 
 		if ( request.getParameter( "business" ) != null ) {
-			return new BusinessContact();
+			model.put( "contact", new BusinessContact() );
+			return "contact";
 		}
 
 		// Default to personal
 
-		return new PersonalContact();
+		model.put( "contact", new PersonalContact() );
+		return "contact";
 	}
 
-	@Override
-	protected void onBindAndValidate( HttpServletRequest request, Object command, BindException errors )
-		throws Exception {
+	@RequestMapping( method = RequestMethod.POST, params = { "edit" } )
+	public String edit( HttpServletRequest request ) {
 
-		// Edit
+		request.getSession().setAttribute( "readOnly", Boolean.FALSE );
+		return "contact";
+	}
 
-		if ( request.getParameter( "edit" ) != null ) {
-			request.getSession().setAttribute( "readOnly", Boolean.FALSE );
-			return;
+	@RequestMapping( method = RequestMethod.POST, params = { "addCommunication=Add" } )
+	public String addCommunication( @ModelAttribute( "contact" ) Contact contact, Errors errors, @RequestParam( "communication.type" ) String type, @RequestParam( "communication.value" ) String value ) {
+
+		try {
+			contact.addCommunication( new Communication( type, value ) );
+			save( contact, errors );
+		} catch ( Exception e ) {
+			errors.reject( null, e.getMessage() );
 		}
 
-		Contact contact = (Contact) command;
+		return "contact";
+	}
 
-		// Add Communication (if any)
+	@RequestMapping( method = RequestMethod.POST, params = { "deleteCommunication=Delete" } )
+	public String deleteCommunication( @ModelAttribute( "contact" ) Contact contact, Errors errors, @RequestParam( "deleteCommunicationId" ) String id ) {
 
-		if ( request.getParameter( "addCommunication" ) != null ) {
-			String type = request.getParameter( "communication.type" );
-			String value = request.getParameter( "communication.value" );
-
-			try {
-				contact.addCommunication( new Communication( type, value ) );
-			} catch ( Exception e ) {
-				errors.reject( null, e.getMessage() );
-				return;
-			}
-		} else if ( request.getParameter( "deleteCommunication" ) != null ) {
-			
-			// Delete Communication (if any)
-
-			String id = request.getParameter( "deleteCommunicationId" );
-
-			try {
-				contact.removeCommunication( Long.parseLong( id ) );
-			} catch ( Exception e ) {
-				errors.reject( null, e.getMessage() );
-				return;
-			}
+		try {
+			contact.removeCommunication( Long.parseLong( id ) );
+			save( contact, errors );
+		} catch ( Exception e ) {
+			errors.reject( null, e.getMessage() );
 		}
+
+		return "contact";
+	}
+
+	@RequestMapping( method = RequestMethod.POST, params = { "save" } )
+	public String save( @ModelAttribute( "contact" ) Contact contact, Errors errors ) {
 
 		// Save
 
-		if ( request.getParameter( "save" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null ) {
-			ContactsController controller = (ContactsController) getWebApplicationContext().getBean( "contacts" );
+		try {
+			mContactsController.save( contact );
+		} catch ( Exception e ) {
+			String message = e.getMessage();
 
-			try {
-				controller.save( contact );
-			} catch ( Exception e ) {
-				String message = e.getMessage();
-				
-				// Example of inline validation
-				
-				if ( message.endsWith( " is required" )) {
-					String field = StringUtils.substringBefore( message, " is required" );				
-					errors.rejectValue( field.toLowerCase(), null, message );
-				} else {
-					errors.reject( null, message );
-				}
+			// Example of inline validation
+
+			if ( message.endsWith( " is required" ) ) {
+				String field = StringUtils.substringBefore( message, " is required" );
+				errors.rejectValue( field.toLowerCase(), "required", message );
+			} else {
+				errors.reject( "other", message );
 			}
 
-			return;
+			return "contact";
 		}
 
-		// Delete
-
-		if ( request.getParameter( "delete" ) != null ) {
-			ContactsController controller = (ContactsController) getWebApplicationContext().getBean( "contacts" );
-			controller.delete( contact );
-		}
+		return "redirect:index.html";
 	}
 
-	@Override
-	protected ModelAndView onSubmit( HttpServletRequest request, HttpServletResponse response, Object command, BindException errors )
-		throws Exception {
+	@RequestMapping( method = RequestMethod.POST, params = { "delete" } )
+	public String delete( @ModelAttribute( "contact" ) Contact contact ) {
 
-		// Edit/Add Communication/Delete Communication (stay on same page)
+		mContactsController.delete( contact );
+		return "redirect:index.html";
+	}
 
-		if ( request.getParameter( "edit" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null ) {
-			return showForm( request, response, errors );
-		}
+	@RequestMapping( method = RequestMethod.POST )
+	public String cancel() {
 
-		// Save/Cancel/Delete
-
-		return new ModelAndView( new RedirectView( "index.html" ) );
+		return "redirect:index.html";
 	}
 }

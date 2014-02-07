@@ -9,13 +9,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://metawidget.org/example/spring/addressbook" prefix="a" %>
 
-<%
-	ContactSearch contactSearch = (ContactSearch) pageContext.findAttribute( "contactSearchCommand" );	
-	ContactsController controller = (ContactsController) pageContext.findAttribute( "contacts" );
-		
-	pageContext.setAttribute( "contactResults", controller.getAllByExample( contactSearch ));
-%>
-
 <tags:page>
 	
 	<div id="page-image">
@@ -24,9 +17,9 @@
 
 	<div id="content">
 
-		<form:form commandName="contactSearchCommand">
+		<form:form method="post" action="index.html" modelAttribute="contactSearch">
 		
-			<m:metawidget path="contactSearchCommand">
+			<m:metawidget path="contactSearch">
 				<m:facet name="footer">
 					<input type="submit" name="search" value="<spring:message code="search"/>"/>
 					<input type="submit" name="addPersonal" value="<spring:message code="addPersonal"/>"/>

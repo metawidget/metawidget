@@ -23,8 +23,9 @@ import java.lang.annotation.Target;
  * Because Spring's <code>s:options</code> tag takes a JSP EL expression, not a 'Spring beans aware'
  * expression, this annotation is best used in conjunction with
  * <code>InternalResourceViewResolver.setExposeContextBeansAsAttributes</code> (available in Spring
- * 2.5+).
- *
+ * 2.5+). You may also need to set <code>springJspExpressionSupport</code> to <code>true</code> in
+ * your web.xml.
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
