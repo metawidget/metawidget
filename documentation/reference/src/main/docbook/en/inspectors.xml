@@ -516,12 +516,12 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 					to do much. However it adds support for JSON schemas that contain nested schemas. For example:
 				</para>
 				
-				<programlisting language="xml"><html>
-	<head>
-		<script src="angular.min.js"></script>
-		<script src="metawidget-core.min.js"></script>
-		<script src="metawidget-angular.min.js"></script>
-		<script>
+				<programlisting language="xml">&lt;html&gt;
+	&lt;head&gt;
+		&lt;script src="angular.min.js"&gt;&lt;/script&gt;
+		&lt;script src="metawidget-core.min.js"&gt;&lt;/script&gt;
+		&lt;script src="metawidget-angular.min.js"&gt;&lt;/script&gt;
+		&lt;script&gt;
 			angular.module( 'myApp', [ 'metawidget' ] );
 
 			function UserController( $scope ) {
@@ -548,28 +548,23 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				} )
 			}
 		}
-		</script>
+		&lt;/script&gt;
 		
-	</head>
-	<body ng-app="myApp" ng-controller="UserController">
-		<metawidget ng-model="user" config="config"/>
-	</body>
-</html></programlisting>
+	&lt;/head&gt;
+	&lt;body ng-app="myApp" ng-controller="UserController"&gt;
+		&lt;metawidget ng-model="user" config="config"/&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</programlisting>
 
 				<para>
-					Furthermore, if the schema has a <parameter>type</parameter> property, <classname>JsonSchemaInspector</classname>
-					validates it matches the type being inspected.
-				</para>
-
-				<para>
-					Finally, <classname>JsonSchemaInspector</classname> adds support for JSON Schemas that
-					describe array items, through the <parameter>items</parameter> property. For example:
+					Furthermore, <classname>JsonSchemaInspector</classname> adds support for JSON Schemas that
+					describe array items, through the standard <parameter>items</parameter> property. For example:
 				</para>
 				
-				<programlisting language="xml"><html>
-	<head>
-		<script src="metawidget-core.min.js"></script>
-		<style>
+				<programlisting language="xml">&lt;html&gt;
+	&lt;head&gt;
+		&lt;script src="metawidget-core.min.js"&gt;&lt;/script&gt;
+		&lt;style&gt;
 			#metawidget {
 				border: 1px solid #cccccc;
 				width: 250px;
@@ -577,11 +572,11 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				padding: 10px;
 				margin: 50px auto;
 			}
-		</style>
-	</head>
-	<body>
-		<div id="metawidget"/>
-		<script type="text/javascript">
+		&lt;/style&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;div id="metawidget"/&gt;
+		&lt;script type="text/javascript"&gt;
 			var mw = new metawidget.Metawidget( document.getElementById( 'metawidget' ), {
 				inspector: new metawidget.inspector.CompositeInspector( [
 					new metawidget.inspector.PropertyTypeInspector(),
@@ -619,9 +614,9 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				} ]
 			};
 			mw.buildWidgets();
-		</script>
-	</body>
-</html></programlisting>
+		&lt;/script&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</programlisting>
 
 			</section>
 
