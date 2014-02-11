@@ -43,6 +43,7 @@ var metawidget = metawidget || {};
 				ngModel: '=',
 				readOnly: '=',
 				config: '=',
+				ngShow: '=',
 
 				// Configs cannot be 2-way ('=') because cannot 'watch' arrays
 
@@ -135,6 +136,12 @@ var metawidget = metawidget || {};
 
 					function _buildWidgets() {
 
+						// TODO: watch ngShow, support ngHide
+						
+						if ( scope.$eval( 'ngShow' ) === false ) {
+							return;
+						}
+						
 						_oldToInspect = scope.$eval( 'ngModel' );
 
 						mw.path = attrs.ngModel;
@@ -386,6 +393,8 @@ var metawidget = metawidget || {};
 			// because scope.$parent is a very broad scope - it's hard to
 			// know what might be in it
 
+			// TODO: what if we don't do $parent?
+			
 			var configId = '_metawidgetConfig' + _nestedMetawidgetConfigId++;
 			scope.$parent[configId] = _pipeline;
 
@@ -522,36 +531,41 @@ var metawidget = metawidget || {};
 			}
 
 			if ( widget.tagName === 'OUTPUT' ) {
-				if ( attributes.masked === true ) {
-
-					// Special support for masked output
-
-					scope.$parent.mwMaskedOutput = _maskedOutput;
-					widget.setAttribute( 'ng-bind', 'mwMaskedOutput(' + binding + ')' );
-				} else if ( attributes.type === 'array' ) {
-
-					// Special support for outputting arrays
-
-					widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
-				} else if ( attributes.enumTitles !== undefined ) {
-
-					// Special support for enumTitles
-
-					scope.$parent.mwLookupEnumTitle = scope.$parent.mwLookupEnumTitle || {};
-					scope.$parent.mwLookupEnumTitle[binding] = function( value ) {
-
-						return metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
-					};
-					widget.setAttribute( 'ng-bind', 'mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
-
-				} else if ( attributes.type === 'date' ) {
-					
-					// Special support for date formatting
-					
-					widget.setAttribute( 'ng-bind', binding + "|date");	
-					
-				} else {
-					widget.setAttribute( 'ng-bind', binding );
+				
+				// Don't overwrite existing binding (if set by the WidgetBuilder)
+				
+				if ( !widget.hasAttribute( 'ng-bind' )) {				
+					if ( attributes.masked === true ) {
+	
+						// Special support for masked output
+	
+						scope.$parent.mwMaskedOutput = _maskedOutput;
+						widget.setAttribute( 'ng-bind', 'mwMaskedOutput(' + binding + ')' );
+					} else if ( attributes.type === 'array' ) {
+	
+						// Special support for outputting arrays
+	
+						widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
+					} else if ( attributes.enumTitles !== undefined ) {
+	
+						// Special support for enumTitles
+	
+						scope.$parent.mwLookupEnumTitle = scope.$parent.mwLookupEnumTitle || {};
+						scope.$parent.mwLookupEnumTitle[binding] = function( value ) {
+	
+							return metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
+						};
+						widget.setAttribute( 'ng-bind', 'mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
+	
+					} else if ( attributes.type === 'date' ) {
+						
+						// Special support for date formatting
+						
+						widget.setAttribute( 'ng-bind', binding + "|date");	
+						
+					} else {
+						widget.setAttribute( 'ng-bind', binding );
+					}
 				}
 
 			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'submit' ) {

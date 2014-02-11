@@ -135,6 +135,10 @@
 					<a href="http://jboss.org" target="_blank" style="top: 120px; left: 60px">
 						<img src="/media/logos/jbosscommunity-friend_badge-82x.png" alt="Friend of the JBoss Community" style="border: 0px"/>
 					</a>					
+
+					<a href="http://www.openinventionnetwork.com" target="_blank" style="top: 210px; left: 34px">
+						<img src="/media/logos/oin.png" alt="Open Invention Network" style="border: 0px"/>
+					</a>					
 				</div>
 			</td>
 			<td id="content-text">

@@ -1467,6 +1467,13 @@
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar.join(', ')" );
 
+				// Manually override
+				
+				widget = document.createElement( 'output' );
+				widget.setAttribute( 'ng-bind', 'foo' );
+				processor.processWidget( widget, 'property', attributes, mw );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "foo" );
+
 				// Date outputs
 				
 				attributes = {
