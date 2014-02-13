@@ -429,6 +429,11 @@ public class SwingWidgetBuilder
 				}
 
 				Map<String, String> columnAttributes = XmlUtils.getAttributesAsMap( element );
+
+				if ( TRUE.equals( columnAttributes.get( HIDDEN ))) {
+					continue;
+				}
+
 				columns.add( columnAttributes.get( NAME ) );
 				columnNames.add( metawidget.getLabelString( columnAttributes ) );
 			}

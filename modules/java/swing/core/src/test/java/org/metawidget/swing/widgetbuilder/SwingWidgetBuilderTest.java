@@ -34,6 +34,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
@@ -416,6 +417,12 @@ public class SwingWidgetBuilderTest
 		public void doAction() {
 
 			// Do nothing
+		}
+
+		@UiHidden
+		public String getHidden() {
+
+			return null;
 		}
 	}
 }
