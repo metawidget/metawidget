@@ -107,6 +107,14 @@ class CollectionTableModel<T>
 			return null;
 		}
 
-		return ClassUtils.getProperty( t, mColumns.get( columnIndex ) );
+		String column = mColumns.get( columnIndex );
+
+		// Special support for toString
+
+		if ( "toString".equals( column )) {
+			return t.toString();
+		}
+
+		return ClassUtils.getProperty( t, column );
 	}
 }

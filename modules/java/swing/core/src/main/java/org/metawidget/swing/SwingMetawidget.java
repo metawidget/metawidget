@@ -313,6 +313,9 @@ public class SwingMetawidget
 	 * </ul>
 	 * </li>
 	 * </ul>
+	 *
+	 * @return the label string. Empty if no such name. Null if name has been forced to blank (i.e.
+	 *         should be hidden)
 	 */
 
 	public String getLabelString( Map<String, String> attributes ) {

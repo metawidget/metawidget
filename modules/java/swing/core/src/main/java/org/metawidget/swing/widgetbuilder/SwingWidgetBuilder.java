@@ -342,7 +342,7 @@ public class SwingWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) ) {
-				return createTable( attributes, metawidget );
+				return createTable( elementName, attributes, metawidget );
 			}
 		}
 
@@ -361,42 +361,76 @@ public class SwingWidgetBuilder
 	// Protected methods
 	//
 
-	protected JComponent createTable( Map<String, String> attributes, SwingMetawidget metawidget ) {
+	protected JComponent createTable( String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+
+		// Fetch the data (if any)
+
+		Collection<?> collection = null;
+		Object toInspect = metawidget.getToInspect();
+
+		if ( toInspect != null ) {
+
+			if ( ENTITY.equals( elementName ) ) {
+				collection = (Collection<?>) toInspect;
+			} else if ( mPropertyStyle != null ) {
+				String type = toInspect.getClass().getName();
+				Map<String, Property> properties = mPropertyStyle.getProperties( type );
+
+				if ( properties != null ) {
+					Property property = properties.get( attributes.get( NAME ) );
+
+					if ( property != null ) {
+						collection = (Collection<?>) property.read( toInspect );
+					}
+				}
+			}
+		}
+
+		// If no componentType, best guess based on first item in collection
 
 		String componentType = attributes.get( PARAMETERIZED_TYPE );
-		String inspectedType = metawidget.inspect( null, componentType, (String[]) null );
 
-		// Determine columns
+		if ( componentType == null && collection != null && !collection.isEmpty() ) {
+
+			Object firstItem = collection.iterator().next();
+
+			if ( firstItem != null ) {
+				componentType = firstItem.getClass().getName();
+			}
+		}
+
+		// Inspect the componentType
+
+		String inspectedType = metawidget.inspect( null, componentType, (String[]) null );
 
 		List<String> columns = CollectionUtils.newArrayList();
 		List<String> columnNames = CollectionUtils.newArrayList();
 
-		if ( inspectedType != null ) {
+		if ( inspectedType == null ) {
+
+			// If still no inspected type, use 'toString' so that at least we show *something*
+
+			columns.add( "toString" );
+			columnNames.add( metawidget.getLabelString( attributes ) );
+
+		} else {
+
+			// Determine columns
+
 			Element root = XmlUtils.documentFromString( inspectedType ).getDocumentElement();
 			NodeList elements = root.getFirstChild().getChildNodes();
 
 			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ ) {
 
-				Map<String, String> columnAttributes = XmlUtils.getAttributesAsMap( elements.item( loop ) );
+				Element element = (Element) elements.item( loop );
+
+				if ( !PROPERTY.equals( element.getNodeName() ) ) {
+					continue;
+				}
+
+				Map<String, String> columnAttributes = XmlUtils.getAttributesAsMap( element );
 				columns.add( columnAttributes.get( NAME ) );
 				columnNames.add( metawidget.getLabelString( columnAttributes ) );
-			}
-		}
-
-		// Fetch the data (if any)
-
-		Collection<?> collection = null;
-
-		if ( metawidget.getToInspect() != null && mPropertyStyle != null ) {
-			String type = metawidget.getToInspect().getClass().getName();
-			Map<String, Property> properties = mPropertyStyle.getProperties( type );
-
-			if ( properties != null ) {
-				Property property = properties.get( attributes.get( NAME ) );
-
-				if ( property != null ) {
-					collection = (Collection<?>) property.read( metawidget.getToInspect() );
-				}
 			}
 		}
 

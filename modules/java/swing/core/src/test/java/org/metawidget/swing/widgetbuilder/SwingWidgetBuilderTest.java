@@ -11,21 +11,11 @@
 
 package org.metawidget.swing.widgetbuilder;
 
-import static org.metawidget.inspector.InspectionResultConstants.LARGE;
-import static org.metawidget.inspector.InspectionResultConstants.LOOKUP;
-import static org.metawidget.inspector.InspectionResultConstants.LOOKUP_LABELS;
-import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_FRACTIONAL_DIGITS;
-import static org.metawidget.inspector.InspectionResultConstants.MAXIMUM_VALUE;
-import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_FRACTIONAL_DIGITS;
-import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_INTEGER_DIGITS;
-import static org.metawidget.inspector.InspectionResultConstants.MINIMUM_VALUE;
-import static org.metawidget.inspector.InspectionResultConstants.NAME;
-import static org.metawidget.inspector.InspectionResultConstants.PARAMETERIZED_TYPE;
-import static org.metawidget.inspector.InspectionResultConstants.PROPERTY;
-import static org.metawidget.inspector.InspectionResultConstants.TRUE;
-import static org.metawidget.inspector.InspectionResultConstants.TYPE;
+import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
@@ -43,6 +33,7 @@ import javax.swing.plaf.basic.BasicComboPopup;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
@@ -300,26 +291,60 @@ public class SwingWidgetBuilderTest
 
 		// Collections
 
+		// ...of unknown type, null value
+
 		attributes.put( TYPE, Collection.class.getName() );
 
 		JTable table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getViewport().getView();
 		CollectionTableModel<?> model = (CollectionTableModel<?>) table.getModel();
-		assertEquals( 0, model.getColumnCount() );
+		assertEquals( "", model.getColumnName( 0 ) );
+		assertEquals( 1, model.getColumnCount() );
+
+		// ...of top-level unknown type, null value
+
+		table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( ENTITY, attributes, metawidget ) ).getViewport().getView();
+		model = (CollectionTableModel<?>) table.getModel();
+		assertEquals( "", model.getColumnName( 0 ) );
+		assertEquals( 1, model.getColumnCount() );
+
+		// ...of top-level unknown type, concrete value
+
+		List<Bar> list = new ArrayList<Bar>();
+		metawidget.setToInspect( list );
+		table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( ENTITY, attributes, metawidget ) ).getViewport().getView();
+		model = (CollectionTableModel<?>) table.getModel();
+		assertEquals( "", model.getColumnName( 0 ) );
+		assertEquals( 1, model.getColumnCount() );
+
+		// ...of top-level unknown type, concrete value with an entry
+
+		list.add( new Bar() );
+		table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( ENTITY, attributes, metawidget ) ).getViewport().getView();
+		model = (CollectionTableModel<?>) table.getModel();
+		assertEquals( "Firstname", model.getColumnName( 0 ) );
+		assertEquals( "Surname", model.getColumnName( 1 ) );
+		assertEquals( 2, model.getColumnCount() );
+
+		// Bar includes an action. This should be ignored
 
 		attributes.put( NAME, "bar" );
 		attributes.put( PARAMETERIZED_TYPE, Bar.class.getName() );
 
 		table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getViewport().getView();
 		model = (CollectionTableModel<?>) table.getModel();
+		assertEquals( "Firstname", model.getColumnName( 0 ) );
+		assertEquals( "Surname", model.getColumnName( 1 ) );
 		assertEquals( 2, model.getColumnCount() );
 		assertEquals( 0, model.getRowCount() );
-		
+
 		Foo foo = new Foo();
 		foo.addBar( new Bar() );
 		metawidget.setToInspect( foo );
 
 		table = (JTable) ( (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getViewport().getView();
 		model = (CollectionTableModel<?>) table.getModel();
+		assertEquals( "Firstname", model.getColumnName( 0 ) );
+		assertEquals( "Surname", model.getColumnName( 1 ) );
 		assertEquals( 2, model.getColumnCount() );
 		assertEquals( 1, model.getRowCount() );
 	}
@@ -359,18 +384,18 @@ public class SwingWidgetBuilderTest
 	public static class Foo {
 
 		private Collection<Bar> mCollection = CollectionUtils.newHashSet();
-		
+
 		//
 		// Public methods
 		//
-		
+
 		public Collection<Bar> getBar() {
 
 			return mCollection;
 		}
-		
+
 		public void addBar( Bar bar ) {
-			
+
 			mCollection.add( bar );
 		}
 	}
@@ -385,6 +410,12 @@ public class SwingWidgetBuilderTest
 		public String getSurname() {
 
 			return null;
+		}
+
+		@UiAction
+		public void doAction() {
+
+			// Do nothing
 		}
 	}
 }
