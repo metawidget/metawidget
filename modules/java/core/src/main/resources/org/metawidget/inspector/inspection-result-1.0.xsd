@@ -11,7 +11,7 @@
 	<xs:element name="inspection-result">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="entity" maxOccurs="1">
+				<xs:element name="entity" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:choice minOccurs="0" maxOccurs="unbounded">
 							<xs:element name="property">

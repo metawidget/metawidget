@@ -294,6 +294,7 @@ var metawidget = metawidget || {};
 
 			// Cleanup children using Angular, so that $destroy gets triggered
 			// TODO: unit test this is happening
+			// TODO: noSetter, actualClass appearing in JSON Schema?
 
 			element.children().remove();
 
