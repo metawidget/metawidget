@@ -1105,6 +1105,55 @@
 					} );
 				} );
 
+				it( "supports collections with alwaysUseNestedMetawidgetInTables", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: [ {
+								firstname: 'firstname1',
+								surname: 'surname1'
+							}, {
+								firstname: 'firstname2',
+								surname: 'surname2'
+							}, {
+								firstname: 'firstname3',
+								surname: 'surname3'
+							} ],
+						};
+						
+						$scope.metawidgetConfig = {
+							widgetBuilder: new metawidget.widgetbuilder.HtmlWidgetBuilder( {
+								alwaysUseNestedMetawidgetInTables: true
+							} )
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<label for="fooBar" id="table-fooBar-label">Bar:</label>' );
+						expect( mw.innerHTML ).toContain( '<table id="fooBar" class="ng-scope">' );
+						expect( mw.innerHTML ).toContain( '<thead><tr><th>Firstname</th><th>Surname</th></tr></thead>' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[0].firstname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[0].surname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[1].firstname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[1].surname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[2].firstname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[2].surname"' );
+					} );
+				} );				
+
 				it(
 						"supports nested Metawidgets",
 						function() {
@@ -1138,9 +1187,9 @@
 												.toContain(
 														'<table id="table-fooBarBaz"><tbody><tr id="table-fooBarBazFirstname-row"><th id="table-fooBarBazFirstname-label-cell"><label for="fooBarBazFirstname" id="table-fooBarBazFirstname-label">Firstname:</label></th><td id="table-fooBarBazFirstname-cell"><input type="text" id="fooBarBazFirstname" ng-model="foo.bar.baz.firstname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr><tr id="table-fooBarBazSurname-row"><th id="table-fooBarBazSurname-label-cell"><label for="fooBarBazSurname" id="table-fooBarBazSurname-label">Surname:</label></th><td id="table-fooBarBazSurname-cell"><input type="text" id="fooBarBazSurname" ng-model="foo.bar.baz.surname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 										expect( mw.innerHTML ).toContain(
-												'<metawidget ng-model="foo.bar" config="_metawidgetConfig10" id="fooBar" class="ng-isolate-scope ng-scope ng-pristine ng-valid">' );
+												'<metawidget ng-model="foo.bar"' );
 										expect( mw.innerHTML ).toContain(
-												'<metawidget ng-model="foo.bar.baz" config="_metawidgetConfig11" id="fooBarBaz" class="ng-isolate-scope ng-scope ng-pristine ng-valid">' );
+												'<metawidget ng-model="foo.bar.baz"' );
 										expect( mw.innerHTML ).toContain( '</metawidget>' );
 									} );
 						} );
@@ -1277,40 +1326,37 @@
 									} );
 						} );
 
-				it(
-						"escapes property names",
-						function() {
+				it( "escapes property names", function() {
 
-							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
-							var controller = myApp.controller( 'TestController', function( $scope ) {
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
 
-								$scope.foo = {
-									'with.dot': "With Dot",
-									"with'apostrophe": "With Apostrophe",
-									'with"quote': "With Quote"
-								};
-							} );
+						$scope.foo = {
+							'with.dot': "With Dot",
+							"with'apostrophe": "With Apostrophe",
+							'with"quote': "With Quote"
+						};
+					} );
 
-							var mw = document.createElement( 'mw:metawidget' );
-							mw.setAttribute( 'ng-model', 'foo' );
-							mw.setAttribute( 'read-only', 'readOnly' );
-							mw.setAttribute( 'config', 'metawidgetConfig' );
+					var mw = document.createElement( 'mw:metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'read-only', 'readOnly' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
 
-							var body = document.createElement( 'body' );
-							body.setAttribute( 'ng-controller', 'TestController' );
-							body.appendChild( mw );
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
 
-							var injector = angular.bootstrap( body, [ 'test-app' ] );
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
 
-							injector
-									.invoke( function() {
+					injector.invoke( function() {
 
-										expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with.dot&apos;]"' );
-										expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with\\&apos;apostrophe&apos;]"' );
-										expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with&quot;quote&apos;]"' );
-									} );
-						} );
-				
+						expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with.dot&apos;]"' );
+						expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with\\&apos;apostrophe&apos;]"' );
+						expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with&quot;quote&apos;]"' );
+					} );
+				} );
+
 			} );
 
 	describe(

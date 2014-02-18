@@ -56,26 +56,26 @@
 
 		it( "uncamel cases strings", function() {
 
-			expect( metawidget.util.uncamelCase( 'foo' )).toBe( 'Foo' );
-			expect( metawidget.util.uncamelCase( 'fooBar' )).toBe( 'Foo Bar' );
-			expect( metawidget.util.uncamelCase( 'FooBar' )).toBe( 'Foo Bar' );
-			expect( metawidget.util.uncamelCase( 'FooBar1' )).toBe( 'Foo Bar 1' );
+			expect( metawidget.util.uncamelCase( 'foo' ) ).toBe( 'Foo' );
+			expect( metawidget.util.uncamelCase( 'fooBar' ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.uncamelCase( 'FooBar' ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.uncamelCase( 'FooBar1' ) ).toBe( 'Foo Bar 1' );
 		} );
 
 		it( "doesn't mangle strings that are already uncamel-cased", function() {
 
-			expect( metawidget.util.uncamelCase( 'Foo Bar' )).toBe( 'Foo Bar' );
-			expect( metawidget.util.uncamelCase( 'Foo barBaz Abc' )).toBe( 'Foo bar Baz Abc' );
-			expect( metawidget.util.uncamelCase( 'ID' )).toBe( 'ID' );
-			expect( metawidget.util.uncamelCase( 'DOB' )).toBe( 'DOB' );
-			expect( metawidget.util.uncamelCase( 'DOBirth' )).toBe( 'DO Birth' );
-			expect( metawidget.util.uncamelCase( 'fooDOBirthBar' )).toBe( 'Foo DO Birth Bar' );
-			expect( metawidget.util.uncamelCase( '123' )).toBe( '123' );
-			expect( metawidget.util.uncamelCase( 'foo1' )).toBe( 'Foo 1' );
-			expect( metawidget.util.uncamelCase( 'foo12' )).toBe( 'Foo 12' );
-			expect( metawidget.util.uncamelCase( 'foo123' )).toBe( 'Foo 123' );
-			expect( metawidget.util.uncamelCase( '123foo' )).toBe( '123foo' );
-			expect( metawidget.util.uncamelCase( '123Foo' )).toBe( '123 Foo' );
+			expect( metawidget.util.uncamelCase( 'Foo Bar' ) ).toBe( 'Foo Bar' );
+			expect( metawidget.util.uncamelCase( 'Foo barBaz Abc' ) ).toBe( 'Foo bar Baz Abc' );
+			expect( metawidget.util.uncamelCase( 'ID' ) ).toBe( 'ID' );
+			expect( metawidget.util.uncamelCase( 'DOB' ) ).toBe( 'DOB' );
+			expect( metawidget.util.uncamelCase( 'DOBirth' ) ).toBe( 'DO Birth' );
+			expect( metawidget.util.uncamelCase( 'fooDOBirthBar' ) ).toBe( 'Foo DO Birth Bar' );
+			expect( metawidget.util.uncamelCase( '123' ) ).toBe( '123' );
+			expect( metawidget.util.uncamelCase( 'foo1' ) ).toBe( 'Foo 1' );
+			expect( metawidget.util.uncamelCase( 'foo12' ) ).toBe( 'Foo 12' );
+			expect( metawidget.util.uncamelCase( 'foo123' ) ).toBe( 'Foo 123' );
+			expect( metawidget.util.uncamelCase( '123foo' ) ).toBe( '123foo' );
+			expect( metawidget.util.uncamelCase( '123Foo' ) ).toBe( '123 Foo' );
 		} );
 	} );
 
@@ -340,6 +340,26 @@
 			}, {
 				path: "bar.baz"
 			} ) ).toBe( 'bar.baz.foo' );
+		} );
+
+		it( "supports includesSeparator", function() {
+
+			expect( metawidget.util.appendPath( {
+				name: "[0].foo",
+				nameIncludesSeparator: true
+			}, {} ) ).toBe( 'object[0].foo' );
+			expect( metawidget.util.appendPath( {
+				name: "[1].foo",
+				nameIncludesSeparator: true
+			}, {
+				toInspect: "aString"
+			} ) ).toBe( 'string[1].foo' );
+			expect( metawidget.util.appendPath( {
+				name: "[2].foo",
+				nameIncludesSeparator: true
+			}, {
+				path: "bar.baz"
+			} ) ).toBe( 'bar.baz[2].foo' );
 		} );
 	} );
 

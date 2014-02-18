@@ -785,7 +785,7 @@
 			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBeUndefined();
 			expect( table.childNodes[1].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'div' );
-			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="button" value="Baz" id="0Baz"' );
+			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="button" value="Baz" id="object0Baz"' );
 			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 3 );
 			expect( table.childNodes[1].childNodes.length ).toBe( 1 );
 			expect( table.childNodes.length ).toBe( 2 );
@@ -1035,14 +1035,14 @@
 					// Nested table
 
 					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-0Description"' );
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-object0Description"' );
 					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-0Description-row"' );
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object0Description-row"' );
 					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
-							'td id="table-0Description-cell" colspan="2"' );
+							'td id="table-object0Description-cell" colspan="2"' );
 
 					var nestedTable = table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
-					expect( nestedTable.toString() ).toBe( 'table id="0Description"' );
+					expect( nestedTable.toString() ).toBe( 'table id="object0Description"' );
 					expect( nestedTable.childNodes[0].toString() ).toBe( 'thead' );
 					expect( nestedTable.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 					expect( nestedTable.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
@@ -1068,22 +1068,22 @@
 
 					var nestedObject = table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0];
 
-					expect( nestedObject.toString() ).toBe( 'table id="table-1Description"' );
+					expect( nestedObject.toString() ).toBe( 'table id="table-object1Description"' );
 					expect( nestedObject.childNodes[0].toString() ).toBe( 'tbody' );
-					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-1DescriptionNestedName-row"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-1DescriptionNestedName-label-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="1DescriptionNestedName" id="table-1DescriptionNestedName-label"' );
+					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object1DescriptionNestedName-row"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-object1DescriptionNestedName-label-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="object1DescriptionNestedName" id="table-object1DescriptionNestedName-label"' );
 					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Name:' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-1DescriptionNestedName-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="1DescriptionNestedName" name="1DescriptionNestedName"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-object1DescriptionNestedName-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="object1DescriptionNestedName" name="object1DescriptionNestedName"' );
 
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-1DescriptionNestedDescription-label-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-object1DescriptionNestedDescription-label-cell"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe(
-							'label for="1DescriptionNestedDescription" id="table-1DescriptionNestedDescription-label"' );
+							'label for="object1DescriptionNestedDescription" id="table-object1DescriptionNestedDescription-label"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Description:' );
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-1DescriptionNestedDescription-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-object1DescriptionNestedDescription-cell"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe(
-							'input type="text" id="1DescriptionNestedDescription" name="1DescriptionNestedDescription"' );
+							'input type="text" id="object1DescriptionNestedDescription" name="object1DescriptionNestedDescription"' );
 				} );
 
 		it( "supports alwaysUseNestedMetawidgetInTables",
@@ -1129,21 +1129,21 @@
 					expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
 					expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
 					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="0Name" name="0Name"' );
+					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Name" name="object0Name"' );
 					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
 					expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
 
 					// Nested table
 
 					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-0Description"' );
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-object0Description"' );
 					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-0Description-row"' );
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object0Description-row"' );
 					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
-							'td id="table-0Description-cell" colspan="2"' );
+							'td id="table-object0Description-cell" colspan="2"' );
 
 					var nestedTable = table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
-					expect( nestedTable.toString() ).toBe( 'table id="0Description"' );
+					expect( nestedTable.toString() ).toBe( 'table id="object0Description"' );
 					expect( nestedTable.childNodes[0].toString() ).toBe( 'thead' );
 					expect( nestedTable.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 					expect( nestedTable.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
@@ -1155,43 +1155,45 @@
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
-							'input type="text" id="0Description0NestedName" name="0Description0NestedName"' );
+							'input type="text" id="object0Description0NestedName" name="object0Description0NestedName"' );
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Nested Foo' );
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe(
-							'input type="text" id="0Description0NestedDescription" name="0Description0NestedDescription"' );
+							'input type="text" id="object0Description0NestedDescription" name="object0Description0NestedDescription"' );
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'A Nested Foo' );
 					expect( nestedTable.childNodes[1].childNodes.length ).toBe( 1 );
 
 					expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
 					expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
 					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="1Name" name="1Name"' );
+					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].getMetawidget().path ).toBe( 'object[1].name' );
+					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Name" name="object1Name"' );
 					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Bar' );
 
 					// Nested object
 
 					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].getMetawidget().path ).toBe( 'object[1].description' );
 
 					var nestedObject = table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0];
 
-					expect( nestedObject.toString() ).toBe( 'table id="table-1Description"' );
+					expect( nestedObject.toString() ).toBe( 'table id="table-object1Description"' );
 					expect( nestedObject.childNodes[0].toString() ).toBe( 'tbody' );
-					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-1DescriptionNestedName-row"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-1DescriptionNestedName-label-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="1DescriptionNestedName" id="table-1DescriptionNestedName-label"' );
+					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object1DescriptionNestedName-row"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-object1DescriptionNestedName-label-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="object1DescriptionNestedName" id="table-object1DescriptionNestedName-label"' );
 					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Name:' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-1DescriptionNestedName-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="1DescriptionNestedName" name="1DescriptionNestedName"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-object1DescriptionNestedName-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="object1DescriptionNestedName" name="object1DescriptionNestedName"' );
 
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-1DescriptionNestedDescription-label-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-object1DescriptionNestedDescription-label-cell"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe(
-							'label for="1DescriptionNestedDescription" id="table-1DescriptionNestedDescription-label"' );
+							'label for="object1DescriptionNestedDescription" id="table-object1DescriptionNestedDescription-label"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Description:' );
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-1DescriptionNestedDescription-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-object1DescriptionNestedDescription-cell"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe(
-							'input type="text" id="1DescriptionNestedDescription" name="1DescriptionNestedDescription"' );
+							'input type="text" id="object1DescriptionNestedDescription" name="object1DescriptionNestedDescription"' );
 				} );
 
 		it( "supports alwaysUseNestedMetawidgetInTables with readOnly tables", function() {
@@ -1235,6 +1237,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="description" id="table-description-label"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Description:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'div id="description"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].getMetawidget().path ).toBe( 'object.description' );
 
 			var table = element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0];
 			expect( table.toString() ).toBe( 'table id="table-description"' );

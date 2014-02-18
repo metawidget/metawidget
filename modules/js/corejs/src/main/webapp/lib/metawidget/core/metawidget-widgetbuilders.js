@@ -588,6 +588,8 @@ var metawidget = metawidget || {};
 				} else {
 					attributes.name = '[' + row + '].' + attributes.name;
 				}
+				
+				attributes.nameIncludesSeparator = true;
 
 				if ( elementName !== 'entity' ) {
 					attributes.name = tableAttributes.name + attributes.name;

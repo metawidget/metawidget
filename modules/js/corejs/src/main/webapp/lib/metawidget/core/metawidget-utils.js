@@ -425,15 +425,24 @@ var metawidget = metawidget || {};
 
 	metawidget.util.appendPath = function( attributes, mw ) {
 
+		// In general, add a dot before the attributes.name. However support
+		// nameIncludesSeparator for alwaysUseNestedMetawidgetInTables
+
+		var nameWithSeparator = attributes.name;
+
+		if ( attributes.nameIncludesSeparator !== true ) {
+			nameWithSeparator = '.' + nameWithSeparator;
+		}
+
 		if ( mw.path !== undefined ) {
-			return mw.path + '.' + attributes.name;
+			return mw.path + nameWithSeparator;
 		}
 
 		if ( mw.toInspect !== undefined ) {
-			return typeof ( mw.toInspect ) + '.' + attributes.name;
+			return typeof ( mw.toInspect ) + nameWithSeparator;
 		}
 
-		return 'object.' + attributes.name;
+		return 'object' + nameWithSeparator;
 	};
 
 	/**
