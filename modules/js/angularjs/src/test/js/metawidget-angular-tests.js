@@ -1334,7 +1334,8 @@
 						$scope.foo = {
 							'with.dot': "With Dot",
 							"with'apostrophe": "With Apostrophe",
-							'with"quote': "With Quote"
+							'with"quote': "With Quote",
+							'with space': "With Space"
 						};
 					} );
 
@@ -1354,6 +1355,7 @@
 						expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with.dot&apos;]"' );
 						expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with\\&apos;apostrophe&apos;]"' );
 						expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with&quot;quote&apos;]"' );
+						expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with space&apos;]"' );
 					} );
 				} );
 

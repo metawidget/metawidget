@@ -379,7 +379,7 @@ var metawidget = metawidget || {};
 		this.buildNestedMetawidget = function( attributes, config ) {
 
 			var nestedMetawidget = metawidget.util.createElement( this, 'metawidget' );
-			nestedMetawidget.setAttribute( 'ng-model', metawidget.util.appendPath( attributes, this ));
+			nestedMetawidget.setAttribute( 'ng-model', metawidget.util.appendPath( attributes, this ) );
 
 			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 				nestedMetawidget.setAttribute( 'read-only', 'true' );
@@ -523,14 +523,15 @@ var metawidget = metawidget || {};
 
 			// Binding
 			//
-			// Scope the binding to scope.$parent, not scope, so that bindings
-			// look more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
+			// Scope the binding to scope.$parent, not scope, so that the
+			// generated bindings look more 'natural' (eg. 'foo.bar' not
+			// 'toInspect.bar')
 
 			var binding = mw.path;
 
 			if ( elementName !== 'entity' ) {
 
-				if ( attributes.name.indexOf( '.' ) != -1 || attributes.name.indexOf( '\'' ) != -1 || attributes.name.indexOf( '"' ) != -1 ) {
+				if ( attributes.name.indexOf( '.' ) != -1 || attributes.name.indexOf( '\'' ) != -1 || attributes.name.indexOf( '"' ) != -1 || attributes.name.indexOf( ' ' ) != -1 ) {
 					binding += '[\'' + attributes.name.replace( '\'', '\\\'' ) + '\']';
 				} else {
 					binding += '.' + attributes.name;
