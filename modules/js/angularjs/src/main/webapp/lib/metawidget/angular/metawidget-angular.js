@@ -379,7 +379,7 @@ var metawidget = metawidget || {};
 		this.buildNestedMetawidget = function( attributes, config ) {
 
 			var nestedMetawidget = metawidget.util.createElement( this, 'metawidget' );
-			nestedMetawidget.setAttribute( 'ng-model', attrs.ngModel + '.' + attributes.name );
+			nestedMetawidget.setAttribute( 'ng-model', attrs.ngModel + (attributes.name[0]=='[' ? '' : '.' )+ attributes.name );
 			if ( metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 				nestedMetawidget.setAttribute( 'read-only', 'true' );
 			} else if ( attrs.readOnly !== undefined ) {
