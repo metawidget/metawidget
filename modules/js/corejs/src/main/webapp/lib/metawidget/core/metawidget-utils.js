@@ -425,25 +425,41 @@ var metawidget = metawidget || {};
 
 	metawidget.util.appendPath = function( attributes, mw ) {
 
-		// In general, add a dot before the attributes.name. However support
-		// nameIncludesSeparator for alwaysUseNestedMetawidgetInTables
-
-		var nameWithSeparator = attributes.name;
-
-		if ( attributes.nameIncludesSeparator !== true ) {
-			nameWithSeparator = '.' + nameWithSeparator;
-		}
-
 		if ( mw.path !== undefined ) {
-			return mw.path + nameWithSeparator;
+			return metawidget.util.appendPathWithName( mw.path, attributes );
 		}
 
 		if ( mw.toInspect !== undefined ) {
-			return typeof ( mw.toInspect ) + nameWithSeparator;
+			return metawidget.util.appendPathWithName( typeof ( mw.toInspect ), attributes );
 		}
 
-		return 'object' + nameWithSeparator;
+		return metawidget.util.appendPathWithName( 'object', attributes );
 	};
+
+	/**
+	 * Returns the given path appended with the given name (e.g. 'foo' with
+	 * 'bar' becomes 'foo.bar'). Supports nameIncludesSeparator. Also supports
+	 * using bracket notation if the name contains illegal characters (e.g.
+	 * 'foo['bar bar']')
+	 */
+
+	metawidget.util.appendPathWithName = function( path, attributes ) {
+
+		var name = attributes.name;
+
+		// In general, add a dot before the attributes.name. However support
+		// nameIncludesSeparator for alwaysUseNestedMetawidgetInTables
+
+		if ( attributes.nameIncludesSeparator === true ) {
+			return path + name;
+		}
+
+		if ( name.indexOf( '.' ) != -1 || name.indexOf( '\'' ) != -1 || name.indexOf( '"' ) != -1 || name.indexOf( ' ' ) != -1 ) {
+			return path + '[\'' + name.replace( '\'', '\\\'' ) + '\']';
+		}
+
+		return path + '.' + name;
+	}
 
 	/**
 	 * Traverses the given 'toInspect' along properties defined by the array of

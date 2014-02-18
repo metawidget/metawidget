@@ -586,13 +586,13 @@ var metawidget = metawidget || {};
 				if ( attributes.name === undefined ) {
 					attributes.name = '[' + row + ']';
 				} else {
-					attributes.name = '[' + row + '].' + attributes.name;
+					attributes.name = metawidget.util.appendPathWithName( '[' + row + ']', attributes );
 				}
 				
 				attributes.nameIncludesSeparator = true;
 
 				if ( elementName !== 'entity' ) {
-					attributes.name = tableAttributes.name + attributes.name;
+					attributes.name = metawidget.util.appendPathWithName( tableAttributes.name, attributes );
 				}
 
 				// Allow users to mark the whole table as readOnly

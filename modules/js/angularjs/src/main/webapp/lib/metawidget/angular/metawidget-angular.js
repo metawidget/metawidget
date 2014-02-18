@@ -530,12 +530,7 @@ var metawidget = metawidget || {};
 			var binding = mw.path;
 
 			if ( elementName !== 'entity' ) {
-
-				if ( attributes.name.indexOf( '.' ) != -1 || attributes.name.indexOf( '\'' ) != -1 || attributes.name.indexOf( '"' ) != -1 || attributes.name.indexOf( ' ' ) != -1 ) {
-					binding += '[\'' + attributes.name.replace( '\'', '\\\'' ) + '\']';
-				} else {
-					binding += '.' + attributes.name;
-				}
+				binding = metawidget.util.appendPathWithName( binding, attributes );
 			}
 
 			if ( widget.tagName === 'OUTPUT' ) {

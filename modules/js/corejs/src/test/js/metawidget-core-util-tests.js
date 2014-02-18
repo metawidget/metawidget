@@ -363,6 +363,43 @@
 		} );
 	} );
 
+	describe( "The appendPathWithName function", function() {
+
+		it( "appends attribute names to paths", function() {
+
+			expect( metawidget.util.appendPathWithName( 'object', {
+				name: "foo"
+			} ) ).toBe( 'object.foo' );
+		} );
+
+		it( "supports includesSeparator", function() {
+
+			expect( metawidget.util.appendPathWithName( 'object', {
+				name: "[0].foo",
+				nameIncludesSeparator: true
+			} ) ).toBe( 'object[0].foo' );
+		} );
+
+		it( "escapes names", function() {
+
+			expect( metawidget.util.appendPathWithName( 'object', {
+				name: "normal"
+			} ) ).toBe( 'object.normal' );
+			expect( metawidget.util.appendPathWithName( 'object', {
+				name: "with.dot"
+			} ) ).toBe( 'object[\'with.dot\']' );
+			expect( metawidget.util.appendPathWithName( 'object', {
+				name: "with'apostrophe"
+			} ) ).toBe( 'object[\'with\\\'apostrophe\']' );
+			expect( metawidget.util.appendPathWithName( 'object', {
+				name: "with\"quote"
+			} ) ).toBe( 'object[\'with"quote\']' );
+			expect( metawidget.util.appendPathWithName( 'object', {
+				name: "with space"
+			} ) ).toBe( 'object[\'with space\']' );
+		} );
+	} );
+
 	describe( "The traversePath function", function() {
 
 		it( "traverses names", function() {
