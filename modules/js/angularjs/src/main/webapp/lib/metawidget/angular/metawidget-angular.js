@@ -528,7 +528,12 @@ var metawidget = metawidget || {};
 			var binding = mw.path;
 
 			if ( elementName !== 'entity' ) {
-				binding += '.' + attributes.name;
+				
+				if ( attributes.name.indexOf( '.' ) != -1 || attributes.name.indexOf( '\'' ) != -1 || attributes.name.indexOf( '"' ) != -1 ) {
+					binding += '[\'' + attributes.name.replace( '\'', '\\\'' ) + '\']';
+				} else {				
+					binding += '.' + attributes.name;
+				}
 			}
 
 			if ( widget.tagName === 'OUTPUT' ) {

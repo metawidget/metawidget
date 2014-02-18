@@ -1276,6 +1276,41 @@
 										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
 									} );
 						} );
+
+				it(
+						"escapes property names",
+						function() {
+
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var controller = myApp.controller( 'TestController', function( $scope ) {
+
+								$scope.foo = {
+									'with.dot': "With Dot",
+									"with'apostrophe": "With Apostrophe",
+									'with"quote': "With Quote"
+								};
+							} );
+
+							var mw = document.createElement( 'mw:metawidget' );
+							mw.setAttribute( 'ng-model', 'foo' );
+							mw.setAttribute( 'read-only', 'readOnly' );
+							mw.setAttribute( 'config', 'metawidgetConfig' );
+
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+							body.appendChild( mw );
+
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with.dot&apos;]"' );
+										expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with\\&apos;apostrophe&apos;]"' );
+										expect( mw.innerHTML ).toContain( 'ng-model="foo[&apos;with&quot;quote&apos;]"' );
+									} );
+						} );
+				
 			} );
 
 	describe(
@@ -1468,14 +1503,14 @@
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "testPath.bar.join(', ')" );
 
 				// Manually override
-				
+
 				widget = document.createElement( 'output' );
 				widget.setAttribute( 'ng-bind', 'foo' );
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( "foo" );
 
 				// Date outputs
-				
+
 				attributes = {
 					name: "bar",
 					type: "date"
