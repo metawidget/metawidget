@@ -887,6 +887,8 @@
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
 			var tbody = simpleDocument.createElement( 'tbody' );
+			var table = simpleDocument.createElement( 'table' );
+			table.appendChild( tbody );
 
 			var mw = {
 				getElement: function() {
@@ -926,6 +928,7 @@
 			// Property level
 
 			tbody = simpleDocument.createElement( 'tbody' );
+			table.appendChild( tbody );
 			tr = widgetBuilder.addRow( tbody, [ {
 				foo: 'Foo',
 				bar: 'Bar'
@@ -940,10 +943,10 @@
 			expect( tbody.childNodes.length ).toBe( 1 );
 			expect( tr.childNodes[0].toString() ).toBe( 'td' );
 			expect( tr.childNodes[0].childNodes[0].toString() ).toBe( 'metawidget' );
-			expect( tr.childNodes[0].childNodes[0].innerHTML ).toBe( 'root[0].foo' );
+			expect( tr.childNodes[0].childNodes[0].innerHTML ).toBe( '.root[0].foo' );
 			expect( tr.childNodes[1].toString() ).toBe( 'td' );
 			expect( tr.childNodes[1].childNodes[0].toString() ).toBe( 'metawidget' );
-			expect( tr.childNodes[1].childNodes[0].innerHTML ).toBe( 'root[0].bar' );
+			expect( tr.childNodes[1].childNodes[0].innerHTML ).toBe( '.root[0].bar' );
 			expect( tr.childNodes.length ).toBe( 2 );
 
 		} );
@@ -953,6 +956,10 @@
 			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
 
 			var tr = simpleDocument.createElement( 'tr' );
+			var tbody = simpleDocument.createElement( 'tbody' );
+			tbody.appendChild( tr );
+			var table = simpleDocument.createElement( 'tbody' );
+			table.appendChild( tbody );
 
 			// Root level
 
@@ -987,7 +994,7 @@
 			}, mw );
 
 			expect( td.childNodes[0].toString() ).toBe( 'metawidget' );
-			expect( td.childNodes[0].innerHTML ).toBe( 'root[0].bar' );
+			expect( td.childNodes[0].innerHTML ).toBe( '.root[0].bar' );
 			expect( tr.childNodes[1] ).toBe( td );
 		} );
 
@@ -1117,6 +1124,16 @@
 						type: "array"
 					}, mw );
 
+					expect( table.nestedMetawidgets[0].toString() ).toBe( 'div' );
+					expect( table.nestedMetawidgets[0].getMetawidget().path ).toBe( 'object[0].name' );
+					expect( table.nestedMetawidgets[1].toString() ).toBe( 'div' );
+					expect( table.nestedMetawidgets[1].getMetawidget().path ).toBe( 'object[0].description' );
+					expect( table.nestedMetawidgets[2].toString() ).toBe( 'div' );
+					expect( table.nestedMetawidgets[2].getMetawidget().path ).toBe( 'object[1].name' );
+					expect( table.nestedMetawidgets[3].toString() ).toBe( 'div' );
+					expect( table.nestedMetawidgets[3].getMetawidget().path ).toBe( 'object[1].description' );
+					expect( table.nestedMetawidgets.length ).toBe( 4 );
+					
 					expect( table.toString() ).toBe( 'table' );
 					expect( table.childNodes[0].toString() ).toBe( 'thead' );
 					expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );

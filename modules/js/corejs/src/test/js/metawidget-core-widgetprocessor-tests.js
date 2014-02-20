@@ -419,6 +419,43 @@
 			expect( mw.toInspect.nested.nestedFoo ).toBe( 'nestedFooValue1' );
 		} );
 
+		it( "supports nested widgets from alwaysUseNestedMetawidgetInTables", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				widgetBuilder: new metawidget.widgetbuilder.HtmlWidgetBuilder( {
+					alwaysUseNestedMetawidgetInTables: true
+				} ),
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+
+			mw.toInspect = {
+				nested: [ {
+					"nestedFoo": "nestedFooValue1"
+				}, {
+					"nestedFoo": "nestedFooValue2"
+				} ]
+			};
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].nestedMetawidgets[0].getMetawidget().path ).toBe( 'object.nested[0].nestedFoo' );
+			expect( element.childNodes[0].nestedMetawidgets[1].getMetawidget().path ).toBe( 'object.nested[1].nestedFoo' );
+			expect( element.childNodes[0].nestedMetawidgets.length ).toBe( 2 );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getMetawidget().path ).toBe( 'object.nested[0].nestedFoo' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'nestedFooValue1' );
+			expect( element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].getMetawidget().path ).toBe( 'object.nested[1].nestedFoo' );
+			expect( element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'nestedFooValue2' );
+
+			element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value = 'nestedFooValue1.1';
+			element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value = 'nestedFooValue2.1';
+			mw.getWidgetProcessor( function( testInstanceOf ) {
+
+				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( mw );
+			expect( mw.toInspect.nested[0].nestedFoo ).toBe( 'nestedFooValue1.1' );
+			expect( mw.toInspect.nested[1].nestedFoo ).toBe( 'nestedFooValue2.1' );
+		} );
+
 		it( "supports paths", function() {
 
 			var element = simpleDocument.createElement( 'div' );

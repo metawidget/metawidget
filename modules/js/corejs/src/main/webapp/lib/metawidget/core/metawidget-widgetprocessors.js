@@ -31,7 +31,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.IdProcessor = function() {
 
-		if ( !( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
+		if ( ! ( this instanceof metawidget.widgetprocessor.IdProcessor ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -58,7 +58,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.RequiredAttributeProcessor = function() {
 
-		if ( !( this instanceof metawidget.widgetprocessor.RequiredAttributeProcessor ) ) {
+		if ( ! ( this instanceof metawidget.widgetprocessor.RequiredAttributeProcessor ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -78,7 +78,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.PlaceholderAttributeProcessor = function() {
 
-		if ( !( this instanceof metawidget.widgetprocessor.PlaceholderAttributeProcessor ) ) {
+		if ( ! ( this instanceof metawidget.widgetprocessor.PlaceholderAttributeProcessor ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -120,7 +120,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.SimpleBindingProcessor = function() {
 
-		if ( !( this instanceof metawidget.widgetprocessor.SimpleBindingProcessor ) ) {
+		if ( ! ( this instanceof metawidget.widgetprocessor.SimpleBindingProcessor ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 	};
@@ -132,7 +132,7 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
-		if ( widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'button' || widget.getAttribute( 'type' ) === 'submit' )) {
+		if ( widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'button' || widget.getAttribute( 'type' ) === 'submit' ) ) {
 			widget.onclick = function() {
 
 				try {
@@ -175,7 +175,7 @@ var metawidget = metawidget || {};
 
 		var rememberBinding = this.bindToWidget( widget, value, elementName, attributes, mw );
 
-		if ( elementName !== 'entity' && ( rememberBinding === true || widget.getMetawidget !== undefined ) ) {
+		if ( elementName !== 'entity' && ( rememberBinding === true || widget.getMetawidget !== undefined || widget.nestedMetawidgets !== undefined ) ) {
 			mw._simpleBindingProcessor.bindings = mw._simpleBindingProcessor.bindings || [];
 			mw._simpleBindingProcessor.bindings[attributes.name] = {
 				widget: widget,
@@ -189,7 +189,7 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Bind the given widget to the given value.
-	 *
+	 * 
 	 * @return true if this binding should be remembered for when the user calls
 	 *         'save'
 	 */
@@ -206,7 +206,7 @@ var metawidget = metawidget || {};
 		}
 
 		var loop, length;
-		
+
 		// Special support for arrays of checkboxes/radio buttons
 
 		if ( attributes['enum'] !== undefined && widget.tagName === 'DIV' ) {
@@ -261,7 +261,7 @@ var metawidget = metawidget || {};
 					if ( attributes.type === 'array' ) {
 
 						length = value.length;
-						for( loop = 0; loop < length; loop++ ) {
+						for ( loop = 0; loop < length; loop++ ) {
 
 							if ( loop === 0 ) {
 								widget.innerHTML = '';
@@ -304,7 +304,7 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Save the bindings associated with the given Metawidget.
-	 *
+	 * 
 	 * @return true if data was actually changed. False otherwise. Can be useful
 	 *         for 'dirty' flags
 	 */
@@ -348,10 +348,24 @@ var metawidget = metawidget || {};
 			var binding = mw._simpleBindingProcessor.bindings[name];
 			var widgetFromBinding = this.getWidgetFromBinding( binding, mw );
 
+			// Support nested Metawidgets
+
 			if ( widgetFromBinding.getMetawidget !== undefined ) {
 				this.save( widgetFromBinding.getMetawidget() );
 				continue;
 			}
+
+			// Support alwaysUseNestedMetawidgetInTables
+
+			if ( widgetFromBinding.nestedMetawidgets !== undefined ) {
+
+				for ( var loop = 0, length = widgetFromBinding.nestedMetawidgets.length; loop < length; loop++ ) {
+					this.save( widgetFromBinding.nestedMetawidgets[loop].getMetawidget() );
+				}
+				continue;
+			}
+
+			// saveFromWidget
 
 			var value = this.saveFromWidget( binding, mw );
 
@@ -438,11 +452,12 @@ var metawidget = metawidget || {};
 
 	/**
 	 * Returns the widget associated with the given binding. By default, calls
-	 * <tt>binding.widget</tt>. Subclasses may override this method if their framework
-	 * has swapped out the widget.
+	 * <tt>binding.widget</tt>. Subclasses may override this method if their
+	 * framework has swapped out the widget.
 	 */
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.getWidgetFromBinding = function( binding ) {
+
 		return binding.widget;
 	};
 

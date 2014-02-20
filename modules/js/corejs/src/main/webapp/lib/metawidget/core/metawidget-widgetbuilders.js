@@ -588,11 +588,11 @@ var metawidget = metawidget || {};
 				} else {
 					attributes.name = metawidget.util.appendPathWithName( '[' + row + ']', attributes );
 				}
-				
+
 				attributes.nameIncludesSeparator = true;
 
 				if ( elementName !== 'entity' ) {
-					attributes.name = metawidget.util.appendPathWithName( tableAttributes.name, attributes );
+					attributes.name = '.' + metawidget.util.appendPathWithName( tableAttributes.name, attributes );
 				}
 
 				// Allow users to mark the whole table as readOnly
@@ -604,13 +604,23 @@ var metawidget = metawidget || {};
 				// Render simple types with a simple layout, to avoid a
 				// leading label
 
+				var nestedMetawidget;
+
 				if ( attributes.type === undefined || attributes.type === 'array' ) {
-					td.appendChild( mw.buildNestedMetawidget( attributes ) );
+					nestedMetawidget = mw.buildNestedMetawidget( attributes );
 				} else {
-					td.appendChild( mw.buildNestedMetawidget( attributes, {
+					nestedMetawidget = mw.buildNestedMetawidget( attributes, {
 						layout: new metawidget.layout.SimpleLayout()
-					} ) );
+					} );
 				}
+
+				// Support SimpleBindingProcessor
+				
+				var table = tr.parentNode.parentNode;
+				table.nestedMetawidgets = table.nestedMetawidgets || [];
+				table.nestedMetawidgets.push( nestedMetawidget );
+				
+				td.appendChild( nestedMetawidget );
 			} else if ( valueToRender !== undefined ) {
 				td.innerHTML = '' + valueToRender;
 			}
