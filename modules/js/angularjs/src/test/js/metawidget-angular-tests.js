@@ -1145,12 +1145,12 @@
 						expect( mw.innerHTML ).toContain( '<label for="fooBar" id="table-fooBar-label">Bar:</label>' );
 						expect( mw.innerHTML ).toContain( '<table id="fooBar" class="ng-scope">' );
 						expect( mw.innerHTML ).toContain( '<thead><tr><th>Firstname</th><th>Surname</th></tr></thead>' );
-						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[0].firstname"' );
-						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[0].surname"' );
-						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[1].firstname"' );
-						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[1].surname"' );
-						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[2].firstname"' );
-						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foobar[2].surname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar[0].firstname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar[0].surname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar[1].firstname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar[1].surname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar[2].firstname"' );
+						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar[2].surname"' );
 					} );
 				} );				
 
