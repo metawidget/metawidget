@@ -48,7 +48,15 @@
 												.toBe(
 														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
-
+										
+										// Test proper cleanup
+										
+										var destroyCalled = 0;
+										
+										angular.element( body ).find( '#fooBar' ).on( '$destroy', function() {
+											destroyCalled++;
+										} );
+										
 										// Test watching ngModel
 
 										var scope = angular.element( body ).scope();
@@ -57,6 +65,7 @@
 										};
 										scope.$digest();
 
+										expect( destroyCalled ).toBe( 1 );
 										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBaz" ng-model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
 										expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" ng-model="foo.bar"' );
 
@@ -1122,7 +1131,7 @@
 								surname: 'surname3'
 							} ],
 						};
-						
+
 						$scope.metawidgetConfig = {
 							widgetBuilder: new metawidget.widgetbuilder.HtmlWidgetBuilder( {
 								alwaysUseNestedMetawidgetInTables: true
@@ -1152,7 +1161,7 @@
 						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar[2].firstname"' );
 						expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar[2].surname"' );
 					} );
-				} );				
+				} );
 
 				it(
 						"supports nested Metawidgets",
@@ -1186,10 +1195,8 @@
 										expect( mw.innerHTML )
 												.toContain(
 														'<table id="table-fooBarBaz"><tbody><tr id="table-fooBarBazFirstname-row"><th id="table-fooBarBazFirstname-label-cell"><label for="fooBarBazFirstname" id="table-fooBarBazFirstname-label">Firstname:</label></th><td id="table-fooBarBazFirstname-cell"><input type="text" id="fooBarBazFirstname" ng-model="foo.bar.baz.firstname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr><tr id="table-fooBarBazSurname-row"><th id="table-fooBarBazSurname-label-cell"><label for="fooBarBazSurname" id="table-fooBarBazSurname-label">Surname:</label></th><td id="table-fooBarBazSurname-cell"><input type="text" id="fooBarBazSurname" ng-model="foo.bar.baz.surname" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
-										expect( mw.innerHTML ).toContain(
-												'<metawidget ng-model="foo.bar"' );
-										expect( mw.innerHTML ).toContain(
-												'<metawidget ng-model="foo.bar.baz"' );
+										expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar"' );
+										expect( mw.innerHTML ).toContain( '<metawidget ng-model="foo.bar.baz"' );
 										expect( mw.innerHTML ).toContain( '</metawidget>' );
 									} );
 						} );
@@ -1359,6 +1366,111 @@
 					} );
 				} );
 
+				it(
+						"supports ngShow",
+						function() {
+
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var inspectionCount = 0;
+							var controller = myApp.controller( 'TestController', function( $scope ) {
+
+								$scope.foo = {
+									bar: "Bar"
+								};
+
+								$scope.metawidgetConfig = {
+									inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+
+										inspectionCount++;
+										return inspectionResult;
+									} ],
+								};
+
+								$scope.show = false;
+							} );
+
+							var mw = document.createElement( 'metawidget' );
+							mw.setAttribute( 'ng-model', 'foo' );
+							mw.setAttribute( 'config', 'metawidgetConfig' );
+							mw.setAttribute( 'ng-show', 'show' );
+
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+							body.appendChild( mw );
+
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML ).toBe( '' );
+										expect( inspectionCount ).toBe( 0 );
+
+										var scope = angular.element( body ).scope();
+										scope.show = true;
+										scope.$digest();
+
+										expect( mw.innerHTML )
+												.toBe(
+														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+										expect( inspectionCount ).toBe( 1 );
+									} );
+						} );
+
+				it(
+						"supports ngHide",
+						function() {
+
+							var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+							var inspectionCount = 0;
+							var controller = myApp.controller( 'TestController', function( $scope ) {
+
+								$scope.foo = {
+									bar: "Bar"
+								};
+
+								$scope.metawidgetConfig = {
+									inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+
+										inspectionCount++;
+										return inspectionResult;
+									} ],
+								};
+
+								$scope.hide = true;
+							} );
+
+							var mw = document.createElement( 'metawidget' );
+							mw.setAttribute( 'ng-model', 'foo' );
+							mw.setAttribute( 'config', 'metawidgetConfig' );
+							mw.setAttribute( 'ng-hide', 'hide' );
+
+							var body = document.createElement( 'body' );
+							body.setAttribute( 'ng-controller', 'TestController' );
+							body.appendChild( mw );
+
+							var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML ).toBe( '' );
+										expect( inspectionCount ).toBe( 0 );
+
+										var scope = angular.element( body ).scope();
+										scope.hide = false;
+										scope.$digest();
+
+										expect( mw.innerHTML )
+												.toBe(
+														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+
+										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+										expect( inspectionCount ).toBe( 1 );
+									} );
+						} );
 			} );
 
 	describe(

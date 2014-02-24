@@ -12,6 +12,7 @@
 package org.metawidget.inspectionresultprocessor.json.schema;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import org.metawidget.util.simple.ObjectUtils;
 
@@ -29,13 +30,14 @@ public class JsonSchemaMappingProcessorConfig {
 	//
 
 	/**
-	 * Remove attributes that do not apply in JSON Schema.
-	 * <p>
-	 * HIDDEN is not removed, but the whole property is hidden by default if HIDDEN equals TRUE.
-	 * COMES_AFTER is removed, but is replaced by 'propertyOrder'.
+	 * Remove attributes that do not apply in JSON Schema:
+	 * <ul>
+	 * <li>HIDDEN is removed, and also the whole property is hidden if HIDDEN equals TRUE</li>
+	 * <li>COMES_AFTER is removed, but is replaced by 'propertyOrder'</li>
+	 * <li>PARAMETERIZED_TYPE, ACTUAL_CLASS contain Java type names</li>
 	 */
 
-	private String[]	mRemoveAttributes	= new String[] { COMES_AFTER, PARAMETERIZED_TYPE };
+	private String[]	mRemoveAttributes	= new String[] { HIDDEN, COMES_AFTER, PARAMETERIZED_TYPE, ACTUAL_CLASS };
 
 	//
 	// Public methods

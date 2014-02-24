@@ -44,6 +44,7 @@ var metawidget = metawidget || {};
 				readOnly: '=',
 				config: '=',
 				ngShow: '=',
+				ngHide: '=',
 
 				// Configs cannot be 2-way ('=') because cannot 'watch' arrays
 
@@ -121,6 +122,22 @@ var metawidget = metawidget || {};
 						}
 					} );
 
+					var _watchNgShow = scope.$watch( 'ngShow', function( newValue, oldValue ) {
+
+						if ( newValue !== oldValue ) {
+							// Do not mw.invalidateInspection()
+							_buildWidgets();
+						}
+					} );
+
+					var _watchNgHide = scope.$watch( 'ngHide', function( newValue, oldValue ) {
+
+						if ( newValue !== oldValue ) {
+							// Do not mw.invalidateInspection()
+							_buildWidgets();
+						}
+					} );
+
 					// Clean up watches when element is destroyed
 
 					element.on( '$destroy', function() {
@@ -128,6 +145,8 @@ var metawidget = metawidget || {};
 						_watchModel();
 						_watchReadOnly();
 						_watchConfig();
+						_watchNgShow();
+						_watchNgHide();
 					} );
 
 					//
@@ -136,9 +155,7 @@ var metawidget = metawidget || {};
 
 					function _buildWidgets() {
 
-						// TODO: watch ngShow, support ngHide
-
-						if ( scope.$eval( 'ngShow' ) === false ) {
+						if ( scope.$eval( 'ngShow' ) === false || scope.$eval( 'ngHide' ) === true ) {
 							return;
 						}
 
@@ -293,8 +310,7 @@ var metawidget = metawidget || {};
 			}
 
 			// Cleanup children using Angular, so that $destroy gets triggered
-			// TODO: unit test this is happening
-			// TODO: noSetter, actualClass appearing in JSON Schema?
+			// for nested Metawidgets
 
 			element.children().remove();
 

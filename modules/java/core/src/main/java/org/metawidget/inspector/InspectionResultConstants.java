@@ -90,8 +90,8 @@ public final class InspectionResultConstants {
 	 * Whether the property has no setter method.
 	 * <p>
 	 * Properties without setters are <em>not</em> automatically considered <code>READ_ONLY</code>.
-	 * If the property is a complex type (eg. Address), it may be settable by setting each of its
-	 * nested primitives (eg. Street, City, etc).
+	 * If the property is a complex type (eg. Address), it may be writable by setting each of its
+	 * nested primitives (eg. Street, City, etc) even though in itself it is 'not settable'.
 	 */
 
 	public static final String	NO_SETTER						= "no-setter";
