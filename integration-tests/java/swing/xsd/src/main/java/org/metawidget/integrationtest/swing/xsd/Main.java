@@ -95,10 +95,18 @@ public class Main {
 			public void actionPerformed( ActionEvent e ) {
 
 				metawidget.getWidgetProcessor( DocumentBindingProcessor.class ).save( metawidget );
-				System.out.println( XmlUtils.documentToString( document, true ) );
 			}
 		} ) );
 
 		return frame;
+	}
+
+	//
+	// Private constructor
+	//
+
+	private Main() {
+
+		// Can never be called
 	}
 }

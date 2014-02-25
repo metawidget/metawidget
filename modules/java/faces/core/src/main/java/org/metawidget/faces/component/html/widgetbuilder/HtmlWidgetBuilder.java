@@ -209,11 +209,10 @@ public class HtmlWidgetBuilder
 
 					if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
 						component = application.createComponent( HtmlSelectManyCheckbox.COMPONENT_TYPE );
-					}
+					} else {
+						
+						// ...otherwise just a UISelectOne
 
-					// ...otherwise just a UISelectOne
-
-					else {
 						component = application.createComponent( HtmlSelectOneMenu.COMPONENT_TYPE );
 					}
 				}

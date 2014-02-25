@@ -454,12 +454,12 @@ var metawidget = metawidget || {};
 			return path + name;
 		}
 
-		if ( name.indexOf( '.' ) != -1 || name.indexOf( '\'' ) != -1 || name.indexOf( '"' ) != -1 || name.indexOf( ' ' ) != -1 ) {
+		if ( name.indexOf( '.' ) !== -1 || name.indexOf( '\'' ) !== -1 || name.indexOf( '"' ) !== -1 || name.indexOf( ' ' ) !== -1 ) {
 			return path + '[\'' + name.replace( '\'', '\\\'' ) + '\']';
 		}
 
 		return path + '.' + name;
-	}
+	};
 
 	/**
 	 * Traverses the given 'toInspect' along properties defined by the array of
