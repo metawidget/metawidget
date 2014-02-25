@@ -1124,15 +1124,15 @@
 						type: "array"
 					}, mw );
 
-					expect( table.nestedMetawidgets[0].toString() ).toBe( 'div' );
-					expect( table.nestedMetawidgets[0].getMetawidget().path ).toBe( 'object[0].name' );
-					expect( table.nestedMetawidgets[1].toString() ).toBe( 'div' );
-					expect( table.nestedMetawidgets[1].getMetawidget().path ).toBe( 'object[0].description' );
-					expect( table.nestedMetawidgets[2].toString() ).toBe( 'div' );
-					expect( table.nestedMetawidgets[2].getMetawidget().path ).toBe( 'object[1].name' );
-					expect( table.nestedMetawidgets[3].toString() ).toBe( 'div' );
-					expect( table.nestedMetawidgets[3].getMetawidget().path ).toBe( 'object[1].description' );
-					expect( table.nestedMetawidgets.length ).toBe( 4 );
+					expect( mw.nestedMetawidgets[0].toString() ).toBe( 'div' );
+					expect( mw.nestedMetawidgets[0].getMetawidget().path ).toBe( 'object[0].name' );
+					expect( mw.nestedMetawidgets[1].toString() ).toBe( 'div' );
+					expect( mw.nestedMetawidgets[1].getMetawidget().path ).toBe( 'object[0].description' );
+					expect( mw.nestedMetawidgets[2].toString() ).toBe( 'div' );
+					expect( mw.nestedMetawidgets[2].getMetawidget().path ).toBe( 'object[1].name' );
+					expect( mw.nestedMetawidgets[3].toString() ).toBe( 'div' );
+					expect( mw.nestedMetawidgets[3].getMetawidget().path ).toBe( 'object[1].description' );
+					expect( mw.nestedMetawidgets.length ).toBe( 4 );
 					
 					expect( table.toString() ).toBe( 'table' );
 					expect( table.childNodes[0].toString() ).toBe( 'thead' );

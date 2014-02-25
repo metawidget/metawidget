@@ -1266,8 +1266,18 @@
 		
 		<p>
 			Metawidget v0.2 is now available. This release includes code, documentation, examples and tests, and is
-			intended as a preview to convey the 'concept' of Metawidget. 
+			intended as a preview to convey the 'concept' of Metawidget. Features include: 
 		</p>
+		
+		<ul>
+			<li>Pluggable inspectors and layouts</li>
+			<li>Android support</li>
+			<li>Java Server Faces support</li>
+			<li>Java Server Pages support</li>
+			<li>Spring support</li>
+			<li>Struts support</li>
+			<li>Swing support</li>
+		</ul>
 		
 		<p>
 			Special thanks to Michael Studman for all his help testing this release!

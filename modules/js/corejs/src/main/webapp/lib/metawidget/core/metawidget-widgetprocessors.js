@@ -355,16 +355,6 @@ var metawidget = metawidget || {};
 				continue;
 			}
 
-			// Support alwaysUseNestedMetawidgetInTables
-
-			if ( widgetFromBinding.nestedMetawidgets !== undefined ) {
-
-				for ( var loop = 0, length = widgetFromBinding.nestedMetawidgets.length; loop < length; loop++ ) {
-					this.save( widgetFromBinding.nestedMetawidgets[loop].getMetawidget() );
-				}
-				continue;
-			}
-
 			// saveFromWidget
 
 			var value = this.saveFromWidget( binding, mw );
@@ -376,6 +366,15 @@ var metawidget = metawidget || {};
 			toInspect[name] = value;
 		}
 
+		// Support alwaysUseNestedMetawidgetInTables
+
+		if ( mw.nestedMetawidgets !== undefined ) {
+
+			for ( var loop = 0, length = mw.nestedMetawidgets.length; loop < length; loop++ ) {
+				this.save( mw.nestedMetawidgets[loop].getMetawidget() );
+			}
+		}
+		
 		return dirty;
 	};
 

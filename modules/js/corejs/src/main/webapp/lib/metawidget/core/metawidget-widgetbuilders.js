@@ -616,9 +616,8 @@ var metawidget = metawidget || {};
 
 				// Support SimpleBindingProcessor
 				
-				var table = tr.parentNode.parentNode;
-				table.nestedMetawidgets = table.nestedMetawidgets || [];
-				table.nestedMetawidgets.push( nestedMetawidget );
+				mw.nestedMetawidgets = mw.nestedMetawidgets || [];
+				mw.nestedMetawidgets.push( nestedMetawidget );
 				
 				td.appendChild( nestedMetawidget );
 			} else if ( valueToRender !== undefined ) {
