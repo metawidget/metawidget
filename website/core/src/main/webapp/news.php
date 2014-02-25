@@ -17,7 +17,7 @@
 		<ul>
 			<li>Re-licensed under LGPL/EPL and a commercial license</li>
 			<li>Bootstrap 3 support</li>
-			<li>AngularJS date support, ngShow support, memory leak fix</li>
+			<li>AngularJS date support, ngShow/ngHide support, memory leak fix</li>
 			<li>Spring 3.2.6 support</li>
 			<li>HTML 5 color picker support</li>
 			<li>Bug fixes, documentation and unit tests</li>
