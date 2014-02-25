@@ -34,7 +34,11 @@
 		
 		<p>
 			The awesome folks over at <a href="http://cloudbees.com">CloudBees</a> have kindly donated a FOSS account
-			for our nightly builds! This means you can now
+			for our nightly builds!
+		</p>
+		
+		<p>
+			This means you can now
 			<a href="https://kennardconsulting.ci.cloudbees.com/job/Metawidget">download snapshot bundles</a>
 			of Metawidget. These are complete ZIPs containing all binaries, minified JavaScript libraries, API documentation,
 			Reference Guide PDFs and pre-built examples. Of course, Maven snapshot JARs will
