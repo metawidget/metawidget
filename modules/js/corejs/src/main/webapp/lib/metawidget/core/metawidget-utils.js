@@ -514,39 +514,42 @@ var metawidget = metawidget || {};
 		// Extract the given inspection result's properties into an array...
 
 		var sortedProperties = [];
+		
+		if ( inspectionResult !== undefined ) {
 
-		for ( var propertyName in inspectionResult.properties ) {
+			for ( var propertyName in inspectionResult.properties ) {
+	
+				var properties = inspectionResult.properties[propertyName];
+				sortedProperties.push( properties );
+	
+				properties.name = propertyName;
+				properties._syntheticOrder = sortedProperties.length;
+			}
 
-			var properties = inspectionResult.properties[propertyName];
-			sortedProperties.push( properties );
-
-			properties.name = propertyName;
-			properties._syntheticOrder = sortedProperties.length;
-		}
-
-		// ...sort the array...
-
-		sortedProperties.sort( function( a, b ) {
-
-			if ( a.propertyOrder === undefined ) {
+			// ...sort the array...
+	
+			sortedProperties.sort( function( a, b ) {
+	
+				if ( a.propertyOrder === undefined ) {
+					if ( b.propertyOrder === undefined ) {
+						return ( a._syntheticOrder - b._syntheticOrder );
+					}
+					return 1;
+				}
+	
 				if ( b.propertyOrder === undefined ) {
+					return -1;
+				}
+	
+				var diff = ( a.propertyOrder - b.propertyOrder );
+	
+				if ( diff === 0 ) {
 					return ( a._syntheticOrder - b._syntheticOrder );
 				}
-				return 1;
-			}
-
-			if ( b.propertyOrder === undefined ) {
-				return -1;
-			}
-
-			var diff = ( a.propertyOrder - b.propertyOrder );
-
-			if ( diff === 0 ) {
-				return ( a._syntheticOrder - b._syntheticOrder );
-			}
-
-			return diff;
-		} );
+	
+				return diff;
+			} );
+		}
 
 		// ...and return it
 

@@ -466,8 +466,10 @@
 				}
 			};
 
-			var sorted = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
+			var sorted = metawidget.util.getSortedInspectionResultProperties( undefined );
+			expect( sorted.length ).toBe( 0 );
 
+			sorted = metawidget.util.getSortedInspectionResultProperties( inspectionResult );
 			expect( sorted.length ).toBe( 3 );
 			expect( sorted[0].name ).toBe( 'def' );
 			expect( sorted[0].title ).toBe( 'A Def' );
