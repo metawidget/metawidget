@@ -419,6 +419,27 @@
 			expect( mw.toInspect.nested.nestedFoo ).toBe( 'nestedFooValue1' );
 		} );
 
+		it( "supports top-level widgets", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+
+			mw.toInspect = 'foo';
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'input type="text"' );
+			expect( element.childNodes.length ).toBe( 1 );
+
+			element.childNodes[0].value = 'foo1';
+			mw.getWidgetProcessor( function( testInstanceOf ) {
+
+				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( mw );
+			expect( mw.toInspect ).toBe( 'foo1' );
+		} );
+
 		it( "supports nested widgets from alwaysUseNestedMetawidgetInTables", function() {
 
 			var element = simpleDocument.createElement( 'div' );
@@ -528,25 +549,6 @@
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 			} ).save( mw );
 			expect( mw.toInspect.firstname.firstname ).toNotBe( 'baz' );
-
-			// Should support read-only top-level
-
-			mw.toInspect = 'Bar';
-			delete mw.path;
-
-			mw.buildWidgets();
-
-			expect( element.childNodes[0].toString() ).toBe( 'input type="text"' );
-			expect( element.childNodes[0].value ).toBe( 'Bar' );
-			expect( element.childNodes.length ).toBe( 1 );
-
-			element.childNodes[0].value = 'Baz';
-
-			mw.getWidgetProcessor( function( testInstanceOf ) {
-
-				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
-			} ).save( mw );
-			expect( mw.toInspect ).toBe( 'Bar' );
 		} );
 
 		it( "creates children just-in-time", function() {
