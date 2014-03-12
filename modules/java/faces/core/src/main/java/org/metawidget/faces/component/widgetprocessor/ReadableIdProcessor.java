@@ -108,6 +108,7 @@ public class ReadableIdProcessor
 	protected void setUniqueId( UIComponent component, String expressionString, UIMetawidget metawidget ) {
 
 		String id = StringUtils.camelCase( FacesUtils.unwrapExpression( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
+		id = id.replace( '[', '_' ).replace( ']', '_' );
 		setUniqueId( id, component, metawidget );
 	}
 

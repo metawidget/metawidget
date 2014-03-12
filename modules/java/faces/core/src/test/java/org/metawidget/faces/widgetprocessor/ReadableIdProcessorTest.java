@@ -109,6 +109,14 @@ public class ReadableIdProcessorTest
 		assertTrue( stub.getId() != null );
 		assertEquals( "fooBar_3", textComponent.getId() );
 		assertEquals( "fooBar_3_2", textComponent2.getId() );
+
+		// Array indexes
+
+		textComponent = new HtmlInputText();
+		textComponent.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{something.list[0].property}" ) );
+		assertEquals( textComponent, processor.processWidget( textComponent, PROPERTY, null, metawidget ) );
+		assertEquals( "somethingList_0_Property", textComponent.getId() );
+
 	}
 
 	//
