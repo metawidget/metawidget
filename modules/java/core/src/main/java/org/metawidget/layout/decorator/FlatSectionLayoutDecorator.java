@@ -185,7 +185,12 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 		public void setCurrentSections( String[] currentSections ) {
 
-			this.mCurrentSections = currentSections;
+			if ( currentSections == null ) {
+				mCurrentSections = null;
+			} else {
+				mCurrentSections = new String[currentSections.length];
+				System.arraycopy( currentSections, 0, mCurrentSections, 0, currentSections.length );
+			}
 		}
 	}
 }

@@ -901,7 +901,7 @@ public class XmlInspectorTest
 
 		public void setNestedNullObject( NullObject nestedNullObject ) {
 
-			this.mNestedNullObject = nestedNullObject;
+			mNestedNullObject = nestedNullObject;
 		}
 	}
 

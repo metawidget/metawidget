@@ -21,7 +21,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 /**
  * Utility class to load Selenium and wait for a test case to complete. Designed to
  * integrate into JUnit and Maven.
- * 
+ *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -56,6 +56,7 @@ public abstract class ScenarioRunnerTestCase
 
 			new WebDriverWait( driver, TEST_TIMEOUT_IN_SECONDS ).until( new ExpectedCondition<Boolean>() {
 
+				@Override
 				public Boolean apply( WebDriver theDriver ) {
 
 					return applyExpectedCondition( theDriver );

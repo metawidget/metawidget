@@ -568,10 +568,10 @@ public class VaadinMetawidget
 
 		// Prepare to build widgets
 
-		this.mNeedToBuildWidgets = true;
+		mNeedToBuildWidgets = true;
 
-		if ( this.mClientProperties != null ) {
-			this.mClientProperties.clear();
+		if ( mClientProperties != null ) {
+			mClientProperties.clear();
 		}
 
 		// Call repaint here, rather than just 'invalidate', for scenarios like
