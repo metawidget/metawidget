@@ -67,7 +67,7 @@ public final class IOUtils {
 					}
 
 					// For some input stream types (e.g. CipherInputStream) it is important to flush
-					// the output stream before closing
+					// the output stream at the end
 
 					// TODO: test this
 
