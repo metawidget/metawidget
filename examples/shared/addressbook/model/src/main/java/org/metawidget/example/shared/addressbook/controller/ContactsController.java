@@ -266,7 +266,7 @@ public class ContactsController {
 			return false;
 		}
 
-		return ( mAll.remove( contact.getId() ) != null );
+		return mAll.remove( contact.getId() ) != null;
 	}
 
 	//

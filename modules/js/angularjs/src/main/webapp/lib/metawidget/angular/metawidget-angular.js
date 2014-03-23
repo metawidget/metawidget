@@ -196,8 +196,6 @@ var metawidget = metawidget || {};
 
 	metawidget.angular = metawidget.angular || {};
 
-	var _nestedMetawidgetConfigId = 0;
-
 	metawidget.angular.AngularMetawidget = function( element, attrs, transclude, scope, $compile, $parse ) {
 
 		if ( ! ( this instanceof metawidget.angular.AngularMetawidget ) ) {
@@ -409,15 +407,16 @@ var metawidget = metawidget || {};
 			//
 			// Use a private counter to stop configIds conflicting. This is
 			// because scope.$parent is a very broad scope - it's hard to
-			// know what might be in it
+			// know what might be in it. We must use scope.$parent because we
+			// $compile relative to our $parent. And we do *that* so that our
+			// bindings look more 'natural' (eg. 'foo.bar' not 'toInspect.bar')
 
-			// TODO: what if we don't do $parent?
-
-			var configId = '_metawidgetConfig' + _nestedMetawidgetConfigId++;
+			scope.$parent._nestedMetawidgetConfigId = scope.$parent._nestedMetawidgetConfigId || 0;
+			var configId = '_metawidgetConfig' + scope.$parent._nestedMetawidgetConfigId++;
 			scope.$parent[configId] = _pipeline;
 
 			if ( config !== undefined ) {
-				var configId2 = '_metawidgetConfig' + _nestedMetawidgetConfigId++;
+				var configId2 = '_metawidgetConfig' + scope.$parent._nestedMetawidgetConfigId++;
 				scope.$parent[configId2] = config;
 				nestedMetawidget.setAttribute( 'configs', '[' + configId + ',' + configId2 + ']' );
 			} else {

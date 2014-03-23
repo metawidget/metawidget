@@ -78,17 +78,17 @@ public class FacesThisTest {
 
 	public void setChild( FacesThisTest child ) {
 
-		this.mChild = child;
+		mChild = child;
 	}
 
 	@UiHidden
 	public String getIdentity() {
 
-		return this.mIdentity;
+		return mIdentity;
 	}
 
 	public void setIdentity( String identity ) {
 
-		this.mIdentity = identity;
+		mIdentity = identity;
 	}
 }

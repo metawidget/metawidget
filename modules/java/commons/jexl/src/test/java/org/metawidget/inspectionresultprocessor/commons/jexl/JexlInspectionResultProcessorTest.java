@@ -280,17 +280,17 @@ public class JexlInspectionResultProcessorTest
 
 		public void setChild( ThisTest child ) {
 
-			this.mChild = child;
+			mChild = child;
 		}
 
 		public String getIdentity() {
 
-			return this.mIdentity;
+			return mIdentity;
 		}
 
 		public void setIdentity( String identity ) {
 
-			this.mIdentity = identity;
+			mIdentity = identity;
 		}
 	}
 
