@@ -65,13 +65,6 @@ public final class IOUtils {
 						channelOut.write( buffer );
 						buffer.clear();
 					}
-
-					// For some input stream types (e.g. CipherInputStream) it is important to flush
-					// the output stream at the end
-
-					// TODO: test this
-
-					out.flush();
 				} catch ( Exception e ) {
 					throw new RuntimeException( e );
 				} finally {
