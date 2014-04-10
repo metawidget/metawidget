@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseTraitStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 
@@ -250,6 +251,24 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( properties.containsKey( "tle" ) );
 		assertTrue( properties.containsKey( "olate" ) );
 		assertEquals( 3, properties.size() );
+	}
+
+	public void testTraverseToArray() {
+
+		ArrayHolder arrayHolder = new ArrayHolder();
+
+		ValueAndDeclaredType valueAndDeclaredType = new JavaBeanPropertyStyle().traverse( arrayHolder, ArrayHolder.class.getName(), false, "array" );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
+
+		// TODO: valueAndDeclaredType = new JavaBeanPropertyStyle().traverse( arrayHolder, ArrayHolder.class.getName(), true, "array", "0" );
+		//assertEquals( null, valueAndDeclaredType.getValue() );
+		//assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
+
+		// TODO: arrayHolder.setArray( new String[] { "Foo", "Bar" } );
+		//valueAndDeclaredType = new JavaBeanPropertyStyle().traverse( arrayHolder, ArrayHolder.class.getName(), true, "array", "0" );
+		//assertTrue( valueAndDeclaredType.getValue() instanceof String[] );
+		//assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
 	}
 
 	public void testConfig() {
@@ -528,6 +547,29 @@ public class JavaBeanPropertyStyleTest
 		public void settle( String settlementAmount ) {
 
 			// Do nothing
+		}
+	}
+
+	static class ArrayHolder {
+
+		//
+		// Private members
+		//
+
+		private String[]	mArray;
+
+		//
+		// Public methods
+		//
+
+		public String[] getArray() {
+
+			return mArray;
+		}
+
+		public void setArray( String[] array ) {
+
+			mArray = array;
 		}
 	}
 }

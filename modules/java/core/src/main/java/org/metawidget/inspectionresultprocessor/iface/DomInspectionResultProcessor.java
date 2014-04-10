@@ -37,6 +37,9 @@ public interface DomInspectionResultProcessor<E, M>
 	/**
 	 * Optimized verison of <code>processInspectionResult</code> that avoids DOM
 	 * serialization/deserialization.
+	 *
+	 * @param inspectionResult
+	 *            the inspection result to process. Never null
 	 */
 
 	E processInspectionResultAsDom( E inspectionResult, M metawidget, Object toInspect, String type, String... names );
