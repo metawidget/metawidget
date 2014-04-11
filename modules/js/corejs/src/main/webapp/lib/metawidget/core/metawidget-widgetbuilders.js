@@ -481,7 +481,7 @@ var metawidget = metawidget || {};
 		 *         contains an object containing attributes for the first column
 		 */
 
-		metawidget.widgetbuilder.HtmlWidgetBuilder.prototype.addHeaderRow = function( thead, inspectionResultProperties, mw ) {
+		this.addHeaderRow = function( thead, inspectionResultProperties, mw ) {
 
 			var tr = metawidget.util.createElement( mw, 'tr' );
 			thead.appendChild( tr );
