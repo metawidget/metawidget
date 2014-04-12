@@ -144,7 +144,7 @@ public class SwingAnimalRacesTest
 
 		( (JButton) statusbar.getComponent( 0 ) ).doClick();
 
-		Thread.sleep( 1000 );
+		Thread.sleep( 2000 );
 		assertTrue( ( (JLabel) racetrack.getComponent( 0 ) ).getLocation().x > 20 );
 		assertTrue( ( (JLabel) racetrack.getComponent( 1 ) ).getLocation().x > 20 );
 		assertTrue( ( (JLabel) racetrack.getComponent( 2 ) ).getLocation().x > 20 );
