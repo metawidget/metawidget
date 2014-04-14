@@ -469,19 +469,22 @@ var metawidget = metawidget || {};
 
 			if ( elementName !== 'action' ) {
 
-				var label = metawidget.util.createElement( mw, 'label' );
+				var labelString = this.getLabelString( attributes, mw );
 
-				if ( widget.hasAttribute( 'id' ) ) {
-					label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+				if ( labelString !== '' ) {
+					var label = metawidget.util.createElement( mw, 'label' );
+
+					if ( widget.hasAttribute( 'id' ) ) {
+						label.setAttribute( 'for', widget.getAttribute( 'id' ) );
+					}
+
+					if ( idPrefix !== undefined ) {
+						label.setAttribute( 'id', idPrefix + '-label' );
+					}
+
+					label.innerHTML = labelString;
+					th.appendChild( label );
 				}
-
-				if ( idPrefix !== undefined ) {
-					label.setAttribute( 'id', idPrefix + '-label' );
-				}
-
-				label.innerHTML = metawidget.util.getLabelString( attributes, mw ) + ':';
-
-				th.appendChild( label );
 			}
 
 			tr.appendChild( th );
@@ -501,6 +504,21 @@ var metawidget = metawidget || {};
 
 			tr.appendChild( td );
 		};
+		
+		/**
+		 * @returns the label string, or a blank string if no label.
+		 */
+
+		this.getLabelString = function( attributes, mw ) {
+
+			var labelString = metawidget.util.getLabelString( attributes, mw );
+
+			if ( labelString === '' ) {
+				return labelString;
+			}
+
+			return labelString + ':';
+		};		
 	};
 
 	//
@@ -590,7 +608,7 @@ var metawidget = metawidget || {};
 		decorator.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
 			var section;
-			
+
 			// If our delegate is itself a NestedSectionLayoutDecorator, strip
 			// the section
 

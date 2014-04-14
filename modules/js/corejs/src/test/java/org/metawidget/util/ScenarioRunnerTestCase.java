@@ -56,7 +56,6 @@ public abstract class ScenarioRunnerTestCase
 
 			new WebDriverWait( driver, TEST_TIMEOUT_IN_SECONDS ).until( new ExpectedCondition<Boolean>() {
 
-				@Override
 				public Boolean apply( WebDriver theDriver ) {
 
 					return applyExpectedCondition( theDriver );
