@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v3.8 Released!</h3>
-		<h4></h4>
+		<h4>25th February 2014</h4>
 		
 		<p>
 			Metawidget v3.8 is now available!
