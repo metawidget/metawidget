@@ -232,6 +232,55 @@ public @interface MyAnnotation {
 
 				</section>
 				
+				<section id="section-metawidgets-web-faces-missing-generics">
+					<title>My parameterized List renders as a single column</title>
+					
+					<para>
+						If your getter code is...
+					</para>
+					
+					<programlisting language="java">public class Foo {
+
+	public List&lt;Bar&gt; getBars() {
+	
+		return mBars;
+	}
+}</programlisting>
+
+					<para>
+						...and your code JSP/Facelets code is...
+					</para>
+					
+					<programlisting language="xml">&lt;m:metawidget value="#{foo.bars}"/&gt;</programlisting>
+					
+					<para>
+						Then by default the <parameter>&lt;Bar&gt;</parameter> parameterized type will be ignored. This is because the EL expression
+						<parameter>#{foo.bars}</parameter> evaluates directly to the Collection. Metawidget will not consider any parent objects or
+						their getter methods. There are two options:
+					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								Change the EL expression to <parameter>&lt;m:metawidget value="#{foo}"/&gt;</parameter> and let Metawidget
+								traverse the child property
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								Use <parameter>&lt;m:metawidget value="#{foo.bars}" inspectFromParent="true"/&gt;</parameter> to force Metawidget
+								to unpack the EL expression and evaluate the 'parent' <parameter>#{foo}</parameter>
+							</para>
+						</listitem>
+					</itemizedlist>
+					
+					<para>
+						Note that if <parameter>#{foo.bars}</parameter> evaluates to <parameter>null</parameter> then Metawidget will unpack
+						and check the parent automatically, but this is simply a niceity.
+					</para>
+
+				</section>
+
 				<section id="section-metawidgets-web-faces-client-state-saving">
 					<title>I get "View could not be restored"</title>
 					

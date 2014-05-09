@@ -83,7 +83,8 @@ import org.w3c.dom.Element;
  * <li>an <code>EditableValueHolder</code>, as it does not use a <code>Validator</code>
  * </ul>
  * <p>
- * However by extending <code>UIInput</code>, we enable this useful capability.
+ * However by extending <code>UIInput</code>, we enable this useful 'attach facets to a single
+ * widget' capability.
  * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
@@ -512,7 +513,7 @@ public abstract class UIMetawidget
 				return null;
 			}
 		} else {
-			
+
 			// No bundle
 
 			return null;
