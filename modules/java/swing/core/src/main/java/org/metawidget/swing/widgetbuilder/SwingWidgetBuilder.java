@@ -48,6 +48,8 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -366,21 +368,25 @@ public class SwingWidgetBuilder
 		// Fetch the data (if any)
 
 		Collection<?> collection = null;
-		Object toInspect = metawidget.getToInspect();
 
-		if ( toInspect != null ) {
+		if ( metawidget.getPath() != null ) {
+			TypeAndNames typeAndNames = PathUtils.parsePath( metawidget.getPath() );
+			Object toInspect = mPropertyStyle.traverse( metawidget.getToInspect(), typeAndNames.getType(), false, typeAndNames.getNamesAsArray() ).getValue();
 
-			if ( ENTITY.equals( elementName ) ) {
-				collection = (Collection<?>) toInspect;
-			} else if ( mPropertyStyle != null ) {
-				String type = toInspect.getClass().getName();
-				Map<String, Property> properties = mPropertyStyle.getProperties( type );
+			if ( toInspect != null ) {
 
-				if ( properties != null ) {
-					Property property = properties.get( attributes.get( NAME ) );
+				if ( ENTITY.equals( elementName ) ) {
+					collection = (Collection<?>) toInspect;
+				} else if ( mPropertyStyle != null ) {
+					String type = toInspect.getClass().getName();
+					Map<String, Property> properties = mPropertyStyle.getProperties( type );
 
-					if ( property != null ) {
-						collection = (Collection<?>) property.read( toInspect );
+					if ( properties != null ) {
+						Property property = properties.get( attributes.get( NAME ) );
+
+						if ( property != null ) {
+							collection = (Collection<?>) property.read( toInspect );
+						}
 					}
 				}
 			}
@@ -430,7 +436,7 @@ public class SwingWidgetBuilder
 
 				Map<String, String> columnAttributes = XmlUtils.getAttributesAsMap( element );
 
-				if ( TRUE.equals( columnAttributes.get( HIDDEN ))) {
+				if ( TRUE.equals( columnAttributes.get( HIDDEN ) ) ) {
 					continue;
 				}
 
