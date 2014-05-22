@@ -628,6 +628,12 @@
 								<td><parameter>hidden</parameter></td>
 							</tr>
 							<tr>
+								<td><classname>&lt;table&gt;</classname></td>
+								<td>
+									<parameter>type: "array"</parameter>. Child properties will be inspected to determine
+									table columns. Also supports <parameter>columnWidth</parameter> metadata</td>.
+							</tr>
+							<tr>
 								<td><classname>&lt;textarea&gt;</classname></td>
 								<td><parameter>type: "string"</parameter> and <parameter>large</parameter></td>
 							</tr>
