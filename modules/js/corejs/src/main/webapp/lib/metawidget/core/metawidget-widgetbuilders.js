@@ -516,6 +516,12 @@ var metawidget = metawidget || {};
 
 			var th = metawidget.util.createElement( mw, 'th' );
 
+			// Support column widths
+			
+			if ( attributes.columnWidth !== undefined ) {
+				th.setAttribute( 'width', attributes.columnWidth );
+			}
+			
 			if ( attributes.type !== 'function' ) {
 				th.innerHTML = metawidget.util.getLabelString( attributes, mw );
 			}
@@ -561,6 +567,12 @@ var metawidget = metawidget || {};
 		this.addColumn = function( tr, value, row, columnAttributes, elementName, tableAttributes, mw ) {
 
 			var td = metawidget.util.createElement( mw, 'td' );
+
+			// Support column widths
+			
+			if ( columnAttributes.columnWidth !== undefined ) {
+				td.setAttribute( 'width', columnAttributes.columnWidth );
+			}
 
 			// Render either top-level value, or a property of that value
 

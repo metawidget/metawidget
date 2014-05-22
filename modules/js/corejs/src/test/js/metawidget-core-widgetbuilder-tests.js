@@ -722,10 +722,11 @@
 								hidden: true
 							},
 							foo: {
-								type: 'string'
+								type: 'string'								
 							},
 							bar: {
-								type: 'string'
+								type: 'string',
+								columnWidth: '10%'
 							},
 							baz: {
 								type: 'function'
@@ -748,7 +749,7 @@
 			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
-			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th width="10%"' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Bar' );
 			expect( table.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[2].innerHTML ).toBeUndefined();
@@ -772,7 +773,7 @@
 			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
-			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th width="10%"' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Bar' );
 			expect( table.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[2].innerHTML ).toBeUndefined();
@@ -781,7 +782,7 @@
 			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
 			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'FooValue' );
-			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td width="10%"' );
 			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBeUndefined();
 			expect( table.childNodes[1].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'div' );
