@@ -1013,12 +1013,6 @@
 							nestedName: "Nested Foo",
 							nestedDescription: "A Nested Foo"
 						} ]
-					}, {
-						name: "Bar",
-						description: {
-							nestedName: "Nested Bar",
-							nestedDescription: "A Nested Bar"
-						}
 					} ];
 
 					table = widgetBuilder.buildWidget( "entity", {
@@ -1038,17 +1032,13 @@
 					expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
 					expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
 					expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+					expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
 
-					// Nested table
+					// Description is a nested table
 
 					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-object0Description"' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object0Description-row"' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
-							'td id="table-object0Description-cell" colspan="2"' );
 
-					var nestedTable = table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
+					var nestedTable = table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0];
 					expect( nestedTable.toString() ).toBe( 'table id="object0Description"' );
 					expect( nestedTable.childNodes[0].toString() ).toBe( 'thead' );
 					expect( nestedTable.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
@@ -1064,33 +1054,40 @@
 					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBe( 'A Nested Foo' );
 					expect( nestedTable.childNodes[1].childNodes.length ).toBe( 1 );
 
-					expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
-					expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
-					expect( table.childNodes[1].childNodes[1].childNodes[0].innerHTML ).toBe( 'Bar' );
-					expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+					// Description is a nested object
 
-					// Nested object
+					mw.toInspect = [ {
+						name: "Bar",
+						description: {
+							nestedName: "Nested Bar",
+							nestedDescription: "A Nested Bar"
+						}
+					} ];
 
-					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+					table = widgetBuilder.buildWidget( "entity", {
+						type: "array"
+					}, mw );
 
-					var nestedObject = table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0];
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
 
-					expect( nestedObject.toString() ).toBe( 'table id="table-object1Description"' );
+					var nestedObject = table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0];
+
+					expect( nestedObject.toString() ).toBe( 'table id="table-object0Description"' );
 					expect( nestedObject.childNodes[0].toString() ).toBe( 'tbody' );
-					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object1DescriptionNestedName-row"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-object1DescriptionNestedName-label-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="object1DescriptionNestedName" id="table-object1DescriptionNestedName-label"' );
+					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object0DescriptionNestedName-row"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-object0DescriptionNestedName-label-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="object0DescriptionNestedName" id="table-object0DescriptionNestedName-label"' );
 					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Name:' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-object1DescriptionNestedName-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="object1DescriptionNestedName" name="object1DescriptionNestedName"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-object0DescriptionNestedName-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="object0DescriptionNestedName" name="object0DescriptionNestedName"' );
 
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-object1DescriptionNestedDescription-label-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-object0DescriptionNestedDescription-label-cell"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe(
-							'label for="object1DescriptionNestedDescription" id="table-object1DescriptionNestedDescription-label"' );
+							'label for="object0DescriptionNestedDescription" id="table-object0DescriptionNestedDescription-label"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Description:' );
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-object1DescriptionNestedDescription-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-object0DescriptionNestedDescription-cell"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe(
-							'input type="text" id="object1DescriptionNestedDescription" name="object1DescriptionNestedDescription"' );
+							'input type="text" id="object0DescriptionNestedDescription" name="object0DescriptionNestedDescription"' );
 				} );
 
 		it( "supports alwaysUseNestedMetawidgetInTables",
@@ -1108,16 +1105,10 @@
 
 					mw.toInspect = [ {
 						name: "Foo",
-						description: [ {
-							nestedName: "Nested Foo",
-							nestedDescription: "A Nested Foo"
-						} ]
+						description: "Foo Description"
 					}, {
 						name: "Bar",
-						description: {
-							nestedName: "Nested Bar",
-							nestedDescription: "A Nested Bar"
-						}
+						description: "Bar Description"
 					} ];
 
 					table = widgetBuilder.buildWidget( "entity", {
@@ -1149,68 +1140,19 @@
 					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Name" name="object0Name"' );
 					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
 					expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
-
-					// Nested table
-
 					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-object0Description"' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object0Description-row"' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
-							'td id="table-object0Description-cell" colspan="2"' );
-
-					var nestedTable = table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0];
-					expect( nestedTable.toString() ).toBe( 'table id="object0Description"' );
-					expect( nestedTable.childNodes[0].toString() ).toBe( 'thead' );
-					expect( nestedTable.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
-					expect( nestedTable.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
-					expect( nestedTable.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Name' );
-					expect( nestedTable.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
-					expect( nestedTable.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Nested Description' );
-					expect( nestedTable.childNodes[1].toString() ).toBe( 'tbody' );
-					expect( nestedTable.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
-					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
-					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
-							'input type="text" id="object0Description0NestedName" name="object0Description0NestedName"' );
-					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Nested Foo' );
-					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
-					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe(
-							'input type="text" id="object0Description0NestedDescription" name="object0Description0NestedDescription"' );
-					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'A Nested Foo' );
-					expect( nestedTable.childNodes[1].childNodes.length ).toBe( 1 );
-
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Description" name="object0Description"' );
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'Foo Description' );
 					expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
 					expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
 					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].getMetawidget().path ).toBe( 'object[1].name' );
 					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Name" name="object1Name"' );
 					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Bar' );
-
-					// Nested object
-
+					expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
 					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].getMetawidget().path ).toBe( 'object[1].description' );
-
-					var nestedObject = table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0];
-
-					expect( nestedObject.toString() ).toBe( 'table id="table-object1Description"' );
-					expect( nestedObject.childNodes[0].toString() ).toBe( 'tbody' );
-					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object1DescriptionNestedName-row"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-object1DescriptionNestedName-label-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="object1DescriptionNestedName" id="table-object1DescriptionNestedName-label"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Name:' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-object1DescriptionNestedName-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="object1DescriptionNestedName" name="object1DescriptionNestedName"' );
-
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-object1DescriptionNestedDescription-label-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe(
-							'label for="object1DescriptionNestedDescription" id="table-object1DescriptionNestedDescription-label"' );
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Description:' );
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-object1DescriptionNestedDescription-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe(
-							'input type="text" id="object1DescriptionNestedDescription" name="object1DescriptionNestedDescription"' );
+					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Description" name="object1Description"' );
+					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'Bar Description' );
+					expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
 				} );
 
 		it( "supports alwaysUseNestedMetawidgetInTables with readOnly tables", function() {

@@ -601,24 +601,29 @@ var metawidget = metawidget || {};
 					attributes.readOnly = tableAttributes.readOnly;
 				}
 
-				// Render simple types with a simple layout, to avoid a
-				// leading label
-
 				var nestedMetawidget;
 
-				if ( attributes.type === undefined || attributes.type === 'array' ) {
+				if ( columnAttributes.type === undefined ) {
+
+					// If type is undefined, we will likely recurse, so use
+					// leading labels
+
 					nestedMetawidget = mw.buildNestedMetawidget( attributes );
 				} else {
+
+					// Render simple types with a simple layout, to avoid a
+					// leading label
+
 					nestedMetawidget = mw.buildNestedMetawidget( attributes, {
 						layout: new metawidget.layout.SimpleLayout()
 					} );
 				}
 
 				// Support SimpleBindingProcessor
-				
+
 				mw.nestedMetawidgets = mw.nestedMetawidgets || [];
 				mw.nestedMetawidgets.push( nestedMetawidget );
-				
+
 				td.appendChild( nestedMetawidget );
 			} else if ( valueToRender !== undefined ) {
 				td.innerHTML = '' + valueToRender;
