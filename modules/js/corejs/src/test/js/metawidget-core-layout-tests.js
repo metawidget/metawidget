@@ -968,7 +968,7 @@
 			var layout = new metawidget.layout.TableLayout();
 			layout.getLabelString = function() {
 
-				return "";
+				return "abc";
 			}
 
 			var widget1 = simpleDocument.createElement( 'input' );
@@ -990,12 +990,78 @@
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'abc' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "supports empty labels", function() {
+
+			var layout = new metawidget.layout.TableLayout();
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'id', 'widget1' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			}
+
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+				title: ""
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBeUndefined();
 			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "supports null labels", function() {
+
+			var layout = new metawidget.layout.TableLayout();
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'id', 'widget1' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			}
+
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+				title: null
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td id="table-widget1-cell" colspan="2"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( container.childNodes.length ).toBe( 1 );

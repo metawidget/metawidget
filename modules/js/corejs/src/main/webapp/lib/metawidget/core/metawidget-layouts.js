@@ -455,6 +455,12 @@ var metawidget = metawidget || {};
 				return;
 			}
 
+			var labelString = this.getLabelString( attributes, mw );
+
+			if ( labelString === null ) {
+				return;
+			}
+
 			// Label
 
 			var th = metawidget.util.createElement( mw, 'th' );
@@ -467,24 +473,19 @@ var metawidget = metawidget || {};
 				th.setAttribute( 'class', _columnStyleClasses[0] );
 			}
 
-			if ( elementName !== 'action' ) {
+			if ( elementName !== 'action' && labelString !== '' ) {
+				var label = metawidget.util.createElement( mw, 'label' );
 
-				var labelString = this.getLabelString( attributes, mw );
-
-				if ( labelString !== '' ) {
-					var label = metawidget.util.createElement( mw, 'label' );
-
-					if ( widget.hasAttribute( 'id' ) ) {
-						label.setAttribute( 'for', widget.getAttribute( 'id' ) );
-					}
-
-					if ( idPrefix !== undefined ) {
-						label.setAttribute( 'id', idPrefix + '-label' );
-					}
-
-					label.innerHTML = labelString;
-					th.appendChild( label );
+				if ( widget.hasAttribute( 'id' ) ) {
+					label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 				}
+
+				if ( idPrefix !== undefined ) {
+					label.setAttribute( 'id', idPrefix + '-label' );
+				}
+
+				label.innerHTML = labelString;
+				th.appendChild( label );
 			}
 
 			tr.appendChild( th );
@@ -504,7 +505,7 @@ var metawidget = metawidget || {};
 
 			tr.appendChild( td );
 		};
-		
+
 		/**
 		 * @returns the label string, or a blank string if no label.
 		 */
@@ -518,7 +519,7 @@ var metawidget = metawidget || {};
 			}
 
 			return labelString + ':';
-		};		
+		};
 	};
 
 	//
