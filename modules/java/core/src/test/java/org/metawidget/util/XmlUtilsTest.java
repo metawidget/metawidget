@@ -327,6 +327,11 @@ public class XmlUtilsTest
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" section=\"foo\"/>></inspection-result>" );
 		assertEquals( "{\"section\":[\"foo\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+
+		// Test nil
+
+		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" title=\"xsi:nil\"/>></inspection-result>" );
+		assertEquals( "{\"title\":null,\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
 	}
 
 	//

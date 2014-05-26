@@ -720,6 +720,8 @@ public final class XmlUtils {
 				propertyBuilder.append( "]" );
 			} else if ( ArrayUtils.contains( JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES, attributeName ) && !attributeValue.contains( "{" )) {
 				propertyBuilder.append( attributeValue );
+			} else if ( "xsi:nil".equals( attributeValue )) {
+				propertyBuilder.append( "null" );
 			} else {
 
 				// Write out all other values as a string, as this is the safest option
