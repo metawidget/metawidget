@@ -50,6 +50,13 @@
 				}
 			} ) ).toBe( 'Foo Bar' );
 		} );
+
+		it( "returns null if forced blank", function() {
+
+			expect( metawidget.util.getLabelString( {
+				title: null
+			} ) ).toBe( null );
+		} );
 	} );
 
 	describe( "The uncamelCase function", function() {

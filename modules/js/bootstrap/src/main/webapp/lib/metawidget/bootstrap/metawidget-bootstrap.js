@@ -156,6 +156,9 @@ var metawidget = metawidget || {};
 			if ( config.divStyleClasses === undefined ) {
 				config.divStyleClasses = [ 'form-group', 'col-sm-2 control-label', 'col-sm-10' ];
 			}
+			if ( config.widgetDivSpanAllClass === undefined ) {
+				config.widgetDivSpanAllClass = 'col-sm-12';
+			}
 			if ( config.widgetDivOffsetClass === undefined ) {
 				config.widgetDivOffsetClass = 'col-sm-offset-2';
 			}
@@ -174,7 +177,11 @@ var metawidget = metawidget || {};
 
 				var outerDiv = container.childNodes[container.childNodes.length - 1];
 				if ( outerDiv.childNodes.length === 1 ) {
-					metawidget.util.appendToAttribute( outerDiv.childNodes[0], 'class', config.widgetDivOffsetClass );
+					if ( attributes.title === null ) {
+						outerDiv.childNodes[0].setAttribute( 'class', config.widgetDivSpanAllClass );
+					} else {
+						metawidget.util.appendToAttribute( outerDiv.childNodes[0], 'class', config.widgetDivOffsetClass );
+					}
 				}
 			};
 		}

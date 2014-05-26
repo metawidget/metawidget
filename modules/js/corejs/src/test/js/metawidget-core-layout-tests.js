@@ -193,6 +193,31 @@
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
+		it( "supports null labels", function() {
+
+			var layout = new metawidget.layout.DivLayout();
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'id', 'widget1' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+				title: null
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
 		it( "supports empty label suffixes", function() {
 
 			var layout = new metawidget.layout.DivLayout( {

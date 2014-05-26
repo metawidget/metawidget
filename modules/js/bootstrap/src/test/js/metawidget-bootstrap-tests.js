@@ -158,6 +158,34 @@
 			expect( element.childNodes.length ).toBe( 3 );
 		} );
 
+		it( "has a Layout that can span all columns", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: function() {
+
+					return {
+						properties: {
+							foo: {
+								type: "string",
+								title: null								
+							}
+						}
+					};
+				},
+				layout: new metawidget.bootstrap.layout.BootstrapDivLayout()
+			} );
+
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div class="col-sm-12"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 1 );
+		} );
+
 		it( "has a Layout that supports Bootstrap 2.x styles", function() {
 
 			var element = simpleDocument.createElement( 'div' );

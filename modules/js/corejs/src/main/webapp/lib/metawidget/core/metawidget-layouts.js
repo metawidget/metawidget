@@ -104,7 +104,7 @@ var metawidget = metawidget || {};
 
 			var labelString = metawidget.util.getLabelString( attributes, mw );
 
-			if ( labelString === '' ) {
+			if ( labelString === '' || labelString === null ) {
 				return;
 			}
 
@@ -210,7 +210,7 @@ var metawidget = metawidget || {};
 
 			var labelString = this.getLabelString( widget, attributes, mw );
 
-			if ( labelString === '' ) {
+			if ( labelString === '' || labelString === null ) {
 				return;
 			}
 
@@ -249,7 +249,7 @@ var metawidget = metawidget || {};
 
 			var labelString = metawidget.util.getLabelString( attributes, mw );
 
-			if ( labelString === '' ) {
+			if ( labelString === '' || labelString === null ) {
 				return labelString;
 			}
 
@@ -513,7 +513,7 @@ var metawidget = metawidget || {};
 
 			var labelString = metawidget.util.getLabelString( attributes, mw );
 
-			if ( labelString === '' ) {
+			if ( labelString === '' || labelString === null ) {
 				return labelString;
 			}
 

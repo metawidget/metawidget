@@ -52,6 +52,10 @@ var metawidget = metawidget || {};
 	 * </ul>
 	 * </li>
 	 * </ul>
+	 * 
+	 * @return the label string. Empty string if no such name. Null if name has
+	 *         been forced to blank (i.e. should be hidden)
+	 * 
 	 */
 
 	metawidget.util.getLabelString = function( attributes, mw ) {
@@ -59,6 +63,11 @@ var metawidget = metawidget || {};
 		// Explicit title
 
 		if ( attributes.title !== undefined ) {
+			
+			if ( attributes.title === null ) {
+				return null;			
+			}
+			
 			return metawidget.util.getLocalizedString( attributes.title, mw );
 		}
 
@@ -71,7 +80,7 @@ var metawidget = metawidget || {};
 		}
 
 		// Default name, uncamel case
-
+		
 		return metawidget.util.uncamelCase( name );
 	};
 
@@ -514,39 +523,39 @@ var metawidget = metawidget || {};
 		// Extract the given inspection result's properties into an array...
 
 		var sortedProperties = [];
-		
+
 		if ( inspectionResult !== undefined ) {
 
 			for ( var propertyName in inspectionResult.properties ) {
-	
+
 				var properties = inspectionResult.properties[propertyName];
 				sortedProperties.push( properties );
-	
+
 				properties.name = propertyName;
 				properties._syntheticOrder = sortedProperties.length;
 			}
 
 			// ...sort the array...
-	
+
 			sortedProperties.sort( function( a, b ) {
-	
+
 				if ( a.propertyOrder === undefined ) {
 					if ( b.propertyOrder === undefined ) {
 						return ( a._syntheticOrder - b._syntheticOrder );
 					}
 					return 1;
 				}
-	
+
 				if ( b.propertyOrder === undefined ) {
 					return -1;
 				}
-	
+
 				var diff = ( a.propertyOrder - b.propertyOrder );
-	
+
 				if ( diff === 0 ) {
 					return ( a._syntheticOrder - b._syntheticOrder );
 				}
-	
+
 				return diff;
 			} );
 		}
