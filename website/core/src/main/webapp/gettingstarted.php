@@ -25,7 +25,7 @@
 		<h3>Day 3: Start Coding!</h3>
 
 		<ul>
-			<li>Lots of good advice can be found on the <a href="/support.php">forums and in the Wiki</a>.</li>
+			<li>Lots of good advice can be found on the <a href="/support.php">forums</a>.</li>
 			<li>Additional commercial support and training is available through
 			<a href="http://www.kennardconsulting.com/contact/index.jsf" target="_blank">Kennard Consulting</a>.</li>
 		</ul>

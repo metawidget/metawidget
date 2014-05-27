@@ -55,16 +55,6 @@
 			try <a href="http://webchat.freenode.net">http://webchat.freenode.net</a>.
 		</p> 
 
-		<h2 class="h2-underneath">Community Wiki</h2>
-		
-		<p>
-			Metawidget's Community Wiki is hosted on SourceForge.
-		</p>
-	
-		<p>
-			<a href="http://sourceforge.net/apps/mediawiki/metawidget">Click here</a> to visit the Wiki.
-		</p>
-		
 		<a name="commercial"></a>
 		<h2 class="h2-underneath">Commercial Support &amp; Training</h2>
 		

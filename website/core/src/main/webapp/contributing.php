@@ -43,7 +43,6 @@
 			<li>promoting Metawidget to your colleagues (use our <a href="http://metawidget.org/media/presentation/MetawidgetPresentation.pdf">presentation material</a> to help)</li>
 			<li><a href="/support.php">providing feedback on the forums</a></li>
 			<li><a href="/issues.php">reporting issues</a></li>
-			<li><a href="/support.php">adding to the Wiki</a></li>
 			<li>contributing enhancements to the code and documentation (see below)</li>
 		</ul>
 		
