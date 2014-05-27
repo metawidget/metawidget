@@ -261,14 +261,14 @@ public class JavaBeanPropertyStyleTest
 		assertEquals( null, valueAndDeclaredType.getValue() );
 		assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
 
-		// TODO: valueAndDeclaredType = new JavaBeanPropertyStyle().traverse( arrayHolder, ArrayHolder.class.getName(), true, "array", "0" );
-		//assertEquals( null, valueAndDeclaredType.getValue() );
-		//assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
+		valueAndDeclaredType = new JavaBeanPropertyStyle().traverse( arrayHolder, ArrayHolder.class.getName(), true, "array", "0" );
+		assertEquals( null, valueAndDeclaredType.getValue() );
+		assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
 
-		// TODO: arrayHolder.setArray( new String[] { "Foo", "Bar" } );
-		//valueAndDeclaredType = new JavaBeanPropertyStyle().traverse( arrayHolder, ArrayHolder.class.getName(), true, "array", "0" );
-		//assertTrue( valueAndDeclaredType.getValue() instanceof String[] );
-		//assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
+		arrayHolder.setArray( new String[] { "Foo", "Bar" } );
+		valueAndDeclaredType = new JavaBeanPropertyStyle().traverse( arrayHolder, ArrayHolder.class.getName(), true, "array", "0" );
+		assertTrue( valueAndDeclaredType.getValue() instanceof String[] );
+		assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
 	}
 
 	public void testConfig() {

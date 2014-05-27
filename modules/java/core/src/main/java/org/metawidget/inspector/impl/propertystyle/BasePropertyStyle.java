@@ -149,7 +149,15 @@ public abstract class BasePropertyStyle
 						return new ValueAndDeclaredType( null, traverseDeclaredType );
 					}
 
+					if ( onlyToParent && loop == length - 2 ) {
+						return new ValueAndDeclaredType( null, traverseDeclaredType );
+					}
+
 					return new ValueAndDeclaredType( null, null );
+				}
+
+				if ( onlyToParent && loop == length - 2 ) {
+					return new ValueAndDeclaredType( traverse, traverseDeclaredType );
 				}
 			}
 		}
