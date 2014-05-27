@@ -32,12 +32,14 @@ public class JsonSchemaMappingProcessorConfig {
 	/**
 	 * Remove attributes that do not apply in JSON Schema:
 	 * <ul>
-	 * <li>HIDDEN is removed, and also the whole property is hidden if HIDDEN equals TRUE</li>
 	 * <li>COMES_AFTER is removed, but is replaced by 'propertyOrder'</li>
 	 * <li>PARAMETERIZED_TYPE, ACTUAL_CLASS contain Java type names</li>
+	 * </ul>
+	 * Note the whole property is removed (by 'shouldRemove') if HIDDEN equals TRUE. However the
+	 * HIDDEN attribute itself is not removed, as it can be useful for it to contain expressions.
 	 */
 
-	private String[]	mRemoveAttributes	= new String[] { HIDDEN, COMES_AFTER, PARAMETERIZED_TYPE, ACTUAL_CLASS };
+	private String[]	mRemoveAttributes	= new String[] { COMES_AFTER, PARAMETERIZED_TYPE, ACTUAL_CLASS };
 
 	//
 	// Public methods

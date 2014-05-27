@@ -52,7 +52,7 @@ public class JsonSchemaMappingProcessorTest
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" minimum-value=\"0\" hidden=\"false\" comes-after=\"ignore\" parameterized-type=\"ignore\" actual-class=\"ignore\"/><property name=\"bar\" hidden=\"true\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>().processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"foo\":{\"minimum\":0,\"propertyOrder\":0}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"foo\":{\"hidden\":false,\"minimum\":0,\"propertyOrder\":0}}}", XmlUtils.elementToJsonSchema( element ) );
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" minimum-value=\"0\" hidden=\"true\" comes-after=\"ignore\" parameterized-type=\"ignore\" actual-type=\"ignore\"/><property name=\"bar\" hidden=\"true\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new JsonSchemaMappingProcessor<Object>().processInspectionResultAsDom( element, null, null, null );
