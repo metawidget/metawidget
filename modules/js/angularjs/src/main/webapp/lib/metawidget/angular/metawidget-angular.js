@@ -611,6 +611,11 @@ var metawidget = metawidget || {};
 						if ( child.tagName === 'INPUT' ) {
 							if ( child.getAttribute( 'type' ) === 'radio' ) {
 								child.setAttribute( 'ng-model', binding );
+								if ( child.value === true || child.value === 'true' ) {
+									child.setAttribute( 'ng-value', 'true' );
+								} else if ( child.value === false || child.value === 'false' ) {
+									child.setAttribute( 'ng-value', 'false' );
+								}
 							} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
 								child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.value + "')>=0" );
 								scope.mwUpdateSelection = _updateSelection;

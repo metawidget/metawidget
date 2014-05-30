@@ -614,13 +614,13 @@
 										expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<div id="fooBar" class="ng-scope"><label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
+														'<div id="fooBar" class="ng-scope"><label class="checkbox"><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Abc&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)" checked="checked"/>Abc</label>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
+														'<label class="checkbox"><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Def&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Def</label>' );
 										expect( mw.innerHTML )
 												.toContain(
-														'<label><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
+														'<label class="checkbox"><input type="checkbox" ng-checked="foo.bar.indexOf(&apos;Ghi&apos;)&gt;=0" ng-click="mwUpdateSelection($event,&apos;foo.bar&apos;)"/>Ghi</label>' );
 										expect( mw.innerHTML ).toContain( '</div></td><td/></tr></tbody></table>' );
 									} );
 						} );
@@ -662,11 +662,100 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
-						expect( mw.innerHTML ).toContain( '"/>Abc</label><label><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
-						expect( mw.innerHTML ).toContain( '"/>Def</label><label><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label class="radio"><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+						expect( mw.innerHTML ).toContain( '"/>Abc</label><label class="radio"><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
+						expect( mw.innerHTML ).toContain( '"/>Def</label><label class="radio"><input type="radio" ng-model="foo.bar" class="ng-pristine ng-valid" name="' );
 						expect( mw.innerHTML ).toContain( '"/>Ghi</label></div></td><td/></tr></tbody></table>' );
 					} );
+				} );
+
+				it( "supports boolean radio buttons", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: true
+						};
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									"properties": {
+										"bar": {
+											type: "boolean",
+											componentType: "radio"
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
+						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="true" class="ng-pristine ng-valid" value="true" name="' );
+						expect( mw.innerHTML ).toContain( '"/>Yes</label><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="false" class="ng-pristine ng-valid" value="false" name="' );
+						expect( mw.innerHTML ).toContain( '"/>No</label></div></td><td/></tr></tbody></table>' );
+					} );
+					
+					// Some browsers convert values to strings
+					// (e.g. child.value = true becomes 'true')
+					
+					myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: true
+						};
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									"properties": {
+										"bar": {
+											type: "boolean",
+											enum: [ "true", "false" ],
+											enumTitles: [ "Yes", "No" ],
+											componentType: "radio"
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
+						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="true" class="ng-pristine ng-valid" value="true" name="' );
+						expect( mw.innerHTML ).toContain( '"/>Yes</label><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="false" class="ng-pristine ng-valid" value="false" name="' );
+						expect( mw.innerHTML ).toContain( '"/>No</label></div></td><td/></tr></tbody></table>' );
+					} );
+					
 				} );
 
 				it( "guards against infinite recursion", function() {

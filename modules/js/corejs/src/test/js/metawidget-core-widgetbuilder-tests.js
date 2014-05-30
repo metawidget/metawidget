@@ -327,15 +327,15 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'div' );
-			expect( select.childNodes[0].toString() ).toBe( 'label' );
+			expect( select.childNodes[0].toString() ).toBe( 'label class="checkbox"' );
 			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox"' );
 			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
 			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'foo' );
-			expect( select.childNodes[1].toString() ).toBe( 'label' );
+			expect( select.childNodes[1].toString() ).toBe( 'label class="checkbox"' );
 			expect( select.childNodes[1].childNodes[0].toString() ).toBe( 'input type="checkbox"' );
 			expect( select.childNodes[1].childNodes[0].value ).toBe( 'bar' );
 			expect( select.childNodes[1].childNodes[1].toString() ).toBe( 'bar' );
-			expect( select.childNodes[2].toString() ).toBe( 'label' );
+			expect( select.childNodes[2].toString() ).toBe( 'label class="checkbox"' );
 			expect( select.childNodes[2].childNodes[0].toString() ).toBe( 'input type="checkbox"' );
 			expect( select.childNodes[2].childNodes[0].value ).toBe( 'baz' );
 			expect( select.childNodes[2].childNodes[1].toString() ).toBe( 'baz' );
@@ -348,7 +348,7 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'div' );
-			expect( select.childNodes[0].toString() ).toBe( 'label' );
+			expect( select.childNodes[0].toString() ).toBe( 'label class="checkbox"' );
 			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox"' );
 			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
 			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
@@ -361,7 +361,7 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'div' );
-			expect( select.childNodes[0].toString() ).toBe( 'label' );
+			expect( select.childNodes[0].toString() ).toBe( 'label class="radio"' );
 			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio"' );
 			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
 			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
@@ -405,6 +405,22 @@
 				type: "boolean"
 			}, mw ).toString() ).toBe( 'input type="checkbox"' );
 
+			var radio = widgetBuilder.buildWidget( "property", {
+				type: "boolean",
+				componentType: "radio"
+			}, mw );
+
+			expect( radio.toString() ).toBe( 'div' );
+			expect( radio.childNodes[0].toString() ).toBe( 'label class="radio"' );
+			expect( radio.childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio"' );
+			expect( radio.childNodes[0].childNodes[0].value ).toBe( true );
+			expect( radio.childNodes[0].childNodes[1].toString() ).toBe( 'Yes' );
+			expect( radio.childNodes[1].toString() ).toBe( 'label class="radio"' );
+			expect( radio.childNodes[1].childNodes[0].toString() ).toBe( 'input type="radio"' );
+			expect( radio.childNodes[1].childNodes[0].value ).toBe( false );
+			expect( radio.childNodes[1].childNodes[1].toString() ).toBe( 'No' );
+			expect( radio.childNodes.length ).toBe( 2 );
+			
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "date"
 			}, mw ).toString() ).toBe( 'input type="date"' );

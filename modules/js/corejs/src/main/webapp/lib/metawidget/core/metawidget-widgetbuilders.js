@@ -200,6 +200,13 @@ var metawidget = metawidget || {};
 				return metawidget.util.createElement( mw, 'stub' );
 			}
 
+			// Support booleans as radio buttons
+
+			if ( attributes.type === 'boolean' && attributes.componentType === 'radio' && attributes['enum'] === undefined ) {
+				attributes['enum'] = [ true, false ];
+				attributes['enumTitles'] = [ 'Yes', 'No' ];
+			}
+
 			// Select box
 
 			if ( attributes['enum'] !== undefined ) {
@@ -222,8 +229,10 @@ var metawidget = metawidget || {};
 						option = metawidget.util.createElement( mw, 'input' );
 
 						if ( attributes.componentType !== undefined ) {
+							label.setAttribute( 'class', attributes.componentType );
 							option.setAttribute( 'type', attributes.componentType );
 						} else {
+							label.setAttribute( 'class', 'checkbox' );
 							option.setAttribute( 'type', 'checkbox' );
 						}
 						option.value = attributes['enum'][loop];
@@ -517,11 +526,11 @@ var metawidget = metawidget || {};
 			var th = metawidget.util.createElement( mw, 'th' );
 
 			// Support column widths
-			
+
 			if ( attributes.columnWidth !== undefined ) {
 				th.setAttribute( 'width', attributes.columnWidth );
 			}
-			
+
 			if ( attributes.type !== 'function' ) {
 				th.innerHTML = metawidget.util.getLabelString( attributes, mw );
 			}
@@ -569,7 +578,7 @@ var metawidget = metawidget || {};
 			var td = metawidget.util.createElement( mw, 'td' );
 
 			// Support column widths
-			
+
 			if ( columnAttributes.columnWidth !== undefined ) {
 				td.setAttribute( 'width', columnAttributes.columnWidth );
 			}
