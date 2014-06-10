@@ -449,6 +449,12 @@
 					stub.setAttribute( 'title', 'Foo' );
 					stub.appendChild( document.createElement( 'input' ) );
 					mw.appendChild( stub );
+					
+					// (test childAttributes don't bleed into next component)
+					
+					var div = document.createElement( 'div' );
+					div.appendChild( document.createElement( 'input' ) );
+					mw.appendChild( div );
 
 					var body = document.createElement( 'body' );
 					body.appendChild( mw );
@@ -457,7 +463,7 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toBe( '<table><tbody><tr><th><label>Foo:</label></th><td><stub title="Foo" class="ng-scope"><input/></stub></td><td/></tr></tbody></table>' );
+						expect( mw.innerHTML ).toBe( '<table><tbody><tr><th><label>Foo:</label></th><td><stub title="Foo" class="ng-scope"><input/></stub></td><td/></tr><tr><td colspan="2"><div class="ng-scope"><input/></div></td><td/></tr></tbody></table>' );
 					} );
 				} );
 

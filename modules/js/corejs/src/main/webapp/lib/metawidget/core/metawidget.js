@@ -550,7 +550,7 @@ var metawidget = metawidget || {};
 						continue;
 					}
 
-					// Stubs can supply their own metadata (such as 'label')
+					// Stubs can supply their own metadata (such as 'title')
 
 					var childAttributes = {
 						section: ''

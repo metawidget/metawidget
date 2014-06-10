@@ -664,6 +664,12 @@
 			stub.setAttribute( 'title', 'Foo' );
 			stub.appendChild( simpleDocument.createElement( 'input' ) );
 			element.appendChild( stub );
+			
+			// (test childAttributes don't bleed into next component)
+			
+			var div = simpleDocument.createElement( 'div' );
+			div.appendChild( simpleDocument.createElement( 'input' ) );
+			element.appendChild( div );
 
 			// TableLayout
 
@@ -681,7 +687,11 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
-			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes.length ).toBe( 1 );
 
@@ -689,6 +699,7 @@
 
 			element = simpleDocument.createElement( 'div' );
 			element.appendChild( stub );
+			element.appendChild( div );
 			mw = new metawidget.Metawidget( element, {
 				layout: new metawidget.layout.DivLayout()
 			} );
@@ -701,7 +712,10 @@
 			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
 			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub title="Foo"' );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
-			expect( element.childNodes.length ).toBe( 1 );
+			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "handles falsy values gracefully", function() {

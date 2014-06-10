@@ -372,7 +372,7 @@ var metawidget = metawidget || {};
 			// Id
 
 			var table = container.childNodes[container.childNodes.length - 1];
-			var idPrefix;
+			var idPrefix = undefined;
 
 			if ( attributes.name !== undefined ) {
 				if ( table.hasAttribute( 'id' ) ) {

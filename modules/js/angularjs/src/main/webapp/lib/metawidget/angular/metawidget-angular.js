@@ -335,7 +335,7 @@ var metawidget = metawidget || {};
 					continue;
 				}
 
-				var childAttributes;
+				var childAttributes = {};
 				var loop, length;
 
 				// Lookup binding attribute
@@ -361,7 +361,7 @@ var metawidget = metawidget || {};
 
 				// Manually created components default to no section
 
-				if ( childAttributes === undefined ) {
+				if ( childAttributes === undefined ) {					
 					childAttributes = {
 						section: ''
 					};
