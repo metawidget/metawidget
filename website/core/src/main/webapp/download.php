@@ -105,6 +105,16 @@
 			<a href="http://search.maven.org/#browse|5459107" target="_blank">search under metawidget-modules</a>. 
 		</p>
 		
+		<h2 class="h2-underneath">Bower Repository</h2>
+		
+		<p>
+			<a href="http://bower.io">Bower</a> users can install Metawidget via <a href="https://github.com/metawidget/bower-metawidget">our Bower repository</a>:			
+		</p>
+
+		<div class="code">
+			<tt>bower install metawidget</tt>
+		</div>
+
 		<h2 class="h2-underneath">Node.js Module</h2>
 		
 		<p>

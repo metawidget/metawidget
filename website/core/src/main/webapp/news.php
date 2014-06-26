@@ -15,6 +15,7 @@
 		</p>
 		
 		<ul>
+			<li>Bower support</li>
 			<li>Using nested Metawidgets when rendering collections</li>
 			<li>Support for editable collections</li>
 			<li>Support for xsi:nil</li>
