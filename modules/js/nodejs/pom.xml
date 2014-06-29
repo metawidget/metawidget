@@ -37,6 +37,13 @@
 							<filelist dir="../corejs/target/metawidget-corejs/lib/metawidget/core" files="metawidget-core.min.js" />
 							<footer>module.exports = metawidget;</footer>
 						</concat>
+						<!-- Copy extra modules, to save needing multiple Node modules -->
+						<copy todir="target/classes/extras">
+							<filelist dir="../angularjs/target/metawidget-angularjs/lib/metawidget/angular" files="metawidget-angular.min.js" />
+							<filelist dir="../bootstrap/target/metawidget-bootstrap/lib/metawidget/bootstrap" files="metawidget-bootstrap.min.js" />
+							<filelist dir="../jquery/mobile/target/metawidget-jquerymobile/lib/metawidget/jquery.mobile" files="metawidget-jquerymobile.min.js" />
+							<filelist dir="../jquery/ui/target/metawidget-jqueryui/lib/metawidget/jquery-ui" files="metawidget-jqueryui.min.js" />
+						</copy>
 						<!-- Create a simulated test environment -->
 						<copy todir="target/test-classes">
 							<filelist dir="src/main/js/test" files="render.js" />
