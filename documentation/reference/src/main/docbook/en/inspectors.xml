@@ -507,6 +507,51 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 			</section>
 			
+			<section id="section-inspectors-java-jsonschema">
+				<title>JsonSchemaInspector (Java version)</title>
+				
+				<para>
+					Inspector to look for metadata in JSON Schema files. Consider using in conjunction with
+ 					<classname>JsonSchemaTypeMappingProcessorConfig</classname> to convert JSON types into Java types.
+				</para>
+				
+				<programlisting language="java">public static void main( String[] args ) {
+
+	// Metawidget
+
+	Display display = new Display();
+	Shell shell = new Shell( display );
+	shell.setText( "JSON Viewer" );
+	shell.setLayout( new FillLayout() );
+
+	String jsonSchema = "{ properties: { \"firstname\": { \"type\": \"string\", \"required\": true }, ";
+	jsonSchema += "\"age\": { \"type\": \"number\" }, ";
+	jsonSchema += "\"notes\": { \"type\": \"string\", \"large\": true }}}";
+
+	final SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.None );
+	metawidget.setInspector( new JsonSchemaInspector(
+		new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( jsonSchema.getBytes() ))));
+	metawidget.addInspectionResultProcessor(
+		new TypeMappingInspectionResultProcessor&lt;SwtMetawidget&gt;(
+			new JsonSchemaTypeMappingProcessorConfig() ));
+	metawidget.setInspectionPath( "personObject" );
+
+	// Shell
+
+	shell.setVisible( true );
+	shell.open();
+
+	while ( !shell.isDisposed() ) {
+		if ( !display.readAndDispatch() ) {
+			display.sleep();
+		}
+	}
+
+	display.dispose();
+}</programlisting>
+				
+			</section>
+			
 			<section id="section-inspectors-javascript-jsonschema">
 				<title>JsonSchemaInspector (JavaScript version)</title>
 				

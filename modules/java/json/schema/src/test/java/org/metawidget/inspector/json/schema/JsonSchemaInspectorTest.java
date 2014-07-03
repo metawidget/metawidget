@@ -19,10 +19,14 @@ import junit.framework.TestCase;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
+import org.metawidget.inspectionresultprocessor.json.schema.JsonSchemaTypeMappingProcessorConfig;
+import org.metawidget.inspectionresultprocessor.type.TypeMappingInspectionResultProcessor;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.InspectorException;
@@ -165,6 +169,26 @@ public class JsonSchemaInspectorTest
 		assertEquals( "Notes:", ( (Label) metawidget.getChildren()[4] ).getText() );
 		assertTrue( metawidget.getChildren()[5] instanceof Text );
 		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.MULTI ), SWT.MULTI );
+		assertEquals( 6, metawidget.getChildren().length );
+
+		// Try with types
+
+		shell.setLayout( new FillLayout() );
+
+		jsonSchema = "{ properties: { \"firstname\": { \"type\": \"string\", \"required\": true }, \"age\": { \"type\": \"number\" }, \"retired\": { \"type\": \"boolean\" }}}";
+
+		metawidget = new SwtMetawidget( shell, SWT.None );
+		metawidget.setInspector( new JsonSchemaInspector( new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( jsonSchema.getBytes() ) ) ) );
+		metawidget.addInspectionResultProcessor( new TypeMappingInspectionResultProcessor<SwtMetawidget>( new JsonSchemaTypeMappingProcessorConfig() ) );
+		metawidget.setInspectionPath( "fooObject" );
+
+		assertEquals( "Firstname*:", ( (Label) metawidget.getChildren()[0] ).getText() );
+		assertTrue( metawidget.getChildren()[1] instanceof Text );
+		assertEquals( "Age:", ( (Label) metawidget.getChildren()[2] ).getText() );
+		assertTrue( metawidget.getChildren()[3] instanceof Spinner );
+		assertEquals( "Retired:", ( (Label) metawidget.getChildren()[4] ).getText() );
+		assertTrue( metawidget.getChildren()[5] instanceof Button );
+		assertEquals( ( metawidget.getChildren()[5].getStyle() & SWT.CHECK ), SWT.CHECK );
 		assertEquals( 6, metawidget.getChildren().length );
 	}
 }

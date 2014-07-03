@@ -29,7 +29,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
- * Inspector to look for metadata in JSON Schema files.
+ * Inspector to look for metadata in JSON Schema files. Consider using in conjunction with
+ * <tt>JsonSchemaTypeMappingProcessorConfig</tt> to convert JSON types into Java types.
  *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
