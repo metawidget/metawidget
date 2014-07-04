@@ -77,7 +77,7 @@ var metawidget = metawidget || {};
 
 					// Build
 
-					var _oldToInspect;
+					var _oldToInspect = undefined;
 					_buildWidgets();
 
 					// Observe
@@ -223,7 +223,7 @@ var metawidget = metawidget || {};
 			}
 		};
 
-		var _lastInspectionResult;
+		var _lastInspectionResult = undefined;
 
 		this.invalidateInspection = function() {
 
@@ -361,7 +361,7 @@ var metawidget = metawidget || {};
 
 				// Manually created components default to no section
 
-				if ( childAttributes === undefined ) {					
+				if ( childAttributes === undefined ) {
 					childAttributes = {
 						section: ''
 					};
@@ -601,6 +601,9 @@ var metawidget = metawidget || {};
 			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
 				// Special support for multi-selects and radio buttons
+				//
+				// Note: it'd be nice to extend this to SELECT boxes too, once
+				// https://github.com/angular/angular.js/issues/7994
 
 				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 					var label = widget.childNodes[loop];
