@@ -255,6 +255,15 @@ var metawidget = metawidget || {};
 		},
 
 		/**
+		 * Overridden to use JQuery.empty (safer for memory leaks).
+		 */
+		
+		clearWidgets: function() {
+		
+			$( this.getElement() ).empty();
+		},
+		
+		/**
 		 * Inspect the given toInspect/path and build widgets.
 		 * <p>
 		 * Invoke using

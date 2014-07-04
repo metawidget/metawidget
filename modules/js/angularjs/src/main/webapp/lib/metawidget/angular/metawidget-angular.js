@@ -261,6 +261,15 @@ var metawidget = metawidget || {};
 			return _pipeline.inspect( toInspect, type, names, this );
 		};
 
+		/**
+		 * Overridden to use jqLite.empty (safer for memory leaks).
+		 */
+		
+		this.clearWidgets = function() {
+			
+			angular.element( this.getElement() ).empty();
+		}
+		
 		this.buildWidgets = function( inspectionResult ) {
 
 			// Rebuild the transcluded tree at the start of each build.

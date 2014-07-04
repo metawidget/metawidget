@@ -955,5 +955,27 @@
 				expect( e.message ).toBe( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 			}
 		} );
+		
+		it( "supports a custom clearWidgets method", function() {
+
+			var firedClearWidgetsEvent = 0;
+			
+			// Defaults
+
+			var element = simpleDocument.createElement( 'div' );			
+			var mw = new metawidget.Metawidget( element );
+			
+			mw.clearWidgets = function() {
+				firedClearWidgetsEvent++;
+			}
+
+			mw.buildWidgets();
+			
+			expect( firedClearWidgetsEvent ).toBe( 1 );
+
+			mw.buildWidgets();
+			expect( firedClearWidgetsEvent ).toBe( 2 );
+		} );
+		
 	} );
 } )();

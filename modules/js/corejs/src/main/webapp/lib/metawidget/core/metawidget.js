@@ -34,7 +34,7 @@ var metawidget = metawidget || {};
 
 	metawidget.Metawidget = function( element, config ) {
 
-		if ( !( this instanceof metawidget.Metawidget ) ) {
+		if ( ! ( this instanceof metawidget.Metawidget ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 
@@ -122,7 +122,7 @@ var metawidget = metawidget || {};
 					throw new Error( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 				}
 
-				var splitPath = metawidget.util.splitPath( this.path );				
+				var splitPath = metawidget.util.splitPath( this.path );
 				inspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
 
@@ -139,6 +139,26 @@ var metawidget = metawidget || {};
 
 			return _pipeline.element;
 		};
+
+		/**
+		 * Clear all child elements from the Metawidget element.
+		 * <p>
+		 * This implementation uses plain JavaScript <tt>removeChild</tt>,
+		 * which has known problems (on some browsers) leaking event handlers.
+		 * This is not a problem for plain Metawidget, as it doesn't use event
+		 * handlers. However clients that introduce custom widgetprocessors that
+		 * use event handlers may wish to adopt a more robust technology for
+		 * tracking/clearing event handlers (such as JQuery.empty)
+		 */
+
+		this.clearWidgets = function() {
+
+			var element = this.getElement();
+
+			while ( element.childNodes.length > 0 ) {
+				element.removeChild( element.childNodes[0] );
+			}
+		}
 
 		/**
 		 * Returns a nested version of this same Metawidget, using the given
@@ -189,7 +209,7 @@ var metawidget = metawidget || {};
 
 	metawidget.Pipeline = function( element ) {
 
-		if ( !( this instanceof metawidget.Pipeline ) ) {
+		if ( ! ( this instanceof metawidget.Pipeline ) ) {
 			throw new Error( 'Constructor called as a function' );
 		}
 
@@ -258,8 +278,9 @@ var metawidget = metawidget || {};
 
 		// Support prepending/adding to the existing array of WidgetProcessors
 		// (it may be hard for clients to redefine the originals)
-		
-		// REFACTOR: name it appendInspectionResultProcessors, appendWidgetProcessors not addWidgetProcessors
+
+		// REFACTOR: name it appendInspectionResultProcessors,
+		// appendWidgetProcessors not addWidgetProcessors
 
 		if ( config.prependWidgetProcessors !== undefined ) {
 			for ( loop = 0; loop < config.prependWidgetProcessors.length; loop++ ) {
@@ -373,9 +394,7 @@ var metawidget = metawidget || {};
 
 		// Clear existing contents
 
-		while ( this.element.childNodes.length > 0 ) {
-			this.element.removeChild( this.element.childNodes[0] );
-		}
+		mw.clearWidgets();
 
 		_startBuild( this, mw );
 
@@ -443,7 +462,7 @@ var metawidget = metawidget || {};
 
 		// Throw an event for interested parties (such as tests)
 
-		this.element.dispatchEvent( metawidget.util.createEvent( mw, 'buildEnd' ));
+		this.element.dispatchEvent( metawidget.util.createEvent( mw, 'buildEnd' ) );
 
 		//
 		// Private methods
@@ -556,7 +575,7 @@ var metawidget = metawidget || {};
 						section: ''
 					};
 
-					if ( child.tagName === 'STUB' ) {						
+					if ( child.tagName === 'STUB' ) {
 						for ( var loop = 0, length = child.attributes.length; loop < length; loop++ ) {
 							var prop = child.attributes[loop];
 							childAttributes[prop.nodeName] = prop.nodeValue;
@@ -585,7 +604,7 @@ var metawidget = metawidget || {};
 				pipeline.widgetBuilder.onEndBuild( mw );
 			}
 		}
-		
+
 		function _onStartEndBuild( functionName, pipeline, mw ) {
 
 			for ( var loop = 0, length = pipeline.widgetProcessors.length; loop < length; loop++ ) {
