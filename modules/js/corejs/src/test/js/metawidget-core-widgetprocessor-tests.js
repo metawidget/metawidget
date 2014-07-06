@@ -469,10 +469,11 @@
 
 			element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value = 'nestedFooValue1.1';
 			element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value = 'nestedFooValue2.1';
-			mw.getWidgetProcessor( function( testInstanceOf ) {
+			var processor = mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
-			} ).save( mw );
+			} );
+			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.nested[0].nestedFoo ).toBe( 'nestedFooValue1.1' );
 			expect( mw.toInspect.nested[1].nestedFoo ).toBe( 'nestedFooValue2.1' );
 		} );
@@ -771,5 +772,42 @@
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.innerHTML ).toBe( 'Pas' );
 		} );
+		
+		it( "supports dirty checking", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+
+			mw.toInspect = {
+				foo: "fooValue",
+				nested: {
+					"nestedFoo": "nestedFooValue"
+				}
+			};
+			mw.buildWidgets();
+
+			// Top-level
+			
+			element.childNodes[0].value = 'fooValue1';
+			var processor = mw.getWidgetProcessor( function( testInstanceOf ) {
+
+				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} );
+			
+			expect( processor.save( mw )).toBe( true );
+			expect( mw.toInspect.foo ).toBe( 'fooValue1' );
+			expect( processor.save( mw )).toBe( false );
+			
+			// Nested
+			
+			element.childNodes[1].childNodes[0].value = 'nestedFooValue1';
+			expect( processor.save( mw )).toBe( true );
+			expect( mw.toInspect.nested.nestedFoo ).toBe( 'nestedFooValue1' );
+			expect( processor.save( mw )).toBe( false );
+
+			//expect( mw.toInspect.nested.nestedFoo ).toBe( 'nestedFooValue1' );
+		} );		
 	} );
 } )();

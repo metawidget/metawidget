@@ -303,8 +303,9 @@ var metawidget = metawidget || {};
 	/**
 	 * Save the bindings associated with the given Metawidget.
 	 * 
-	 * @return true if data was actually changed. False otherwise. Can be useful
-	 *         for 'dirty' flags
+	 * @return true if data (including data from nested Metawidgets) was
+	 *         actually changed. False otherwise. Can be useful for 'dirty'
+	 *         flags
 	 */
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.save = function( mw ) {
@@ -349,7 +350,12 @@ var metawidget = metawidget || {};
 			// Support nested Metawidgets
 
 			if ( widgetFromBinding.getMetawidget !== undefined ) {
-				this.save( widgetFromBinding.getMetawidget() );
+				var nestedDirty = this.save( widgetFromBinding.getMetawidget() );
+				
+				if ( nestedDirty === true ) {
+					dirty = true;
+				}
+				
 				continue;
 			}
 
@@ -365,7 +371,7 @@ var metawidget = metawidget || {};
 				mw.toInspect = value;
 				return dirty;
 			}
-			
+
 			toInspect[name] = value;
 		}
 
@@ -374,10 +380,14 @@ var metawidget = metawidget || {};
 		if ( mw.nestedMetawidgets !== undefined ) {
 
 			for ( var loop = 0, length = mw.nestedMetawidgets.length; loop < length; loop++ ) {
-				this.save( mw.nestedMetawidgets[loop].getMetawidget() );
+				var nestedDirty = this.save( mw.nestedMetawidgets[loop].getMetawidget() );
+				
+				if ( nestedDirty === true ) {
+					dirty = true;
+				}
 			}
 		}
-		
+
 		return dirty;
 	};
 
