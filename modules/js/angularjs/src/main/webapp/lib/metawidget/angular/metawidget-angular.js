@@ -264,12 +264,21 @@ var metawidget = metawidget || {};
 		/**
 		 * Overridden to use jqLite.empty (safer for memory leaks).
 		 */
-		
+
 		this.clearWidgets = function() {
-			
-			angular.element( this.getElement() ).empty();
+
+			var jqElement = angular.element( this.getElement() );
+
+			if ( jqElement.empty !== undefined ) {
+				jqElement.empty();
+			} else {
+
+				// Support older versions of Angular
+
+				jqElement.html( '' );
+			}
 		}
-		
+
 		this.buildWidgets = function( inspectionResult ) {
 
 			// Rebuild the transcluded tree at the start of each build.
