@@ -176,7 +176,7 @@ var metawidget = metawidget || {};
 				superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
 
 				var outerDiv = container.childNodes[container.childNodes.length - 1];
-				if ( outerDiv.childNodes.length === 1 ) {
+				if ( outerDiv !== undefined && outerDiv.childNodes.length === 1 ) {
 					if ( attributes.title === null ) {
 						outerDiv.childNodes[0].setAttribute( 'class', config.widgetDivSpanAllClass );
 					} else {

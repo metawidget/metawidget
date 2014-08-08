@@ -158,6 +158,52 @@
 			expect( element.childNodes.length ).toBe( 3 );
 		} );
 
+		it( "supports stubs", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			var stub = simpleDocument.createElement( 'stub' );
+			stub.setAttribute( 'id', 'foo' );
+			element.appendChild( stub );
+			
+			var mw = new metawidget.Metawidget( element, {
+				inspector: function() {
+
+					return {
+						properties: {
+							foo: {
+								type: "string"
+							},
+							bar: {
+								type: "string",
+								required: true
+							},
+							baz: {
+								type: "string",
+								title: ''								
+							}
+						}
+					};
+				},
+				layout: new metawidget.bootstrap.layout.BootstrapDivLayout()
+			} );
+
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label"' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
+			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( element.childNodes[1].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="col-sm-10 col-sm-offset-2"' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( element.childNodes.length ).toBe( 2 );
+		} );
+
 		it( "has a Layout that can span all columns", function() {
 
 			var element = simpleDocument.createElement( 'div' );

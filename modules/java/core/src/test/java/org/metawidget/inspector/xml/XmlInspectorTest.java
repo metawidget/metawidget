@@ -135,7 +135,6 @@ public class XmlInspectorTest
 
 		XmlInspector inspector = new XmlInspector( new XmlInspectorConfig().setInputStream( new ByteArrayInputStream( mXml.getBytes() ) ) )
 		{
-
 			@Override
 			protected String getExtendsAttribute() {
 
