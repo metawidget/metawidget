@@ -38,7 +38,6 @@ public class ObjectUtilsTest
 		assertEquals( false, ObjectUtils.nullSafeEquals( null, "foo" ) );
 		assertEquals( false, ObjectUtils.nullSafeEquals( "foo", null ) );
 		assertEquals( true, ObjectUtils.nullSafeEquals( "foo", "foo" ) );
-		assertEquals( true, ObjectUtils.nullSafeEquals( new byte[]{ 'a', 'b' }, new byte[]{ 'a', 'b' } ) );
 	}
 
 	public void testNullSafeCompareTo()
