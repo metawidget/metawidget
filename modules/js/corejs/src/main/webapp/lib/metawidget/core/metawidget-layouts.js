@@ -326,7 +326,7 @@ var metawidget = metawidget || {};
 					var tr = metawidget.util.createElement( mw, 'tr' );
 					parent.appendChild( tr );
 					var td = metawidget.util.createElement( mw, 'td' );
-					td.setAttribute( 'colspan', _numberOfColumns * 2 );
+					td.setAttribute( 'colspan', _numberOfColumns * 3 );
 
 					if ( child.getAttribute( 'name' ) === 'header' ) {
 						if ( _headerStyleClass !== undefined ) {

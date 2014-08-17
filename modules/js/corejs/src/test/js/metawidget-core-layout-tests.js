@@ -686,11 +686,11 @@
 			expect( container.childNodes[0].toString() ).toBe( 'table' );
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'thead' );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
-			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2" class="testHeaderStyleClass"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="3" class="testHeaderStyleClass"' );
 			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input id="widget2"' );
 			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'tfoot' );
 			expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
-			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2" class="testFooterStyleClass"' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="3" class="testFooterStyleClass"' );
 			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input id="widget3"' );
 			expect( container.childNodes[0].childNodes[2].toString() ).toBe( 'tbody' );
 			expect( container.childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
