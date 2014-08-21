@@ -17,71 +17,99 @@
 
 var metawidget = metawidget || {};
 
-if ( this.document !== undefined && this.document.registerElement !== undefined ) {
+( function( globalScope ) {
 
-	( function( global ) {
+	'use strict';
 
-		/**
-		 * Use the value of the given HTML 5 attribute to lookup an object in
-		 * scope. This includes traversing paths such as 'foo.bar'
-		 */
+	/**
+	 * Use the value of the given HTML 5 attribute to lookup an object in the
+	 * global scope. This includes traversing simple namespace paths such as
+	 * 'foo.bar'
+	 */
 
-		function _lookupObject( attributeName ) {
+	function _lookupObject( attributeName ) {
 
-			var attributeValue = this.getAttribute( attributeName );
+		var attributeValue = this.getAttribute( attributeName );
 
-			if ( attributeValue === null ) {
-				return;
-			}
-
-			var typeAndNames = metawidget.util.splitPath( attributeValue );
-
-			if ( typeAndNames === undefined ) {
-				return;
-			}
-
-			var toInspect = window[typeAndNames.type];
-			return metawidget.util.traversePath( toInspect, typeAndNames.names );
+		if ( attributeValue === null ) {
+			return;
 		}
+
+		var typeAndNames = metawidget.util.splitPath( attributeValue );
+
+		if ( typeAndNames === undefined ) {
+			return;
+		}
+
+		var toInspect = globalScope[typeAndNames.type];
+		return metawidget.util.traversePath( toInspect, typeAndNames.names );
+	}
+
+	/**
+	 * Initialize an internal 'metawidget.Metawidget' object, that will be
+	 * wrapped by this Web Component.
+	 */
+	
+	function _initMetawidget() {
+
+		new metawidget.Metawidget( this, _lookupObject.call( this, 'config' ) );
+		this.buildWidgets();
+	}
+
+	if ( globalScope.document !== undefined && globalScope.document.registerElement !== undefined ) {
 
 		var metawidgetPrototype = Object.create( HTMLElement.prototype );
 
 		/**
 		 * Upon createdCallback, initialize an internal metawidget.Metawidget
-		 * using the current 'config' attribute (if any).
+		 * object using the current 'config' attribute (if any).
 		 */
 
 		metawidgetPrototype.createdCallback = function() {
 
-			this.mw = new metawidget.Metawidget( this, _lookupObject.call( this, 'config' ) );
-			this.buildWidgets();
+			_initMetawidget.call( this );
 		}
 
 		/**
-		 * If 'inspect' is pointed at a different path, rebuild the Metawidget.
+		 * If 'inspect' is pointed at a different path, or 'readonly' or
+		 * 'config' are updated, rebuild the Metawidget.
 		 */
 
 		metawidgetPrototype.attributeChangedCallback = function( attrName, oldVal, newVal ) {
 
-			this.buildWidgets();
+			switch ( attrName ) {
+				case 'config':
+					_initMetawidget();
+					break;
+				case 'inspect':
+					this.buildWidgets();
+					break;
+				case 'readonly':
+					this.buildWidgets();
+					break;
+			}
 		}
 
 		/**
-		 * Rebuild the Metawidget, using the current 'inspect' attribute.
+		 * Rebuild the Metawidget, using the value of the current 'inspect'
+		 * attribute.
 		 */
 
 		metawidgetPrototype.buildWidgets = function() {
 
 			// Unobserve
 
+			var mw = this.getMetawidget();
+
 			if ( this.observer !== undefined ) {
-				Object.unobserve( this.mw.toInspect, this.observer );
+				Object.unobserve( mw.toInspect, this.observer );
 			}
 
 			// Traverse and build
 
-			this.mw.toInspect = _lookupObject.call( this, 'inspect' );
-			this.mw.buildWidgets();
+			mw.toInspect = _lookupObject.call( this, 'inspect' );
+			mw.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
+			mw.buildWidgets();
 
 			// Observe for next time
 
@@ -91,19 +119,25 @@ if ( this.document !== undefined && this.document.registerElement !== undefined 
 				that.buildWidgets.call( that );
 			}
 
-			Object.observe( this.mw.toInspect, this.observer );
+			Object.observe( mw.toInspect, this.observer );
 		}
 
 		/**
 		 * Save the contents of the Metawidget using a SimpleBindingProcessor.
+		 * <p>
+		 * This is a convenience method. To access other Metawidget APIs,
+		 * clients can use the 'getMetawidget' method. For example
+		 * 'document.getElementById(...).getMeta.getWidgetProcessor(...)'
 		 */
 
 		metawidgetPrototype.save = function() {
 
-			this.mw.getWidgetProcessor( function( widgetProcessor ) {
+			var mw = this.getMetawidget();
+
+			mw.getWidgetProcessor( function( widgetProcessor ) {
 
 				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
-			} ).save( this.mw );
+			} ).save( mw );
 		}
 
 		/**
@@ -113,14 +147,14 @@ if ( this.document !== undefined && this.document.registerElement !== undefined 
 		metawidgetPrototype.removedCallback = function() {
 
 			if ( this.observer !== undefined ) {
-				Object.unobserve( this.mw.toInspect, this.observer );
+				Object.unobserve( this.getMetawidget().toInspect, this.observer );
 			}
 		}
 
 		// Register Metawidget as a Web Component
 
-		this.document.registerElement( 'x-metawidget', {
+		globalScope.document.registerElement( 'x-metawidget', {
 			prototype: metawidgetPrototype
 		} );
-	} ).call( this );
-}
+	}
+} )( this );
