@@ -619,6 +619,112 @@
 						inspection result format.
 					</para>
 				</section>
+
+				<section id="section-metawidgets-web-javascript-webcomponent">
+					<title>Web Component</title>
+					
+					<para>						
+						<filename>metawidget.js</filename> will automatically register itself as an HTML 5 Web Component
+						using <parameter>document.registerElement</parameter> if available. This allows developers to use
+						Metawidget with very little configuration. For example:
+					</para>
+					
+					<programlisting language="xml">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;script src="metawidget.min.js"&gt;&lt;/script&gt;
+		&lt;style&gt;
+			#metawidget {
+				border: 1px solid #cccccc;
+				width: 250px;
+				border-radius: 10px;
+				padding: 10px;
+				margin: 50px auto;
+				display: block;
+			}
+		&lt;/style&gt;
+		&lt;script&gt;
+			var person = {
+				firstname: 'Homer',
+				surname: 'Simpson',
+				age: 36
+			};
+			function save() {
+				document.getElementById( 'metawidget' ).save();
+				console.log( person );
+			}
+		&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;x-metawidget id="metawidget" inspect="person"&gt;&lt;/x-metawidget&gt;
+		&lt;button onclick="save()"&gt;Save&lt;/button&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</programlisting>
+
+					<para>
+						The <parameter>x-metawidget</parameter> tag supports the following attributes:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Attribute</th>
+								<th align="left"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>inspect</parameter></td>
+								<td>Path of the object to inspect. The path will be resolved in the global scope
+								and supports simple namespace paths such as <parameter>foo.bar</parameter></td>
+							</tr>
+							<tr>
+								<td><parameter>config</parameter></td>
+								<td>Optional path of an object to use to configure the Metawidget. Supports
+								simple namespace paths such as <parameter>foo.bar</parameter></td>
+							</tr>
+							<tr>
+								<td><parameter>readonly</parameter></td>
+								<td>Optional. Can be <parameter>true</parameter> or <parameter>false</parameter></td>
+							</tr>
+						</tbody>
+					</informaltable>
+					
+					<para>
+						The <parameter>x-metawidget</parameter> tag also supports the following methods:
+					</para>
+				
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Method</th>
+								<th align="left"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>save</parameter></td>
+								<td>Saves the current values in the UI back into the object defined by <parameter>inspect</parameter> using
+								<classname>SimpleBindingProcessor</classname>. This is a convenience method. To access other Metawidget APIs,
+								clients can use <parameter>getMetawidget</parameter> instead</td>
+							</tr>
+							<tr>
+								<td><parameter>getMetawidget</parameter></td>
+								<td>Access the underlying Metawidget APIs</td>
+							</tr>
+						</tbody>
+					</informaltable>
+
+				</section>
+
 			</section>
 				
 			<section id="section-metawidgets-web-jqueryui">

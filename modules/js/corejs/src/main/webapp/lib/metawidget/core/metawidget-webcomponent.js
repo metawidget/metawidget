@@ -49,11 +49,25 @@ var metawidget = metawidget || {};
 	 * Initialize an internal 'metawidget.Metawidget' object, that will be
 	 * wrapped by this Web Component.
 	 */
-	
+
 	function _initMetawidget() {
 
 		new metawidget.Metawidget( this, _lookupObject.call( this, 'config' ) );
 		this.buildWidgets();
+	}
+
+	/**
+	 * Unobserves the currently observed 'inspect' (if any).
+	 */
+
+	function _unobserve() {
+
+		if ( this.observer === undefined ) {
+			return;
+		}
+
+		Object.unobserve( this.getMetawidget().toInspect, this.observer );
+		this.observer = undefined;
 	}
 
 	if ( globalScope.document !== undefined && globalScope.document.registerElement !== undefined ) {
@@ -99,27 +113,28 @@ var metawidget = metawidget || {};
 
 			// Unobserve
 
-			var mw = this.getMetawidget();
-
-			if ( this.observer !== undefined ) {
-				Object.unobserve( mw.toInspect, this.observer );
-			}
+			_unobserve.call( this );
 
 			// Traverse and build
 
+			var mw = this.getMetawidget();
 			mw.toInspect = _lookupObject.call( this, 'inspect' );
 			mw.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
 			mw.buildWidgets();
 
-			// Observe for next time
+			// Observe for next time. toInspect may be undefined because
+			// Metawidget can be used purely for layout
 
-			var that = this;
-			this.observer = function() {
+			if ( mw.toInspect !== undefined ) {
 
-				that.buildWidgets.call( that );
+				var that = this;
+				this.observer = function() {
+
+					that.buildWidgets.call( that );
+				}
+
+				Object.observe( mw.toInspect, this.observer );
 			}
-
-			Object.observe( mw.toInspect, this.observer );
 		}
 
 		/**
@@ -146,9 +161,7 @@ var metawidget = metawidget || {};
 
 		metawidgetPrototype.removedCallback = function() {
 
-			if ( this.observer !== undefined ) {
-				Object.unobserve( this.getMetawidget().toInspect, this.observer );
-			}
+			_unobserve.call( this );
 		}
 
 		// Register Metawidget as a Web Component
