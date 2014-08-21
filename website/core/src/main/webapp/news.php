@@ -15,6 +15,7 @@
 		</p>
 		
 		<ul>
+			<li>HTML5 Web Components support</li>
 			<li>clearWidgets support (JavaScript version)</li>
 			<li>JsonSchemaTypeMappingProcessorConfig</li>
 			<li>Improved Node support</li>
