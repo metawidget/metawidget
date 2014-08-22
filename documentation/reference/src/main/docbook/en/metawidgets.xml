@@ -656,7 +656,7 @@
 		&lt;/script&gt;
 	&lt;/head&gt;
 	&lt;body&gt;
-		&lt;x-metawidget id="metawidget" inspect="person"&gt;&lt;/x-metawidget&gt;
+		&lt;x-metawidget id="metawidget" path="person"&gt;&lt;/x-metawidget&gt;
 		&lt;button onclick="save()"&gt;Save&lt;/button&gt;
 	&lt;/body&gt;
 &lt;/html&gt;</programlisting>
@@ -678,7 +678,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td><parameter>inspect</parameter></td>
+								<td><parameter>path</parameter></td>
 								<td>Path of the object to inspect. The path will be resolved in the global scope
 								and supports simple namespace paths such as <parameter>foo.bar</parameter></td>
 							</tr>
@@ -712,7 +712,7 @@
 						<tbody>
 							<tr>
 								<td><parameter>save</parameter></td>
-								<td>Saves the current values in the UI back into the object defined by <parameter>inspect</parameter> using
+								<td>Saves the current values in the UI back into the object defined by <parameter>path</parameter> using
 								<classname>SimpleBindingProcessor</classname>. This is a convenience method. To access other Metawidget APIs,
 								clients can use <parameter>getMetawidget</parameter> instead</td>
 							</tr>

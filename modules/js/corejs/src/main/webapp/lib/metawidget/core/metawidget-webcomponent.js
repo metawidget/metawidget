@@ -41,8 +41,8 @@ var metawidget = metawidget || {};
 			return;
 		}
 
-		var toInspect = globalScope[typeAndNames.type];
-		return metawidget.util.traversePath( toInspect, typeAndNames.names );
+		var lookup = globalScope[typeAndNames.type];
+		return metawidget.util.traversePath( lookup, typeAndNames.names );
 	}
 
 	/**
@@ -57,7 +57,7 @@ var metawidget = metawidget || {};
 	}
 
 	/**
-	 * Unobserves the currently observed 'inspect' (if any).
+	 * Unobserves the currently observed 'path' (if any).
 	 */
 
 	function _unobserve() {
@@ -85,27 +85,27 @@ var metawidget = metawidget || {};
 		}
 
 		/**
-		 * If 'inspect' is pointed at a different path, or 'readonly' or
-		 * 'config' are updated, rebuild the Metawidget.
+		 * If 'path', 'readonly' or 'config' are updated, rebuild the
+		 * Metawidget.
 		 */
 
 		metawidgetPrototype.attributeChangedCallback = function( attrName, oldVal, newVal ) {
 
 			switch ( attrName ) {
-				case 'config':
-					_initMetawidget();
-					break;
-				case 'inspect':
+				case 'path':
 					this.buildWidgets();
 					break;
 				case 'readonly':
 					this.buildWidgets();
 					break;
+				case 'config':
+					_initMetawidget();
+					break;
 			}
 		}
 
 		/**
-		 * Rebuild the Metawidget, using the value of the current 'inspect'
+		 * Rebuild the Metawidget, using the value of the current 'path'
 		 * attribute.
 		 */
 
@@ -118,7 +118,7 @@ var metawidget = metawidget || {};
 			// Traverse and build
 
 			var mw = this.getMetawidget();
-			mw.toInspect = _lookupObject.call( this, 'inspect' );
+			mw.toInspect = _lookupObject.call( this, 'path' );
 			mw.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
 			mw.buildWidgets();
 
