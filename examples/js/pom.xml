@@ -18,6 +18,7 @@
 	<modules>
 		<module>angularjs/addressbook</module>
 		<module>jquery/mobile/addressbook</module>
+		<module>webcomponent/addressbook</module>
 	</modules>
 
 	<build>

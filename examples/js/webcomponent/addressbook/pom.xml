@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.metawidget.examples.js</groupId>
+		<artifactId>examples-js-parent</artifactId>
+		<version>3.9.5-SNAPSHOT</version>
+		<relativePath>../../</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.metawidget.examples.js.webcomponent</groupId>
+	<artifactId>addressbook-webcomponent</artifactId>
+	<packaging>war</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.metawidget.modules.js</groupId>
+			<artifactId>metawidget-corejs</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.metawidget.examples.shared</groupId>
+			<artifactId>addressbook-shared-webapp</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<!-- Selenium requires 1.6 -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<overlays>
+						<overlay>
+							<groupId>org.metawidget.modules.js</groupId>
+							<artifactId>metawidget-corejs</artifactId>
+						</overlay>
+						<overlay>
+							<groupId>org.metawidget.examples.shared</groupId>
+							<artifactId>addressbook-shared-webapp</artifactId>
+						</overlay>
+					</overlays>
+					<!-- Exclude non-minified versions -->
+					<packagingExcludes>
+						lib/metawidget/core/metawidget.js,
+						lib/metawidget/core/metawidget-inspectionresultprocessors.js,
+						lib/metawidget/core/metawidget-inspectors.js,
+						lib/metawidget/core/metawidget-layouts.js,
+						lib/metawidget/core/metawidget-utils.js,
+						lib/metawidget/core/metawidget-widgetbuilders.js,
+						lib/metawidget/core/metawidget-widgetprocessors.js,
+						WEB-INF/**
+					</packagingExcludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>selenium-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+		<!-- For Sonar -->
+		<sourceDirectory>src/main/webapp</sourceDirectory>
+	</build>
+
+</project>
