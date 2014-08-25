@@ -519,7 +519,7 @@ var metawidget = metawidget || {};
 
 		this.addHeader = function( tr, attributes, mw ) {
 
-			if ( attributes.hidden === true ) {
+			if ( metawidget.util.isTrueOrTrueString( attributes.hidden ) ) {
 				return false;
 			}
 

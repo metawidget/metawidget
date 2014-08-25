@@ -246,7 +246,7 @@ var metawidget = metawidget || {};
 		if ( value !== undefined ) {
 			if ( widget.tagName === 'OUTPUT' || widget.tagName === 'TEXTAREA' ) {
 
-				if ( attributes.masked === true ) {
+				if ( metawidget.util.isTrueOrTrueString( attributes.masked )) {
 
 					// Special support for masked output
 

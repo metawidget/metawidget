@@ -572,7 +572,7 @@ var metawidget = metawidget || {};
 				// WidgetBuilder)
 
 				if ( !widget.hasAttribute( 'ng-bind' ) ) {
-					if ( attributes.masked === true ) {
+					if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
 
 						// Special support for masked output
 

@@ -897,6 +897,11 @@
 				name: 'Foo',
 				hidden: true
 			}, mw ) ).toBe( false );
+
+			expect( widgetBuilder.addHeader( tr, {
+				name: 'Foo',
+				hidden: 'true'
+			}, mw ) ).toBe( false );
 		} );
 
 		it( "has addRow method for subclasses to override", function() {

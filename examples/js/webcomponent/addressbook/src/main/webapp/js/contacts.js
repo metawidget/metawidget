@@ -33,42 +33,67 @@ var addressbook = addressbook || {};
 
 	'use strict';
 
-	// Helper methods
-
 	/**
-	 * Simple implementation of an asynchronous JSON lookup.
+	 * Search
 	 */
 
-	addressbook.fetchJSON = function( path, callback ) {
+	addressbook.search = {
+		firstname: '',
+		surname: '',
+		type: ''
+	};
 
-		var httpRequest = new XMLHttpRequest();
-		httpRequest.onreadystatechange = function() {
-			if ( httpRequest.readyState === 4 && httpRequest.status === 200 ) {
-				callback( JSON.parse( httpRequest.responseText ) );
-			}
-		};
-		httpRequest.open( 'GET', path );
-		httpRequest.send();
-	}
+	addressbook.searchConfig = {
+		inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-	addressbook.tableLayout = new metawidget.layout.HeadingTagLayoutDecorator( {
-		delegate: new metawidget.layout.TableLayout( {
-			tableStyleClass: "table-form",
-			columnStyleClasses: [ "table-label-column", "table-component-column", "table-required-column" ],
-			footerStyleClass: "buttons"
-		} )
-	} );
+			return {
+				properties: {
+					type: {
+						"enum": [ "personal", "business" ],
+						enumTitles: [ "Personal", "Business" ]
+					}
+				}
+			};
+		} ] ),
+		layout: addressbook.tableLayout
+	};
 
-	// Prepare model
+	addressbook.searchActions = {
 
-	addressbook.fetchJSON( 'js/contacts.json', function( data ) {
+		search: function() {
 
-		addressbook.model = data;
+		},
 
-		var summaryTableRows = document.getElementById( 'summary-table-rows' );
-		summaryTableRows.model = {
-			contacts: addressbook.model
+		createPersonal: function() {
+
+			// $location.path( '/contact/personal' );
+		},
+
+		createBusiness: function() {
+
+			// $location.path( '/contact/business' );
 		}
-	} );
+	};
+
+	addressbook.searchActionsConfig = {
+		layout: new metawidget.layout.SimpleLayout()
+	};
+
+	/**
+	 * Retrieve
+	 */
+
+	addressbook.load = function( contactId ) {
+
+		for ( var loop = 0, length = addressbook.model.length; loop < length; loop++ ) {
+			if ( addressbook.model[loop].id === contactId ) {
+				var mw = document.getElementById( 'detail' );
+				mw.setAttribute( 'path', 'addressbook.model[' + loop + ']' );
+				mw.setAttribute( 'readonly', true );
+				document.getElementById( 'dialog-position' ).style.display = 'block';
+				break;
+			}
+		}
+	}
 
 } )();

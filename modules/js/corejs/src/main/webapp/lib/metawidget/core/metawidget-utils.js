@@ -459,7 +459,7 @@ var metawidget = metawidget || {};
 		// In general, add a dot before the attributes.name. However support
 		// nameIncludesSeparator for alwaysUseNestedMetawidgetInTables
 
-		if ( attributes.nameIncludesSeparator === true ) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.nameIncludesSeparator )) {
 			return path + name;
 		}
 

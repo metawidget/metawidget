@@ -75,11 +75,15 @@ var metawidget = metawidget || {};
 		var metawidgetPrototype = Object.create( HTMLElement.prototype );
 
 		/**
-		 * Upon createdCallback, initialize an internal metawidget.Metawidget
+		 * Upon attachedCallback, initialize an internal metawidget.Metawidget
 		 * object using the current 'config' attribute (if any).
+		 * <p>
+		 * During initialization, a Metawidget will take a copy of any
+		 * overridden child nodes, so this must be called after the document is
+		 * ready.
 		 */
 
-		metawidgetPrototype.createdCallback = function() {
+		metawidgetPrototype.attachedCallback = function() {
 
 			_initMetawidget.call( this );
 		}
@@ -156,10 +160,10 @@ var metawidget = metawidget || {};
 		}
 
 		/**
-		 * Upon removedCallback, cleanup any observers.
+		 * Upon detachedCallback, cleanup any observers.
 		 */
 
-		metawidgetPrototype.removedCallback = function() {
+		metawidgetPrototype.detachedCallback = function() {
 
 			_unobserve.call( this );
 		}
