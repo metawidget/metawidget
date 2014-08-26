@@ -63,11 +63,11 @@ var metawidget = metawidget || {};
 		// Explicit title
 
 		if ( attributes.title !== undefined ) {
-			
+
 			if ( attributes.title === null ) {
-				return null;			
+				return null;
 			}
-			
+
 			return metawidget.util.getLocalizedString( attributes.title, mw );
 		}
 
@@ -80,7 +80,7 @@ var metawidget = metawidget || {};
 		}
 
 		// Default name, uncamel case
-		
+
 		return metawidget.util.uncamelCase( name );
 	};
 
@@ -459,7 +459,7 @@ var metawidget = metawidget || {};
 		// In general, add a dot before the attributes.name. However support
 		// nameIncludesSeparator for alwaysUseNestedMetawidgetInTables
 
-		if ( metawidget.util.isTrueOrTrueString( attributes.nameIncludesSeparator )) {
+		if ( metawidget.util.isTrueOrTrueString( attributes.nameIncludesSeparator ) ) {
 			return path + name;
 		}
 
@@ -683,9 +683,9 @@ var metawidget = metawidget || {};
 	};
 
 	/**
-	 * Creates an element by calling <tt>mw.getElement().ownerDocument</tt>
-	 * rather than simply <tt>document</tt>. This stops us relying on a
-	 * global <tt>document</tt> variable.
+	 * Creates an element by calling <tt>ownerDocument</tt> rather than simply
+	 * <tt>document</tt>. This stops us relying on a global <tt>document</tt>
+	 * variable.
 	 */
 
 	metawidget.util.createElement = function( mw, element ) {
@@ -693,29 +693,44 @@ var metawidget = metawidget || {};
 		// Explicitly call toUpperCase, as IE8 doesn't appear to do this for
 		// non-HTML4 tags (like 'output')
 
+		if ( mw.ownerDocument !== undefined ) {
+			return mw.ownerDocument.createElement( element.toUpperCase() );
+		}
+
 		return mw.getElement().ownerDocument.createElement( element.toUpperCase() );
 	};
 
 	/**
-	 * Creates a text node by calling <tt>mw.getElement().ownerDocument</tt>
-	 * rather than simply <tt>document</tt>. This stops us relying on a
-	 * global <tt>document</tt> variable.
+	 * Creates a text node by calling <tt>ownerDocument</tt> rather than
+	 * simply <tt>document</tt>. This stops us relying on a global
+	 * <tt>document</tt> variable.
 	 */
 
 	metawidget.util.createTextNode = function( mw, text ) {
+
+		if ( mw.ownerDocument !== undefined ) {
+			return mw.ownerDocument.createTextNode( text );
+		}
 
 		return mw.getElement().ownerDocument.createTextNode( text );
 	};
 
 	/**
-	 * Creates an event by calling <tt>mw.getElement().ownerDocument</tt>
-	 * rather than simply <tt>document</tt>. This stops us relying on a
-	 * global <tt>document</tt> variable.
+	 * Creates an event by calling <tt>ownerDocument</tt> rather than simply
+	 * <tt>document</tt>. This stops us relying on a global <tt>document</tt>
+	 * variable.
 	 */
 
 	metawidget.util.createEvent = function( mw, name ) {
 
-		var event = mw.getElement().ownerDocument.createEvent( 'Event' );
+		var event;
+
+		if ( mw.ownerDocument !== undefined ) {
+			event = mw.ownerDocument.createEvent( 'Event' );
+		} else {
+			event = mw.getElement().ownerDocument.createEvent( 'Event' );
+		}
+
 		event.initEvent( name, true, true );
 
 		return event;

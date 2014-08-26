@@ -623,5 +623,21 @@
 
 			expect( element.tagName ).toBe( 'OUTPUT' );
 		} );
+
+		it( "can be pointed directly at an element", function() {
+
+			var element = metawidget.util.createElement( {
+				ownerDocument: {
+					createElement: function( elementName ) {
+
+						return {
+							tagName: elementName
+						}
+					}
+				}
+			}, 'output' );
+
+			expect( element.tagName ).toBe( 'OUTPUT' );
+		} );
 	} );
 } )();

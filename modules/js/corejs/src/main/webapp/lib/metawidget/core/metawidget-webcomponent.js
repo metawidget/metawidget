@@ -46,17 +46,6 @@ var metawidget = metawidget || {};
 	}
 
 	/**
-	 * Initialize an internal 'metawidget.Metawidget' object, that will be
-	 * wrapped by this Web Component.
-	 */
-
-	function _initMetawidget() {
-
-		new metawidget.Metawidget( this, _lookupObject.call( this, 'config' ) );
-		this.buildWidgets();
-	}
-
-	/**
 	 * Unobserves the currently observed 'path' (if any).
 	 */
 
@@ -85,7 +74,35 @@ var metawidget = metawidget || {};
 
 		metawidgetPrototype.attachedCallback = function() {
 
-			_initMetawidget.call( this );
+			// Pipeline (private)
+
+			this._pipeline = new metawidget.Pipeline( this );
+
+			// Configure defaults
+
+			this._pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
+			this._pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
+					new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+			this._pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
+					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
+			this._pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
+			this._pipeline.configure( _lookupObject.call( this, 'config' ) );
+
+			// First time in, capture the contents of the Metawidget, if any
+			// (private)
+
+			this._overriddenNodes = [];
+
+			while ( this.childNodes.length > 0 ) {
+				var childNode = this.childNodes[0];
+				this.removeChild( childNode );
+
+				if ( childNode.nodeType === 1 ) {
+					this._overriddenNodes.push( childNode );
+				}
+			}
+
+			this.buildWidgets();
 		}
 
 		/**
@@ -103,17 +120,35 @@ var metawidget = metawidget || {};
 					this.buildWidgets();
 					break;
 				case 'config':
-					_initMetawidget();
+					this._pipeline.configure( _lookupObject.call( this, 'config' ) );
 					break;
 			}
 		}
 
 		/**
+		 * Clear all child elements from the Metawidget element.
+		 * <p>
+		 * This implementation uses plain JavaScript <tt>removeChild</tt>,
+		 * which has known problems (on some browsers) leaking event handlers.
+		 * This is not a problem for plain Metawidget, as it doesn't use event
+		 * handlers. However clients that introduce custom widgetprocessors that
+		 * use event handlers may wish to adopt a more robust technology for
+		 * tracking/clearing event handlers (such as JQuery.empty)
+		 */
+
+		metawidgetPrototype.clearWidgets = function() {
+
+			while ( this.childNodes.length > 0 ) {
+				this.removeChild( this.childNodes[0] );
+			}			
+		}
+		
+		/**
 		 * Rebuild the Metawidget, using the value of the current 'path'
 		 * attribute.
 		 */
 
-		metawidgetPrototype.buildWidgets = function() {
+		metawidgetPrototype.buildWidgets = function( inspectionResult ) {
 
 			// Unobserve
 
@@ -121,15 +156,41 @@ var metawidget = metawidget || {};
 
 			// Traverse and build
 
-			var mw = this.getMetawidget();
-			mw.toInspect = _lookupObject.call( this, 'path' );
-			mw.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
-			mw.buildWidgets();
+			this.path = this.getAttribute( 'path' );
+			this._pipeline.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
 
+			// Defensive copy
+			
+			this.overriddenNodes = [];
+
+			for ( var loop = 0, length = this._overriddenNodes.length; loop < length; loop++ ) {
+				this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
+			}
+			
+			// Inspect (if necessary)
+
+			if ( inspectionResult === undefined ) {
+
+				// Safeguard against improperly implementing:
+				// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
+
+				if ( arguments.length > 0 ) {
+					throw new Error( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
+				}
+
+				var splitPath = metawidget.util.splitPath( this.path );
+				this.toInspect = globalScope[splitPath.type];
+				inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
+			}
+
+			// Build widgets
+
+			this._pipeline.buildWidgets( inspectionResult, this );
+			
 			// Observe for next time. toInspect may be undefined because
 			// Metawidget can be used purely for layout
 
-			if ( mw.toInspect !== undefined ) {
+			if ( this.toInspect !== undefined ) {
 
 				var that = this;
 				this.observer = function() {
@@ -137,27 +198,67 @@ var metawidget = metawidget || {};
 					that.buildWidgets.call( that );
 				}
 
-				Object.observe( mw.toInspect, this.observer );
+				Object.observe( this.toInspect, this.observer );
 			}
 		}
+
+		/**
+		 * Returns a nested version of this same Metawidget, using the given
+		 * attributes.
+		 * <p>
+		 * Subclasses should override this method to use their preferred widget
+		 * creation methodology.
+		 */
+
+		metawidgetPrototype.buildNestedMetawidget = function( attributes, config ) {
+
+			var nestedMetawidget = metawidget.util.createElement( this, 'x-metawidget' );
+
+			// Duck-type our 'pipeline' as the 'config' of the nested
+			// Metawidget. This neatly passes everything down, including a
+			// decremented 'maximumInspectionDepth'
+
+			nestedMetawidget.setAttribute( 'path', metawidget.util.appendPath( attributes, this ));
+			nestedMetawidget.setAttribute( 'readonly', this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ));
+
+			return nestedMetawidget;
+		};
 
 		/**
 		 * Save the contents of the Metawidget using a SimpleBindingProcessor.
 		 * <p>
 		 * This is a convenience method. To access other Metawidget APIs,
-		 * clients can use the 'getMetawidget' method. For example
-		 * 'document.getElementById(...).getMeta.getWidgetProcessor(...)'
+		 * clients can use the 'getWidgetProcessor' method
 		 */
 
 		metawidgetPrototype.save = function() {
 
-			var mw = this.getMetawidget();
-
-			mw.getWidgetProcessor( function( widgetProcessor ) {
+			this.getWidgetProcessor( function( widgetProcessor ) {
 
 				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 			} ).save( mw );
 		}
+
+		/**
+		 * Useful for WidgetBuilders to perform nested inspections (eg. for
+		 * Collections).
+		 */
+
+		metawidgetPrototype.inspect = function( toInspect, type, names ) {
+
+			return this._pipeline.inspect( toInspect, type, names, this );
+		};
+
+
+		metawidgetPrototype.getWidgetProcessor = function( testInstanceOf ) {
+
+			return this._pipeline.getWidgetProcessor( testInstanceOf );
+		};
+		
+		metawidgetPrototype.setLayout = function( layout ) {
+
+			this._pipeline.layout = layout;
+		};
 
 		/**
 		 * Upon detachedCallback, cleanup any observers.
