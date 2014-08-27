@@ -166,7 +166,7 @@
 			widget.setAttribute( 'type', 'button' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'input type="button"' );
-			expect( widget.onclick.toString() ).toContain( 'return mw.toInspect[attributes.name]();' );
+			expect( widget.onclick.toString() ).toContain( 'return metawidget.util.traversePath(mw.toInspect, typeAndNames.names)[attributes.name]();' );
 
 			// Submit inputs
 
@@ -174,7 +174,7 @@
 			widget.setAttribute( 'type', 'submit' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'input type="submit"' );
-			expect( widget.onclick.toString() ).toContain( 'return mw.toInspect[attributes.name]();' );
+			expect( widget.onclick.toString() ).toContain( 'return metawidget.util.traversePath(mw.toInspect, typeAndNames.names)[attributes.name]();' );
 
 			// Outputs
 

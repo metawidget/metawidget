@@ -136,7 +136,7 @@ var metawidget = metawidget || {};
 			widget.onclick = function() {
 
 				try {
-					return mw.toInspect[attributes.name]();
+					return metawidget.util.traversePath( mw.toInspect, typeAndNames.names )[attributes.name]();
 				} catch ( e ) {
 					if ( alert !== undefined ) {
 						alert( e );
