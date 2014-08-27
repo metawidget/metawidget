@@ -1,33 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="addressBook">
 	<head>
 		<meta charset="utf-8"/>
-		<title>Address Book (Metawidget Web Component Example)</title>
+		<title>Address Book (Metawidget AngularJS Example)</title>
 		<link rel="stylesheet" type="text/css" href="css/addressbook.css" media="all"/>
 		<link rel="stylesheet" type="text/css" href="css/framework-specific-addressbook.css" media="all"/>
-		<script src="lib/polymer/platform.js" type="text/javascript"></script>
-		<script src="lib/polymer/object.observe.poly.js" type="text/javascript"></script>
-		<script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"></script>
-		<script src="js/app.js" type="text/javascript"></script>
-		<script src="js/contacts.js" type="text/javascript"></script>
-		<script src="js/contact.js" type="text/javascript"></script>
+ 		<!--[if lte IE 8]>
+		<script>
+			document.createElement( 'metawidget' );
+		</script>
+		<![endif]-->		
 	</head>
 	<body>
 
 		<div id="page-image">
 			<img src="media/addressbook.gif" alt=""/>
 		</div>
-
-		<div id="content">
-
-			<!-- Summary -->
-
-			<x-metawidget path="addressbook.search" config="addressbook.searchConfig">
+	
+		<div id="content" ng-controller="contactsController">
+	
+			<metawidget ng-model="search" config="metawidgetConfig.search">
 				<facet name="footer">
-					<x-metawidget path="addressbook.searchActions" config="addressbook.searchActionsConfig"></x-metawidget>
+					<metawidget ng-model="searchActions" config="metawidgetConfig.buttons"></metawidget>
 				</facet>
-			</x-metawidget>
-
+			</metawidget>
+	
 			<table class="data-table">
 				<thead>
 					<tr>
@@ -37,58 +34,37 @@
 					</tr>
 				</thead>
 				<tbody>
-					<template id="summary-table-rows" repeat="{{contacts}}">
-						<tr>
-							<td class="column-half">
-								<a href="javascript:addressbook.load({{id}})">
-									{{title}} {{firstname}} {{surname}}
-								</a>
-							</td>
-							<td class="column-half">
-							</td>
-							<td class="column-tiny">
-								<img src="media/{{type}}-small.gif" alt="Personal Contact"/>
-							</td>
-						</tr>
-					</template>
+	
+					<tr ng-repeat="contact in contacts | filter:filter | orderBy:'firstname'">
+						<td class="column-half">
+							<a href="#/contact/{{contact.id}}">
+								{{contact.title}} {{contact.firstname}} {{contact.surname}}
+							</a>
+						</td>
+						<td class="column-half">
+							<span ng-repeat="communication in contact.communications">
+								{{communication.type}}: {{communication.value}}
+							</span>
+						</td>
+						<td class="column-tiny">
+							<img src="media/personal-small.gif" alt="Personal Contact" ng-show="contact.type == 'personal'"/>
+							<img src="media/business-small.gif" alt="Business Contact" ng-show="contact.type == 'business'"/>
+						</td>
+					</tr>
+	
 				</tbody>
 			</table>
-
-			<!-- Detail -->
-
-			<div id="dialog-position">
-				<div id="dialog">
-					<div id="dialog-heading">
-						{{dialogTitle}}
-					</div>
-					<div id="dialog-content">
-						<img id="dialog-image" ng-src="media/{{current.type}}.gif" alt=""/>
-						<x-metawidget id="detail" path="addressbook.current" config="addressbook.currentConfig">
-							<table id="communications" class="data-table">
-								<thead>
-									<tr>
-										<th class="column-half">Type</th>
-										<th class="column-half">Value</th>
-										<th class="column-tiny"></th>
-									</tr>
-								</thead>
-								<tbody>
-									<template id="detail-table-rows" repeat="{{communications}}">
-										<tr>
-											<td class="column-half">{{type}}</td>
-											<td class="column-half">{{value}}</td>
-										</tr>
-									</template>
-								</tbody>
-							</table>
-							<facet name="footer">
-								<x-metawidget path="addressbook.crudActions" config="addressbook.crudActionsConfig"></x-metawidget>
-							</facet>
-						</x-metawidget>
-					</div>
-				</div>
-			</div>
+	
 		</div>
+	
+		<div ng-view></div>
 
+		<script src="lib/angular/angular.min.js" type="text/javascript"></script>
+		<script src="lib/angular/angular-route.min.js" type="text/javascript"></script>
+		<script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"></script>
+		<script src="lib/metawidget/angular/metawidget-angular.min.js" type="text/javascript"></script>
+		<script src="js/app.js" type="text/javascript"></script>
+		<script src="js/controllers.js" type="text/javascript"></script>
+		<script src="js/services.js" type="text/javascript"></script>
 	</body>
 </html>
