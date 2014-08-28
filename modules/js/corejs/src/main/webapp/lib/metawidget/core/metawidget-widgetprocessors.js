@@ -132,6 +132,8 @@ var metawidget = metawidget || {};
 
 	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
+		var typeAndNames = metawidget.util.splitPath( mw.path );
+
 		if ( widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'button' || widget.getAttribute( 'type' ) === 'submit' ) ) {
 			widget.onclick = function() {
 
@@ -150,7 +152,6 @@ var metawidget = metawidget || {};
 		}
 
 		var value;
-		var typeAndNames = metawidget.util.splitPath( mw.path );
 
 		if ( elementName === 'entity' ) {
 

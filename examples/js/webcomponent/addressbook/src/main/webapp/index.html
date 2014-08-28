@@ -8,6 +8,7 @@
 		<script src="lib/polymer/platform.js" type="text/javascript"></script>
 		<script src="lib/polymer/object.observe.poly.js" type="text/javascript"></script>
 		<script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"></script>
+		<script src="js/metawidget-webcomponent.js" type="text/javascript"></script>
 		<script src="js/app.js" type="text/javascript"></script>
 		<script src="js/contacts.js" type="text/javascript"></script>
 		<script src="js/contact.js" type="text/javascript"></script>
@@ -22,7 +23,7 @@
 
 			<!-- Summary -->
 
-			<x-metawidget path="addressbook.search" config="addressbook.searchConfig">
+			<x-metawidget id="search" path="addressbook.search" config="addressbook.searchConfig">
 				<facet name="footer">
 					<x-metawidget path="addressbook.searchActions" config="addressbook.searchActionsConfig"></x-metawidget>
 				</facet>
@@ -64,7 +65,7 @@
 					<div id="dialog-content">
 						<img id="dialog-image" ng-src="media/{{current.type}}.gif" alt=""/>
 						<x-metawidget id="detail" path="addressbook.current" config="addressbook.currentConfig">
-							<table id="communications" class="data-table">
+							<table id="currentCommunications" class="data-table">
 								<thead>
 									<tr>
 										<th class="column-half">Type</th>
@@ -73,9 +74,9 @@
 									</tr>
 								</thead>
 								<tbody>
-									<template id="detail-table-rows" repeat="{{communications}}">
+									<template id="detail-table-rows">
 										<tr>
-											<td class="column-half">{{type}}</td>
+											<td class="column-half">{{communications}}{{type}}</td>
 											<td class="column-half">{{value}}</td>
 										</tr>
 									</template>

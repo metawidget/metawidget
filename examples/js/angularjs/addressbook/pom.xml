@@ -79,6 +79,7 @@
 						lib/metawidget/core/metawidget-inspectors.js,
 						lib/metawidget/core/metawidget-layouts.js,
 						lib/metawidget/core/metawidget-utils.js,
+						lib/metawidget/core/metawidget-webcomponent.js,
 						lib/metawidget/core/metawidget-widgetbuilders.js,
 						lib/metawidget/core/metawidget-widgetprocessors.js,
 						lib/metawidget/angular/metawidget-angular.js,

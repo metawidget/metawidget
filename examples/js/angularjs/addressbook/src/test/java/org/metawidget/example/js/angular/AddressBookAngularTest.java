@@ -27,7 +27,7 @@
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package org.metawidget.integrationtest.js.angular;
+package org.metawidget.example.js.angular;
 
 import org.metawidget.util.AngularScenarioRunnerTestCase;
 

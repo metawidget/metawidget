@@ -33,6 +33,45 @@ var addressbook = addressbook || {};
 
 	'use strict';
 
+	// Prepare model
+
+	addressbook.fetchJSON( 'js/contacts.json', function( data ) {
+
+		addressbook.contacts = data;
+		_populateSummaryPage();
+	} );
+
+	function _populateSummaryPage() {
+
+		var summaryTableRows = document.getElementById( 'summary-table-rows' );
+		summaryTableRows.model = {
+			contacts: []
+		};
+
+		for( var loop = 0, length = addressbook.contacts.length; loop < length; loop++ ) {
+
+			var contact = addressbook.contacts[loop];
+			
+			// Filter
+
+			if ( addressbook.search.firstname !== undefined && contact.firstname.indexOf( addressbook.search.firstname ) === -1 ) {
+				continue;
+			}
+
+			if ( addressbook.search.surname !== undefined && contact.surname.indexOf( addressbook.search.surname ) === -1 ) {
+				continue;
+			}
+			
+			if ( addressbook.search.type !== undefined && addressbook.search.type !== '' && contact.type !== addressbook.search.type ) {
+				continue;
+			}
+
+			summaryTableRows.model.contacts.push( contact );
+		}
+		
+		console.log( "Model is ", summaryTableRows.model );
+	}
+	
 	/**
 	 * Search
 	 */
@@ -61,7 +100,8 @@ var addressbook = addressbook || {};
 	addressbook.searchActions = {
 
 		search: function() {
-
+			document.getElementById( 'search' ).save();
+			_populateSummaryPage();
 		},
 
 		createPersonal: function() {
@@ -85,15 +125,17 @@ var addressbook = addressbook || {};
 
 	addressbook.load = function( contactId ) {
 
-		for ( var loop = 0, length = addressbook.model.length; loop < length; loop++ ) {
-			if ( addressbook.model[loop].id === contactId ) {
+		for ( var loop = 0, length = addressbook.contacts.length; loop < length; loop++ ) {
+			if ( addressbook.contacts[loop].id === contactId ) {
+			
+				window.current = addressbook.contacts[loop];
 				var mw = document.getElementById( 'detail' );
-				mw.setAttribute( 'path', 'addressbook.model[' + loop + ']' );
+				mw.setAttribute( 'path', 'current' );
 				mw.setAttribute( 'readonly', true );
 				document.getElementById( 'dialog-position' ).style.display = 'block';
 				break;
 			}
 		}
-	}
+	};
 
 } )();

@@ -65,6 +65,7 @@
 						lib/metawidget/core/metawidget-inspectors.js,
 						lib/metawidget/core/metawidget-layouts.js,
 						lib/metawidget/core/metawidget-utils.js,
+						lib/metawidget/core/metawidget-webcomponent.js,
 						lib/metawidget/core/metawidget-widgetbuilders.js,
 						lib/metawidget/core/metawidget-widgetprocessors.js,
 						WEB-INF/**
@@ -78,10 +79,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>selenium-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 		<!-- For Sonar -->

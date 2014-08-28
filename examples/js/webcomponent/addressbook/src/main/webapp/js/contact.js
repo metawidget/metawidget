@@ -77,7 +77,7 @@ var addressbook = addressbook || {};
 					var detailTableRows = document.getElementById( 'detail-table-rows' );
 					detailTableRows.model = {
 						communications: toInspect.communications
-					}
+					};
 				} );
 			} else {
 				return inspectionResult;
@@ -105,7 +105,7 @@ var addressbook = addressbook || {};
 
 		"delete": function() {
 
-			var contactId = document.getElementById( 'detail' ).getMetawidget().toInspect.id;
+			var contactId = document.getElementById( 'detail' ).toInspect.id;
 			
 			for ( var loop = 0, length = addressbook.model.length; loop < length; loop++ ) {
 				if ( addressbook.model[loop].id === contactId ) {

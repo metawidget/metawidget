@@ -10,7 +10,7 @@
 // for details.
 
 /**
- * Web Components wrapper for Metawidget.
+ * Web Component wrapper for Metawidget.
  * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
@@ -55,7 +55,7 @@ var metawidget = metawidget || {};
 			return;
 		}
 
-		Object.unobserve( this.getMetawidget().toInspect, this.observer );
+		Object.unobserve( this.toInspect, this.observer );
 		this.observer = undefined;
 	}
 
@@ -67,43 +67,34 @@ var metawidget = metawidget || {};
 		 * Upon attachedCallback, initialize an internal metawidget.Metawidget
 		 * object using the current 'config' attribute (if any).
 		 * <p>
-		 * During initialization, a Metawidget will take a copy of any
-		 * overridden child nodes, so this must be called after the document is
-		 * ready.
+		 * During initialization, a Metawidget create a shadow root so this must
+		 * be called after the document is ready.
 		 */
 
 		metawidgetPrototype.attachedCallback = function() {
 
+			// First time in, create a shadow root. This allows us to preserve
+			// our original override nodes (if any)
+
+			var shadowRoot = this.createShadowRoot();
+
 			// Pipeline (private)
 
-			this._pipeline = new metawidget.Pipeline( this );
+			this._pipeline = new metawidget.Pipeline( shadowRoot );
 
 			// Configure defaults
 
 			this._pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-			this._pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
-					new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
+			this._pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(),
+					new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 			this._pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ];
+					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(),
+					new metawidget.widgetprocessor.SimpleBindingProcessor() ];
 			this._pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
-			this._pipeline.configure( _lookupObject.call( this, 'config' ) );
-
-			// First time in, capture the contents of the Metawidget, if any
-			// (private)
-
-			this._overriddenNodes = [];
-
-			while ( this.childNodes.length > 0 ) {
-				var childNode = this.childNodes[0];
-				this.removeChild( childNode );
-
-				if ( childNode.nodeType === 1 ) {
-					this._overriddenNodes.push( childNode );
-				}
-			}
+			this._pipeline.configure( [ _lookupObject.call( this, 'config' ), this.config ] );
 
 			this.buildWidgets();
-		}
+		};
 
 		/**
 		 * If 'path', 'readonly' or 'config' are updated, rebuild the
@@ -111,6 +102,10 @@ var metawidget = metawidget || {};
 		 */
 
 		metawidgetPrototype.attributeChangedCallback = function( attrName, oldVal, newVal ) {
+
+			if ( this._pipeline === undefined ) {
+				return;
+			}
 
 			switch ( attrName ) {
 				case 'path':
@@ -123,26 +118,19 @@ var metawidget = metawidget || {};
 					this._pipeline.configure( _lookupObject.call( this, 'config' ) );
 					break;
 			}
-		}
+		};
 
 		/**
-		 * Clear all child elements from the Metawidget element.
-		 * <p>
-		 * This implementation uses plain JavaScript <tt>removeChild</tt>,
-		 * which has known problems (on some browsers) leaking event handlers.
-		 * This is not a problem for plain Metawidget, as it doesn't use event
-		 * handlers. However clients that introduce custom widgetprocessors that
-		 * use event handlers may wish to adopt a more robust technology for
-		 * tracking/clearing event handlers (such as JQuery.empty)
+		 * Clear all child elements from the shadow root.
 		 */
 
 		metawidgetPrototype.clearWidgets = function() {
 
-			while ( this.childNodes.length > 0 ) {
-				this.removeChild( this.childNodes[0] );
-			}			
-		}
-		
+			while ( this.shadowRoot.childNodes.length > 0 ) {
+				this.shadowRoot.removeChild( this.shadowRoot.childNodes[0] );
+			}
+		};
+
 		/**
 		 * Rebuild the Metawidget, using the value of the current 'path'
 		 * attribute.
@@ -157,16 +145,19 @@ var metawidget = metawidget || {};
 			// Traverse and build
 
 			this.path = this.getAttribute( 'path' );
-			this._pipeline.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
+			this.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
 
-			// Defensive copy
-			
+			// Take a copy of the original nodes. These may be inserted into the shadow DOM if the
+			// WidgetBuilders/Layouts want it
+
 			this.overriddenNodes = [];
 
-			for ( var loop = 0, length = this._overriddenNodes.length; loop < length; loop++ ) {
-				this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
+			for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
+				if ( this.childNodes[loop].nodeType === 1 ) {
+					this.overriddenNodes.push( this.childNodes[loop].cloneNode( true ) );
+				}
 			}
-			
+
 			// Inspect (if necessary)
 
 			if ( inspectionResult === undefined ) {
@@ -180,13 +171,14 @@ var metawidget = metawidget || {};
 
 				var splitPath = metawidget.util.splitPath( this.path );
 				this.toInspect = globalScope[splitPath.type];
+
 				inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
 
 			// Build widgets
 
 			this._pipeline.buildWidgets( inspectionResult, this );
-			
+
 			// Observe for next time. toInspect may be undefined because
 			// Metawidget can be used purely for layout
 
@@ -196,11 +188,11 @@ var metawidget = metawidget || {};
 				this.observer = function() {
 
 					that.buildWidgets.call( that );
-				}
+				};
 
 				Object.observe( this.toInspect, this.observer );
 			}
-		}
+		};
 
 		/**
 		 * Returns a nested version of this same Metawidget, using the given
@@ -218,8 +210,9 @@ var metawidget = metawidget || {};
 			// Metawidget. This neatly passes everything down, including a
 			// decremented 'maximumInspectionDepth'
 
-			nestedMetawidget.setAttribute( 'path', metawidget.util.appendPath( attributes, this ));
-			nestedMetawidget.setAttribute( 'readonly', this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ));
+			nestedMetawidget.setAttribute( 'path', metawidget.util.appendPath( attributes, this ) );
+			nestedMetawidget.setAttribute( 'readonly', this.readOnly || metawidget.util.isTrueOrTrueString( attributes.readOnly ) );
+			nestedMetawidget.config = this._pipeline;
 
 			return nestedMetawidget;
 		};
@@ -236,8 +229,8 @@ var metawidget = metawidget || {};
 			this.getWidgetProcessor( function( widgetProcessor ) {
 
 				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
-			} ).save( mw );
-		}
+			} ).save( this );
+		};
 
 		/**
 		 * Useful for WidgetBuilders to perform nested inspections (eg. for
@@ -249,12 +242,11 @@ var metawidget = metawidget || {};
 			return this._pipeline.inspect( toInspect, type, names, this );
 		};
 
-
 		metawidgetPrototype.getWidgetProcessor = function( testInstanceOf ) {
 
 			return this._pipeline.getWidgetProcessor( testInstanceOf );
 		};
-		
+
 		metawidgetPrototype.setLayout = function( layout ) {
 
 			this._pipeline.layout = layout;
@@ -267,7 +259,7 @@ var metawidget = metawidget || {};
 		metawidgetPrototype.detachedCallback = function() {
 
 			_unobserve.call( this );
-		}
+		};
 
 		// Register Metawidget as a Web Component
 

@@ -49,26 +49,18 @@ var addressbook = addressbook || {};
 		};
 		httpRequest.open( 'GET', path );
 		httpRequest.send();
-	}
+	};
 
+	/**
+	 * Shared layout
+	 */
+	 
 	addressbook.tableLayout = new metawidget.layout.HeadingTagLayoutDecorator( {
 		delegate: new metawidget.layout.TableLayout( {
 			tableStyleClass: "table-form",
 			columnStyleClasses: [ "table-label-column", "table-component-column", "table-required-column" ],
 			footerStyleClass: "buttons"
 		} )
-	} );
-
-	// Prepare model
-
-	addressbook.fetchJSON( 'js/contacts.json', function( data ) {
-
-		addressbook.model = data;
-
-		var summaryTableRows = document.getElementById( 'summary-table-rows' );
-		summaryTableRows.model = {
-			contacts: addressbook.model
-		}
 	} );
 
 } )();
