@@ -32,6 +32,8 @@ package org.metawidget.example.js.webcomponent;
 import static org.junit.Assert.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -46,12 +48,202 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class AddressBookWebComponentTest {
 
 	//
+	// Private members
+	//
+
+	private static final String	BASE_URL	= "http://localhost:8180/addressbook-webcomponent";
+
+	//
+	// Private members
+	//
+
+	private FirefoxDriver		mDriver;
+
+	private WebDriverWait		mWait;
+
+	//
 	// Public methods
 	//
 
 	@Test
-	public void testAddressBook()
+	public void testEditing()
 		throws Exception {
+
+		mDriver.get( BASE_URL );
+
+		// Search
+
+		mWait.until( visibilityOfElementLocated( By.id( "addressbookSearchFirstname" ) ) );
+		assertEquals( "Firstname:", mDriver.findElementById( "table-addressbookSearchFirstname-label" ).getText() );
+		assertEquals( "input", mDriver.findElementById( "addressbookSearchFirstname" ).getTagName() );
+		assertEquals( "text", mDriver.findElementById( "addressbookSearchFirstname" ).getAttribute( "type" ) );
+		assertEquals( "Surname:", mDriver.findElementById( "table-addressbookSearchSurname-label" ).getText() );
+		assertEquals( "input", mDriver.findElementById( "addressbookSearchSurname" ).getTagName() );
+		assertEquals( "text", mDriver.findElementById( "addressbookSearchSurname" ).getAttribute( "type" ) );
+		assertEquals( "Type:", mDriver.findElementById( "table-addressbookSearchType-label" ).getText() );
+		assertEquals( "select", mDriver.findElementById( "addressbookSearchType" ).getTagName() );
+		assertEquals( "", mDriver.findElementsByCssSelector( "#addressbookSearchType option" ).get( 0 ).getText() );
+		assertEquals( "Personal", mDriver.findElementsByCssSelector( "#addressbookSearchType option" ).get( 1 ).getText() );
+		assertEquals( "Business", mDriver.findElementsByCssSelector( "#addressbookSearchType option" ).get( 2 ).getText() );
+		assertEquals( 3, mDriver.findElementsByCssSelector( "#addressbookSearchType option" ).size() );
+		assertEquals( 3, mDriver.findElementsByCssSelector( "#table-addressbookSearch tbody tr" ).size() );
+		assertEquals( 1, mDriver.findElementsByCssSelector( "#table-addressbookSearch tfoot tr" ).size() );
+
+		assertEquals( 6, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
+		mDriver.findElementById( "addressbookSearchType" ).sendKeys( "p" );
+		mDriver.findElementById( "addressbookSearchActionsSearch" ).click();
+		Thread.sleep( 1000 );
+
+		assertEquals( 4, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
+
+		mDriver.findElementById( "addressbookSearchFirstname" ).sendKeys( "Homer" );
+		mDriver.findElementById( "addressbookSearchActionsSearch" ).click();
+		Thread.sleep( 1000 );
+
+		assertEquals( 1, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
+		mDriver.findElementByLinkText( "Mr Homer Simpson" ).click();
+
+		// View
+
+		mWait.until( visibilityOfElementLocated( By.id( "addressbookCurrentTitle" ) ) );
+		assertEquals( "Homer Simpson", mDriver.findElementById( "dialog-heading" ).getText() );
+		assertEquals( BASE_URL + "/media/personal.gif", mDriver.findElementById( "dialog-image" ).getAttribute( "src" ) );
+		assertEquals( "Title:", mDriver.findElementById( "table-addressbookCurrentTitle-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentTitle" ).getTagName() );
+		assertEquals( "Mr", mDriver.findElementById( "addressbookCurrentTitle" ).getText() );
+		assertEquals( "Firstname:", mDriver.findElementById( "table-addressbookCurrentFirstname-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentFirstname" ).getTagName() );
+		assertEquals( "Homer", mDriver.findElementById( "addressbookCurrentFirstname" ).getText() );
+		assertEquals( "Surname:", mDriver.findElementById( "table-addressbookCurrentSurname-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentSurname" ).getTagName() );
+		assertEquals( "Simpson", mDriver.findElementById( "addressbookCurrentSurname" ).getText() );
+		assertEquals( "Gender:", mDriver.findElementById( "table-addressbookCurrentGender-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentGender" ).getTagName() );
+		assertEquals( "Male", mDriver.findElementById( "addressbookCurrentGender" ).getText() );
+		assertEquals( "Contact Details", mDriver.findElementsByTagName( "h1" ).get( 0 ).getText() );
+		assertEquals( "Address:", mDriver.findElementById( "table-addressbookCurrentAddress-label" ).getText() );
+		assertEquals( "Street:", mDriver.findElementById( "table-addressbookCurrentAddressStreet-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentAddressStreet" ).getTagName() );
+		assertEquals( "742 Evergreen Terrace", mDriver.findElementById( "addressbookCurrentAddressStreet" ).getText() );
+		assertEquals( "City:", mDriver.findElementById( "table-addressbookCurrentAddressCity-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentAddressCity" ).getTagName() );
+		assertEquals( "Springfield", mDriver.findElementById( "addressbookCurrentAddressCity" ).getText() );
+		assertEquals( "State:", mDriver.findElementById( "table-addressbookCurrentAddressState-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentAddressState" ).getTagName() );
+		assertEquals( "Anytown", mDriver.findElementById( "addressbookCurrentAddressState" ).getText() );
+		assertEquals( "Postcode:", mDriver.findElementById( "table-addressbookCurrentAddressPostcode-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentAddressPostcode" ).getTagName() );
+		assertEquals( "90701", mDriver.findElementById( "addressbookCurrentAddressPostcode" ).getText() );
+		assertEquals( "Communications:", mDriver.findElementById( "table-addressbookCurrentCommunications-label" ).getText() );
+		assertEquals( "Other", mDriver.findElementsByTagName( "h1" ).get( 1 ).getText() );
+		assertEquals( "Notes:", mDriver.findElementById( "table-addressbookCurrentNotes-label" ).getText() );
+		assertEquals( "output", mDriver.findElementById( "addressbookCurrentNotes" ).getTagName() );
+
+		// Edit
+
+		mDriver.findElementById( "addressbookCrudActionsEdit" ).click();
+		assertEquals( "Title:", mDriver.findElementById( "table-addressbookCurrentTitle-label" ).getText() );
+		Select titleSelect = new Select( mDriver.findElementById( "addressbookCurrentTitle" ) );
+		assertEquals( "Mr", titleSelect.getFirstSelectedOption().getText() );
+		assertEquals( "Mr", titleSelect.getOptions().get( 0 ).getText() );
+		assertEquals( "Cpt", titleSelect.getOptions().get( 4 ).getText() );
+		assertEquals( 5, titleSelect.getOptions().size() );
+		assertEquals( "Firstname:", mDriver.findElementById( "table-addressbookCurrentFirstname-label" ).getText() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentFirstname" ).getTagName() );
+		assertEquals( "Homer", mDriver.findElementById( "addressbookCurrentFirstname" ).getAttribute( "value" ) );
+		assertEquals( "Surname:", mDriver.findElementById( "table-addressbookCurrentSurname-label" ).getText() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentSurname" ).getTagName() );
+		assertEquals( "Simpson", mDriver.findElementById( "addressbookCurrentSurname" ).getAttribute( "value" ) );
+		assertEquals( "Gender:", mDriver.findElementById( "table-addressbookCurrentGender-label" ).getText() );
+		Select genderSelect = new Select( mDriver.findElementById( "addressbookCurrentGender" ) );
+		assertEquals( "Male", genderSelect.getFirstSelectedOption().getText() );
+		assertEquals( "", genderSelect.getOptions().get( 0 ).getText() );
+		assertEquals( "Male", genderSelect.getOptions().get( 1 ).getText() );
+		assertEquals( "Female", genderSelect.getOptions().get( 2 ).getText() );
+		assertEquals( 3, genderSelect.getOptions().size() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentDateOfBirth" ).getTagName() );
+		assertEquals( "Contact Details", mDriver.findElementsByTagName( "h1" ).get( 0 ).getText() );
+		assertEquals( "Address:", mDriver.findElementById( "table-addressbookCurrentAddress-label" ).getText() );
+		assertEquals( "Street:", mDriver.findElementById( "table-addressbookCurrentAddressStreet-label" ).getText() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentAddressStreet" ).getTagName() );
+		assertEquals( "742 Evergreen Terrace", mDriver.findElementById( "addressbookCurrentAddressStreet" ).getAttribute( "value" ) );
+		assertEquals( "City:", mDriver.findElementById( "table-addressbookCurrentAddressCity-label" ).getText() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentAddressCity" ).getTagName() );
+		assertEquals( "Springfield", mDriver.findElementById( "addressbookCurrentAddressCity" ).getAttribute( "value" ) );
+		assertEquals( "State:", mDriver.findElementById( "table-addressbookCurrentAddressState-label" ).getText() );
+		Select stateSelect = new Select( mDriver.findElementById( "addressbookCurrentAddressState" ) );
+		assertEquals( "Anytown", stateSelect.getFirstSelectedOption().getText() );
+		assertEquals( "", stateSelect.getOptions().get( 0 ).getText() );
+		assertEquals( 5, stateSelect.getOptions().size() );
+		assertEquals( "Postcode:", mDriver.findElementById( "table-addressbookCurrentAddressPostcode-label" ).getText() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentAddressPostcode" ).getTagName() );
+		assertEquals( "90701", mDriver.findElementById( "addressbookCurrentAddressPostcode" ).getAttribute( "value" ) );
+		assertEquals( "Communications:", mDriver.findElementById( "table-addressbookCurrentCommunications-label" ).getText() );
+		assertEquals( "Other", mDriver.findElementsByTagName( "h1" ).get( 1 ).getText() );
+		assertEquals( "Notes:", mDriver.findElementById( "table-addressbookCurrentNotes-label" ).getText() );
+		assertEquals( "textarea", mDriver.findElementById( "addressbookCurrentNotes" ).getTagName() );
+
+		// Save
+
+		mDriver.findElementById( "addressbookCurrentFirstname" ).clear();
+		mDriver.findElementById( "addressbookCurrentFirstname" ).sendKeys( "Homer1" );
+		mDriver.findElementById( "addressbookCrudActionsSave" ).click();
+
+		Thread.sleep( 1000 );
+		assertEquals( "Mr Homer1 Simpson", mDriver.findElementsByCssSelector( ".data-table tbody tr td a" ).get( 0 ).getText() );
+	}
+
+	@Test
+	public void testCreating()
+		throws Exception {
+
+		mDriver.get( BASE_URL );
+
+		Thread.sleep( 1000 );
+		assertEquals( 6, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
+
+		// Create
+
+		mDriver.findElementById( "addressbookSearchActionsCreatePersonal" ).click();
+		mWait.until( visibilityOfElementLocated( By.id( "addressbookCurrentTitle" ) ) );
+		assertEquals( "Title:", mDriver.findElementById( "table-addressbookCurrentTitle-label" ).getText() );
+		assertEquals( "select", mDriver.findElementById( "addressbookCurrentTitle" ).getTagName() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentFirstname" ).getTagName() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentSurname" ).getTagName() );
+		assertEquals( "select", mDriver.findElementById( "addressbookCurrentGender" ).getTagName() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentDateOfBirth" ).getTagName() );
+		mDriver.findElementById( "addressbookCrudActionsCancel" ).click();
+
+		mDriver.findElementById( "addressbookSearchActionsCreateBusiness" ).click();
+		mWait.until( visibilityOfElementLocated( By.id( "addressbookCurrentTitle" ) ) );
+		assertEquals( "New Contact", mDriver.findElementById( "dialog-heading" ).getText() );
+		assertEquals( BASE_URL + "/media/business.gif", mDriver.findElementById( "dialog-image" ).getAttribute( "src" ) );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentCompany" ).getTagName() );
+		assertEquals( "text", mDriver.findElementById( "addressbookCurrentCompany" ).getAttribute( "type" ) );
+		mDriver.findElementById( "addressbookCurrentTitle" ).sendKeys( "Miss" );
+		mDriver.findElementById( "addressbookCurrentFirstname" ).clear();
+		mDriver.findElementById( "addressbookCurrentFirstname" ).sendKeys( "Business" );
+		mDriver.findElementById( "addressbookCurrentSurname" ).clear();
+		mDriver.findElementById( "addressbookCurrentSurname" ).sendKeys( "Contact" );
+		mDriver.findElementById( "addressbookCrudActionsSave" ).click();
+
+		// Delete
+
+		Thread.sleep( 1000 );
+		assertEquals( 7, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
+		mDriver.findElementByLinkText( "Miss Business Contact" ).click();
+		mWait.until( visibilityOfElementLocated( By.id( "addressbookCurrentTitle" ) ) );
+		assertEquals( "Miss", mDriver.findElementById( "addressbookCurrentTitle" ).getAttribute( "value" ) );
+		assertEquals( "Business", mDriver.findElementById( "addressbookCurrentFirstname" ).getAttribute( "value" ) );
+		assertEquals( "Contact", mDriver.findElementById( "addressbookCurrentSurname" ).getAttribute( "value" ) );
+		mDriver.findElementById( "addressbookCrudActionsDelete" ).click();
+
+		Thread.sleep( 1000 );
+		assertEquals( 6, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
+	}
+
+	@Before
+	public void before() {
 
 		FirefoxProfile profile = new FirefoxProfile();
 		profile.setPreference( "browser.helperApps.alwaysAsk.force", false );
@@ -59,131 +251,13 @@ public class AddressBookWebComponentTest {
 		profile.setPreference( "browser.helperApps.neverAsk.saveToDisk", "application/pdf,image/png" );
 		profile.setPreference( "general.useragent.override", "Firefox Integration-Test" );
 
-		FirefoxDriver driver = new FirefoxDriver( profile );
-		WebDriverWait wait = new WebDriverWait( driver, 30 );
+		mDriver = new FirefoxDriver( profile );
+		mWait = new WebDriverWait( mDriver, 30 );
+	}
 
-		try {
-			driver.get( "http://localhost:8180/addressbook-webcomponent" );
+	@After
+	public void after() {
 
-			// Search
-
-			wait.until( presenceOfElementLocated( By.id( "addressbookSearchFirstname" ) ) );
-			assertEquals( "Firstname:", driver.findElementById( "table-addressbookSearchFirstname-label" ).getText() );
-			assertEquals( "input", driver.findElementById( "addressbookSearchFirstname" ).getTagName() );
-			assertEquals( "text", driver.findElementById( "addressbookSearchFirstname" ).getAttribute( "type" ) );
-			assertEquals( "Surname:", driver.findElementById( "table-addressbookSearchSurname-label" ).getText() );
-			assertEquals( "input", driver.findElementById( "addressbookSearchSurname" ).getTagName() );
-			assertEquals( "text", driver.findElementById( "addressbookSearchSurname" ).getAttribute( "type" ) );
-			assertEquals( "Type:", driver.findElementById( "table-addressbookSearchType-label" ).getText() );
-			assertEquals( "select", driver.findElementById( "addressbookSearchType" ).getTagName() );
-			assertEquals( "", driver.findElementsByCssSelector( "#addressbookSearchType option" ).get( 0 ).getText() );
-			assertEquals( "Personal", driver.findElementsByCssSelector( "#addressbookSearchType option" ).get( 1 ).getText() );
-			assertEquals( "Business", driver.findElementsByCssSelector( "#addressbookSearchType option" ).get( 2 ).getText() );
-			assertEquals( 3, driver.findElementsByCssSelector( "#addressbookSearchType option" ).size() );
-			assertEquals( 3, driver.findElementsByCssSelector( "#table-addressbookSearch tbody tr" ).size() );
-			assertEquals( 1, driver.findElementsByCssSelector( "#table-addressbookSearch tfoot tr" ).size() );
-
-			assertEquals( 6, driver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
-			driver.findElementById( "addressbookSearchType" ).sendKeys( "p" );
-			driver.findElementById( "addressbookSearchActionsSearch" ).click();
-			Thread.sleep( 1000 );
-
-			assertEquals( 4, driver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
-
-			driver.findElementById( "addressbookSearchFirstname" ).sendKeys( "Homer" );
-			driver.findElementById( "addressbookSearchActionsSearch" ).click();
-			Thread.sleep( 1000 );
-
-			assertEquals( 1, driver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
-			driver.findElementByLinkText( "Mr Homer Simpson" ).click();
-
-			// View
-
-			wait.until( presenceOfElementLocated( By.id( "currentTitle" ) ) );
-			assertEquals( "Title:", driver.findElementById( "table-currentTitle-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentTitle" ).getTagName() );
-			assertEquals( "Mr", driver.findElementById( "currentTitle" ).getText() );
-			assertEquals( "Firstname:", driver.findElementById( "table-currentFirstname-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentFirstname" ).getTagName() );
-			assertEquals( "Homer", driver.findElementById( "currentFirstname" ).getText() );
-			assertEquals( "Surname:", driver.findElementById( "table-currentSurname-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentSurname" ).getTagName() );
-			assertEquals( "Simpson", driver.findElementById( "currentSurname" ).getText() );
-			assertEquals( "Gender:", driver.findElementById( "table-currentGender-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentGender" ).getTagName() );
-			assertEquals( "Male", driver.findElementById( "currentGender" ).getText() );
-			assertEquals( "Contact Details", driver.findElementsByTagName( "h1" ).get( 0 ).getText() );
-			assertEquals( "Address:", driver.findElementById( "table-currentAddress-label" ).getText() );
-			assertEquals( "Street:", driver.findElementById( "table-currentAddressStreet-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentAddressStreet" ).getTagName() );
-			assertEquals( "742 Evergreen Terrace", driver.findElementById( "currentAddressStreet" ).getText() );
-			assertEquals( "City:", driver.findElementById( "table-currentAddressCity-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentAddressCity" ).getTagName() );
-			assertEquals( "Springfield", driver.findElementById( "currentAddressCity" ).getText() );
-			assertEquals( "State:", driver.findElementById( "table-currentAddressState-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentAddressState" ).getTagName() );
-			assertEquals( "Anytown", driver.findElementById( "currentAddressState" ).getText() );
-			assertEquals( "Postcode:", driver.findElementById( "table-currentAddressPostcode-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentAddressPostcode" ).getTagName() );
-			assertEquals( "90701", driver.findElementById( "currentAddressPostcode" ).getText() );
-			assertEquals( "Communications:", driver.findElementById( "table-currentCommunications-label" ).getText() );
-			assertEquals( "Other", driver.findElementsByTagName( "h1" ).get( 1 ).getText() );
-			assertEquals( "Notes:", driver.findElementById( "table-currentNotes-label" ).getText() );
-			assertEquals( "output", driver.findElementById( "currentNotes" ).getTagName() );
-
-			// Edit
-
-			driver.findElementById( "addressbookCrudActionsEdit" ).click();
-			assertEquals( "Title:", driver.findElementById( "table-currentTitle-label" ).getText() );
-			assertEquals( "select", driver.findElementById( "currentTitle" ).getTagName() );
-			Select titleSelect = new Select( driver.findElementById( "currentTitle" ) );
-			assertEquals( "Mr", titleSelect.getFirstSelectedOption().getText() );
-			assertEquals( "Mr", titleSelect.getOptions().get( 0 ).getText() );
-			assertEquals( "Cpt", titleSelect.getOptions().get( 4 ).getText() );
-			assertEquals( 5, titleSelect.getOptions().size() );
-			assertEquals( "Firstname:", driver.findElementById( "table-currentFirstname-label" ).getText() );
-			assertEquals( "input", driver.findElementById( "currentFirstname" ).getTagName() );
-			assertEquals( "Homer", driver.findElementById( "currentFirstname" ).getAttribute( "value" ) );
-			assertEquals( "Surname:", driver.findElementById( "table-currentSurname-label" ).getText() );
-			assertEquals( "input", driver.findElementById( "currentSurname" ).getTagName() );
-			assertEquals( "Simpson", driver.findElementById( "currentSurname" ).getAttribute( "value" ) );
-			assertEquals( "Gender:", driver.findElementById( "table-currentGender-label" ).getText() );
-			Select genderSelect = new Select( driver.findElementById( "currentGender" ) );
-			assertEquals( "Male", genderSelect.getFirstSelectedOption().getText() );
-			assertEquals( "", genderSelect.getOptions().get( 0 ).getText() );
-			assertEquals( "Male", genderSelect.getOptions().get( 1 ).getText() );
-			assertEquals( "Female", genderSelect.getOptions().get( 2 ).getText() );
-			assertEquals( 3, genderSelect.getOptions().size() );
-			assertEquals( "Contact Details", driver.findElementsByTagName( "h1" ).get( 0 ).getText() );
-			assertEquals( "Address:", driver.findElementById( "table-currentAddress-label" ).getText() );
-			assertEquals( "Street:", driver.findElementById( "table-currentAddressStreet-label" ).getText() );
-			assertEquals( "input", driver.findElementById( "currentAddressStreet" ).getTagName() );
-			assertEquals( "742 Evergreen Terrace", driver.findElementById( "currentAddressStreet" ).getAttribute( "value" ) );
-			assertEquals( "City:", driver.findElementById( "table-currentAddressCity-label" ).getText() );
-			assertEquals( "input", driver.findElementById( "currentAddressCity" ).getTagName() );
-			assertEquals( "Springfield", driver.findElementById( "currentAddressCity" ).getAttribute( "value" ) );
-			assertEquals( "State:", driver.findElementById( "table-currentAddressState-label" ).getText() );
-			Select stateSelect = new Select( driver.findElementById( "currentAddressState" ) );
-			assertEquals( "Anytown", stateSelect.getFirstSelectedOption().getText() );
-			assertEquals( "", stateSelect.getOptions().get( 0 ).getText() );
-			assertEquals( 5, stateSelect.getOptions().size() );
-			assertEquals( "Postcode:", driver.findElementById( "table-currentAddressPostcode-label" ).getText() );
-			assertEquals( "input", driver.findElementById( "currentAddressPostcode" ).getTagName() );
-			assertEquals( "90701", driver.findElementById( "currentAddressPostcode" ).getAttribute( "value" ) );
-			assertEquals( "Communications:", driver.findElementById( "table-currentCommunications-label" ).getText() );
-			assertEquals( "Other", driver.findElementsByTagName( "h1" ).get( 1 ).getText() );
-			assertEquals( "Notes:", driver.findElementById( "table-currentNotes-label" ).getText() );
-			assertEquals( "textarea", driver.findElementById( "currentNotes" ).getTagName() );
-
-			// Save
-
-			driver.findElementById( "currentFirstname" ).clear();
-			driver.findElementById( "currentFirstname" ).sendKeys( "Homer1" );
-			driver.findElementById( "addressbookCrudActionsSave" ).click();
-			assertEquals( "Mr Homer1 Simpson", driver.findElementsByCssSelector( ".data-table tbody tr td a" ).get( 0 ).getText() );
-
-		} finally {
-			driver.quit();
-		}
+		mDriver.quit();
 	}
 }

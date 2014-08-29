@@ -38,6 +38,10 @@ var addressbook = addressbook || {};
 	addressbook.fetchJSON( 'js/contacts.json', function( data ) {
 
 		addressbook.contacts = data;
+		addressbook.nextId = data.length + 1;
+
+		Object.observe( addressbook.search, _populateSummaryPage );
+		Object.observe( addressbook.contacts, _populateSummaryPage );
 		_populateSummaryPage();
 	} );
 
@@ -68,8 +72,24 @@ var addressbook = addressbook || {};
 
 			summaryTableRows.model.contacts.push( contact );
 		}
+	}
+
+	function _showDialog( current ) {
+	
+		addressbook.current = current; 
+		var mw = document.getElementById( 'detail' );
+		mw.setAttribute( 'path', 'addressbook.current' );
+		mw.setAttribute( 'readonly', current.id !== undefined );
+		mw.buildWidgets();
+		document.getElementById( 'dialog-position' ).style.display = 'block';
 		
-		console.log( "Model is ", summaryTableRows.model );
+		if ( current.id === undefined ) {
+			document.getElementById( 'dialog-heading' ).innerHTML = 'New Contact';
+		} else {
+			document.getElementById( 'dialog-heading' ).innerHTML = current.firstname + ' ' + current.surname;
+		}
+		
+		document.getElementById( 'dialog-image' ).src = 'media/' + current.type + '.gif';
 	}
 	
 	/**
@@ -101,17 +121,20 @@ var addressbook = addressbook || {};
 
 		search: function() {
 			document.getElementById( 'search' ).save();
-			_populateSummaryPage();
 		},
 
 		createPersonal: function() {
 
-			// $location.path( '/contact/personal' );
+			_showDialog( {
+				type: 'personal'
+			} );
 		},
 
 		createBusiness: function() {
 
-			// $location.path( '/contact/business' );
+			_showDialog( {
+				type: 'business'
+			} );
 		}
 	};
 
@@ -127,12 +150,7 @@ var addressbook = addressbook || {};
 
 		for ( var loop = 0, length = addressbook.contacts.length; loop < length; loop++ ) {
 			if ( addressbook.contacts[loop].id === contactId ) {
-			
-				window.current = addressbook.contacts[loop];
-				var mw = document.getElementById( 'detail' );
-				mw.setAttribute( 'path', 'current' );
-				mw.setAttribute( 'readonly', true );
-				document.getElementById( 'dialog-position' ).style.display = 'block';
+				_showDialog( addressbook.contacts[loop] );
 				break;
 			}
 		}

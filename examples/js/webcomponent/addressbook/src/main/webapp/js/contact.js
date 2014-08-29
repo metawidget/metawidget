@@ -36,7 +36,7 @@ var addressbook = addressbook || {};
 	addressbook.currentConfig = {
 		inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
 
-			if ( names !== undefined && names.length === 1 && names[0] === 'address' ) {
+			if ( names !== undefined && names[names.length - 1] === 'address' ) {
 
 				// Example of client-side schema
 
@@ -66,8 +66,8 @@ var addressbook = addressbook || {};
 
 			// Example of server-side, asynchronous schema
 
-			if ( names === undefined && toInspect !== undefined && toInspect.type !== undefined ) {
-				addressbook.fetchJSON( 'js/' + toInspect.type + '-contact-schema.json', function( data ) {
+			if ( names !== undefined && names[names.length - 1] === 'current' ) {				
+				addressbook.fetchJSON( 'js/' + addressbook.current.type + '-contact-schema.json', function( data ) {
 
 					metawidget.util.combineInspectionResults( inspectionResult, data );
 					mw.buildWidgets( inspectionResult );
@@ -100,16 +100,22 @@ var addressbook = addressbook || {};
 		save: function() {
 
 			document.getElementById( 'detail' ).save();
+			
+			if ( addressbook.current.id === undefined ) {
+				addressbook.current.id = addressbook.nextId++;
+				addressbook.contacts.push( addressbook.current );
+			}
+			
 			addressbook.crudActions.cancel();
 		},
 
 		"delete": function() {
 
-			var contactId = document.getElementById( 'detail' ).toInspect.id;
+			var contactId = addressbook.current.id;
 			
-			for ( var loop = 0, length = addressbook.model.length; loop < length; loop++ ) {
-				if ( addressbook.model[loop].id === contactId ) {
-					addressbook.model.splice( loop, 1 );
+			for ( var loop = 0, length = addressbook.contacts.length; loop < length; loop++ ) {
+				if ( addressbook.contacts[loop].id === contactId ) {
+					addressbook.contacts.splice( loop, 1 );
 					break;
 				}
 			}			

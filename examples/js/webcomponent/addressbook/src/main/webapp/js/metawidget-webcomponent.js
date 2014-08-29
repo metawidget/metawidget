@@ -134,6 +134,9 @@ var metawidget = metawidget || {};
 		/**
 		 * Rebuild the Metawidget, using the value of the current 'path'
 		 * attribute.
+		 * 
+		 * @param inspectionResult
+		 *            optional inspectionResult to use
 		 */
 
 		metawidgetPrototype.buildWidgets = function( inspectionResult ) {
@@ -142,13 +145,8 @@ var metawidget = metawidget || {};
 
 			_unobserve.call( this );
 
-			// Traverse and build
-
-			this.path = this.getAttribute( 'path' );
-			this.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
-
-			// Take a copy of the original nodes. These may be inserted into the shadow DOM if the
-			// WidgetBuilders/Layouts want it
+			// Take a copy of the original nodes. These may be inserted into the
+			// shadow DOM if the WidgetBuilders/Layouts want it
 
 			this.overriddenNodes = [];
 
@@ -158,21 +156,29 @@ var metawidget = metawidget || {};
 				}
 			}
 
-			// Inspect (if necessary)
+			// Traverse and build
 
-			if ( inspectionResult === undefined ) {
+			if ( this.getAttribute( 'path' ) !== null ) {
+			
+				this.path = this.getAttribute( 'path' );
+				this.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
 
-				// Safeguard against improperly implementing:
-				// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
+				// Inspect (if necessary)
 
-				if ( arguments.length > 0 ) {
-					throw new Error( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
+				if ( inspectionResult === undefined ) {
+
+					// Safeguard against improperly implementing:
+					// http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html
+
+					if ( arguments.length > 0 ) {
+						throw new Error( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
+					}
+
+					var splitPath = metawidget.util.splitPath( this.path );
+					this.toInspect = globalScope[splitPath.type];
+
+					inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 				}
-
-				var splitPath = metawidget.util.splitPath( this.path );
-				this.toInspect = globalScope[splitPath.type];
-
-				inspectionResult = this._pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
 			}
 
 			// Build widgets
@@ -190,7 +196,13 @@ var metawidget = metawidget || {};
 					that.buildWidgets.call( that );
 				};
 
-				Object.observe( this.toInspect, this.observer );
+				// We are only interested in mutations which could require the
+				// UI to be rebuilt. Unfortunately we cannot automatically watch
+				// 'delete' because empty text fields get saved as 'undefined'
+				// and observed as a 'delete'. The user can always call
+				// buildWidgets() explictly in this case
+
+				Object.observe( this.toInspect, this.observer, [ 'add' ] );
 			}
 		};
 

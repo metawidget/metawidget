@@ -48,7 +48,7 @@
 							<td class="column-half">
 							</td>
 							<td class="column-tiny">
-								<img src="media/{{type}}-small.gif" alt="Personal Contact"/>
+								<img src="media/{{type}}-small.gif" alt=""/>
 							</td>
 						</tr>
 					</template>
@@ -63,9 +63,9 @@
 						{{dialogTitle}}
 					</div>
 					<div id="dialog-content">
-						<img id="dialog-image" ng-src="media/{{current.type}}.gif" alt=""/>
-						<x-metawidget id="detail" path="addressbook.current" config="addressbook.currentConfig">
-							<table id="currentCommunications" class="data-table">
+						<img id="dialog-image" src="media/personal.gif" alt=""/>
+						<x-metawidget id="detail" config="addressbook.currentConfig">
+							<table id="addressbookCurrentCommunications" class="data-table">
 								<thead>
 									<tr>
 										<th class="column-half">Type</th>
