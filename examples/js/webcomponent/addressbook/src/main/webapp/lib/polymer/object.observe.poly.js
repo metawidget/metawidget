@@ -14,7 +14,7 @@
   Limits so far;
     Built using polling... Will update again with polling/getter&setters to make things better at some point
 
-TODO:
+TOxDO:
   Add support for Object.prototype.watch -> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/watch
 */
 "use strict";

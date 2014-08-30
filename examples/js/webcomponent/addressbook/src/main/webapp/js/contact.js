@@ -128,7 +128,36 @@ var addressbook = addressbook || {};
 		}
 	};
 
-	addressbook.crudActionsConfig = {
+	addressbook.crudActionsConfig = {		
+		inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
+		
+			if ( document.getElementById( 'detail' ).readOnly === true ) {
+				return {
+					properties: {
+						edit: {
+							type: 'function'
+						},
+						cancel: {
+							type: 'function'
+						}
+					}
+				}
+			}
+			
+			return {
+				properties: {
+					save: {
+						type: 'function'
+					},
+					'delete': {
+						type: 'function'
+					},
+					cancel: {
+						type: 'function'
+					}
+				}
+			}
+		} ],
 		layout: new metawidget.layout.SimpleLayout()
 	};
 

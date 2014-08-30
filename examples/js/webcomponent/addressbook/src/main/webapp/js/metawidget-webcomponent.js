@@ -45,20 +45,6 @@ var metawidget = metawidget || {};
 		return metawidget.util.traversePath( lookup, typeAndNames.names );
 	}
 
-	/**
-	 * Unobserves the currently observed 'path' (if any).
-	 */
-
-	function _unobserve() {
-
-		if ( this.observer === undefined ) {
-			return;
-		}
-
-		Object.unobserve( this.toInspect, this.observer );
-		this.observer = undefined;
-	}
-
 	if ( globalScope.document !== undefined && globalScope.document.registerElement !== undefined ) {
 
 		var metawidgetPrototype = Object.create( HTMLElement.prototype );
@@ -141,10 +127,6 @@ var metawidget = metawidget || {};
 
 		metawidgetPrototype.buildWidgets = function( inspectionResult ) {
 
-			// Unobserve
-
-			_unobserve.call( this );
-
 			// Take a copy of the original nodes. These may be inserted into the
 			// shadow DOM if the WidgetBuilders/Layouts want it
 
@@ -159,7 +141,7 @@ var metawidget = metawidget || {};
 			// Traverse and build
 
 			if ( this.getAttribute( 'path' ) !== null ) {
-			
+
 				this.path = this.getAttribute( 'path' );
 				this.readOnly = metawidget.util.isTrueOrTrueString( this.getAttribute( 'readonly' ) );
 
@@ -185,25 +167,13 @@ var metawidget = metawidget || {};
 
 			this._pipeline.buildWidgets( inspectionResult, this );
 
-			// Observe for next time. toInspect may be undefined because
-			// Metawidget can be used purely for layout
-
-			if ( this.toInspect !== undefined ) {
-
-				var that = this;
-				this.observer = function() {
-
-					that.buildWidgets.call( that );
-				};
-
-				// We are only interested in mutations which could require the
-				// UI to be rebuilt. Unfortunately we cannot automatically watch
-				// 'delete' because empty text fields get saved as 'undefined'
-				// and observed as a 'delete'. The user can always call
-				// buildWidgets() explictly in this case
-
-				Object.observe( this.toInspect, this.observer, [ 'add' ] );
-			}
+			// Note: we don't attempt to use Object.observe on this.toInspect,
+			// at least not by default (clients could observe and call
+			// buildWidgets if they want). AngularJS Metawidget does this, but
+			// in Angular all sub-widgets are 2-way bound by default, so you
+			// never risk losing data when you rebuild. In Web Components,
+			// however, sub-widget values are only saved when clients call
+			// save()
 		};
 
 		/**
@@ -262,15 +232,6 @@ var metawidget = metawidget || {};
 		metawidgetPrototype.setLayout = function( layout ) {
 
 			this._pipeline.layout = layout;
-		};
-
-		/**
-		 * Upon detachedCallback, cleanup any observers.
-		 */
-
-		metawidgetPrototype.detachedCallback = function() {
-
-			_unobserve.call( this );
 		};
 
 		// Register Metawidget as a Web Component

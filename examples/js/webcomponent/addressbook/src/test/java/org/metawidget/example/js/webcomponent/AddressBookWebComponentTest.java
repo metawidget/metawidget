@@ -90,7 +90,7 @@ public class AddressBookWebComponentTest {
 		assertEquals( 1, mDriver.findElementsByCssSelector( "#table-addressbookSearch tfoot tr" ).size() );
 
 		assertEquals( 6, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
-		mDriver.findElementById( "addressbookSearchType" ).sendKeys( "p" );
+		new Select( mDriver.findElementById( "addressbookSearchType" )).selectByIndex( 1 );
 		mDriver.findElementById( "addressbookSearchActionsSearch" ).click();
 		Thread.sleep( 1000 );
 
@@ -138,10 +138,14 @@ public class AddressBookWebComponentTest {
 		assertEquals( "Other", mDriver.findElementsByTagName( "h1" ).get( 1 ).getText() );
 		assertEquals( "Notes:", mDriver.findElementById( "table-addressbookCurrentNotes-label" ).getText() );
 		assertEquals( "output", mDriver.findElementById( "addressbookCurrentNotes" ).getTagName() );
+		assertEquals( 0, mDriver.findElementsById( "addressbookCrudActionsSave" ).size() );
+		assertEquals( 0, mDriver.findElementsById( "addressbookCrudActionsDelete" ).size() );
 
 		// Edit
 
 		mDriver.findElementById( "addressbookCrudActionsEdit" ).click();
+		mWait.until( visibilityOfElementLocated( By.id( "addressbookCrudActionsSave" ) ) );
+		assertEquals( 1, mDriver.findElementsById( "addressbookCrudActionsDelete" ).size() );
 		assertEquals( "Title:", mDriver.findElementById( "table-addressbookCurrentTitle-label" ).getText() );
 		Select titleSelect = new Select( mDriver.findElementById( "addressbookCurrentTitle" ) );
 		assertEquals( "Mr", titleSelect.getFirstSelectedOption().getText() );
@@ -191,6 +195,20 @@ public class AddressBookWebComponentTest {
 
 		Thread.sleep( 1000 );
 		assertEquals( "Mr Homer1 Simpson", mDriver.findElementsByCssSelector( ".data-table tbody tr td a" ).get( 0 ).getText() );
+
+		// View another
+
+		mDriver.findElementById( "addressbookSearchFirstname" ).clear();
+		mDriver.findElementById( "addressbookSearchActionsSearch" ).click();
+		Thread.sleep( 1000 );
+
+		mDriver.findElementByLinkText( "Mrs Marjorie Simpson" ).click();
+		mWait.until( visibilityOfElementLocated( By.id( "addressbookCurrentTitle" ) ) );
+		assertEquals( "Marjorie", mDriver.findElementById( "addressbookCurrentFirstname" ).getText() );
+		assertEquals( 1, mDriver.findElementsById( "addressbookCrudActionsEdit" ).size() );
+		assertEquals( 0, mDriver.findElementsById( "addressbookCrudActionsSave" ).size() );
+		assertEquals( 0, mDriver.findElementsById( "addressbookCrudActionsDelete" ).size() );
+		assertEquals( 1, mDriver.findElementsById( "addressbookCrudActionsCancel" ).size() );
 	}
 
 	@Test
@@ -236,6 +254,8 @@ public class AddressBookWebComponentTest {
 		assertEquals( "Miss", mDriver.findElementById( "addressbookCurrentTitle" ).getAttribute( "value" ) );
 		assertEquals( "Business", mDriver.findElementById( "addressbookCurrentFirstname" ).getAttribute( "value" ) );
 		assertEquals( "Contact", mDriver.findElementById( "addressbookCurrentSurname" ).getAttribute( "value" ) );
+		mDriver.findElementById( "addressbookCrudActionsEdit" ).click();
+		mWait.until( visibilityOfElementLocated( By.id( "addressbookCrudActionsSave" ) ) );
 		mDriver.findElementById( "addressbookCrudActionsDelete" ).click();
 
 		Thread.sleep( 1000 );
