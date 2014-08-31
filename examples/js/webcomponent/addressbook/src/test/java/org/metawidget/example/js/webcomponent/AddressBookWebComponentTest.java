@@ -272,7 +272,7 @@ public class AddressBookWebComponentTest {
 		profile.setPreference( "general.useragent.override", "Firefox Integration-Test" );
 
 		mDriver = new FirefoxDriver( profile );
-		mWait = new WebDriverWait( mDriver, 30 );
+		mWait = new WebDriverWait( mDriver, 60 );
 	}
 
 	@After
