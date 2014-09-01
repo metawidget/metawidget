@@ -69,7 +69,7 @@ public class AddressBookWebComponentTest {
 	public void testEditing()
 		throws Exception {
 
-		mDriver.get( BASE_URL );
+		mDriver.get( BASE_URL + "/index.html" );
 
 		// Search
 
@@ -215,7 +215,7 @@ public class AddressBookWebComponentTest {
 	public void testCreating()
 		throws Exception {
 
-		mDriver.get( BASE_URL );
+		mDriver.get( BASE_URL + "/index.html" );
 
 		Thread.sleep( 1000 );
 		assertEquals( 6, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
