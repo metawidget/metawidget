@@ -757,8 +757,8 @@
 			// Empty array
 
 			mw.toInspect = [];
-			table = widgetBuilder.buildWidget( "entity", {
-				type: "array"
+			table = widgetBuilder.buildWidget( 'entity', {
+				type: 'array'
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
@@ -815,8 +815,8 @@
 				id: 0,
 				foo: 'FooValue'
 			} ];
-			table = widgetBuilder.buildWidget( "entity", {
-				type: "array"
+			table = widgetBuilder.buildWidget( 'entity', {
+				type: 'array'
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
