@@ -527,8 +527,18 @@ var metawidget = metawidget || {};
 
 			// Support column widths
 
+			var style = '';
+			
 			if ( attributes.columnWidth !== undefined ) {
-				th.setAttribute( 'width', attributes.columnWidth );
+				style += 'width:' + attributes.columnWidth + ';';
+			}
+
+			if ( attributes.columnAlign !== undefined ) {
+				style += 'text-align:' + attributes.columnAlign + ';';
+			}
+
+			if ( style !== '' ) {
+				th.setAttribute( 'style', style );
 			}
 
 			if ( attributes.type !== 'function' ) {
@@ -579,10 +589,20 @@ var metawidget = metawidget || {};
 
 			// Support column widths
 
+			var style = '';
+			
 			if ( columnAttributes.columnWidth !== undefined ) {
-				td.setAttribute( 'width', columnAttributes.columnWidth );
+				style += 'width:' + columnAttributes.columnWidth + ';';
 			}
 
+			if ( columnAttributes.columnAlign !== undefined ) {
+				style += 'text-align:' + columnAttributes.columnAlign + ';';
+			}
+
+			if ( style !== '' ) {
+				td.setAttribute( 'style', style );
+			}
+			
 			// Render either top-level value, or a property of that value
 
 			var valueToRender;
