@@ -610,6 +610,54 @@
 } );</programlisting>
 				</section>
 
+				<section id="section-metawidgets-web-javascript-events">
+					<title>Events</title>
+					
+					<para>
+						<filename>metawidget.js</filename> will fire a <parameter>buildEnd</parameter> event upon completion of each build.
+						Interested parties can use this to perform any special processing after the Metawidget is completely built.  
+					</para>
+					
+					<para>
+						Note that, for many use cases, clients may be better implementing <classname>WidgetBuilder.onEndBuild</classname>,
+						<classname>WidgetProcessor.onEndBuild</classname>
+						or <classname>Layout.onEndBuild</classname> instead. For example:
+					</para>
+					
+					<programlisting language="java">{
+	onStartBuild: function( mw ) {
+		// perform work before any widgets processed
+	},					
+	processWidget: function( widget, elementName, attributes, mw ) {
+		// process each widget
+	},
+	onEndBuild: function( mw ) {
+		// perform work after all widgets processed
+	}
+}</programlisting>
+
+					<para>Or for layouts:</para>
+					
+					<programlisting language="java">{
+	onStartBuild: function( mw ) {
+		// perform work before any widgets laid out
+	},
+	startContainerLayout: function( container, mw ) {
+		// perform work for new container
+	},
+	layoutWidget: function( widget, elementName, attributes, container, mw ) {
+		// layout each widget
+	},
+	endContainerLayout: function( container, mw ) {
+		// perform work to close container
+	},
+	onEndBuild: function( mw ) {
+		// perform work after all widgets laid out
+	}
+}</programlisting>
+
+				</section>
+
 				<section id="section-metawidgets-web-javascript-inspectionresults">
 					<title>Inspection Results</title>
 					

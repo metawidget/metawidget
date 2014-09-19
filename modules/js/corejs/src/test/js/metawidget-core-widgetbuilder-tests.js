@@ -25,19 +25,23 @@
 
 			var widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ {
 
-				onStartBuild: function() {
+				onStartBuild: function( mw ) {
 
-					started++;
+					if ( mw !== undefined ) {
+						started++;
+					}
 				}
 			}, {
 
-				onStartBuild: function() {
+				onStartBuild: function( mw ) {
 
-					started++;
+					if ( mw !== undefined ) {
+						started++;
+					}
 				}
 			} ] );
 
-			widgetBuilder.onStartBuild();
+			widgetBuilder.onStartBuild( {} );
 
 			expect( started ).toBe( 2 );
 		} );
@@ -81,19 +85,23 @@
 
 			var widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ {
 
-				onEndBuild: function() {
+				onEndBuild: function( mw ) {
 
-					ended++;
+					if ( mw !== undefined ) {
+						ended++;
+					}
 				}
 			}, {
 
-				onEndBuild: function() {
+				onEndBuild: function( mw ) {
 
-					ended++;
+					if ( mw !== undefined ) {
+						ended++;
+					}
 				}
 			} ] );
 
-			widgetBuilder.onEndBuild();
+			widgetBuilder.onEndBuild( {} );
 
 			expect( ended ).toBe( 2 );
 		} );

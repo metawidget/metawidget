@@ -1480,6 +1480,42 @@ static class State {
 				
 			</section>
 			
+			<section id="section-architecture-widgetbuilders-advancedinterface">
+				<title>Advanced Interface</title>
+
+				<para>
+					The <classname>WidgetBuilder</classname> interface only has a single method. This allows
+					it to take advantage of future Java language features such as: 
+				</para>
+				
+				<programlisting language="java">final Object someObject = ...;
+
+metawidget.setWidgetBuilder(
+	#(String name, Map&lt;String, String&gt; attr, SwingMetawidget m)
+	{ ... } );</programlisting>
+	
+				<para>
+					However for those needing more control over the <classname>WidgetBuilder</classname> lifecycle there is
+					an extended interface <classname>AdvancedWidgetBuilder</classname>. This interface defines
+					two additional methods:
+				</para>
+				
+				<programlisting language="java">void onStartBuild( M metawidget );
+				
+void onEndBuild( M metawidget );</programlisting>
+
+				<para>
+					The first method, <function>onStartBuild</function>, is called at the start of the widget building process.
+					<classname>WidgetBuilder</classname>s may wish to act
+					on this event to initialize themselves ready for processing. However it is acceptable to do nothing.				
+				</para>
+				<para>
+					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
+					after all widgets have been built and added to the <classname>Layout</classname>. <classname>WidgetBuilder</classname>s may wish to act
+					on this event to clean themselves up following processing. However it is acceptable to do nothing.
+				</para>
+			</section>
+			
 			<section id="section-architecture-compositewidgetbuilder">
 				<title>CompositeWidgetBuilder</title>
 
