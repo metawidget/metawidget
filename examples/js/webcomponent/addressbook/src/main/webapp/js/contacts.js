@@ -81,12 +81,12 @@ var addressbook = addressbook || {};
 		mw.setAttribute( 'path', 'addressbook.current' );
 		mw.setAttribute( 'readonly', current.id !== undefined );
 		mw.buildWidgets();
-		document.getElementById( 'dialog-position' ).style.display = 'block';
+		document.getElementById( 'dialog-contact' ).style.display = 'block';
 		
 		if ( current.id === undefined ) {
-			document.getElementById( 'dialog-heading' ).innerHTML = 'New Contact';
+			document.getElementById( 'contact-heading' ).innerHTML = 'New Contact';
 		} else {
-			document.getElementById( 'dialog-heading' ).innerHTML = current.firstname + ' ' + current.surname;
+			document.getElementById( 'contact-heading' ).innerHTML = current.firstname + ' ' + current.surname;
 		}
 		
 		document.getElementById( 'dialog-image' ).src = 'media/' + current.type + '.gif';

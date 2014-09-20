@@ -57,12 +57,12 @@
 
 			<!-- Detail -->
 
-			<div id="dialog-position">
-				<div id="dialog">
-					<div id="dialog-heading">
+			<div id="dialog-contact">
+				<div class="dialog">
+					<div id="contact-heading" class="dialog-heading">
 						{{dialogTitle}}
 					</div>
-					<div id="dialog-content">
+					<div class="dialog-content">
 						<img id="dialog-image" src="media/personal.gif" alt=""/>
 						<x-metawidget id="detail" config="addressbook.currentConfig">
 							<table id="addressbookCurrentCommunications" class="data-table">
@@ -70,14 +70,13 @@
 									<tr>
 										<th class="column-half">Type</th>
 										<th class="column-half">Value</th>
-										<th class="column-tiny"></th>
 									</tr>
 								</thead>
 								<tbody>
-									<template id="detail-table-rows">
+									<template id="detail-table-rows" repeat="{{communications}}">
 										<tr>
-											<td class="column-half">{{communications}}{{type}}</td>
-											<td class="column-half">{{value}}</td>
+											<td class="column-half"><a href="javascript:addressbook.editCommunication({{index}})">{{type}}</a></td>
+											<td class="column-half"><a href="javascript:addressbook.editCommunication({{index}})">{{value}}</a></td>
 										</tr>
 									</template>
 								</tbody>
@@ -86,6 +85,24 @@
 								<x-metawidget path="addressbook.crudActions" config="addressbook.crudActionsConfig"></x-metawidget>
 							</facet>
 						</x-metawidget>
+					</div>
+				</div>
+
+				<!-- Communication -->
+
+				<div id="dialog-communication">
+					<div class="dialog">
+						<div class="dialog-heading">
+							Edit Communication
+						</div>
+						<div class="dialog-content">
+							<x-metawidget id="communication" config="addressbook.currentConfig">
+								<facet name="footer">
+									<input type="button" value="Save" onclick="addressbook.communicationActions.save()"/>
+									<input type="button" value="Delete" onclick="addressbook.communicationActions.delete()"/>
+								</facet>
+							</x-metawidget>
+						</div>
 					</div>
 				</div>
 			</div>

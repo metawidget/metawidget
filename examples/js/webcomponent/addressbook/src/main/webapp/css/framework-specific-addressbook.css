@@ -1,4 +1,4 @@
-#dialog-position {
+#dialog-contact {
 	position: absolute;
 	top: 50px;
 	width: 100%;
@@ -6,14 +6,14 @@
 	display: none;
 }
 
-#dialog {
+.dialog {
 	border: 2px solid #444444;
 	box-shadow: 5px 5px 5px #ccc;
 	width: 650px;
 	margin: auto;
 }
 
-#dialog-heading {
+.dialog-heading {
 	background: url("../media/background-button.gif") repeat-x scroll left center white;
 	border-bottom: 2px solid #444444;
 	font-weight: bold;
@@ -21,7 +21,7 @@
 	text-align: left;
 }
 
-#dialog-content {
+.dialog-content {
 	background: white url( ../media/background.jpg ) no-repeat;
 	padding-left: 150px;
 	padding-top: 10px;
@@ -34,4 +34,20 @@
 	position: absolute;
 	top: 15px;
 	left: 20px;
+}
+
+#dialog-communication {
+	position: absolute;
+	top: 150px;
+	left: 175px;
+	text-align: center;
+	display: none;
+}
+
+#dialog-communication .dialog {
+	width: 300px;
+}
+
+#dialog-communication .dialog-content {
+	padding-left: 10px;
 }

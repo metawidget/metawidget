@@ -75,8 +75,18 @@ var addressbook = addressbook || {};
 					// Example of manually updating a nested template
 					
 					var detailTableRows = document.getElementById( 'detail-table-rows' );
+					var communications = [];
+					
+					for( var loop = 0; loop < addressbook.current.communications.length; loop++ ) {
+						communications.push( {
+							index: loop,
+							type: addressbook.current.communications[loop].type,
+							value: addressbook.current.communications[loop].value
+						} );
+					}
+					
 					detailTableRows.model = {
-						communications: toInspect.communications
+						communications: communications
 					};
 				} );
 			} else {
@@ -124,7 +134,7 @@ var addressbook = addressbook || {};
 
 		cancel: function() {
 
-			document.getElementById( 'dialog-position' ).style.display = 'none';
+			document.getElementById( 'dialog-contact' ).style.display = 'none';
 		}
 	};
 
@@ -160,5 +170,46 @@ var addressbook = addressbook || {};
 		} ],
 		layout: new metawidget.layout.SimpleLayout()
 	};
+	
+	/**
+	 * Edit Communications
+	 */
+	 
+	addressbook.editCommunication = function( index ) {
+	
+		var mw = document.getElementById( 'communication' );
+		addressbook.currentCommunicationIndex = index;
+		addressbook.currentCommunication = addressbook.current.communications[index];
+		mw.setAttribute( 'path', 'addressbook.currentCommunication' );
+		mw.buildWidgets();	
+		document.getElementById( 'dialog-communication' ).style.display = 'block';	
+	}
+	
+	addressbook.communicationActions = {
 
+		save: function() {
+
+			document.getElementById( 'communication' ).save();
+			var detailTableRows = document.getElementById( 'detail-table-rows' );
+			
+			if ( addressbook.currentCommunicationIndex === undefined ) {
+				addressbook.current.communications.push( addressbook.currentCommunication );
+			} else {
+				detailTableRows.model.communications.splice( addressbook.currentCommunicationIndex, 1, addressbook.currentCommunication );
+			}
+			
+			document.getElementById( 'dialog-communication' ).style.display = 'none';
+		},
+
+		"delete": function() {
+
+			addressbook.current.communications.splice( addressbook.currentCommunicationIndex, 1 );
+			
+			var detailTableRows = document.getElementById( 'detail-table-rows' );
+			detailTableRows.model.communications.splice( addressbook.currentCommunicationIndex, 1 );
+			
+			document.getElementById( 'dialog-communication' ).style.display = 'none';
+		}
+	};
+	
 } )();
