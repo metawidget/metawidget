@@ -284,6 +284,21 @@ var metawidget = metawidget || {};
 			this._refresh();
 		},
 
+		/**
+		 * Save the contents of the Metawidget using a SimpleBindingProcessor.
+		 * <p>
+		 * This is a convenience method. To access other Metawidget APIs,
+		 * clients can use the 'getWidgetProcessor' method
+		 */
+		
+		save: function() {
+		
+			this._pipeline.getWidgetProcessor( function( widgetProcessor ) {
+
+				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( this );
+		},
+		
 		getWidgetProcessor: function( testInstanceOf ) {
 
 			return this._pipeline.getWidgetProcessor( testInstanceOf );

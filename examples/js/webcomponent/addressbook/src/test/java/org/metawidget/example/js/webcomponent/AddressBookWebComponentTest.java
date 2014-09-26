@@ -106,7 +106,7 @@ public class AddressBookWebComponentTest {
 		// View
 
 		mWait.until( visibilityOfElementLocated( By.id( "addressbookCurrentTitle" ) ) );
-		assertEquals( "Homer Simpson", mDriver.findElementById( "dialog-heading" ).getText() );
+		assertEquals( "Homer Simpson", mDriver.findElementById( "contact-heading" ).getText() );
 		assertEquals( BASE_URL + "/media/personal.gif", mDriver.findElementById( "dialog-image" ).getAttribute( "src" ) );
 		assertEquals( "Title:", mDriver.findElementById( "table-addressbookCurrentTitle-label" ).getText() );
 		assertEquals( "output", mDriver.findElementById( "addressbookCurrentTitle" ).getTagName() );
@@ -234,7 +234,7 @@ public class AddressBookWebComponentTest {
 
 		mDriver.findElementById( "addressbookSearchActionsCreateBusiness" ).click();
 		mWait.until( visibilityOfElementLocated( By.id( "addressbookCurrentTitle" ) ) );
-		assertEquals( "New Contact", mDriver.findElementById( "dialog-heading" ).getText() );
+		assertEquals( "New Contact", mDriver.findElementById( "contact-heading" ).getText() );
 		assertEquals( BASE_URL + "/media/business.gif", mDriver.findElementById( "dialog-image" ).getAttribute( "src" ) );
 		assertEquals( "input", mDriver.findElementById( "addressbookCurrentCompany" ).getTagName() );
 		assertEquals( "text", mDriver.findElementById( "addressbookCurrentCompany" ).getAttribute( "type" ) );

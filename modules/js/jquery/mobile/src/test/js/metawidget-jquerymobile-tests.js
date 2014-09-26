@@ -38,11 +38,12 @@
 						function() {
 
 							var firedBuildEndEvent = 0;
-							
+
 							// Defaults
 
 							$( '#metawidget' ).metawidget();
 							$( '#metawidget' ).on( 'buildEnd', function() {
+
 								firedBuildEndEvent++;
 							} );
 							$( '#metawidget' ).metawidget( 'buildWidgets', {
@@ -56,36 +57,45 @@
 							expect( firedBuildEndEvent ).toBe( 1 );
 							expect( $( "metawidget" ).data( "metawidget" ) ).toBeDefined();
 							expect( $( "metawidget" ).data( "metawidget" ).toInspect ).toBeDefined();
-							var element = $( '#metawidget' )[0];							
+							var element = $( '#metawidget' )[0];
 
 							expect( element.getMetawidget() ).toBeDefined();
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
 											'<div><div><label for="foo" id="foo-label" class="ui-input-text">Foo:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div></div>' );
 							expect( element.childNodes[1].outerHTML )
-							.toBe(
-									'<div><div><label for="bar" id="bar-label">Bar:</label></div><div><div id="bar"><div><div><label for="barBaz" id="barBaz-label" class="ui-input-text">Baz:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></div></div><div><div><label for="barAbc" id="barAbc-label" class="ui-input-text">Abc:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
-							
+									.toBe(
+											'<div><div><label for="bar" id="bar-label">Bar:</label></div><div><div id="bar"><div><div><label for="barBaz" id="barBaz-label" class="ui-input-text">Baz:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></div></div><div><div><label for="barAbc" id="barAbc-label" class="ui-input-text">Abc:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
+
 							// Configured
 
 							$( '#metawidget' ).metawidget( "option", "layout", new metawidget.layout.SimpleLayout() );
 							$( '#metawidget' ).metawidget( 'buildWidgets' );
 
 							expect( firedBuildEndEvent ).toBe( 2 );
-							expect( element.childNodes[0].outerHTML ).toBe( '<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
+							expect( element.childNodes[0].outerHTML )
+									.toBe(
+											'<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
 							expect( element.childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<span><div id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );																			
-							
+							expect( element.childNodes[1].outerHTML )
+									.toBe(
+											'<span><div id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );
+
 							// Read-only
 
 							$( '#metawidget' ).metawidget( "setReadOnly", true );
-							expect( element.childNodes[0].outerHTML ).toBe( '<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<span><div id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );
+							expect( element.childNodes[0].outerHTML )
+									.toBe(
+											'<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
+							expect( element.childNodes[1].outerHTML )
+									.toBe(
+											'<span><div id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );
 
 							$( '#metawidget' ).metawidget( "buildWidgets" );
 							expect( firedBuildEndEvent ).toBe( 3 );
 							expect( element.childNodes[0].outerHTML ).toBe( '<span><output id="foo">Foo</output></span>' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<span><div id="bar"><span><output id="barBaz">Baz</output></span><span><output id="barAbc">Abc</output></span></div></span>' );
+							expect( element.childNodes[1].outerHTML ).toBe(
+									'<span><div id="bar"><span><output id="barBaz">Baz</output></span><span><output id="barAbc">Abc</output></span></div></span>' );
 						} );
 
 				it(
@@ -242,6 +252,31 @@
 					expect( element.innerHTML ).toContain(
 							'<tbody><tr><td>firstname1</td><td>surname1</td></tr><tr><td>firstname2</td><td>surname2</td></tr><tr><td>firstname3</td><td>surname3</td></tr></tbody>' );
 				} );
+
+				it( "has a convenience method for saving", function() {
+
+					var toInspect = {
+						foo: 'Foo',
+						bar: 'Bar',
+						baz: 'Baz'
+					};
+
+					$( '#metawidget' ).metawidget();
+					$( '#metawidget' ).metawidget( 'buildWidgets', toInspect );
+
+					expect( $( "metawidget" ).data( "metawidget" ) ).toBeDefined();
+					expect( $( "metawidget" ).data( "metawidget" ).toInspect ).toBeDefined();
+
+					$( "#foo" ).val( 'Foo 1' );
+					$( "#bar" ).val( 'Bar 1' );
+					$( "#baz" ).val( 'Baz 1' );
+
+					$( '#metawidget' ).metawidget( 'save' );
+
+					expect( toInspect.foo ).toBe( 'Foo 1' );
+					expect( toInspect.bar ).toBe( 'Bar 1' );
+					expect( toInspect.baz ).toBe( 'Baz 1' );
+				} );
 			} );
 
 	describe(
@@ -280,19 +315,17 @@
 							expect( widget.outerHTML ).toContain( '<input type="checkbox" id="myArray1"/><label for="myArray1">Bar</label>' );
 						} );
 
-				it(
-						"does not wrap non-arrays",
-						function() {
+				it( "does not wrap non-arrays", function() {
 
-							var processor = new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor();
-							$( '#metawidget' ).metawidget();
+					var processor = new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor();
+					$( '#metawidget' ).metawidget();
 
-							var widget = $( '<div id="myArray">foo</div>' )[0];
-							attributes = {
-								type: 'array'
-							}
-							widget = processor.processWidget( widget, "property", attributes, $( '#metawidget' ).data( 'metawidget' ) );
-							expect( widget.outerHTML ).toBe( '<div id="myArray">foo</div>' );
-						} );
+					var widget = $( '<div id="myArray">foo</div>' )[0];
+					attributes = {
+						type: 'array'
+					}
+					widget = processor.processWidget( widget, "property", attributes, $( '#metawidget' ).data( 'metawidget' ) );
+					expect( widget.outerHTML ).toBe( '<div id="myArray">foo</div>' );
+				} );
 			} );
 } )();
