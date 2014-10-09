@@ -734,25 +734,25 @@
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-client</artifactId>
-				<version>7.0.3</version>
+				<version>7.3.2</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-server</artifactId>
-				<version>7.0.3</version>
+				<version>7.3.2</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-themes</artifactId>
-				<version>7.0.3</version>
+				<version>7.3.2</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-client-compiled</artifactId>
-				<version>7.0.3</version>
+				<version>7.3.2</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
