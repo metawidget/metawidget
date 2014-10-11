@@ -20,6 +20,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -224,13 +225,17 @@ public class GroovyPropertyStyle
 				MetaMethod getterMethod = mProperty.getGetter();
 
 				if ( getterMethod != null ) {
-					mGetterMethod = javaClass.getMethod( getterMethod.getName() );
+					try {
+						mGetterMethod = javaClass.getMethod( getterMethod.getName() );
+					} catch ( NoSuchMethodException ex ) {}
 				}
 
 				MetaMethod setterMethod = mProperty.getSetter();
 
 				if ( setterMethod != null ) {
-					mSetterMethod = javaClass.getMethod( setterMethod.getName(), setterMethod.getNativeParameterTypes() );
+					try {
+						mSetterMethod = javaClass.getMethod( setterMethod.getName(), setterMethod.getNativeParameterTypes() );
+					} catch ( NoSuchMethodException ex ) {}
 				}
 			} catch ( Exception e ) {
 				throw InspectorException.newException( e );
@@ -299,7 +304,14 @@ public class GroovyPropertyStyle
 			if ( mSetterMethod != null ) {
 				return ClassUtils.getGenericTypeAsString( mSetterMethod.getGenericParameterTypes()[0] );
 			}
-
+			
+			Type[] typeParameters = mProperty.getType().getTypeParameters();
+			if ( typeParameters.length == 0 ) {
+				return null;
+			} else if ( typeParameters.length == 1 ) {
+				return ClassUtils.getGenericTypeAsString( typeParameters[0] );
+			}
+			
 			throw InspectorException.newException( "Don't know how to getGenericType from " + getName() );
 		}
 	}
