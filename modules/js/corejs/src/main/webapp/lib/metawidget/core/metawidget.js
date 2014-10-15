@@ -460,9 +460,11 @@ var metawidget = metawidget || {};
 
 		_endBuild( this, mw );
 
-		// Throw an event for interested parties (such as tests)
+		// Throw an event for interested parties (such as tests). Does not work on IE8
 
-		this.element.dispatchEvent( metawidget.util.createEvent( mw, 'buildEnd' ) );
+		if ( this.element.dispatchEvent !== undefined ) {
+			this.element.dispatchEvent( metawidget.util.createEvent( mw, 'buildEnd' ) );
+		}
 
 		//
 		// Private methods
