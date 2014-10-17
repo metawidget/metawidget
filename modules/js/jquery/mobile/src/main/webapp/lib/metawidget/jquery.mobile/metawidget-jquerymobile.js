@@ -92,6 +92,52 @@ var metawidget = metawidget || {};
 
 			return binding.widget;
 		};
+		
+		// Support arrays of checkboxes
+		// TODO: test support arrays of checkboxes
+		
+		var _superBindToWidget = processor.bindToWidget;
+		processor.bindToWidget = function( widget, value, elementName, attributes, mw ) {
+
+			var toReturn = _superBindToWidget.call( this, widget, value, elementName, attributes, mw );
+
+			if ( widget.tagName === 'FIELDSET' && attributes.type === 'array' ) {
+
+				if ( value !== undefined ) {
+					var checkboxes = widget.childNodes;
+					for ( var loop = 0, length = checkboxes.length; loop < length; loop++ ) {
+						var childNode = checkboxes[loop];
+						if ( childNode.type !== 'checkbox' ) {
+							continue;
+						}
+						if ( value.indexOf( childNode.value ) !== -1 ) {
+							childNode.checked = true;
+						}
+					}
+				}
+				return true;
+			}
+
+			return toReturn;
+		};		
+		var _superSaveFromWidget = processor.saveFromWidget;
+		processor.saveFromWidget = function( binding ) {
+
+			if ( binding.widget.tagName === 'FIELDSET' && binding.attributes.type === 'array' ) {
+				var toReturn = [];
+				var checkboxes = binding.widget.childNodes[0].childNodes;
+				for ( var loop = 0, length = checkboxes.length; loop < length; loop++ ) {
+					var childNode = checkboxes[loop];
+					var checkbox = $( childNode ).find( '[type=checkbox]' )[0];
+					if ( checkbox.checked ) {
+						toReturn.push( checkbox.value );
+					}
+				}
+				return toReturn;
+			}
+
+			return _superSaveFromWidget.call( this, binding );
+		};		
 
 		return processor;
 	};
@@ -112,7 +158,7 @@ var metawidget = metawidget || {};
 					new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
 			widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
 					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(),
-					new metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor(), new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor() ],
+					new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor(), new metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor() ],
 			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout( {
 				suppressLabelSuffixOnCheckboxes: true
 			} ) )
