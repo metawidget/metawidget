@@ -15,6 +15,8 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseTraitStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle.JavaBeanProperty;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
 
@@ -269,6 +272,24 @@ public class JavaBeanPropertyStyleTest
 		valueAndDeclaredType = new JavaBeanPropertyStyle().traverse( arrayHolder, ArrayHolder.class.getName(), true, "array", "0" );
 		assertTrue( valueAndDeclaredType.getValue() instanceof String[] );
 		assertEquals( String[].class.getName(), valueAndDeclaredType.getDeclaredType() );
+	}
+
+	public void testPrivateField() {
+
+		JavaBeanPropertyStyleConfig config = new JavaBeanPropertyStyleConfig();
+		config.setPrivateFieldConvention( new MessageFormat( "'m'{1}" ) );
+		Map<String, Property> properties = new JavaBeanPropertyStyle( config ).getProperties( PrivateFieldTest.class.getName() );
+		Method readMethod = ((JavaBeanProperty) properties.get( "foo" )).getReadMethod();
+		assertTrue( readMethod != null );
+		assertTrue( ((JavaBeanProperty) properties.get( "foo" )).getWriteMethod() == null );
+		Field field = ((JavaBeanProperty) properties.get( "foo" )).getPrivateField();
+		assertTrue( field != null );
+		assertEquals( 1, properties.size() );
+
+		JavaBeanProperty property = new JavaBeanProperty( "name", "type", readMethod, null, field );
+		assertTrue( readMethod == property.getReadMethod() );
+		assertTrue( null == property.getWriteMethod() );
+		assertTrue( field == property.getPrivateField() );
 	}
 
 	public void testConfig() {
@@ -570,6 +591,24 @@ public class JavaBeanPropertyStyleTest
 		public void setArray( String[] array ) {
 
 			mArray = array;
+		}
+	}
+
+	static class PrivateFieldTest {
+
+		//
+		// Private members
+		//
+
+		private String	mFoo;
+
+		//
+		// Public methods
+		//
+
+		public String getFoo() {
+
+			return mFoo;
 		}
 	}
 }
