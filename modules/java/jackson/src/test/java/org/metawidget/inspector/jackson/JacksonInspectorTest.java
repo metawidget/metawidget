@@ -65,5 +65,8 @@ public class JacksonInspectorTest
 
 		@JsonIgnore
 		public String	transientProperty;
+
+		@JsonIgnore( value = false )
+		public String	nonTransientProperty;
 	}
 }

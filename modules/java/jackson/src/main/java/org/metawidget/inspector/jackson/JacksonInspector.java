@@ -56,7 +56,9 @@ public class JacksonInspector
 
 		// Hidden
 
-		if ( property.isAnnotationPresent( JsonIgnore.class ) ) {
+		JsonIgnore jsonIgnore = property.getAnnotation( JsonIgnore.class );
+
+		if ( jsonIgnore != null && jsonIgnore.value() ) {
 			attributes.put( HIDDEN, TRUE );
 		}
 
