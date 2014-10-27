@@ -328,4 +328,59 @@
 					expect( widget.outerHTML ).toBe( '<div id="myArray">foo</div>' );
 				} );
 			} );
+
+	describe(
+			"The JQueryMobileSimpleBindingProcessor",
+			function() {
+
+				beforeEach( function() {
+
+					var element = document.createElement( 'metawidget' );
+					element.setAttribute( 'id', 'metawidget' );
+					document.body.appendChild( element );
+				} );
+
+				afterEach( function() {
+
+					document.body.removeChild( $( '#metawidget' )[0] );
+				} );
+
+				it(
+						"binds to and from widgets",
+						function() {
+
+							var processor = new metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor();							
+							$( '#metawidget' ).metawidget();
+							var mwData = $( '#metawidget' ).data( 'metawidget' );
+							processor.onStartBuild( mwData )
+
+							var widgetToBind = $( '<fieldset><input type="checkbox" value="Apples"/><input type="checkbox" value="Bananas"/></fieldset>' )[0];
+							attributes = {
+								name: 'fruit',
+								type: 'array'
+							};
+							
+							mwData.toInspect = {
+								fruit: [ 'Apples' ]
+							};
+							
+							// Bind to
+							
+							processor.processWidget( widgetToBind, "property", attributes, mwData );
+							expect( widgetToBind.childNodes[0].checked ).toBe( true );
+							expect( widgetToBind.childNodes[1].checked ).toBe( false );
+							
+							// Save from
+							
+							var widgetToSave = $( '<fieldset><div><div><input type="checkbox" value="Apples" checked/></div><div><input type="checkbox" value="Bananas" checked/></div></div></fieldset>' )[0];
+							var saved = processor.saveFromWidget( {
+								widget: widgetToSave,
+								attributes: attributes
+							} );
+							
+							expect( saved[0] ).toBe( 'Apples' );
+							expect( saved[1] ).toBe( 'Bananas' );
+							expect( saved.length ).toBe( 2 );
+						} );
+			} );
 } )();
