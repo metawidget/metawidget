@@ -128,7 +128,7 @@ var metawidget = metawidget || {};
 		metawidgetPrototype.buildWidgets = function( inspectionResult ) {
 
 			// Take a copy of the original nodes. These may be inserted into the
-			// shadow DOM if the WidgetBuilders/Layouts want it
+			// shadow DOM if the WidgetBuilders/Layouts wish
 
 			this.overriddenNodes = [];
 

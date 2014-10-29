@@ -77,12 +77,26 @@ h1, .section-heading
  * Input forms
  */
  
-.table-form
+.table-form, .table-form
+{
+	width: 100%;
+}
+
+body /deep/ .table-form, body /deep/ .table-form
 {
 	width: 100%;
 }
 
 .table-label-column
+{
+	width: 25%;
+	text-align: left;
+	vertical-align: top;
+	white-space: nowrap;
+	font-weight: normal;
+}
+
+body /deep/ .table-label-column
 {
 	width: 25%;
 	text-align: left;
@@ -98,12 +112,39 @@ h1, .section-heading
 	vertical-align: top;
 }
 
+body /deep/ .table-component-column
+{
+	width: 75%;
+	text-align: left;
+	vertical-align: top;
+}
+
 .table-component-column input
 {
 	width: 99%;
 }
 
+.table-component-column table input
+{
+	width: auto;
+}
+
+body /deep/ .table-component-column input
+{
+	width: 99%;
+}
+
+body /deep/ .table-component-column table input
+{
+	width: auto;
+}
+
 .table-component-column select
+{
+	width: 100%;
+}
+
+body /deep/ .table-component-column select
 {
 	width: 100%;
 }
@@ -114,7 +155,18 @@ h1, .section-heading
 	height: 100px;
 }
 
+body /deep/ .table-component-column textarea
+{
+	width: 99%;
+	height: 100px;
+}
+
 .table-component-column span input
+{
+	width: auto;
+}
+
+body /deep/ .table-component-column span input
 {
 	width: auto;
 }
@@ -129,7 +181,22 @@ h1, .section-heading
 	font-weight: bold;
 }
 
+body /deep/ .table-required-column
+{
+	width: 1%;
+	color: red;	
+	padding-top: 7pt;
+	font-size: 20pt;
+	line-height: 8pt;
+	font-weight: bold;
+}
+
 input, textarea, select
+{
+	font-family: Arial;
+}
+
+body /deep/ input, body /deep/ textarea, body /deep/ select
 {
 	font-family: Arial;
 }
@@ -145,7 +212,21 @@ input, textarea, select
 	margin-top: 10px;
 }
 
+body /deep/ .data-table
+{
+	width: 100%;
+	border: 1px solid #B3B3FF;
+	margin-top: 10px;
+}
+
 .data-table th, .data-table .header
+{
+	background: white url( ../media/background-button.gif ) repeat-x center left;
+	height: 20px;
+	border-bottom: 1px solid #B3B3FF;
+}
+
+body /deep/ .data-table th, body /deep/ .data-table .header
 {
 	background: white url( ../media/background-button.gif ) repeat-x center left;
 	height: 20px;
@@ -157,7 +238,17 @@ input, textarea, select
 	background-color: #EDEDED;
 }
 
+body /deep/ .row-even
+{
+	background-color: #EDEDED;
+}
+
 .column-half
+{
+	width: 50%;
+}
+
+body /deep/ .column-half
 {
 	width: 50%;
 }
@@ -168,7 +259,20 @@ input, textarea, select
 	text-align: center;
 }
 
+body /deep/ .column-tiny
+{
+	width: 1%;
+	text-align: center;
+}
+
 .buttons
+{
+	padding-top: 10px;
+	white-space: nowrap;
+	text-align: center;
+}
+
+body /deep/ .buttons
 {
 	padding-top: 10px;
 	white-space: nowrap;
@@ -186,7 +290,31 @@ input, textarea, select
 	margin-right: 5px;
 }
 
+body /deep/ .buttons input, body /deep/ .buttons button
+{
+	border: 1px solid #B3B3FF;
+	height: 32px;	
+	background: white url( ../media/background-button.gif ) repeat-x center left;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
 .table-buttons input, .table-buttons button
+{
+	border: 1px solid #B3B3FF;
+	height: 21px;	
+	background: url( ../media/background-button.gif ) repeat-x center left;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	width: 50px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+body /deep/ .table-buttons input, body /deep/ .table-buttons button
 {
 	border: 1px solid #B3B3FF;
 	height: 21px;	

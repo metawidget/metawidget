@@ -37,7 +37,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -90,7 +89,7 @@ public class AddressBookWebComponentTest {
 		assertEquals( 1, mDriver.findElementsByCssSelector( "#table-addressbookSearch tfoot tr" ).size() );
 
 		assertEquals( 6, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
-		new Select( mDriver.findElementById( "addressbookSearchType" )).selectByIndex( 1 );
+		new Select( mDriver.findElementById( "addressbookSearchType" ) ).selectByIndex( 1 );
 		mDriver.findElementById( "addressbookSearchActionsSearch" ).click();
 		Thread.sleep( 1000 );
 
@@ -187,6 +186,40 @@ public class AddressBookWebComponentTest {
 		assertEquals( "Notes:", mDriver.findElementById( "table-addressbookCurrentNotes-label" ).getText() );
 		assertEquals( "textarea", mDriver.findElementById( "addressbookCurrentNotes" ).getTagName() );
 
+		// Edit communication
+
+		assertEquals( "Telephone", mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody a" ).get( 0 ).getText() );
+		assertEquals( "(939) 555-0113", mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody a" ).get( 1 ).getText() );
+		assertEquals( 1, mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody tr" ).size() );
+		mDriver.findElementByCssSelector( "#addressbookCurrentCommunications tbody a" ).click();
+
+		assertEquals( "Type:", mDriver.findElementById( "table-addressbookCurrentCommunicationType-label" ).getText() );
+		assertEquals( "select", mDriver.findElementById( "addressbookCurrentCommunicationType" ).getTagName() );
+		assertEquals( "Telephone", mDriver.findElementsByCssSelector( "#addressbookCurrentCommunicationType option" ).get( 0 ).getText() );
+		assertEquals( "Mobile", mDriver.findElementsByCssSelector( "#addressbookCurrentCommunicationType option" ).get( 1 ).getText() );
+		assertEquals( 4, mDriver.findElementsByCssSelector( "#addressbookCurrentCommunicationType option" ).size() );
+		assertEquals( "Telephone", new Select( mDriver.findElementById( "addressbookCurrentCommunicationType" ) ).getFirstSelectedOption().getText() );
+		assertEquals( "Value:", mDriver.findElementById( "table-addressbookCurrentCommunicationValue-label" ).getText() );
+		assertEquals( "input", mDriver.findElementById( "addressbookCurrentCommunicationValue" ).getTagName() );
+		assertEquals( "(939) 555-0113", mDriver.findElementById( "addressbookCurrentCommunicationValue" ).getAttribute( "value" ) );
+
+		new Select( mDriver.findElementById( "addressbookCurrentCommunicationType" ) ).selectByValue( "Mobile" );
+		mDriver.findElementById( "addressbookCurrentCommunicationValue" ).clear();
+		mDriver.findElementById( "addressbookCurrentCommunicationValue" ).sendKeys( "(939) 555-0114" );
+		mDriver.findElementById( "communicationsSave" ).click();
+		Thread.sleep( 1000 );
+
+		assertEquals( "Mobile", mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody a" ).get( 0 ).getText() );
+		assertEquals( "(939) 555-0114", mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody a" ).get( 1 ).getText() );
+
+		// Delete communication
+
+		mDriver.findElementByCssSelector( "#addressbookCurrentCommunications tbody a" ).click();
+		mDriver.findElementById( "communicationsDelete" ).click();
+		Thread.sleep( 1000 );
+
+		assertEquals( 0, mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody a" ).size() );
+
 		// Save
 
 		mDriver.findElementById( "addressbookCurrentFirstname" ).clear();
@@ -243,12 +276,27 @@ public class AddressBookWebComponentTest {
 		mDriver.findElementById( "addressbookCurrentFirstname" ).sendKeys( "Business" );
 		mDriver.findElementById( "addressbookCurrentSurname" ).clear();
 		mDriver.findElementById( "addressbookCurrentSurname" ).sendKeys( "Contact" );
+
+		// Add communication
+
+		assertEquals( 0, mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody tr" ).size() );
+		mDriver.findElementById( "communicationsAdd" ).click();
+
+		new Select( mDriver.findElementById( "addressbookCurrentCommunicationType" ) ).selectByValue( "Fax" );
+		mDriver.findElementById( "addressbookCurrentCommunicationValue" ).sendKeys( "1234 56789" );
+		mDriver.findElementById( "communicationsSave" ).click();
+		Thread.sleep( 1000 );
+
+		assertEquals( "Fax", mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody a" ).get( 0 ).getText() );
+		assertEquals( "1234 56789", mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody a" ).get( 1 ).getText() );
+		assertEquals( 1, mDriver.findElementsByCssSelector( "#addressbookCurrentCommunications tbody tr" ).size() );
+
 		mDriver.findElementById( "addressbookCrudActionsSave" ).click();
 
 		// Delete
 
 		Thread.sleep( 1000 );
-		assertEquals( 7, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
+		assertEquals( 8, mDriver.findElementsByCssSelector( ".data-table tbody tr" ).size() );
 		mDriver.findElementByLinkText( "Miss Business Contact" ).click();
 		mWait.until( visibilityOfElementLocated( By.id( "addressbookCurrentTitle" ) ) );
 		assertEquals( "Miss", mDriver.findElementById( "addressbookCurrentTitle" ).getAttribute( "value" ) );
@@ -265,13 +313,7 @@ public class AddressBookWebComponentTest {
 	@Before
 	public void before() {
 
-		FirefoxProfile profile = new FirefoxProfile();
-		profile.setPreference( "browser.helperApps.alwaysAsk.force", false );
-		profile.setPreference( "browser.download.manager.showWhenStarting", false );
-		profile.setPreference( "browser.helperApps.neverAsk.saveToDisk", "application/pdf,image/png" );
-		profile.setPreference( "general.useragent.override", "Firefox Integration-Test" );
-
-		mDriver = new FirefoxDriver( profile );
+		mDriver = new FirefoxDriver();
 		mWait = new WebDriverWait( mDriver, 60 );
 	}
 

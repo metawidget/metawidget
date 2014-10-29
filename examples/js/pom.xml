@@ -18,7 +18,7 @@
 	<modules>
 		<module>angularjs/addressbook</module>
 		<module>jquery/mobile/addressbook</module>
-		<!-- TODO: <module>webcomponent/addressbook</module>-->
+		<module>webcomponent/addressbook</module>
 	</modules>
 
 	<build>

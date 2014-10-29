@@ -72,6 +72,13 @@
 										<th class="column-half">Value</th>
 									</tr>
 								</thead>
+								<tfoot>
+									<tr>
+										<td class="buttons" colspan="2">
+											<input type="button" id="communicationsAdd" value="Add" onclick="addressbook.addCommunication()"/>
+										</td>
+									</tr>
+								</tfoot>
 								<tbody>
 									<template id="detail-table-rows" repeat="{{communications}}">
 										<tr>
@@ -96,10 +103,10 @@
 							Edit Communication
 						</div>
 						<div class="dialog-content">
-							<x-metawidget id="communication" config="addressbook.currentConfig">
+							<x-metawidget id="communication" config="addressbook.communicationsConfig">
 								<facet name="footer">
-									<input type="button" value="Save" onclick="addressbook.communicationActions.save()"/>
-									<input type="button" value="Delete" onclick="addressbook.communicationActions.delete()"/>
+									<input type="button" id="communicationsSave" value="Save" onclick="addressbook.communicationActions.save()"/>
+									<input type="button" id="communicationsDelete" value="Delete" onclick="addressbook.communicationActions.delete()"/>
 								</facet>
 							</x-metawidget>
 						</div>

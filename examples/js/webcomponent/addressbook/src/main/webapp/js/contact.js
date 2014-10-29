@@ -66,25 +66,25 @@ var addressbook = addressbook || {};
 
 			// Example of server-side, asynchronous schema
 
-			if ( names !== undefined && names[names.length - 1] === 'current' ) {				
+			if ( names !== undefined && names[names.length - 1] === 'current' ) {
 				addressbook.fetchJSON( 'js/' + addressbook.current.type + '-contact-schema.json', function( data ) {
 
 					metawidget.util.combineInspectionResults( inspectionResult, data );
 					mw.buildWidgets( inspectionResult );
-					
+
 					// Example of manually updating a nested template
-					
+
 					var detailTableRows = document.getElementById( 'detail-table-rows' );
 					var communications = [];
-					
-					for( var loop = 0; loop < addressbook.current.communications.length; loop++ ) {
+
+					for ( var loop = 0; loop < addressbook.current.communications.length; loop++ ) {
 						communications.push( {
 							index: loop,
 							type: addressbook.current.communications[loop].type,
 							value: addressbook.current.communications[loop].value
 						} );
 					}
-					
+
 					detailTableRows.model = {
 						communications: communications
 					};
@@ -99,7 +99,7 @@ var addressbook = addressbook || {};
 	/**
 	 * Save and Delete.
 	 */
-	
+
 	addressbook.crudActions = {
 
 		edit: function() {
@@ -110,25 +110,25 @@ var addressbook = addressbook || {};
 		save: function() {
 
 			document.getElementById( 'detail' ).save();
-			
+
 			if ( addressbook.current.id === undefined ) {
 				addressbook.current.id = addressbook.nextId++;
 				addressbook.contacts.push( addressbook.current );
 			}
-			
+
 			addressbook.crudActions.cancel();
 		},
 
 		"delete": function() {
 
 			var contactId = addressbook.current.id;
-			
+
 			for ( var loop = 0, length = addressbook.contacts.length; loop < length; loop++ ) {
 				if ( addressbook.contacts[loop].id === contactId ) {
 					addressbook.contacts.splice( loop, 1 );
 					break;
 				}
-			}			
+			}
 			addressbook.crudActions.cancel();
 		},
 
@@ -138,9 +138,9 @@ var addressbook = addressbook || {};
 		}
 	};
 
-	addressbook.crudActionsConfig = {		
+	addressbook.crudActionsConfig = {
 		inspectionResultProcessors: [ function( inspectionResult, mw, toInspect, type, names ) {
-		
+
 			if ( document.getElementById( 'detail' ).readOnly === true ) {
 				return {
 					properties: {
@@ -153,7 +153,7 @@ var addressbook = addressbook || {};
 					}
 				}
 			}
-			
+
 			return {
 				properties: {
 					save: {
@@ -170,46 +170,83 @@ var addressbook = addressbook || {};
 		} ],
 		layout: new metawidget.layout.SimpleLayout()
 	};
-	
+
 	/**
 	 * Edit Communications
 	 */
-	 
-	addressbook.editCommunication = function( index ) {
-	
+
+	function _showCommunication() {
 		var mw = document.getElementById( 'communication' );
-		addressbook.currentCommunicationIndex = index;
-		addressbook.currentCommunication = addressbook.current.communications[index];
 		mw.setAttribute( 'path', 'addressbook.currentCommunication' );
-		mw.buildWidgets();	
-		document.getElementById( 'dialog-communication' ).style.display = 'block';	
+		mw.buildWidgets();
+		document.getElementById( 'dialog-communication' ).style.display = 'block';		
 	}
 	
+	addressbook.addCommunication = function() {
+		addressbook.currentCommunicationIndex = undefined;
+		addressbook.currentCommunication = {};
+		_showCommunication();
+	};
+
+	addressbook.editCommunication = function( index ) {
+		addressbook.currentCommunicationIndex = index;
+		addressbook.currentCommunication = addressbook.current.communications[index];
+		_showCommunication();
+	};
+
+	addressbook.communicationsConfig = {
+		inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), new metawidget.inspector.JsonSchemaInspector( {
+
+			// Example of JSON schema
+			
+			properties: {
+				currentCommunication: {
+					properties: {
+						type: {
+							"enum": [ "Telephone", "Mobile", "Fax", "E-mail" ],
+							"required": true
+						},
+						value: {
+							"type": "string",
+							"required": true
+						}
+					}
+				}
+			}
+		} ) ] ),
+		layout: addressbook.tableLayout
+	};
+
 	addressbook.communicationActions = {
 
 		save: function() {
 
 			document.getElementById( 'communication' ).save();
 			var detailTableRows = document.getElementById( 'detail-table-rows' );
-			
+
 			if ( addressbook.currentCommunicationIndex === undefined ) {
-				addressbook.current.communications.push( addressbook.currentCommunication );
+				if ( detailTableRows.model === undefined ) {
+					detailTableRows.model = {
+						communications: []
+					}
+				}
+				detailTableRows.model.communications.push( addressbook.currentCommunication );
 			} else {
 				detailTableRows.model.communications.splice( addressbook.currentCommunicationIndex, 1, addressbook.currentCommunication );
 			}
-			
+
 			document.getElementById( 'dialog-communication' ).style.display = 'none';
 		},
 
 		"delete": function() {
 
 			addressbook.current.communications.splice( addressbook.currentCommunicationIndex, 1 );
-			
+
 			var detailTableRows = document.getElementById( 'detail-table-rows' );
 			detailTableRows.model.communications.splice( addressbook.currentCommunicationIndex, 1 );
-			
+
 			document.getElementById( 'dialog-communication' ).style.display = 'none';
 		}
 	};
-	
+
 } )();
