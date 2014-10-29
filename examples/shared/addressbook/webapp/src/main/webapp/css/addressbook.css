@@ -77,12 +77,12 @@ h1, .section-heading
  * Input forms
  */
  
-.table-form, .table-form
+.table-form
 {
 	width: 100%;
 }
 
-body /deep/ .table-form, body /deep/ .table-form
+body /deep/ .table-form
 {
 	width: 100%;
 }
