@@ -469,7 +469,7 @@ var metawidget = metawidget || {};
 	 * framework has swapped out the widget.
 	 */
 
-	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.getWidgetFromBinding = function( binding ) {
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.getWidgetFromBinding = function( binding, mw ) {
 
 		return binding.widget;
 	};

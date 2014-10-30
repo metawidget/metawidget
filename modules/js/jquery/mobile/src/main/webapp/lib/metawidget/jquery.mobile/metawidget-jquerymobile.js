@@ -94,7 +94,6 @@ var metawidget = metawidget || {};
 		};
 		
 		// Support arrays of checkboxes
-		// TODO: test support arrays of checkboxes
 		
 		var _superBindToWidget = processor.bindToWidget;
 		processor.bindToWidget = function( widget, value, elementName, attributes, mw ) {
@@ -121,7 +120,7 @@ var metawidget = metawidget || {};
 			return toReturn;
 		};		
 		var _superSaveFromWidget = processor.saveFromWidget;
-		processor.saveFromWidget = function( binding ) {
+		processor.saveFromWidget = function( binding, mw ) {
 
 			if ( binding.widget.tagName === 'FIELDSET' && binding.attributes.type === 'array' ) {
 				var toReturn = [];
@@ -136,7 +135,7 @@ var metawidget = metawidget || {};
 				return toReturn;
 			}
 
-			return _superSaveFromWidget.call( this, binding );
+			return _superSaveFromWidget.call( this, binding, mw );
 		};		
 
 		return processor;
