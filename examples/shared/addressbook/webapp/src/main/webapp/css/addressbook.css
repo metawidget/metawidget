@@ -124,17 +124,17 @@ body /deep/ .table-component-column
 	width: 99%;
 }
 
-.table-component-column table input
-{
-	width: auto;
-}
-
 body /deep/ .table-component-column input
 {
 	width: 99%;
 }
 
-body /deep/ .table-component-column table input
+.table-component-column table input[type='button']
+{
+	width: auto;
+}
+
+body /deep/ .table-component-column table input[type='button']
 {
 	width: auto;
 }
