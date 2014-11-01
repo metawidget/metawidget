@@ -160,7 +160,7 @@ public class JsonSchemaInspectorTest
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors(
 				new JsonInspector( new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( json.getBytes() ) ) ),
 				new JsonSchemaInspector( new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( jsonSchema.getBytes() ) ) ) ) ) );
-		metawidget.setInspectionPath( "fooObject" );
+		metawidget.setPath( "fooObject" );
 
 		assertEquals( "Firstname*:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );
@@ -180,7 +180,7 @@ public class JsonSchemaInspectorTest
 		metawidget = new SwtMetawidget( shell, SWT.None );
 		metawidget.setInspector( new JsonSchemaInspector( new JsonInspectorConfig().setInputStream( new ByteArrayInputStream( jsonSchema.getBytes() ) ) ) );
 		metawidget.addInspectionResultProcessor( new TypeMappingInspectionResultProcessor<SwtMetawidget>( new JsonSchemaTypeMappingProcessorConfig() ) );
-		metawidget.setInspectionPath( "fooObject" );
+		metawidget.setPath( "fooObject" );
 
 		assertEquals( "Firstname*:", ( (Label) metawidget.getChildren()[0] ).getText() );
 		assertTrue( metawidget.getChildren()[1] instanceof Text );

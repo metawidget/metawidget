@@ -147,7 +147,7 @@
 										inspectionCount++;
 										return inspectionResult;
 									} ],
-									addWidgetProcessors: [ function( widget, attributes, mw ) {
+									appendWidgetProcessors: [ function( widget, attributes, mw ) {
 
 										buildingCount++;
 										return widget;
@@ -255,7 +255,7 @@
 									} ]
 								};
 								$scope.metawidgetConfig2 = {
-									addWidgetProcessors: [ function( widget, attributes, mw ) {
+									appendWidgetProcessors: [ function( widget, attributes, mw ) {
 
 										buildingCount++;
 										return widget;
@@ -1024,7 +1024,7 @@
 						$scope.model = {};
 
 						$scope.metawidgetConfig = {
-							addInspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+							appendInspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
 
 								mw.buildWidgets( undefined );
 							} ]
@@ -1632,7 +1632,7 @@
 											}
 										};
 									} ] ),
-									addWidgetProcessors: [ function( widget, attributes, mw ) {
+									appendWidgetProcessors: [ function( widget, attributes, mw ) {
 
 										buildingCount++;
 										return widget;

@@ -570,11 +570,9 @@ public final class XmlUtils {
 	 * http://blog.kennardconsulting.com/2013/02/metawidget-and-rest.html).
 	 */
 
-	// REFACTOR: rename inspectionResultToJsonSchema, because it skips document root
+	public static String inspectionResultToJsonSchema( Element inspectionResult ) {
 
-	public static String elementToJsonSchema( Element inspectionResult ) {
-
-		return elementToJsonSchema( XmlUtils.getFirstChildElement( inspectionResult ), false );
+		return inspectionResultToJsonSchema( XmlUtils.getFirstChildElement( inspectionResult ), false );
 	}
 
 	/**
@@ -609,7 +607,7 @@ public final class XmlUtils {
 
 	private static final String[]	JSON_SCHEMA_NON_STRING_ATTRIBUTE_NAMES	= new String[] { REQUIRED, HIDDEN, "minimum", "maximum", "minLength", "maxLength", "propertyOrder" };
 
-	private static String elementToJsonSchema( Element element, boolean excludeName ) {
+	private static String inspectionResultToJsonSchema( Element element, boolean excludeName ) {
 
 		StringBuilder jsonBuilder = new StringBuilder();
 
@@ -627,7 +625,7 @@ public final class XmlUtils {
 
 					// ..recurse into it...
 
-					String traitSchema = elementToJsonSchema( trait, true );
+					String traitSchema = inspectionResultToJsonSchema( trait, true );
 
 					if ( traitSchema.length() > 0 ) {
 

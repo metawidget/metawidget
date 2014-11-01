@@ -381,7 +381,7 @@
 						return {};
 					}
 				} ],
-				addInspectionResultProcessors: [ {
+				appendInspectionResultProcessors: [ {
 					processInspectionResult: function() {
 
 						called.push( 'addedInspectionResultProcessor.processInspectionResult' );
@@ -451,7 +451,7 @@
 						called.push( 'prependedWidgetProcessor2.onEndBuild' );
 					}
 				} ],
-				addWidgetProcessors: [ {
+				appendWidgetProcessors: [ {
 					onStartBuild: function() {
 
 						called.push( 'addedWidgetProcessor1.onStartBuild' );

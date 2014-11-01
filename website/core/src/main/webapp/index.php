@@ -220,6 +220,7 @@
 										<li>JQuery Mobile</li>
 										<li>JQuery UI</li>
 										<li>Node.js</li>
+										<li>Web Components</li>
 									</ul></li>								
 								<li>Java Server Faces (JSF)
 									<ul>

@@ -23,7 +23,7 @@ import org.w3c.dom.Element;
 /**
  * <code>InspectionResultProcessor</code> to map attribute names from
  * <code>inspection-result.xsd</code> to JSON Schema, ready for
- * <code>XmlUtils.elementToJsonSchema</code>.
+ * <code>XmlUtils.inspectionResultToJsonSchema</code>.
  * <p>
  * Consider using in conjunction with <code>JsonTypeMappingProcessor</code>.
  *

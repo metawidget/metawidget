@@ -59,7 +59,7 @@ public class SwtMetawidget
 
 	private Object					mToInspect;
 
-	private String					mInspectionPath;
+	private String					mPath;
 
 	private ResourceBundle			mBundle;
 
@@ -137,7 +137,7 @@ public class SwtMetawidget
 	/**
 	 * Sets the Object to inspect.
 	 * <p>
-	 * If <code>setInspectionPath</code> has not been set, or points to a previous
+	 * If <code>setPath</code> has not been set, or points to a previous
 	 * <code>setToInspect</code>, sets it to point to the given Object.
 	 */
 
@@ -157,14 +157,14 @@ public class SwtMetawidget
 	public void updateToInspectWithoutInvalidate( Object toInspect ) {
 
 		if ( mToInspect == null ) {
-			if ( mInspectionPath == null && toInspect != null ) {
-				mInspectionPath = toInspect.getClass().getName();
+			if ( mPath == null && toInspect != null ) {
+				mPath = toInspect.getClass().getName();
 			}
-		} else if ( mToInspect.getClass().getName().equals( mInspectionPath ) ) {
+		} else if ( mToInspect.getClass().getName().equals( mPath ) ) {
 			if ( toInspect == null ) {
-				mInspectionPath = null;
+				mPath = null;
 			} else {
-				mInspectionPath = toInspect.getClass().getName();
+				mPath = toInspect.getClass().getName();
 			}
 		}
 
@@ -190,17 +190,15 @@ public class SwtMetawidget
 	 * Sets the path to be inspected.
 	 */
 
-	// REFACTOR: shouldn't this be setPath?
+	public void setPath( String path ) {
 
-	public void setInspectionPath( String inspectionPath ) {
-
-		mInspectionPath = inspectionPath;
+		mPath = path;
 		invalidateInspection();
 	}
 
 	public String getInspectionPath() {
 
-		return mInspectionPath;
+		return mPath;
 	}
 
 	public void setConfig( String config ) {
@@ -316,7 +314,7 @@ public class SwtMetawidget
 	 * </li>
 	 * </ul>
 	 */
-	
+
 	public String getLabelString( Map<String, String> attributes ) {
 
 		if ( attributes == null ) {
@@ -703,7 +701,7 @@ public class SwtMetawidget
 		// Don't copy setConfig(). Instead, copy runtime values
 
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
-		nestedMetawidget.setInspectionPath( mInspectionPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setToInspect( mToInspect );
 	}
@@ -714,11 +712,11 @@ public class SwtMetawidget
 
 	private Element inspect() {
 
-		if ( mInspectionPath == null ) {
+		if ( mPath == null ) {
 			return null;
 		}
 
-		TypeAndNames typeAndNames = PathUtils.parsePath( mInspectionPath );
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 		return mPipeline.inspectAsDom( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 

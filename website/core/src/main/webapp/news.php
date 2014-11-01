@@ -4,11 +4,11 @@
 	
 		<h2>News</h2>
 		
-		<h3>Metawidget v3.9.5 Released!</h3>
-		<h4></h4>
+		<h3>Metawidget v4.0 Released!</h3>
+		<h4>2nd November 2014</h4>
 		
 		<p>
-			Metawidget v3.9.5 is now available!
+			Metawidget v4.0 is now available!
 		</p>
 		<p>
 			This release was focused on: 			  
@@ -18,8 +18,9 @@
 			<li>HTML5 Web Components support</li>
 			<li>clearWidgets support (JavaScript version)</li>
 			<li>JsonSchemaTypeMappingProcessorConfig</li>
-			<li>Improved Node support</li>
-			<li>Boolean radio buttons (JavaScript version)</li>
+			<li>Improved Node.js support</li>
+			<li>Boolean radio buttons (JavaScript version)</li>			
+			<li>Minor refactoring</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

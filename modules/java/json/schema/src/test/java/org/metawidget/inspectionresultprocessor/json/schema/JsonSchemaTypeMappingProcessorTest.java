@@ -35,13 +35,13 @@ public class JsonSchemaTypeMappingProcessorTest
 
 		Element element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"number\"/><property name=\"bar\" type=\"string\"/><property name=\"baz\" type=\"boolean\"/><property name=\"abc\" type=\"date\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new TypeMappingInspectionResultProcessor<Object>( new JsonSchemaTypeMappingProcessorConfig() ).processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"foo\":{\"type\":\"int\"},\"bar\":{\"type\":\"java.lang.String\"},\"baz\":{\"type\":\"boolean\"},\"abc\":{\"type\":\"java.util.Date\"}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"foo\":{\"type\":\"int\"},\"bar\":{\"type\":\"java.lang.String\"},\"baz\":{\"type\":\"boolean\"},\"abc\":{\"type\":\"java.util.Date\"}}}", XmlUtils.inspectionResultToJsonSchema( element ) );
 
 		// Color, array and not removing unknown types
 
 		element = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"color\"/><property name=\"bar\" type=\"array\"/><property name=\"baz\" type=\"unknown\"/></entity></inspection-result>" ).getDocumentElement();
 		element = new TypeMappingInspectionResultProcessor<Object>( new JsonSchemaTypeMappingProcessorConfig() ).processInspectionResultAsDom( element, null, null, null );
-		assertEquals( "{\"properties\":{\"foo\":{\"type\":\"java.awt.Color\"},\"bar\":{\"type\":\"java.util.List\"},\"baz\":{\"type\":\"unknown\"}}}", XmlUtils.elementToJsonSchema( element ) );
+		assertEquals( "{\"properties\":{\"foo\":{\"type\":\"java.awt.Color\"},\"bar\":{\"type\":\"java.util.List\"},\"baz\":{\"type\":\"unknown\"}}}", XmlUtils.inspectionResultToJsonSchema( element ) );
 	}
 
 	public void testConfig() {

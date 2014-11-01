@@ -212,7 +212,7 @@
 				it( "guards against infinite loops", function() {
 
 					$( '#metawidget' ).metawidget( {
-						addInspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
+						appendInspectionResultProcessors: [ function( inspectionResult, mw, toInspect, path, names ) {
 
 							mw._refresh( undefined );
 						} ]

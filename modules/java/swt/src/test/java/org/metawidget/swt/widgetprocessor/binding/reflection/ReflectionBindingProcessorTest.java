@@ -86,7 +86,7 @@ public class ReflectionBindingProcessorTest
 		foo.setNestedFoo( null );
 
 		metawidget.setToInspect( foo );
-		metawidget.setInspectionPath( "foo/nestedFoo/doAction" );
+		metawidget.setPath( "foo/nestedFoo/doAction" );
 		binding.processWidget( button, ACTION, attributes, metawidget );
 	}
 

@@ -274,7 +274,7 @@ public class ContactDialog
 				communicationMetawidget.setMetawidgetLayout( new FillLayout() );
 				communicationMetawidget.setToInspect( communication );
 				String columnName = StringUtils.decapitalize( mCommunicationsTable.getColumn( selectedColumn ).getText() );
-				communicationMetawidget.setInspectionPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + columnName );
+				communicationMetawidget.setPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + columnName );
 
 				mCommunicationsEditor.setEditor( communicationMetawidget, item, selectedColumn );
 			}

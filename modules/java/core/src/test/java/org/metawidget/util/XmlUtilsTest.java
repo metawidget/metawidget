@@ -271,67 +271,67 @@ public class XmlUtilsTest
 		assertEquals( "<inspection-result><foo fooAttr=\"1\"><bar barAttr=\"2\" data=\"bar2\"/></foo><foo fooAttr=\"2\"><bar barAttr=\"3\" data=\"bar3\"/></foo></inspection-result>", XmlUtils.documentToString( documentMaster, false ) );
 	}
 
-	public void testElementToJsonSchema() {
+	public void testinspectionResultToJsonSchema() {
 
 		// Normal case
 
 		Document document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" type=\"1\"><property name=\"bar\" barAttr=\"2\" data=\"bar2\"/><baz name=\"bazName\" bazAttr=\"3\"/><ignore ignoreMe=\"please\"/><action name=\"anAction\"/></entity></inspection-result>" );
-		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\"},\"bazName\":{\"bazAttr\":\"3\"},\"anAction\":{\"type\":\"function\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\"},\"bazName\":{\"bazAttr\":\"3\"},\"anAction\":{\"type\":\"function\"}}}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		// Action
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" type=\"1\"><action name=\"anAction\" label=\"Action Label\" enum=\"\"/></entity></inspection-result>" );
-		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"anAction\":{\"type\":\"function\",\"enum\":[],\"label\":\"Action Label\"}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"name\":\"root\",\"type\":\"1\",\"properties\":{\"anAction\":{\"type\":\"function\",\"enum\":[],\"label\":\"Action Label\"}}}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		// Special attribute types
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" hidden=\"true\" required=\"false\" minimum=\"42\" maximum=\"43\"/></inspection-result>" );
-		assertEquals( "{\"hidden\":true,\"maximum\":43,\"minimum\":42,\"name\":\"root\",\"required\":false}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"hidden\":true,\"maximum\":43,\"minimum\":42,\"name\":\"root\",\"required\":false}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		// Special attribute types with expressions
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity name=\"root\" hidden=\"{{foo}}\"/></inspection-result>" );
-		assertEquals( "{\"hidden\":\"{{foo}}\",\"name\":\"root\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"hidden\":\"{{foo}}\",\"name\":\"root\"}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		// Nested elements are honoured, root attributes are optional
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" barAttr=\"2\" data=\"bar2\"><property name=\"nested\" nestedAttr=\"3\"/></property></entity></inspection-result>" );
-		assertEquals( "{\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"properties\":{\"nested\":{\"nestedAttr\":\"3\"}}}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"properties\":{\"nested\":{\"nestedAttr\":\"3\"}}}}}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		// Nested arrays are honoured
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity><property name=\"bar\" type=\"array\" barAttr=\"2\" data=\"bar2\"><property name=\"nested\" nestedAttr=\"3\"/></property></entity></inspection-result>" );
-		assertEquals( "{\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"type\":\"array\",\"items\":{\"properties\":{\"nested\":{\"nestedAttr\":\"3\"}}}}}}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"properties\":{\"bar\":{\"barAttr\":\"2\",\"data\":\"bar2\",\"type\":\"array\",\"items\":{\"properties\":{\"nested\":{\"nestedAttr\":\"3\"}}}}}}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		// Empty elements are okay
 
 		document = XmlUtils.documentFromString( "<inspection-result/>" );
-		assertEquals( "", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity/></inspection-result>" );
-		assertEquals( "{}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		// Test arrays
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum=\"foo\\,bar,baz\"/>></inspection-result>" );
-		assertEquals( "{\"enum\":[\"foo,bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"enum\":[\"foo,bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum=\"1,2,3,4,5\"/>></inspection-result>" );
-		assertEquals( "{\"enum\":[\"1\",\"2\",\"3\",\"4\",\"5\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"enum\":[\"1\",\"2\",\"3\",\"4\",\"5\"],\"type\":\"1\"}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum-titles=\"foo&quot;bar,baz\"/>></inspection-result>" );
-		assertEquals( "{\"enumTitles\":[\"foo\\\"bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"enumTitles\":[\"foo\\\"bar\",\"baz\"],\"type\":\"1\"}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" enum-titles=\",\"/>></inspection-result>" );
-		assertEquals( "{\"enumTitles\":[\"\",\"\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"enumTitles\":[\"\",\"\"],\"type\":\"1\"}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" section=\"foo\"/>></inspection-result>" );
-		assertEquals( "{\"section\":[\"foo\"],\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"section\":[\"foo\"],\"type\":\"1\"}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 
 		// Test nil
 
 		document = XmlUtils.documentFromString( "<inspection-result><entity type=\"1\" title=\"xsi:nil\"/>></inspection-result>" );
-		assertEquals( "{\"title\":null,\"type\":\"1\"}", XmlUtils.elementToJsonSchema( document.getDocumentElement() ) );
+		assertEquals( "{\"title\":null,\"type\":\"1\"}", XmlUtils.inspectionResultToJsonSchema( document.getDocumentElement() ) );
 	}
 
 	//
