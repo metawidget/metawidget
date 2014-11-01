@@ -680,7 +680,7 @@
 					<programlisting language="xml">&lt;!DOCTYPE HTML&gt;
 &lt;html&gt;
 	&lt;head&gt;
-		&lt;script src="metawidget.min.js"&gt;&lt;/script&gt;
+		&lt;script src="metawidget-core.min.js"&gt;&lt;/script&gt;
 		&lt;style&gt;
 			#metawidget {
 				border: 1px solid #cccccc;
@@ -695,17 +695,16 @@
 			var person = {
 				firstname: 'Homer',
 				surname: 'Simpson',
-				age: 36
-			};
-			function save() {
-				document.getElementById( 'metawidget' ).save();
-				console.log( person );
+				age: 36,
+				save: function() {
+					document.getElementById( 'metawidget' ).save();
+					console.log( person );
+				}
 			}
 		&lt;/script&gt;
 	&lt;/head&gt;
 	&lt;body&gt;
 		&lt;x-metawidget id="metawidget" path="person"&gt;&lt;/x-metawidget&gt;
-		&lt;button onclick="save()"&gt;Save&lt;/button&gt;
 	&lt;/body&gt;
 &lt;/html&gt;</programlisting>
 

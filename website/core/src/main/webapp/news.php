@@ -15,7 +15,7 @@
 		</p>
 		
 		<ul>
-			<li>HTML5 Web Components support</li>
+			<li><a href="http://blog.kennardconsulting.com/2014/11/metawidget-meets-web-components.html">HTML5 Web Components support</a></li>
 			<li>clearWidgets support (JavaScript version)</li>
 			<li>JsonSchemaTypeMappingProcessorConfig</li>
 			<li>Improved Node.js support</li>
