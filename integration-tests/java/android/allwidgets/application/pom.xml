@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.integration-tests.android</groupId>
 		<artifactId>allwidgets-android-parent</artifactId>
-		<version>4.0</version>
+		<version>4.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>

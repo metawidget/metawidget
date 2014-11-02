@@ -49,7 +49,7 @@ import org.metawidget.util.simple.StringUtils;
  * validation frameworks, which rely on public getters/setters. To support the best of both worlds
  * see <code>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</code></li>
  * </ul>
- *
+ * 
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -249,7 +249,7 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Returns whether the given method is a 'getter' method.
-	 *
+	 * 
 	 * @param method
 	 *            a parameterless method that returns a non-void
 	 * @return the property name
@@ -353,7 +353,7 @@ public class JavaBeanPropertyStyle
 
 	/**
 	 * Returns whether the given method is a 'setter' method.
-	 *
+	 * 
 	 * @param method
 	 *            a single-parametered method. May return non-void (ie. for Fluent interfaces)
 	 * @return the property name
@@ -386,7 +386,7 @@ public class JavaBeanPropertyStyle
 	 * <p>
 	 * Clients may override this method to change how the public-method-to-private-field mapping
 	 * operates.
-	 *
+	 * 
 	 * @return the private Field for this propertyName, or null if no such field (should not throw
 	 *         NoSuchFieldException)
 	 */
@@ -641,6 +641,13 @@ public class JavaBeanPropertyStyle
 
 			return mWriteMethod;
 		}
+
+		/**
+		 * Get the private field associated with this JavaBean property. Only relevant if
+		 * <code>JavaBeanPropertyStyleConfig.setPrivateFieldConvention</code> has been set. The
+		 * returned <code>Field</code> will not be accessible unless
+		 * <code>setAccessible( true )</code> is called.
+		 */
 
 		public Field getPrivateField() {
 
