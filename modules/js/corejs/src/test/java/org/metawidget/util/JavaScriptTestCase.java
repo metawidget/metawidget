@@ -26,7 +26,7 @@ import org.mozilla.javascript.tools.shell.Main;
 /**
  * Utility class to load Rhino, Envjs, JQuery and Jasmine, and run a Jasmine test case. Designed to
  * integrate into JUnit and Maven.
- * 
+ *
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
@@ -89,7 +89,7 @@ public abstract class JavaScriptTestCase
 
 	/**
 	 * Evaluate the given Javascript file.
-	 * 
+	 *
 	 * @param filename
 	 *            the filename. File path is relative to the project root
 	 */
@@ -105,7 +105,7 @@ public abstract class JavaScriptTestCase
 
 	/**
 	 * Evaluate the given HTML file.
-	 * 
+	 *
 	 * @param url
 	 *            or filename
 	 *            the url or filename. If the latter, file path is relative to the project root
@@ -152,6 +152,10 @@ public abstract class JavaScriptTestCase
 		mInitializedEnvJs = true;
 
 		evaluateResource( "/js/env.rhino.1.2.js" );
+
+		// Hack for unit testing Web Components
+
+		evaluateString( "var _registeredElements = {}; HTMLElement.prototype.ownerDocument = document; document.registerElement = function( name, element ) { _registeredElements[name] = element }; document.getRegisteredElement = function( name ) { return _registeredElements[name] }" );
 
 		// JQuery is not strictly needed here, but we saw strange side effects trying to initialize
 		// it later

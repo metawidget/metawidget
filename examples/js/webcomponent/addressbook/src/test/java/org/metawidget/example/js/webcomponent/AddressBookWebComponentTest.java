@@ -224,10 +224,21 @@ public class AddressBookWebComponentTest {
 
 		mDriver.findElementById( "addressbookCurrentFirstname" ).clear();
 		mDriver.findElementById( "addressbookCurrentFirstname" ).sendKeys( "Homer1" );
+		mDriver.findElementById( "addressbookCurrentAddressCity" ).clear();
+		mDriver.findElementById( "addressbookCurrentAddressCity" ).sendKeys( "Springfield1" );
 		mDriver.findElementById( "addressbookCrudActionsSave" ).click();
 
 		Thread.sleep( 1000 );
 		assertEquals( "Mr Homer1 Simpson", mDriver.findElementsByCssSelector( ".data-table tbody tr td a" ).get( 0 ).getText() );
+
+		// View
+
+		mDriver.findElementByLinkText( "Mr Homer1 Simpson" ).click();
+		mDriver.findElementById( "addressbookCrudActionsEdit" ).click();
+		assertEquals( "Homer1", mDriver.findElementById( "addressbookCurrentFirstname" ).getAttribute( "value" ) );
+		assertEquals( "Simpson", mDriver.findElementById( "addressbookCurrentSurname" ).getAttribute( "value" ) );
+		assertEquals( "Springfield1", mDriver.findElementById( "addressbookCurrentAddressCity" ).getAttribute( "value" ) );
+		mDriver.findElementById( "addressbookCrudActionsCancel" ).click();
 
 		// View another
 
@@ -276,6 +287,8 @@ public class AddressBookWebComponentTest {
 		mDriver.findElementById( "addressbookCurrentFirstname" ).sendKeys( "Business" );
 		mDriver.findElementById( "addressbookCurrentSurname" ).clear();
 		mDriver.findElementById( "addressbookCurrentSurname" ).sendKeys( "Contact" );
+		mDriver.findElementById( "addressbookCurrentAddressCity" ).clear();
+		mDriver.findElementById( "addressbookCurrentAddressCity" ).sendKeys( "Anywhere" );
 
 		// Add communication
 
@@ -302,6 +315,7 @@ public class AddressBookWebComponentTest {
 		assertEquals( "Miss", mDriver.findElementById( "addressbookCurrentTitle" ).getAttribute( "value" ) );
 		assertEquals( "Business", mDriver.findElementById( "addressbookCurrentFirstname" ).getAttribute( "value" ) );
 		assertEquals( "Contact", mDriver.findElementById( "addressbookCurrentSurname" ).getAttribute( "value" ) );
+		assertEquals( "Anywhere", mDriver.findElementById( "addressbookCurrentAddressCity" ).getAttribute( "value" ) );
 		mDriver.findElementById( "addressbookCrudActionsEdit" ).click();
 		mWait.until( visibilityOfElementLocated( By.id( "addressbookCrudActionsSave" ) ) );
 		mDriver.findElementById( "addressbookCrudActionsDelete" ).click();
