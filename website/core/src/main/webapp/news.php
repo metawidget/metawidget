@@ -4,6 +4,28 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget v4.1 Released!</h3>
+		<h4></h4>
+		
+		<p>
+			Metawidget v4.1 is now available!
+		</p>
+		<p>
+			This release was focused on: 			  
+		</p>
+		
+		<ul>
+			<li>JQuery Mobile layout improvements (suppressDivAroundLabel, suppressDivAroundWidget)</li>
+			<li>Fix recursive save on Web Components</li>
+			<li>Bug fixes, documentation and unit tests</li>
+		</ul>
+		
+		<p>
+			Your continued feedback is invaluable to us. Please <a href="download.php">download it</a> and <a href="support.php">let us know what you think</a>.
+		</p>
+
+		<hr/>
+		
 		<h3>Metawidget v4.0 Released!</h3>
 		<h4>2nd November 2014</h4>
 		

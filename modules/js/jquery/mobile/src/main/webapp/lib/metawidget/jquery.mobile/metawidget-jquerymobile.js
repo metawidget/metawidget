@@ -69,6 +69,8 @@ var metawidget = metawidget || {};
 		return widget;
 	};
 
+	// TODO: binding and overriding don't work well with enhanced widgets
+	
 	metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor = function() {
 
 		if ( !( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor ) ) {
@@ -159,7 +161,10 @@ var metawidget = metawidget || {};
 					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(),
 					new metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor(), new metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor() ],
 			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.DivLayout( {
-				suppressLabelSuffixOnCheckboxes: true
+				divStyleClasses: [ 'ui-field-contain' ],
+				suppressDivAroundLabel: true,
+				suppressDivAroundWidget: true,
+				suppressLabelSuffixOnCheckboxes: true,
 			} ) )
 		},
 

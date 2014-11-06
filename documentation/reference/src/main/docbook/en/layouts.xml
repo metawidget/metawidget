@@ -679,6 +679,18 @@
 								</td>
 							</tr>
 							<tr>
+								<td><parameter>suppressDivAroundLabel</parameter></td>
+								<td>
+									Some UI frameworks (like JQuery Mobile) prefer not to wrap the label with a div.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>suppressDivAroundWidget</parameter></td>
+								<td>
+									Some UI frameworks (like JQuery Mobile) prefer not to wrap the widget with a div.
+								</td>
+							</tr>
+							<tr>
 								<td><parameter>appendRequiredClassOnLabelDiv</parameter></td>
 								<td>
 									Style class to apply to the label div if the widget is required.

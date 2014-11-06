@@ -62,10 +62,10 @@
 							expect( element.getMetawidget() ).toBeDefined();
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<div><div><label for="foo" id="foo-label" class="ui-input-text">Foo:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div></div>' );
+											'<div class="ui-field-contain"><label for="foo" id="foo-label" class="ui-input-text">Foo:</label><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div>' );
 							expect( element.childNodes[1].outerHTML )
 									.toBe(
-											'<div><div><label for="bar" id="bar-label">Bar:</label></div><div><div id="bar"><div><div><label for="barBaz" id="barBaz-label" class="ui-input-text">Baz:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></div></div><div><div><label for="barAbc" id="barAbc-label" class="ui-input-text">Abc:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
+											'<div class="ui-field-contain"><label for="bar" id="bar-label">Bar:</label><div id="bar"><div class="ui-field-contain"><label for="barBaz" id="barBaz-label" class="ui-input-text">Baz:</label><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></div><div class="ui-field-contain"><label for="barAbc" id="barAbc-label" class="ui-input-text">Abc:</label><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div></div></div>' );
 
 							// Configured
 
@@ -115,7 +115,7 @@
 
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<div><div><label for="foo" id="foo-label">Foo:</label></div><div><div id="foo"><div><div><label for="fooBar" id="fooBar-label" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div></div></div></div>' );
+											'<div class="ui-field-contain"><label for="foo" id="foo-label">Foo:</label><div id="foo"><div class="ui-field-contain"><label for="fooBar" id="fooBar-label" class="ui-input-text">Bar:</label><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div></div>' );
 
 							// Type and sub name
 
@@ -130,7 +130,7 @@
 
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<div><div><label for="fooBar" id="fooBar-label" class="ui-input-text">Bar:</label></div><div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div></div>' );
+											'<div class="ui-field-contain"><label for="fooBar" id="fooBar-label" class="ui-input-text">Bar:</label><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="fooBar" name="fooBar" class="ui-input-text ui-body-c"/></div></div>' );
 						} );
 
 				it(
@@ -155,9 +155,9 @@
 
 							expect( element.innerHTML )
 									.toContain(
-											'<div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></div>' );
-							expect( element.innerHTML ).toContain( '<div><span id="bar"/></div>' );
-							expect( element.innerHTML ).toContain( '<div><span id="baz"/></div>' );
+											'<div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div>' );
+							expect( element.innerHTML ).toContain( '<div class="ui-field-contain"><label for="bar" id="bar-label">Bar:</label><span id="bar"/></div>' );
+							expect( element.innerHTML ).toContain( '<div class="ui-field-contain"><span id="baz"/></div>' );
 							expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 							expect( element.childNodes.length ).toBe( 3 );
 
@@ -184,8 +184,8 @@
 					$( '#metawidget' ).metawidget();
 					$( '#metawidget' ).metawidget( "buildWidgets" );
 
-					expect( element.innerHTML ).toContain( '<div><span id="bar"/></div>' );
-					expect( element.innerHTML ).toContain( '<div><span id="baz"/></div>' );
+					expect( element.innerHTML ).toContain( '<div class="ui-field-contain"><span id="bar"/></div>' );
+					expect( element.innerHTML ).toContain( '<div class="ui-field-contain"><span id="baz"/></div>' );
 					expect( element.innerHTML ).toNotContain( 'ignore' );
 					expect( element.childNodes.length ).toBe( 2 );
 				} );

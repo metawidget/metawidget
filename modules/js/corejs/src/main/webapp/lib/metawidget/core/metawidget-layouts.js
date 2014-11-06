@@ -139,6 +139,8 @@ var metawidget = metawidget || {};
 		var _divStyleClasses = config !== undefined ? config.divStyleClasses : undefined;
 		var _labelStyleClass = config !== undefined ? config.labelStyleClass : undefined;
 		var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
+		var _suppressDivAroundLabel = config !== undefined && config.suppressDivAroundLabel !== undefined ? config.suppressDivAroundLabel : false;
+		var _suppressDivAroundWidget = config !== undefined && config.suppressDivAroundWidget !== undefined ? config.suppressDivAroundWidget : false;
 		var _suppressLabelSuffixOnCheckboxes = config !== undefined && config.suppressLabelSuffixOnCheckboxes !== undefined ? config.suppressLabelSuffixOnCheckboxes : false;
 		var _appendRequiredClassOnLabelDiv = config !== undefined && config.appendRequiredClassOnLabelDiv !== undefined ? config.appendRequiredClassOnLabelDiv : undefined;
 		var _appendRequiredClassOnWidgetDiv = config !== undefined && config.appendRequiredClassOnWidgetDiv !== undefined ? config.appendRequiredClassOnWidgetDiv : undefined;
@@ -181,19 +183,24 @@ var metawidget = metawidget || {};
 
 			// Widget
 
-			var widgetDiv = metawidget.util.createElement( mw, 'div' );
-			if ( _divStyleClasses !== undefined && _divStyleClasses[2] !== undefined ) {
-				widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
+			if ( _suppressDivAroundWidget !== true ) {
+			
+				var widgetDiv = metawidget.util.createElement( mw, 'div' );
+				if ( _divStyleClasses !== undefined && _divStyleClasses[2] !== undefined ) {
+					widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
+				}
+
+				// Useful for CSS :after selectors
+	
+				if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnWidgetDiv !== undefined ) {
+					metawidget.util.appendToAttribute( widgetDiv, 'class', _appendRequiredClassOnWidgetDiv );
+				}
+
+				widgetDiv.appendChild( widget );
+				outerDiv.appendChild( widgetDiv );
+			} else {
+				outerDiv.appendChild( widget );
 			}
-
-			// Useful for CSS :after selectors
-
-			if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnWidgetDiv !== undefined ) {
-				metawidget.util.appendToAttribute( widgetDiv, 'class', _appendRequiredClassOnWidgetDiv );
-			}
-
-			widgetDiv.appendChild( widget );
-			outerDiv.appendChild( widgetDiv );
 
 			container.appendChild( outerDiv );
 		};
@@ -213,18 +220,7 @@ var metawidget = metawidget || {};
 			if ( labelString === '' || labelString === null ) {
 				return;
 			}
-
-			var labelDiv = metawidget.util.createElement( mw, 'div' );
-			if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
-				labelDiv.setAttribute( 'class', _divStyleClasses[1] );
-			}
-
-			// Useful for CSS :after selectors
-
-			if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnLabelDiv !== undefined ) {
-				metawidget.util.appendToAttribute( labelDiv, 'class', _appendRequiredClassOnLabelDiv );
-			}
-
+			
 			var label = metawidget.util.createElement( mw, 'label' );
 			if ( widget.getAttribute( 'id' ) !== null ) {
 				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
@@ -237,8 +233,23 @@ var metawidget = metawidget || {};
 
 			label.innerHTML = labelString;
 
-			labelDiv.appendChild( label );
-			outerDiv.appendChild( labelDiv );
+			if ( _suppressDivAroundLabel === true ) {
+				outerDiv.appendChild( label );
+			} else {
+				var labelDiv = metawidget.util.createElement( mw, 'div' );
+				if ( _divStyleClasses !== undefined && _divStyleClasses[1] !== undefined ) {
+					labelDiv.setAttribute( 'class', _divStyleClasses[1] );
+				}
+
+				// Useful for CSS :after selectors
+	
+				if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnLabelDiv !== undefined ) {
+					metawidget.util.appendToAttribute( labelDiv, 'class', _appendRequiredClassOnLabelDiv );
+				}
+
+				labelDiv.appendChild( label );
+				outerDiv.appendChild( labelDiv );
+			}
 		};
 
 		/**

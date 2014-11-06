@@ -509,6 +509,61 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
+
+		it( "supports suppressDivAroundLabel", function() {
+
+			var layout = new metawidget.layout.DivLayout( {
+				suppressDivAroundLabel: true
+			} );
+
+			var input = simpleDocument.createElement( 'input' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.layoutWidget( input, "property", {
+				name: "widget1"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "supports suppressDivAroundWidget", function() {
+
+			var layout = new metawidget.layout.DivLayout( {
+				suppressDivAroundWidget: true
+			} );
+
+			var input = simpleDocument.createElement( 'input' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.layoutWidget( input, "property", {
+				name: "widget1"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1] ).toBe( input );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
 	} );
 
 	describe( "The DefinitionListLayout", function() {
@@ -518,7 +573,7 @@
 			var layout = new metawidget.layout.DefinitionListLayout( {
 				labelStyleClass: 'labelStyle',
 				labelSuffix: '#'
-			});
+			} );
 
 			var widget1 = simpleDocument.createElement( 'input' );
 			widget1.setAttribute( 'id', 'widget1' );
