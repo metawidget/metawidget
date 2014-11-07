@@ -592,6 +592,67 @@
 					<programlisting language="java">var mw = new metawidget.Metawidget( myElement,
 				[metawidgetConfig1, metawidgetConfig2] );</programlisting>
 					
+					<para>
+						Configs support the following attributes:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Attribute</th>
+								<th align="left"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>inspector</parameter></td>
+								<td>Set the Inspector to use</td>
+							</tr>
+							<tr>
+								<td><parameter>prependInspectionResultProcessors</parameter></td>
+								<td>Insert InspectionResultProcessors before any existing ones</td>
+							</tr>
+							<tr>
+								<td><parameter>inspectionResultProcessors</parameter></td>
+								<td>Set the list of InspectionResultProcessors (replacing any existing ones)</td>
+							</tr>
+							<tr>
+								<td><parameter>appendInspectionResultProcessors</parameter></td>
+								<td>Append InspectionResultProcessors after any existing ones</td>
+							</tr>
+							<tr>
+								<td><parameter>widgetBuilder</parameter></td>
+								<td>Set the WidgetBuilder to use</td>
+							</tr>
+							<tr>
+								<td><parameter>prependWidgetProcessors</parameter></td>
+								<td>Insert WidgetProcessors before any existing ones</td>
+							</tr>
+							<tr>
+								<td><parameter>widgetProcessors</parameter></td>
+								<td>Set the list of WidgetProcessors (replacing any existing ones)</td>
+							</tr>
+							<tr>
+								<td><parameter>appendWidgetProcessors</parameter></td>
+								<td>Append WidgetProcessors after any existing ones</td>
+							</tr>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>Set the Layout to use</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>
+									Set the CSS class of the top-level Metawidget, as well as any nested Metawidgets. This
+									can be useful for adjusting the spacing of nested Metawidgets
+								</td>
+							</tr>
+						</tbody>
+					</informaltable>
 				</section>
 
 				<section id="section-metawidgets-web-javascript-look">
