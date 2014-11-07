@@ -52,6 +52,12 @@ var metawidget = metawidget || {};
 		// Pipeline (private)
 
 		var _pipeline = new metawidget.Pipeline( element );
+		
+		// CSS support
+		
+		if ( config !== undefined && config.styleClass !== undefined ) {
+			metawidget.util.appendToAttribute( element, 'class', config.styleClass );
+		}
 
 		// Configure defaults
 

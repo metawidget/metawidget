@@ -976,6 +976,22 @@
 			mw.buildWidgets();
 			expect( firedClearWidgetsEvent ).toBe( 2 );
 		} );
+
+		it( "supports top-level styleClass", function() {
+
+			var element = simpleDocument.createElement( 'div' );
+			new metawidget.Metawidget( element, {
+				styleClass: 'foo-class'
+			} );
+
+			expect( element.getAttribute( 'class' )).toBe( 'foo-class' );
+
+			new metawidget.Metawidget( element, {
+				styleClass: 'bar-class'
+			} );
+
+			expect( element.getAttribute( 'class' )).toBe( 'foo-class bar-class' );
+		} );
 		
 	} );
 } )();
