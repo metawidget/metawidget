@@ -53,12 +53,6 @@ var metawidget = metawidget || {};
 
 		var _pipeline = new metawidget.Pipeline( element );
 		
-		// CSS support
-		
-		if ( config !== undefined && config.styleClass !== undefined ) {
-			metawidget.util.appendToAttribute( element, 'class', config.styleClass );
-		}
-
 		// Configure defaults
 
 		_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
@@ -304,6 +298,13 @@ var metawidget = metawidget || {};
 		if ( config.maximumInspectionDepth !== undefined ) {
 			this.maximumInspectionDepth = config.maximumInspectionDepth - 1;
 		}
+		
+		// CSS support
+		
+		if ( config.styleClass !== undefined ) {
+			this.styleClass = config.styleClass;
+			metawidget.util.appendToAttribute( this.element, 'class', config.styleClass );
+		}		
 	};
 
 	/**

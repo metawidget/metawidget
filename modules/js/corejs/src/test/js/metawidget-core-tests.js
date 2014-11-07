@@ -277,7 +277,9 @@
 		it( "builds nested Metawidgets", function() {
 
 			var element = simpleDocument.createElement( 'div' );
-			var mw = new metawidget.Metawidget( element );
+			var mw = new metawidget.Metawidget( element, {
+				styleClass: 'metawidget-class'
+			} );
 
 			mw.toInspect = {
 				foo: {
@@ -286,6 +288,7 @@
 			};
 			mw.buildWidgets();
 
+			expect( element.toString() ).toBe( 'div class="metawidget-class"' );
 			expect( element.childNodes[0].toString() ).toBe( 'table' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-foo-row"' );
@@ -293,7 +296,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div id="foo"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div class="metawidget-class" id="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-fooNestedFoo-row"' );
