@@ -48,15 +48,16 @@
 												.toBe(
 														'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
 										expect( mw.innerHTML ).toContain( '<input type="text" id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
-										
+
 										// Test proper cleanup
-										
+
 										var destroyCalled = 0;
-										
+
 										angular.element( body ).find( '#fooBar' ).on( '$destroy', function() {
+
 											destroyCalled++;
 										} );
-										
+
 										// Test watching ngModel
 
 										var scope = angular.element( body ).scope();
@@ -86,6 +87,52 @@
 										expect( mw.innerHTML ).toBe( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
 										expect( mw.innerHTML ).toNotContain( '<table' );
 
+										// Test updating config *and* model at
+										// the same time
+
+										var regenerations = 0;
+										scope.metawidgetConfig = {
+											inspector: function() {
+
+												regenerations++;
+												return {
+													properties: {
+														fromInspector1: {
+															type: 'string'
+														}
+													}
+												}
+											}
+										};
+										scope.$digest();
+										expect( mw.innerHTML ).toBe( '<output id="fooFromInspector1" ng-bind="foo.fromInspector1" class="ng-scope ng-binding"></output>' );
+										expect( regenerations ).toBe( 1 );
+
+										// watchConfig should fire before
+										// watchModel, so should only regenerate
+										// the once
+
+										scope.foo = {
+											abc: "Abc"
+										};
+										scope.metawidgetConfig = {
+											inspector: function() {
+
+												regenerations++;
+												return {
+													properties: {
+														fromInspector2: {
+															type: 'string'
+														}
+													}
+												}
+											}
+										};
+										scope.$digest();
+
+										expect( mw.innerHTML ).toBe( '<output id="fooFromInspector2" ng-bind="foo.fromInspector2" class="ng-scope ng-binding"></output>' );
+										expect( regenerations ).toBe( 2 );
+
 										// Test *not* watching config array
 
 										scope.metawidgetConfigInArray = {
@@ -93,8 +140,9 @@
 										};
 										scope.$digest();
 
-										expect( mw.innerHTML ).toBe( '<output id="fooBaz" ng-bind="foo.baz" class="ng-scope ng-binding">Baz</output>' );
+										expect( mw.innerHTML ).toBe( '<output id="fooFromInspector2" ng-bind="foo.fromInspector2" class="ng-scope ng-binding"></output>' );
 										expect( mw.innerHTML ).toNotContain( '<div' );
+										expect( regenerations ).toBe( 2 );
 									} );
 						} );
 
@@ -442,30 +490,36 @@
 					} );
 				} );
 
-				it( "supports stubs with their own metadata", function() {
+				it(
+						"supports stubs with their own metadata",
+						function() {
 
-					var mw = document.createElement( 'metawidget' );
-					var stub = document.createElement( 'stub' );
-					stub.setAttribute( 'title', 'Foo' );
-					stub.appendChild( document.createElement( 'input' ) );
-					mw.appendChild( stub );
-					
-					// (test childAttributes don't bleed into next component)
-					
-					var div = document.createElement( 'div' );
-					div.appendChild( document.createElement( 'input' ) );
-					mw.appendChild( div );
+							var mw = document.createElement( 'metawidget' );
+							var stub = document.createElement( 'stub' );
+							stub.setAttribute( 'title', 'Foo' );
+							stub.appendChild( document.createElement( 'input' ) );
+							mw.appendChild( stub );
 
-					var body = document.createElement( 'body' );
-					body.appendChild( mw );
+							// (test childAttributes don't bleed into next
+							// component)
 
-					var injector = angular.bootstrap( body, [ 'metawidget' ] );
+							var div = document.createElement( 'div' );
+							div.appendChild( document.createElement( 'input' ) );
+							mw.appendChild( div );
 
-					injector.invoke( function() {
+							var body = document.createElement( 'body' );
+							body.appendChild( mw );
 
-						expect( mw.innerHTML ).toBe( '<table><tbody><tr><th><label>Foo:</label></th><td><stub title="Foo" class="ng-scope"><input/></stub></td><td/></tr><tr><td colspan="2"><div class="ng-scope"><input/></div></td><td/></tr></tbody></table>' );
-					} );
-				} );
+							var injector = angular.bootstrap( body, [ 'metawidget' ] );
+
+							injector
+									.invoke( function() {
+
+										expect( mw.innerHTML )
+												.toBe(
+														'<table><tbody><tr><th><label>Foo:</label></th><td><stub title="Foo" class="ng-scope"><input/></stub></td><td/></tr><tr><td colspan="2"><div class="ng-scope"><input/></div></td><td/></tr></tbody></table>' );
+									} );
+						} );
 
 				it( "defensively copies overridden widgets", function() {
 
@@ -712,14 +766,16 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="true" class="ng-pristine ng-valid" value="true" name="' );
-						expect( mw.innerHTML ).toContain( '"/>Yes</label><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="false" class="ng-pristine ng-valid" value="false" name="' );
+						expect( mw.innerHTML ).toContain(
+								'<div id="fooBar" class="ng-scope"><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="true" class="ng-pristine ng-valid" value="true" name="' );
+						expect( mw.innerHTML ).toContain(
+								'"/>Yes</label><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="false" class="ng-pristine ng-valid" value="false" name="' );
 						expect( mw.innerHTML ).toContain( '"/>No</label></div></td><td/></tr></tbody></table>' );
 					} );
-					
+
 					// Some browsers convert values to strings
 					// (e.g. child.value = true becomes 'true')
-					
+
 					myApp = angular.module( 'test-app', [ 'metawidget' ] );
 					controller = myApp.controller( 'TestController', function( $scope ) {
 
@@ -757,11 +813,13 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-						expect( mw.innerHTML ).toContain( '<div id="fooBar" class="ng-scope"><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="true" class="ng-pristine ng-valid" value="true" name="' );
-						expect( mw.innerHTML ).toContain( '"/>Yes</label><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="false" class="ng-pristine ng-valid" value="false" name="' );
+						expect( mw.innerHTML ).toContain(
+								'<div id="fooBar" class="ng-scope"><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="true" class="ng-pristine ng-valid" value="true" name="' );
+						expect( mw.innerHTML ).toContain(
+								'"/>Yes</label><label class="radio"><input type="radio" ng-model="foo.bar" ng-value="false" class="ng-pristine ng-valid" value="false" name="' );
 						expect( mw.innerHTML ).toContain( '"/>No</label></div></td><td/></tr></tbody></table>' );
 					} );
-					
+
 				} );
 
 				it( "guards against infinite recursion", function() {

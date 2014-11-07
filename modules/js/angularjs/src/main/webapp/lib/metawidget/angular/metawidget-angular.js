@@ -82,6 +82,22 @@ var metawidget = metawidget || {};
 
 					// Observe
 
+					var _watchConfig = scope.$watch( 'config', function( newValue, oldValue ) {
+
+						// Watch for config changes. These are rare, but
+						// otherwise we'd need to provide a way to externally
+						// trigger _buildWidgets
+						//
+						// Note: to be proper, we should process config changes
+						// *before* data changes, in the event they both change
+						// at once
+
+						if ( newValue !== oldValue ) {
+							mw.configure( newValue );
+							_buildWidgets();
+						}
+					} );
+
 					var _watchModel = scope.$watch( 'ngModel', function( newValue ) {
 
 						// Cannot test against mw.toInspect, because is pointed
@@ -110,18 +126,6 @@ var metawidget = metawidget || {};
 						}
 					} );
 
-					var _watchConfig = scope.$watch( 'config', function( newValue, oldValue ) {
-
-						// Watch for config changes. These are rare, but
-						// otherwise we'd need to provide a way to externally
-						// trigger _buildWidgets
-
-						if ( newValue !== oldValue ) {
-							mw.configure( newValue );
-							_buildWidgets();
-						}
-					} );
-
 					var _watchNgShow = scope.$watch( 'ngShow', function( newValue, oldValue ) {
 
 						if ( newValue !== oldValue ) {
@@ -142,9 +146,9 @@ var metawidget = metawidget || {};
 
 					element.on( '$destroy', function() {
 
+						_watchConfig();
 						_watchModel();
 						_watchReadOnly();
-						_watchConfig();
 						_watchNgShow();
 						_watchNgHide();
 					} );
