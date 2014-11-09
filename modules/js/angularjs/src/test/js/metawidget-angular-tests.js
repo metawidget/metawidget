@@ -1762,11 +1762,13 @@
 				// Inputs
 
 				var widget = document.createElement( 'input' );
+				widget.setAttribute( 'maxlength', 97 );
 				processor.processWidget( widget, 'property', attributes, mw );
 				expect( widget.getAttribute( 'ng-model' ) ).toBe( 'testPath.foo' );
 				expect( widget.getAttribute( 'ng-required' ) ).toBe( 'true' );
 				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( '3' );
 				expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( '97' );
+				expect( widget.getAttribute( 'maxlength' ) ).toBe( '97' );
 
 				// Textareas (same as inputs, not same as outputs)
 

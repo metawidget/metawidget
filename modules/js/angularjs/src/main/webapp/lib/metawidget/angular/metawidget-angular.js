@@ -665,10 +665,8 @@ var metawidget = metawidget || {};
 
 			if ( attributes.maxLength !== undefined ) {
 				widget.setAttribute( 'ng-maxlength', attributes.maxLength );
-
-				// (maxlength set by WidgetBuilder)
-
-				widget.removeAttribute( 'maxlength' );
+				
+				// (retain maxlength set by HtmlWidgetBuilder)
 			}
 
 			return widget;
