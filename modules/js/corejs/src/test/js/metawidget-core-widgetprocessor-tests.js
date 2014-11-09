@@ -138,7 +138,6 @@
 					baz: "bazValue",
 					boolean: true,
 					select: false,
-					number: 42,
 					password: 'fooBar',
 					search: 'My Search',
 					array: [ 'Bar' ],
@@ -650,7 +649,8 @@
 				toInspect: {
 					string1: 'string',
 					boolean1: true,
-					number1: 42
+					number1: 42,
+					integer1: 52
 				},
 				path: "testPath"
 			};
@@ -710,6 +710,34 @@
 
 			expect( processor.save( mw ) ).toBe( false );
 			expect( mw.toInspect.number1 ).toBeUndefined();
+
+			// Integers
+
+			var attributes = {
+				name: "integer1",
+				type: "integer"
+			};
+			var widget = simpleDocument.createElement( 'input' );
+			processor.processWidget( widget, "property", attributes, mw );
+			expect( widget.value ).toBe( 52 );
+			expect( processor.save( mw ) ).toBe( false );
+			widget.value = '53';
+			expect( processor.save( mw ) ).toBe( true );
+			expect( mw.toInspect.integer1 ).toBe( 53 );
+			widget.value = '53.5';
+			expect( processor.save( mw ) ).toBe( false );
+			expect( mw.toInspect.integer1 ).toBe( 53 );
+
+			widget.value = null;
+			expect( processor.save( mw ) ).toBe( true );
+			expect( mw.toInspect.integer1 ).toBeUndefined();
+
+			widget.value = 'not a number';
+
+			// (returns false because does not actually change any data)
+
+			expect( processor.save( mw ) ).toBe( false );
+			expect( mw.toInspect.integer1 ).toBeUndefined();
 
 			// Booleans
 

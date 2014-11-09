@@ -217,6 +217,10 @@
 			}, mw ).toString() ).toBe( 'output' );
 			expect( widgetBuilder.buildWidget( "property", {
 				readOnly: "true",
+				type: "integer"
+			}, mw ).toString() ).toBe( 'output' );
+			expect( widgetBuilder.buildWidget( "property", {
+				readOnly: "true",
 				type: "date"
 			}, mw ).toString() ).toBe( 'output' );
 			expect( widgetBuilder.buildWidget( "property", {
@@ -408,6 +412,10 @@
 				minimum: "2",
 				maximum: "4"
 			}, mw ).toString() ).toBe( 'input type="range" min="2" max="4"' );
+
+			expect( widgetBuilder.buildWidget( "property", {
+				type: "integer"
+			}, mw ).toString() ).toBe( 'input type="number"' );
 
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "boolean"

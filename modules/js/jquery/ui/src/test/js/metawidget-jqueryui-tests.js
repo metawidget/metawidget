@@ -271,6 +271,10 @@
 				maximum: 90
 			}, mw ).innerHTML ).toContain( '<a class="ui-slider-handle' );
 			expect( widgetBuilder.buildWidget( "property", {
+				readOnly: "false",
+				type: "integer"
+			}, mw ).innerHTML ).toContain( '<input class="ui-spinner-input"' );
+			expect( widgetBuilder.buildWidget( "property", {
 				type: "date"
 			}, mw ).outerHTML ).toContain( 'class="hasDatepicker"/>' );
 		} );

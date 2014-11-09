@@ -152,7 +152,7 @@ var metawidget = metawidget || {};
 			return metawidget.util.createElement( mw, 'stub' );
 		}
 
-		if ( attributes['enum'] !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'date'
+		if ( attributes['enum'] !== undefined || attributes.type === 'string' || attributes.type === 'boolean' || attributes.type === 'number' || attributes.type === 'integer' || attributes.type === 'date'
 				|| attributes.type === 'color' ) {
 			return metawidget.util.createElement( mw, 'output' );
 		}
@@ -294,7 +294,7 @@ var metawidget = metawidget || {};
 
 			// Number
 
-			if ( attributes.type === 'number' ) {
+			if ( attributes.type === 'number' || attributes.type === 'integer' ) {
 
 				if ( attributes.minimum !== undefined && attributes.maximum !== undefined ) {
 					var range = metawidget.util.createElement( mw, 'input' );

@@ -404,6 +404,19 @@ var metawidget = metawidget || {};
 			return widget.checked;
 		}
 
+		if ( binding.attributes.type === 'integer' ) {
+
+			var parsed = parseInt( widget.value );
+
+			// Avoid pushing back 'NaN'
+
+			if ( isNaN( parsed ) ) {
+				return undefined;
+			}
+
+			return parsed;
+		}
+
 		if ( binding.attributes.type === 'number' ) {
 
 			// parseFloat can parse ints, but parseInt can't parse floats

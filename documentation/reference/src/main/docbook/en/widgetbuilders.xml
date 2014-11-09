@@ -597,7 +597,7 @@
 							</tr>				
 							<tr>
 								<td><classname>&lt;input type="number"&gt;</classname></td>
-								<td><parameter>type: "number"</parameter></td>
+								<td><parameter>type: "number"</parameter> or <parameter>type: "integer"</parameter></td>
 							</tr>				
 							<tr>
 								<td><classname>&lt;input type="password"&gt;</classname></td>

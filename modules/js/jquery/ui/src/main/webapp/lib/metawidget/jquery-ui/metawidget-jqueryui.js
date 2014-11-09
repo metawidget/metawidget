@@ -56,7 +56,7 @@ var metawidget = metawidget || {};
 
 		// Number
 
-		if ( attributes.type === 'number' ) {
+		if ( attributes.type === 'number' || attributes.type === 'integer' ) {
 
 			if ( attributes.minimum && attributes.maximum ) {
 				var slider = metawidget.util.createElement( mw, 'div' );
