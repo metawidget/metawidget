@@ -162,6 +162,9 @@ var metawidget = metawidget || {};
 			if ( config.widgetDivOffsetClass === undefined ) {
 				config.widgetDivOffsetClass = 'col-sm-offset-2';
 			}
+			if ( config.wrapCheckboxesInsideLabels === undefined ) {
+				config.wrapCheckboxesInsideLabels = true;
+			}
 		}
 
 		var layout = new metawidget.layout.DivLayout( config );

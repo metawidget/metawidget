@@ -674,8 +674,15 @@
 							<tr>
 								<td><parameter>suppressLabelSuffixOnCheckboxes</parameter></td>
 								<td>
-									Some UI frameworks (like JQuery Mobile) reuse the checkbox label
-									alongside the checkbox itself. This looks bad if we keep the suffix.
+									Some UI frameworks (like JQuery Mobile) reuse the checkbox/radio label
+									alongside the checkbox/radio itself. This looks bad if we keep the suffix.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>wrapCheckboxesInsideLabels</parameter></td>
+								<td>
+									Some UI frameworks (like Bootstrap) prefer checkboxes/radio buttons to be inside
+									their labels, rather than alongside.
 								</td>
 							</tr>
 							<tr>

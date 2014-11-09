@@ -417,6 +417,96 @@
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
+		it( "can suppress label suffixes on radio buttons", function() {
+
+			var layout = new metawidget.layout.DivLayout( {
+				suppressLabelSuffixOnCheckboxes: true
+			} );
+
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'type', 'radio' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			}
+
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "can wrap checkboxes with labels", function() {
+
+			var layout = new metawidget.layout.DivLayout( {
+				wrapCheckboxesInsideLabels: true
+			} );
+
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'type', 'checkbox' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			}
+
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
+		it( "can wrap radio buttons with labels", function() {
+
+			var layout = new metawidget.layout.DivLayout( {
+				wrapCheckboxesInsideLabels: true
+			} );
+
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'type', 'radio' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				getElement: function() {
+
+					return container;
+				}
+			}
+
+			layout.layoutWidget( widget1, "property", {
+				name: "widget1",
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
+
 		it( "collapses buttons into the same div", function() {
 
 			var layout = new metawidget.layout.DivLayout();

@@ -142,6 +142,7 @@ var metawidget = metawidget || {};
 		var _suppressDivAroundLabel = config !== undefined && config.suppressDivAroundLabel !== undefined ? config.suppressDivAroundLabel : false;
 		var _suppressDivAroundWidget = config !== undefined && config.suppressDivAroundWidget !== undefined ? config.suppressDivAroundWidget : false;
 		var _suppressLabelSuffixOnCheckboxes = config !== undefined && config.suppressLabelSuffixOnCheckboxes !== undefined ? config.suppressLabelSuffixOnCheckboxes : false;
+		var _wrapCheckboxesInsideLabels = config !== undefined && config.wrapCheckboxesInsideLabels !== undefined ? config.wrapCheckboxesInsideLabels : false;
 		var _appendRequiredClassOnLabelDiv = config !== undefined && config.appendRequiredClassOnLabelDiv !== undefined ? config.appendRequiredClassOnLabelDiv : undefined;
 		var _appendRequiredClassOnWidgetDiv = config !== undefined && config.appendRequiredClassOnWidgetDiv !== undefined ? config.appendRequiredClassOnWidgetDiv : undefined;
 
@@ -179,31 +180,45 @@ var metawidget = metawidget || {};
 
 			// Label
 
-			this.layoutLabel( outerDiv, widget, elementName, attributes, mw );
+			var labelWidget = this.layoutLabel( outerDiv, widget, elementName, attributes, mw );
 
 			// Widget
 
 			if ( _suppressDivAroundWidget !== true ) {
-			
+
 				var widgetDiv = metawidget.util.createElement( mw, 'div' );
 				if ( _divStyleClasses !== undefined && _divStyleClasses[2] !== undefined ) {
 					widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
 				}
 
 				// Useful for CSS :after selectors
-	
+
 				if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnWidgetDiv !== undefined ) {
 					metawidget.util.appendToAttribute( widgetDiv, 'class', _appendRequiredClassOnWidgetDiv );
 				}
 
-				widgetDiv.appendChild( widget );
+				if ( _wrapCheckboxesInsideLabels === true && widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'checkbox' || widget.getAttribute( 'type' ) === 'radio' ) ) {
+					labelWidget.appendChild( widget );
+					widgetDiv.appendChild( labelWidget );
+				} else {
+					widgetDiv.appendChild( widget );
+				}
 				outerDiv.appendChild( widgetDiv );
 			} else {
-				outerDiv.appendChild( widget );
+				if ( _wrapCheckboxesInsideLabels === true && widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'checkbox' || widget.getAttribute( 'type' ) === 'radio' ) ) {
+					labelWidget.appendChild( widget );
+					outerDiv.appendChild( labelWidget );
+				} else {
+					outerDiv.appendChild( widget );
+				}
 			}
 
 			container.appendChild( outerDiv );
 		};
+
+		/**
+		 * @return the label widget
+		 */
 
 		this.layoutLabel = function( outerDiv, widget, elementName, attributes, mw ) {
 
@@ -220,7 +235,7 @@ var metawidget = metawidget || {};
 			if ( labelString === '' || labelString === null ) {
 				return;
 			}
-			
+
 			var label = metawidget.util.createElement( mw, 'label' );
 			if ( widget.getAttribute( 'id' ) !== null ) {
 				label.setAttribute( 'for', widget.getAttribute( 'id' ) );
@@ -242,7 +257,7 @@ var metawidget = metawidget || {};
 				}
 
 				// Useful for CSS :after selectors
-	
+
 				if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnLabelDiv !== undefined ) {
 					metawidget.util.appendToAttribute( labelDiv, 'class', _appendRequiredClassOnLabelDiv );
 				}
@@ -250,6 +265,8 @@ var metawidget = metawidget || {};
 				labelDiv.appendChild( label );
 				outerDiv.appendChild( labelDiv );
 			}
+
+			return label;
 		};
 
 		/**
@@ -268,8 +285,10 @@ var metawidget = metawidget || {};
 			// alongside the checkbox itself. This looks bad if we keep the
 			// suffix
 
-			if ( _suppressLabelSuffixOnCheckboxes === true && widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {
-				return labelString;
+			if ( ( _suppressLabelSuffixOnCheckboxes === true || _wrapCheckboxesInsideLabels === true ) && widget.tagName === 'INPUT' ) {
+				if ( widget.getAttribute( 'type' ) === 'checkbox' || widget.getAttribute( 'type' ) === 'radio' ) {
+					return labelString;
+				}
 			}
 
 			return labelString + _labelSuffix;

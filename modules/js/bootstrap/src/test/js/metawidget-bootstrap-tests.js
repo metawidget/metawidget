@@ -127,6 +127,9 @@
 							baz: {
 								type: "string",
 								title: ''								
+							},
+							checkit: {
+								type: "boolean"
 							}
 						}
 					};
@@ -155,7 +158,20 @@
 			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
 			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[2].childNodes.length ).toBe( 1 );
-			expect( element.childNodes.length ).toBe( 3 );
+			expect( element.childNodes[2].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div class="col-sm-10 col-sm-offset-2"' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[2].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[3].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[3].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[3].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].toString() ).toBe( 'label for="checkit" id="checkit-label"' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].innerHTML ).toBe( 'Checkit' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" id="checkit" name="checkit"' );
+			expect( element.childNodes[3].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[3].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 4 );
 		} );
 
 		it( "supports stubs", function() {
@@ -250,6 +266,9 @@
 							baz: {
 								type: "string",
 								title: ''								
+							},
+							checkit: {
+								type: "boolean"
 							}
 						}
 					};
@@ -280,7 +299,14 @@
 			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
 			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[2].childNodes.length ).toBe( 1 );
-			expect( element.childNodes.length ).toBe( 3 );
+			expect( element.childNodes[3].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[3].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[3].childNodes[0].childNodes[0].toString() ).toBe( 'label for="checkit" id="checkit-label" class="control-label"' );
+			expect( element.childNodes[3].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].toString() ).toBe( 'input type="checkbox" id="checkit" name="checkit"' );
+			expect( element.childNodes[3].childNodes[1].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[3].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 4 );
 		} );
 
 		it( "has a Layout that supports configurable Bootstrap styles", function() {
