@@ -347,11 +347,52 @@
 			expect( inspectionResult.properties ).toBeUndefined();
 			expect( inspectionResult.items ).toBeUndefined();
 
-			var inspectionResult = inspector.inspect( undefined, 'employer', [ 'employees', '0' ] );
+			inspectionResult = inspector.inspect( undefined, 'employer', [ 'employees', '0' ] );
 			expect( inspectionResult.properties.id.hidden ).toBe( true );
 			expect( inspectionResult.properties.id.type ).toBe( 'string' );
 			expect( inspectionResult.properties.firstname.type ).toBe( 'string' );
 			expect( inspectionResult.properties.surname.type ).toBe( 'string' );
+		} );
+
+		it( "understands top-level required arrays", function() {
+
+			var inspector = new metawidget.inspector.JsonSchemaInspector( {
+				type: "employer",
+				properties: {
+					id: {
+						hidden: true,
+						type: "string"
+					},
+					firstname: {
+						type: "string"
+					},
+					surname: {
+						type: "string"
+					},
+					address: {
+						properties: {
+							street: {
+								type: 'string'
+							},
+							city: {
+								type: 'string'
+							}
+						},
+						required: [ 'city' ]
+					}
+				},
+				required: [ 'firstname', 'surname' ]
+			} );
+
+			var inspectionResult = inspector.inspect( undefined, 'employer' );
+			expect( inspectionResult.type ).toBe( 'employer' );
+			expect( inspectionResult.properties.id.required ).toBeUndefined();
+			expect( inspectionResult.properties.firstname.required ).toBe( true );
+			expect( inspectionResult.properties.surname.required ).toBe( true );
+
+			inspectionResult = inspector.inspect( undefined, 'employer', [ 'address' ] );
+			expect( inspectionResult.properties.street.required ).toBeUndefined();
+			expect( inspectionResult.properties.city.required ).toBe( true );
 		} );
 	} );
 } )();

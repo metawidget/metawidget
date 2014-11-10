@@ -27,12 +27,12 @@ var metawidget = metawidget || {};
 	 *            <tt>function( toInspect, type, names )</tt>
 	 *            <p>
 	 *            Each Inspector must look to the 'type' parameter and the
-	 *            'names' array. These form a path into the domain object
-	 *            model. For example the 'type' may be 'person' and the
-	 *            'names' may be [ 'address', 'street' ]. This would form a path
-	 *            into the domain model of 'person/address/street' (i.e. return
-	 *            information on the 'street' property within the 'address'
-	 *            property of the 'person' type).
+	 *            'names' array. These form a path into the domain object model.
+	 *            For example the 'type' may be 'person' and the 'names' may be [
+	 *            'address', 'street' ]. This would form a path into the domain
+	 *            model of 'person/address/street' (i.e. return information on
+	 *            the 'street' property within the 'address' property of the
+	 *            'person' type).
 	 *            </p>
 	 */
 
@@ -198,6 +198,8 @@ var metawidget = metawidget || {};
 	 *        <li>checking the 'type' property of the schema</li>
 	 *        <li>schemas that describe arrays (by traversing the 'items'
 	 *        property)</li>
+	 *        <li>schemas that have a top-level 'required' array (JSON Schema
+	 *        v4)</li>
 	 *        </ul>
 	 */
 
@@ -278,7 +280,7 @@ var metawidget = metawidget || {};
 
 				return toInspect;
 			}
-			
+
 			// Traverse names using 'properties' and 'items' as appropriate
 
 			var traversed = _traversePath( _schema, names );
@@ -294,6 +296,18 @@ var metawidget = metawidget || {};
 				inspectionResult.name = names[names.length - 1];
 			}
 			metawidget.util.combineInspectionResults( inspectionResult, traversed );
+
+			// Copy top-level 'required' array into each property (JSON Schema
+			// v4)
+
+			if ( inspectionResult.required !== undefined ) {
+
+				for ( var loop = 0, length = inspectionResult.required.length; loop < length; loop++ ) {
+
+					inspectionResult.properties[inspectionResult.required[loop]].required = true;
+				}
+			}
+
 			return inspectionResult;
 		};
 	};
