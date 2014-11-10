@@ -17,7 +17,8 @@
 		<ul>
 			<li>JQuery Mobile layout improvements (suppressDivAroundLabel, suppressDivAroundWidget)</li>
 			<li>Top-level styleClass (JavaScript Metawidget)</li>
-			<li>Fix recursive save on Web Components</li>			
+			<li>Fix recursive save on Web Components</li>
+			<li>Bootstrap improvements (wrapInsideLabels, wrapWithExtraDiv)</li>			
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

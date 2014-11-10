@@ -134,6 +134,10 @@
 							arrayCheckit: {
 								type: 'array',
 								'enum': [ 'Foo', 'Bar', 'Baz' ]
+							},
+							radioBoolean: {
+								type: 'boolean',
+								componentType: 'radio'
 							}
 						}
 					};
@@ -197,7 +201,22 @@
 			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes.length ).toBe( 3 );
 			expect( element.childNodes[4].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[4].childNodes.length ).toBe( 2 );
-			expect( element.childNodes.length ).toBe( 5 );
+			expect( element.childNodes[5].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[5].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[5].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].toString() ).toBe( 'div id="radioBoolean"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div class="radio"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio" name="radioBoolean"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'Yes' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'div class="radio"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'label' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio" name="radioBoolean"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'No' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( element.childNodes[5].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[5].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 6 );
 		} );
 
 		it( "supports stubs", function() {
@@ -299,6 +318,10 @@
 							arrayCheckit: {
 								type: 'array',
 								'enum': [ 'Foo', 'Bar', 'Baz' ]
+							},
+							radioBoolean: {
+								type: 'boolean',
+								componentType: 'radio'
 							}
 						}
 					};
@@ -355,7 +378,20 @@
 			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes.length ).toBe( 3 );
 			expect( element.childNodes[4].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[4].childNodes.length ).toBe( 2 );
-			expect( element.childNodes.length ).toBe( 5 );
+			expect( element.childNodes[5].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[5].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[5].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].toString() ).toBe( 'div id="radioBoolean"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label class="radio"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio" name="radioBoolean"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'Yes' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'label class="radio"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="radio" name="radioBoolean"' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'No' );
+			expect( element.childNodes[5].childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( element.childNodes[5].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[5].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 6 );
 		} );
 
 		it( "has a Layout that supports configurable Bootstrap styles", function() {

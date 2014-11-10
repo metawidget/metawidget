@@ -50,45 +50,46 @@ var metawidget = metawidget || {};
 		var _version = config !== undefined ? config.version : 3;
 
 		this.processWidget = function( widget, elementName, attributes, mw ) {
-	
+
 			var tagName = widget.tagName;
-	
+
 			if ( tagName === 'TABLE' ) {
-	
+
 				metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
-	
+
 			} else if ( tagName === 'SELECT' || tagName === 'TEXTAREA' ) {
-	
+
 				metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
-	
+
 			} else if ( tagName === 'OUTPUT' ) {
-	
-				// Pad output tags the same way as .form-control pads input tags.
+
+				// Pad output tags the same way as .form-control pads input
+				// tags.
 				// See:
 				// https://github.com/twbs/bootstrap/issues/9969
-	
+
 				metawidget.util.appendToAttribute( widget, 'style', 'padding:6px 12px', ';' );
-	
+
 			} else if ( tagName === 'INPUT' ) {
-	
+
 				var type = widget.getAttribute( 'type' );
-	
+
 				switch ( type ) {
-	
+
 					case 'submit':
 						metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
 						break;
-	
+
 					case 'button':
 						metawidget.util.appendToAttribute( widget, 'class', 'btn btn-default' );
 						break;
-	
+
 					default: {
-	
+
 						if ( type !== 'checkbox' ) {
 							metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
 						}
-	
+
 						if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
 							var div = metawidget.util.createElement( mw, 'div' );
 							var span;
@@ -115,13 +116,14 @@ var metawidget = metawidget || {};
 						}
 					}
 				}
-			} else if ( _version === 3 && tagName === 'DIV' && attributes['enum'] !== undefined &&
-			            ( attributes.type === 'array' || attributes.type === 'boolean' ) ) {
+			} else if ( _version === 3 && tagName === 'DIV' && attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) ) {
+
+				// Bootstrap 3.x likes a DIV around each LABEL
 				
 				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
-	
+
 					var label = widget.childNodes[loop];
-					
+
 					var innerDiv = metawidget.util.createElement( mw, 'div' );
 					innerDiv.setAttribute( 'class', label.getAttribute( 'class' ) );
 					label.removeAttribute( 'class' );
@@ -129,7 +131,7 @@ var metawidget = metawidget || {};
 					innerDiv.appendChild( label );
 				}
 			}
-	
+
 			return widget;
 		};
 	};

@@ -134,6 +134,10 @@
 					childNode.parentNode = this;
 					this.childNodes.push( childNode );
 				},
+				replaceChild: function( newnode, oldnode ) {
+					
+					this.childNodes.splice( this.childNodes.indexOf( oldnode ), 1, newnode );
+				},
 				cloneNode: function() {
 
 					var clone = simpleDocument.createElement( elementName );
