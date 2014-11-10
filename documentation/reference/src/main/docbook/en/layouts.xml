@@ -679,10 +679,16 @@
 								</td>
 							</tr>
 							<tr>
-								<td><parameter>wrapCheckboxesInsideLabels</parameter></td>
+								<td><parameter>wrapInsideLabels</parameter></td>
 								<td>
-									Some UI frameworks (like Bootstrap) prefer checkboxes/radio buttons to be inside
-									their labels, rather than alongside.
+									Array of widget types (e.g. checkbox, radio) to be placed inside their labels, rather than alongside.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>wrapWithExtraDiv</parameter></td>
+								<td>
+									Object of key/value pairs of widget types (e.g. checkbox, radio) to be wrapped inside an extra
+									div. The key is the widget type, the value is the CSS class for the extra div.
 								</td>
 							</tr>
 							<tr>
