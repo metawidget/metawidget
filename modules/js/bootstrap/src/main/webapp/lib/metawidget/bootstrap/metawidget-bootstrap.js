@@ -115,7 +115,8 @@ var metawidget = metawidget || {};
 						}
 					}
 				}
-			} else if ( _version === 3 && tagName === 'DIV' && attributes['enum'] !== undefined && attributes.type === 'array' ) {
+			} else if ( _version === 3 && tagName === 'DIV' && attributes['enum'] !== undefined &&
+			            ( attributes.type === 'array' || attributes.type === 'boolean' ) ) {
 				
 				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 	
@@ -124,7 +125,7 @@ var metawidget = metawidget || {};
 					var innerDiv = metawidget.util.createElement( mw, 'div' );
 					innerDiv.setAttribute( 'class', label.getAttribute( 'class' ) );
 					label.removeAttribute( 'class' );
-					widget.childNodes.splice( loop, 1, innerDiv );
+					widget.replaceChild( innerDiv, label );
 					innerDiv.appendChild( label );
 				}
 			}
