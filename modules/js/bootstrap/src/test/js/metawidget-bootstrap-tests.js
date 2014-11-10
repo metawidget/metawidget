@@ -126,14 +126,19 @@
 							},
 							baz: {
 								type: "string",
-								title: ''								
+								title: ''
 							},
 							checkit: {
 								type: "boolean"
+							},
+							arrayCheckit: {
+								type: 'array',
+								'enum': [ 'Foo', 'Bar', 'Baz' ]
 							}
 						}
 					};
 				},
+				appendWidgetProcessors: [ new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor() ],
 				layout: new metawidget.bootstrap.layout.BootstrapDivLayout()
 			} );
 
@@ -143,24 +148,24 @@
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label"' );
 			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
-			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo" class="form-control"' );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[1].toString() ).toBe( 'div class="form-group"' );
 			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label"' );
 			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
-			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
+			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar" class="form-control"' );
 			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[1].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[2].toString() ).toBe( 'div class="form-group"' );
 			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div class="col-sm-10 col-sm-offset-2"' );
-			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz" class="form-control"' );
 			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[2].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[2].toString() ).toBe( 'div class="form-group"' );
 			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div class="col-sm-10 col-sm-offset-2"' );
-			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz" class="form-control"' );
 			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[2].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[3].toString() ).toBe( 'div class="form-group"' );
@@ -173,7 +178,26 @@
 			expect( element.childNodes[3].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[3].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[3].childNodes.length ).toBe( 2 );
-			expect( element.childNodes.length ).toBe( 4 );
+			expect( element.childNodes[4].toString() ).toBe( 'div class="form-group"' );
+			expect( element.childNodes[4].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
+			expect( element.childNodes[4].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].toString() ).toBe( 'div id="arrayCheckit"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div class="checkbox"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" name="arrayCheckit"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'div class="checkbox"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'label' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" name="arrayCheckit"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'Bar' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[2].toString() ).toBe( 'div class="checkbox"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'label' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" name="arrayCheckit"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[2].childNodes[0].childNodes[1].toString() ).toBe( 'Baz' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( element.childNodes[4].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[4].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 5 );
 		} );
 
 		it( "supports stubs", function() {
@@ -182,7 +206,7 @@
 			var stub = simpleDocument.createElement( 'stub' );
 			stub.setAttribute( 'id', 'foo' );
 			element.appendChild( stub );
-			
+
 			var mw = new metawidget.Metawidget( element, {
 				inspector: function() {
 
@@ -197,7 +221,7 @@
 							},
 							baz: {
 								type: "string",
-								title: ''								
+								title: ''
 							}
 						}
 					};
@@ -232,7 +256,7 @@
 						properties: {
 							foo: {
 								type: "string",
-								title: null								
+								title: null
 							}
 						}
 					};
@@ -267,14 +291,21 @@
 							},
 							baz: {
 								type: "string",
-								title: ''								
+								title: ''
 							},
 							checkit: {
 								type: "boolean"
+							},
+							arrayCheckit: {
+								type: 'array',
+								'enum': [ 'Foo', 'Bar', 'Baz' ]
 							}
 						}
 					};
 				},
+				appendWidgetProcessors: [ new metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor( {
+					version: 2
+				} ) ],
 				layout: new metawidget.bootstrap.layout.BootstrapDivLayout( {
 					version: 2
 				} )
@@ -286,19 +317,19 @@
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="foo-label" class="control-label"' );
 			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div class="controls"' );
-			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo" class="form-control"' );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[1].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label" class="control-label"' );
 			expect( element.childNodes[1].childNodes[1].toString() ).toBe( 'div class="controls"' );
-			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar"' );
+			expect( element.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" required="required" name="bar" class="form-control"' );
 			expect( element.childNodes[1].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[1].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[2].toString() ).toBe( 'div class="control-group"' );
 			expect( element.childNodes[2].childNodes[0].toString() ).toBe( 'div class="controls"' );
-			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz"' );
+			expect( element.childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="baz" name="baz" class="form-control"' );
 			expect( element.childNodes[2].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[2].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[3].toString() ).toBe( 'div class="control-group"' );
@@ -308,7 +339,23 @@
 			expect( element.childNodes[3].childNodes[1].childNodes[0].toString() ).toBe( 'input type="checkbox" id="checkit" name="checkit"' );
 			expect( element.childNodes[3].childNodes[1].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[3].childNodes.length ).toBe( 2 );
-			expect( element.childNodes.length ).toBe( 4 );
+			expect( element.childNodes[4].toString() ).toBe( 'div class="control-group"' );
+			expect( element.childNodes[4].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[4].childNodes[1].toString() ).toBe( 'div class="controls"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].toString() ).toBe( 'div id="arrayCheckit"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label class="checkbox"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" name="arrayCheckit"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'label class="checkbox"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="checkbox" name="arrayCheckit"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'Bar' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[2].toString() ).toBe( 'label class="checkbox"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'input type="checkbox" name="arrayCheckit"' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes[2].childNodes[1].toString() ).toBe( 'Baz' );
+			expect( element.childNodes[4].childNodes[1].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( element.childNodes[4].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( element.childNodes[4].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 5 );
 		} );
 
 		it( "has a Layout that supports configurable Bootstrap styles", function() {

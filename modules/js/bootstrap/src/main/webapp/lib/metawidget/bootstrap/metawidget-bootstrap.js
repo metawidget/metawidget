@@ -41,82 +41,96 @@ var metawidget = metawidget || {};
 	 *        to be unwrapped (such as <tt>SimpleBindingProcessor</tt>).
 	 */
 
-	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor = function() {
+	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor = function( config ) {
 
 		if ( ! ( this instanceof metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor ) ) {
 			throw new Error( "Constructor called as a function" );
 		}
-	};
 
-	metawidget.bootstrap.widgetprocessor.BootstrapWidgetProcessor.prototype.processWidget = function( widget, elementName, attributes, mw ) {
+		var _version = config !== undefined ? config.version : 3;
 
-		var tagName = widget.tagName;
-
-		if ( tagName === 'TABLE' ) {
-
-			metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
-
-		} else if ( tagName === 'SELECT' || tagName === 'TEXTAREA' ) {
-
-			metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
-
-		} else if ( tagName === 'OUTPUT' ) {
-
-			// Pad output tags the same way as .form-control pads input tags.
-			// See:
-			// https://github.com/twbs/bootstrap/issues/9969
-
-			metawidget.util.appendToAttribute( widget, 'style', 'padding:6px 12px', ';' );
-
-		} else if ( tagName === 'INPUT' ) {
-
-			var type = widget.getAttribute( 'type' );
-
-			switch ( type ) {
-
-				case 'submit':
-					metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
-					break;
-
-				case 'button':
-					metawidget.util.appendToAttribute( widget, 'class', 'btn btn-default' );
-					break;
-
-				default: {
-
-					if ( type !== 'checkbox' ) {
-						metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
-					}
-
-					if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
-						var div = metawidget.util.createElement( mw, 'div' );
-						var span;
-						if ( attributes.inputPrepend !== undefined ) {
-							div.setAttribute( 'class', 'input-prepend input-group' );
-							span = metawidget.util.createElement( mw, 'span' );
-							span.setAttribute( 'class', 'add-on input-group-addon' );
-							span.innerHTML = attributes.inputPrepend;
-							div.appendChild( span );
+		this.processWidget = function( widget, elementName, attributes, mw ) {
+	
+			var tagName = widget.tagName;
+	
+			if ( tagName === 'TABLE' ) {
+	
+				metawidget.util.appendToAttribute( widget, 'class', 'table table-striped table-bordered table-hover' );
+	
+			} else if ( tagName === 'SELECT' || tagName === 'TEXTAREA' ) {
+	
+				metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
+	
+			} else if ( tagName === 'OUTPUT' ) {
+	
+				// Pad output tags the same way as .form-control pads input tags.
+				// See:
+				// https://github.com/twbs/bootstrap/issues/9969
+	
+				metawidget.util.appendToAttribute( widget, 'style', 'padding:6px 12px', ';' );
+	
+			} else if ( tagName === 'INPUT' ) {
+	
+				var type = widget.getAttribute( 'type' );
+	
+				switch ( type ) {
+	
+					case 'submit':
+						metawidget.util.appendToAttribute( widget, 'class', 'btn btn-primary' );
+						break;
+	
+					case 'button':
+						metawidget.util.appendToAttribute( widget, 'class', 'btn btn-default' );
+						break;
+	
+					default: {
+	
+						if ( type !== 'checkbox' ) {
+							metawidget.util.appendToAttribute( widget, 'class', 'form-control' );
 						}
-						div.appendChild( widget );
-						if ( attributes.inputAppend !== undefined ) {
+	
+						if ( attributes.inputPrepend !== undefined || attributes.inputAppend !== undefined ) {
+							var div = metawidget.util.createElement( mw, 'div' );
+							var span;
 							if ( attributes.inputPrepend !== undefined ) {
-								div.setAttribute( 'class', 'input-prepend input-append input-group' );
-							} else {
-								div.setAttribute( 'class', 'input-append input-group' );
+								div.setAttribute( 'class', 'input-prepend input-group' );
+								span = metawidget.util.createElement( mw, 'span' );
+								span.setAttribute( 'class', 'add-on input-group-addon' );
+								span.innerHTML = attributes.inputPrepend;
+								div.appendChild( span );
 							}
-							span = metawidget.util.createElement( mw, 'span' );
-							span.setAttribute( 'class', 'add-on input-group-addon' );
-							span.innerHTML = attributes.inputAppend;
-							div.appendChild( span );
+							div.appendChild( widget );
+							if ( attributes.inputAppend !== undefined ) {
+								if ( attributes.inputPrepend !== undefined ) {
+									div.setAttribute( 'class', 'input-prepend input-append input-group' );
+								} else {
+									div.setAttribute( 'class', 'input-append input-group' );
+								}
+								span = metawidget.util.createElement( mw, 'span' );
+								span.setAttribute( 'class', 'add-on input-group-addon' );
+								span.innerHTML = attributes.inputAppend;
+								div.appendChild( span );
+							}
+							return div;
 						}
-						return div;
 					}
 				}
+			} else if ( _version === 3 && tagName === 'DIV' && attributes['enum'] !== undefined && attributes.type === 'array' ) {
+				
+				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+	
+					var label = widget.childNodes[loop];
+					
+					var innerDiv = metawidget.util.createElement( mw, 'div' );
+					innerDiv.setAttribute( 'class', label.getAttribute( 'class' ) );
+					label.removeAttribute( 'class' );
+					widget.childNodes.splice( loop, 1, innerDiv );
+					innerDiv.appendChild( label );
+				}
 			}
-		}
-
-		return widget;
+	
+			return widget;
+		};
 	};
 
 	/**

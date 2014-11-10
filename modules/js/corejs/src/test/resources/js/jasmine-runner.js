@@ -112,6 +112,14 @@
 
 					return null;
 				},
+				removeAttribute: function( name ) {
+					
+					for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
+						if ( this.attributes[loop].nodeName === name ) {
+							this.attributes.splice( loop, 1 );
+						}
+					}
+				},
 				insertBefore: function( childNode, beforeNode ) {
 
 					childNode.parentNode = this;

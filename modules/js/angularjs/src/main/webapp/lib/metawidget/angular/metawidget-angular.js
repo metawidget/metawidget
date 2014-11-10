@@ -281,7 +281,7 @@ var metawidget = metawidget || {};
 
 				jqElement.html( '' );
 			}
-		}
+		};
 
 		this.buildWidgets = function( inspectionResult ) {
 
