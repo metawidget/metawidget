@@ -162,8 +162,17 @@ var metawidget = metawidget || {};
 			if ( config.widgetDivOffsetClass === undefined ) {
 				config.widgetDivOffsetClass = 'col-sm-offset-2';
 			}
-			if ( config.wrapCheckboxesInsideLabels === undefined ) {
-				config.wrapCheckboxesInsideLabels = true;
+			if ( config.suppressLabelSuffixOnCheckboxes === undefined ) {
+				config.suppressLabelSuffixOnCheckboxes = true;
+			}
+			if ( config.wrapInsideLabels === undefined ) {
+				config.wrapInsideLabels = [ 'checkbox', 'radio' ];
+			}
+			if ( config.wrapWithExtraDiv === undefined ) {
+				config.wrapWithExtraDiv = {
+					checkbox: 'checkbox',
+					radio: 'radio'
+				};
 			}
 		}
 

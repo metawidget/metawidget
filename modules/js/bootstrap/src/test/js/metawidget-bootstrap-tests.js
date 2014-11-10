@@ -166,9 +166,11 @@
 			expect( element.childNodes[3].toString() ).toBe( 'div class="form-group"' );
 			expect( element.childNodes[3].childNodes[0].toString() ).toBe( 'div class="col-sm-2 control-label"' );
 			expect( element.childNodes[3].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
-			expect( element.childNodes[3].childNodes[1].childNodes[0].toString() ).toBe( 'label for="checkit" id="checkit-label"' );
-			expect( element.childNodes[3].childNodes[1].childNodes[0].innerHTML ).toBe( 'Checkit' );
-			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" id="checkit" name="checkit"' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].toString() ).toBe( 'div class="checkbox"' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="checkit" id="checkit-label"' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Checkit' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" id="checkit" name="checkit"' );
+			expect( element.childNodes[3].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[3].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[3].childNodes.length ).toBe( 2 );
 			expect( element.childNodes.length ).toBe( 4 );

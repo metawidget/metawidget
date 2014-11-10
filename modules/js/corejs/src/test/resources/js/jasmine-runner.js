@@ -112,7 +112,16 @@
 
 					return null;
 				},
-				appendChild: function( childNode ) {
+				insertBefore: function( childNode, beforeNode ) {
+
+					childNode.parentNode = this;
+					this.childNodes.splice( this.childNodes.indexOf( beforeNode ), 0, childNode );					
+				},
+				firstChild: function() {
+
+					return this.childNodes[0];
+				},
+				appendChild: function( childNode, beforeNode ) {
 
 					childNode.parentNode = this;
 					this.childNodes.push( childNode );
@@ -142,7 +151,7 @@
 					throw new Error( "childNode not found: " + childNode );
 				},
 				addEventListener: function( name, callback ) {
-					
+
 					_eventListeners.push( {
 						name: name,
 						callback: callback
@@ -150,10 +159,10 @@
 				},
 				dispatchEvent: function( event ) {
 
-					for( var loop = 0, length = _eventListeners.length; loop < length; loop++ ) {
-						
+					for ( var loop = 0, length = _eventListeners.length; loop < length; loop++ ) {
+
 						var eventListener = _eventListeners[loop];
-						
+
 						if ( eventListener.name === event.name ) {
 							eventListener.callback( event );
 						}
@@ -186,7 +195,7 @@
 		createEvent: function() {
 
 			return {
-			
+
 				initEvent: function( name ) {
 
 					this.name = name;

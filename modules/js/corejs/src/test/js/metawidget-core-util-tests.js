@@ -640,4 +640,16 @@
 			expect( element.tagName ).toBe( 'OUTPUT' );
 		} );
 	} );
+	
+	describe( "The niceIndexOf function", function() {
+
+		it( "finds indexOf nicely", function() {
+
+			expect( metawidget.util.niceIndexOf( undefined, undefined )).toBe( -1 );
+			expect( metawidget.util.niceIndexOf( undefined, 'foo' )).toBe( -1 );
+			expect( metawidget.util.niceIndexOf( [ 'foo' ], undefined )).toBe( -1 );
+			expect( metawidget.util.niceIndexOf( [ 'foo' ], 'foo' )).toBe( 0 );
+		} );
+	} );
+	
 } )();

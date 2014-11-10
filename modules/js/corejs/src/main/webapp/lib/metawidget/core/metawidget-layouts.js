@@ -141,10 +141,15 @@ var metawidget = metawidget || {};
 		var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
 		var _suppressDivAroundLabel = config !== undefined && config.suppressDivAroundLabel !== undefined ? config.suppressDivAroundLabel : false;
 		var _suppressDivAroundWidget = config !== undefined && config.suppressDivAroundWidget !== undefined ? config.suppressDivAroundWidget : false;
-		var _suppressLabelSuffixOnCheckboxes = config !== undefined && config.suppressLabelSuffixOnCheckboxes !== undefined ? config.suppressLabelSuffixOnCheckboxes : false;
-		var _wrapCheckboxesInsideLabels = config !== undefined && config.wrapCheckboxesInsideLabels !== undefined ? config.wrapCheckboxesInsideLabels : false;
 		var _appendRequiredClassOnLabelDiv = config !== undefined && config.appendRequiredClassOnLabelDiv !== undefined ? config.appendRequiredClassOnLabelDiv : undefined;
 		var _appendRequiredClassOnWidgetDiv = config !== undefined && config.appendRequiredClassOnWidgetDiv !== undefined ? config.appendRequiredClassOnWidgetDiv : undefined;
+
+		// REFACTOR: make this _suppressLabelSuffixOn and allow pass array of
+		// types
+
+		var _suppressLabelSuffixOnCheckboxes = config !== undefined && config.suppressLabelSuffixOnCheckboxes !== undefined ? config.suppressLabelSuffixOnCheckboxes : false;
+		var _wrapInsideLabels = config !== undefined && config.wrapInsideLabels !== undefined ? config.wrapInsideLabels : undefined;
+		var _wrapWithExtraDiv = config !== undefined && config.wrapWithExtraDiv !== undefined ? config.wrapWithExtraDiv : undefined;
 
 		this.layoutWidget = function( widget, elementName, attributes, container, mw ) {
 
@@ -183,9 +188,31 @@ var metawidget = metawidget || {};
 			var labelWidget = this.layoutLabel( outerDiv, widget, elementName, attributes, mw );
 
 			// Widget
+			
+			var toAppendToOuterDiv = widget;
 
+			// _wrapInsideLabels
+
+			if ( widget.tagName === 'INPUT' && metawidget.util.niceIndexOf( _wrapInsideLabels, widget.getAttribute( 'type' ) ) !== -1 ) {
+				labelWidget.insertBefore( widget, labelWidget.firstChild );
+				toAppendToOuterDiv = labelWidget;
+			} else {
+				toAppendToOuterDiv = widget;
+			}
+
+			// _wrapWithExtraDiv
+
+			if ( widget.tagName === 'INPUT' && _wrapWithExtraDiv !== undefined && _wrapWithExtraDiv[widget.getAttribute( 'type' )] !== undefined ) {
+
+				var extraDiv = metawidget.util.createElement( mw, 'div' );
+				extraDiv.setAttribute( 'class', _wrapWithExtraDiv[widget.getAttribute( 'type' )] );
+				extraDiv.appendChild( toAppendToOuterDiv );
+				toAppendToOuterDiv = extraDiv;
+			}
+
+			// Wrap with div
+			
 			if ( _suppressDivAroundWidget !== true ) {
-
 				var widgetDiv = metawidget.util.createElement( mw, 'div' );
 				if ( _divStyleClasses !== undefined && _divStyleClasses[2] !== undefined ) {
 					widgetDiv.setAttribute( 'class', _divStyleClasses[2] );
@@ -196,23 +223,11 @@ var metawidget = metawidget || {};
 				if ( metawidget.util.isTrueOrTrueString( attributes.required ) && _appendRequiredClassOnWidgetDiv !== undefined ) {
 					metawidget.util.appendToAttribute( widgetDiv, 'class', _appendRequiredClassOnWidgetDiv );
 				}
-
-				if ( _wrapCheckboxesInsideLabels === true && widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'checkbox' || widget.getAttribute( 'type' ) === 'radio' ) ) {
-					labelWidget.appendChild( widget );
-					widgetDiv.appendChild( labelWidget );
-				} else {
-					widgetDiv.appendChild( widget );
-				}
-				outerDiv.appendChild( widgetDiv );
-			} else {
-				if ( _wrapCheckboxesInsideLabels === true && widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'checkbox' || widget.getAttribute( 'type' ) === 'radio' ) ) {
-					labelWidget.appendChild( widget );
-					outerDiv.appendChild( labelWidget );
-				} else {
-					outerDiv.appendChild( widget );
-				}
+				widgetDiv.appendChild( toAppendToOuterDiv );
+				toAppendToOuterDiv = widgetDiv;
 			}
 
+			outerDiv.appendChild( toAppendToOuterDiv );
 			container.appendChild( outerDiv );
 		};
 
@@ -285,7 +300,7 @@ var metawidget = metawidget || {};
 			// alongside the checkbox itself. This looks bad if we keep the
 			// suffix
 
-			if ( ( _suppressLabelSuffixOnCheckboxes === true || _wrapCheckboxesInsideLabels === true ) && widget.tagName === 'INPUT' ) {
+			if ( _suppressLabelSuffixOnCheckboxes === true && widget.tagName === 'INPUT' ) {
 				if ( widget.getAttribute( 'type' ) === 'checkbox' || widget.getAttribute( 'type' ) === 'radio' ) {
 					return labelString;
 				}

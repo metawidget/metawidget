@@ -450,7 +450,8 @@
 		it( "can wrap checkboxes with labels", function() {
 
 			var layout = new metawidget.layout.DivLayout( {
-				wrapCheckboxesInsideLabels: true
+				wrapInsideLabels: [ 'checkbox' ],
+				suppressLabelSuffixOnCheckboxes: true
 			} );
 
 			var widget1 = simpleDocument.createElement( 'input' );
@@ -477,14 +478,18 @@
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
-		it( "can wrap radio buttons with labels", function() {
+		it( "can wrap checkboxes with extra divs", function() {
 
 			var layout = new metawidget.layout.DivLayout( {
-				wrapCheckboxesInsideLabels: true
+				wrapWithExtraDiv: {
+					'checkbox': 'theClass'
+				},
+				wrapInsideLabels: [ 'checkbox' ],
+				suppressLabelSuffixOnCheckboxes: true
 			} );
 
 			var widget1 = simpleDocument.createElement( 'input' );
-			widget1.setAttribute( 'type', 'radio' );
+			widget1.setAttribute( 'type', 'checkbox' );
 			var container = simpleDocument.createElement( 'metawidget' );
 			var mw = {
 				getElement: function() {
@@ -499,10 +504,12 @@
 
 			expect( container.childNodes[0].toString() ).toBe( 'div' );
 			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
-			expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'label' );
-			expect( container.childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Widget 1' );
-			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );			
+			expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div class="theClass"' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
 			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
 			expect( container.childNodes.length ).toBe( 1 );
 		} );

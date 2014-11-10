@@ -736,6 +736,21 @@ var metawidget = metawidget || {};
 		return event;
 	};
 
+	/**
+	 * Finds the indexOf the given item in the given array.
+	 * 
+	 * @return -1 if either array or item are undefined, otherwise indexOf
+	 */
+
+	metawidget.util.niceIndexOf = function( array, item ) {
+
+		if ( array === undefined || item === undefined ) {
+			return -1;
+		}
+
+		return array.indexOf( item );
+	}
+
 	//
 	// Private methods
 	//
