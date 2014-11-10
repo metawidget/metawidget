@@ -35,7 +35,7 @@
 			expect( $( '#allWidgetsLimitedTextbox' )[0].tagName ).toBe( 'INPUT' );
 			expect( $( '#allWidgetsLimitedTextbox' )[0].type ).toBe( 'text' );
 			expect( $( '#allWidgetsLimitedTextbox' ).attr( 'ng-model' ) ).toBe( 'allWidgets.limitedTextbox' );
-			expect( $( '#allWidgetsLimitedTextbox' ).attr( 'maxlength' ) ).toBeUndefined();
+			expect( $( '#allWidgetsLimitedTextbox' ).attr( 'maxlength' ) ).toBe( '20' );
 			expect( $( '#allWidgetsLimitedTextbox' ).attr( 'ng-maxlength' ) ).toBe( '20' );
 			expect( $( '#allWidgetsLimitedTextbox' ).attr( 'ng-required' ) ).toBeUndefined();
 			expect( $( '#table-allWidgetsLimitedTextbox-row td' )[1].innerHTML ).toBe( '' );
