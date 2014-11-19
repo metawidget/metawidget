@@ -116,7 +116,10 @@ var metawidget = metawidget || {};
 		var lastChar = ' ';
 
 		for ( var loop = 0; loop < name.length; loop++ ) {
-			var c = name[loop];
+			
+			// Use 'charAt', not '[]' for IE compatibility
+			
+			var c = name.charAt( loop );
 
 			if ( first === true ) {
 				uncamelCasedName += c.toUpperCase();
@@ -751,6 +754,19 @@ var metawidget = metawidget || {};
 		return array.indexOf( item );
 	}
 
+	/**
+	 * Backward compatibility for IE.
+	 */
+	
+	metawidget.util.hasAttribute = function( element, attribute ) {
+		
+		if ( element.hasAttribute !== undefined ) {
+			return element.hasAttribute( attribute );
+		}
+		
+		return ( element.getAttribute( attribute ) !== null );
+	}
+	
 	//
 	// Private methods
 	//

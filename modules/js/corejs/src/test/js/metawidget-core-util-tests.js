@@ -84,6 +84,20 @@
 			expect( metawidget.util.uncamelCase( '123foo' ) ).toBe( '123foo' );
 			expect( metawidget.util.uncamelCase( '123Foo' ) ).toBe( '123 Foo' );
 		} );
+
+		it( "uses charAt, not array notation, for IE", function() {
+
+			var text = 'foo';
+			
+			expect( metawidget.util.uncamelCase( {
+				length: text.length,
+				charAt: function( index ) {
+
+					return text[index];
+				}
+			} ) ).toBe( 'Foo' );
+
+		} );
 	} );
 
 	describe( "The capitalize function", function() {
@@ -640,16 +654,16 @@
 			expect( element.tagName ).toBe( 'OUTPUT' );
 		} );
 	} );
-	
+
 	describe( "The niceIndexOf function", function() {
 
 		it( "finds indexOf nicely", function() {
 
-			expect( metawidget.util.niceIndexOf( undefined, undefined )).toBe( -1 );
-			expect( metawidget.util.niceIndexOf( undefined, 'foo' )).toBe( -1 );
-			expect( metawidget.util.niceIndexOf( [ 'foo' ], undefined )).toBe( -1 );
-			expect( metawidget.util.niceIndexOf( [ 'foo' ], 'foo' )).toBe( 0 );
+			expect( metawidget.util.niceIndexOf( undefined, undefined ) ).toBe( -1 );
+			expect( metawidget.util.niceIndexOf( undefined, 'foo' ) ).toBe( -1 );
+			expect( metawidget.util.niceIndexOf( [ 'foo' ], undefined ) ).toBe( -1 );
+			expect( metawidget.util.niceIndexOf( [ 'foo' ], 'foo' ) ).toBe( 0 );
 		} );
 	} );
-	
+
 } )();

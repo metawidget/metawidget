@@ -41,7 +41,7 @@ var metawidget = metawidget || {};
 		// Dangerous to reassign an id. For example, some JQuery UI widgets
 		// assign temporary ids when they wrap widgets
 
-		if ( !widget.hasAttribute( 'id' ) ) {
+		if ( !metawidget.util.hasAttribute( widget, 'id' )) {
 			var id = metawidget.util.getId( elementName, attributes, mw );
 
 			if ( id !== undefined ) {
@@ -197,7 +197,7 @@ var metawidget = metawidget || {};
 
 		var isBindable = ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' );
 
-		if ( isBindable === true && widget.hasAttribute( 'id' ) ) {
+		if ( isBindable === true && metawidget.util.hasAttribute( widget, 'id' )) {
 
 			// Standard HTML needs 'name', not 'id', for binding
 

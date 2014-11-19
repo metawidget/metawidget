@@ -420,7 +420,7 @@ var metawidget = metawidget || {};
 			var idPrefix = undefined;
 
 			if ( attributes.name !== undefined ) {
-				if ( table.hasAttribute( 'id' ) ) {
+				if ( metawidget.util.hasAttribute( table, 'id' )) {
 					idPrefix = table.getAttribute( 'id' );
 				}
 
@@ -521,7 +521,7 @@ var metawidget = metawidget || {};
 			if ( elementName !== 'action' && labelString !== '' ) {
 				var label = metawidget.util.createElement( mw, 'label' );
 
-				if ( widget.hasAttribute( 'id' ) ) {
+				if ( metawidget.util.hasAttribute( widget, 'id' )) {
 					label.setAttribute( 'for', widget.getAttribute( 'id' ) );
 				}
 
@@ -552,7 +552,7 @@ var metawidget = metawidget || {};
 		};
 
 		/**
-		 * @returns the label string, or a blank string if no label.
+		 * @returns the label string, a blank string if no label, or null
 		 */
 
 		this.getLabelString = function( attributes, mw ) {
