@@ -623,9 +623,6 @@ var metawidget = metawidget || {};
 			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
 				// Special support for multi-selects and radio buttons
-				//
-				// Note: it'd be nice to extend this to SELECT boxes too, once
-				// https://github.com/angular/angular.js/issues/7994
 
 				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 					var label = widget.childNodes[loop];
@@ -649,7 +646,25 @@ var metawidget = metawidget || {};
 						}
 					}
 				}
-			} else if ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' ) {
+				
+			} else if ( widget.tagName === 'SELECT' ) {
+				
+				widget.setAttribute( 'ng-model', binding );
+
+				// Special support for non-string selects
+				
+				if ( attributes.type === 'boolean' || attributes.type === 'integer' || attributes.type === 'number' ) {
+					for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+
+						var child = widget.childNodes[loop];
+
+						if ( child.tagName === 'OPTION' && child.value !== '' ) {
+							child.setAttribute( 'ng-selected', binding + "==" + child.value );
+						}
+					}
+				}
+				
+			} else if ( widget.tagName === 'INPUT' || widget.tagName === 'TEXTAREA' ) {
 				widget.setAttribute( 'ng-model', binding );
 			}
 

@@ -822,6 +822,96 @@
 
 				} );
 
+				it( "supports boolean selects", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: true
+						};
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									"properties": {
+										"bar": {
+											type: "boolean",
+											'enum': [ false, true ],
+											enumTitles: [ 'Pending', 'Approved' ]
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
+						expect( mw.innerHTML ).toContain( '<select id="fooBar" ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"><option value=""/>' );
+						expect( mw.innerHTML ).toContain( '<option value="false" ng-selected="foo.bar==false">Pending</option>' );
+						expect( mw.innerHTML ).toContain( '<option value="true" ng-selected="foo.bar==true" selected="selected">Approved</option></select>' );
+					} );
+				} );
+
+				it( "supports numeric selects", function() {
+
+					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
+					var controller = myApp.controller( 'TestController', function( $scope ) {
+
+						$scope.foo = {
+							bar: 2
+						};
+
+						$scope.metawidgetConfig = {
+							inspector: function() {
+
+								return {
+									"properties": {
+										"bar": {
+											type: "boolean",
+											'enum': [ 1, 2, 3 ],
+											enumTitles: [ 'One', 'Two', 'Three' ],
+											required: true
+										}
+									}
+								};
+							}
+						};
+					} );
+
+					var mw = document.createElement( 'metawidget' );
+					mw.setAttribute( 'ng-model', 'foo' );
+					mw.setAttribute( 'config', 'metawidgetConfig' );
+
+					var body = document.createElement( 'body' );
+					body.setAttribute( 'ng-controller', 'TestController' );
+					body.appendChild( mw );
+
+					var injector = angular.bootstrap( body, [ 'test-app' ] );
+
+					injector.invoke( function() {
+
+						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
+						expect( mw.innerHTML ).toContain( '<select id="fooBar" ng-model="foo.bar" ng-required="true" class="ng-scope ng-pristine ng-valid ng-valid-required" required="required"><option value="1"' );
+						expect( mw.innerHTML ).toContain( '<option value="1" ng-selected="foo.bar==1">One</option>' );
+						expect( mw.innerHTML ).toContain( '<option value="2" ng-selected="foo.bar==2" selected="selected">Two</option>' );
+						expect( mw.innerHTML ).toContain( '<option value="3" ng-selected="foo.bar==3">Three</option>' );
+					} );
+				} );
+				
 				it( "guards against infinite recursion", function() {
 
 					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
