@@ -225,6 +225,11 @@
 			expect( metawidget.util.lookupEnumTitle( 'baz', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR', 'BAZ' ] ) ).toBe( 'BAZ' );
 			expect( metawidget.util.lookupEnumTitle( 'baz', [ 'foo', 'bar', 'baz' ], [ 'FOO', 'BAR' ] ) ).toBe( 'baz' );
 			expect( metawidget.util.lookupEnumTitle( 'baz', [ 'foo', 'bar' ], [ 'FOO', 'BAR' ] ) ).toBe( 'baz' );
+
+			expect( metawidget.util.lookupEnumTitle( true, [ 'true', 'false' ], [ 'Yup', 'Nope' ] ) ).toBe( 'Yup' );
+			expect( metawidget.util.lookupEnumTitle( false, [ true, false ], [ 'Yup', 'Nope' ] ) ).toBe( 'Nope' );
+			expect( metawidget.util.lookupEnumTitle( 2, [ '1', '2', '3' ], [ 'One', 'Two', 'Three' ] ) ).toBe( 'Two' );
+			expect( metawidget.util.lookupEnumTitle( 3, [ 1, 2, 3 ], [ 'One', 'Two', 'Three' ] ) ).toBe( 'Three' );
 		} );
 	} );
 

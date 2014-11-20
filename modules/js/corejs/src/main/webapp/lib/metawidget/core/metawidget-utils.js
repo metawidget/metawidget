@@ -305,7 +305,14 @@ var metawidget = metawidget || {};
 		var indexOf = anEnum.indexOf( value );
 
 		if ( indexOf === -1 || indexOf >= enumTitles.length ) {
-			return value;
+			
+			// ...(cope with Java's UiLookup only supporting strings)...
+			
+			indexOf = anEnum.indexOf( '' + value );
+			
+			if ( indexOf === -1 || indexOf >= enumTitles.length ) {
+				return value;
+			}
 		}
 
 		// ...and return its equivalent title (if any)
