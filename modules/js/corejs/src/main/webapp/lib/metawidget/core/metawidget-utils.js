@@ -116,9 +116,9 @@ var metawidget = metawidget || {};
 		var lastChar = ' ';
 
 		for ( var loop = 0; loop < name.length; loop++ ) {
-			
+
 			// Use 'charAt', not '[]' for IE compatibility
-			
+
 			var c = name.charAt( loop );
 
 			if ( first === true ) {
@@ -305,11 +305,11 @@ var metawidget = metawidget || {};
 		var indexOf = anEnum.indexOf( value );
 
 		if ( indexOf === -1 || indexOf >= enumTitles.length ) {
-			
+
 			// ...(cope with Java's UiLookup only supporting strings)...
-			
+
 			indexOf = anEnum.indexOf( '' + value );
-			
+
 			if ( indexOf === -1 || indexOf >= enumTitles.length ) {
 				return value;
 			}
@@ -764,16 +764,16 @@ var metawidget = metawidget || {};
 	/**
 	 * Backward compatibility for IE.
 	 */
-	
+
 	metawidget.util.hasAttribute = function( element, attribute ) {
-		
+
 		if ( element.hasAttribute !== undefined ) {
 			return element.hasAttribute( attribute );
 		}
-		
+
 		return ( element.getAttribute( attribute ) !== null );
 	}
-	
+
 	//
 	// Private methods
 	//

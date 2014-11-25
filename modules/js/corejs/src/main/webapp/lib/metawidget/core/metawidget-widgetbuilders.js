@@ -464,6 +464,13 @@ var metawidget = metawidget || {};
 
 					var columnAttributes = this.addHeaderRow( thead, inspectionResultProperties, mw );
 
+					// Create footer (optional)
+					
+					var tfoot = metawidget.util.createElement( mw, 'tfoot' );
+					table.appendChild( tfoot );
+
+					// TODO: this.addFooterRow( tfoot, columnAttributes );
+
 					// Create body
 
 					table.appendChild( tbody );
@@ -605,12 +612,10 @@ var metawidget = metawidget || {};
 			
 			// Render either top-level value, or a property of that value
 
-			var valueToRender;
+			var valueToRender = value[row];
 
-			if ( columnAttributes.name === undefined ) {
-				valueToRender = value[row];
-			} else {
-				valueToRender = value[row][columnAttributes.name];
+			if ( valueToRender !== undefined && columnAttributes.name !== undefined ) {
+				valueToRender = valueToRender[columnAttributes.name];
 			}
 
 			// Render either nothing, a nested read-only Metawidget, or a
