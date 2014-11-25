@@ -466,8 +466,8 @@ var metawidget = metawidget || {};
 
 					// Create footer (optional)
 					
-					var tfoot = metawidget.util.createElement( mw, 'tfoot' );
-					table.appendChild( tfoot );
+					// var tfoot = metawidget.util.createElement( mw, 'tfoot' );
+					// table.appendChild( tfoot );
 
 					// TODO: this.addFooterRow( tfoot, columnAttributes );
 
