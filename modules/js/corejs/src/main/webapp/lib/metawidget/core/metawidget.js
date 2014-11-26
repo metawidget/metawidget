@@ -81,6 +81,28 @@ var metawidget = metawidget || {};
 		// Public methods
 		//
 
+		// TODO: test reconfigure and save
+		
+		this.reconfigure = function( config ) {
+
+			return _pipeline.configure( config );
+		};
+
+		/**
+		 * Save the contents of the Metawidget using a SimpleBindingProcessor.
+		 * <p>
+		 * This is a convenience method. To access other Metawidget APIs,
+		 * clients can use the 'getWidgetProcessor' method
+		 */
+			
+		this.save = function() {
+			
+			_pipeline.getWidgetProcessor( function( widgetProcessor ) {
+
+				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
+			} ).save( this );
+		};
+
 		this.getWidgetProcessor = function( testInstanceOf ) {
 
 			return _pipeline.getWidgetProcessor( testInstanceOf );

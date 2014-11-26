@@ -687,7 +687,16 @@ var metawidget = metawidget || {};
 
 		if ( existingAttribute === null ) {
 			widget.setAttribute( attributeName, toAppend );
-		} else if ( existingAttribute !== toAppend && existingAttribute.indexOf( toAppend + separator ) === -1 && existingAttribute.indexOf( separator + toAppend ) === -1 ) {
+			return;
+		}
+		
+		// IE compatibility (convert DispHTMLStyle to a string)
+		
+		if ( existingAttribute.toString !== undefined ) {
+			existingAttribute = existingAttribute.toString();
+		}
+		
+		if ( existingAttribute !== toAppend && existingAttribute.indexOf( toAppend + separator ) === -1 && existingAttribute.indexOf( separator + toAppend ) === -1 ) {
 			widget.setAttribute( attributeName, existingAttribute + separator + toAppend );
 		}
 	};
