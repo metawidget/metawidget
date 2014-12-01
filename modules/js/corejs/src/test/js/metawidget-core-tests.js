@@ -75,6 +75,28 @@
 			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
 			expect( element.childNodes[0].value ).toBe( 'Bar' );
 			expect( element.childNodes.length ).toBe( 1 );
+			
+			// Saving
+			
+			element.childNodes[0].value = 'Bar2';
+			mw.save();
+			expect( mw.toInspect.bar ).toBe( 'Bar2' );
+			
+			// Reconfigured
+			
+			mw.reconfigure( {
+				layout: new metawidget.layout.DivLayout()
+			} );
+			mw.buildWidgets();
+			
+			expect( element.childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label"' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Bar2' );
+			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( element.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports collections", function() {

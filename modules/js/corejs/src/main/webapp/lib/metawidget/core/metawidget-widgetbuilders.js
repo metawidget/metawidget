@@ -466,10 +466,12 @@ var metawidget = metawidget || {};
 
 					// Create footer (optional)
 					
-					// var tfoot = metawidget.util.createElement( mw, 'tfoot' );
-					// table.appendChild( tfoot );
-
-					// TODO: this.addFooterRow( tfoot, columnAttributes );
+					var tfoot = metawidget.util.createElement( mw, 'tfoot' );
+					this.addFooterRow( tfoot, columnAttributes );
+					
+					if ( tfoot.childNodes.length > 0 ) {
+						table.appendChild( tfoot );
+					}
 
 					// Create body
 
@@ -678,6 +680,11 @@ var metawidget = metawidget || {};
 			tr.appendChild( td );
 
 			return td;
+		};
+		
+		this.addFooterRow = function( tfoot, columnAttributes ) {
+			
+			// No footer by default
 		};
 	};
 } )();

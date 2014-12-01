@@ -436,7 +436,7 @@
 			expect( radio.childNodes[1].childNodes[0].value ).toBe( false );
 			expect( radio.childNodes[1].childNodes[1].toString() ).toBe( 'No' );
 			expect( radio.childNodes.length ).toBe( 2 );
-			
+
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "date"
 			}, mw ).toString() ).toBe( 'input type="date"' );
@@ -521,6 +521,7 @@
 			// inspectionResult undefined
 
 			mw.inspect = function() {
+
 				return undefined;
 			};
 			table = widgetBuilder.buildWidget( "entity", {
@@ -608,6 +609,7 @@
 			var element = simpleDocument.createElement( 'metawidget' );
 			var mw = new metawidget.Metawidget( element, {
 				inspector: function() {
+
 					return {
 						properties: {
 							name: {
@@ -754,7 +756,7 @@
 								hidden: true
 							},
 							foo: {
-								type: 'string'								
+								type: 'string'
 							},
 							bar: {
 								type: 'string',
@@ -824,7 +826,8 @@
 			expect( table.childNodes[1].childNodes.length ).toBe( 1 );
 			expect( table.childNodes.length ).toBe( 2 );
 
-			// Partially populated array items without JSON Schema
+			// Partially populated array items without JSON
+			// Schema
 
 			mw = new metawidget.Metawidget( element );
 			mw.toInspect = [ {
@@ -919,6 +922,51 @@
 				name: 'Foo',
 				hidden: 'true'
 			}, mw ) ).toBe( false );
+		} );
+
+		it( "has addFooterRow method for subclasses to override", function() {
+
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
+			widgetBuilder.addFooterRow = function( tfoot, columnAttributes ) {
+
+				var tr = simpleDocument.createElement( 'tr' );
+				tfoot.appendChild( tr );
+
+				for ( var loop = 0; loop < columnAttributes.length; loop++ ) {
+
+					var td = simpleDocument.createElement( 'td' );
+					tr.appendChild( td );
+					td.innerHTML = columnAttributes[loop].name + ' Footer';
+				}
+			};
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				widgetBuilder: widgetBuilder,
+				layout: new metawidget.layout.SimpleLayout()
+			} );
+
+			mw.toInspect = {
+				tableData: [ {
+					foo: 'Foo',
+					bar: 'Bar'
+				} ]
+			};
+			mw.buildWidgets();
+
+			expect( element.childNodes[0].toString() ).toBe( 'table id="tableData"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'thead' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Bar' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'tfoot' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'foo Footer' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBe( 'bar Footer' );
 		} );
 
 		it( "has addRow method for subclasses to override", function() {
@@ -1115,10 +1163,12 @@
 					expect( nestedObject.childNodes[0].toString() ).toBe( 'tbody' );
 					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object0DescriptionNestedName-row"' );
 					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-object0DescriptionNestedName-label-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="object0DescriptionNestedName" id="table-object0DescriptionNestedName-label"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
+							'label for="object0DescriptionNestedName" id="table-object0DescriptionNestedName-label"' );
 					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Nested Name:' );
 					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-object0DescriptionNestedName-cell"' );
-					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="object0DescriptionNestedName" name="object0DescriptionNestedName"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe(
+							'input type="text" id="object0DescriptionNestedName" name="object0DescriptionNestedName"' );
 
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-object0DescriptionNestedDescription-label-cell"' );
 					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe(
@@ -1129,70 +1179,69 @@
 							'input type="text" id="object0DescriptionNestedDescription" name="object0DescriptionNestedDescription"' );
 				} );
 
-		it( "supports alwaysUseNestedMetawidgetInTables",
-				function() {
+		it( "supports alwaysUseNestedMetawidgetInTables", function() {
 
-					var element = simpleDocument.createElement( 'metawidget' );
-					var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder( {
-						alwaysUseNestedMetawidgetInTables: true
-					} );
-					var mw = new metawidget.Metawidget( element, {
-						widgetBuilder: widgetBuilder
-					} );
+			var element = simpleDocument.createElement( 'metawidget' );
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder( {
+				alwaysUseNestedMetawidgetInTables: true
+			} );
+			var mw = new metawidget.Metawidget( element, {
+				widgetBuilder: widgetBuilder
+			} );
 
-					// Root level
+			// Root level
 
-					mw.toInspect = [ {
-						name: "Foo",
-						description: "Foo Description"
-					}, {
-						name: "Bar",
-						description: "Bar Description"
-					} ];
+			mw.toInspect = [ {
+				name: "Foo",
+				description: "Foo Description"
+			}, {
+				name: "Bar",
+				description: "Bar Description"
+			} ];
 
-					table = widgetBuilder.buildWidget( "entity", {
-						type: "array"
-					}, mw );
+			table = widgetBuilder.buildWidget( "entity", {
+				type: "array"
+			}, mw );
 
-					expect( mw.nestedMetawidgets[0].toString() ).toBe( 'div' );
-					expect( mw.nestedMetawidgets[0].getMetawidget().path ).toBe( 'object[0].name' );
-					expect( mw.nestedMetawidgets[1].toString() ).toBe( 'div' );
-					expect( mw.nestedMetawidgets[1].getMetawidget().path ).toBe( 'object[0].description' );
-					expect( mw.nestedMetawidgets[2].toString() ).toBe( 'div' );
-					expect( mw.nestedMetawidgets[2].getMetawidget().path ).toBe( 'object[1].name' );
-					expect( mw.nestedMetawidgets[3].toString() ).toBe( 'div' );
-					expect( mw.nestedMetawidgets[3].getMetawidget().path ).toBe( 'object[1].description' );
-					expect( mw.nestedMetawidgets.length ).toBe( 4 );
-					
-					expect( table.toString() ).toBe( 'table' );
-					expect( table.childNodes[0].toString() ).toBe( 'thead' );
-					expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
-					expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
-					expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Name' );
-					expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
-					expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Description' );
-					expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
-					expect( table.childNodes[1].toString() ).toBe( 'tbody' );
-					expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
-					expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
-					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Name" name="object0Name"' );
-					expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Description" name="object0Description"' );
-					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'Foo Description' );
-					expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
-					expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
-					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Name" name="object1Name"' );
-					expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Bar' );
-					expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
-					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
-					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Description" name="object1Description"' );
-					expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'Bar Description' );
-					expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
-				} );
+			expect( mw.nestedMetawidgets[0].toString() ).toBe( 'div' );
+			expect( mw.nestedMetawidgets[0].getMetawidget().path ).toBe( 'object[0].name' );
+			expect( mw.nestedMetawidgets[1].toString() ).toBe( 'div' );
+			expect( mw.nestedMetawidgets[1].getMetawidget().path ).toBe( 'object[0].description' );
+			expect( mw.nestedMetawidgets[2].toString() ).toBe( 'div' );
+			expect( mw.nestedMetawidgets[2].getMetawidget().path ).toBe( 'object[1].name' );
+			expect( mw.nestedMetawidgets[3].toString() ).toBe( 'div' );
+			expect( mw.nestedMetawidgets[3].getMetawidget().path ).toBe( 'object[1].description' );
+			expect( mw.nestedMetawidgets.length ).toBe( 4 );
+
+			expect( table.toString() ).toBe( 'table' );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Name" name="object0Name"' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Description" name="object0Description"' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'Foo Description' );
+			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Name" name="object1Name"' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Description" name="object1Description"' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'Bar Description' );
+			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
+		} );
 
 		it( "supports alwaysUseNestedMetawidgetInTables with readOnly tables", function() {
 

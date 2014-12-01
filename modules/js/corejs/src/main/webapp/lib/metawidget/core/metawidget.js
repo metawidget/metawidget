@@ -81,8 +81,6 @@ var metawidget = metawidget || {};
 		// Public methods
 		//
 
-		// TODO: test reconfigure and save
-		
 		this.reconfigure = function( config ) {
 
 			return _pipeline.configure( config );
@@ -180,7 +178,7 @@ var metawidget = metawidget || {};
 			while ( element.childNodes.length > 0 ) {
 				element.removeChild( element.childNodes[0] );
 			}
-		}
+		};
 
 		/**
 		 * Returns a nested version of this same Metawidget, using the given
