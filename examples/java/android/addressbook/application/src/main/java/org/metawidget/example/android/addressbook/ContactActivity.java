@@ -109,7 +109,7 @@ public class ContactActivity
 			builderTitle.append( mContact.getFullname() );
 			builderTitle.append( " - " );
 		} else {
-			
+
 			// Create contact
 
 			String contactType = intent.getStringExtra( "contactType" );
@@ -219,9 +219,8 @@ public class ContactActivity
 				break;
 
 			case R.string.save:
-				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
-
 				try {
+					metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 					application.getContactsController().save( mContact );
 					finish();
 				} catch ( Exception e ) {
@@ -252,7 +251,7 @@ public class ContactActivity
 					}
 				} ).show();
 				break;
-				
+
 			default:
 				throw new UnsupportedOperationException( String.valueOf( item.getItemId() ));
 		}

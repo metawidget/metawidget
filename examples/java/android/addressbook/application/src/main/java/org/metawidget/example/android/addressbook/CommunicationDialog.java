@@ -106,9 +106,8 @@ public class CommunicationDialog
 
 		if ( button == DialogInterface.BUTTON1 ) {
 
-			mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mMetawidget );
-
 			try {
+				mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mMetawidget );
 				mContact.addCommunication( mCommunication );
 				mListener.onClick( dialog, button );
 			} catch ( Exception e ) {
