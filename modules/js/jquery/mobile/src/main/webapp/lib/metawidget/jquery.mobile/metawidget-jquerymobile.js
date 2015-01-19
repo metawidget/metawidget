@@ -213,7 +213,11 @@ var metawidget = metawidget || {};
 				// De-augment before pushing, so that the widget works
 				// seamlessly with binding/override matching
 
-				this._overriddenNodes.push( childNode.childNodes[0] );
+				if ( childNode.getAttribute( 'id' ) === null && childNode.childNodes.length === 1 ) {
+					childNode = childNode.childNodes[0];
+				}
+				
+				this._overriddenNodes.push( childNode );
 			}
 		},
 

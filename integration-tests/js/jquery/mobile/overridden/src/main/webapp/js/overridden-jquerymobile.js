@@ -12,7 +12,7 @@ var overridden = overridden || {};
 			foo: 'Foo',
 			bar: 'Bar',
 			baz: 'Baz'
-		}
+		};
 
 		var mw = page.find( "#metawidget" );
 		mw.metawidget();
@@ -27,5 +27,5 @@ var overridden = overridden || {};
 		
 		mw.metawidget( 'setReadOnly', true );
 		mw.metawidget( 'buildWidgets' );
-	}
+	};
 } )();

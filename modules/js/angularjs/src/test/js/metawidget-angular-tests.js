@@ -905,13 +905,14 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-						expect( mw.innerHTML ).toContain( '<select id="fooBar" ng-model="foo.bar" ng-required="true" class="ng-scope ng-pristine ng-valid ng-valid-required" required="required"><option value="1"' );
+						expect( mw.innerHTML ).toContain(
+								'<select id="fooBar" ng-model="foo.bar" ng-required="true" class="ng-scope ng-pristine ng-valid ng-valid-required" required="required"><option value="1"' );
 						expect( mw.innerHTML ).toContain( '<option value="1" ng-selected="foo.bar==1">One</option>' );
 						expect( mw.innerHTML ).toContain( '<option value="2" ng-selected="foo.bar==2" selected="selected">Two</option>' );
 						expect( mw.innerHTML ).toContain( '<option value="3" ng-selected="foo.bar==3">Three</option>' );
 					} );
 				} );
-				
+
 				it( "guards against infinite recursion", function() {
 
 					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
@@ -1845,6 +1846,13 @@
 					minLength: "3",
 					maxLength: "97"
 				};
+				var readOnlyAttributes = {
+					name: "foo",
+					required: "true",
+					minLength: "3",
+					maxLength: "97",
+					readOnly: "true"
+				};
 				var mw = {
 					path: "testPath"
 				};
@@ -1859,6 +1867,15 @@
 				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( '3' );
 				expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( '97' );
 				expect( widget.getAttribute( 'maxlength' ) ).toBe( '97' );
+
+				// Outputs
+
+				var widget = document.createElement( 'output' );
+				processor.processWidget( widget, 'property', readOnlyAttributes, mw );
+				expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath.foo' );
+				expect( widget.getAttribute( 'ng-required' ) ).toBe( null );
+				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
+				expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( null );
 
 				// Textareas (same as inputs, not same as outputs)
 

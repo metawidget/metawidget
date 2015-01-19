@@ -646,13 +646,13 @@ var metawidget = metawidget || {};
 						}
 					}
 				}
-				
+
 			} else if ( widget.tagName === 'SELECT' ) {
-				
+
 				widget.setAttribute( 'ng-model', binding );
 
 				// Special support for non-string selects
-				
+
 				if ( attributes.type === 'boolean' || attributes.type === 'integer' || attributes.type === 'number' ) {
 					for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 
@@ -663,25 +663,28 @@ var metawidget = metawidget || {};
 						}
 					}
 				}
-				
+
 			} else if ( widget.tagName === 'INPUT' || widget.tagName === 'TEXTAREA' ) {
 				widget.setAttribute( 'ng-model', binding );
 			}
 
 			// Validation
 
-			if ( attributes.required !== undefined ) {
-				widget.setAttribute( 'ng-required', attributes.required );
-			}
+			if ( !metawidget.util.isTrueOrTrueString( attributes.readOnly ) ) {
 
-			if ( attributes.minLength !== undefined ) {
-				widget.setAttribute( 'ng-minlength', attributes.minLength );
-			}
+				if ( attributes.required !== undefined ) {
+					widget.setAttribute( 'ng-required', attributes.required );
+				}
 
-			if ( attributes.maxLength !== undefined ) {
-				widget.setAttribute( 'ng-maxlength', attributes.maxLength );
-				
-				// (retain maxlength set by HtmlWidgetBuilder)
+				if ( attributes.minLength !== undefined ) {
+					widget.setAttribute( 'ng-minlength', attributes.minLength );
+				}
+
+				if ( attributes.maxLength !== undefined ) {
+					widget.setAttribute( 'ng-maxlength', attributes.maxLength );
+
+					// (retain maxlength set by HtmlWidgetBuilder)
+				}
 			}
 
 			return widget;

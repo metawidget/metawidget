@@ -77,27 +77,27 @@
 							expect( firedBuildEndEvent ).toBe( 2 );
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
-							expect( element.childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
+											'<div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div>' );
+							expect( element.childNodes[0].childNodes[0].value ).toBe( 'Foo' );
 							expect( element.childNodes[1].outerHTML )
 									.toBe(
-											'<span><div class="metawidget-class" id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );
+											'<div class="metawidget-class" id="bar"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div>' );
 
 							// Read-only
 
 							$( '#metawidget' ).metawidget( "setReadOnly", true );
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
+											'<div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div>' );
 							expect( element.childNodes[1].outerHTML )
 									.toBe(
-											'<span><div class="metawidget-class" id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );
+											'<div class="metawidget-class" id="bar"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div>' );
 
 							$( '#metawidget' ).metawidget( "buildWidgets" );
 							expect( firedBuildEndEvent ).toBe( 3 );
-							expect( element.childNodes[0].outerHTML ).toBe( '<span><output id="foo">Foo</output></span>' );
+							expect( element.childNodes[0].outerHTML ).toBe( '<output id="foo">Foo</output>' );
 							expect( element.childNodes[1].outerHTML ).toBe(
-									'<span><div class="metawidget-class" id="bar"><span><output id="barBaz">Baz</output></span><span><output id="barAbc">Abc</output></span></div></span>' );
+									'<div class="metawidget-class" id="bar"><output id="barBaz">Baz</output><output id="barAbc">Abc</output></div>' );
 						} );
 
 				it(
