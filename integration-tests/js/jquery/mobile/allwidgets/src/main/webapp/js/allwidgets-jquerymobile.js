@@ -8,7 +8,7 @@ var allwidgets = allwidgets || {};
 
 		var page = $( event.target );
 
-		var mw = $( "#metawidget" );
+		var mw = page.find( "#metawidget" );
 		mw.metawidget( {
 
 			inspector: new metawidget.inspector.CompositeInspector( [ new metawidget.inspector.PropertyTypeInspector(), function( toInspect, type, names ) {
