@@ -77,27 +77,27 @@
 							expect( firedBuildEndEvent ).toBe( 2 );
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div>' );
-							expect( element.childNodes[0].childNodes[0].value ).toBe( 'Foo' );
+											'<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
+							expect( element.childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
 							expect( element.childNodes[1].outerHTML )
 									.toBe(
-											'<div class="metawidget-class" id="bar"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div>' );
+											'<span><div class="metawidget-class" id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );
 
 							// Read-only
 
 							$( '#metawidget' ).metawidget( "setReadOnly", true );
 							expect( element.childNodes[0].outerHTML )
 									.toBe(
-											'<div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div>' );
+											'<span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="foo" name="foo" class="ui-input-text ui-body-c"/></div></span>' );
 							expect( element.childNodes[1].outerHTML )
 									.toBe(
-											'<div class="metawidget-class" id="bar"><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></div>' );
+											'<span><div class="metawidget-class" id="bar"><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barBaz" name="barBaz" class="ui-input-text ui-body-c"/></div></span><span><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" id="barAbc" name="barAbc" class="ui-input-text ui-body-c"/></div></span></div></span>' );
 
 							$( '#metawidget' ).metawidget( "buildWidgets" );
 							expect( firedBuildEndEvent ).toBe( 3 );
-							expect( element.childNodes[0].outerHTML ).toBe( '<output id="foo">Foo</output>' );
+							expect( element.childNodes[0].outerHTML ).toBe( '<span><output id="foo">Foo</output></span>' );
 							expect( element.childNodes[1].outerHTML ).toBe(
-									'<div class="metawidget-class" id="bar"><output id="barBaz">Baz</output><output id="barAbc">Abc</output></div>' );
+									'<span><div class="metawidget-class" id="bar"><span><output id="barBaz">Baz</output></span><span><output id="barAbc">Abc</output></span></div></span>' );
 						} );
 
 				it(
@@ -376,36 +376,6 @@
 			expect( saved[0] ).toBe( 'Apples' );
 			expect( saved[1] ).toBe( 'Bananas' );
 			expect( saved.length ).toBe( 2 );
-		} );
-		it( "binds to and from search widgets", function() {
-
-			var processor = new metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor();
-			$( '#metawidget' ).metawidget();
-			var mwData = $( '#metawidget' ).data( 'metawidget' );
-			processor.onStartBuild( mwData )
-
-			var widgetToBind = $( '<input id="foo" type="search"/>' )[0];
-			attributes = {
-				name: 'foo'
-			};
-			mwData.toInspect = {
-				foo: 'TheFoo'
-			};
-
-			// Bind to
-
-			processor.processWidget( widgetToBind, "property", attributes, mwData );
-			expect( widgetToBind.value ).toBe( 'TheFoo' );
-
-			// Save from (confusingly, saves from a different search widget
-			// entirely)
-
-			$( '#metawidget' ).append( $( '<input id="foo" type="text" value="TheBar"/>' ) );
-			var saved = processor.saveFromWidget( {
-				widget: widgetToBind,
-				attributes: attributes
-			}, mwData );
-			expect( saved ).toBe( 'TheBar' );
 		} );
 	} );
 } )();

@@ -69,8 +69,6 @@ var metawidget = metawidget || {};
 		return widget;
 	};
 
-	// TODO: binding and overriding don't work well with enhanced widgets
-
 	metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor = function() {
 
 		if ( ! ( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor ) ) {
@@ -78,22 +76,6 @@ var metawidget = metawidget || {};
 		}
 
 		var processor = new metawidget.widgetprocessor.SimpleBindingProcessor();
-
-		// Overridden because some JQuery Mobile widgets (such as search inputs)
-		// swap out the existing DOM. We can resolve this using JQuery more
-		// safely then with pure JavaScript, because we can find *within* a node
-
-		processor.getWidgetFromBinding = function( binding, mw ) {
-
-			if ( binding.widget.getAttribute( 'type' ) === 'search' ) {
-				return $( mw.getElement() ).find( '#' + binding.widget.getAttribute( 'id' ) )[0];
-			}
-
-			// Try not to use a DOM search, because mobile is very performance
-			// sensitive
-
-			return binding.widget;
-		};
 
 		// Support arrays of checkboxes
 
@@ -183,6 +165,38 @@ var metawidget = metawidget || {};
 
 			this._pipeline.configure( this.options );
 
+			// JQuery Mobile automatically augments widgets with additional
+			// HTML. Clients must call trigger( 'create' ) manually for
+			// dynamically created components. This must be done on the widget's
+			// container, not the widget itself. However, it cannot be done at
+			// the top Metawidget-level, as that will 'double augment' any
+			// overridden widgets
+
+			var _superLayoutWidget = this._pipeline.layoutWidget;
+			this._pipeline.layoutWidget = function( widget, elementName, attributes, container, mw ) {
+
+				_superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
+				if ( widget.overridden === undefined ) {
+
+					var childNodes = container.childNodes;
+					var containerNode = childNodes[childNodes.length - 1];
+
+					if ( containerNode === widget ) {
+
+						// Support SimpleLayout
+
+						container.removeChild( widget );
+						var wrapper = $( '<span>' ).append( widget );
+						container.appendChild( wrapper[0] );
+						wrapper.trigger( 'create' );
+
+					} else {
+
+						$( containerNode ).trigger( 'create' );
+					}
+				}
+			};
+			
 			// Force a useful convention from JQuery UI that JQuery Mobile
 			// doesn't seem to have (yet?)
 
@@ -213,10 +227,10 @@ var metawidget = metawidget || {};
 				// De-augment before pushing, so that the widget works
 				// seamlessly with binding/override matching
 
-				if ( childNode.getAttribute( 'id' ) === null && childNode.childNodes.length === 1 ) {
+				if ( childNode.getAttribute( 'class' ) !== null && childNode.getAttribute( 'class' ).indexOf( 'ui-' ) !== -1 && childNode.childNodes.length === 1 ) {
 					childNode = childNode.childNodes[0];
 				}
-				
+
 				this._overriddenNodes.push( childNode );
 			}
 		},
@@ -253,7 +267,6 @@ var metawidget = metawidget || {};
 			// Build widgets
 
 			this._pipeline.buildWidgets( inspectionResult, this );
-			$( this.element ).trigger( 'create' );
 		},
 
 		/**
