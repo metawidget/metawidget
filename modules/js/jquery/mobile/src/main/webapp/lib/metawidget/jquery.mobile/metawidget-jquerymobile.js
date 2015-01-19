@@ -33,7 +33,7 @@ var metawidget = metawidget || {};
 
 	metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor = function() {
 
-		if ( !( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor ) ) {
+		if ( ! ( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileWidgetProcessor ) ) {
 			throw new Error( "Constructor called as a function" );
 		}
 	};
@@ -49,11 +49,11 @@ var metawidget = metawidget || {};
 
 			while ( widget.childNodes.length > 0 ) {
 				var label = widget.childNodes[0];
-				
+
 				if ( label.tagName !== 'LABEL' ) {
 					return widget;
 				}
-				
+
 				var id = widget.getAttribute( 'id' ) + widget.childNodes.length;
 				label.setAttribute( 'for', id );
 				var input = label.childNodes[0];
@@ -70,10 +70,10 @@ var metawidget = metawidget || {};
 	};
 
 	// TODO: binding and overriding don't work well with enhanced widgets
-	
+
 	metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor = function() {
 
-		if ( !( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor ) ) {
+		if ( ! ( this instanceof metawidget.jquerymobile.widgetprocessor.JQueryMobileSimpleBindingProcessor ) ) {
 			throw new Error( "Constructor called as a function" );
 		}
 
@@ -94,9 +94,9 @@ var metawidget = metawidget || {};
 
 			return binding.widget;
 		};
-		
+
 		// Support arrays of checkboxes
-		
+
 		var _superBindToWidget = processor.bindToWidget;
 		processor.bindToWidget = function( widget, value, elementName, attributes, mw ) {
 
@@ -120,7 +120,7 @@ var metawidget = metawidget || {};
 			}
 
 			return toReturn;
-		};		
+		};
 		var _superSaveFromWidget = processor.saveFromWidget;
 		processor.saveFromWidget = function( binding, mw ) {
 
@@ -138,7 +138,7 @@ var metawidget = metawidget || {};
 			}
 
 			return _superSaveFromWidget.call( this, binding, mw );
-		};		
+		};
 
 		return processor;
 	};
@@ -183,38 +183,6 @@ var metawidget = metawidget || {};
 
 			this._pipeline.configure( this.options );
 
-			// JQuery Mobile automatically augments widgets with additional
-			// HTML. Clients must call trigger( 'create' ) manually for
-			// dynamically created components. This must be done on the widget's
-			// container, not the widget itself. However, it cannot be done at
-			// the top Metawidget-level, as that will 'double augment' any
-			// overridden widgets
-
-			var _superLayoutWidget = this._pipeline.layoutWidget;
-			this._pipeline.layoutWidget = function( widget, elementName, attributes, container, mw ) {
-
-				_superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
-				if ( widget.overridden === undefined ) {
-
-					var childNodes = container.childNodes;
-					var containerNode = childNodes[childNodes.length - 1];
-
-					if ( containerNode === widget ) {
-
-						// Support SimpleLayout
-
-						container.removeChild( widget );
-						var wrapper = $( '<span>' ).append( widget );
-						container.appendChild( wrapper[0] );
-						wrapper.trigger( 'create' );
-
-					} else {
-
-						$( containerNode ).trigger( 'create' );
-					}
-				}
-			};
-
 			// Force a useful convention from JQuery UI that JQuery Mobile
 			// doesn't seem to have (yet?)
 
@@ -241,7 +209,11 @@ var metawidget = metawidget || {};
 
 				var childNode = element.childNodes[loop];
 				element.removeChild( childNode );
-				this._overriddenNodes.push( childNode );
+
+				// De-augment before pushing, so that the widget works
+				// seamlessly with binding/override matching
+
+				this._overriddenNodes.push( childNode.childNodes[0] );
 			}
 		},
 
@@ -277,6 +249,7 @@ var metawidget = metawidget || {};
 			// Build widgets
 
 			this._pipeline.buildWidgets( inspectionResult, this );
+			$( this.element ).trigger( 'create' );
 		},
 
 		/**
@@ -307,12 +280,12 @@ var metawidget = metawidget || {};
 		/**
 		 * Overridden to use JQuery.empty (safer for memory leaks).
 		 */
-		
+
 		clearWidgets: function() {
-		
+
 			$( this.getElement() ).empty();
 		},
-		
+
 		/**
 		 * Inspect the given toInspect/path and build widgets.
 		 * <p>
@@ -340,15 +313,15 @@ var metawidget = metawidget || {};
 		 * This is a convenience method. To access other Metawidget APIs,
 		 * clients can use the 'getWidgetProcessor' method
 		 */
-		
+
 		save: function() {
-		
+
 			this._pipeline.getWidgetProcessor( function( widgetProcessor ) {
 
 				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 			} ).save( this );
 		},
-		
+
 		getWidgetProcessor: function( testInstanceOf ) {
 
 			return this._pipeline.getWidgetProcessor( testInstanceOf );

@@ -15,12 +15,11 @@ var overridden = overridden || {};
 		}
 
 		var mw = page.find( "#metawidget" );
-		console.log( mw );
 		mw.metawidget();
 		mw.metawidget( 'buildWidgets', model, 'overridden' );
 	} );
 
-	overridden.saveAllWidgets = function( event ) {
+	overridden.save = function( event ) {
 
 		var page = $( event ).parents( 'article' );
 		var mw = page.find( '#metawidget' );
