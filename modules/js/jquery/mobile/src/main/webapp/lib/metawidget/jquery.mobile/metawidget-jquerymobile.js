@@ -77,6 +77,22 @@ var metawidget = metawidget || {};
 
 		var processor = new metawidget.widgetprocessor.SimpleBindingProcessor();
 
+		// Overridden because some JQuery Mobile widgets (such as search inputs)
+		// swap out the existing DOM. We can resolve this using JQuery more
+		// safely then with pure JavaScript, because we can find *within* a node
+
+		processor.getWidgetFromBinding = function( binding, mw ) {
+
+			if ( binding.widget.getAttribute( 'type' ) === 'search' ) {
+				return $( mw.getElement() ).find( '#' + binding.widget.getAttribute( 'id' ) )[0];
+			}
+
+			// Try not to use a DOM search, because mobile is very performance
+			// sensitive
+
+			return binding.widget;
+		};
+
 		// Support arrays of checkboxes
 
 		var _superBindToWidget = processor.bindToWidget;
