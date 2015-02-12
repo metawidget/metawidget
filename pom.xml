@@ -264,7 +264,7 @@
 		</repository>
 		<repository>
 			<id>local-repository</id>
-			<url>https://raw.github.com/metawidget/metawidget/master/repository</url>
+			<url>https://raw.githubusercontent.com/metawidget/metawidget/master/repository</url>
 		</repository>
 		<repository>
 			<id>prime-repo</id>
