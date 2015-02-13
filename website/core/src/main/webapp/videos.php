@@ -15,7 +15,7 @@
 		</p>
 				
 		<div class="video">
-			<object width="640" height="505"><param name="movie" value="http://www.youtube.com/v/vhx2pUb6DEY&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/vhx2pUb6DEY&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="505"></embed></object>
+			<iframe width="640" height="480" src="https://www.youtube.com/embed/vhx2pUb6DEY" frameborder="0" allowfullscreen></iframe>		
 		</div>
 
 		<p>
@@ -39,7 +39,7 @@
 				<tr>
 					<td>
 						<div class="video">
-							<object width="640" height="505"><param name="movie" value="http://www.youtube.com/v/2JxGFC7WB1c&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/2JxGFC7WB1c&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="505"></embed></object>
+							<iframe width="640" height="480" src="https://www.youtube.com/embed/2JxGFC7WB1c" frameborder="0" allowfullscreen></iframe>
 						</div>
 					</td>
 					<th>
@@ -52,7 +52,7 @@
 				<tr>
 					<td>
 						<div class="video">
-							<object width="640" height="505"><param name="movie" value="http://www.youtube.com/v/bRT2MiXOjNg&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/bRT2MiXOjNg&amp;hl=en_US&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="505"></embed></object>
+							<iframe width="640" height="480" src="https://www.youtube.com/embed/bRT2MiXOjNg" frameborder="0" allowfullscreen></iframe>
 						</div>
 					</td>
 					<th>
