@@ -18,7 +18,7 @@
 			<outputDirectory>/doc/taglib</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>/documentation/reference/target/docbook</directory>
+			<directory>documentation/reference/target/docbook</directory>
 			<includes>
 				<include>**/pdf/*.pdf</include>
 				<include>**/html*/*.html</include>
