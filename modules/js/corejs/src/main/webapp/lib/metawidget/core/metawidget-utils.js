@@ -156,6 +156,10 @@ var metawidget = metawidget || {};
 	 * First, camelCases the given value to create a key. Then looks this key up
 	 * in <tt>mw.l10n</tt>. If it exists, returns the value associated with
 	 * that key. Otherwise, returns the original value.
+	 * <p>
+	 * Clients can either initialize a property called <tt>l10n</tt> on the
+	 * Metawidget, or replace this whole method with their own localization
+	 * approach. In the latter case, <tt>mw.path</tt> may also prove useful.
 	 */
 
 	metawidget.util.getLocalizedString = function( value, mw ) {
@@ -689,13 +693,13 @@ var metawidget = metawidget || {};
 			widget.setAttribute( attributeName, toAppend );
 			return;
 		}
-		
+
 		// IE compatibility (convert DispHTMLStyle to a string)
-		
+
 		if ( existingAttribute.toString !== undefined ) {
 			existingAttribute = existingAttribute.toString();
 		}
-		
+
 		if ( existingAttribute !== toAppend && existingAttribute.indexOf( toAppend + separator ) === -1 && existingAttribute.indexOf( separator + toAppend ) === -1 ) {
 			widget.setAttribute( attributeName, existingAttribute + separator + toAppend );
 		}
