@@ -823,18 +823,20 @@ var metawidget = metawidget || {};
 			throw new Error( 'Constructor called as a function' );
 		}
 
+		var _level = config !== undefined && config.level !== undefined ? config.level : 1;
+		
 		metawidget.layout.createFlatSectionLayoutDecorator( config, this, 'headingTagLayoutDecorator' );
-	};
 
-	metawidget.layout.HeadingTagLayoutDecorator.prototype.addSectionWidget = function( section, level, attributes, container, mw ) {
-
-		var h1 = metawidget.util.createElement( mw, 'h' + ( level + 1 ) );
-		h1.innerHTML = section;
-
-		this.getDelegate().layoutWidget( h1, "property", {
-			wide: 'true'
-		}, container, mw );
-	};
+		this.addSectionWidget = function( section, level, attributes, container, mw ) {
+	
+			var h1 = metawidget.util.createElement( mw, 'h' + ( level + _level ) );
+			h1.innerHTML = section;
+	
+			this.getDelegate().layoutWidget( h1, "property", {
+				wide: 'true'
+			}, container, mw );
+		};
+	}
 
 	/**
 	 * @class LayoutDecorator to decorate widgets from different sections using

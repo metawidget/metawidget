@@ -1275,6 +1275,41 @@
 			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 		} );
 
+		it( "can start at arbitary heading numbers", function() {
+
+			var layout = new metawidget.layout.HeadingTagLayoutDecorator( {
+				level: 3,
+				delegate: new metawidget.layout.TableLayout()	
+			} );
+
+			var widget1 = simpleDocument.createElement( 'input' );
+			widget1.setAttribute( 'id', 'widget1' );
+			var widget2 = simpleDocument.createElement( 'input' );
+			widget2.setAttribute( 'id', 'widget2' );
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				"path": "testPath",
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.onStartBuild( mw );
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( widget1, "property", {
+				"name": "widget1",
+			}, container, mw );
+			layout.layoutWidget( widget2, "property", {
+				"name": "widget2",
+				"section": "New Section"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'h3' );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+		} );
+
 		it( "flattens nested sections", function() {
 
 			var layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.SimpleLayout() );
