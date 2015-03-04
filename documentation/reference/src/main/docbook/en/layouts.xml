@@ -727,7 +727,29 @@
 					<para>
 						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
 						an HTML heading tag (i.e. <parameter>h1</parameter>, <parameter>h2</parameter> etc).
+						This <classname>Layout</classname> recognizes the following configuration properties:
 					</para>
+
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>level</parameter></td>
+								<td>
+									The first level of the heading tags (i.e. <parameter>3</parameter> for <parameter>h3</parameter>).
+								</td>
+							</tr>
+						</tbody>						
+					</informaltable>
 				</section>
 
 				<section id="section-layouts-web-javascript-tab-bootstrap">

@@ -1278,8 +1278,8 @@
 		it( "can start at arbitary heading numbers", function() {
 
 			var layout = new metawidget.layout.HeadingTagLayoutDecorator( {
-				level: 3,
-				delegate: new metawidget.layout.TableLayout()	
+				delegate: new metawidget.layout.TableLayout(),	
+				level: 3
 			} );
 
 			var widget1 = simpleDocument.createElement( 'input' );

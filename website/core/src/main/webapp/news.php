@@ -8,7 +8,7 @@
 		<h4></h4>
 		
 		<p>
-			Metawidget v4.1 is now available!
+			Metawidget v4.2 is now available!
 		</p>
 		<p>
 			This release was focused on: 			  
