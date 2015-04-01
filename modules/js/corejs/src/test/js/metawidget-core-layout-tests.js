@@ -1481,6 +1481,35 @@
 			expect( container.childNodes[4].toString() ).toBe( 'widget5' );
 			expect( container.childNodes.length ).toBe( 5 );
 		} );
+
+		it( "supports styleClass", function() {
+
+			var layout = new metawidget.layout.DivLayoutDecorator( {
+				styleClass: 'theStyleClass',
+				delegate: new metawidget.layout.SimpleLayout()
+			} );
+
+			var container = simpleDocument.createElement( 'metawidget' );
+			var mw = {
+				"path": "testPath",
+				getElement: function() {
+
+					return container;
+				}
+			};
+
+			layout.onStartBuild( mw );
+			layout.startContainerLayout( container, mw );
+			layout.layoutWidget( simpleDocument.createElement( 'widget1' ), "property", {
+				"name": "widget1",
+				"section": "Section 1"
+			}, container, mw );
+
+			expect( container.childNodes[0].toString() ).toBe( 'div title="Section 1" class="theStyleClass"' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'widget1' );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
+		} );
 	} );
 
 	describe( "The FlatSectionLayoutDecorator", function() {

@@ -16,6 +16,7 @@
 		
 		<ul>
 			<li>HeadingTagLayoutDecorator supports starting level</li>
+			<li>DivLayoutDecorator supports styleClass</li>
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

@@ -849,17 +849,24 @@ var metawidget = metawidget || {};
 			throw new Error( 'Constructor called as a function' );
 		}
 
+		var _styleClass = config !== undefined ? config.styleClass : undefined;
+		
 		metawidget.layout.createNestedSectionLayoutDecorator( config, this, 'divLayoutDecorator' );
-	};
+		
+		this.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
 
-	metawidget.layout.DivLayoutDecorator.prototype.createSectionWidget = function( previousSectionWidget, section, attributes, container, mw ) {
-
-		var div = metawidget.util.createElement( mw, 'div' );
-		div.setAttribute( 'title', section );
-		this.getDelegate().layoutWidget( div, "property", {
-			wide: 'true'
-		}, container, mw );
-
-		return div;
+			var div = metawidget.util.createElement( mw, 'div' );
+			div.setAttribute( 'title', section );
+			
+			if ( _styleClass !== undefined ) {
+				div.setAttribute( 'class', _styleClass );
+			}
+			
+			this.getDelegate().layoutWidget( div, "property", {
+				wide: 'true'
+			}, container, mw );
+	
+			return div;
+		}
 	};
 } )();
