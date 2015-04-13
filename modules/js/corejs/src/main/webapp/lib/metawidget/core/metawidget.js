@@ -305,6 +305,9 @@ var metawidget = metawidget || {};
 			}
 		}
 		if ( config.appendWidgetProcessors !== undefined ) {
+			
+			// TODO: support single widget processors (i.e. not passing an array of 1)
+			
 			for ( loop = 0; loop < config.appendWidgetProcessors.length; loop++ ) {
 				this.widgetProcessors.push( config.appendWidgetProcessors[loop] );
 			}
