@@ -22,7 +22,6 @@ import java.util.TimeZone;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.FacesUtils;
@@ -326,8 +325,8 @@ public class PrimeFacesWidgetBuilder
 			UIStub stub = (UIStub) application
 					.createComponent( UIStub.COMPONENT_TYPE );
 
-			HtmlInputText inputText = (HtmlInputText) application
-					.createComponent( HtmlInputText.COMPONENT_TYPE );
+			InputText inputText = (InputText) application
+					.createComponent( InputText.COMPONENT_TYPE );
 			inputText.setId( FacesUtils.createUniqueId() );
 			stub.getChildren().add( inputText );
 
