@@ -132,7 +132,7 @@ public class PrimeFacesWidgetBuilderTest
 		attributes.put( MINIMUM_VALUE, "2" );
 		attributes.put( MAXIMUM_VALUE, "1023" );
 		stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( stub.getChildren().get( 0 ) instanceof HtmlInputText );
+		assertTrue( stub.getChildren().get( 0 ) instanceof InputText );
 		slider = (Slider) stub.getChildren().get( 1 );
 		assertEquals( 2, slider.getMinValue() );
 		assertEquals( 1023, slider.getMaxValue() );
@@ -239,7 +239,7 @@ public class PrimeFacesWidgetBuilderTest
 
         attributes.put( TYPE, String.class.getName() );
         attributes.put( LARGE, TRUE );
-        attributes.put( MAXIMUM_LENGTH, String.valueOf(20) );
+        attributes.put( MAXIMUM_LENGTH, "20" );
         InputTextarea inputTextarea = (InputTextarea) widgetBuilder.buildWidget( PROPERTY, attributes, null );
         assertEquals( 20, inputTextarea.getMaxlength() );
 
