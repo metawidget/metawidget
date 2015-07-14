@@ -33,6 +33,9 @@ import org.metawidget.util.WidgetBuilderUtils;
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.inputtextarea.InputTextarea;
+import org.primefaces.component.password.Password;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
@@ -260,6 +263,19 @@ public class PrimeFacesWidgetBuilder
 						autoComplete.setCompleteMethod( application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { String.class } ) );
 						return autoComplete;
 					}
+
+					UIComponent component;
+					if ( TRUE.equals( attributes.get( MASKED ) ) ) {
+						component = FacesUtils.createComponent( Password.COMPONENT_TYPE, "org.primefaces.component.PasswordRenderer" );
+					} else if ( TRUE.equals( attributes.get( LARGE ) ) ) {
+						component = FacesUtils.createComponent( InputTextarea.COMPONENT_TYPE, "org.primefaces.component.InputTextareaRenderer" );
+					} else {
+						component = FacesUtils.createComponent( InputText.COMPONENT_TYPE, "org.primefaces.component.InputTextRenderer" );
+					}
+
+					setMaximumLength( component, attributes );
+
+					return component;
 				}
 			}
 		}
@@ -271,6 +287,24 @@ public class PrimeFacesWidgetBuilder
 		// Not for PrimeFaces
 
 		return null;
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected void setMaximumLength( UIComponent component, Map<String, String> attributes ) {
+
+		String maximumLength = attributes.get( MAXIMUM_LENGTH );
+
+		if ( maximumLength != null && !"".equals( maximumLength ) ) {
+			if ( component instanceof InputTextarea ) {
+				( (InputTextarea) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+			} else {
+				super.setMaximumLength( component, attributes );
+			}
+		}
 	}
 
 	//

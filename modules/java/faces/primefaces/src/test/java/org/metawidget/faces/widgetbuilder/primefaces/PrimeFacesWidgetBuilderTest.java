@@ -37,6 +37,9 @@ import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.colorpicker.ColorPicker;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.inputtextarea.InputTextarea;
+import org.primefaces.component.password.Password;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
 import org.primefaces.component.spinner.Spinner;
@@ -224,6 +227,30 @@ public class PrimeFacesWidgetBuilderTest
 
 		attributes.remove( FACES_SUGGEST );
 
+        // Masked
+
+        attributes.put( TYPE, String.class.getName() );
+        attributes.put( MASKED, TRUE );
+        assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof Password );
+
+        attributes.remove( MASKED );
+
+        // Large
+
+        attributes.put( TYPE, String.class.getName() );
+        attributes.put( LARGE, TRUE );
+        attributes.put( MAXIMUM_LENGTH, String.valueOf(20) );
+        InputTextarea inputTextarea = (InputTextarea) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+        assertEquals( 20, inputTextarea.getMaxlength() );
+
+        attributes.remove( LARGE );
+        attributes.remove( MAXIMUM_LENGTH );
+
+        // String
+
+        attributes.put( TYPE, String.class.getName() );
+        assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof InputText );
+
 		// ColorPickers. Note org.primefaces.component.ColorPickerRenderer does *not* support
 		// java.awt.Color (http://forum.primefaces.org/viewtopic.php?t=21593) so it isn't much good
 		// to us here
@@ -296,6 +323,18 @@ public class PrimeFacesWidgetBuilderTest
 			if ( AutoComplete.COMPONENT_TYPE.equals( componentName ) ) {
 				return new AutoComplete();
 			}
+
+			if ( Password.COMPONENT_TYPE.equals( componentName ) ) {
+                return new Password();
+            }
+
+            if ( InputTextarea.COMPONENT_TYPE.equals( componentName ) ) {
+                return new InputTextarea();
+            }
+
+            if ( InputText.COMPONENT_TYPE.equals( componentName ) ) {
+                return new InputText();
+            }
 
 			return super.createComponent( componentName );
 		}
