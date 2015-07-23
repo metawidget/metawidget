@@ -9,7 +9,7 @@
 // Commercial licenses are also available. See http://metawidget.org
 // for details.
 
-package org.metawidget.faces.widgetbuilder.primefaces;
+package org.metawidget.faces.component.html.widgetbuilder.primefaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
@@ -30,7 +30,6 @@ import junit.framework.TestCase;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
-import org.metawidget.faces.component.html.widgetbuilder.primefaces.PrimeFacesWidgetBuilder;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.primefaces.component.autocomplete.AutoComplete;

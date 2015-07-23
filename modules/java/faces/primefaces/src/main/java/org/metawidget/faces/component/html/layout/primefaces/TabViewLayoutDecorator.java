@@ -22,7 +22,6 @@ import javax.faces.context.FacesContext;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
-import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.primefaces.component.tabview.Tab;
@@ -38,12 +37,41 @@ public class TabViewLayoutDecorator
 	extends UIComponentNestedSectionLayoutDecorator {
 
 	//
+	// Private members
+	//
+
+	private int     mActiveIndex;
+
+	private String 	mEffect;
+
+	private String	mEffectDuration;
+
+	private boolean mDynamic;
+
+	private boolean	mCache;
+
+	private String  mOrientation;
+
+	private String  mStyle;
+
+	private String  mStyleClass;
+
+	//
 	// Constructor
 	//
 
-	public TabViewLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config ) {
+	public TabViewLayoutDecorator( TabViewLayoutDecoratorConfig config ) {
 
 		super( config );
+
+		mActiveIndex = config.getActiveIndex();
+		mEffect = config.getEffect();
+		mEffectDuration = config.getEffectDuration();
+		mDynamic = config.isDynamic();
+		mCache = config.isCache();
+		mOrientation = config.getOrientation();
+		mStyle = config.getStyle();
+		mStyleClass = config.getStyleClass();
 	}
 
 	//
@@ -63,6 +91,14 @@ public class TabViewLayoutDecorator
 		if ( previousSectionWidget == null ) {
 			tabView = FacesUtils.createComponent( TabView.COMPONENT_TYPE, "org.primefaces.component.TabViewRenderer" );
 			tabView.setId( FacesUtils.createUniqueId() );
+			tabView.setActiveIndex( mActiveIndex );
+			tabView.setEffect( mEffect );
+			tabView.setEffectDuration( mEffectDuration );
+			tabView.setDynamic( mDynamic );
+			tabView.setCache( mCache );
+			tabView.setOrientation( mOrientation );
+			tabView.setStyle( mStyle);
+			tabView.setStyleClass( mStyleClass );
 
 			// Add to parent container
 
@@ -77,7 +113,7 @@ public class TabViewLayoutDecorator
 
 		// New tab
 
-		Tab tab = FacesUtils.createComponent( Tab.COMPONENT_TYPE, "org.primefaces.component.TabRenderer" );
+		Tab tab = FacesUtils.createComponent( Tab.COMPONENT_TYPE, null );
 		tab.setId( FacesUtils.createUniqueId() );
 		tabView.getChildren().add( tab );
 
