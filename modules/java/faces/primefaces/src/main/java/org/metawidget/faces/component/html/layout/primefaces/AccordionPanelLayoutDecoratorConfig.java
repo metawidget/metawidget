@@ -19,29 +19,25 @@ import org.metawidget.util.simple.ObjectUtils;
 import javax.faces.component.UIComponent;
 
 /**
- * Configures a TabViewLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
+ * Configures a AccordionPanelLayoutDecorator prior to use.
  *
  * @author DanilAREFY
  */
 
-public class TabViewLayoutDecoratorConfig
+public class AccordionPanelLayoutDecoratorConfig
         extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> {
 
     //
     // Private members
     //
 
-    private int     mActiveIndex    =   0;
-
-    private String  mEffect;
-
-    private String  mEffectDuration;
+    private String  mActiveIndex    =   "false";
 
     private boolean mDynamic        =   false;
 
     private boolean mCache          =   true;
 
-    private String  mOrientation    =   "top";
+    private boolean mMultiple       =   false;
 
     private String  mStyle;
 
@@ -58,7 +54,7 @@ public class TabViewLayoutDecoratorConfig
      */
 
     @Override
-    public TabViewLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout ) {
+    public AccordionPanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout ) {
 
         super.setLayout( layout );
 
@@ -69,7 +65,7 @@ public class TabViewLayoutDecoratorConfig
      * @return this, as part of a fluent interface
      */
 
-    public TabViewLayoutDecoratorConfig setActiveIndex( int activeIndex ) {
+    public AccordionPanelLayoutDecoratorConfig setActiveIndex( String activeIndex ) {
 
         mActiveIndex = activeIndex;
 
@@ -80,7 +76,7 @@ public class TabViewLayoutDecoratorConfig
      * @return this, as part of a fluent interface
      */
 
-    public TabViewLayoutDecoratorConfig setDynamic( boolean dynamic ) {
+    public AccordionPanelLayoutDecoratorConfig setDynamic( boolean dynamic ) {
 
         mDynamic = dynamic;
 
@@ -91,29 +87,7 @@ public class TabViewLayoutDecoratorConfig
      * @return this, as part of a fluent interface
      */
 
-    public TabViewLayoutDecoratorConfig setEffect( String effect ) {
-
-        mEffect = effect;
-
-        return this;
-    }
-
-    /**
-     * @return this, as part of a fluent interface
-     */
-
-    public TabViewLayoutDecoratorConfig setEffectDuration( String effectDuration ) {
-
-        mEffectDuration = effectDuration;
-
-        return this;
-    }
-
-    /**
-     * @return this, as part of a fluent interface
-     */
-
-    public TabViewLayoutDecoratorConfig setCache( boolean cache ) {
+    public AccordionPanelLayoutDecoratorConfig setCache( boolean cache ) {
 
         mCache = cache;
 
@@ -124,9 +98,9 @@ public class TabViewLayoutDecoratorConfig
      * @return this, as part of a fluent interface
      */
 
-    public TabViewLayoutDecoratorConfig setOrientation( String orientation ) {
+    public AccordionPanelLayoutDecoratorConfig setMultiple( boolean multiple ) {
 
-        mOrientation = orientation;
+        mMultiple = multiple;
 
         return this;
     }
@@ -135,24 +109,22 @@ public class TabViewLayoutDecoratorConfig
      * @return this, as part of a fluent interface
      */
 
-    public TabViewLayoutDecoratorConfig setStyle( String style ) {
+    public AccordionPanelLayoutDecoratorConfig setStyle( String style ) {
 
         mStyle = style;
 
         return this;
-
     }
 
     /**
      * @return this, as part of a fluent interface
      */
 
-    public TabViewLayoutDecoratorConfig setStyleClass( String styleClass ) {
+    public AccordionPanelLayoutDecoratorConfig setStyleClass( String styleClass ) {
 
         mStyleClass = styleClass;
 
         return this;
-
     }
 
     @Override
@@ -166,35 +138,27 @@ public class TabViewLayoutDecoratorConfig
             return false;
         }
 
-        if ( !ObjectUtils.nullSafeEquals( mActiveIndex, ((TabViewLayoutDecoratorConfig) that ).mActiveIndex) ) {
+        if ( !ObjectUtils.nullSafeEquals(mActiveIndex, ((AccordionPanelLayoutDecoratorConfig) that).mActiveIndex) ) {
             return false;
         }
 
-        if ( !ObjectUtils.nullSafeEquals( mEffect, ((TabViewLayoutDecoratorConfig) that ).mEffect ) ) {
+        if ( mDynamic != ( (AccordionPanelLayoutDecoratorConfig) that ).mDynamic ) {
             return false;
         }
 
-        if ( !ObjectUtils.nullSafeEquals( mEffectDuration, ((TabViewLayoutDecoratorConfig) that ).mEffectDuration ) ) {
+        if ( mCache != ( (AccordionPanelLayoutDecoratorConfig) that ).mCache ) {
             return false;
         }
 
-        if ( mDynamic != ( (TabViewLayoutDecoratorConfig) that ).mDynamic ) {
+        if ( mMultiple != ( (AccordionPanelLayoutDecoratorConfig) that ).mMultiple ) {
             return false;
         }
 
-        if ( mCache != ( (TabViewLayoutDecoratorConfig) that ).mCache ) {
+        if ( !ObjectUtils.nullSafeEquals( mStyle, ( (AccordionPanelLayoutDecoratorConfig) that ).mStyle ) ) {
             return false;
         }
 
-        if ( !ObjectUtils.nullSafeEquals( mOrientation, ( (TabViewLayoutDecoratorConfig) that ).mOrientation ) ) {
-            return false;
-        }
-
-        if ( !ObjectUtils.nullSafeEquals( mStyle, ( (TabViewLayoutDecoratorConfig) that ).mStyle ) ) {
-            return false;
-        }
-
-        if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (TabViewLayoutDecoratorConfig) that ).mStyleClass ) ) {
+        if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (AccordionPanelLayoutDecoratorConfig) that ).mStyleClass ) ) {
             return false;
         }
 
@@ -206,11 +170,9 @@ public class TabViewLayoutDecoratorConfig
 
         int hashCode = super.hashCode();
         hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mActiveIndex );
-        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mEffect );
-        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mEffectDuration );
         hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDynamic );
         hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mCache );
-        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mOrientation );
+        hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mMultiple );
         hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyle );
         hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );
 
@@ -221,19 +183,9 @@ public class TabViewLayoutDecoratorConfig
     // Protected methods
     //
 
-    protected int getActiveIndex() {
+    protected String getActiveIndex() {
 
         return mActiveIndex;
-    }
-
-    protected String getEffect() {
-
-        return mEffect;
-    }
-
-    protected String getEffectDuration() {
-
-        return mEffectDuration;
     }
 
     protected boolean isDynamic() {
@@ -246,9 +198,9 @@ public class TabViewLayoutDecoratorConfig
         return mCache;
     }
 
-    protected String getOrientation() {
+    protected boolean isMultiple() {
 
-        return mOrientation;
+        return mMultiple;
     }
 
     protected String getStyle() {
