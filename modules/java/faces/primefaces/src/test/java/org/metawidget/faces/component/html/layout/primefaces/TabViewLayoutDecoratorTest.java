@@ -58,7 +58,7 @@ public class TabViewLayoutDecoratorTest
 
         InputText inputText = new InputText();
         layoutDecorator.layoutWidget( inputText, ENTITY, attributes, metawidget, metawidget );
-        assertTrue(inputText == metawidget.getChildren().get( 0 ) );
+        assertTrue( inputText == metawidget.getChildren().get( 0 ) );
         assertEquals( 1, metawidget.getChildren().size() );
 
         attributes.put( SECTION, "Foo" );

@@ -47,7 +47,7 @@
 		<!-- Use PrimeFaces TabView -->
 		
 		<layout>
-			<tabViewLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.primefaces" config="org.metawidget.layout.decorator.LayoutDecoratorConfig">
+			<tabViewLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.primefaces" config="org.metawidget.faces.component.html.layout.primefaces.TabViewLayoutDecoratorConfig">
 				<layout>
 					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
 				</layout>
