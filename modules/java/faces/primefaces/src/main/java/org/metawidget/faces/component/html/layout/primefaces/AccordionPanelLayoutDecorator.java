@@ -103,7 +103,7 @@ public class AccordionPanelLayoutDecorator
 
         // New tab
 
-        Tab tab = FacesUtils.createComponent( Tab.COMPONENT_TYPE, null );
+        Tab tab = FacesUtils.createComponent( Tab.COMPONENT_TYPE, "org.primefaces.component.TabRenderer" );
         tab.setId( FacesUtils.createUniqueId() );
         accordionPanel.getChildren().add( tab );
 
