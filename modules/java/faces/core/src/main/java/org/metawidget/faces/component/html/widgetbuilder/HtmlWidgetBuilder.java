@@ -78,10 +78,14 @@ public class HtmlWidgetBuilder
 	implements WidgetBuilder<UIComponent, UIMetawidget> {
 
 	//
-	// Private statics
+	// Protected statics
 	//
 
-	private static final String	DATATABLE_ROW_ACTION	= "dataTableRowAction";
+	protected static final String	DATATABLE_ROW_ACTION	= "dataTableRowAction";
+
+	//
+	// Private statics
+	//
 
 	/**
 	 * The number of items in a multi-select lookup at which it should change from being a
@@ -89,19 +93,19 @@ public class HtmlWidgetBuilder
 	 * stops the Metawidget blowing out horizontally.
 	 */
 
-	private static final int	SHORT_LOOKUP_SIZE		= 3;
+	private static final int		SHORT_LOOKUP_SIZE		= 3;
 
 	//
 	// Private members
 	//
 
-	private final String		mDataTableStyleClass;
+	private final String			mDataTableStyleClass;
 
-	private final String[]		mDataTableColumnClasses;
+	private final String[]			mDataTableColumnClasses;
 
-	private final String[]		mDataTableRowClasses;
+	private final String[]			mDataTableRowClasses;
 
-	private final int			mMaximumColumnsInDataTable;
+	private final int				mMaximumColumnsInDataTable;
 
 	//
 	// Constructor

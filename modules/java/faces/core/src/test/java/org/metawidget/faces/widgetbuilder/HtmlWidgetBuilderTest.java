@@ -24,23 +24,13 @@ import java.util.Set;
 import javax.faces.FacesException;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UISelectItem;
-import javax.faces.component.UISelectItems;
-import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlInputSecret;
-import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlInputTextarea;
-import javax.faces.component.html.HtmlOutputText;
-import javax.faces.component.html.HtmlSelectBooleanCheckbox;
-import javax.faces.component.html.HtmlSelectManyCheckbox;
-import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.component.html.*;
 import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
-import org.metawidget.faces.FacesMetawidgetTests.MockComponent;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
@@ -187,7 +177,7 @@ public class HtmlWidgetBuilderTest
 		// Overridden component
 
 		attributes.put( FACES_COMPONENT, "foo" );
-		assertEquals( "foo", ( (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null ) ).getFamily() );
+		assertEquals( "foo", ( widgetBuilder.buildWidget( PROPERTY, attributes, null ) ).getFamily() );
 		attributes.remove( FACES_COMPONENT );
 
 		// Unsupported types
@@ -238,10 +228,10 @@ public class HtmlWidgetBuilderTest
 		HtmlSelectOneMenu htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
 		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
-		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
-		assertEquals( null, ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
-		assertEquals( null, ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ) );
-		assertEquals( null, ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ) );
+		assertEquals( "#{foo.bar}", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
+		assertEquals( null, ( htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
+		assertEquals( null, ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ) );
+		assertEquals( null, ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ) );
 		furtherAssert( htmlSelectOneMenu );
 
 		attributes.put( FACES_LOOKUP_VAR, "_fooBar" );
@@ -250,22 +240,22 @@ public class HtmlWidgetBuilderTest
 		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
 		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
-		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
-		assertEquals( "_fooBar", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
-		assertEquals( "#{_fooBar.label}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ).getExpressionString() );
-		assertEquals( "#{_fooBar.value}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ).getExpressionString() );
+		assertEquals( "#{foo.bar}", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
+		assertEquals( "_fooBar", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
+		assertEquals( "#{_fooBar.label}", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ).getExpressionString() );
+		assertEquals( "#{_fooBar.value}", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ).getExpressionString() );
 		furtherAssert( htmlSelectOneMenu );
 
 		attributes.put( REQUIRED, TRUE );
 		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectOneMenu.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() );
+		assertEquals( "#{foo.bar}", ( htmlSelectOneMenu.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() );
 		furtherAssert( htmlSelectOneMenu );
 		attributes.remove( REQUIRED );
 
 		attributes.put( TYPE, List.class.getName() );
 		HtmlSelectManyCheckbox htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( "pageDirection", htmlSelectManyCheckbox.getLayout() );
-		assertEquals( "#{foo.bar}", ( (UISelectItems) htmlSelectManyCheckbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() );
+		assertEquals( "#{foo.bar}", ( htmlSelectManyCheckbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() );
 		attributes.remove( FACES_LOOKUP );
 
 		// Lookup
@@ -381,21 +371,21 @@ public class HtmlWidgetBuilderTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( PARAMETERIZED_TYPE, "ConverterFoo" );
-		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		HtmlDataTable htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 
-		UIColumn column = (UIColumn) data.getChildren().get( 0 );
+		UIColumn column = (UIColumn) htmlDataTable.getChildren().get( 0 );
 		assertEquals( "Bar", ( (UIOutput) column.getHeader() ).getValue() );
 		UIOutput outputText = (UIOutput) column.getChildren().get( 0 );
-		assertEquals( "#{" + data.getVar() + ".bar}", outputText.getValueBinding( "value" ).getExpressionString() );
+		assertEquals( "#{" + htmlDataTable.getVar() + ".bar}", outputText.getValueBinding( "value" ).getExpressionString() );
 		assertEquals( " (from converter barConverter)", outputText.getConverter().getAsString( null, outputText, "" ) );
 
-		column = (UIColumn) data.getChildren().get( 1 );
+		column = (UIColumn) htmlDataTable.getChildren().get( 1 );
 		assertEquals( "Baz", ( (UIOutput) column.getHeader() ).getValue() );
 		outputText = (UIOutput) column.getChildren().get( 0 );
-		assertEquals( "#{" + data.getVar() + ".baz}", outputText.getValueBinding( "value" ).getExpressionString() );
+		assertEquals( "#{" + htmlDataTable.getVar() + ".baz}", outputText.getValueBinding( "value" ).getExpressionString() );
 		assertEquals( " (from converter bazConverter)", outputText.getConverter().getAsString( null, outputText, "" ) );
 
-		assertEquals( 2, data.getChildCount() );
+		assertEquals( 2, htmlDataTable.getChildCount() );
 	}
 
 	public void testCollectionWithSingleColumn()
@@ -407,14 +397,14 @@ public class HtmlWidgetBuilderTest
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
-		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( 1, data.getChildCount() );
+		HtmlDataTable htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 1, htmlDataTable.getChildCount() );
 
 		// Should not try and recurse String. Should just create a single column
 
 		attributes.put( PARAMETERIZED_TYPE, String.class.getName() );
-		data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( 1, data.getChildCount() );
+		htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 1, htmlDataTable.getChildCount() );
 	}
 
 	public void testCollectionWithManyColumns()
@@ -427,16 +417,16 @@ public class HtmlWidgetBuilderTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( PARAMETERIZED_TYPE, LargeFoo.class.getName() );
-		UIData data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( 5, data.getChildCount() );
+		HtmlDataTable htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 5, htmlDataTable.getChildCount() );
 
 		widgetBuilder = new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setMaximumColumnsInDataTable( 2 ) );
-		data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( 2, data.getChildCount() );
+		htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 2, htmlDataTable.getChildCount() );
 
 		widgetBuilder = new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setMaximumColumnsInDataTable( 0 ) );
-		data = (UIData) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( 6, data.getChildCount() );
+		htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( 6, htmlDataTable.getChildCount() );
 	}
 
 	public void testConfig() {
