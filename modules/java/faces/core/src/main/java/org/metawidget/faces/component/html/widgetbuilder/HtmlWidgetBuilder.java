@@ -232,6 +232,7 @@ public class HtmlWidgetBuilder
 				} else if ( char.class.equals( clazz ) || Character.class.isAssignableFrom( clazz ) ) {
 					component = application.createComponent( HtmlInputText.COMPONENT_TYPE );
 					( (HtmlInputText) component ).setMaxlength( 1 );
+					return component;
 				} else if ( clazz.isPrimitive() ) {
 					component = application.createComponent( HtmlInputText.COMPONENT_TYPE );
 				} else if ( Date.class.isAssignableFrom( clazz ) ) {
