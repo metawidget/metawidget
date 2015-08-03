@@ -393,12 +393,14 @@ public class PrimeFacesWidgetBuilderTest
 		// char
 
 		attributes.put( TYPE, char.class.getName() );
+		attributes.put( MAXIMUM_LENGTH, "2" );
 		HtmlInputText htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( 1, htmlInputText.getMaxlength() );
 		furtherAssert( htmlInputText );
 
 		// int
 
+		attributes.remove( MAXIMUM_LENGTH );
 		attributes.put( TYPE, int.class.getName() );
 		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( Integer.MIN_VALUE, htmlInputText.getMaxlength() );
