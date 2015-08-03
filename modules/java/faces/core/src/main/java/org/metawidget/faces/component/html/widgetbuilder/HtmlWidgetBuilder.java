@@ -399,14 +399,11 @@ public class HtmlWidgetBuilder
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 
-		HtmlDataTable dataTable = (HtmlDataTable) application.createComponent( HtmlDataTable.COMPONENT_TYPE );
+		UIData dataTable = createDataTableComponent();
 		dataTable.setVar( "_item" );
 
 		// CSS
-
-		dataTable.setStyleClass( mDataTableStyleClass );
-		dataTable.setColumnClasses( ArrayUtils.toString( mDataTableColumnClasses ) );
-		dataTable.setRowClasses( ArrayUtils.toString( mDataTableRowClasses ) );
+		configureDataTableComponent( dataTable );
 
 		// Inspect component type
 
@@ -446,7 +443,7 @@ public class HtmlWidgetBuilder
 		String rowActionParameter = metawidget.getParameter( DATATABLE_ROW_ACTION );
 
 		if ( rowActionParameter != null ) {
-			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( HtmlCommandLink.COMPONENT_TYPE );
+			HtmlCommandLink rowAction = createCommandLinkComponent();
 			rowAction.setId( FacesUtils.createUniqueId() );
 
 			// (dataTableRowAction cannot be wrapped when used on the JSP page)
@@ -466,8 +463,8 @@ public class HtmlWidgetBuilder
 
 			MethodBinding binding = application.createMethodBinding( FacesUtils.wrapExpression( rowActionParameter ), null );
 			rowAction.setAction( binding );
-
-			UIColumn column = (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
+			
+			UIColumn column = createColumnComponent();
 			column.setId( FacesUtils.createUniqueId() );
 			column.getChildren().add( rowAction );
 			dataTable.getChildren().add( column );
@@ -538,7 +535,7 @@ public class HtmlWidgetBuilder
 
 				// ...up to a sensible maximum
 
-				if ( dataTable.getChildren().size() == mMaximumColumnsInDataTable ) {
+				if ( dataTable.getChildren().size() == getMaximumColumnsInDataTable() ) {
 					break;
 				}
 			}
@@ -569,7 +566,7 @@ public class HtmlWidgetBuilder
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 
-		UIColumn column = (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
+		UIColumn column = createColumnComponent();
 		column.setId( FacesUtils.createUniqueId() );
 
 		// Make the column contents...
@@ -609,7 +606,57 @@ public class HtmlWidgetBuilder
 
 		dataTable.getChildren().add( column );
 	}
+	
+	protected void configureDataTableComponent( UIData uiData ) {
+		
+		HtmlDataTable dataTable = (HtmlDataTable) uiData;
 
+		dataTable.setStyleClass( mDataTableStyleClass );
+		dataTable.setColumnClasses( ArrayUtils.toString( mDataTableColumnClasses ) );
+		dataTable.setRowClasses( ArrayUtils.toString( mDataTableRowClasses ) );
+	}
+
+	/**
+	 * Create a UIColumn component.
+	 */
+	
+	protected UIColumn createColumnComponent() {
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+
+		return (UIColumn) application.createComponent( HtmlColumn.COMPONENT_TYPE );
+	}
+
+	/**
+	 * Create a UIData component.
+	 */
+	
+	protected UIData createDataTableComponent() {
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+
+		return (HtmlDataTable) application.createComponent( HtmlDataTable.COMPONENT_TYPE );
+	}
+
+	/**
+	 * Create a HtmlCommandLink component.
+	 */
+	
+	protected HtmlCommandLink createCommandLinkComponent() {
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+		
+		return (HtmlCommandLink) application.createComponent( HtmlCommandLink.COMPONENT_TYPE );
+	}
+	
+	protected int getMaximumColumnsInDataTable() {
+		
+		return mMaximumColumnsInDataTable;
+	}
+	
 	//
 	// Private methods
 	//
