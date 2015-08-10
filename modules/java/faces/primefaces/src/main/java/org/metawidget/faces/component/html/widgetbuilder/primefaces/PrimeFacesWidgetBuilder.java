@@ -38,6 +38,7 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.password.Password;
+import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
@@ -120,7 +121,7 @@ public class PrimeFacesWidgetBuilder
 
 		// Lookup the class
 
-		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, null );
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		// Faces Lookups
 
@@ -150,11 +151,11 @@ public class PrimeFacesWidgetBuilder
 			// clazz may be null, if type is symbolic (eg. type="Login Screen")
 
 			if ( clazz != null ) {
+				// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
+				// Lookup)
 
-				// Not for PrimeFaces
-
-				if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
-					return null;
+				if ( boolean.class.equals( clazz ) || Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) ) {
+					return application.createComponent( SelectBooleanCheckbox.COMPONENT_TYPE );
 				}
 
 				// String Lookups
@@ -185,15 +186,76 @@ public class PrimeFacesWidgetBuilder
 					InputText inputText = (InputText) application.createComponent( InputText.COMPONENT_TYPE );
 					inputText.setMaxlength( 1 );
 					return inputText;
-				}
+				} else if ( Number.class.isAssignableFrom( clazz ) ) {
 
-				if ( clazz.isPrimitive() ) {
+					// Ranged
 
-					// Not for PrimeFaces
+					UIComponent ranged = createRanged( attributes );
 
-					if ( boolean.class.equals( clazz ) ) {
-						return null;
+					if ( ranged != null ) {
+						return ranged;
 					}
+
+					// Not-ranged
+					//
+					// Do not use Spinner for nullable numbers
+
+					InputText inputText = (InputText) application.createComponent( InputText.COMPONENT_TYPE );
+					setMaximumLength( inputText, attributes );
+
+					return inputText;
+				} else if ( Date.class.isAssignableFrom( clazz ) ) {
+					Calendar calendar = FacesUtils.createComponent( Calendar.COMPONENT_TYPE, "org.primefaces.component.CalendarRenderer" );
+
+					if ( attributes.containsKey( DATETIME_PATTERN ) ) {
+						calendar.setPattern( attributes.get( DATETIME_PATTERN ) );
+					}
+
+					if ( attributes.containsKey( LOCALE ) ) {
+						calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
+					}
+
+					if ( attributes.containsKey( TIME_ZONE ) ) {
+						calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
+					}
+
+					return calendar;
+				} else if ( String.class.equals( clazz ) ) {
+
+					// Autocomplete (contributed by Marcel H:
+					// https://sourceforge.net/p/metawidget/discussion/747623/thread/0b903862)
+
+					String facesSuggest = attributes.get( FACES_SUGGEST );
+
+					if ( facesSuggest != null ) {
+						AutoComplete autoComplete = FacesUtils.createComponent( AutoComplete.COMPONENT_TYPE, "org.primefaces.component.autocomplete.AutoCompleteRenderer" );
+						autoComplete.setCompleteMethod( application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { String.class } ) );
+						return autoComplete;
+					}
+
+					UIComponent component;
+					if ( TRUE.equals( attributes.get( MASKED ) ) ) {
+						component = FacesUtils.createComponent( Password.COMPONENT_TYPE, "org.primefaces.component.PasswordRenderer" );
+					} else if ( TRUE.equals( attributes.get( LARGE ) ) ) {
+						component = FacesUtils.createComponent( InputTextarea.COMPONENT_TYPE, "org.primefaces.component.InputTextareaRenderer" );
+					} else {
+						component = FacesUtils.createComponent( InputText.COMPONENT_TYPE, "org.primefaces.component.InputTextRenderer" );
+					}
+
+					setMaximumLength(component, attributes);
+
+					return component;
+				} else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
+
+					// Supported Collections
+
+					return createDataTableComponent( elementName, attributes, metawidget );
+				} else if ( Collection.class.isAssignableFrom( clazz ) ) {
+
+					// Unsupported Collections
+
+					return application.createComponent( UIStub.COMPONENT_TYPE );
+				} else if ( clazz.isPrimitive() ) {
 
 					// Ranged
 
@@ -250,78 +312,6 @@ public class PrimeFacesWidgetBuilder
 					}
 
 					return spinner;
-				}
-
-				// Dates
-
-				if ( Date.class.isAssignableFrom( clazz ) ) {
-					Calendar calendar = FacesUtils.createComponent( Calendar.COMPONENT_TYPE, "org.primefaces.component.CalendarRenderer" );
-
-					if ( attributes.containsKey( DATETIME_PATTERN ) ) {
-						calendar.setPattern( attributes.get( DATETIME_PATTERN ) );
-					}
-
-					if ( attributes.containsKey( LOCALE ) ) {
-						calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
-					}
-
-					if ( attributes.containsKey( TIME_ZONE ) ) {
-						calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
-					}
-
-					return calendar;
-				}
-
-				// Object primitives
-
-				if ( Number.class.isAssignableFrom( clazz ) ) {
-					// Ranged
-
-					UIComponent ranged = createRanged( attributes );
-
-					if ( ranged != null ) {
-						return ranged;
-					}
-
-					// Not-ranged
-					//
-					// Do not use Spinner for nullable numbers
-				}
-
-				// Autocomplete (contributed by Marcel H:
-				// https://sourceforge.net/p/metawidget/discussion/747623/thread/0b903862)
-
-				if ( String.class.equals( clazz ) ) {
-					String facesSuggest = attributes.get( FACES_SUGGEST );
-
-					if ( facesSuggest != null ) {
-						AutoComplete autoComplete = FacesUtils.createComponent( AutoComplete.COMPONENT_TYPE, "org.primefaces.component.autocomplete.AutoCompleteRenderer" );
-						autoComplete.setCompleteMethod( application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { String.class } ) );
-						return autoComplete;
-					}
-
-					UIComponent component;
-					if ( TRUE.equals( attributes.get( MASKED ) ) ) {
-						component = FacesUtils.createComponent( Password.COMPONENT_TYPE, "org.primefaces.component.PasswordRenderer" );
-					} else if ( TRUE.equals( attributes.get( LARGE ) ) ) {
-						component = FacesUtils.createComponent( InputTextarea.COMPONENT_TYPE, "org.primefaces.component.InputTextareaRenderer" );
-					} else {
-						component = FacesUtils.createComponent( InputText.COMPONENT_TYPE, "org.primefaces.component.InputTextRenderer" );
-					}
-
-					setMaximumLength( component, attributes );
-
-					return component;
-				} else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() ) {
-
-					// Supported Collections
-
-					return createDataTableComponent( elementName, attributes, metawidget );
-				} else if ( Collection.class.isAssignableFrom( clazz ) ) {
-
-					// Unsupported Collections
-
-					return application.createComponent( UIStub.COMPONENT_TYPE );
 				}
 			}
 		}
