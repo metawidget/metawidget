@@ -48,6 +48,7 @@ import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.MetawidgetTestUtils;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
@@ -306,12 +307,30 @@ public class HtmlWidgetBuilderTest
 		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( "pageDirection", htmlSelectManyCheckbox.getLayout() );
 		attributes.remove( LOOKUP );
+		attributes.remove( FACES_LOOKUP_ITEM_LABEL );
+		attributes.remove( FACES_LOOKUP_ITEM_VALUE );
+		attributes.remove( FACES_LOOKUP_VAR );
 
 		// Boolean
+		
+		attributes.putAll( XmlUtils.getAttributesAsMap( new PropertyTypeInspector().inspectAsDom( null, Boolean.class.getName() ).getChildNodes().item( 0 ) ) );		
+		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertEquals( "", ((UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() );
+		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
+		assertEquals( "Yes", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemLabel() );
+		assertEquals( "true", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemValue() );
+		assertEquals( "No", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 2 ) ).getItemLabel() );
+		assertEquals( "false", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 2 ) ).getItemValue() );
+		attributes.remove( LOOKUP );
+		attributes.remove( LOOKUP_LABELS ); 
+		furtherAssert( htmlSelectOneMenu );
+
+		// Boolean required
 
 		attributes.put( TYPE, Boolean.class.getName() );
 		attributes.put( REQUIRED, TRUE );
 		HtmlSelectBooleanCheckbox htmlSelectBooleanCheckbox = (HtmlSelectBooleanCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		attributes.remove( REQUIRED );
 		furtherAssert( htmlSelectBooleanCheckbox );
 
 		// boolean
@@ -320,6 +339,13 @@ public class HtmlWidgetBuilderTest
 		htmlSelectBooleanCheckbox = (HtmlSelectBooleanCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		furtherAssert( htmlSelectBooleanCheckbox );
 
+		// Character
+		
+		attributes.put( TYPE, Character.class.getName() );
+		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( 1, htmlInputText.getMaxlength() );
+		furtherAssert( htmlInputText );
+		
 		// char
 
 		attributes.put( TYPE, char.class.getName() );
@@ -328,22 +354,27 @@ public class HtmlWidgetBuilderTest
 		assertEquals( 1, htmlInputText.getMaxlength() );
 		furtherAssert( htmlInputText );
 
-		// int
-		
-		attributes.remove( MAXIMUM_LENGTH );
-		attributes.put( TYPE, int.class.getName() );
-		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( Integer.MIN_VALUE, htmlInputText.getMaxlength() );
-		furtherAssert( htmlInputText );
-
 		// Integer
 
+		attributes.remove( MAXIMUM_LENGTH );
 		attributes.put( TYPE, Integer.class.getName() );
 		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertEquals( Integer.MIN_VALUE, htmlInputText.getMaxlength() );
 		furtherAssert( htmlInputText );
+		
+		// int
+		
+		attributes.put( TYPE, int.class.getName() );
+		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertEquals( Integer.MIN_VALUE, htmlInputText.getMaxlength() );
+		furtherAssert( htmlInputText );
+	}
+	
+	public void testLarge() {
 
-		// Large
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		attributes.put( TYPE, String.class.getName() );
 		attributes.remove( MASKED );

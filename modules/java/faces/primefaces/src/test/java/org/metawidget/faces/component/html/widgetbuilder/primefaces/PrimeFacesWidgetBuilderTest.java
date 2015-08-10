@@ -20,7 +20,6 @@ import java.util.*;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UISelectItem;
 import javax.faces.component.html.*;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
@@ -46,6 +45,7 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.password.Password;
+import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.component.slider.Slider;
@@ -77,7 +77,7 @@ public class PrimeFacesWidgetBuilderTest
 		// Read-only pass throughs
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof InputText );
 		attributes.put( READ_ONLY, TRUE );
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.put( LOOKUP, TRUE );
@@ -267,151 +267,12 @@ public class PrimeFacesWidgetBuilderTest
 		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 	}
 
-	// PrimeFaces standalone widget builder does not support some widget types.
-	// Therefore, this test has been rewritten, with a few changes.
-
-	@SuppressWarnings( "deprecation" )
 	@Override
-	public void testSharedWidgetBuilder()
-			throws Exception {
-
+	public void testLarge() {
+		
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 
-		// Action
-
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		HtmlCommandButton htmlCommandButton = (HtmlCommandButton) widgetBuilder.buildWidget( ACTION, attributes, new HtmlMetawidget() {
-
-			@Override
-			public String getLabelString( Map<String, String> passedAttributes ) {
-
-				return "foo";
-			}
-		} );
-		assertEquals( "foo", htmlCommandButton.getValue() );
-
-		// No type not supported with PrimeFaces builder only
-
-		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
-
-		// Faces lookup
-
-		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
-		HtmlSelectOneMenu htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
-		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
-		assertEquals( "#{foo.bar}", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
-		assertEquals( null, ( htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
-		assertEquals( null, ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ) );
-		assertEquals( null, ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ) );
-		furtherAssert( htmlSelectOneMenu );
-
-		attributes.put( FACES_LOOKUP_VAR, "_fooBar" );
-		attributes.put( FACES_LOOKUP_ITEM_LABEL, "#{_fooBar.label}" );
-		attributes.put( FACES_LOOKUP_ITEM_VALUE, "#{_fooBar.value}" );
-		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null);
-		assertTrue( "".equals( ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() ) );
-		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
-		assertEquals( "#{foo.bar}", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() );
-		assertEquals( "_fooBar", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getAttributes().get( "var" ) );
-		assertEquals( "#{_fooBar.label}", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemLabel" ).getExpressionString() );
-		assertEquals( "#{_fooBar.value}", ( htmlSelectOneMenu.getChildren().get( 1 ) ).getValueBinding( "itemValue" ).getExpressionString() );
-		furtherAssert( htmlSelectOneMenu );
-
-		attributes.put( REQUIRED, TRUE );
-		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, null);
-		assertEquals( "#{foo.bar}", (htmlSelectOneMenu.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() );
-		furtherAssert( htmlSelectOneMenu );
-		attributes.remove( REQUIRED );
-
-		attributes.put( TYPE, List.class.getName() );
-		HtmlSelectManyCheckbox htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( "pageDirection", htmlSelectManyCheckbox.getLayout() );
-		assertEquals( "#{foo.bar}", (htmlSelectManyCheckbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() );
-		attributes.remove( FACES_LOOKUP );
-
-		// Lookup
-
-		attributes.put( TYPE, String.class.getName() );
-		attributes.put( LOOKUP, "Foo, Bar, Baz" );
-		HtmlMetawidget metawidget = new HtmlMetawidget();
-		metawidget.setInspector( new PropertyTypeInspector() );
-		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() );
-		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
-		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemLabel() );
-		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemValue() );
-		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 2 ) ).getItemLabel() );
-		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 2 ) ).getItemValue() );
-		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneMenu.getChildren().get(3)).getItemLabel() );
-		assertEquals( "Baz", ((UISelectItem) htmlSelectOneMenu.getChildren().get(3)).getItemValue() );
-		furtherAssert( htmlSelectOneMenu );
-
-		attributes.put( LOOKUP_LABELS, "foo-label, bar-label, baz-label" );
-		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() );
-		assertEquals( null, ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
-		assertEquals( "foo-label", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemLabel() );
-		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemValue() );
-		assertEquals( "bar-label", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 2 ) ).getItemLabel() );
-		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 2 ) ).getItemValue() );
-		assertEquals( "baz-label", ( (UISelectItem) htmlSelectOneMenu.getChildren().get(3) ).getItemLabel());
-		assertEquals( "Baz", ((UISelectItem) htmlSelectOneMenu.getChildren().get(3)).getItemValue() );
-		furtherAssert( htmlSelectOneMenu);
-		attributes.remove( LOOKUP_LABELS );
-
-		attributes.put( REQUIRED, TRUE );
-		htmlSelectOneMenu = (HtmlSelectOneMenu) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemLabel() );
-		assertEquals( "Foo", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 0 ) ).getItemValue() );
-		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemLabel() );
-		assertEquals( "Bar", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 1 ) ).getItemValue() );
-		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 2) ).getItemLabel() );
-		assertEquals( "Baz", ( (UISelectItem) htmlSelectOneMenu.getChildren().get( 2) ).getItemValue() );
-		furtherAssert( htmlSelectOneMenu );
-		attributes.remove( REQUIRED );
-
-		attributes.put( TYPE, List.class.getName() );
-		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( null, htmlSelectManyCheckbox.getLayout() );
-		attributes.put( LOOKUP, "Foo, Bar, Baz, Abc" );
-		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertEquals( "pageDirection", htmlSelectManyCheckbox.getLayout() );
-		attributes.remove( LOOKUP );
-
-		// Required Boolean not supported with PrimeFaces builder only
-
-		attributes.put( TYPE, Boolean.class.getName() );
-		attributes.put( REQUIRED, TRUE );
-		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
-
-		// boolean primitive not supported with PrimeFaces builder only
-
-		attributes.put( TYPE, boolean.class.getName());
-		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
-
-		// char
-
-		attributes.put( TYPE, char.class.getName() );
-		attributes.put( MAXIMUM_LENGTH, "2" );
-		HtmlInputText htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( 1, htmlInputText.getMaxlength() );
-		furtherAssert( htmlInputText );
-
-		// int
-
-		attributes.remove( MAXIMUM_LENGTH );
-		attributes.put( TYPE, int.class.getName() );
-		htmlInputText = (HtmlInputText) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertEquals( Integer.MIN_VALUE, htmlInputText.getMaxlength() );
-		furtherAssert( htmlInputText);
-
-		// Integer not supported in PrimeFaces only environment
-
-		attributes.put( TYPE, Integer.class.getName());
-		assertEquals( null, widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
-
-		// Large
 
 		attributes.put( TYPE, String.class.getName() );
 		attributes.remove( MASKED );
@@ -485,7 +346,7 @@ public class PrimeFacesWidgetBuilderTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( PARAMETERIZED_TYPE, LargeFoo.class.getName() );
-		DataTable dataTable = (DataTable) widgetBuilder.buildWidget(PROPERTY, attributes, metawidget);
+		DataTable dataTable = (DataTable) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertEquals( 5, dataTable.getColumnsCount() );
 
 		widgetBuilder = new PrimeFacesWidgetBuilder( new PrimeFacesWidgetBuilderConfig().setMaximumColumnsInDataTable( 2 ) );
@@ -575,8 +436,12 @@ public class PrimeFacesWidgetBuilderTest
 				if ( SelectManyCheckbox.COMPONENT_TYPE.equals( componentName ) ) {
 					return new SelectManyCheckbox();
 				}
+				
+				if ( SelectBooleanCheckbox.COMPONENT_TYPE.equals( componentName ) ) {
+					return new SelectBooleanCheckbox();
+				}
 
-				return super.createComponent(componentName);
+				return super.createComponent( componentName );
 			}
 		};
 	}
