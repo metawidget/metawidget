@@ -326,7 +326,6 @@ var metawidget = metawidget || {};
 		var _headerStyleClass = config !== undefined ? config.headerStyleClass : undefined;
 		var _footerStyleClass = config !== undefined ? config.footerStyleClass : undefined;
 		var _numberOfColumns = config !== undefined && config.numberOfColumns ? config.numberOfColumns : 1;
-		var _currentColumn = 0;
 
 		this.startContainerLayout = function( container, mw ) {
 
@@ -342,6 +341,10 @@ var metawidget = metawidget || {};
 				table.setAttribute( 'class', _tableStyleClass );
 			}
 
+			// TODO: test nested TableLayout when nesting starts at
+			// _currentColumn = 1
+			
+			container._currentColumn = 0;
 			container.appendChild( table );
 
 			// Facets
@@ -410,8 +413,8 @@ var metawidget = metawidget || {};
 
 			var spanAllColumns = metawidget.util.isSpanAllColumns( attributes );
 
-			if ( spanAllColumns === true && _currentColumn > 0 ) {
-				_currentColumn = 0;
+			if ( spanAllColumns === true && container._currentColumn > 0 ) {
+				container._currentColumn = 0;
 			}
 
 			// Id
@@ -442,7 +445,7 @@ var metawidget = metawidget || {};
 			var tbody = table.childNodes[table.childNodes.length - 1];
 			var tr;
 
-			if ( _currentColumn === 0 ) {
+			if ( container._currentColumn === 0 ) {
 				tr = metawidget.util.createElement( mw, 'tr' );
 				if ( idPrefix !== undefined ) {
 					tr.setAttribute( 'id', idPrefix + '-row' );
@@ -484,10 +487,10 @@ var metawidget = metawidget || {};
 			// Next column
 
 			if ( spanAllColumns === true ) {
-				_currentColumn = _numberOfColumns - 1;
+				container._currentColumn = _numberOfColumns - 1;
 			}
 
-			_currentColumn = ( _currentColumn + 1 ) % _numberOfColumns;
+			container._currentColumn = ( container._currentColumn + 1 ) % _numberOfColumns;
 		};
 
 		this.layoutLabel = function( tr, idPrefix, widget, elementName, attributes, mw ) {
