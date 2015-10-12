@@ -91,11 +91,13 @@ var metawidget = metawidget || {};
 		 * <p>
 		 * This is a convenience method. To access other Metawidget APIs,
 		 * clients can use the 'getWidgetProcessor' method
+		 * 
+		 * @returns true if the 'toInspect' was updated (i.e. is dirty)
 		 */
 			
 		this.save = function() {
 			
-			_pipeline.getWidgetProcessor( function( widgetProcessor ) {
+			return _pipeline.getWidgetProcessor( function( widgetProcessor ) {
 
 				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 			} ).save( this );

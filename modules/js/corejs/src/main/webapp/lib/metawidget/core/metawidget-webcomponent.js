@@ -191,7 +191,7 @@ var metawidget = metawidget || {};
 			// Wire up getMetawidget manually, because shadowRoot is not
 			// initialized until attachedCallback. This is important for
 			// SimpleBindingProcessor and nested Metawidgets
-			
+
 			nestedMetawidget.getMetawidget = function() {
 
 				return nestedMetawidget;
@@ -213,11 +213,13 @@ var metawidget = metawidget || {};
 		 * <p>
 		 * This is a convenience method. To access other Metawidget APIs,
 		 * clients can use the 'getWidgetProcessor' method
+		 * 
+		 * @returns true if the 'toInspect' was updated (i.e. is dirty)
 		 */
 
 		metawidgetPrototype.save = function() {
 
-			this.getWidgetProcessor( function( widgetProcessor ) {
+			return this.getWidgetProcessor( function( widgetProcessor ) {
 
 				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
 			} ).save( this );
