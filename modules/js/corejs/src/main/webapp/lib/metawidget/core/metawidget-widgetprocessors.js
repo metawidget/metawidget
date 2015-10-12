@@ -441,7 +441,7 @@ var metawidget = metawidget || {};
 
 			if ( binding.attributes.type === 'array' || binding.attributes.componentType !== undefined ) {
 
-				var toReturn = [];
+				var toReturn;
 				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 					var childNode = widget.childNodes[loop];
 					if ( childNode.tagName === 'DIV' ) {
@@ -459,6 +459,7 @@ var metawidget = metawidget || {};
 								return inputChildNode.value;
 							}
 
+							toReturn = toReturn || [];
 							toReturn.push( inputChildNode.value );
 						}
 					}

@@ -376,6 +376,9 @@
 			div2.appendChild( label2 );
 			widget.appendChild( div1 );
 			widget.appendChild( div2 );
+
+			// (some value)
+			
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'div id="topId"' );
 			expect( input1.toString() ).toBe( 'input type="radio" name="topId"' );
@@ -388,6 +391,12 @@
 			processor.save( mw );
 			expect( mw.toInspect.foo ).toBe( "fooNewValue" );
 
+			// (no value)
+			
+			input2.checked = false;
+			processor.save( mw );
+			expect( mw.toInspect.foo ).toBeUndefined();
+						
 			// Root-level
 
 			widget = simpleDocument.createElement( 'output' );
