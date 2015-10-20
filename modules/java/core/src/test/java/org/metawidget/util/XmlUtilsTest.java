@@ -247,6 +247,14 @@ public class XmlUtilsTest
 		document = XmlUtils.documentFromString( "<foo>&lt;&apos;&quot;&amp;&gt;</foo>" );
 		assertEquals( "<foo>&lt;&apos;&quot;&amp;&gt;</foo>", XmlUtils.documentToString( document, false ) );
 		assertEquals( "<foo>&lt;&apos;&quot;&amp;&gt;</foo>", XmlUtils.documentToString( document, true ) );
+
+		document = XmlUtils.documentFromString( "<foo>some <strong>bold</strong> text</foo>" );
+		assertEquals( "<foo>some<strong>bold</strong>text</foo>", XmlUtils.documentToString( document, false ) );
+		assertEquals( "<foo>some\n   <strong>bold</strong>text</foo>", XmlUtils.documentToString( document, true ) );
+
+		document = XmlUtils.documentFromString( "<bar><foo>some <strong>bold</strong> text</foo></bar>" );
+		assertEquals( "<bar><foo>some<strong>bold</strong>text</foo></bar>", XmlUtils.documentToString( document, false ) );
+		assertEquals( "<bar>\n   <foo>some\n      <strong>bold</strong>text</foo>\n</bar>", XmlUtils.documentToString( document, true ) );
 	}
 
 	public void testCombineElements() {
