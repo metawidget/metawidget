@@ -650,10 +650,13 @@ var metawidget = metawidget || {};
 			} else if ( widget.tagName === 'SELECT' ) {
 
 				widget.setAttribute( 'ng-model', binding );
-
+				
 				// Special support for non-string selects
 
 				if ( attributes.type === 'boolean' || attributes.type === 'integer' || attributes.type === 'number' ) {
+					widget.setAttribute( 'ng-change', "mwChangeAsType('" + attributes.type + "','" + binding + "')" );
+					scope.mwChangeAsType = _changeAsType;
+					
 					for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 
 						var child = widget.childNodes[loop];
@@ -739,6 +742,30 @@ var metawidget = metawidget || {};
 			}
 
 			return metawidget.util.fillString( '*', value.length );
+		}
+		
+		/**
+		 * Special support for non-string selects.
+		 */
+		
+		function _changeAsType( type, binding ) {
+			
+			var parsedBinding = $parse( binding ); 
+			
+			if ( type === 'boolean' ) {
+				parsedBinding.assign( scope, parsedBinding( scope ) === 'true' );
+				return;		
+			}
+			
+			if ( type === 'integer' ) {
+				parsedBinding.assign( scope, parseInt( parsedBinding( scope ) ));
+				return;		
+			}
+
+			if ( type === 'number' ) {
+				parsedBinding.assign( scope, parseFloat( parsedBinding( scope ) ));
+				return;		
+			}
 		}
 	};
 } )();
