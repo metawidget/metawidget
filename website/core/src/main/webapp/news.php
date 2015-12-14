@@ -5,7 +5,7 @@
 		<h2>News</h2>
 		
 		<h3>Metawidget v4.2 Released!</h3>
-		<h4></h4>
+		<h4>15th December 2015</h4>
 		
 		<p>
 			Metawidget v4.2 is now available!
@@ -15,8 +15,11 @@
 		</p>
 		
 		<ul>
+			<li>Improved PrimeFaces support</li>
 			<li>HeadingTagLayoutDecorator supports starting level</li>
 			<li>DivLayoutDecorator supports styleClass</li>
+			<li>Improved AngularJS support</li>
+			<li>prepend/append InspectionResultProcessors/WidgetProcessors can now be done without an array (JavaScript Metawidget)</li>			
 			<li>Bug fixes, documentation and unit tests</li>
 		</ul>
 		

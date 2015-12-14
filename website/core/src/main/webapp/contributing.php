@@ -113,42 +113,42 @@
 			<tr>
 				<td style="width: 33%">Ashlin Eldridge<span>(testing)</span></td>
 				<td style="width: 33%">Bernhard Huber<span>(Swing mnemonics)</span></td>
-				<td>George Gastaldi<span>(GitHub)</span></td>
+				<td>Danil Arefyev<span>(PrimeFaces)</span></td>
 			</tr>
 			<tr>
-				<td style="width: 33%">G&eacute;rard Collin<span>(testing)</span></td>
+				<td style="width: 33%">George Gastaldi<span>(GitHub)</span></td>
+				<td>G&eacute;rard Collin<span>(testing)</td>
 				<td>G&eacute;rardo Diaz Corujo<span>(testing)</span></td>
-				<td>Girolamo Violante<span>(testing)</span></td>
 			</tr>
 			<tr>
+				<td>Girolamo Violante<span>(testing)</span></td>
 				<td>Ian Darwin<span>(testing)</span></td>
 				<td>Igor Sakovich<span>(JSF, JPA enhancements)</span></td>
-				<td>Illya Yalovyy<span>(testing)</span></td>
 			</tr>
 			<tr>
+				<td>Illya Yalovyy<span>(testing)</span></td>
 				<td>Ivaylo Kovatchev<span>(UiWide)</span></td>
 				<td>Leon E<span>(testing)</span></td>
-				<td>Lincoln Baxter III<span>(Maven, testing)</span></td>
 			</tr>
 			<tr>
+				<td>Lincoln Baxter III<span>(Maven, testing)</span></td>
 				<td>Loghman Barari<span>(Vaadin)</span></td>
 				<td>Michael Studman<span>(testing)</span></td>
-				<td>Mike Glazer<span>(Groovy)</span></td>
 			</tr>
 			<tr>
+				<td>Mike Glazer<span>(Groovy)</span></td>
 				<td>Renato Garcia<span>(Maven, OVal)</span></td>
 				<td>Rintcius Blok<span>(GWT build)</span></td>
-				<td>Ronald van Kuijk<span>(testing)</span></td>
 			</tr>
 			<tr>
+				<td>Ronald van Kuijk<span>(testing)</span></td>
 				<td>Ryan Bradley<span>(static JSP, static Spring)</span></td>
 				<td>Ryan Cornia<span>(testing)</span></td>
-				<td>Stefan Ackermann<span>(JGoodies, Scala, SWT)</span></td>
 			</tr>
 			<tr>
+				<td>Stefan Ackermann<span>(JGoodies, Scala, SWT)</span></td>
 				<td>Steffan Luypaert<span>(wallchart)</span></td>
 				<td>Tom Bee<span>(testing)</span></td>
-				</td>
 			</tr>
 		</table>
 	
