@@ -1003,6 +1003,70 @@
 			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
+		it( "support multiple columns with nesting", function() {
+
+			var layout = new metawidget.layout.TableLayout( {
+				"numberOfColumns": 2
+			} );
+
+			var container1 = simpleDocument.createElement( 'metawidget' );			
+			var mw1 = {
+				"path": "testPath",
+				getElement: function() {
+
+					return container1;
+				}
+			};
+			var container2 = simpleDocument.createElement( 'metawidget' );			
+			var mw2 = {
+					"path": "testPath.nested",
+					getElement: function() {
+
+						return container2;
+					}
+				};
+
+			layout.startContainerLayout( container1, mw1 );
+			layout.layoutWidget( simpleDocument.createElement( 'widget1' ), "property", {
+				"name": "widget1",
+				"required": "true"
+			}, container1, mw1 );
+			layout.startContainerLayout( container2, mw2 );
+			layout.layoutWidget( simpleDocument.createElement( 'widget2' ), "property", {
+				"name": "widget2",
+				"title": "widgetLabel 2"
+			}, container2, mw2 );
+
+			expect( container1.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
+			expect( container1.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget1-label"' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Widget 1:' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'widget1' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[2].innerHTML ).toBe( '*' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container1.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container1.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container1.childNodes.length ).toBe( 1 );
+			expect( container2.childNodes[0].toString() ).toBe( 'table id="table-testPathNested"' );
+			expect( container2.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathNestedWidget2-row"' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-testPathNestedWidget2-label-cell"' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathNestedWidget2-label"' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'widgetLabel 2:' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-testPathNestedWidget2-cell"' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'widget2' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[2].innerHTML ).toBeUndefined();
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container2.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container2.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container2.childNodes.length ).toBe( 1 );
+		} );
+
 		it( "supports partial CSS classes", function() {
 
 			var layout = new metawidget.layout.TableLayout( {

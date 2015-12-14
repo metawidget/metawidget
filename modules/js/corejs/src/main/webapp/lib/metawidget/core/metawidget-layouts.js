@@ -341,9 +341,6 @@ var metawidget = metawidget || {};
 				table.setAttribute( 'class', _tableStyleClass );
 			}
 
-			// TODO: test nested TableLayout when nesting starts at
-			// _currentColumn = 1
-			
 			container._currentColumn = 0;
 			container.appendChild( table );
 
