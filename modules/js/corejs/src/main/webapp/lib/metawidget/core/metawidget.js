@@ -52,7 +52,7 @@ var metawidget = metawidget || {};
 		// Pipeline (private)
 
 		var _pipeline = new metawidget.Pipeline( element );
-		
+
 		// Configure defaults
 
 		_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
@@ -94,9 +94,9 @@ var metawidget = metawidget || {};
 		 * 
 		 * @returns true if the 'toInspect' was updated (i.e. is dirty)
 		 */
-			
+
 		this.save = function() {
-			
+
 			return _pipeline.getWidgetProcessor( function( widgetProcessor ) {
 
 				return widgetProcessor instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
@@ -283,10 +283,22 @@ var metawidget = metawidget || {};
 			this.inspectionResultProcessors = config.inspectionResultProcessors.slice( 0 );
 		}
 
-		// Support adding to the existing array of InspectionResultProcessors
+		// Support prepending/adding to the existing array of
+		// InspectionResultProcessors
 		// (it may be hard for clients to redefine the originals)
 
+		if ( config.prependInspectionResultProcessors !== undefined ) {
+			if ( !( config.prependInspectionResultProcessors instanceof Array )) {
+				config.prependInspectionResultProcessors = [ config.prependInspectionResultProcessors ];
+			}
+			for ( loop = 0; loop < config.prependInspectionResultProcessors.length; loop++ ) {
+				this.inspectionResultProcessors.splice( loop, 0, config.prependInspectionResultProcessors[loop] );
+			}
+		}
 		if ( config.appendInspectionResultProcessors !== undefined ) {
+			if ( !( config.appendInspectionResultProcessors instanceof Array )) {
+				config.appendInspectionResultProcessors = [ config.appendInspectionResultProcessors ];
+			}
 			for ( loop = 0; loop < config.appendInspectionResultProcessors.length; loop++ ) {
 				this.inspectionResultProcessors.push( config.appendInspectionResultProcessors[loop] );
 			}
@@ -298,18 +310,22 @@ var metawidget = metawidget || {};
 			this.widgetProcessors = config.widgetProcessors.slice( 0 );
 		}
 
-		// Support prepending/appending to the existing array of WidgetProcessors
+		// Support prepending/appending to the existing array of
+		// WidgetProcessors
 		// (it may be hard for clients to redefine the originals)
 
 		if ( config.prependWidgetProcessors !== undefined ) {
+			if ( !( config.prependWidgetProcessors instanceof Array )) {
+				config.prependWidgetProcessors = [ config.prependWidgetProcessors ];
+			}
 			for ( loop = 0; loop < config.prependWidgetProcessors.length; loop++ ) {
 				this.widgetProcessors.splice( loop, 0, config.prependWidgetProcessors[loop] );
 			}
 		}
 		if ( config.appendWidgetProcessors !== undefined ) {
-			
-			// TODO: support single widget processors (i.e. not passing an array of 1)
-			
+			if ( !( config.appendWidgetProcessors instanceof Array )) {
+				config.appendWidgetProcessors = [ config.appendWidgetProcessors ];
+			}
 			for ( loop = 0; loop < config.appendWidgetProcessors.length; loop++ ) {
 				this.widgetProcessors.push( config.appendWidgetProcessors[loop] );
 			}
@@ -323,13 +339,13 @@ var metawidget = metawidget || {};
 		if ( config.maximumInspectionDepth !== undefined ) {
 			this.maximumInspectionDepth = config.maximumInspectionDepth - 1;
 		}
-		
+
 		// CSS support
-		
+
 		if ( config.styleClass !== undefined ) {
 			this.styleClass = config.styleClass;
 			metawidget.util.appendToAttribute( this.element, 'class', config.styleClass );
-		}		
+		}
 	};
 
 	/**
@@ -489,7 +505,8 @@ var metawidget = metawidget || {};
 
 		_endBuild( this, mw );
 
-		// Throw an event for interested parties (such as tests). Does not work on IE8
+		// Throw an event for interested parties (such as tests). Does not work
+		// on IE8
 
 		if ( this.element.dispatchEvent !== undefined ) {
 			this.element.dispatchEvent( metawidget.util.createEvent( mw, 'buildEnd' ) );

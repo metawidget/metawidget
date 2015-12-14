@@ -22,25 +22,26 @@
 		it( "populates itself with widgets to match the properties of domain objects", function() {
 
 			var firedBuildEndEvent = 0;
-			
+
 			// Defaults
 
 			var element = simpleDocument.createElement( 'div' );
-			
+
 			element.addEventListener( 'buildEnd', function() {
+
 				firedBuildEndEvent++;
 			} );
-			
+
 			var mw = new metawidget.Metawidget( element );
 
 			expect( mw.getElement() ).toBe( element );
 			expect( element.getMetawidget() ).toBe( mw );
-			
+
 			mw.toInspect = {
 				foo: "Foo"
 			};
 			mw.buildWidgets();
-			
+
 			expect( firedBuildEndEvent ).toBe( 1 );
 			expect( element.childNodes[0].toString() ).toBe( 'table' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
@@ -75,20 +76,20 @@
 			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="bar" name="bar"' );
 			expect( element.childNodes[0].value ).toBe( 'Bar' );
 			expect( element.childNodes.length ).toBe( 1 );
-			
+
 			// Saving
-			
+
 			element.childNodes[0].value = 'Bar2';
 			mw.save();
 			expect( mw.toInspect.bar ).toBe( 'Bar2' );
-			
+
 			// Reconfigured
-			
+
 			mw.reconfigure( {
 				layout: new metawidget.layout.DivLayout()
 			} );
 			mw.buildWidgets();
-			
+
 			expect( element.childNodes[0].toString() ).toBe( 'div' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="bar-label"' );
@@ -406,6 +407,17 @@
 						return {};
 					}
 				} ],
+				prependInspectionResultProcessors: [ {
+					processInspectionResult: function() {
+
+						called.push( 'prependedInspectionResultProcessor.processInspectionResult' );
+						return {
+							properties: {
+								foo: "string"
+							}
+						};
+					}
+				} ],
 				appendInspectionResultProcessors: [ {
 					processInspectionResult: function() {
 
@@ -532,33 +544,183 @@
 			mw.buildWidgets();
 
 			expect( called[0] ).toBe( 'inspector.inspect' );
-			expect( called[1] ).toBe( 'inspectionResultProcessor.processInspectionResult' );
-			expect( called[2] ).toBe( 'addedInspectionResultProcessor.processInspectionResult' );
-			expect( called[3] ).toBe( 'widgetBuilder.onStartBuild' );
-			expect( called[4] ).toBe( 'prependedWidgetProcessor1.onStartBuild' );
-			expect( called[5] ).toBe( 'prependedWidgetProcessor2.onStartBuild' );
+			expect( called[1] ).toBe( 'prependedInspectionResultProcessor.processInspectionResult' );
+			expect( called[2] ).toBe( 'inspectionResultProcessor.processInspectionResult' );
+			expect( called[3] ).toBe( 'addedInspectionResultProcessor.processInspectionResult' );
+			expect( called[4] ).toBe( 'widgetBuilder.onStartBuild' );
+			expect( called[5] ).toBe( 'prependedWidgetProcessor1.onStartBuild' );
+			expect( called[6] ).toBe( 'prependedWidgetProcessor2.onStartBuild' );
+			expect( called[7] ).toBe( 'widgetProcessor.onStartBuild' );
+			expect( called[8] ).toBe( 'addedWidgetProcessor1.onStartBuild' );
+			expect( called[9] ).toBe( 'addedWidgetProcessor2.onStartBuild' );
+			expect( called[10] ).toBe( 'layout.onStartBuild' );
+			expect( called[11] ).toBe( 'layout.startContainerLayout' );
+			expect( called[12] ).toBe( 'widgetBuilder.buildWidget' );
+			expect( called[13] ).toBe( 'prependedWidgetProcessor1.processWidget' );
+			expect( called[14] ).toBe( 'prependedWidgetProcessor2.processWidget' );
+			expect( called[15] ).toBe( 'widgetProcessor.processWidget' );
+			expect( called[16] ).toBe( 'addedWidgetProcessor1.processWidget' );
+			expect( called[17] ).toBe( 'addedWidgetProcessor2.processWidget' );
+			expect( called[18] ).toBe( 'layout.layoutWidget' );
+			expect( called[19] ).toBe( 'layout.endContainerLayout' );
+			expect( called[20] ).toBe( 'layout.onEndBuild' );
+			expect( called[21] ).toBe( 'prependedWidgetProcessor1.onEndBuild' );
+			expect( called[22] ).toBe( 'prependedWidgetProcessor2.onEndBuild' );
+			expect( called[23] ).toBe( 'widgetProcessor.onEndBuild' );
+			expect( called[24] ).toBe( 'addedWidgetProcessor1.onEndBuild' );
+			expect( called[25] ).toBe( 'addedWidgetProcessor2.onEndBuild' );
+			expect( called[26] ).toBe( 'widgetBuilder.onEndBuild' );
+
+			expect( called.length ).toBe( 27 );
+		} );
+
+		it( "can configure single items without arrays", function() {
+
+			var called = [];
+
+			var element = simpleDocument.createElement( 'div' );
+			var mw = new metawidget.Metawidget( element, {
+				inspector: {
+					inspect: function() {
+
+						called.push( 'inspector.inspect' );
+						return {};
+					}
+				},
+				inspectionResultProcessors: [ {
+					processInspectionResult: function() {
+
+						called.push( 'inspectionResultProcessor.processInspectionResult' );
+						return {};
+					}
+				} ],
+				prependInspectionResultProcessors: function() {
+
+					called.push( 'prependedInspectionResultProcessor.processInspectionResult' );
+					return {
+						properties: {
+							foo: "string"
+						}
+					};
+				},
+				appendInspectionResultProcessors: function() {
+
+					called.push( 'addedInspectionResultProcessor.processInspectionResult' );
+					return {
+						properties: {
+							foo: "string"
+						}
+					};
+				},
+				widgetBuilder: {
+					onStartBuild: function() {
+
+						called.push( 'widgetBuilder.onStartBuild' );
+					},
+					buildWidget: function() {
+
+						called.push( 'widgetBuilder.buildWidget' );
+						return simpleDocument.createElement( 'span' );
+					},
+					onEndBuild: function() {
+
+						called.push( 'widgetBuilder.onEndBuild' );
+					}
+				},
+				widgetProcessors: [ {
+					onStartBuild: function() {
+
+						called.push( 'widgetProcessor.onStartBuild' );
+					},
+					processWidget: function( widget ) {
+
+						called.push( 'widgetProcessor.processWidget' );
+						return widget;
+					},
+					onEndBuild: function() {
+
+						called.push( 'widgetProcessor.onEndBuild' );
+					}
+				} ],
+				prependWidgetProcessors: {
+					onStartBuild: function() {
+
+						called.push( 'prependedWidgetProcessor1.onStartBuild' );
+					},
+					processWidget: function( widget ) {
+
+						called.push( 'prependedWidgetProcessor1.processWidget' );
+						return widget;
+					},
+					onEndBuild: function() {
+
+						called.push( 'prependedWidgetProcessor1.onEndBuild' );
+					}
+				},
+				appendWidgetProcessors: {
+					onStartBuild: function() {
+
+						called.push( 'addedWidgetProcessor1.onStartBuild' );
+					},
+					processWidget: function( widget ) {
+
+						called.push( 'addedWidgetProcessor1.processWidget' );
+						return widget;
+					},
+					onEndBuild: function() {
+
+						called.push( 'addedWidgetProcessor1.onEndBuild' );
+					}
+				},
+				layout: {
+					onStartBuild: function() {
+
+						called.push( 'layout.onStartBuild' );
+					},
+					startContainerLayout: function() {
+
+						called.push( 'layout.startContainerLayout' );
+					},
+					layoutWidget: function() {
+
+						called.push( 'layout.layoutWidget' );
+					},
+					endContainerLayout: function() {
+
+						called.push( 'layout.endContainerLayout' );
+					},
+					onEndBuild: function() {
+
+						called.push( 'layout.onEndBuild' );
+					}
+				}
+			} );
+
+			mw.buildWidgets();
+
+			expect( called[0] ).toBe( 'inspector.inspect' );
+			expect( called[1] ).toBe( 'prependedInspectionResultProcessor.processInspectionResult' );
+			expect( called[2] ).toBe( 'inspectionResultProcessor.processInspectionResult' );
+			expect( called[3] ).toBe( 'addedInspectionResultProcessor.processInspectionResult' );
+			expect( called[4] ).toBe( 'widgetBuilder.onStartBuild' );
+			expect( called[5] ).toBe( 'prependedWidgetProcessor1.onStartBuild' );
 			expect( called[6] ).toBe( 'widgetProcessor.onStartBuild' );
 			expect( called[7] ).toBe( 'addedWidgetProcessor1.onStartBuild' );
-			expect( called[8] ).toBe( 'addedWidgetProcessor2.onStartBuild' );
-			expect( called[9] ).toBe( 'layout.onStartBuild' );
-			expect( called[10] ).toBe( 'layout.startContainerLayout' );
-			expect( called[11] ).toBe( 'widgetBuilder.buildWidget' );
-			expect( called[12] ).toBe( 'prependedWidgetProcessor1.processWidget' );
-			expect( called[13] ).toBe( 'prependedWidgetProcessor2.processWidget' );
-			expect( called[14] ).toBe( 'widgetProcessor.processWidget' );
-			expect( called[15] ).toBe( 'addedWidgetProcessor1.processWidget' );
-			expect( called[16] ).toBe( 'addedWidgetProcessor2.processWidget' );
-			expect( called[17] ).toBe( 'layout.layoutWidget' );
-			expect( called[18] ).toBe( 'layout.endContainerLayout' );
-			expect( called[19] ).toBe( 'layout.onEndBuild' );
-			expect( called[20] ).toBe( 'prependedWidgetProcessor1.onEndBuild' );
-			expect( called[21] ).toBe( 'prependedWidgetProcessor2.onEndBuild' );
-			expect( called[22] ).toBe( 'widgetProcessor.onEndBuild' );
-			expect( called[23] ).toBe( 'addedWidgetProcessor1.onEndBuild' );
-			expect( called[24] ).toBe( 'addedWidgetProcessor2.onEndBuild' );
-			expect( called[25] ).toBe( 'widgetBuilder.onEndBuild' );
+			expect( called[8] ).toBe( 'layout.onStartBuild' );
+			expect( called[9] ).toBe( 'layout.startContainerLayout' );
+			expect( called[10] ).toBe( 'widgetBuilder.buildWidget' );
+			expect( called[11] ).toBe( 'prependedWidgetProcessor1.processWidget' );
+			expect( called[12] ).toBe( 'widgetProcessor.processWidget' );
+			expect( called[13] ).toBe( 'addedWidgetProcessor1.processWidget' );
+			expect( called[14] ).toBe( 'layout.layoutWidget' );
+			expect( called[15] ).toBe( 'layout.endContainerLayout' );
+			expect( called[16] ).toBe( 'layout.onEndBuild' );
+			expect( called[17] ).toBe( 'prependedWidgetProcessor1.onEndBuild' );
+			expect( called[18] ).toBe( 'widgetProcessor.onEndBuild' );
+			expect( called[19] ).toBe( 'addedWidgetProcessor1.onEndBuild' );
+			expect( called[20] ).toBe( 'widgetBuilder.onEndBuild' );
 
-			expect( called.length ).toBe( 26 );
+			expect( called.length ).toBe( 21 );
 		} );
 
 		it( "will stop the build if the inspection returns null", function() {
@@ -689,9 +851,9 @@
 			stub.setAttribute( 'title', 'Foo' );
 			stub.appendChild( simpleDocument.createElement( 'input' ) );
 			element.appendChild( stub );
-			
+
 			// (test childAttributes don't bleed into next component)
-			
+
 			var div = simpleDocument.createElement( 'div' );
 			div.appendChild( simpleDocument.createElement( 'input' ) );
 			element.appendChild( div );
@@ -980,22 +1142,23 @@
 				expect( e.message ).toBe( "Calling buildWidgets( undefined ) may cause infinite loop. Check your argument, or pass no arguments instead" );
 			}
 		} );
-		
+
 		it( "supports a custom clearWidgets method", function() {
 
 			var firedClearWidgetsEvent = 0;
-			
+
 			// Defaults
 
-			var element = simpleDocument.createElement( 'div' );			
+			var element = simpleDocument.createElement( 'div' );
 			var mw = new metawidget.Metawidget( element );
-			
+
 			mw.clearWidgets = function() {
+
 				firedClearWidgetsEvent++;
 			}
 
 			mw.buildWidgets();
-			
+
 			expect( firedClearWidgetsEvent ).toBe( 1 );
 
 			mw.buildWidgets();
@@ -1009,14 +1172,14 @@
 				styleClass: 'foo-class'
 			} );
 
-			expect( element.getAttribute( 'class' )).toBe( 'foo-class' );
+			expect( element.getAttribute( 'class' ) ).toBe( 'foo-class' );
 
 			new metawidget.Metawidget( element, {
 				styleClass: 'bar-class'
 			} );
 
-			expect( element.getAttribute( 'class' )).toBe( 'foo-class bar-class' );
+			expect( element.getAttribute( 'class' ) ).toBe( 'foo-class bar-class' );
 		} );
-		
+
 	} );
 } )();

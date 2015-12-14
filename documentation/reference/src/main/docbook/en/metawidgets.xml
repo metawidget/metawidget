@@ -614,7 +614,7 @@
 							</tr>
 							<tr>
 								<td><parameter>prependInspectionResultProcessors</parameter></td>
-								<td>Insert InspectionResultProcessors before any existing ones</td>
+								<td>Insert InspectionResultProcessors before any existing ones. Can be an array or a single InspectionResultProcessor</td>
 							</tr>
 							<tr>
 								<td><parameter>inspectionResultProcessors</parameter></td>
@@ -622,7 +622,7 @@
 							</tr>
 							<tr>
 								<td><parameter>appendInspectionResultProcessors</parameter></td>
-								<td>Append InspectionResultProcessors after any existing ones</td>
+								<td>Append InspectionResultProcessors after any existing ones. Can be an array or a single InspectionResultProcessor</td>
 							</tr>
 							<tr>
 								<td><parameter>widgetBuilder</parameter></td>
@@ -630,7 +630,7 @@
 							</tr>
 							<tr>
 								<td><parameter>prependWidgetProcessors</parameter></td>
-								<td>Insert WidgetProcessors before any existing ones</td>
+								<td>Insert WidgetProcessors before any existing ones. Can be an array or a single WidgetProcessor</td>
 							</tr>
 							<tr>
 								<td><parameter>widgetProcessors</parameter></td>
@@ -638,7 +638,7 @@
 							</tr>
 							<tr>
 								<td><parameter>appendWidgetProcessors</parameter></td>
-								<td>Append WidgetProcessors after any existing ones</td>
+								<td>Append WidgetProcessors after any existing ones. Can be an array or a single WidgetProcessor</td>
 							</tr>
 							<tr>
 								<td><parameter>layout</parameter></td>
