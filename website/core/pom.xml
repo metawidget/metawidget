@@ -2,7 +2,7 @@
 	<parent>
 		<groupId>org.metawidget.website</groupId>
 		<artifactId>website-parent</artifactId>
-		<version>4.2</version>
+		<version>4.3-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
