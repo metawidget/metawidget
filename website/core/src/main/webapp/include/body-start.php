@@ -55,7 +55,7 @@
 				<div class="badges" style="height: 593px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
 					<span>Metawidget integrates with:</span>
 
-					<a href="http://java.sun.com/javaee" target="_blank" style="top: 30px; left: 5px">
+					<a href="http://www.oracle.com/technetwork/java/javaee/overview/index.html" target="_blank" style="top: 30px; left: 5px">
 						<img src="/media/logos/logo-java.gif" alt="Java" style="border: 0px" />
 					</a>
 					<a href="http://code.google.com/android" target="_blank" style="top: 30px; left: 65px">
@@ -88,7 +88,7 @@
 					<a href="http://jqueryui.com" target="_blank" style="top: 229px; left: 10px">
 						<img src="/media/logos/logo-jqueryui.gif" alt="JQuery UI" style="border: 0px" />
 					</a>
-					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 262px; left: 138px">
+					<a href="http://www.oracle.com/technetwork/java/javaee/javaserverfaces-139869.html" target="_blank" style="top: 262px; left: 138px">
 						<img src="/media/logos/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
 					</a>
 					<a href="http://nodejs.org" target="_blank" style="top: 344px; left: 60px">
@@ -112,7 +112,7 @@
 					<a href="http://struts.apache.org" target="_blank" style="top: 468px; left: 90px">
 						<img src="/media/logos/logo-struts.gif" alt="Struts" style="border: 0px" />
 					</a>
-					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 468px; left: 20px">
+					<a href="http://www.oracle.com/technetwork/java/javase/overview/index.html" target="_blank" style="top: 468px; left: 20px">
 						<img src="/media/logos/logo-swing.gif" alt="Swing" style="border: 0px" />
 					</a>
 					<a href="http://eclipse.org/swt" target="_blank" style="top: 504px; left: 75px">
