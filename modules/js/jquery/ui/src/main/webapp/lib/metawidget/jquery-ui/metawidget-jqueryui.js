@@ -228,7 +228,6 @@ var metawidget = metawidget || {};
 		var li = metawidget.util.createElement( mw, 'li' );
 		var a = metawidget.util.createElement( mw, 'a' );
 		a.setAttribute( 'href', '#' + tabId );
-		a.hash = '#' + tabId;
 		li.appendChild( a );
 		ul.appendChild( li );
 

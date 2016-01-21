@@ -11363,6 +11363,10 @@ HTMLElement.prototype.setAttribute = function(name, value) {
     if (name === "style") {
         updateCss2Props(this, value);
     }
+    // Add support for 'HTMLAnchorTag.hash'
+    if (this.tagName === "A" && name === "href" && value.indexOf( "#" ) !== -1 ) {
+    	this.hash = value.substring( value.indexOf( "#" ));
+    }
 }
 
 /**
