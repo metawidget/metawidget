@@ -395,17 +395,17 @@
 
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "number"
-			}, mw ).toString() ).toBe( 'input type="number"' );
+			}, mw ).toString() ).toBe( 'input type="number" step="any"' );
 
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "number",
 				minimum: "2"
-			}, mw ).toString() ).toBe( 'input type="number" min="2"' );
+			}, mw ).toString() ).toBe( 'input type="number" step="any" min="2"' );
 
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "number",
 				maximum: "4"
-			}, mw ).toString() ).toBe( 'input type="number" max="4"' );
+			}, mw ).toString() ).toBe( 'input type="number" step="any" max="4"' );
 
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "number",

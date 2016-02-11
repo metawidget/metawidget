@@ -306,6 +306,12 @@ var metawidget = metawidget || {};
 
 				var number = metawidget.util.createElement( mw, 'input' );
 				number.setAttribute( 'type', 'number' );
+				
+				// Must explicitly allow 'any', or else only integers will validate
+				
+				if ( attributes.type === 'number' ) {
+					number.setAttribute( 'step', 'any' );
+				}
 
 				if ( attributes.minimum !== undefined ) {
 					number.setAttribute( 'min', attributes.minimum );
