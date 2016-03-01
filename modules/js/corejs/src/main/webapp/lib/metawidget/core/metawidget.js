@@ -453,7 +453,7 @@ var metawidget = metawidget || {};
 
 			if ( widget !== undefined ) {
 
-				widget = _processWidget( this, widget, elementName, copiedAttributes, mw );
+				widget = this.processWidget( widget, elementName, copiedAttributes, mw );
 
 				if ( widget !== undefined ) {
 					this.layoutWidget( widget, elementName, copiedAttributes, this.element, mw );
@@ -490,7 +490,7 @@ var metawidget = metawidget || {};
 						}
 					}
 
-					widget = _processWidget( this, widget, elementName, copiedAttributes, mw );
+					widget = this.processWidget( widget, elementName, copiedAttributes, mw );
 
 					if ( widget !== undefined ) {
 						this.layoutWidget( widget, elementName, copiedAttributes, this.element, mw );
@@ -581,26 +581,6 @@ var metawidget = metawidget || {};
 			return pipeline.widgetBuilder( elementName, attributes, mw );
 		}
 
-		function _processWidget( pipeline, widget, elementName, attributes, mw ) {
-
-			for ( var loop = 0, length = pipeline.widgetProcessors.length; loop < length; loop++ ) {
-
-				var widgetProcessor = pipeline.widgetProcessors[loop];
-
-				if ( widgetProcessor.processWidget !== undefined ) {
-					widget = widgetProcessor.processWidget( widget, elementName, attributes, mw );
-				} else {
-					widget = widgetProcessor( widget, elementName, attributes, mw );
-				}
-
-				if ( widget === undefined ) {
-					return;
-				}
-			}
-
-			return widget;
-		}
-
 		function _endBuild( pipeline, mw ) {
 
 			if ( mw.onEndBuild !== undefined ) {
@@ -665,6 +645,32 @@ var metawidget = metawidget || {};
 			}
 		}
 	};
+
+	/**
+	 * Process the given widget using the configured WidgetProcessors.
+	 * <p>
+	 * Subclasses can use this method to process overridden widgets.
+	 */
+	
+	metawidget.Pipeline.prototype.processWidget = function( widget, elementName, attributes, mw ) {
+
+		for ( var loop = 0, length = this.widgetProcessors.length; loop < length; loop++ ) {
+
+			var widgetProcessor = this.widgetProcessors[loop];
+
+			if ( widgetProcessor.processWidget !== undefined ) {
+				widget = widgetProcessor.processWidget( widget, elementName, attributes, mw );
+			} else {
+				widget = widgetProcessor( widget, elementName, attributes, mw );
+			}
+
+			if ( widget === undefined ) {
+				return;
+			}
+		}
+
+		return widget;
+	}
 
 	/**
 	 * Layout the given widget by delegating to the configured Layout.

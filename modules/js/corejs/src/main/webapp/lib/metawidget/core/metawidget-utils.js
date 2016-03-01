@@ -338,8 +338,14 @@ var metawidget = metawidget || {};
 				splitPath = splitPath.slice( 1 );
 			}
 
-			if ( attributes.name && elementName !== 'entity' ) {
-				splitPath.push( attributes.name );
+			if ( elementName !== 'entity' ) {
+				if ( attributes.name !== undefined ) {
+					splitPath.push( attributes.name );
+				} else {
+					// Dangerous to assign a property id without a name, as will
+					// most likely clash with the entity id
+					return undefined;
+				}
 			} else if ( splitPath.length === 0 ) {
 				return undefined;
 			}

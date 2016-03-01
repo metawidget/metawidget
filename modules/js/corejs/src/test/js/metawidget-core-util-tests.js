@@ -241,9 +241,12 @@
 			expect( metawidget.util.getId( "property", {
 				name: "baz"
 			}, {} ) ).toBe( "baz" );
-			expect( metawidget.util.getId( "property", {}, {
+			expect( metawidget.util.getId( "entity", {}, {
 				path: "foo.bar"
 			} ) ).toBe( "fooBar" );
+			expect( metawidget.util.getId( "property", {}, {
+				path: "foo.bar"
+			} ) ).toBeUndefined();
 			expect( metawidget.util.getId( "property", {
 				name: "baz"
 			}, {

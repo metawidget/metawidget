@@ -219,7 +219,9 @@ var metawidget = metawidget || {};
 			// this as late as possible, in case directives want to use
 			// 'element.controller( 'form' )'
 			//
-			// Note: we ignore transcluded widgets. Compiling them again using
+			// Note: we do this here, rather than in onEndBuild, because we must
+			// be particular about which widgets to $compile. In particular, we
+			// must ignore transcluded widgets. Compiling them again using
 			// $compile seemed to trigger 'ng-click' listeners twice?
 
 			if ( widget.overridden === undefined ) {
@@ -399,7 +401,11 @@ var metawidget = metawidget || {};
 					}
 				}
 
-				_pipeline.layoutWidget( child, "property", childAttributes, _pipeline.element, this );
+				child = _pipeline.processWidget( child, "property", childAttributes, this );
+
+				if ( child !== undefined ) {
+					_pipeline.layoutWidget( child, "property", childAttributes, _pipeline.element, this );
+				}
 			}
 		};
 
@@ -565,110 +571,116 @@ var metawidget = metawidget || {};
 			// 'toInspect.bar')
 
 			var binding = mw.path;
+			var name = attributes.name;
 
-			if ( elementName !== 'entity' ) {
-				binding = metawidget.util.appendPathWithName( binding, attributes );
-			}
+			if ( name !== undefined || elementName === 'entity' ) {
 
-			if ( widget.tagName === 'OUTPUT' ) {
-
-				// Don't overwrite existing binding (if set by the
-				// WidgetBuilder)
-
-				if ( !widget.hasAttribute( 'ng-bind' ) ) {
-					if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
-
-						// Special support for masked output
-
-						scope.$parent.mwMaskedOutput = _maskedOutput;
-						widget.setAttribute( 'ng-bind', 'mwMaskedOutput(' + binding + ')' );
-					} else if ( attributes.type === 'array' ) {
-
-						// Special support for outputting arrays
-
-						widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
-					} else if ( attributes.enumTitles !== undefined ) {
-
-						// Special support for enumTitles
-
-						scope.$parent.mwLookupEnumTitle = scope.$parent.mwLookupEnumTitle || {};
-						scope.$parent.mwLookupEnumTitle[binding] = function( value ) {
-
-							return metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
-						};
-						widget.setAttribute( 'ng-bind', 'mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
-
-					} else if ( attributes.type === 'date' ) {
-
-						// Special support for date formatting
-
-						widget.setAttribute( 'ng-bind', binding + "|date" );
-
-					} else {
-						widget.setAttribute( 'ng-bind', binding );
-					}
+				if ( elementName !== 'entity' ) {
+					binding = metawidget.util.appendPathWithName( binding, attributes );
 				}
 
-			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'submit' ) {
+				if ( widget.tagName === 'OUTPUT' ) {
 
-				// input type='submit' should not be bound: should go via
-				// ng-submit at the form level
+					// Don't overwrite existing binding (if set by the
+					// WidgetBuilder)
 
-				widget.removeAttribute( 'ng-click' );
+					if ( !widget.hasAttribute( 'ng-bind' ) ) {
+						if ( metawidget.util.isTrueOrTrueString( attributes.masked ) ) {
 
-			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) {
+							// Special support for masked output
 
-				widget.setAttribute( 'ng-click', binding + '()' );
+							scope.$parent.mwMaskedOutput = _maskedOutput;
+							widget.setAttribute( 'ng-bind', 'mwMaskedOutput(' + binding + ')' );
+						} else if ( attributes.type === 'array' ) {
 
-			} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
+							// Special support for outputting arrays
 
-				// Special support for multi-selects and radio buttons
+							widget.setAttribute( 'ng-bind', binding + ".join(', ')" );
+						} else if ( attributes.enumTitles !== undefined ) {
 
-				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
-					var label = widget.childNodes[loop];
+							// Special support for enumTitles
 
-					if ( label.tagName === 'LABEL' && label.childNodes.length === 2 ) {
-						var child = label.childNodes[0];
+							scope.$parent.mwLookupEnumTitle = scope.$parent.mwLookupEnumTitle || {};
+							scope.$parent.mwLookupEnumTitle[binding] = function( value ) {
 
-						if ( child.tagName === 'INPUT' ) {
-							if ( child.getAttribute( 'type' ) === 'radio' ) {
-								child.setAttribute( 'ng-model', binding );
-								if ( child.value === true || child.value === 'true' ) {
-									child.setAttribute( 'ng-value', 'true' );
-								} else if ( child.value === false || child.value === 'false' ) {
-									child.setAttribute( 'ng-value', 'false' );
+								return metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
+							};
+							widget.setAttribute( 'ng-bind', 'mwLookupEnumTitle["' + binding + '"](' + binding + ')' );
+
+						} else if ( attributes.type === 'date' ) {
+
+							// Special support for date formatting
+
+							widget.setAttribute( 'ng-bind', binding + "|date" );
+
+						} else {
+							widget.setAttribute( 'ng-bind', binding );
+						}
+					}
+
+				} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'submit' ) {
+
+					// input type='submit' should not be bound: should go via
+					// ng-submit at the form level
+
+					widget.removeAttribute( 'ng-click' );
+
+				} else if ( ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) || widget.tagName === 'BUTTON' ) {
+
+					// TODO: test tagName = BUTTON
+
+					widget.setAttribute( 'ng-click', binding + '()' );
+
+				} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
+
+					// Special support for multi-selects and radio buttons
+
+					for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+						var label = widget.childNodes[loop];
+
+						if ( label.tagName === 'LABEL' && label.childNodes.length === 2 ) {
+							var child = label.childNodes[0];
+
+							if ( child.tagName === 'INPUT' ) {
+								if ( child.getAttribute( 'type' ) === 'radio' ) {
+									child.setAttribute( 'ng-model', binding );
+									if ( child.value === true || child.value === 'true' ) {
+										child.setAttribute( 'ng-value', 'true' );
+									} else if ( child.value === false || child.value === 'false' ) {
+										child.setAttribute( 'ng-value', 'false' );
+									}
+								} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
+									child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.value + "')>=0" );
+									scope.mwUpdateSelection = _updateSelection;
+									child.setAttribute( 'ng-click', "mwUpdateSelection($event,'" + binding + "')" );
 								}
-							} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
-								child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.value + "')>=0" );
-								scope.mwUpdateSelection = _updateSelection;
-								child.setAttribute( 'ng-click', "mwUpdateSelection($event,'" + binding + "')" );
 							}
 						}
 					}
-				}
 
-			} else if ( widget.tagName === 'SELECT' ) {
+				} else if ( widget.tagName === 'SELECT' ) {
 
-				widget.setAttribute( 'ng-model', binding );
-				
-				// Special support for non-string selects
+					widget.setAttribute( 'ng-model', binding );
 
-				if ( attributes.type === 'boolean' || attributes.type === 'integer' || attributes.type === 'number' ) {
-					widget.setAttribute( 'ng-change', "mwChangeAsType('" + attributes.type + "','" + binding + "')" );
-					scope.mwChangeAsType = _changeAsType;
-					
-					for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+					// Special support for non-string selects
 
-						var child = widget.childNodes[loop];
+					if ( attributes.type === 'boolean' || attributes.type === 'integer' || attributes.type === 'number' ) {
+						widget.setAttribute( 'ng-change', "mwChangeAsType('" + attributes.type + "','" + binding + "')" );
+						scope.mwChangeAsType = _changeAsType;
 
-						if ( child.tagName === 'OPTION' && child.value !== '' ) {
-							child.setAttribute( 'ng-selected', binding + "==" + child.value );
+						for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+
+							var child = widget.childNodes[loop];
+
+							if ( child.tagName === 'OPTION' && child.value !== '' ) {
+								child.setAttribute( 'ng-selected', binding + "==" + child.value );
+							}
 						}
 					}
-				}
 
-			} else if ( widget.tagName === 'INPUT' || widget.tagName === 'TEXTAREA' ) {
-				widget.setAttribute( 'ng-model', binding );
+				} else if ( widget.tagName === 'INPUT' || widget.tagName === 'TEXTAREA' ) {
+					widget.setAttribute( 'ng-model', binding );
+				}
 			}
 
 			// Validation
@@ -743,28 +755,28 @@ var metawidget = metawidget || {};
 
 			return metawidget.util.fillString( '*', value.length );
 		}
-		
+
 		/**
 		 * Special support for non-string selects.
 		 */
-		
+
 		function _changeAsType( type, binding ) {
-			
-			var parsedBinding = $parse( binding ); 
-			
+
+			var parsedBinding = $parse( binding );
+
 			if ( type === 'boolean' ) {
 				parsedBinding.assign( scope, parsedBinding( scope ) === 'true' );
-				return;		
+				return;
 			}
-			
+
 			if ( type === 'integer' ) {
-				parsedBinding.assign( scope, parseInt( parsedBinding( scope ) ));
-				return;		
+				parsedBinding.assign( scope, parseInt( parsedBinding( scope ) ) );
+				return;
 			}
 
 			if ( type === 'number' ) {
-				parsedBinding.assign( scope, parseFloat( parsedBinding( scope ) ));
-				return;		
+				parsedBinding.assign( scope, parseFloat( parsedBinding( scope ) ) );
+				return;
 			}
 		}
 	};

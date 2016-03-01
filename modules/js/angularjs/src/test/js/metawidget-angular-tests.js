@@ -389,7 +389,7 @@
 									} );
 						} );
 
-				it( "defensively copies overridden widgets", function() {
+				it( "includes widgets that are not part of the object", function() {
 
 					var myApp = angular.module( 'test-app', [ 'metawidget' ] );
 					var controller = myApp.controller( 'TestController', function( $scope ) {
@@ -544,8 +544,8 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<label id="table-bar-label">Bar:</label>' );
-						expect( mw.innerHTML ).toContain( '<span ng-model="foo.bar" class="ng-scope ng-pristine ng-valid"/>' );
+						expect( mw.innerHTML ).toContain( '<label for="bar" id="table-bar-label">Bar:</label>' );
+						expect( mw.innerHTML ).toContain( '<span ng-model="foo.bar" class="ng-scope ng-pristine ng-valid" id="bar"/>' );
 						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
@@ -576,8 +576,8 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<label id="table-bar-label">Bar:</label>' );
-						expect( mw.innerHTML ).toContain( '<span x-ng-bind="foo.bar" class="ng-scope ng-binding">Bar</span>' );
+						expect( mw.innerHTML ).toContain( '<label for="bar" id="table-bar-label">Bar:</label>' );
+						expect( mw.innerHTML ).toContain( '<span x-ng-bind="foo.bar" class="ng-scope ng-binding" id="bar">Bar</span>' );
 						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 
@@ -591,8 +591,8 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<label id="table-baz-label">Baz:</label>' );
-						expect( mw.innerHTML ).toContain( '<span ng:model="foo.baz" class="ng-scope ng-pristine ng-valid"/>' );
+						expect( mw.innerHTML ).toContain( '<label for="baz" id="table-baz-label">Baz:</label>' );
+						expect( mw.innerHTML ).toContain( '<span ng:model="foo.baz" class="ng-scope ng-pristine ng-valid" id="baz"/>' );
 						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 
@@ -607,8 +607,8 @@
 
 					injector.invoke( function() {
 
-						expect( mw.innerHTML ).toContain( '<label id="table-baz-label">Baz:</label>' );
-						expect( mw.innerHTML ).toContain( '<span ngmodel="foo.baz" class="ng-scope"/>' );
+						expect( mw.innerHTML ).toContain( '<label for="baz" id="table-baz-label">Baz:</label>' );
+						expect( mw.innerHTML ).toContain( '<span ngmodel="foo.baz" class="ng-scope" id="baz"/>' );
 						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
@@ -1009,7 +1009,7 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toBe(
-								'<table id="table-foo"><tbody><tr><td colspan="2"><input type="text" id="foo" ng-model="foo" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );
+								'<table id="table-foo"><tbody><tr><td colspan="2"><input type="text" id="foo" ng-model="foo" class="ng-scope ng-pristine ng-valid"/></td><td/></tr></tbody></table>' );								
 
 						expect( inspectionCount ).toBe( 1 );
 

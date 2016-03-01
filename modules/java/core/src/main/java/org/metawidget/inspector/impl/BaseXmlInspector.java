@@ -99,6 +99,7 @@ import org.w3c.dom.Element;
  */
 
 // TODO: rework BaseXmlInspector to support arbitrary nesting for XML Schemas
+// TODO: repackage npm to include front-end technologies
 
 public abstract class BaseXmlInspector
 	implements DomInspector<Element> {

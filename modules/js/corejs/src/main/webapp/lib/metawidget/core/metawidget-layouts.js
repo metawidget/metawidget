@@ -65,7 +65,7 @@ var metawidget = metawidget || {};
 
 			var dl = metawidget.util.createElement( mw, 'dl' );
 			if ( mw.path !== undefined ) {
-				var id = metawidget.util.getId( "property", {}, mw );
+				var id = metawidget.util.getId( 'entity', {}, mw );
 				if ( id !== undefined ) {
 					dl.setAttribute( 'id', 'dl-' + id );
 				}
@@ -331,7 +331,7 @@ var metawidget = metawidget || {};
 
 			var table = metawidget.util.createElement( mw, 'table' );
 			if ( mw.path !== undefined ) {
-				var id = metawidget.util.getId( "property", {}, mw );
+				var id = metawidget.util.getId( 'entity', {}, mw );
 				if ( id !== undefined ) {
 					table.setAttribute( 'id', 'table-' + id );
 				}
