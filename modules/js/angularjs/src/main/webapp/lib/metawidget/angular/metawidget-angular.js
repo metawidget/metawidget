@@ -679,7 +679,12 @@ var metawidget = metawidget || {};
 					}
 
 				} else if ( widget.tagName === 'INPUT' || widget.tagName === 'TEXTAREA' ) {
-					widget.setAttribute( 'ng-model', binding );
+					// Don't overwrite existing binding (if set by the
+					// WidgetBuilder)
+					// TODO: test don't overwrite existing binding
+					if ( !widget.hasAttribute( 'ng-model' ) ) {
+						widget.setAttribute( 'ng-model', binding );
+					}
 				}
 			}
 
