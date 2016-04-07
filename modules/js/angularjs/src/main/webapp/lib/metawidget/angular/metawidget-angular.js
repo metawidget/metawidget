@@ -627,8 +627,6 @@ var metawidget = metawidget || {};
 
 				} else if ( ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) || widget.tagName === 'BUTTON' ) {
 
-					// TODO: test tagName = BUTTON
-
 					widget.setAttribute( 'ng-click', binding + '()' );
 
 				} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {

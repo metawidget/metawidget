@@ -1896,6 +1896,18 @@
 				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
 				expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( null );
 
+				// Buttons
+
+				attributes = {
+					name: "bar"
+				};
+				widget = document.createElement( 'button' );
+				processor.processWidget( widget, 'property', attributes, mw );
+				expect( widget.getAttribute( 'ng-click' ) ).toBe( 'testPath.bar()' );
+				expect( widget.getAttribute( 'ng-required' ) ).toBe( null );
+				expect( widget.getAttribute( 'ng-minlength' ) ).toBe( null );
+				expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( null );
+
 				// Submit input
 
 				attributes = {
