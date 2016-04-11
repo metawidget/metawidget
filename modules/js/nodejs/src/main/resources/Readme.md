@@ -31,9 +31,15 @@ See `test/render.js` inside this module for a working example. But briefly:
     mw.buildWidgets();
     ...
     // yourElement is now populated with child components
+    
+## Extras
+This npm distribution also includes all client-side versions of
+Metawidget, including pure JavaScript, AngularJS, Bootstrap, JQuery UI
+and JQuery Mobile versions. These can be found in the `/extras` folder.
+They are useful if you're employing npm for your client-side package
+management (as opposed to, say, Bower).
 
 ## License
-
 This file is dual licensed under both the LGPL
 (http://www.gnu.org/licenses/lgpl-2.1.html) and the EPL
 (http://www.eclipse.org/org/documents/epl-v10.php). As a
