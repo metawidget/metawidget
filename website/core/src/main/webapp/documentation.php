@@ -46,6 +46,7 @@
 			<li><a href="xsd/metawidget-1.0.xsd" target="_blank">metawidget-1.0.xsd</a></li>
 			<li><a href="xsd/inspection-result-1.0.xsd" target="_blank">inspection-result-1.0.xsd</a></li>
 			<li><a href="xsd" target="_blank">Other XML Schemas</a></li>
+			<li><a href="doc/jsdoc/index.html" target="_blank">Metawidget JavaScript API Documentation</a></li>
 		</ul>
 
 		<h3>White Papers</h3>

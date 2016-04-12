@@ -147,6 +147,10 @@
 							<fileset dir="../../modules/java/target/site/tlddoc"/>
 						</copy>						
 
+						<copy todir="target/ROOT/doc/jsdoc">
+							<fileset dir="../../modules/js/corejs/target/jsdoc"/>
+						</copy>						
+
 						<!-- Live demo -->
 						
 						<copy todir="target/ROOT/live-demo">
