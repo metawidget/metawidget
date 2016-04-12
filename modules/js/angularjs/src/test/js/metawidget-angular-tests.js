@@ -1868,9 +1868,16 @@
 				expect( widget.getAttribute( 'ng-maxlength' ) ).toBe( '97' );
 				expect( widget.getAttribute( 'maxlength' ) ).toBe( '97' );
 
+				// Doesn't overwrite existing binding
+				
+				widget = document.createElement( 'input' );
+				widget.setAttribute( 'ng-model', 'do.not.overwrite' );
+				processor.processWidget( widget, 'property', attributes, mw );
+				expect( widget.getAttribute( 'ng-model' ) ).toBe( 'do.not.overwrite' );
+
 				// Outputs
 
-				var widget = document.createElement( 'output' );
+				widget = document.createElement( 'output' );
 				processor.processWidget( widget, 'property', readOnlyAttributes, mw );
 				expect( widget.getAttribute( 'ng-bind' ) ).toBe( 'testPath.foo' );
 				expect( widget.getAttribute( 'ng-required' ) ).toBe( null );
