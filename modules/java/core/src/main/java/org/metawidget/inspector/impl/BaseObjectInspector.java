@@ -24,12 +24,10 @@ import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.ValueAndDeclaredType;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -173,10 +171,12 @@ public abstract class BaseObjectInspector
 				childName = names[names.length - 1];
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
-				// If the parent does not define such a property, something is wrong
+				// If the parent does not define such a property, cannot continue. Note Inspectors
+				// should fail gracefully if they cannot find what they are told to inspect. They
+				// rely on other Inspectors (via CompositeInspector) to find the metadata
 
 				if ( propertyInParent == null ) {
-					throw InspectorException.newException( "Parent of " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + " does not define a property '" + childName + "'" );
+					return null;
 				}
 
 				declaredChildType = propertyInParent.getType();
@@ -202,7 +202,7 @@ public abstract class BaseObjectInspector
 					}
 				}
 			} else {
-				
+
 				// ...otherwise, just start at the end point
 
 				childToInspect = toInspect;

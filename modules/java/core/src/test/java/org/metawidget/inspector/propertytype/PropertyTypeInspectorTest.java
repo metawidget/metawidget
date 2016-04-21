@@ -432,10 +432,13 @@ public class PropertyTypeInspectorTest
 		assertEquals( Object.class.getName(), entity.getAttribute( TYPE ) );
 		assertFalse( entity.hasAttribute( ACTUAL_CLASS ) );
 
-		// Traversal any further should fail gracefully (ie. not NullPointerException)
+		// Traversal any further should fail gracefully. It should not NullPointerException or throw
+		// an error. Inspectors should fail gracefully if they cannot find what they are told to
+		// inspect. They rely on other Inspectors (via CompositeInspector) to find the metadata
 
-		// TODO: assertEquals( null, mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo" ) );
+		assertEquals( null, mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo" ) );
 		assertEquals( null, mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo" ) );
+		assertEquals( null, mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo", "foo" ) );
 	}
 
 	public void testParameterizedType() {
