@@ -43,8 +43,8 @@ describe( 'The JQuery Mobile All Widgets Test', function() {
 			expect( $( '#allWidgetsRangedNumber-label' ).text() ).toBe( 'Ranged Number:' );
 			expect( $( '#allWidgetsRangedNumber' )[0].tagName ).toBe( 'INPUT' );
 			expect( $( '#allWidgetsRangedNumber' ).data( 'type' ) ).toBe( 'range' );
-			// TODO: expect( $( '#allWidgetsRangedNumber .ui-slider-handle' ).attr( 'style' ) ).toBe( 'left: 32%;' );
-			// TODO: $( '#allWidgetsRangedNumber' ).slider( 'value', '33' );
+			expect( $( '#allWidgetsRangedNumber + div .ui-slider-handle' ).attr( 'style' ) ).toBe( 'left: 31.3131%;' );
+			$( '#allWidgetsRangedNumber' ).val( '33' );
 
 			expect( $( '#allWidgetsBoolean-label' ).prop( 'for' ) ).toBe( 'allWidgetsBoolean' );
 			expect( $( '#allWidgetsBoolean-label' ).text().trim() ).toBe( 'Boolean' );
@@ -170,7 +170,7 @@ describe( 'The JQuery Mobile All Widgets Test', function() {
 			expect( $( '#allWidgetsNumber' )[0].tagName ).toBe( 'OUTPUT' );
 			expect( $( '#allWidgetsNumber' ).text() ).toBe( '311' );
 			expect( $( '#allWidgetsRangedNumber' )[0].tagName ).toBe( 'OUTPUT' );
-			// TODO: expect( $( '#allWidgetsRangedNumber' ).text() ).toBe( '33' );			
+			expect( $( '#allWidgetsRangedNumber' ).text() ).toBe( '33' );			
 			expect( $( '#allWidgetsDropdown' )[0].tagName ).toBe( 'OUTPUT' );
 			expect( $( '#allWidgetsDropdown' ).text() ).toBe( 'foo1' );
 			expect( $( '#allWidgetsDropdownWithLabels' )[0].tagName ).toBe( 'OUTPUT' );

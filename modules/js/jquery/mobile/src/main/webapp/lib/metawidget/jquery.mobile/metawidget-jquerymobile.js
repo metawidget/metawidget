@@ -79,7 +79,9 @@ var metawidget = metawidget || {};
 
 		// Overridden because some JQuery Mobile widgets (such as search inputs)
 		// swap out the existing DOM. We can resolve this using JQuery more
-		// safely then with pure JavaScript, because we can find *within* a node
+		// safely then with pure JavaScript, because we can find *within* a
+		// node, even if the id is not unique (which, with JQuery Mobile's
+		// dynamic DOM tree replacement, is easily done)
 
 		processor.getWidgetFromBinding = function( binding, mw ) {
 
@@ -117,6 +119,13 @@ var metawidget = metawidget || {};
 				return true;
 			}
 
+			// Range will be wrapped by JQuery Mobile, and it needs 'value' to
+			// be an attribute
+
+			if ( widget.getAttribute( 'type' ) === 'range' ) {
+				widget.setAttribute( 'value', widget.value );
+			}
+
 			return toReturn;
 		};
 		var _superSaveFromWidget = processor.saveFromWidget;
@@ -133,6 +142,12 @@ var metawidget = metawidget || {};
 					}
 				}
 				return toReturn;
+			}
+
+			// Unwrap JQuery Mobile slider
+			
+			if ( binding.widget.getAttribute( 'type' ) === 'range' ) {
+				return $( '#' + binding.widget.getAttribute( 'id' )).val();
 			}
 
 			return _superSaveFromWidget.call( this, binding, mw );
@@ -212,7 +227,7 @@ var metawidget = metawidget || {};
 					}
 				}
 			};
-			
+
 			// Force a useful convention from JQuery UI that JQuery Mobile
 			// doesn't seem to have (yet?)
 

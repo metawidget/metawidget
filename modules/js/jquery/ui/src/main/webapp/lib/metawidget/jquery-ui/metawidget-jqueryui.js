@@ -91,6 +91,12 @@ var metawidget = metawidget || {};
 	 *        widgets.
 	 */
 
+	// Note: it makes sense for JQueryUIBindingProcessor to be a standalone
+	// WidgetProcessor, rather than replacing SimpleBindingProcessor, because
+	// JQuery UI is a widget framework rather than an application framework. On
+	// the other hand, JQuery Mobile and Angular are application frameworks and
+	// therefore replace SimpleBindingProcessor
+	//
 	metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor = function() {
 
 		if ( ! ( this instanceof metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor ) ) {
@@ -257,8 +263,8 @@ var metawidget = metawidget || {};
 			widgetBuilder: new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(),
 					new metawidget.jqueryui.widgetbuilder.JQueryUIWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] ),
 			widgetProcessors: [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(),
-					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(),
-					new metawidget.widgetprocessor.SimpleBindingProcessor() ],
+					new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(),
+					new metawidget.jqueryui.widgetprocessor.JQueryUIBindingProcessor(), new metawidget.widgetprocessor.SimpleBindingProcessor() ],
 			layout: new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() )
 		},
 
@@ -284,7 +290,7 @@ var metawidget = metawidget || {};
 			var element = this.element[0];
 
 			var mw = this;
-			
+
 			element.getMetawidget = function() {
 
 				return mw;
@@ -364,12 +370,12 @@ var metawidget = metawidget || {};
 		/**
 		 * Overridden to use JQuery.empty (safer for memory leaks).
 		 */
-		
+
 		clearWidgets: function() {
-		
+
 			$( this.getElement() ).empty();
 		},
-		
+
 		/**
 		 * Inspect the given toInspect/path and build widgets.
 		 * <p>
@@ -395,7 +401,7 @@ var metawidget = metawidget || {};
 
 			return this._pipeline.getWidgetProcessor( testInstanceOf );
 		},
-		
+
 		/**
 		 * Returns the element this Metawidget is attached to.
 		 */
