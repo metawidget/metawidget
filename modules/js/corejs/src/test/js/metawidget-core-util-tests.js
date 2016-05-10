@@ -529,7 +529,10 @@
 				properties: {
 					'bar': {
 						mno: 'mno',
-						'anotherArray': [ '3', '4' ]
+						'anotherArray': [ '3', '4' ],
+						anObject: {
+							nestedProp1: 'nestedProp1Value'
+						}
 					},
 					'ghi': {
 						jkl: 'jkl'
@@ -551,6 +554,7 @@
 			expect( existingInspectionResult.properties.bar.anotherArray[0] ).toBe( '3' );
 			expect( existingInspectionResult.properties.bar.anotherArray[1] ).toBe( '4' );
 			expect( existingInspectionResult.properties.bar.anotherArray.length ).toBe( 2 );
+			expect( existingInspectionResult.properties.bar.anObject.nestedProp1 ).toBe( 'nestedProp1Value' );
 			expect( existingInspectionResult.properties.ghi.jkl ).toBe( 'jkl' );
 		} );
 	} );
