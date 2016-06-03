@@ -617,14 +617,6 @@ var metawidget = metawidget || {};
 			if ( style !== '' ) {
 				td.setAttribute( 'style', style );
 			}
-			
-			// Render either top-level value, or a property of that value
-
-			var valueToRender = value[row];
-
-			if ( valueToRender !== undefined && columnAttributes.name !== undefined ) {
-				valueToRender = valueToRender[columnAttributes.name];
-			}
 
 			// Render either nothing, a nested read-only Metawidget, or a
 			// toString()
@@ -679,8 +671,28 @@ var metawidget = metawidget || {};
 				mw.nestedMetawidgets.push( nestedMetawidget );
 
 				td.appendChild( nestedMetawidget );
-			} else if ( valueToRender !== undefined ) {
-				td.innerHTML = '' + valueToRender;
+			} else {
+
+				// Render either top-level value, or a property of that value
+
+				var valueToRender = value[row];
+
+				if ( valueToRender !== undefined && columnAttributes.name !== undefined ) {
+					valueToRender = valueToRender[columnAttributes.name];
+				}
+
+				// Support enumTitles
+
+				if ( columnAttributes['enum'] !== undefined && columnAttributes.enumTitles !== undefined ) {
+					var indexOf = columnAttributes['enum'].indexOf( valueToRender );
+					if ( indexOf > -1 && indexOf < columnAttributes.enumTitles.length ) {
+						valueToRender = columnAttributes.enumTitles[indexOf];
+					}
+				}
+
+				if ( valueToRender !== undefined ) {
+					td.innerHTML = '' + valueToRender;
+				}
 			}
 
 			tr.appendChild( td );

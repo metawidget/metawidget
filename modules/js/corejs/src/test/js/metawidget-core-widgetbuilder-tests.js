@@ -1072,7 +1072,7 @@
 
 			// Child level
 
-			var td = widgetBuilder.addColumn( tr, [ {
+			td = widgetBuilder.addColumn( tr, [ {
 				bar: 'Bar'
 			} ], 0, {
 				name: 'bar'
@@ -1083,6 +1083,22 @@
 			expect( td.childNodes[0].toString() ).toBe( 'metawidget' );
 			expect( td.childNodes[0].innerHTML ).toBe( '.root[0].bar' );
 			expect( tr.childNodes[1] ).toBe( td );
+
+			// Support enumTitles
+
+			td = widgetBuilder.addColumn( tr, [ {
+				bar: 'Bar'
+			} ], 0, {
+				name: 'bar',
+				type: 'string',
+				'enum': [ 'Bar', 'Foo', 'Baz' ],
+				enumTitles: [ 'The Bar', 'The Foo', 'The Baz' ]
+			}, 'property', {
+				name: 'root'
+			}, mw );
+
+			expect( td.innerHTML ).toBe( 'The Bar' );
+			expect( tr.childNodes[2] ).toBe( td );
 		} );
 
 		it( "supports nested tables",
