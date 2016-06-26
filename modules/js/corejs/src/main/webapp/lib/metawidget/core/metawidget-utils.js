@@ -634,6 +634,16 @@ var metawidget = metawidget || {};
 				}
 
 				if ( propertyValue instanceof Object ) {
+
+					// JSON schema properties can contain arbitrary metadata. In
+					// general we don't want to recurse into sub-properties
+					// (that will be for a sub-Metawidget), but other sorts of
+					// embedded metadata are fine
+
+					if ( propertyName !== 'properties' && propertyName !== 'items' ) {
+						to[propertyName] = to[propertyName] || {};
+						_copyPrimitives( propertyValue, to[propertyName] );
+					}
 					continue;
 				}
 

@@ -519,17 +519,28 @@
 				properties: {
 					'bar': {
 						baz: 'baz',
-						'anArray': [ '0', '1', '2' ]
+						'anArray': [ '0', '1', '2' ],
+						anObject: {
+							nestedProp1: 'nestedProp1Value',
+							nestedProp2: 'nestedProp2Value' 
+						}
 					}
 				}
 			};
 			var newInspectionResult = {
 				name: 'new abc',
 				def: 'def',
+				ignore: null,
 				properties: {
 					'bar': {
 						mno: 'mno',
-						'anotherArray': [ '3', '4' ]
+						'anotherArray': [ '3', '4' ],
+						anObject: {
+							nestedProp2: null							
+						},
+						anotherObject: {
+							anotherNestedProp1: 'anotherNestedProp1Value'
+						}
 					},
 					'ghi': {
 						jkl: 'jkl'
@@ -541,6 +552,7 @@
 
 			expect( existingInspectionResult.name ).toBe( 'new abc' );
 			expect( existingInspectionResult.foo ).toBe( 'foo' );
+			expect( existingInspectionResult.ignore ).toBe( null );
 			expect( existingInspectionResult.def ).toBe( 'def' );
 			expect( existingInspectionResult.properties.bar.baz ).toBe( 'baz' );
 			expect( existingInspectionResult.properties.bar.mno ).toBe( 'mno' );
@@ -551,6 +563,9 @@
 			expect( existingInspectionResult.properties.bar.anotherArray[0] ).toBe( '3' );
 			expect( existingInspectionResult.properties.bar.anotherArray[1] ).toBe( '4' );
 			expect( existingInspectionResult.properties.bar.anotherArray.length ).toBe( 2 );
+			expect( existingInspectionResult.properties.bar.anObject.nestedProp1 ).toBe( 'nestedProp1Value' );
+			expect( existingInspectionResult.properties.bar.anObject.nestedProp2 ).toBe( null );
+			expect( existingInspectionResult.properties.bar.anotherObject.anotherNestedProp1 ).toBe( 'anotherNestedProp1Value' );
 			expect( existingInspectionResult.properties.ghi.jkl ).toBe( 'jkl' );
 		} );
 	} );

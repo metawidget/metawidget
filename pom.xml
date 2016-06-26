@@ -809,9 +809,10 @@
 			<id>webtest</id>
 			<url>http://webtest.canoo.com/webtest/m2-repo-snapshots</url>
 		</pluginRepository>
+		<!-- Substitute because http://jsdoctk-plugin.googlecode.com/svn/repo went offline -->
 		<pluginRepository>
 			<id>jsdoctk</id>
-			<url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
+			<url>https://raw.githubusercontent.com/metawidget/metawidget/master/repository</url>
 		</pluginRepository>
 	</pluginRepositories>
 
