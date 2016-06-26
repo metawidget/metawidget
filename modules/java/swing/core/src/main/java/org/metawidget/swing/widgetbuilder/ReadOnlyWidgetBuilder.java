@@ -91,14 +91,6 @@ public class ReadOnlyWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
-			// May have alternate labels
-
-			String lookupLabels = attributes.get( LOOKUP_LABELS );
-
-			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
-				return new LookupLabel( CollectionUtils.newHashMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
-			}
-
 			return new JLabel();
 		}
 

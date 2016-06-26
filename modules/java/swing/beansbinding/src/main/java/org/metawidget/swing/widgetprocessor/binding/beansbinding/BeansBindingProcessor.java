@@ -231,6 +231,12 @@ public class BeansBindingProcessor
 		}
 	}
 
+	/**
+	 * This implementation attempts to re-use the registered BeansBinding converters to also convert
+	 * values for <code>BindingConverter.convertFromString</code>. The latter is a one-way
+	 * conversion, only needed for converting <code>lookups</code> to <code>JComboBox</code> values.
+	 */
+
 	public Object convertFromString( String value, Class<?> expectedType ) {
 
 		if ( String.class.equals( expectedType ) ) {
@@ -251,6 +257,20 @@ public class BeansBindingProcessor
 
 		if ( converterToString != null ) {
 			return converterToString.convertReverse( value );
+		}
+
+		// ...or try implicit conversion...
+		//
+		// Note: typically we can't write converters like this, because most conversion APIs don't
+		// pass <code>expectedType</code>. They typically just pass the widget and the value.
+		// However <code>BindingConverter</code> is our own API.
+
+		if ( Enum.class.isAssignableFrom( expectedType ) ) {
+			try {
+				return expectedType.getMethod( "valueOf", String.class ).invoke( null, value );
+			} catch ( Exception e ) {
+				throw WidgetProcessorException.newException( e );
+			}
 		}
 
 		// ...or don't convert

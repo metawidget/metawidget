@@ -341,6 +341,10 @@ public class BeansBindingProcessorTest
 		binding = new BeansBindingProcessor( config );
 		assertTrue( 1 == (Integer) binding.convertFromString( "1", int.class ) );
 		assertEquals( "convertedForward", builder.toString() );
+
+		// convert Enum
+
+		assertEquals( AnEnum.ONE, binding.convertFromString( "ONE", AnEnum.class ) );
 	}
 
 	public void testNoGetterSetterType()
@@ -670,5 +674,11 @@ public class BeansBindingProcessorTest
 
 			mWEPKey = WEPKey;
 		}
+	}
+
+	protected static enum AnEnum {
+		ONE,
+		TWO,
+		THREE
 	}
 }
