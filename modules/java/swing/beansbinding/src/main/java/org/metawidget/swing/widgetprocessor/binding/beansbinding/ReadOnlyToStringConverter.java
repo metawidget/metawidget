@@ -25,7 +25,7 @@ import org.metawidget.util.simple.StringUtils;
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-public class ReadOnlyToStringConverter<T>
+class ReadOnlyToStringConverter<T>
 	extends Converter<T, String> {
 
 	//

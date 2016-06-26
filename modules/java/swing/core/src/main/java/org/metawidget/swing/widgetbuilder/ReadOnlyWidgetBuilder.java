@@ -88,15 +88,30 @@ public class ReadOnlyWidgetBuilder
 
 		// Lookups
 
+		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) ) {
+
+			// May have alternate labels...
+
+			String lookupLabels = attributes.get( LOOKUP_LABELS );
+
+			if ( lookupLabels != null && !"".equals( lookupLabels ) ) {
+
+				// ...but, if an Enum, rely on <code>BindingConverter.convertFromString</code>
+				// instead.
+
+				if ( clazz == null || !Enum.class.isAssignableFrom( clazz ) ) {
+
+					return new LookupLabel( CollectionUtils.newHashMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
+				}
+			}
+
 			return new JLabel();
 		}
 
 		// Lookup the Class
-
-		Class<?> clazz = WidgetBuilderUtils.getActualClassOrType( attributes, String.class );
 
 		if ( clazz != null ) {
 			// Primitives
