@@ -237,6 +237,7 @@ public class BeansBindingProcessor
 	 * conversion, only needed for converting <code>lookups</code> to <code>JComboBox</code> values.
 	 */
 
+	@SuppressWarnings( { "unchecked", "rawtypes" } )
 	public Object convertFromString( String value, Class<?> expectedType ) {
 
 		if ( String.class.equals( expectedType ) ) {
@@ -266,11 +267,7 @@ public class BeansBindingProcessor
 		// However <code>BindingConverter</code> is our own API.
 
 		if ( Enum.class.isAssignableFrom( expectedType ) ) {
-			try {
-				return expectedType.getMethod( "valueOf", String.class ).invoke( null, value );
-			} catch ( Exception e ) {
-				throw WidgetProcessorException.newException( e );
-			}
+			return Enum.valueOf( (Class<? extends Enum>) expectedType, value );
 		}
 
 		// ...or don't convert
