@@ -267,7 +267,15 @@ public class BeansBindingProcessor
 		// However <code>BindingConverter</code> is our own API.
 
 		if ( Enum.class.isAssignableFrom( expectedType ) ) {
-			return Enum.valueOf( (Class<? extends Enum>) expectedType, value );
+
+			// Enum.valueOf doesn't work, because expectedType is the type of the individual enum
+			// <em>value</em>, as opposed to the parent enum type
+			
+			try {
+				return expectedType.getMethod( "valueOf", String.class ).invoke( null, value );
+			} catch ( Exception e ) {
+				throw WidgetProcessorException.newException( e );
+			}
 		}
 
 		// ...or don't convert
