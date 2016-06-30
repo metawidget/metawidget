@@ -490,6 +490,10 @@ var metawidget = metawidget || {};
 			container._currentColumn = ( container._currentColumn + 1 ) % _numberOfColumns;
 		};
 
+		/**
+		 * @return	the created th element (if any)
+		 */
+		
 		this.layoutLabel = function( tr, idPrefix, widget, elementName, attributes, mw ) {
 
 			if ( elementName === 'entity' ) {
@@ -534,6 +538,7 @@ var metawidget = metawidget || {};
 			}
 
 			tr.appendChild( th );
+			return th;
 		};
 
 		this.layoutRequired = function( tr, attributes, mw ) {
