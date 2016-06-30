@@ -77,7 +77,7 @@
 			}, mw );
 			expect( widget.toString() ).toBe( 'div class="input-prepend input-group"' );
 			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on input-group-addon"' );
-			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
+			expect( widget.childNodes[0].textContent ).toBe( '$' );
 			expect( widget.childNodes[1].toString() ).toBe( 'input class="form-control"' );
 			expect( widget.childNodes.length ).toBe( 2 );
 
@@ -90,7 +90,7 @@
 			expect( widget.toString() ).toBe( 'div class="input-append input-group"' );
 			expect( widget.childNodes[0].toString() ).toBe( 'input class="form-control"' );
 			expect( widget.childNodes[1].toString() ).toBe( 'span class="add-on input-group-addon"' );
-			expect( widget.childNodes[1].innerHTML ).toBe( '%' );
+			expect( widget.childNodes[1].textContent ).toBe( '%' );
 			expect( widget.childNodes.length ).toBe( 2 );
 
 			// Both
@@ -102,10 +102,10 @@
 			}, mw );
 			expect( widget.toString() ).toBe( 'div class="input-prepend input-append input-group"' );
 			expect( widget.childNodes[0].toString() ).toBe( 'span class="add-on input-group-addon"' );
-			expect( widget.childNodes[0].innerHTML ).toBe( '$' );
+			expect( widget.childNodes[0].textContent ).toBe( '$' );
 			expect( widget.childNodes[1].toString() ).toBe( 'input class="form-control"' );
 			expect( widget.childNodes[2].toString() ).toBe( 'span class="add-on input-group-addon"' );
-			expect( widget.childNodes[2].innerHTML ).toBe( '.00' );
+			expect( widget.childNodes[2].textContent ).toBe( '.00' );
 			expect( widget.childNodes.length ).toBe( 3 );
 		} );
 
@@ -177,7 +177,7 @@
 			expect( element.childNodes[3].childNodes[1].toString() ).toBe( 'div class="col-sm-10"' );
 			expect( element.childNodes[3].childNodes[1].childNodes[0].toString() ).toBe( 'div class="checkbox"' );
 			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="checkit" id="checkit-label"' );
-			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Checkit' );
+			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Checkit' );
 			expect( element.childNodes[3].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox" id="checkit" name="checkit"' );
 			expect( element.childNodes[3].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[3].childNodes[0].childNodes.length ).toBe( 1 );
@@ -481,9 +481,9 @@
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'ul class="nav nav-tabs"' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'li class="active"' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'a data-toggle="tab" href="#bar-tabs1" target="_self"' );
-			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Tab 1' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Tab 1' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'a data-toggle="tab" href="#bar-tabs2" target="_self"' );
-			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].innerHTML ).toBe( 'Tab 2' );
+			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].textContent ).toBe( 'Tab 2' );
 			expect( element.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 			var tabContent = element.childNodes[1].childNodes[0].childNodes[0].childNodes[1];
 			expect( tabContent.toString() ).toBe( 'div class="tab-content"' );

@@ -107,8 +107,8 @@ var simpleDocument = {
 					toString += this.childNodes[loop].toString();
 				}
 
-				if ( this.innerHTML !== undefined ) {
-					toString += this.innerHTML;
+				if ( this.textContent !== undefined ) {
+					toString += this.textContent;
 				}
 
 				toString += "</" + elementName.toLowerCase() + ">";

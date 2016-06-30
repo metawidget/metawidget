@@ -254,7 +254,7 @@ var metawidget = metawidget || {};
 
 					// Special support for masked output
 
-					widget.innerHTML = metawidget.util.fillString( '*', value.length );
+					widget.textContent = metawidget.util.fillString( '*', value.length );
 
 				} else if ( attributes.enumTitles !== undefined ) {
 
@@ -266,16 +266,16 @@ var metawidget = metawidget || {};
 						for ( loop = 0; loop < length; loop++ ) {
 
 							if ( loop === 0 ) {
-								widget.innerHTML = '';
+								widget.textContent = '';
 							} else {
-								widget.innerHTML += ', ';
+								widget.textContent += ', ';
 							}
 
-							widget.innerHTML += metawidget.util.lookupEnumTitle( value[loop], attributes['enum'], attributes.enumTitles );
+							widget.textContent += metawidget.util.lookupEnumTitle( value[loop], attributes['enum'], attributes.enumTitles );
 						}
 
 					} else {
-						widget.innerHTML = metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
+						widget.textContent = metawidget.util.lookupEnumTitle( value, attributes['enum'], attributes.enumTitles );
 					}
 
 				} else if ( attributes.type === 'boolean' ) {
@@ -283,15 +283,15 @@ var metawidget = metawidget || {};
 					// Special support for boolean
 
 					if ( value === true ) {
-						widget.innerHTML = metawidget.util.getLocalizedString( 'Yes', mw );
+						widget.textContent = metawidget.util.getLocalizedString( 'Yes', mw );
 					} else if ( value === false ) {
-						widget.innerHTML = metawidget.util.getLocalizedString( 'No', mw );
+						widget.textContent = metawidget.util.getLocalizedString( 'No', mw );
 					} else {
-						widget.innerHTML = value;
+						widget.textContent = value;
 					}
 
 				} else {
-					widget.innerHTML = value;
+					widget.textContent = value;
 				}
 
 			} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'checkbox' ) {

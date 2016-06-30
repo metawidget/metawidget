@@ -180,7 +180,7 @@
 			widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
-			expect( widget.innerHTML ).toBe( 'barValue' );
+			expect( widget.textContent ).toBe( 'barValue' );
 
 			// Enums
 
@@ -192,7 +192,7 @@
 			widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
-			expect( widget.innerHTML ).toBe( '2' );
+			expect( widget.textContent ).toBe( '2' );
 
 			attributes = {
 				name: "baz",
@@ -201,7 +201,7 @@
 			};
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
-			expect( widget.innerHTML ).toBe( 'bazValue' );
+			expect( widget.textContent ).toBe( 'bazValue' );
 
 			attributes = {
 				name: "multiArray",
@@ -211,7 +211,7 @@
 			};
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
-			expect( widget.innerHTML ).toBe( 'Two, Four' );
+			expect( widget.textContent ).toBe( 'Two, Four' );
 
 			// Masked
 
@@ -222,7 +222,7 @@
 			widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'output' );
-			expect( widget.innerHTML ).toBe( '******' );
+			expect( widget.textContent ).toBe( '******' );
 
 			// Search
 
@@ -247,7 +247,7 @@
 			widget = simpleDocument.createElement( 'textarea' );
 			processor.processWidget( widget, "property", attributes, mw );
 			expect( widget.toString() ).toBe( 'textarea' );
-			expect( widget.innerHTML ).toBe( 'bazValue' );
+			expect( widget.textContent ).toBe( 'bazValue' );
 
 			// Checkboxes
 
@@ -402,7 +402,7 @@
 			widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "entity", {}, mw );
 			expect( widget.toString() ).toBe( 'output' );
-			expect( widget.innerHTML ).toBe( mw.toInspect );
+			expect( widget.textContent ).toBe( mw.toInspect );
 		} );
 
 		it( "supports nested widgets", function() {
@@ -793,10 +793,10 @@
 			};
 			var widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "property", attributes, mw );
-			expect( widget.innerHTML ).toBe( 'No' );
+			expect( widget.textContent ).toBe( 'No' );
 			mw.toInspect.boolean1 = true;
 			processor.processWidget( widget, "property", attributes, mw );
-			expect( widget.innerHTML ).toBe( 'Yes' );
+			expect( widget.textContent ).toBe( 'Yes' );
 
 			// Read-only i10n booleans
 
@@ -810,10 +810,10 @@
 			};
 			var widget = simpleDocument.createElement( 'output' );
 			processor.processWidget( widget, "property", attributes, mw );
-			expect( widget.innerHTML ).toBe( 'Oui' );
+			expect( widget.textContent ).toBe( 'Oui' );
 			mw.toInspect.boolean1 = false;
 			processor.processWidget( widget, "property", attributes, mw );
-			expect( widget.innerHTML ).toBe( 'Pas' );
+			expect( widget.textContent ).toBe( 'Pas' );
 		} );
 		
 		it( "supports dirty checking", function() {

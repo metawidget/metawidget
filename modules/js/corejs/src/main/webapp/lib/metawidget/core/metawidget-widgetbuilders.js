@@ -264,14 +264,14 @@ var metawidget = metawidget || {};
 					option = metawidget.util.createElement( mw, 'option' );
 
 					// HtmlUnit needs an 'option' to have a 'value', even if the
-					// same as the innerHTML
+					// same as the textContent
 
 					option.value = attributes['enum'][loop];
 
 					if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
-						option.innerHTML = attributes.enumTitles[loop];
+						option.textContent = attributes.enumTitles[loop];
 					} else {
-						option.innerHTML = attributes['enum'][loop];
+						option.textContent = attributes['enum'][loop];
 					}
 
 					select.appendChild( option );
@@ -557,7 +557,7 @@ var metawidget = metawidget || {};
 			}
 
 			if ( attributes.type !== 'function' ) {
-				th.innerHTML = metawidget.util.getLabelString( attributes, mw );
+				th.textContent = metawidget.util.getLabelString( attributes, mw );
 			}
 
 			tr.appendChild( th );
@@ -691,7 +691,7 @@ var metawidget = metawidget || {};
 				}
 
 				if ( valueToRender !== undefined ) {
-					td.innerHTML = '' + valueToRender;
+					td.textContent = '' + valueToRender;
 				}
 			}
 

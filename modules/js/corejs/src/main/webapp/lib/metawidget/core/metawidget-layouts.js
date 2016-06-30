@@ -119,7 +119,7 @@ var metawidget = metawidget || {};
 				label.setAttribute( 'class', _labelStyleClass );
 			}
 
-			label.innerHTML = labelString + _labelSuffix;
+			label.textContent = labelString + _labelSuffix;
 
 			dt.appendChild( label );
 			dl.appendChild( dt );
@@ -261,7 +261,7 @@ var metawidget = metawidget || {};
 				label.setAttribute( 'class', _labelStyleClass );
 			}
 
-			label.innerHTML = labelString;
+			label.textContent = labelString;
 
 			if ( _suppressDivAroundLabel === true ) {
 				outerDiv.appendChild( label );
@@ -529,7 +529,7 @@ var metawidget = metawidget || {};
 					label.setAttribute( 'id', idPrefix + '-label' );
 				}
 
-				label.innerHTML = labelString;
+				label.textContent = labelString;
 				th.appendChild( label );
 			}
 
@@ -545,7 +545,7 @@ var metawidget = metawidget || {};
 			}
 
 			if ( !metawidget.util.isTrueOrTrueString( attributes.readOnly ) && metawidget.util.isTrueOrTrueString( attributes.required ) ) {
-				td.innerHTML = '*';
+				td.textContent = '*';
 			}
 
 			tr.appendChild( td );
@@ -830,7 +830,7 @@ var metawidget = metawidget || {};
 		this.addSectionWidget = function( section, level, attributes, container, mw ) {
 	
 			var h1 = metawidget.util.createElement( mw, 'h' + ( level + _level ) );
-			h1.innerHTML = section;
+			h1.textContent = section;
 	
 			this.getDelegate().layoutWidget( h1, "property", {
 				wide: 'true'

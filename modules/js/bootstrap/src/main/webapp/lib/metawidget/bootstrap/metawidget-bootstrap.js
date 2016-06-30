@@ -97,7 +97,7 @@ var metawidget = metawidget || {};
 								div.setAttribute( 'class', 'input-prepend input-group' );
 								span = metawidget.util.createElement( mw, 'span' );
 								span.setAttribute( 'class', 'add-on input-group-addon' );
-								span.innerHTML = attributes.inputPrepend;
+								span.textContent = attributes.inputPrepend;
 								div.appendChild( span );
 							}
 							div.appendChild( widget );
@@ -109,7 +109,7 @@ var metawidget = metawidget || {};
 								}
 								span = metawidget.util.createElement( mw, 'span' );
 								span.setAttribute( 'class', 'add-on input-group-addon' );
-								span.innerHTML = attributes.inputAppend;
+								span.textContent = attributes.inputAppend;
 								div.appendChild( span );
 							}
 							return div;
@@ -292,7 +292,7 @@ var metawidget = metawidget || {};
 
 		// Tab name
 
-		a.innerHTML = section;
+		a.textContent = section;
 
 		return tab;
 	};

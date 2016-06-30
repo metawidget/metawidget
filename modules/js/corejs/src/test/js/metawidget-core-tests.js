@@ -48,7 +48,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-foo-row"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-foo-label-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Foo' );
@@ -126,22 +126,22 @@
 			expect( table.childNodes[0].toString() ).toBe( 'thead' );
 			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
-			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
-			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Description' );
 			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
 			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
-			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
 			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
-			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBe( 'A Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].textContent ).toBe( 'A Foo' );
 			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
 			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
-			expect( table.childNodes[1].childNodes[1].childNodes[0].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].textContent ).toBe( 'Bar' );
 			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
-			expect( table.childNodes[1].childNodes[1].childNodes[1].innerHTML ).toBe( 'A Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].textContent ).toBe( 'A Bar' );
 			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
 			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
 			expect( table.childNodes.length ).toBe( 2 );
@@ -166,7 +166,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-collection-row"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-collection-label-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="collection" id="table-collection-label"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Collection:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Collection:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-collection-cell"' );
 			table = element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0];
 
@@ -174,22 +174,22 @@
 			expect( table.childNodes[0].toString() ).toBe( 'thead' );
 			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
-			expect( table.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
-			expect( table.childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Description' );
 			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
 			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
-			expect( table.childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
 			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
-			expect( table.childNodes[1].childNodes[0].childNodes[1].innerHTML ).toBe( 'A Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].textContent ).toBe( 'A Foo' );
 			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
 			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
-			expect( table.childNodes[1].childNodes[1].childNodes[0].innerHTML ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].textContent ).toBe( 'Bar' );
 			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
-			expect( table.childNodes[1].childNodes[1].childNodes[1].innerHTML ).toBe( 'A Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].textContent ).toBe( 'A Bar' );
 			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
 			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
 			expect( table.childNodes.length ).toBe( 2 );
@@ -217,7 +217,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-foo-row"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-foo-label-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Foo' );
@@ -226,7 +226,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr id="table-bar-row"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-bar-label-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="bar" id="table-bar-label"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].innerHTML ).toBe( 'Bar:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Bar:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-bar-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'span id="bar"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
@@ -317,7 +317,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-foo-row"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-foo-label-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div class="metawidget-class" id="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-foo"' );
@@ -327,7 +327,7 @@
 					'th id="table-fooNestedFoo-label-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
 					'label for="fooNestedFoo" id="table-fooNestedFoo-label"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML )
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent )
 					.toBe( 'Nested Foo:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe(
 					'td id="table-fooNestedFoo-cell"' );
@@ -369,7 +369,7 @@
 				expect( childNode.childNodes[0].toString() ).toBe( 'tr id="table-foo' + idMiddle + '-row"' );
 				expect( childNode.childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-foo' + idMiddle + '-label-cell"' );
 				expect( childNode.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo' + idMiddle + '" id="table-foo' + idMiddle + '-label"' );
-				expect( childNode.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+				expect( childNode.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo:' );
 				expect( childNode.childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo' + idMiddle + '-cell"' );
 				expect( childNode.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div id="foo' + idMiddle + '"' );
 				expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'table id="table-foo' + idMiddle + '"' );
@@ -837,7 +837,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="fooBar" required="required" name="fooBar"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Bar' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].innerHTML ).toBe( '*' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( '*' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
 			expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
 			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
@@ -868,7 +868,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub title="Foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input' );
@@ -895,7 +895,7 @@
 			expect( element.childNodes[0].toString() ).toBe( 'div' );
 			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo:' );
 			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
 			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'stub title="Foo"' );
 			expect( element.childNodes[0].childNodes.length ).toBe( 2 );
@@ -1107,7 +1107,7 @@
 			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-foo-row"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-foo-label-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="foo" id="table-foo-label"' );
-			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo Label:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo Label:' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-foo-cell"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="foo" name="foo"' );
 			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );

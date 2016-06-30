@@ -243,7 +243,7 @@ var metawidget = metawidget || {};
 
 		// Tab name
 
-		a.innerHTML = section;
+		a.textContent = section;
 
 		return tab;
 	};
