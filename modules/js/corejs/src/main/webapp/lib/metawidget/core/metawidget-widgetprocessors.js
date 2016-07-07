@@ -411,9 +411,9 @@ var metawidget = metawidget || {};
 
 			var parsed = parseInt( widget.value );
 
-			// Avoid pushing back 'NaN'
+			// Avoid pushing back 'NaN' (note: can't use Number.isNaN, is ES6 only)
 
-			if ( Number.isNaN( parsed ) ) {
+			if ( isNaN( parsed ) ) {
 				return undefined;
 			}
 
@@ -426,9 +426,9 @@ var metawidget = metawidget || {};
 
 			var parsed = parseFloat( widget.value );
 
-			// Avoid pushing back 'NaN'
+			// Avoid pushing back 'NaN' (note: can't use Number.isNaN, is ES6 only)
 
-			if ( Number.isNaN( parsed ) ) {
+			if ( isNaN( parsed ) ) {
 				return undefined;
 			}
 
