@@ -244,7 +244,7 @@ var metawidget = metawidget || {};
 
 						var name = names[loop];
 
-						if ( !isNaN( name ) ) {
+						if ( !Number.isNaN( name ) ) {
 
 							toInspect = toInspect.items;
 

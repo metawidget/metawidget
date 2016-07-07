@@ -413,7 +413,7 @@ var metawidget = metawidget || {};
 
 			// Avoid pushing back 'NaN'
 
-			if ( isNaN( parsed ) ) {
+			if ( Number.isNaN( parsed ) ) {
 				return undefined;
 			}
 
@@ -428,7 +428,7 @@ var metawidget = metawidget || {};
 
 			// Avoid pushing back 'NaN'
 
-			if ( isNaN( parsed ) ) {
+			if ( Number.isNaN( parsed ) ) {
 				return undefined;
 			}
 
