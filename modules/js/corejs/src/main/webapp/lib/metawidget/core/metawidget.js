@@ -598,6 +598,8 @@ var metawidget = metawidget || {};
 					// 'endContainerLayout' (below) will never find any facets
 					// remaining in mw.overriddenNodes. This can be unintuitive
 					// if it was expecting footer facets
+					//
+					// REFACTOR: allow 'endContainerLayout' to see footer facets
 
 					if ( child.tagName === 'FACET' ) {
 						continue;
