@@ -288,7 +288,7 @@ var metawidget = metawidget || {};
 		// (it may be hard for clients to redefine the originals)
 
 		if ( config.prependInspectionResultProcessors !== undefined ) {
-			if ( !( config.prependInspectionResultProcessors instanceof Array )) {
+			if ( ! ( config.prependInspectionResultProcessors instanceof Array ) ) {
 				config.prependInspectionResultProcessors = [ config.prependInspectionResultProcessors ];
 			}
 			for ( loop = 0; loop < config.prependInspectionResultProcessors.length; loop++ ) {
@@ -296,7 +296,7 @@ var metawidget = metawidget || {};
 			}
 		}
 		if ( config.appendInspectionResultProcessors !== undefined ) {
-			if ( !( config.appendInspectionResultProcessors instanceof Array )) {
+			if ( ! ( config.appendInspectionResultProcessors instanceof Array ) ) {
 				config.appendInspectionResultProcessors = [ config.appendInspectionResultProcessors ];
 			}
 			for ( loop = 0; loop < config.appendInspectionResultProcessors.length; loop++ ) {
@@ -315,7 +315,7 @@ var metawidget = metawidget || {};
 		// (it may be hard for clients to redefine the originals)
 
 		if ( config.prependWidgetProcessors !== undefined ) {
-			if ( !( config.prependWidgetProcessors instanceof Array )) {
+			if ( ! ( config.prependWidgetProcessors instanceof Array ) ) {
 				config.prependWidgetProcessors = [ config.prependWidgetProcessors ];
 			}
 			for ( loop = 0; loop < config.prependWidgetProcessors.length; loop++ ) {
@@ -323,7 +323,7 @@ var metawidget = metawidget || {};
 			}
 		}
 		if ( config.appendWidgetProcessors !== undefined ) {
-			if ( !( config.appendWidgetProcessors instanceof Array )) {
+			if ( ! ( config.appendWidgetProcessors instanceof Array ) ) {
 				config.appendWidgetProcessors = [ config.appendWidgetProcessors ];
 			}
 			for ( loop = 0; loop < config.appendWidgetProcessors.length; loop++ ) {
@@ -588,10 +588,16 @@ var metawidget = metawidget || {};
 			} else {
 				while ( mw.overriddenNodes.length > 0 ) {
 
+					// Remove all remaining children (we will either lay them
+					// out properly, or discard them)
+
 					var child = mw.overriddenNodes[0];
 					mw.overriddenNodes.splice( 0, 1 );
 
-					// Unused facets don't count
+					// Unused facets don't count. Note: this means that
+					// 'endContainerLayout' (below) will never find any facets
+					// remaining in mw.overriddenNodes. This can be unintuitive
+					// if it was expecting footer facets
 
 					if ( child.tagName === 'FACET' ) {
 						continue;
@@ -651,7 +657,7 @@ var metawidget = metawidget || {};
 	 * <p>
 	 * Subclasses can use this method to process overridden widgets.
 	 */
-	
+
 	metawidget.Pipeline.prototype.processWidget = function( widget, elementName, attributes, mw ) {
 
 		for ( var loop = 0, length = this.widgetProcessors.length; loop < length; loop++ ) {
