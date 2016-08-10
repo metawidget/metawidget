@@ -20,6 +20,7 @@
 		<module>android</module>
 		<module>annotation</module>
 		<module>beanvalidation</module>
+		<module>bom</module>
 		<module>commons</module>
 		<module>core</module>
 		<module>faces</module>
