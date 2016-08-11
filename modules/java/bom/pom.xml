@@ -12,7 +12,7 @@
 	<packaging>pom</packaging>
 
 	<!-- Have to specify all dependencies, even implied ones, -->
-	<!-- in case somebody just wants, to use metawidget-core or -->
+	<!-- in case somebody just wants to use metawidget-core or -->
 	<!-- something directly -->
 
 	<dependencies>
