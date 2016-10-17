@@ -693,14 +693,20 @@ var metawidget = metawidget || {};
 					widget.setAttribute( 'ng-required', attributes.required );
 				}
 
-				if ( attributes.minLength !== undefined ) {
-					widget.setAttribute( 'ng-minlength', attributes.minLength );
-				}
+				// (only add ng-minlength/ng-maxlength for INPUT/TEXTAREA, as
+				// they need an ng-model)
 
-				if ( attributes.maxLength !== undefined ) {
-					widget.setAttribute( 'ng-maxlength', attributes.maxLength );
+				if ( widget.tagName === 'INPUT' || widget.tagName === 'TEXTAREA' ) {
 
-					// (retain maxlength set by HtmlWidgetBuilder)
+					if ( attributes.minLength !== undefined ) {
+						widget.setAttribute( 'ng-minlength', attributes.minLength );
+					}
+
+					if ( attributes.maxLength !== undefined ) {
+						widget.setAttribute( 'ng-maxlength', attributes.maxLength );
+
+						// (retain maxlength set by HtmlWidgetBuilder)
+					}
 				}
 			}
 
