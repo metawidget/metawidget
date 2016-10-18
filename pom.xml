@@ -897,8 +897,8 @@
 						<resourceDirectory>${project.basedir}/res</resourceDirectory>
 						<sdk>
 							<!-- Path set by ANDROID_HOME -->
-							<!-- Support android:resizeable='true' for large displays -->
-							<platform>4</platform>
+							<!-- platform 4+ supports android:resizeable='true' for large displays -->
+							<platform>7</platform>
 						</sdk>
 					</configuration>
 					<extensions>true</extensions>
