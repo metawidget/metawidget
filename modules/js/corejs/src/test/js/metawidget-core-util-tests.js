@@ -201,6 +201,11 @@
 			expect( metawidget.util.camelCase( 'Foo DO Birth Bar' ) ).toBe( 'fooDOBirthBar' );
 			expect( metawidget.util.camelCase( '1 Foo' ) ).toBe( '1Foo' );
 		} );
+
+		it( "accepts different separators", function() {
+
+			expect( metawidget.util.camelCase( 'foo.bar.baz', '.' ) ).toBe( 'fooBarBaz' );
+		} );
 	} );
 
 	describe( "The fillString function", function() {

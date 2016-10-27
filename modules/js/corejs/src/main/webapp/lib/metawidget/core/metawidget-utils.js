@@ -257,10 +257,14 @@ var metawidget = metawidget || {};
 	 * @return the camel cased name. Or an empty string if no name
 	 */
 
-	metawidget.util.camelCase = function( names ) {
+	metawidget.util.camelCase = function( names, separator ) {
 
+		if ( separator === undefined ) {
+			separator = ' ';
+		}
+		
 		if ( ! ( names instanceof Array ) ) {
-			names = names.split( ' ' );
+			names = names.split( separator );
 		}
 
 		var toString = '';
