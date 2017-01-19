@@ -473,7 +473,7 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @class InspectionResultProcessor to evaluate Angular expressions.
-	 * 
+	 *
 	 * @param scope
 	 *            parent scope of the Metawidget directive
 	 * @param buildWidgets
@@ -515,6 +515,10 @@ var metawidget = metawidget || {};
 			// For each property in the inspection result...
 
 			for ( var propertyName in inspectionResult ) {
+
+				if(!inspectionResult.hasOwnProperty(propertyName)) {
+				   continue;
+				}
 
 				// ...including recursing into 'properties'...
 
@@ -559,10 +563,10 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @class WidgetProcessor to add Angular bindings and validation.
-	 * 
+	 *
 	 * @param scope
 	 *            parent scope of the Metawidget directive
-	 * 
+	 *
 	 * @returns {metawidget.angular.AngularWidgetProcessor}
 	 */
 
