@@ -418,6 +418,16 @@ var metawidget = metawidget || {};
 			return _pipeline.element;
 		};
 
+		/**
+		 * Returns the scope this Metawidget is attached to. This is identical to <code>$( mw.getElement() ).scope()</code>, but that is only
+		 * available if <code>$compileProvider.debugInfoEnabled( true )</code>.
+		 */
+		
+		this.getScope = function() {
+
+			return scope;
+		};
+
 		this.buildNestedMetawidget = function( attributes, config ) {
 
 			var nestedMetawidget = metawidget.util.createElement( this, 'metawidget' );
