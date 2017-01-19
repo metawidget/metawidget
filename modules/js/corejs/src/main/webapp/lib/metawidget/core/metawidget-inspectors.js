@@ -175,6 +175,10 @@ var metawidget = metawidget || {};
 
 				for ( var property in toInspect ) {
 
+					if ( !toInspect.hasOwnProperty( property ) ) {
+						continue;
+					}
+
 					inspectionResult.properties[property] = {
 						type: _getTypeOf( toInspect[property] )
 					};
