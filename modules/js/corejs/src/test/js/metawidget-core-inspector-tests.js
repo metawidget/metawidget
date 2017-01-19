@@ -345,7 +345,8 @@
 			var inspectionResult = inspector.inspect( undefined, 'employer', [ 'employees' ] );
 			expect( inspectionResult.type ).toBe( 'array' );
 			expect( inspectionResult.properties ).toBeUndefined();
-			expect( inspectionResult.items ).toBeUndefined();
+			expect( inspectionResult.items ).toBeDefined();
+			expect( inspectionResult.items.properties ).toBeUndefined();
 
 			inspectionResult = inspector.inspect( undefined, 'employer', [ 'employees', '0' ] );
 			expect( inspectionResult.properties.id.hidden ).toBe( true );

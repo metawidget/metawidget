@@ -262,7 +262,7 @@ var metawidget = metawidget || {};
 		if ( separator === undefined ) {
 			separator = ' ';
 		}
-		
+
 		if ( ! ( names instanceof Array ) ) {
 			names = names.split( separator );
 		}
@@ -643,8 +643,13 @@ var metawidget = metawidget || {};
 					// general we don't want to recurse into sub-properties
 					// (that will be for a sub-Metawidget), but other sorts of
 					// embedded metadata are fine
+					//
+					// Note: a propertyName of 'items' should be considered
+					// valid metadata, as it may relate directly to the property
+					// in the case of 'an array of Strings'. However
+					// 'properties' under 'items' should be excluded
 
-					if ( propertyName !== 'properties' && propertyName !== 'items' ) {
+					if ( propertyName !== 'properties' ) {
 						to[propertyName] = to[propertyName] || {};
 						_copyPrimitives( propertyValue, to[propertyName] );
 					}
