@@ -660,6 +660,11 @@ var metawidget = metawidget || {};
 										child.setAttribute( 'ng-value', 'true' );
 									} else if ( child.value === false || child.value === 'false' ) {
 										child.setAttribute( 'ng-value', 'false' );
+									} else if ( isNaN( child.value ) === false ) {
+										
+										// Support numeric values
+										
+										child.setAttribute( 'ng-value', child.value );
 									}
 								} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
 									child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.value + "')>=0" );
