@@ -860,9 +860,9 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
-						expect( mw.innerHTML ).toContain( '<select id="fooBar" ng-model="foo.bar" ng-change="mwChangeAsType(&apos;boolean&apos;,&apos;foo.bar&apos;)" class="ng-scope ng-pristine ng-valid"><option value=""/>' );
-						expect( mw.innerHTML ).toContain( '<option value="false" ng-selected="foo.bar==false">Pending</option>' );
-						expect( mw.innerHTML ).toContain( '<option value="true" ng-selected="foo.bar==true" selected="selected">Approved</option></select>' );
+						expect( mw.innerHTML ).toContain( '<select id="fooBar" ng-model="mwSelectedItems.bar" ng-change="mwChangeAsType(&apos;bar&apos;,&apos;boolean&apos;,&apos;foo.bar&apos;)" class="ng-scope ng-pristine ng-valid"><option value=""/>' );
+						expect( mw.innerHTML ).toContain( '<option value="false" ng-selected="mwSelectedItems.bar==&apos;false&apos;">Pending</option>' );
+						expect( mw.innerHTML ).toContain( '<option value="true" ng-selected="mwSelectedItems.bar==&apos;true&apos;" selected="selected">Approved</option></select>' );
 					} );
 				} );
 
@@ -906,10 +906,10 @@
 
 						expect( mw.innerHTML ).toContain( '<th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th>' );
 						expect( mw.innerHTML ).toContain(
-								'<select id="fooBar" ng-model="foo.bar" ng-change="mwChangeAsType(&apos;number&apos;,&apos;foo.bar&apos;)" ng-required="true" class="ng-scope ng-pristine ng-valid ng-valid-required" required="required"><option value="1"' );
-						expect( mw.innerHTML ).toContain( '<option value="1" ng-selected="foo.bar==1">One</option>' );
-						expect( mw.innerHTML ).toContain( '<option value="2" ng-selected="foo.bar==2" selected="selected">Two</option>' );
-						expect( mw.innerHTML ).toContain( '<option value="3" ng-selected="foo.bar==3">Three</option>' );
+								'<select id="fooBar" ng-model="mwSelectedItems.bar" ng-change="mwChangeAsType(&apos;bar&apos;,&apos;number&apos;,&apos;foo.bar&apos;)" ng-required="true" class="ng-scope ng-pristine ng-valid ng-valid-required" required="required"><option value="1"' );
+						expect( mw.innerHTML ).toContain( '<option value="1" ng-selected="mwSelectedItems.bar==&apos;1&apos;">One</option>' );
+						expect( mw.innerHTML ).toContain( '<option value="2" ng-selected="mwSelectedItems.bar==&apos;2&apos;" selected="selected">Two</option>' );
+						expect( mw.innerHTML ).toContain( '<option value="3" ng-selected="mwSelectedItems.bar==&apos;3&apos;">Three</option>' );
 					} );
 				} );
 

@@ -419,10 +419,11 @@ var metawidget = metawidget || {};
 		};
 
 		/**
-		 * Returns the scope this Metawidget is attached to. This is identical to <code>$( mw.getElement() ).scope()</code>, but that is only
+		 * Returns the scope this Metawidget is attached to. This is identical
+		 * to <code>$( mw.getElement() ).scope()</code>, but that is only
 		 * available if <code>$compileProvider.debugInfoEnabled( true )</code>.
 		 */
-		
+
 		this.getScope = function() {
 
 			return scope;
@@ -473,7 +474,7 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @class InspectionResultProcessor to evaluate Angular expressions.
-	 *
+	 * 
 	 * @param scope
 	 *            parent scope of the Metawidget directive
 	 * @param buildWidgets
@@ -516,8 +517,8 @@ var metawidget = metawidget || {};
 
 			for ( var propertyName in inspectionResult ) {
 
-				if(!inspectionResult.hasOwnProperty(propertyName)) {
-				   continue;
+				if ( !inspectionResult.hasOwnProperty( propertyName ) ) {
+					continue;
 				}
 
 				// ...including recursing into 'properties'...
@@ -563,10 +564,10 @@ var metawidget = metawidget || {};
 
 	/**
 	 * @class WidgetProcessor to add Angular bindings and validation.
-	 *
+	 * 
 	 * @param scope
 	 *            parent scope of the Metawidget directive
-	 *
+	 * 
 	 * @returns {metawidget.angular.AngularWidgetProcessor}
 	 */
 
@@ -661,9 +662,9 @@ var metawidget = metawidget || {};
 									} else if ( child.value === false || child.value === 'false' ) {
 										child.setAttribute( 'ng-value', 'false' );
 									} else if ( isNaN( child.value ) === false ) {
-										
+
 										// Support numeric values
-										
+
 										child.setAttribute( 'ng-value', child.value );
 									}
 								} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
@@ -680,17 +681,33 @@ var metawidget = metawidget || {};
 					widget.setAttribute( 'ng-model', binding );
 
 					// Special support for non-string selects
+					//
+					// We reuse the existing (non-Angular) HtmlWidgetBuilder to
+					// build our SELECTs. This builds them using normal SELECT
+					// and OPTION tags, without 'ng-options' or 'ng-value'.
+					// Therefore we cannot rely on Angular's type conversions
 
 					if ( attributes.type === 'boolean' || attributes.type === 'integer' || attributes.type === 'number' ) {
-						widget.setAttribute( 'ng-change', "mwChangeAsType('" + attributes.type + "','" + binding + "')" );
+						
+						// Convert value to a string, and store within a temporary variable
+						
+						widget.setAttribute( 'ng-model', 'mwSelectedItems.' + attributes.name );
+						scope.mwSelectedItems = scope.mwSelectedItems || {};
+						scope.mwSelectedItems[attributes.name] = $parse( binding )( scope ) + '';
+						
+						// When temporary variable changes, convert it back to correct type
+						
+						widget.setAttribute( 'ng-change', "mwChangeAsType('" + attributes.name + "','" + attributes.type + "','" + binding + "')" );
 						scope.mwChangeAsType = _changeAsType;
 
 						for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 
 							var child = widget.childNodes[loop];
 
-							if ( child.tagName === 'OPTION' && child.value !== '' ) {
-								child.setAttribute( 'ng-selected', binding + "==" + child.value );
+							// Match each option based on the temporary string variable
+							
+							if ( child.tagName === 'OPTION' && child.getAttribute( 'value' ) !== null ) {
+								child.setAttribute( 'ng-selected', "mwSelectedItems." + attributes.name + "=='" + child.getAttribute( 'value' ) + "'" );
 							}
 						}
 					}
@@ -787,22 +804,22 @@ var metawidget = metawidget || {};
 		 * Special support for non-string selects.
 		 */
 
-		function _changeAsType( type, binding ) {
+		function _changeAsType( name, type, binding ) {
 
 			var parsedBinding = $parse( binding );
 
 			if ( type === 'boolean' ) {
-				parsedBinding.assign( scope, parsedBinding( scope ) === 'true' );
+				parsedBinding.assign( scope, scope.mwSelectedItems[name] === 'true' );
 				return;
 			}
 
 			if ( type === 'integer' ) {
-				parsedBinding.assign( scope, parseInt( parsedBinding( scope ) ) );
+				parsedBinding.assign( scope, parseInt( scope.mwSelectedItems[name] ) );
 				return;
 			}
 
 			if ( type === 'number' ) {
-				parsedBinding.assign( scope, parseFloat( parsedBinding( scope ) ) );
+				parsedBinding.assign( scope, parseFloat( scope.mwSelectedItems[name] ) );
 				return;
 			}
 		}
