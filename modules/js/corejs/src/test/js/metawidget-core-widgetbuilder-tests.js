@@ -744,6 +744,83 @@
 			expect( table.childNodes.length ).toBe( 2 );
 		} );
 
+		it( "supports optgroups", function() {
+
+			var widgetBuilder = new metawidget.widgetbuilder.HtmlWidgetBuilder();
+
+			var mw = {
+				getElement: function() {
+
+					return {
+						ownerDocument: simpleDocument
+					};
+				}
+			};
+
+			// Without enumTitles
+
+			select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo", "bar", "baz" ],
+				enumCategories: [ {
+					name: "category1",
+					items: [ "foo", "bar" ]
+				}, {
+					name: "category2",
+					items: [ "baz" ]
+				} ]
+			}, mw );
+
+			expect( select.toString() ).toBe( 'select' );
+			expect( select.childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].value ).toBeUndefined();
+			expect( select.childNodes[0].textContent ).toBeUndefined();
+			expect( select.childNodes[1].toString() ).toBe( 'optgroup label="category1"' );
+			expect( select.childNodes[1].childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[1].childNodes[0].textContent ).toBe( 'foo' );
+			expect( select.childNodes[1].childNodes[1].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].childNodes[1].value ).toBe( 'bar' );
+			expect( select.childNodes[1].childNodes[1].textContent ).toBe( 'bar' );
+			expect( select.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( select.childNodes[2].toString() ).toBe( 'optgroup label="category2"' );
+			expect( select.childNodes[2].childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[2].childNodes[0].value ).toBe( 'baz' );
+			expect( select.childNodes[2].childNodes[0].textContent ).toBe( 'baz' );
+			expect( select.childNodes[2].childNodes.length ).toBe( 1 );
+			expect( select.childNodes.length ).toBe( 3 );
+
+			// With enumTitles
+
+			select = widgetBuilder.buildWidget( "property", {
+				enum: [ "foo", "bar", "baz" ],
+				enumTitles: [ "Foo", "Bar", "Baz" ],
+				enumCategories: [ {
+					name: "category1",
+					items: [ "foo", "bar" ]
+				}, {
+					name: "category2",
+					items: [ "baz" ]
+				} ],
+				required: "true"
+			}, mw );
+
+			expect( select.toString() ).toBe( 'select' );
+			expect( select.childNodes[0].toString() ).toBe( 'optgroup label="category1"' );
+			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].childNodes[1].value ).toBe( 'bar' );
+			expect( select.childNodes[0].childNodes[1].textContent ).toBe( 'Bar' );
+			expect( select.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( select.childNodes[1].toString() ).toBe( 'optgroup label="category2"' );
+			expect( select.childNodes[1].childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].childNodes[0].value ).toBe( 'baz' );
+			expect( select.childNodes[1].childNodes[0].textContent ).toBe( 'Baz' );
+			expect( select.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( select.childNodes.length ).toBe( 2 );
+		} );
+
 		it( "supports JSON schema rendering", function() {
 
 			var element = simpleDocument.createElement( 'metawidget' );

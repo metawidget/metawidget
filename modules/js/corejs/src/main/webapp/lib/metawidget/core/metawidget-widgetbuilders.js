@@ -258,23 +258,63 @@ var metawidget = metawidget || {};
 					select.appendChild( metawidget.util.createElement( mw, 'option' ) );
 				}
 
-				length = attributes['enum'].length;
+				if ( attributes.enumCategories !== undefined ) {
 
-				for ( loop = 0; loop < length; loop++ ) {
-					option = metawidget.util.createElement( mw, 'option' );
-
-					// HtmlUnit needs an 'option' to have a 'value', even if the
-					// same as the textContent
-
-					option.value = attributes['enum'][loop];
-
-					if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
-						option.textContent = attributes.enumTitles[loop];
-					} else {
-						option.textContent = attributes['enum'][loop];
+					// optgroup-based					
+					
+					length = attributes.enumCategories.length;
+					
+					for ( loop = 0; loop < length; loop++ ) {
+						var enumCategory = attributes.enumCategories[loop];
+						optgroup = metawidget.util.createElement( mw, 'optgroup' );
+						optgroup.setAttribute( 'label', enumCategory.name );
+	
+						for ( loop2 = 0, length2 = enumCategory.items.length; loop2 < length2; loop2++ ) {
+							option = metawidget.util.createElement( mw, 'option' );
+		
+							// HtmlUnit needs an 'option' to have a 'value', even if the
+							// same as the textContent
+		
+							option.value = enumCategory.items[loop2];
+		
+							if ( attributes.enumTitles !== undefined ) {
+								var indexOf = attributes['enum'].indexOf( option.value );
+								if ( indexOf !== -1 && indexOf < attributes.enumTitles.length ) {
+									option.textContent = attributes.enumTitles[indexOf];
+								} else {
+									option.textContent = enumCategory.items[loop2];
+								}
+							} else {
+								option.textContent = enumCategory.items[loop2];
+							}
+		
+							optgroup.appendChild( option );
+						}
+						
+						select.appendChild( optgroup );
+					}					
+				} else {
+					
+					// option-based
+					
+					length = attributes['enum'].length;
+	
+					for ( loop = 0; loop < length; loop++ ) {
+						option = metawidget.util.createElement( mw, 'option' );
+	
+						// HtmlUnit needs an 'option' to have a 'value', even if the
+						// same as the textContent
+	
+						option.value = attributes['enum'][loop];
+	
+						if ( attributes.enumTitles !== undefined && attributes.enumTitles[loop] !== undefined ) {
+							option.textContent = attributes.enumTitles[loop];
+						} else {
+							option.textContent = attributes['enum'][loop];
+						}
+	
+						select.appendChild( option );
 					}
-
-					select.appendChild( option );
 				}
 				return select;
 			}
