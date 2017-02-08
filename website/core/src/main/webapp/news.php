@@ -4,6 +4,31 @@
 	
 		<h2>News</h2>
 		
+		<h3>Metawidget Ported to Angular 2 and React</h3>
+		<h4>9th February 2017</h4>
+		
+		<p>
+			Metawidget development has slowed lately, thanks to two factors: the framework itself is very
+			mature; and I've been consumed by my startup.
+		</p>
+		<p>
+			However, thanks to the Open Source community others have taken up the mantle. I look
+			forward to integrating their work into the main branch in the future! For now, keep
+			an eye on:
+		</p>
+		
+		<ul>
+			<li><strong>React Port:</strong> <a href="https://github.com/SDS-React-Metawidget/react-metawidget">https://github.com/SDS-React-Metawidget/react-metawidget</a></li>
+			<li><strong>React Example:</strong> <a href="https://github.com/SDS-React-Metawidget/react-mw-address-book">https://github.com/SDS-React-Metawidget/react-mw-address-book</a></li>
+			<li><strong>Angular 2 Port:</strong> <a href="https://github.com/AmitsBizruntime/MetawidetA2">https://github.com/AmitsBizruntime/MetawidetA2</a></li>
+		</ul>
+		
+		<p>
+			In addition, I'm still doing small changes and fixes as they come up.
+		</p>
+
+		<hr/>
+
 		<h3>Metawidget v4.2 Released!</h3>
 		<h4>15th December 2015</h4>
 		
