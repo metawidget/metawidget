@@ -266,7 +266,7 @@ var metawidget = metawidget || {};
 					
 					for ( loop = 0; loop < length; loop++ ) {
 						var enumCategory = attributes.enumCategories[loop];
-						optgroup = metawidget.util.createElement( mw, 'optgroup' );
+						var optgroup = metawidget.util.createElement( mw, 'optgroup' );
 						
 						if ( enumCategory.title !== undefined ) {
 							optgroup.setAttribute( 'label', enumCategory.title );
@@ -274,7 +274,7 @@ var metawidget = metawidget || {};
 							optgroup.setAttribute( 'label', metawidget.util.uncamelCase( enumCategory.name ));
 						}
 	
-						for ( loop2 = 0, length2 = enumCategory.items.length; loop2 < length2; loop2++ ) {
+						for ( var loop2 = 0, length2 = enumCategory.items.length; loop2 < length2; loop2++ ) {
 							option = metawidget.util.createElement( mw, 'option' );
 		
 							// HtmlUnit needs an 'option' to have a 'value', even if the
