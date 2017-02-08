@@ -1727,7 +1727,7 @@
 
 					injector.invoke( function( $rootScope ) {
 
-						var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( $rootScope.$new() );
+						var processor = new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor();
 						var inspectionResult = {
 							properties: {
 								"foo": {
@@ -1738,7 +1738,12 @@
 							}
 						};
 
-						inspectionResult = processor.processInspectionResult( inspectionResult, {} );
+						var scope = $rootScope.$new();
+						inspectionResult = processor.processInspectionResult( inspectionResult, {
+							getScope: function() {
+								return scope;
+							}
+						} );
 
 						expect( inspectionResult.properties.foo.value ).toBe( '3' );
 					} );
@@ -1854,7 +1859,10 @@
 					readOnly: "true"
 				};
 				var mw = {
-					path: "testPath"
+					path: "testPath",
+					getScope: function() {
+						return scope;
+					}
 				};
 
 				// Inputs

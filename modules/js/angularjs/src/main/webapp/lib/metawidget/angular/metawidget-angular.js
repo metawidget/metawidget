@@ -243,7 +243,7 @@ var metawidget = metawidget || {};
 		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),
-				new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse, scope.$parent ) ];
+				new metawidget.widgetprocessor.DisabledAttributeProcessor(), new metawidget.angular.widgetprocessor.AngularWidgetProcessor( $parse ) ];
 		_pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 
 		this.configure = function( config ) {
@@ -482,7 +482,7 @@ var metawidget = metawidget || {};
 	 * @returns {metawidget.angular.AngularInspectionResultProcessor}
 	 */
 
-	metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function( scope ) {
+	metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor = function() {
 
 		if ( ! ( this instanceof metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor ) ) {
 			throw new Error( "Constructor called as a function" );
@@ -515,6 +515,8 @@ var metawidget = metawidget || {};
 
 			// For each property in the inspection result...
 
+			var scope = mw.getScope();
+			
 			for ( var propertyName in inspectionResult ) {
 
 				if ( !inspectionResult.hasOwnProperty( propertyName ) ) {
@@ -543,11 +545,12 @@ var metawidget = metawidget || {};
 				// ...evaluate it...
 
 				expression = expression.slice( 2, expression.length - 2 );
-				inspectionResult[propertyName] = scope.$eval( expression ) + '';
+				
+				inspectionResult[propertyName] = scope.$parent.$eval( expression ) + '';
 
 				// ...and watch it for future changes
 
-				var watch = scope.$watch( expression, _watchExpression );
+				var watch = scope.$parent.$watch( expression, _watchExpression );
 
 				mw._angularInspectionResultProcessor.push( watch );
 			}
@@ -565,13 +568,10 @@ var metawidget = metawidget || {};
 	/**
 	 * @class WidgetProcessor to add Angular bindings and validation.
 	 * 
-	 * @param scope
-	 *            parent scope of the Metawidget directive
-	 * 
 	 * @returns {metawidget.angular.AngularWidgetProcessor}
 	 */
 
-	metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $parse, scope ) {
+	metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $parse ) {
 
 		if ( ! ( this instanceof metawidget.angular.widgetprocessor.AngularWidgetProcessor ) ) {
 			throw new Error( "Constructor called as a function" );
@@ -585,6 +585,7 @@ var metawidget = metawidget || {};
 			// generated bindings look more 'natural' (eg. 'foo.bar' not
 			// 'toInspect.bar')
 
+			var scope = mw.getScope();
 			var binding = mw.path;
 			var name = attributes.name;
 
@@ -688,25 +689,33 @@ var metawidget = metawidget || {};
 					// Therefore we cannot rely on Angular's type conversions
 
 					if ( attributes.type === 'boolean' || attributes.type === 'integer' || attributes.type === 'number' ) {
-						
+
 						// Convert value to a string, and store within a temporary variable
-						
+
 						widget.setAttribute( 'ng-model', 'mwSelectedItems.' + attributes.name );
-						scope.mwSelectedItems = scope.mwSelectedItems || {};
-						scope.mwSelectedItems[attributes.name] = $parse( binding )( scope ) + '';
-						
+						scope.$parent.mwSelectedItems = scope.$parent.mwSelectedItems || {};
+						scope.$parent.mwSelectedItems[attributes.name] = $parse( binding )( scope.$parent );
+						if ( scope.$parent.mwSelectedItems[attributes.name] !== undefined ) {
+							scope.$parent.mwSelectedItems[attributes.name] += '';
+						} else {
+							scope.$parent.mwSelectedItems[attributes.name] = '';
+						}
+
 						// When temporary variable changes, convert it back to correct type
-						
+
 						widget.setAttribute( 'ng-change', "mwChangeAsType('" + attributes.name + "','" + attributes.type + "','" + binding + "')" );
-						scope.mwChangeAsType = _changeAsType;
+						scope.$parent.mwChangeAsType = function( name, type, binding ) {
+
+							_changeAsType( scope.$parent, name, type, binding );
+						}
 
 						for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 
 							var child = widget.childNodes[loop];
 
 							// Match each option based on the temporary string variable
-							
-							if ( child.tagName === 'OPTION' && child.getAttribute( 'value' ) !== null ) {
+
+							if ( child.tagName === 'OPTION' && child.getAttribute( 'value' ) !== null && child.getAttribute( 'value' ) !== '' ) {
 								child.setAttribute( 'ng-selected', "mwSelectedItems." + attributes.name + "=='" + child.getAttribute( 'value' ) + "'" );
 							}
 						}
@@ -804,9 +813,14 @@ var metawidget = metawidget || {};
 		 * Special support for non-string selects.
 		 */
 
-		function _changeAsType( name, type, binding ) {
+		function _changeAsType( scope, name, type, binding ) {
 
 			var parsedBinding = $parse( binding );
+
+			if ( scope.mwSelectedItems[name] === '' ) {
+				parsedBinding.assign( scope, undefined );
+				return;
+			}
 
 			if ( type === 'boolean' ) {
 				parsedBinding.assign( scope, scope.mwSelectedItems[name] === 'true' );
