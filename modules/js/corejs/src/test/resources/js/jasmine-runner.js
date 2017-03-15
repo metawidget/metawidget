@@ -79,6 +79,9 @@
 				childNodes: [],
 				children: function() {
 
+					// In general 'childNodes' has greater browser compatibility
+					// than 'children' for older browsers
+
 					throw new Error( "children is not ECMAScript" );
 				},
 				setAttribute: function( name, value ) {
@@ -113,7 +116,7 @@
 					return null;
 				},
 				removeAttribute: function( name ) {
-					
+
 					for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
 						if ( this.attributes[loop].nodeName === name ) {
 							this.attributes.splice( loop, 1 );
@@ -123,7 +126,7 @@
 				insertBefore: function( childNode, beforeNode ) {
 
 					childNode.parentNode = this;
-					this.childNodes.splice( this.childNodes.indexOf( beforeNode ), 0, childNode );					
+					this.childNodes.splice( this.childNodes.indexOf( beforeNode ), 0, childNode );
 				},
 				firstChild: function() {
 
@@ -135,7 +138,7 @@
 					this.childNodes.push( childNode );
 				},
 				replaceChild: function( newnode, oldnode ) {
-					
+
 					this.childNodes.splice( this.childNodes.indexOf( oldnode ), 1, newnode );
 				},
 				cloneNode: function() {
