@@ -649,11 +649,11 @@ var metawidget = metawidget || {};
 
 					// Special support for multi-selects and radio buttons
 
-					for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
-						var label = widget.childNodes[loop];
+					for ( var loop = 0, length = widget.children.length; loop < length; loop++ ) {
+						var label = widget.children[loop];
 
-						if ( label.tagName === 'LABEL' && label.childNodes.length === 2 ) {
-							var child = label.childNodes[0];
+						if ( label.tagName === 'LABEL' && label.children.length === 2 ) {
+							var child = label.children[0];
 
 							if ( child.tagName === 'INPUT' ) {
 								if ( child.getAttribute( 'type' ) === 'radio' ) {
@@ -709,9 +709,9 @@ var metawidget = metawidget || {};
 							_changeAsType( scope.$parent, name, type, binding );
 						}
 
-						for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+						for ( var loop = 0, length = widget.children.length; loop < length; loop++ ) {
 
-							var child = widget.childNodes[loop];
+							var child = widget.children[loop];
 
 							// Match each option based on the temporary string variable
 

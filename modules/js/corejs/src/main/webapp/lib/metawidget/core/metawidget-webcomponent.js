@@ -112,8 +112,8 @@ var metawidget = metawidget || {};
 
 		metawidgetPrototype.clearWidgets = function() {
 
-			while ( this.shadowRoot.childNodes.length > 0 ) {
-				this.shadowRoot.removeChild( this.shadowRoot.childNodes[0] );
+			while ( this.shadowRoot.children.length > 0 ) {
+				this.shadowRoot.removeChild( this.shadowRoot.children[0] );
 			}
 		};
 
@@ -132,9 +132,9 @@ var metawidget = metawidget || {};
 
 			this.overriddenNodes = [];
 
-			for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
-				if ( this.childNodes[loop].nodeType === 1 ) {
-					this.overriddenNodes.push( this.childNodes[loop].cloneNode( true ) );
+			for ( var loop = 0, length = this.children.length; loop < length; loop++ ) {
+				if ( this.children[loop].nodeType === 1 ) {
+					this.overriddenNodes.push( this.children[loop].cloneNode( true ) );
 				}
 			}
 

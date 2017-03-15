@@ -419,13 +419,13 @@
 			};
 			mw.buildWidgets();
 
-			expect( element.childNodes[0].toString() ).toBe( 'div id="nested"' );
-			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="nestedNestedFoo" name="nestedNestedFoo"' );
-			expect( element.childNodes[0].childNodes[0].value ).toBe( 'nestedFooValue' );
-			expect( element.childNodes[0].childNodes.length ).toBe( 1 );
-			expect( element.childNodes.length ).toBe( 1 );
+			expect( element.children[0].toString() ).toBe( 'div id="nested"' );
+			expect( element.children[0].children[0].toString() ).toBe( 'input type="text" id="nestedNestedFoo" name="nestedNestedFoo"' );
+			expect( element.children[0].children[0].value ).toBe( 'nestedFooValue' );
+			expect( element.children[0].children.length ).toBe( 1 );
+			expect( element.children.length ).toBe( 1 );
 
-			element.childNodes[0].childNodes[0].value = 'nestedFooValue1';
+			element.children[0].children[0].value = 'nestedFooValue1';
 			mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
@@ -443,10 +443,10 @@
 			mw.toInspect = 'foo';
 			mw.buildWidgets();
 
-			expect( element.childNodes[0].toString() ).toBe( 'input type="text"' );
-			expect( element.childNodes.length ).toBe( 1 );
+			expect( element.children[0].toString() ).toBe( 'input type="text"' );
+			expect( element.children.length ).toBe( 1 );
 
-			element.childNodes[0].value = 'foo1';
+			element.children[0].value = 'foo1';
 			mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
@@ -476,13 +476,13 @@
 			expect( mw.nestedMetawidgets[0].getMetawidget().path ).toBe( 'object.nested[0].nestedFoo' );
 			expect( mw.nestedMetawidgets[1].getMetawidget().path ).toBe( 'object.nested[1].nestedFoo' );
 			expect( mw.nestedMetawidgets.length ).toBe( 2 );
-			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getMetawidget().path ).toBe( 'object.nested[0].nestedFoo' );
-			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'nestedFooValue1' );
-			expect( element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].getMetawidget().path ).toBe( 'object.nested[1].nestedFoo' );
-			expect( element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'nestedFooValue2' );
+			expect( element.children[0].children[1].children[0].children[0].children[0].getMetawidget().path ).toBe( 'object.nested[0].nestedFoo' );
+			expect( element.children[0].children[1].children[0].children[0].children[0].children[0].value ).toBe( 'nestedFooValue1' );
+			expect( element.children[0].children[1].children[1].children[0].children[0].getMetawidget().path ).toBe( 'object.nested[1].nestedFoo' );
+			expect( element.children[0].children[1].children[1].children[0].children[0].children[0].value ).toBe( 'nestedFooValue2' );
 
-			element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value = 'nestedFooValue1.1';
-			element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value = 'nestedFooValue2.1';
+			element.children[0].children[1].children[0].children[0].children[0].children[0].value = 'nestedFooValue1.1';
+			element.children[0].children[1].children[1].children[0].children[0].children[0].value = 'nestedFooValue2.1';
 			var processor = mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
@@ -512,13 +512,13 @@
 			expect( mw.nestedMetawidgets[0].getMetawidget().path ).toBe( 'object[0].nestedFoo' );
 			expect( mw.nestedMetawidgets[1].getMetawidget().path ).toBe( 'object[1].nestedFoo' );
 			expect( mw.nestedMetawidgets.length ).toBe( 2 );
-			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].getMetawidget().path ).toBe( 'object[0].nestedFoo' );
-			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'nestedFooValue1' );
-			expect( element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].getMetawidget().path ).toBe( 'object[1].nestedFoo' );
-			expect( element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'nestedFooValue2' );
+			expect( element.children[0].children[1].children[0].children[0].children[0].getMetawidget().path ).toBe( 'object[0].nestedFoo' );
+			expect( element.children[0].children[1].children[0].children[0].children[0].children[0].value ).toBe( 'nestedFooValue1' );
+			expect( element.children[0].children[1].children[1].children[0].children[0].getMetawidget().path ).toBe( 'object[1].nestedFoo' );
+			expect( element.children[0].children[1].children[1].children[0].children[0].children[0].value ).toBe( 'nestedFooValue2' );
 
-			element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value = 'nestedFooValue1.1';
-			element.childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value = 'nestedFooValue2.1';
+			element.children[0].children[1].children[0].children[0].children[0].children[0].value = 'nestedFooValue1.1';
+			element.children[0].children[1].children[1].children[0].children[0].children[0].value = 'nestedFooValue2.1';
 			mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
@@ -540,11 +540,11 @@
 			mw.path = 'toInspect.firstname';
 			mw.buildWidgets();
 
-			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="toInspectFirstname" name="toInspectFirstname"' );
-			expect( element.childNodes[0].value ).toBe( 'bar' );
-			expect( element.childNodes.length ).toBe( 1 );
+			expect( element.children[0].toString() ).toBe( 'input type="text" id="toInspectFirstname" name="toInspectFirstname"' );
+			expect( element.children[0].value ).toBe( 'bar' );
+			expect( element.children.length ).toBe( 1 );
 
-			element.childNodes[0].value = 'baz';
+			element.children[0].value = 'baz';
 
 			// Should set properties
 
@@ -587,11 +587,11 @@
 			mw.path = 'toInspect.jit';
 			mw.buildWidgets();
 
-			expect( element.childNodes[0].toString() ).toBe( 'input type="text" id="toInspectJitFirstname" name="toInspectJitFirstname"' );
-			expect( element.childNodes[0].value ).toBeUndefined();
-			expect( element.childNodes.length ).toBe( 1 );
+			expect( element.children[0].toString() ).toBe( 'input type="text" id="toInspectJitFirstname" name="toInspectJitFirstname"' );
+			expect( element.children[0].value ).toBeUndefined();
+			expect( element.children.length ).toBe( 1 );
 
-			element.childNodes[0].value = 'baz';
+			element.children[0].value = 'baz';
 
 			mw.getWidgetProcessor( function( testInstanceOf ) {
 
@@ -833,7 +833,7 @@
 
 			// Top-level
 			
-			element.childNodes[0].value = 'fooValue1';
+			element.children[0].value = 'fooValue1';
 			var processor = mw.getWidgetProcessor( function( testInstanceOf ) {
 
 				return testInstanceOf instanceof metawidget.widgetprocessor.SimpleBindingProcessor;
@@ -845,7 +845,7 @@
 			
 			// Nested
 			
-			element.childNodes[1].childNodes[0].value = 'nestedFooValue1';
+			element.children[1].children[0].value = 'nestedFooValue1';
 			expect( processor.save( mw )).toBe( true );
 			expect( mw.toInspect.nested.nestedFoo ).toBe( 'nestedFooValue1' );
 			expect( processor.save( mw )).toBe( false );

@@ -53,17 +53,17 @@
 							var element = $( '#metawidget' )[0];
 
 							expect( element.getMetawidget() ).toBeDefined();
-							expect( element.childNodes[0].outerHTML )
+							expect( element.children[0].outerHTML )
 									.toBe(
 											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td><td/></tr><tr id="table-bar-row"><th id="table-bar-label-cell"><label for="bar" id="table-bar-label">Bar:</label></th><td id="table-bar-cell"><div id="bar"><table id="table-bar"><tbody><tr id="table-barBaz-row"><th id="table-barBaz-label-cell"><label for="barBaz" id="table-barBaz-label">Baz:</label></th><td id="table-barBaz-cell"><input type="text" id="barBaz" name="barBaz"/></td><td/></tr><tr id="table-barAbc-row"><th id="table-barAbc-label-cell"><label for="barAbc" id="table-barAbc-label">Abc:</label></th><td id="table-barAbc-cell"><input type="text" id="barAbc" name="barAbc"/></td><td/></tr></tbody></table></div></td><td/></tr></tbody></table>' );
-							expect( element.childNodes[0].outerHTML ).toContain(
+							expect( element.children[0].outerHTML ).toContain(
 									'<th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td>' );
-							expect( element.childNodes[0].outerHTML ).toContain(
+							expect( element.children[0].outerHTML ).toContain(
 									'<th id="table-bar-label-cell"><label for="bar" id="table-bar-label">Bar:</label></th><td id="table-bar-cell"><div id="bar"><table id="table-bar">' );
-							expect( element.childNodes[0].outerHTML )
+							expect( element.children[0].outerHTML )
 									.toContain(
 											'<th id="table-barBaz-label-cell"><label for="barBaz" id="table-barBaz-label">Baz:</label></th><td id="table-barBaz-cell"><input type="text" id="barBaz" name="barBaz"/></td><td/>' );
-							expect( element.childNodes[0].outerHTML )
+							expect( element.children[0].outerHTML )
 									.toContain(
 											'<th id="table-barAbc-label-cell"><label for="barAbc" id="table-barAbc-label">Abc:</label></th><td id="table-barAbc-cell"><input type="text" id="barAbc" name="barAbc"/></td><td/>' );
 
@@ -72,19 +72,19 @@
 							$( '#metawidget' ).metawidget( "option", "layout", new metawidget.layout.SimpleLayout() );
 							$( '#metawidget' ).metawidget( "buildWidgets" );
 
-							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
-							expect( element.childNodes[0].value ).toBe( 'Foo' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><input type="text" id="barBaz" name="barBaz"/><input type="text" id="barAbc" name="barAbc"/></div>' );
+							expect( element.children[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
+							expect( element.children[0].value ).toBe( 'Foo' );
+							expect( element.children[1].outerHTML ).toBe( '<div id="bar"><input type="text" id="barBaz" name="barBaz"/><input type="text" id="barAbc" name="barAbc"/></div>' );
 
 							// Read-only
 
 							$( '#metawidget' ).metawidget( "setReadOnly", true );
-							expect( element.childNodes[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><input type="text" id="barBaz" name="barBaz"/><input type="text" id="barAbc" name="barAbc"/></div>' );
+							expect( element.children[0].outerHTML ).toBe( '<input type="text" id="foo" name="foo"/>' );
+							expect( element.children[1].outerHTML ).toBe( '<div id="bar"><input type="text" id="barBaz" name="barBaz"/><input type="text" id="barAbc" name="barAbc"/></div>' );
 
 							$( '#metawidget' ).metawidget( "buildWidgets" );
-							expect( element.childNodes[0].outerHTML ).toBe( '<output id="foo">Foo</output>' );
-							expect( element.childNodes[1].outerHTML ).toBe( '<div id="bar"><output id="barBaz">Baz</output><output id="barAbc">Abc</output></div>' );
+							expect( element.children[0].outerHTML ).toBe( '<output id="foo">Foo</output>' );
+							expect( element.children[1].outerHTML ).toBe( '<div id="bar"><output id="barBaz">Baz</output><output id="barAbc">Abc</output></div>' );
 						} );
 
 				it(
@@ -102,7 +102,7 @@
 
 							var element = $( '#metawidget' )[0];
 
-							expect( element.childNodes[0].outerHTML )
+							expect( element.children[0].outerHTML )
 									.toBe(
 											'<table><tbody><tr id="table-foo-row"><th id="table-foo-label-cell"><label for="foo" id="table-foo-label">Foo:</label></th><td id="table-foo-cell"><div id="foo"><table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" name="fooBar"/></td><td/></tr></tbody></table></div></td><td/></tr></tbody></table>' );
 
@@ -117,7 +117,7 @@
 
 							var element = $( '#metawidget' )[0];
 
-							expect( element.childNodes[0].outerHTML )
+							expect( element.children[0].outerHTML )
 									.toBe(
 											'<table id="table-foo"><tbody><tr id="table-fooBar-row"><th id="table-fooBar-label-cell"><label for="fooBar" id="table-fooBar-label">Bar:</label></th><td id="table-fooBar-cell"><input type="text" id="fooBar" name="fooBar"/></td><td/></tr></tbody></table>' );
 						} );
@@ -143,15 +143,15 @@
 					expect( element.innerHTML ).toContain( '<td id="table-foo-cell"><input type="text" id="foo" name="foo"/></td>' );
 					expect( element.innerHTML ).toContain( '<td id="table-bar-cell"><span id="bar"/></td>' );
 					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
-					expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
-					expect( element.childNodes.length ).toBe( 1 );
+					expect( element.children[0].children[0].children.length ).toBe( 3 );
+					expect( element.children.length ).toBe( 1 );
 
 					expect( mw.overriddenNodes.length ).toBe( 0 );
 					mw.overriddenNodes.push( document.createElement( 'defensive' ) );
 					expect( mw.overriddenNodes.length ).toBe( 1 );
 					mw.buildWidgets();
 					expect( mw.overriddenNodes.length ).toBe( 0 );
-					expect( element.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+					expect( element.children[0].children[0].children.length ).toBe( 3 );
 				} );
 
 				it( "can be used purely for layout", function() {
@@ -172,7 +172,7 @@
 					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="bar"/></td>' );
 					expect( element.innerHTML ).toContain( '<td colspan="2"><span id="baz"/></td>' );
 					expect( element.innerHTML ).toNotContain( 'ignore' );
-					expect( element.childNodes.length ).toBe( 1 );
+					expect( element.children.length ).toBe( 1 );
 				} );
 
 				it( "ignores embedded text nodes", function() {

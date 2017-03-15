@@ -68,8 +68,8 @@ var metawidget = metawidget || {};
 
 		var _overriddenNodes = [];
 
-		while ( element.childNodes.length > 0 ) {
-			var childNode = element.childNodes[0];
+		while ( element.children.length > 0 ) {
+			var childNode = element.children[0];
 			element.removeChild( childNode );
 
 			if ( childNode.nodeType === 1 ) {
@@ -177,8 +177,8 @@ var metawidget = metawidget || {};
 
 			var element = this.getElement();
 
-			while ( element.childNodes.length > 0 ) {
-				element.removeChild( element.childNodes[0] );
+			while ( element.children.length > 0 ) {
+				element.removeChild( element.children[0] );
 			}
 		};
 

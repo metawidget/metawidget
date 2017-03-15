@@ -520,7 +520,7 @@ var metawidget = metawidget || {};
 					var tfoot = metawidget.util.createElement( mw, 'tfoot' );
 					this.addFooterRow( tfoot, columnAttributes );
 					
-					if ( tfoot.childNodes.length > 0 ) {
+					if ( tfoot.children.length > 0 ) {
 						table.appendChild( tfoot );
 					}
 

@@ -376,11 +376,11 @@ var metawidget = metawidget || {};
 
 	metawidget.util.hasChildElements = function( node ) {
 
-		var childNodes = node.childNodes;
+		var children = node.children;
 
-		for ( var loop = 0, length = childNodes.length; loop < length; loop++ ) {
+		for ( var loop = 0, length = children.length; loop < length; loop++ ) {
 
-			if ( childNodes[loop].nodeType === 1 ) {
+			if ( children[loop].nodeType === 1 ) {
 				return true;
 			}
 		}

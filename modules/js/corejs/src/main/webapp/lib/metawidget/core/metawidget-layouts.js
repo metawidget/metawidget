@@ -82,7 +82,7 @@ var metawidget = metawidget || {};
 
 			// Label
 
-			var dl = container.childNodes[container.childNodes.length - 1];
+			var dl = container.children[container.children.length - 1];
 			this.layoutLabel( dl, widget, elementName, attributes, mw );
 
 			// Widget
@@ -162,13 +162,13 @@ var metawidget = metawidget || {};
 
 			if ( widget.tagName === 'INPUT' && ( widget.getAttribute( 'type' ) === 'button' || widget.getAttribute( 'type' ) === 'submit' ) ) {
 
-				if ( container.childNodes.length > 0 ) {
+				if ( container.children.length > 0 ) {
 
-					var lastOuterDiv = container.childNodes[container.childNodes.length - 1];
-					if ( lastOuterDiv.childNodes.length === 1 ) {
-						var lastWidgetDiv = lastOuterDiv.childNodes[0];
-						if ( lastWidgetDiv.childNodes.length > 0 ) {
-							var lastWidget = lastWidgetDiv.childNodes[lastWidgetDiv.childNodes.length - 1];
+					var lastOuterDiv = container.children[container.children.length - 1];
+					if ( lastOuterDiv.children.length === 1 ) {
+						var lastWidgetDiv = lastOuterDiv.children[0];
+						if ( lastWidgetDiv.children.length > 0 ) {
+							var lastWidget = lastWidgetDiv.children[lastWidgetDiv.children.length - 1];
 							if ( lastWidget.tagName === 'INPUT' && ( lastWidget.getAttribute( 'type' ) === 'button' || lastWidget.getAttribute( 'type' ) === 'submit' ) ) {
 								lastWidgetDiv.appendChild( widget );
 								return;
@@ -387,8 +387,8 @@ var metawidget = metawidget || {};
 
 					// Append children, so as to unwrap the 'facet' tag
 
-					while ( child.childNodes.length > 0 ) {
-						td.appendChild( child.removeChild( child.childNodes[0] ) );
+					while ( child.children.length > 0 ) {
+						td.appendChild( child.removeChild( child.children[0] ) );
 					}
 				}
 			}
@@ -416,7 +416,7 @@ var metawidget = metawidget || {};
 
 			// Id
 
-			var table = container.childNodes[container.childNodes.length - 1];
+			var table = container.children[container.children.length - 1];
 			var idPrefix = undefined;
 
 			if ( attributes.name !== undefined ) {
@@ -439,7 +439,7 @@ var metawidget = metawidget || {};
 
 			// Start column
 
-			var tbody = table.childNodes[table.childNodes.length - 1];
+			var tbody = table.children[table.children.length - 1];
 			var tr;
 
 			if ( container._currentColumn === 0 ) {
@@ -449,7 +449,7 @@ var metawidget = metawidget || {};
 				}
 				tbody.appendChild( tr );
 			} else {
-				tr = tbody.childNodes[tbody.childNodes.length - 1];
+				tr = tbody.children[tbody.children.length - 1];
 			}
 
 			// Label
@@ -469,9 +469,9 @@ var metawidget = metawidget || {};
 			}
 
 			if ( spanAllColumns === true ) {
-				td.setAttribute( 'colspan', ( ( _numberOfColumns * 3 ) - 1 ) - tr.childNodes.length );
-			} else if ( tr.childNodes.length < 1 ) {
-				td.setAttribute( 'colspan', 2 - tr.childNodes.length );
+				td.setAttribute( 'colspan', ( ( _numberOfColumns * 3 ) - 1 ) - tr.children.length );
+			} else if ( tr.children.length < 1 ) {
+				td.setAttribute( 'colspan', 2 - tr.children.length );
 			}
 
 			td.appendChild( widget );
