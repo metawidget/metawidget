@@ -214,14 +214,14 @@ var metawidget = metawidget || {};
 
 				isBindable = true;
 
-				length = widget.children.length;
+				length = widget.childNodes.length;
 				for ( loop = 0; loop < length; loop++ ) {
-					var childNode = widget.children[loop];
+					var childNode = widget.childNodes[loop];
 					if ( childNode.tagName === 'DIV' ) {
-						childNode = childNode.children[0];
+						childNode = childNode.childNodes[0];
 					}					
 					if ( childNode.tagName === 'LABEL' ) {
-						var inputChildNode = childNode.children[0];
+						var inputChildNode = childNode.childNodes[0];
 						if ( inputChildNode.tagName === 'INPUT' ) {
 
 							// Name must be common across group
@@ -442,13 +442,13 @@ var metawidget = metawidget || {};
 			if ( binding.attributes.type === 'array' || binding.attributes.componentType !== undefined ) {
 
 				var toReturn;
-				for ( var loop = 0, length = widget.children.length; loop < length; loop++ ) {
-					var childNode = widget.children[loop];
+				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+					var childNode = widget.childNodes[loop];
 					if ( childNode.tagName === 'DIV' ) {
-						childNode = childNode.children[0];
+						childNode = childNode.childNodes[0];
 					}					
 					if ( childNode.tagName === 'LABEL' ) {
-						var inputChildNode = childNode.children[0];
+						var inputChildNode = childNode.childNodes[0];
 						if ( inputChildNode.checked ) {
 
 							if ( binding.attributes.type === 'boolean' ) {

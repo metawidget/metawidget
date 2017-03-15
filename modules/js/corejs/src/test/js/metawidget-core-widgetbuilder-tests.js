@@ -266,16 +266,16 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'select' );
-			expect( select.children[0].toString() ).toBe( 'option' );
-			expect( select.children[0].value ).toBe( 'foo' );
-			expect( select.children[0].textContent ).toBe( 'foo' );
-			expect( select.children[1].toString() ).toBe( 'option' );
-			expect( select.children[1].value ).toBe( 'bar' );
-			expect( select.children[1].textContent ).toBe( 'bar' );
-			expect( select.children[2].toString() ).toBe( 'option' );
-			expect( select.children[2].value ).toBe( 'baz' );
-			expect( select.children[2].textContent ).toBe( 'baz' );
-			expect( select.children.length ).toBe( 3 );
+			expect( select.childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[0].textContent ).toBe( 'foo' );
+			expect( select.childNodes[1].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].value ).toBe( 'bar' );
+			expect( select.childNodes[1].textContent ).toBe( 'bar' );
+			expect( select.childNodes[2].toString() ).toBe( 'option' );
+			expect( select.childNodes[2].value ).toBe( 'baz' );
+			expect( select.childNodes[2].textContent ).toBe( 'baz' );
+			expect( select.childNodes.length ).toBe( 3 );
 
 			select = widgetBuilder.buildWidget( "property", {
 				enum: [ "foo", "bar", "baz" ],
@@ -284,34 +284,34 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'select' );
-			expect( select.children[0].toString() ).toBe( 'option' );
-			expect( select.children[0].value ).toBe( 'foo' );
-			expect( select.children[0].textContent ).toBe( 'Foo' );
-			expect( select.children[1].toString() ).toBe( 'option' );
-			expect( select.children[1].value ).toBe( 'bar' );
-			expect( select.children[1].textContent ).toBe( 'Bar' );
-			expect( select.children[2].toString() ).toBe( 'option' );
-			expect( select.children[2].value ).toBe( 'baz' );
-			expect( select.children[2].textContent ).toBe( 'Baz' );
-			expect( select.children.length ).toBe( 3 );
+			expect( select.childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[0].textContent ).toBe( 'Foo' );
+			expect( select.childNodes[1].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].value ).toBe( 'bar' );
+			expect( select.childNodes[1].textContent ).toBe( 'Bar' );
+			expect( select.childNodes[2].toString() ).toBe( 'option' );
+			expect( select.childNodes[2].value ).toBe( 'baz' );
+			expect( select.childNodes[2].textContent ).toBe( 'Baz' );
+			expect( select.childNodes.length ).toBe( 3 );
 
 			select = widgetBuilder.buildWidget( "property", {
 				enum: [ "foo", "bar", "baz" ]
 			}, mw );
 
 			expect( select.toString() ).toBe( 'select' );
-			expect( select.children[0].toString() ).toBe( 'option' );
-			expect( select.children[0].textContent ).toBeUndefined();
-			expect( select.children[1].toString() ).toBe( 'option' );
-			expect( select.children[1].value ).toBe( 'foo' );
-			expect( select.children[1].textContent ).toBe( 'foo' );
-			expect( select.children[2].toString() ).toBe( 'option' );
-			expect( select.children[2].value ).toBe( 'bar' );
-			expect( select.children[2].textContent ).toBe( 'bar' );
-			expect( select.children[3].toString() ).toBe( 'option' );
-			expect( select.children[3].value ).toBe( 'baz' );
-			expect( select.children[3].textContent ).toBe( 'baz' );
-			expect( select.children.length ).toBe( 4 );
+			expect( select.childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].textContent ).toBeUndefined();
+			expect( select.childNodes[1].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].value ).toBe( 'foo' );
+			expect( select.childNodes[1].textContent ).toBe( 'foo' );
+			expect( select.childNodes[2].toString() ).toBe( 'option' );
+			expect( select.childNodes[2].value ).toBe( 'bar' );
+			expect( select.childNodes[2].textContent ).toBe( 'bar' );
+			expect( select.childNodes[3].toString() ).toBe( 'option' );
+			expect( select.childNodes[3].value ).toBe( 'baz' );
+			expect( select.childNodes[3].textContent ).toBe( 'baz' );
+			expect( select.childNodes.length ).toBe( 4 );
 
 			select = widgetBuilder.buildWidget( "property", {
 				enum: [ "foo", "bar", "baz" ],
@@ -319,18 +319,18 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'select' );
-			expect( select.children[0].toString() ).toBe( 'option' );
-			expect( select.children[0].textContent ).toBeUndefined();
-			expect( select.children[1].toString() ).toBe( 'option' );
-			expect( select.children[1].value ).toBe( 'foo' );
-			expect( select.children[1].textContent ).toBe( 'foo' );
-			expect( select.children[2].toString() ).toBe( 'option' );
-			expect( select.children[2].value ).toBe( 'bar' );
-			expect( select.children[2].textContent ).toBe( 'bar' );
-			expect( select.children[3].toString() ).toBe( 'option' );
-			expect( select.children[3].value ).toBe( 'baz' );
-			expect( select.children[3].textContent ).toBe( 'baz' );
-			expect( select.children.length ).toBe( 4 );
+			expect( select.childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].textContent ).toBeUndefined();
+			expect( select.childNodes[1].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].value ).toBe( 'foo' );
+			expect( select.childNodes[1].textContent ).toBe( 'foo' );
+			expect( select.childNodes[2].toString() ).toBe( 'option' );
+			expect( select.childNodes[2].value ).toBe( 'bar' );
+			expect( select.childNodes[2].textContent ).toBe( 'bar' );
+			expect( select.childNodes[3].toString() ).toBe( 'option' );
+			expect( select.childNodes[3].value ).toBe( 'baz' );
+			expect( select.childNodes[3].textContent ).toBe( 'baz' );
+			expect( select.childNodes.length ).toBe( 4 );
 
 			select = widgetBuilder.buildWidget( "property", {
 				enum: [ "foo", "bar", "baz" ],
@@ -339,19 +339,19 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'div' );
-			expect( select.children[0].toString() ).toBe( 'label class="checkbox"' );
-			expect( select.children[0].children[0].toString() ).toBe( 'input type="checkbox"' );
-			expect( select.children[0].children[0].value ).toBe( 'foo' );
-			expect( select.children[0].children[1].toString() ).toBe( 'foo' );
-			expect( select.children[1].toString() ).toBe( 'label class="checkbox"' );
-			expect( select.children[1].children[0].toString() ).toBe( 'input type="checkbox"' );
-			expect( select.children[1].children[0].value ).toBe( 'bar' );
-			expect( select.children[1].children[1].toString() ).toBe( 'bar' );
-			expect( select.children[2].toString() ).toBe( 'label class="checkbox"' );
-			expect( select.children[2].children[0].toString() ).toBe( 'input type="checkbox"' );
-			expect( select.children[2].children[0].value ).toBe( 'baz' );
-			expect( select.children[2].children[1].toString() ).toBe( 'baz' );
-			expect( select.children.length ).toBe( 3 );
+			expect( select.childNodes[0].toString() ).toBe( 'label class="checkbox"' );
+			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox"' );
+			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'foo' );
+			expect( select.childNodes[1].toString() ).toBe( 'label class="checkbox"' );
+			expect( select.childNodes[1].childNodes[0].toString() ).toBe( 'input type="checkbox"' );
+			expect( select.childNodes[1].childNodes[0].value ).toBe( 'bar' );
+			expect( select.childNodes[1].childNodes[1].toString() ).toBe( 'bar' );
+			expect( select.childNodes[2].toString() ).toBe( 'label class="checkbox"' );
+			expect( select.childNodes[2].childNodes[0].toString() ).toBe( 'input type="checkbox"' );
+			expect( select.childNodes[2].childNodes[0].value ).toBe( 'baz' );
+			expect( select.childNodes[2].childNodes[1].toString() ).toBe( 'baz' );
+			expect( select.childNodes.length ).toBe( 3 );
 
 			select = widgetBuilder.buildWidget( "property", {
 				enum: [ "foo" ],
@@ -360,11 +360,11 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'div' );
-			expect( select.children[0].toString() ).toBe( 'label class="checkbox"' );
-			expect( select.children[0].children[0].toString() ).toBe( 'input type="checkbox"' );
-			expect( select.children[0].children[0].value ).toBe( 'foo' );
-			expect( select.children[0].children[1].toString() ).toBe( 'Foo' );
-			expect( select.children.length ).toBe( 1 );
+			expect( select.childNodes[0].toString() ).toBe( 'label class="checkbox"' );
+			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="checkbox"' );
+			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
+			expect( select.childNodes.length ).toBe( 1 );
 
 			select = widgetBuilder.buildWidget( "property", {
 				enum: [ "foo" ],
@@ -373,11 +373,11 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'div' );
-			expect( select.children[0].toString() ).toBe( 'label class="radio"' );
-			expect( select.children[0].children[0].toString() ).toBe( 'input type="radio"' );
-			expect( select.children[0].children[0].value ).toBe( 'foo' );
-			expect( select.children[0].children[1].toString() ).toBe( 'Foo' );
-			expect( select.children.length ).toBe( 1 );
+			expect( select.childNodes[0].toString() ).toBe( 'label class="radio"' );
+			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio"' );
+			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
+			expect( select.childNodes.length ).toBe( 1 );
 
 			var button = widgetBuilder.buildWidget( "property", {
 				name: "clickMe",
@@ -427,15 +427,15 @@
 			}, mw );
 
 			expect( radio.toString() ).toBe( 'div' );
-			expect( radio.children[0].toString() ).toBe( 'label class="radio"' );
-			expect( radio.children[0].children[0].toString() ).toBe( 'input type="radio"' );
-			expect( radio.children[0].children[0].value ).toBe( true );
-			expect( radio.children[0].children[1].toString() ).toBe( 'Yes' );
-			expect( radio.children[1].toString() ).toBe( 'label class="radio"' );
-			expect( radio.children[1].children[0].toString() ).toBe( 'input type="radio"' );
-			expect( radio.children[1].children[0].value ).toBe( false );
-			expect( radio.children[1].children[1].toString() ).toBe( 'No' );
-			expect( radio.children.length ).toBe( 2 );
+			expect( radio.childNodes[0].toString() ).toBe( 'label class="radio"' );
+			expect( radio.childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio"' );
+			expect( radio.childNodes[0].childNodes[0].value ).toBe( true );
+			expect( radio.childNodes[0].childNodes[1].toString() ).toBe( 'Yes' );
+			expect( radio.childNodes[1].toString() ).toBe( 'label class="radio"' );
+			expect( radio.childNodes[1].childNodes[0].toString() ).toBe( 'input type="radio"' );
+			expect( radio.childNodes[1].childNodes[0].value ).toBe( false );
+			expect( radio.childNodes[1].childNodes[1].toString() ).toBe( 'No' );
+			expect( radio.childNodes.length ).toBe( 2 );
 
 			expect( widgetBuilder.buildWidget( "property", {
 				type: "date"
@@ -502,9 +502,9 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'tbody' );
-			expect( table.children.length ).toBe( 1 );
-			expect( table.children[0].children.length ).toBe( 0 );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
 
 			// Undefined array (property level)
 
@@ -514,9 +514,9 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'tbody' );
-			expect( table.children.length ).toBe( 1 );
-			expect( table.children[0].children.length ).toBe( 0 );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
 
 			// inspectionResult undefined
 
@@ -529,7 +529,7 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children.length ).toBe( 0 );
+			expect( table.childNodes.length ).toBe( 0 );
 
 			// Empty array
 
@@ -540,9 +540,9 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'tbody' );
-			expect( table.children.length ).toBe( 1 );
-			expect( table.children[0].children.length ).toBe( 0 );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 0 );
 
 			// Array without headers
 
@@ -553,17 +553,17 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'tbody' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'td' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( table.children[0].children[0].children.length ).toBe( 1 );
-			expect( table.children[0].children[1].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[1].children[0].toString() ).toBe( 'td' );
-			expect( table.children[0].children[1].children[0].textContent ).toBe( 'Bar' );
-			expect( table.children[0].children[1].children.length ).toBe( 1 );
-			expect( table.children[0].children.length ).toBe( 2 );
-			expect( table.children.length ).toBe( 1 );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[0].childNodes[1].childNodes[0].textContent ).toBe( 'Bar' );
+			expect( table.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 1 );
 
 			// Nested array
 
@@ -577,17 +577,17 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'tbody' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'td' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( table.children[0].children[0].children.length ).toBe( 1 );
-			expect( table.children[0].children[1].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[1].children[0].toString() ).toBe( 'td' );
-			expect( table.children[0].children[1].children[0].textContent ).toBe( 'Bar' );
-			expect( table.children[0].children[1].children.length ).toBe( 1 );
-			expect( table.children[0].children.length ).toBe( 2 );
-			expect( table.children.length ).toBe( 1 );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[0].childNodes[1].childNodes[0].textContent ).toBe( 'Bar' );
+			expect( table.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
+			expect( table.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 1 );
 
 			// has createTable method for subclasses to override
 
@@ -633,16 +633,16 @@
 
 			expect( table.toString() ).toBe( 'table' );
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'thead' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Name' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[1].textContent ).toBe( 'Description' );
-			expect( table.children[0].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].toString() ).toBe( 'tbody' );
-			expect( table.children[1].children.length ).toBe( 0 );
-			expect( table.children.length ).toBe( 2 );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes.length ).toBe( 0 );
+			expect( table.childNodes.length ).toBe( 2 );
 
 			// Empty array
 
@@ -652,16 +652,16 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'thead' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Name' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[1].textContent ).toBe( 'Description' );
-			expect( table.children[0].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].toString() ).toBe( 'tbody' );
-			expect( table.children[1].children.length ).toBe( 0 );
-			expect( table.children.length ).toBe( 2 );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes.length ).toBe( 0 );
+			expect( table.childNodes.length ).toBe( 2 );
 
 			// Inspect headers
 
@@ -679,28 +679,28 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'thead' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Name' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[1].textContent ).toBe( 'Description' );
-			expect( table.children[0].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].toString() ).toBe( 'tbody' );
-			expect( table.children[1].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[1].children[0].children[0].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( table.children[1].children[0].children[1].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[1].textContent ).toBe( 'A Foo' );
-			expect( table.children[1].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].children[1].toString() ).toBe( 'tr' );
-			expect( table.children[1].children[1].children[0].toString() ).toBe( 'td' );
-			expect( table.children[1].children[1].children[0].textContent ).toBe( 'Bar' );
-			expect( table.children[1].children[1].children[1].toString() ).toBe( 'td' );
-			expect( table.children[1].children[1].children[1].textContent ).toBe( 'A Bar' );
-			expect( table.children[1].children[1].children.length ).toBe( 2 );
-			expect( table.children[1].children.length ).toBe( 2 );
-			expect( table.children.length ).toBe( 2 );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].textContent ).toBe( 'A Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].textContent ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].textContent ).toBe( 'A Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 2 );
 
 			// Nested array
 
@@ -720,28 +720,28 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'thead' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Name' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[1].textContent ).toBe( 'Description' );
-			expect( table.children[0].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].toString() ).toBe( 'tbody' );
-			expect( table.children[1].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[1].children[0].children[0].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( table.children[1].children[0].children[1].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[1].textContent ).toBe( 'A Foo' );
-			expect( table.children[1].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].children[1].toString() ).toBe( 'tr' );
-			expect( table.children[1].children[1].children[0].toString() ).toBe( 'td' );
-			expect( table.children[1].children[1].children[0].textContent ).toBe( 'Bar' );
-			expect( table.children[1].children[1].children[1].toString() ).toBe( 'td' );
-			expect( table.children[1].children[1].children[1].textContent ).toBe( 'A Bar' );
-			expect( table.children[1].children[1].children.length ).toBe( 2 );
-			expect( table.children[1].children.length ).toBe( 2 );
-			expect( table.children.length ).toBe( 2 );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].textContent ).toBe( 'A Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].textContent ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].textContent ).toBe( 'A Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( table.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "supports optgroups", function() {
@@ -771,23 +771,23 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'select' );
-			expect( select.children[0].toString() ).toBe( 'option' );
-			expect( select.children[0].value ).toBeUndefined();
-			expect( select.children[0].textContent ).toBeUndefined();
-			expect( select.children[1].toString() ).toBe( 'optgroup label="Category 1"' );
-			expect( select.children[1].children[0].toString() ).toBe( 'option' );
-			expect( select.children[1].children[0].value ).toBe( 'foo' );
-			expect( select.children[1].children[0].textContent ).toBe( 'foo' );
-			expect( select.children[1].children[1].toString() ).toBe( 'option' );
-			expect( select.children[1].children[1].value ).toBe( 'bar' );
-			expect( select.children[1].children[1].textContent ).toBe( 'bar' );
-			expect( select.children[1].children.length ).toBe( 2 );
-			expect( select.children[2].toString() ).toBe( 'optgroup label="Category 2"' );
-			expect( select.children[2].children[0].toString() ).toBe( 'option' );
-			expect( select.children[2].children[0].value ).toBe( 'baz' );
-			expect( select.children[2].children[0].textContent ).toBe( 'baz' );
-			expect( select.children[2].children.length ).toBe( 1 );
-			expect( select.children.length ).toBe( 3 );
+			expect( select.childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].value ).toBeUndefined();
+			expect( select.childNodes[0].textContent ).toBeUndefined();
+			expect( select.childNodes[1].toString() ).toBe( 'optgroup label="Category 1"' );
+			expect( select.childNodes[1].childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[1].childNodes[0].textContent ).toBe( 'foo' );
+			expect( select.childNodes[1].childNodes[1].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].childNodes[1].value ).toBe( 'bar' );
+			expect( select.childNodes[1].childNodes[1].textContent ).toBe( 'bar' );
+			expect( select.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( select.childNodes[2].toString() ).toBe( 'optgroup label="Category 2"' );
+			expect( select.childNodes[2].childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[2].childNodes[0].value ).toBe( 'baz' );
+			expect( select.childNodes[2].childNodes[0].textContent ).toBe( 'baz' );
+			expect( select.childNodes[2].childNodes.length ).toBe( 1 );
+			expect( select.childNodes.length ).toBe( 3 );
 
 			// With enumTitles
 
@@ -807,20 +807,20 @@
 			}, mw );
 
 			expect( select.toString() ).toBe( 'select' );
-			expect( select.children[0].toString() ).toBe( 'optgroup label="Category #1"' );
-			expect( select.children[0].children[0].toString() ).toBe( 'option' );
-			expect( select.children[0].children[0].value ).toBe( 'foo' );
-			expect( select.children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( select.children[0].children[1].toString() ).toBe( 'option' );
-			expect( select.children[0].children[1].value ).toBe( 'bar' );
-			expect( select.children[0].children[1].textContent ).toBe( 'Bar' );
-			expect( select.children[0].children.length ).toBe( 2 );
-			expect( select.children[1].toString() ).toBe( 'optgroup label="Category #2"' );
-			expect( select.children[1].children[0].toString() ).toBe( 'option' );
-			expect( select.children[1].children[0].value ).toBe( 'baz' );
-			expect( select.children[1].children[0].textContent ).toBe( 'Baz' );
-			expect( select.children[1].children.length ).toBe( 1 );
-			expect( select.children.length ).toBe( 2 );
+			expect( select.childNodes[0].toString() ).toBe( 'optgroup label="Category #1"' );
+			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
+			expect( select.childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'option' );
+			expect( select.childNodes[0].childNodes[1].value ).toBe( 'bar' );
+			expect( select.childNodes[0].childNodes[1].textContent ).toBe( 'Bar' );
+			expect( select.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( select.childNodes[1].toString() ).toBe( 'optgroup label="Category #2"' );
+			expect( select.childNodes[1].childNodes[0].toString() ).toBe( 'option' );
+			expect( select.childNodes[1].childNodes[0].value ).toBe( 'baz' );
+			expect( select.childNodes[1].childNodes[0].textContent ).toBe( 'Baz' );
+			expect( select.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( select.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "supports JSON schema rendering", function() {
@@ -859,18 +859,18 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'thead' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'th style="width:10%;text-align:right;"' );
-			expect( table.children[0].children[0].children[1].textContent ).toBe( 'Bar' );
-			expect( table.children[0].children[0].children[2].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[2].textContent ).toBeUndefined();
-			expect( table.children[0].children[0].children.length ).toBe( 3 );
-			expect( table.children[1].toString() ).toBe( 'tbody' );
-			expect( table.children[1].children.length ).toBe( 0 );
-			expect( table.children.length ).toBe( 2 );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th style="width:10%;text-align:right;"' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Bar' );
+			expect( table.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[2].textContent ).toBeUndefined();
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes.length ).toBe( 0 );
+			expect( table.childNodes.length ).toBe( 2 );
 
 			// Partially populated array items
 
@@ -883,27 +883,27 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'thead' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'th style="width:10%;text-align:right;"' );
-			expect( table.children[0].children[0].children[1].textContent ).toBe( 'Bar' );
-			expect( table.children[0].children[0].children[2].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[2].textContent ).toBeUndefined();
-			expect( table.children[0].children[0].children.length ).toBe( 3 );
-			expect( table.children[1].toString() ).toBe( 'tbody' );
-			expect( table.children[1].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[1].children[0].children[0].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[0].textContent ).toBe( 'FooValue' );
-			expect( table.children[1].children[0].children[1].toString() ).toBe( 'td style="width:10%;text-align:right;"' );
-			expect( table.children[1].children[0].children[1].textContent ).toBeUndefined();
-			expect( table.children[1].children[0].children[2].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[2].children[0].toString() ).toBe( 'div' );
-			expect( table.children[1].children[0].children[2].children[0].children[0].toString() ).toBe( 'input type="button" value="Baz" id="object0Baz"' );
-			expect( table.children[1].children[0].children.length ).toBe( 3 );
-			expect( table.children[1].children.length ).toBe( 1 );
-			expect( table.children.length ).toBe( 2 );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th style="width:10%;text-align:right;"' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Bar' );
+			expect( table.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[2].textContent ).toBeUndefined();
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'FooValue' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td style="width:10%;text-align:right;"' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].textContent ).toBeUndefined();
+			expect( table.childNodes[1].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'input type="button" value="Baz" id="object0Baz"' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( table.childNodes.length ).toBe( 2 );
 
 			// Partially populated array items without JSON
 			// Schema
@@ -918,22 +918,22 @@
 			}, mw );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'thead' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Id' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[1].textContent ).toBe( 'Foo' );
-			expect( table.children[0].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].toString() ).toBe( 'tbody' );
-			expect( table.children[1].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[1].children[0].children[0].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[0].textContent ).toBe( '0' );
-			expect( table.children[1].children[0].children[1].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[1].textContent ).toBe( 'FooValue' );
-			expect( table.children[1].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].children.length ).toBe( 1 );
-			expect( table.children.length ).toBe( 2 );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Id' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Foo' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( '0' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].textContent ).toBe( 'FooValue' );
+			expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( table.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "has addHeaderRow method for subclasses to override", function() {
@@ -958,13 +958,13 @@
 			}, {
 				name: 'baz'
 			} ], mw );
-			expect( thead.children[0].toString() ).toBe( 'tr' );
-			expect( thead.children.length ).toBe( 1 );
-			expect( thead.children[0].children[0].toString() ).toBe( 'th' );
-			expect( thead.children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( thead.children[0].children[1].toString() ).toBe( 'th' );
-			expect( thead.children[0].children[1].textContent ).toBe( 'Baz' );
-			expect( thead.children[0].children.length ).toBe( 2 );
+			expect( thead.childNodes[0].toString() ).toBe( 'tr' );
+			expect( thead.childNodes.length ).toBe( 1 );
+			expect( thead.childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( thead.childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( thead.childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( thead.childNodes[0].childNodes[1].textContent ).toBe( 'Baz' );
+			expect( thead.childNodes[0].childNodes.length ).toBe( 2 );
 
 			expect( columnAttributes[0].name ).toBe( 'foo' );
 			expect( columnAttributes[1].name ).toBe( 'baz' );
@@ -988,9 +988,9 @@
 			widgetBuilder.addHeader( tr, {
 				name: 'Foo'
 			}, mw );
-			expect( tr.children[0].toString() ).toBe( 'th' );
-			expect( tr.children[0].textContent ).toBe( 'Foo' );
-			expect( tr.children.length ).toBe( 1 );
+			expect( tr.childNodes[0].toString() ).toBe( 'th' );
+			expect( tr.childNodes[0].textContent ).toBe( 'Foo' );
+			expect( tr.childNodes.length ).toBe( 1 );
 
 			expect( widgetBuilder.addHeader( tr, {
 				name: 'Foo',
@@ -1033,19 +1033,19 @@
 			};
 			mw.buildWidgets();
 
-			expect( element.children[0].toString() ).toBe( 'table id="tableData"' );
-			expect( element.children[0].children[0].toString() ).toBe( 'thead' );
-			expect( element.children[0].children[0].children[0].toString() ).toBe( 'tr' );
-			expect( element.children[0].children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( element.children[0].children[0].children[0].children[0].textContent ).toBe( 'Foo' );
-			expect( element.children[0].children[0].children[0].children[1].toString() ).toBe( 'th' );
-			expect( element.children[0].children[0].children[0].children[1].textContent ).toBe( 'Bar' );
-			expect( element.children[0].children[1].toString() ).toBe( 'tfoot' );
-			expect( element.children[0].children[1].children[0].toString() ).toBe( 'tr' );
-			expect( element.children[0].children[1].children[0].children[0].toString() ).toBe( 'td' );
-			expect( element.children[0].children[1].children[0].children[0].textContent ).toBe( 'foo Footer' );
-			expect( element.children[0].children[1].children[0].children[1].toString() ).toBe( 'td' );
-			expect( element.children[0].children[1].children[0].children[1].textContent ).toBe( 'bar Footer' );
+			expect( element.childNodes[0].toString() ).toBe( 'table id="tableData"' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'thead' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Bar' );
+			expect( element.childNodes[0].childNodes[1].toString() ).toBe( 'tfoot' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'foo Footer' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( element.childNodes[0].childNodes[1].childNodes[0].childNodes[1].textContent ).toBe( 'bar Footer' );
 		} );
 
 		it( "has addRow method for subclasses to override", function() {
@@ -1081,15 +1081,15 @@
 			}, {
 				name: 'bar'
 			} ], 'entity', {}, mw );
-			expect( tbody.children[0] ).toBe( tr );
-			expect( tbody.children.length ).toBe( 1 );
-			expect( tr.children[0].toString() ).toBe( 'td' );
-			expect( tr.children[0].children[0].toString() ).toBe( 'metawidget' );
-			expect( tr.children[0].children[0].textContent ).toBe( '[0].foo' );
-			expect( tr.children[1].toString() ).toBe( 'td' );
-			expect( tr.children[1].children[0].toString() ).toBe( 'metawidget' );
-			expect( tr.children[1].children[0].textContent ).toBe( '[0].bar' );
-			expect( tr.children.length ).toBe( 2 );
+			expect( tbody.childNodes[0] ).toBe( tr );
+			expect( tbody.childNodes.length ).toBe( 1 );
+			expect( tr.childNodes[0].toString() ).toBe( 'td' );
+			expect( tr.childNodes[0].childNodes[0].toString() ).toBe( 'metawidget' );
+			expect( tr.childNodes[0].childNodes[0].textContent ).toBe( '[0].foo' );
+			expect( tr.childNodes[1].toString() ).toBe( 'td' );
+			expect( tr.childNodes[1].childNodes[0].toString() ).toBe( 'metawidget' );
+			expect( tr.childNodes[1].childNodes[0].textContent ).toBe( '[0].bar' );
+			expect( tr.childNodes.length ).toBe( 2 );
 
 			// Property level
 
@@ -1105,15 +1105,15 @@
 			} ], 'property', {
 				name: 'root'
 			}, mw );
-			expect( tbody.children[0] ).toBe( tr );
-			expect( tbody.children.length ).toBe( 1 );
-			expect( tr.children[0].toString() ).toBe( 'td' );
-			expect( tr.children[0].children[0].toString() ).toBe( 'metawidget' );
-			expect( tr.children[0].children[0].textContent ).toBe( '.root[0].foo' );
-			expect( tr.children[1].toString() ).toBe( 'td' );
-			expect( tr.children[1].children[0].toString() ).toBe( 'metawidget' );
-			expect( tr.children[1].children[0].textContent ).toBe( '.root[0].bar' );
-			expect( tr.children.length ).toBe( 2 );
+			expect( tbody.childNodes[0] ).toBe( tr );
+			expect( tbody.childNodes.length ).toBe( 1 );
+			expect( tr.childNodes[0].toString() ).toBe( 'td' );
+			expect( tr.childNodes[0].childNodes[0].toString() ).toBe( 'metawidget' );
+			expect( tr.childNodes[0].childNodes[0].textContent ).toBe( '.root[0].foo' );
+			expect( tr.childNodes[1].toString() ).toBe( 'td' );
+			expect( tr.childNodes[1].childNodes[0].toString() ).toBe( 'metawidget' );
+			expect( tr.childNodes[1].childNodes[0].textContent ).toBe( '.root[0].bar' );
+			expect( tr.childNodes.length ).toBe( 2 );
 
 		} );
 
@@ -1145,9 +1145,9 @@
 			};
 
 			var td = widgetBuilder.addColumn( tr, [ 'Foo' ], 0, {}, 'entity', {}, mw );
-			expect( td.children[0].toString() ).toBe( 'metawidget' );
-			expect( td.children[0].textContent ).toBe( '[0]' );
-			expect( tr.children[0] ).toBe( td );
+			expect( td.childNodes[0].toString() ).toBe( 'metawidget' );
+			expect( td.childNodes[0].textContent ).toBe( '[0]' );
+			expect( tr.childNodes[0] ).toBe( td );
 
 			// Child level
 
@@ -1159,9 +1159,9 @@
 				name: 'root'
 			}, mw );
 
-			expect( td.children[0].toString() ).toBe( 'metawidget' );
-			expect( td.children[0].textContent ).toBe( '.root[0].bar' );
-			expect( tr.children[1] ).toBe( td );
+			expect( td.childNodes[0].toString() ).toBe( 'metawidget' );
+			expect( td.childNodes[0].textContent ).toBe( '.root[0].bar' );
+			expect( tr.childNodes[1] ).toBe( td );
 
 			// Support enumTitles
 
@@ -1177,7 +1177,7 @@
 			}, mw );
 
 			expect( td.textContent ).toBe( 'The Bar' );
-			expect( tr.children[2] ).toBe( td );
+			expect( tr.childNodes[2] ).toBe( td );
 		} );
 
 		it( "supports nested tables",
@@ -1202,39 +1202,39 @@
 					}, mw );
 
 					expect( table.toString() ).toBe( 'table' );
-					expect( table.children[0].toString() ).toBe( 'thead' );
-					expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-					expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-					expect( table.children[0].children[0].children[0].textContent ).toBe( 'Name' );
-					expect( table.children[0].children[0].children[1].toString() ).toBe( 'th' );
-					expect( table.children[0].children[0].children[1].textContent ).toBe( 'Description' );
-					expect( table.children[0].children[0].children.length ).toBe( 2 );
-					expect( table.children[1].toString() ).toBe( 'tbody' );
-					expect( table.children[1].children[0].toString() ).toBe( 'tr' );
-					expect( table.children[1].children[0].children[0].toString() ).toBe( 'td' );
-					expect( table.children[1].children[0].children[0].textContent ).toBe( 'Foo' );
-					expect( table.children[1].children[0].children[1].toString() ).toBe( 'td' );
-					expect( table.children[1].children[0].children.length ).toBe( 2 );
+					expect( table.childNodes[0].toString() ).toBe( 'thead' );
+					expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+					expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+					expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name' );
+					expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+					expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Description' );
+					expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+					expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+					expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+					expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+					expect( table.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
+					expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+					expect( table.childNodes[1].childNodes[0].childNodes.length ).toBe( 2 );
 
 					// Description is a nested table
 
-					expect( table.children[1].children[0].children[1].children[0].toString() ).toBe( 'div' );
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
 
-					var nestedTable = table.children[1].children[0].children[1].children[0].children[0];
+					var nestedTable = table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0];
 					expect( nestedTable.toString() ).toBe( 'table id="object0Description"' );
-					expect( nestedTable.children[0].toString() ).toBe( 'thead' );
-					expect( nestedTable.children[0].children[0].toString() ).toBe( 'tr' );
-					expect( nestedTable.children[0].children[0].children[0].toString() ).toBe( 'th' );
-					expect( nestedTable.children[0].children[0].children[0].textContent ).toBe( 'Nested Name' );
-					expect( nestedTable.children[0].children[0].children[1].toString() ).toBe( 'th' );
-					expect( nestedTable.children[0].children[0].children[1].textContent ).toBe( 'Nested Description' );
-					expect( nestedTable.children[1].toString() ).toBe( 'tbody' );
-					expect( nestedTable.children[1].children[0].toString() ).toBe( 'tr' );
-					expect( nestedTable.children[1].children[0].children[0].toString() ).toBe( 'td' );
-					expect( nestedTable.children[1].children[0].children[0].textContent ).toBe( 'Nested Foo' );
-					expect( nestedTable.children[1].children[0].children[1].toString() ).toBe( 'td' );
-					expect( nestedTable.children[1].children[0].children[1].textContent ).toBe( 'A Nested Foo' );
-					expect( nestedTable.children[1].children.length ).toBe( 1 );
+					expect( nestedTable.childNodes[0].toString() ).toBe( 'thead' );
+					expect( nestedTable.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+					expect( nestedTable.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+					expect( nestedTable.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Nested Name' );
+					expect( nestedTable.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+					expect( nestedTable.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Nested Description' );
+					expect( nestedTable.childNodes[1].toString() ).toBe( 'tbody' );
+					expect( nestedTable.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+					expect( nestedTable.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Nested Foo' );
+					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+					expect( nestedTable.childNodes[1].childNodes[0].childNodes[1].textContent ).toBe( 'A Nested Foo' );
+					expect( nestedTable.childNodes[1].childNodes.length ).toBe( 1 );
 
 					// Description is a nested object
 
@@ -1250,27 +1250,27 @@
 						type: "array"
 					}, mw );
 
-					expect( table.children[1].children[0].children[1].children[0].toString() ).toBe( 'div' );
+					expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
 
-					var nestedObject = table.children[1].children[0].children[1].children[0].children[0];
+					var nestedObject = table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0];
 
 					expect( nestedObject.toString() ).toBe( 'table id="table-object0Description"' );
-					expect( nestedObject.children[0].toString() ).toBe( 'tbody' );
-					expect( nestedObject.children[0].children[0].toString() ).toBe( 'tr id="table-object0DescriptionNestedName-row"' );
-					expect( nestedObject.children[0].children[0].children[0].toString() ).toBe( 'th id="table-object0DescriptionNestedName-label-cell"' );
-					expect( nestedObject.children[0].children[0].children[0].children[0].toString() ).toBe(
+					expect( nestedObject.childNodes[0].toString() ).toBe( 'tbody' );
+					expect( nestedObject.childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-object0DescriptionNestedName-row"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-object0DescriptionNestedName-label-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe(
 							'label for="object0DescriptionNestedName" id="table-object0DescriptionNestedName-label"' );
-					expect( nestedObject.children[0].children[0].children[0].children[0].textContent ).toBe( 'Nested Name:' );
-					expect( nestedObject.children[0].children[0].children[1].toString() ).toBe( 'td id="table-object0DescriptionNestedName-cell"' );
-					expect( nestedObject.children[0].children[0].children[1].children[0].toString() ).toBe(
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Nested Name:' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-object0DescriptionNestedName-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe(
 							'input type="text" id="object0DescriptionNestedName" name="object0DescriptionNestedName"' );
 
-					expect( nestedObject.children[0].children[1].children[0].toString() ).toBe( 'th id="table-object0DescriptionNestedDescription-label-cell"' );
-					expect( nestedObject.children[0].children[1].children[0].children[0].toString() ).toBe(
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-object0DescriptionNestedDescription-label-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe(
 							'label for="object0DescriptionNestedDescription" id="table-object0DescriptionNestedDescription-label"' );
-					expect( nestedObject.children[0].children[1].children[0].children[0].textContent ).toBe( 'Nested Description:' );
-					expect( nestedObject.children[0].children[1].children[1].toString() ).toBe( 'td id="table-object0DescriptionNestedDescription-cell"' );
-					expect( nestedObject.children[0].children[1].children[1].children[0].toString() ).toBe(
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Nested Description:' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-object0DescriptionNestedDescription-cell"' );
+					expect( nestedObject.childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe(
 							'input type="text" id="object0DescriptionNestedDescription" name="object0DescriptionNestedDescription"' );
 				} );
 
@@ -1309,33 +1309,33 @@
 			expect( mw.nestedMetawidgets.length ).toBe( 4 );
 
 			expect( table.toString() ).toBe( 'table' );
-			expect( table.children[0].toString() ).toBe( 'thead' );
-			expect( table.children[0].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[0].children[0].children[0].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[0].textContent ).toBe( 'Name' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'th' );
-			expect( table.children[0].children[0].children[1].textContent ).toBe( 'Description' );
-			expect( table.children[0].children[0].children.length ).toBe( 2 );
-			expect( table.children[1].toString() ).toBe( 'tbody' );
-			expect( table.children[1].children[0].toString() ).toBe( 'tr' );
-			expect( table.children[1].children[0].children[0].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[0].children[0].toString() ).toBe( 'div' );
-			expect( table.children[1].children[0].children[0].children[0].children[0].toString() ).toBe( 'input type="text" id="object0Name" name="object0Name"' );
-			expect( table.children[1].children[0].children[0].children[0].children[0].value ).toBe( 'Foo' );
-			expect( table.children[1].children[0].children[1].toString() ).toBe( 'td' );
-			expect( table.children[1].children[0].children[1].children[0].toString() ).toBe( 'div' );
-			expect( table.children[1].children[0].children[1].children[0].children[0].toString() ).toBe( 'input type="text" id="object0Description" name="object0Description"' );
-			expect( table.children[1].children[0].children[1].children[0].children[0].value ).toBe( 'Foo Description' );
-			expect( table.children[1].children[1].toString() ).toBe( 'tr' );
-			expect( table.children[1].children[1].children[0].toString() ).toBe( 'td' );
-			expect( table.children[1].children[1].children[0].children[0].toString() ).toBe( 'div' );
-			expect( table.children[1].children[1].children[0].children[0].children[0].toString() ).toBe( 'input type="text" id="object1Name" name="object1Name"' );
-			expect( table.children[1].children[1].children[0].children[0].children[0].value ).toBe( 'Bar' );
-			expect( table.children[1].children[1].children[1].toString() ).toBe( 'td' );
-			expect( table.children[1].children[1].children[1].children[0].toString() ).toBe( 'div' );
-			expect( table.children[1].children[1].children[1].children[0].children[0].toString() ).toBe( 'input type="text" id="object1Description" name="object1Description"' );
-			expect( table.children[1].children[1].children[1].children[0].children[0].value ).toBe( 'Bar Description' );
-			expect( table.children[1].children[1].children.length ).toBe( 2 );
+			expect( table.childNodes[0].toString() ).toBe( 'thead' );
+			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Description' );
+			expect( table.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( table.childNodes[1].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Name" name="object0Name"' );
+			expect( table.childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Foo' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object0Description" name="object0Description"' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'Foo Description' );
+			expect( table.childNodes[1].childNodes[1].toString() ).toBe( 'tr' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Name" name="object1Name"' );
+			expect( table.childNodes[1].childNodes[1].childNodes[0].childNodes[0].childNodes[0].value ).toBe( 'Bar' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'input type="text" id="object1Description" name="object1Description"' );
+			expect( table.childNodes[1].childNodes[1].childNodes[1].childNodes[0].childNodes[0].value ).toBe( 'Bar Description' );
+			expect( table.childNodes[1].childNodes[1].childNodes.length ).toBe( 2 );
 		} );
 
 		it( "supports alwaysUseNestedMetawidgetInTables with readOnly tables", function() {
@@ -1368,26 +1368,26 @@
 			mw.buildWidgets();
 
 			expect( element.toString() ).toBe( 'metawidget' );
-			expect( element.children[0].toString() ).toBe( 'table' );
-			expect( element.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( element.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-name-row"' );
-			expect( element.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-name-label-cell"' );
-			expect( element.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label for="name" id="table-name-label"' );
-			expect( element.children[0].children[0].children[0].children[0].children[0].textContent ).toBe( 'Name:' );
-			expect( element.children[0].children[0].children[0].children[1].children[0].toString() ).toBe( 'input type="text" id="name" name="name"' );
-			expect( element.children[0].children[0].children[0].children[1].children[0].value ).toBe( 'Bar' );
-			expect( element.children[0].children[0].children[1].children[0].children[0].toString() ).toBe( 'label for="description" id="table-description-label"' );
-			expect( element.children[0].children[0].children[1].children[0].children[0].textContent ).toBe( 'Description:' );
-			expect( element.children[0].children[0].children[1].children[1].children[0].toString() ).toBe( 'div id="description"' );
-			expect( element.children[0].children[0].children[1].children[1].children[0].getMetawidget().path ).toBe( 'object.description' );
+			expect( element.childNodes[0].toString() ).toBe( 'table' );
+			expect( element.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-name-row"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-name-label-cell"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="name" id="table-name-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Name:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'input type="text" id="name" name="name"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].value ).toBe( 'Bar' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="description" id="table-description-label"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Description:' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'div id="description"' );
+			expect( element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].getMetawidget().path ).toBe( 'object.description' );
 
-			var table = element.children[0].children[0].children[1].children[1].children[0].children[0];
+			var table = element.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes[0];
 			expect( table.toString() ).toBe( 'table id="table-description"' );
-			expect( table.children[0].toString() ).toBe( 'tbody' );
-			expect( table.children[0].children[0].children[1].toString() ).toBe( 'td id="table-descriptionNestedName-cell"' );
-			expect( table.children[0].children[0].children[1].children[0].toString() ).toBe( 'output id="descriptionNestedName"' );
-			expect( table.children[0].children[1].children[1].toString() ).toBe( 'td id="table-descriptionNestedDescription-cell"' );
-			expect( table.children[0].children[1].children[1].children[0].toString() ).toBe( 'output id="descriptionNestedDescription"' );
+			expect( table.childNodes[0].toString() ).toBe( 'tbody' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-descriptionNestedName-cell"' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'output id="descriptionNestedName"' );
+			expect( table.childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-descriptionNestedDescription-cell"' );
+			expect( table.childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'output id="descriptionNestedDescription"' );
 		} );
 	} );
 } )();

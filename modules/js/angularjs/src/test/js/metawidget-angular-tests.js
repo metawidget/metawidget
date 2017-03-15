@@ -420,7 +420,7 @@
 						expect( mw.innerHTML ).toContain( '<input type="text" id="fooFoo" ng-model="foo.foo"' );
 						expect( mw.innerHTML ).toContain( '<td id="table-fooBar-cell"><span id="fooBar"' );
 						expect( mw.innerHTML ).toContain( '<td colspan="2"><span id="fooBaz"' );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
 
@@ -446,7 +446,7 @@
 						expect( mw.innerHTML ).toContain( '<td colspan="2"><span id="fooBar"' );
 						expect( mw.innerHTML ).toContain( '<td colspan="2"><span id="fooBaz"' );
 						expect( mw.innerHTML ).toNotContain( 'ignore' );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
 
@@ -486,7 +486,7 @@
 
 						expect( mw.innerHTML ).toNotContain( 'label' );
 						expect( mw.innerHTML ).toNotContain( '<input type="text" id="fooBar" required="true" ng-model="foo.bar"' );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
 
@@ -546,7 +546,7 @@
 
 						expect( mw.innerHTML ).toContain( '<label for="bar" id="table-bar-label">Bar:</label>' );
 						expect( mw.innerHTML ).toContain( '<span ng-model="foo.bar" class="ng-scope ng-pristine ng-valid" id="bar"/>' );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
 
@@ -578,7 +578,7 @@
 
 						expect( mw.innerHTML ).toContain( '<label for="bar" id="table-bar-label">Bar:</label>' );
 						expect( mw.innerHTML ).toContain( '<span x-ng-bind="foo.bar" class="ng-scope ng-binding" id="bar">Bar</span>' );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 
 					// ng:model
@@ -593,7 +593,7 @@
 
 						expect( mw.innerHTML ).toContain( '<label for="baz" id="table-baz-label">Baz:</label>' );
 						expect( mw.innerHTML ).toContain( '<span ng:model="foo.baz" class="ng-scope ng-pristine ng-valid" id="baz"/>' );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 
 					// ngmodel (Angular's template mechanism lowercases
@@ -609,7 +609,7 @@
 
 						expect( mw.innerHTML ).toContain( '<label for="baz" id="table-baz-label">Baz:</label>' );
 						expect( mw.innerHTML ).toContain( '<span ngmodel="foo.baz" class="ng-scope" id="baz"/>' );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
 
@@ -628,7 +628,7 @@
 					injector.invoke( function() {
 
 						expect( mw.innerHTML ).toContain( '<td colspan="2"><span ng-model="fooBar"' );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
 
@@ -942,40 +942,40 @@
 
 					injector.invoke( function() {
 
-						expect( mw.children[0].tagName ).toBe( 'TABLE' );
-						expect( mw.children[0].children[0].tagName ).toBe( 'TBODY' );
+						expect( mw.childNodes[0].tagName ).toBe( 'TABLE' );
+						expect( mw.childNodes[0].childNodes[0].tagName ).toBe( 'TBODY' );
 
-						var childNode = mw.children[0].children[0];
+						var childNode = mw.childNodes[0].childNodes[0];
 						var idMiddle = 'Foo';
 
 						for ( var loop = 0; loop < 10; loop++ ) {
 
-							expect( childNode.children[0].tagName ).toBe( 'TR' );
-							expect( childNode.children[0].id ).toBe( 'table-root' + idMiddle + '-row' );
-							expect( childNode.children[0].children[0].tagName ).toBe( 'TH' );
-							expect( childNode.children[0].children[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-label-cell' );
-							expect( childNode.children[0].children[0].children[0].tagName ).toBe( 'LABEL' );
-							expect( childNode.children[0].children[0].children[0].getAttribute( 'for' ) ).toBe( 'root' + idMiddle );
-							expect( childNode.children[0].children[0].children[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-label' );
-							expect( childNode.children[0].children[0].children[0].innerHTML ).toBe( 'Foo:' );
-							expect( childNode.children[0].children[1].tagName ).toBe( 'TD' );
-							expect( childNode.children[0].children[1].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-cell' );
-							expect( childNode.children[0].children[1].children[0].tagName ).toBe( 'METAWIDGET' );
-							expect( childNode.children[0].children[1].children[0].getAttribute( 'id' ) ).toBe( 'root' + idMiddle );
-							expect( childNode.children[0].children[1].children[0].children[0].tagName ).toBe( 'TABLE' );
-							expect( childNode.children[0].children[1].children[0].children[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle );
-							expect( childNode.children[0].children[1].children[0].children[0].children[0].tagName ).toBe( 'TBODY' );
-							expect( childNode.children[0].children.length ).toBe( 3 );
-							expect( childNode.children.length ).toBe( 1 );
+							expect( childNode.childNodes[0].tagName ).toBe( 'TR' );
+							expect( childNode.childNodes[0].id ).toBe( 'table-root' + idMiddle + '-row' );
+							expect( childNode.childNodes[0].childNodes[0].tagName ).toBe( 'TH' );
+							expect( childNode.childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-label-cell' );
+							expect( childNode.childNodes[0].childNodes[0].childNodes[0].tagName ).toBe( 'LABEL' );
+							expect( childNode.childNodes[0].childNodes[0].childNodes[0].getAttribute( 'for' ) ).toBe( 'root' + idMiddle );
+							expect( childNode.childNodes[0].childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-label' );
+							expect( childNode.childNodes[0].childNodes[0].childNodes[0].innerHTML ).toBe( 'Foo:' );
+							expect( childNode.childNodes[0].childNodes[1].tagName ).toBe( 'TD' );
+							expect( childNode.childNodes[0].childNodes[1].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle + '-cell' );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].tagName ).toBe( 'METAWIDGET' );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].getAttribute( 'id' ) ).toBe( 'root' + idMiddle );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].tagName ).toBe( 'TABLE' );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].getAttribute( 'id' ) ).toBe( 'table-root' + idMiddle );
+							expect( childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].tagName ).toBe( 'TBODY' );
+							expect( childNode.childNodes[0].childNodes.length ).toBe( 3 );
+							expect( childNode.childNodes.length ).toBe( 1 );
 
 							idMiddle += 'Foo';
-							childNode = childNode.children[0].children[1].children[0].children[0].children[0];
+							childNode = childNode.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0];
 						}
 
-						expect( childNode.children.length ).toBe( 0 );
+						expect( childNode.childNodes.length ).toBe( 0 );
 
-						expect( mw.children[0].children.length ).toBe( 1 );
-						expect( mw.children.length ).toBe( 1 );
+						expect( mw.childNodes[0].childNodes.length ).toBe( 1 );
+						expect( mw.childNodes.length ).toBe( 1 );
 					} );
 				} );
 

@@ -120,9 +120,9 @@ var metawidget = metawidget || {};
 
 				// Bootstrap 3.x likes a DIV around each LABEL
 				
-				for ( var loop = 0, length = widget.children.length; loop < length; loop++ ) {
+				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
 
-					var label = widget.children[loop];
+					var label = widget.childNodes[loop];
 
 					var innerDiv = metawidget.util.createElement( mw, 'div' );
 					innerDiv.setAttribute( 'class', label.getAttribute( 'class' ) );
@@ -204,12 +204,12 @@ var metawidget = metawidget || {};
 
 				superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
 
-				var outerDiv = container.children[container.children.length - 1];
-				if ( outerDiv !== undefined && outerDiv.children.length === 1 ) {
+				var outerDiv = container.childNodes[container.childNodes.length - 1];
+				if ( outerDiv !== undefined && outerDiv.childNodes.length === 1 ) {
 					if ( attributes.title === null ) {
-						outerDiv.children[0].setAttribute( 'class', config.widgetDivSpanAllClass );
+						outerDiv.childNodes[0].setAttribute( 'class', config.widgetDivSpanAllClass );
 					} else {
-						metawidget.util.appendToAttribute( outerDiv.children[0], 'class', config.widgetDivOffsetClass );
+						metawidget.util.appendToAttribute( outerDiv.childNodes[0], 'class', config.widgetDivOffsetClass );
 					}
 				}
 			};
@@ -262,10 +262,10 @@ var metawidget = metawidget || {};
 
 		// New Tab
 
-		ul = tabs.children[0];
-		var tabId = tabs.getAttribute( 'id' ) + ( ul.children.length + 1 );
+		ul = tabs.childNodes[0];
+		var tabId = tabs.getAttribute( 'id' ) + ( ul.childNodes.length + 1 );
 		var li = metawidget.util.createElement( mw, 'li' );
-		if ( ul.children.length === 0 ) {
+		if ( ul.childNodes.length === 0 ) {
 			li.setAttribute( 'class', 'active' );
 		}
 		var a = metawidget.util.createElement( mw, 'a' );
@@ -280,9 +280,9 @@ var metawidget = metawidget || {};
 		li.appendChild( a );
 		ul.appendChild( li );
 
-		content = tabs.children[1];
+		content = tabs.childNodes[1];
 		var tab = metawidget.util.createElement( mw, 'div' );
-		if ( content.children.length === 0 ) {
+		if ( content.childNodes.length === 0 ) {
 			tab.setAttribute( 'class', 'tab-pane active' );
 		} else {
 			tab.setAttribute( 'class', 'tab-pane' );

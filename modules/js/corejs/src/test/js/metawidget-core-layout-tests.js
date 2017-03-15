@@ -30,9 +30,9 @@
 			layout.layoutWidget( widget1, "property", {}, container );
 			layout.layoutWidget( widget2, "property", {}, container );
 
-			expect( container.children[0] ).toBe( widget1 );
-			expect( container.children[1] ).toBe( widget2 );
-			expect( container.children.length ).toBe( 2 );
+			expect( container.childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[1] ).toBe( widget2 );
+			expect( container.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "ignores empty stubs", function() {
@@ -46,15 +46,15 @@
 			layout.layoutWidget( stub, "property", {}, container );
 			layout.layoutWidget( widget1, "property", {}, container );
 
-			expect( container.children[0] ).toBe( widget1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes.length ).toBe( 1 );
 
 			stub.appendChild( simpleDocument.createElement( 'widget2' ) );
 
 			layout.layoutWidget( stub, "property", {}, container );
 
-			expect( container.children[1] ).toBe( stub );
-			expect( container.children.length ).toBe( 2 );
+			expect( container.childNodes[1] ).toBe( stub );
+			expect( container.childNodes.length ).toBe( 2 );
 		} );
 	} );
 
@@ -87,21 +87,21 @@
 				title: "widgetLabel 2"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div class="outerStyle"' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div class="labelStyle"' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
-			expect( container.children[0].children[0].children[0].textContent ).toBe( 'Widget 1:' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div class="widgetStyle"' );
-			expect( container.children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children[1].toString() ).toBe( 'div class="outerStyle"' );
-			expect( container.children[1].children[0].toString() ).toBe( 'div class="labelStyle"' );
-			expect( container.children[1].children[0].children[0].toString() ).toBe( 'label for="widget2" id="widget2-label"' );
-			expect( container.children[1].children[0].children[0].textContent ).toBe( 'widgetLabel 2:' );
-			expect( container.children[1].children[1].toString() ).toBe( 'div class="widgetStyle"' );
-			expect( container.children[1].children[1].children[0] ).toBe( widget2 );
-			expect( container.children[1].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 2 );
+			expect( container.childNodes[0].toString() ).toBe( 'div class="outerStyle"' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div class="labelStyle"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1:' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div class="widgetStyle"' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[1].toString() ).toBe( 'div class="outerStyle"' );
+			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div class="labelStyle"' );
+			expect( container.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2" id="widget2-label"' );
+			expect( container.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'widgetLabel 2:' );
+			expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'div class="widgetStyle"' );
+			expect( container.childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
+			expect( container.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "ignores empty stubs", function() {
@@ -121,21 +121,21 @@
 			layout.layoutWidget( stub, "property", {}, container, mw );
 			layout.layoutWidget( widget1, "property", {}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 
 			stub.appendChild( simpleDocument.createElement( 'widget2' ) );
 
 			layout.layoutWidget( stub, "property", {}, container, mw );
 
-			expect( container.children[1].toString() ).toBe( 'div' );
-			expect( container.children[1].children[0].toString() ).toBe( 'div' );
-			expect( container.children[1].children[0].children[0] ).toBe( stub );
-			expect( container.children[1].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 2 );
+			expect( container.childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[1].childNodes[0].childNodes[0] ).toBe( stub );
+			expect( container.childNodes[1].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "supports alternate label suffixes", function() {
@@ -158,14 +158,14 @@
 				name: "widget1",
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
-			expect( container.children[0].children[0].children[0].textContent ).toBe( 'Widget 1#' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1#' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports empty labels", function() {
@@ -186,11 +186,11 @@
 				title: ''
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports null labels", function() {
@@ -211,11 +211,11 @@
 				title: null
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports empty label suffixes", function() {
@@ -238,14 +238,14 @@
 				name: "widget1",
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
-			expect( container.children[0].children[0].children[0].textContent ).toBe( 'Widget 1' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports partial CSS classes", function() {
@@ -275,21 +275,21 @@
 				title: "widgetLabel 2"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div class="labelStyle"' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
-			expect( container.children[0].children[0].children[0].textContent ).toBe( 'Widget 1:' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children[1].toString() ).toBe( 'div' );
-			expect( container.children[1].children[0].toString() ).toBe( 'div class="labelStyle"' );
-			expect( container.children[1].children[0].children[0].toString() ).toBe( 'label for="widget2" id="widget2-label"' );
-			expect( container.children[1].children[0].children[0].textContent ).toBe( 'widgetLabel 2:' );
-			expect( container.children[1].children[1].toString() ).toBe( 'div' );
-			expect( container.children[1].children[1].children[0] ).toBe( widget2 );
-			expect( container.children[1].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 2 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div class="labelStyle"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1:' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'div class="labelStyle"' );
+			expect( container.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2" id="widget2-label"' );
+			expect( container.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'widgetLabel 2:' );
+			expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
+			expect( container.childNodes[1].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 2 );
 		} );
 
 		it( "suppresses labels for buttons", function() {
@@ -310,13 +310,13 @@
 				name: "widget1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0] ).toBe( button1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 
-			container.removeChild( container.children[0] );
+			container.removeChild( container.childNodes[0] );
 			var button2 = simpleDocument.createElement( 'input' );
 			button2.setAttribute( 'type', 'submit' );
 
@@ -324,11 +324,11 @@
 				name: "widget2"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0] ).toBe( button2 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "suppresses labels for entities", function() {
@@ -348,11 +348,11 @@
 				name: "widget1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0] ).toBe( input );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports label overrides", function() {
@@ -377,14 +377,14 @@
 				name: "widget1",
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
-			expect( container.children[0].children[0].children[0].textContent ).toBe( 'Foo@' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="widget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo@' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "can suppress label suffixes on checkboxes", function() {
@@ -407,14 +407,14 @@
 				name: "widget1",
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label' );
-			expect( container.children[0].children[0].children[0].textContent ).toBe( 'Widget 1' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "can suppress label suffixes on radio buttons", function() {
@@ -437,14 +437,14 @@
 				name: "widget1",
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label' );
-			expect( container.children[0].children[0].children[0].textContent ).toBe( 'Widget 1' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "can wrap checkboxes with labels", function() {
@@ -468,14 +468,14 @@
 				name: "widget1",
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0].toString() ).toBe( 'label' );
-			expect( container.children[0].children[1].children[0].textContent ).toBe( 'Widget 1' );
-			expect( container.children[0].children[1].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].textContent ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "can wrap checkboxes with extra divs", function() {
@@ -502,16 +502,16 @@
 				name: "widget1",
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );			
-			expect( container.children[0].children[1].children[0].toString() ).toBe( 'div class="theClass"' );
-			expect( container.children[0].children[1].children[0].children[0].toString() ).toBe( 'label' );
-			expect( container.children[0].children[1].children[0].children[0].textContent ).toBe( 'Widget 1' );
-			expect( container.children[0].children[1].children[0].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[1].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );			
+			expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'div class="theClass"' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "collapses buttons into the same div", function() {
@@ -532,11 +532,11 @@
 				name: "widget1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0] ).toBe( button1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( button1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 
 			var button2 = simpleDocument.createElement( 'input' );
 			button2.setAttribute( 'type', 'submit' );
@@ -545,10 +545,10 @@
 				name: "widget2"
 			}, container, mw );
 
-			expect( container.children[0].children[0].children[1] ).toBe( button2 );
-			expect( container.children[0].children[0].children.length ).toBe( 2 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[1] ).toBe( button2 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports appendRequiredClassOnLabelDiv", function() {
@@ -571,13 +571,13 @@
 				required: true
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div class="fooBar"' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0] ).toBe( input );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div class="fooBar"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports appendRequiredClassOnWidgetDiv", function() {
@@ -600,11 +600,11 @@
 				required: true
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div class="fooBar"' );
-			expect( container.children[0].children[1].children[0] ).toBe( input );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div class="fooBar"' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports suppressDivAroundLabel", function() {
@@ -626,13 +626,13 @@
 				name: "widget1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'label' );
-			expect( container.children[0].children[1].toString() ).toBe( 'div' );
-			expect( container.children[0].children[1].children[0] ).toBe( input );
-			expect( container.children[0].children[1].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes[1].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports suppressDivAroundWidget", function() {
@@ -654,12 +654,12 @@
 				name: "widget1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].toString() ).toBe( 'div' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label' );
-			expect( container.children[0].children[1] ).toBe( input );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'div' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label' );
+			expect( container.childNodes[0].childNodes[1] ).toBe( input );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 	} );
 
@@ -694,19 +694,19 @@
 				title: "widgetLabel 2"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'dl id="dl-testPath"' );
-			expect( container.children[0].children[0].toString() ).toBe( 'dt' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" class="labelStyle"' );
-			expect( container.children[0].children[0].children[0].textContent ).toBe( 'Widget 1#' );
-			expect( container.children[0].children[1].toString() ).toBe( 'dd' );
-			expect( container.children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[2].toString() ).toBe( 'dt' );
-			expect( container.children[0].children[2].children[0].toString() ).toBe( 'label for="widget2" class="labelStyle"' );
-			expect( container.children[0].children[2].children[0].textContent ).toBe( 'widgetLabel 2#' );
-			expect( container.children[0].children[3].toString() ).toBe( 'dd' );
-			expect( container.children[0].children[3].children[0] ).toBe( widget2 );
-			expect( container.children[0].children.length ).toBe( 4 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'dl id="dl-testPath"' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'dt' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" class="labelStyle"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1#' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'dd' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[2].toString() ).toBe( 'dt' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'label for="widget2" class="labelStyle"' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].textContent ).toBe( 'widgetLabel 2#' );
+			expect( container.childNodes[0].childNodes[3].toString() ).toBe( 'dd' );
+			expect( container.childNodes[0].childNodes[3].childNodes[0] ).toBe( widget2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 4 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "ignores empty stubs", function() {
@@ -727,20 +727,20 @@
 			layout.layoutWidget( stub, "property", {}, container, mw );
 			layout.layoutWidget( widget1, "property", {}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'dl' );
-			expect( container.children[0].children[0].toString() ).toBe( 'dd' );
-			expect( container.children[0].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'dl' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'dd' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 
 			stub.appendChild( simpleDocument.createElement( 'widget2' ) );
 
 			layout.layoutWidget( stub, "property", {}, container, mw );
 
-			expect( container.children[0].children[1].toString() ).toBe( 'dd' );
-			expect( container.children[0].children[1].children[0] ).toBe( stub );
-			expect( container.children[0].children.length ).toBe( 2 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'dd' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0] ).toBe( stub );
+			expect( container.childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 	} );
 
@@ -773,29 +773,29 @@
 				"title": "widgetLabel 2"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table id="table-testPath"' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="table-testPathWidget1-label"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].textContent ).toBe( 'Widget 1:' );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
-			expect( container.children[0].children[0].children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children[2].textContent ).toBe( '*' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children[1].toString() ).toBe( 'tr id="table-testPathWidget2-row"' );
-			expect( container.children[0].children[0].children[1].children[0].toString() ).toBe( 'th id="table-testPathWidget2-label-cell"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].toString() ).toBe( 'label for="widget2" id="table-testPathWidget2-label"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].textContent ).toBe( 'widgetLabel 2:' );
-			expect( container.children[0].children[0].children[1].children[1].toString() ).toBe( 'td id="table-testPathWidget2-cell"' );
-			expect( container.children[0].children[0].children[1].children[1].children[0] ).toBe( widget2 );
-			expect( container.children[0].children[0].children[1].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[1].children[2].textContent ).toBeUndefined();
-			expect( container.children[0].children[0].children[1].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children.length ).toBe( 2 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="table-testPathWidget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].textContent ).toBe( '*' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr id="table-testPathWidget2-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget2-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2" id="table-testPathWidget2-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'widgetLabel 2:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget2-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[2].textContent ).toBeUndefined();
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports facets", function() {
@@ -835,27 +835,27 @@
 				"name": "widget1",
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'thead' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'td colspan="3" class="testHeaderStyleClass"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'input id="widget2"' );
-			expect( container.children[0].children[1].toString() ).toBe( 'tfoot' );
-			expect( container.children[0].children[1].children[0].toString() ).toBe( 'tr' );
-			expect( container.children[0].children[1].children[0].children[0].toString() ).toBe( 'td colspan="3" class="testFooterStyleClass"' );
-			expect( container.children[0].children[1].children[0].children[0].children[0].toString() ).toBe( 'input id="widget3"' );
-			expect( container.children[0].children[2].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[2].children[0].toString() ).toBe( 'tr id="table-widget1-row"' );
-			expect( container.children[0].children[2].children[0].children[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
-			expect( container.children[0].children[2].children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
-			expect( container.children[0].children[2].children[0].children[0].children[0].textContent ).toBe( 'Widget 1:' );
-			expect( container.children[0].children[2].children[0].children[1].toString() ).toBe( 'td id="table-widget1-cell"' );
-			expect( container.children[0].children[2].children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[2].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[2].children[0].children.length ).toBe( 3 );
-			expect( container.children[0].children[2].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 3 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'thead' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="3" class="testHeaderStyleClass"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input id="widget2"' );
+			expect( container.childNodes[0].childNodes[1].toString() ).toBe( 'tfoot' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="3" class="testFooterStyleClass"' );
+			expect( container.childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'input id="widget3"' );
+			expect( container.childNodes[0].childNodes[2].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1:' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[2].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[2].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "does not assign ids to root nodes", function() {
@@ -875,16 +875,16 @@
 			layout.startContainerLayout( container, mw );
 			layout.layoutWidget( widget1, "entity", {}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'td colspan="2"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 2 );
-			expect( container.children[0].children[0].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "ignores empty stubs", function() {
@@ -905,29 +905,29 @@
 			layout.layoutWidget( stub, "property", {}, container, mw );
 			layout.layoutWidget( widget1, "property", {}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'td colspan="2"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 2 );
-			expect( container.children[0].children[0].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 
 			stub.appendChild( simpleDocument.createElement( 'widget2' ) );
 
 			layout.layoutWidget( stub, "property", {}, container, mw );
 
-			expect( container.children[0].children[0].children[1].toString() ).toBe( 'tr' );
-			expect( container.children[0].children[0].children[1].children[0].toString() ).toBe( 'td colspan="2"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0] ).toBe( stub );
-			expect( container.children[0].children[0].children[1].children[1].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[1].children.length ).toBe( 2 );
-			expect( container.children[0].children[0].children.length ).toBe( 2 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0] ).toBe( stub );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "support multiple columns", function() {
@@ -962,45 +962,45 @@
 				"name": "widget4"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table id="table-testPath"' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label id="table-testPathWidget1-label"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].textContent ).toBe( 'Widget 1:' );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
-			expect( container.children[0].children[0].children[0].children[1].children[0].toString() ).toBe( 'widget1' );
-			expect( container.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children[2].textContent ).toBe( '*' );
-			expect( container.children[0].children[0].children[0].children[3].toString() ).toBe( 'th id="table-testPathWidget2-label-cell"' );
-			expect( container.children[0].children[0].children[0].children[3].children[0].toString() ).toBe( 'label id="table-testPathWidget2-label"' );
-			expect( container.children[0].children[0].children[0].children[3].children[0].textContent ).toBe( 'widgetLabel 2:' );
-			expect( container.children[0].children[0].children[0].children[4].toString() ).toBe( 'td id="table-testPathWidget2-cell"' );
-			expect( container.children[0].children[0].children[0].children[4].children[0].toString() ).toBe( 'widget2' );
-			expect( container.children[0].children[0].children[0].children[5].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children[5].textContent ).toBeUndefined();
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 6 );
-			expect( container.children[0].children[0].children[1].toString() ).toBe( 'tr id="table-testPathWidget3-row"' );
-			expect( container.children[0].children[0].children[1].children[0].toString() ).toBe( 'th id="table-testPathWidget3-label-cell"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].toString() ).toBe( 'label id="table-testPathWidget3-label"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].textContent ).toBe( 'Widget 3:' );
-			expect( container.children[0].children[0].children[1].children[1].toString() ).toBe( 'td id="table-testPathWidget3-cell" colspan="4"' );
-			expect( container.children[0].children[0].children[1].children[1].children[0].toString() ).toBe( 'widget3' );
-			expect( container.children[0].children[0].children[1].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[1].children[2].textContent ).toBeUndefined();
-			expect( container.children[0].children[0].children[1].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children[2].toString() ).toBe( 'tr id="table-testPathWidget4-row"' );
-			expect( container.children[0].children[0].children[2].children[0].toString() ).toBe( 'th id="table-testPathWidget4-label-cell"' );
-			expect( container.children[0].children[0].children[2].children[0].children[0].toString() ).toBe( 'label id="table-testPathWidget4-label"' );
-			expect( container.children[0].children[0].children[2].children[0].children[0].textContent ).toBe( 'Widget 4:' );
-			expect( container.children[0].children[0].children[2].children[1].toString() ).toBe( 'td id="table-testPathWidget4-cell"' );
-			expect( container.children[0].children[0].children[2].children[1].children[0].toString() ).toBe( 'widget4' );
-			expect( container.children[0].children[0].children[2].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[2].children[2].textContent ).toBeUndefined();
-			expect( container.children[0].children[0].children[2].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children.length ).toBe( 3 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'widget1' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].textContent ).toBe( '*' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[3].toString() ).toBe( 'th id="table-testPathWidget2-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[3].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget2-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[3].childNodes[0].textContent ).toBe( 'widgetLabel 2:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[4].toString() ).toBe( 'td id="table-testPathWidget2-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[4].childNodes[0].toString() ).toBe( 'widget2' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[5].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[5].textContent ).toBeUndefined();
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 6 );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr id="table-testPathWidget3-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget3-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget3-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 3:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget3-cell" colspan="4"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].toString() ).toBe( 'widget3' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[2].textContent ).toBeUndefined();
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'tr id="table-testPathWidget4-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget4-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget4-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 4:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget4-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[0].toString() ).toBe( 'widget4' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[2].textContent ).toBeUndefined();
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "support multiple columns with nesting", function() {
@@ -1037,34 +1037,34 @@
 				"title": "widgetLabel 2"
 			}, container2, mw2 );
 
-			expect( container1.children[0].toString() ).toBe( 'table id="table-testPath"' );
-			expect( container1.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container1.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
-			expect( container1.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
-			expect( container1.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label id="table-testPathWidget1-label"' );
-			expect( container1.children[0].children[0].children[0].children[0].children[0].textContent ).toBe( 'Widget 1:' );
-			expect( container1.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
-			expect( container1.children[0].children[0].children[0].children[1].children[0].toString() ).toBe( 'widget1' );
-			expect( container1.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container1.children[0].children[0].children[0].children[2].textContent ).toBe( '*' );
-			expect( container1.children[0].children[0].children[0].children.length ).toBe( 3 );
-			expect( container1.children[0].children[0].children.length ).toBe( 1 );
-			expect( container1.children[0].children.length ).toBe( 1 );
-			expect( container1.children.length ).toBe( 1 );
-			expect( container2.children[0].toString() ).toBe( 'table id="table-testPathNested"' );
-			expect( container2.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container2.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-testPathNestedWidget2-row"' );
-			expect( container2.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-testPathNestedWidget2-label-cell"' );
-			expect( container2.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label id="table-testPathNestedWidget2-label"' );
-			expect( container2.children[0].children[0].children[0].children[0].children[0].textContent ).toBe( 'widgetLabel 2:' );
-			expect( container2.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-testPathNestedWidget2-cell"' );
-			expect( container2.children[0].children[0].children[0].children[1].children[0].toString() ).toBe( 'widget2' );
-			expect( container2.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container2.children[0].children[0].children[0].children[2].textContent ).toBeUndefined();
-			expect( container2.children[0].children[0].children[0].children.length ).toBe( 3 );
-			expect( container2.children[0].children[0].children.length ).toBe( 1 );
-			expect( container2.children[0].children.length ).toBe( 1 );
-			expect( container2.children.length ).toBe( 1 );
+			expect( container1.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
+			expect( container1.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathWidget1-label"' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1:' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'widget1' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes[2].textContent ).toBe( '*' );
+			expect( container1.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container1.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container1.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container1.childNodes.length ).toBe( 1 );
+			expect( container2.childNodes[0].toString() ).toBe( 'table id="table-testPathNested"' );
+			expect( container2.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathNestedWidget2-row"' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-testPathNestedWidget2-label-cell"' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label id="table-testPathNestedWidget2-label"' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'widgetLabel 2:' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-testPathNestedWidget2-cell"' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'widget2' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes[2].textContent ).toBeUndefined();
+			expect( container2.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container2.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container2.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container2.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports partial CSS classes", function() {
@@ -1094,27 +1094,27 @@
 				title: "widgetLabel 2"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-widget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].textContent ).toBe( 'Widget 1:' );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-widget1-cell" class="componentClass"' );
-			expect( container.children[0].children[0].children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children[1].toString() ).toBe( 'tr id="table-widget2-row"' );
-			expect( container.children[0].children[0].children[1].children[0].toString() ).toBe( 'th id="table-widget2-label-cell"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].toString() ).toBe( 'label for="widget2" id="table-widget2-label"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].textContent ).toBe( 'widgetLabel 2:' );
-			expect( container.children[0].children[0].children[1].children[1].toString() ).toBe( 'td id="table-widget2-cell" class="componentClass"' );
-			expect( container.children[0].children[0].children[1].children[1].children[0] ).toBe( widget2 );
-			expect( container.children[0].children[0].children[1].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[1].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children.length ).toBe( 2 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell" class="componentClass"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr id="table-widget2-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'th id="table-widget2-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2" id="table-widget2-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'widgetLabel 2:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].toString() ).toBe( 'td id="table-widget2-cell" class="componentClass"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0] ).toBe( widget2 );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "suppresses labels for buttons", function() {
@@ -1135,18 +1135,18 @@
 				name: "widget1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-widget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
-			expect( container.children[0].children[0].children[0].children[0].children.length ).toBe( 0 );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-widget1-cell"' );
-			expect( container.children[0].children[0].children[0].children[1].children[0] ).toBe( button );
-			expect( container.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( button );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "suppresses labels for entities", function() {
@@ -1167,16 +1167,16 @@
 				name: "widget1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-widget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'td id="table-widget1-cell" colspan="2"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0] ).toBe( input );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 2 );
-			expect( container.children[0].children[0].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td id="table-widget1-cell" colspan="2"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0] ).toBe( input );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports label overrides", function() {
@@ -1202,20 +1202,20 @@
 				name: "widget1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-widget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].textContent ).toBe( 'abc' );
-			expect( container.children[0].children[0].children[0].children[0].children.length ).toBe( 1 );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-widget1-cell"' );
-			expect( container.children[0].children[0].children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="table-widget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'abc' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports empty labels", function() {
@@ -1237,19 +1237,19 @@
 				title: ""
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-widget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
-			expect( container.children[0].children[0].children[0].children[0].textContent ).toBeUndefined();
-			expect( container.children[0].children[0].children[0].children[0].children.length ).toBe( 0 );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-widget1-cell"' );
-			expect( container.children[0].children[0].children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[0].children[0].children[2].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-widget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBeUndefined();
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 0 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-widget1-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 
 		it( "supports null labels", function() {
@@ -1271,16 +1271,16 @@
 				title: null
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-widget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'td id="table-widget1-cell" colspan="2"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td' );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 2 );
-			expect( container.children[0].children[0].children.length ).toBe( 1 );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-widget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'td id="table-widget1-cell" colspan="2"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 2 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 	} );
 
@@ -1313,30 +1313,30 @@
 				"section": "New Section"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table id="table-testPath"' );
-			expect( container.children[0].children[0].toString() ).toBe( 'tbody' );
-			expect( container.children[0].children[0].children[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
-			expect( container.children[0].children[0].children[0].children[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].toString() ).toBe( 'label for="widget1" id="table-testPathWidget1-label"' );
-			expect( container.children[0].children[0].children[0].children[0].children[0].textContent ).toBe( 'Widget 1:' );
-			expect( container.children[0].children[0].children[0].children[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
-			expect( container.children[0].children[0].children[0].children[1].children[0] ).toBe( widget1 );
-			expect( container.children[0].children[0].children[0].children.length ).toBe( 3 );
+			expect( container.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'tbody' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'tr id="table-testPathWidget1-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget1-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget1" id="table-testPathWidget1-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 1:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget1-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] ).toBe( widget1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
 
-			expect( container.children[0].children[0].children[1].toString() ).toBe( 'tr' );
-			expect( container.children[0].children[0].children[1].children[0].toString() ).toBe( 'td colspan="2"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].toString() ).toBe( 'h1' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].textContent ).toBe( 'New Section' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'tr' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].toString() ).toBe( 'td colspan="2"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'h1' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'New Section' );
 
-			expect( container.children[0].children[0].children[2].toString() ).toBe( 'tr id="table-testPathWidget2-row"' );
-			expect( container.children[0].children[0].children[2].children[0].toString() ).toBe( 'th id="table-testPathWidget2-label-cell"' );
-			expect( container.children[0].children[0].children[2].children[0].children[0].toString() ).toBe( 'label for="widget2" id="table-testPathWidget2-label"' );
-			expect( container.children[0].children[0].children[2].children[0].children[0].textContent ).toBe( 'Widget 2:' );
-			expect( container.children[0].children[0].children[2].children[1].toString() ).toBe( 'td id="table-testPathWidget2-cell"' );
-			expect( container.children[0].children[0].children[2].children[1].children[0] ).toBe( widget2 );
-			expect( container.children[0].children[0].children[2].children.length ).toBe( 3 );
-			expect( container.children[0].children[0].children.length ).toBe( 3 );
-			expect( container.children[0].children.length ).toBe( 1 );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'tr id="table-testPathWidget2-row"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'th id="table-testPathWidget2-label-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].childNodes[0].toString() ).toBe( 'label for="widget2" id="table-testPathWidget2-label"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[0].childNodes[0].textContent ).toBe( 'Widget 2:' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[1].toString() ).toBe( 'td id="table-testPathWidget2-cell"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[0] ).toBe( widget2 );
+			expect( container.childNodes[0].childNodes[0].childNodes[2].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes[0].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 		} );
 
 		it( "can start at arbitary heading numbers", function() {
@@ -1369,9 +1369,9 @@
 				"section": "New Section"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'table id="table-testPath"' );
-			expect( container.children[0].children[0].children[1].children[0].children[0].toString() ).toBe( 'h3' );
-			expect( container.children[0].children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'table id="table-testPath"' );
+			expect( container.childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'h3' );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
 		} );
 
 		it( "flattens nested sections", function() {
@@ -1415,20 +1415,20 @@
 				"name": "widget5"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'widget1' );
-			expect( container.children[1].toString() ).toBe( 'h1' );
-			expect( container.children[1].textContent ).toBe( 'Section 1' );
-			expect( container.children[2].toString() ).toBe( 'widget2.1' );
-			expect( container.children[3].toString() ).toBe( 'widget2.2' );
-			expect( container.children[4].toString() ).toBe( 'h2' );
-			expect( container.children[4].textContent ).toBe( 'Section 1.1' );
-			expect( container.children[5].toString() ).toBe( 'widget2.3.1' );
-			expect( container.children[6].toString() ).toBe( 'h1' );
-			expect( container.children[6].textContent ).toBe( 'Section 2' );
-			expect( container.children[7].toString() ).toBe( 'widget3' );
-			expect( container.children[8].toString() ).toBe( 'widget4' );
-			expect( container.children[9].toString() ).toBe( 'widget5' );
-			expect( container.children.length ).toBe( 10 );
+			expect( container.childNodes[0].toString() ).toBe( 'widget1' );
+			expect( container.childNodes[1].toString() ).toBe( 'h1' );
+			expect( container.childNodes[1].textContent ).toBe( 'Section 1' );
+			expect( container.childNodes[2].toString() ).toBe( 'widget2.1' );
+			expect( container.childNodes[3].toString() ).toBe( 'widget2.2' );
+			expect( container.childNodes[4].toString() ).toBe( 'h2' );
+			expect( container.childNodes[4].textContent ).toBe( 'Section 1.1' );
+			expect( container.childNodes[5].toString() ).toBe( 'widget2.3.1' );
+			expect( container.childNodes[6].toString() ).toBe( 'h1' );
+			expect( container.childNodes[6].textContent ).toBe( 'Section 2' );
+			expect( container.childNodes[7].toString() ).toBe( 'widget3' );
+			expect( container.childNodes[8].toString() ).toBe( 'widget4' );
+			expect( container.childNodes[9].toString() ).toBe( 'widget5' );
+			expect( container.childNodes.length ).toBe( 10 );
 		} );
 
 		it( "can be mixed with a NestedSectionLayoutDecorator", function() {
@@ -1472,19 +1472,19 @@
 				"name": "widget5"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'widget1' );
-			expect( container.children[1].toString() ).toBe( 'h1' );
-			expect( container.children[1].textContent ).toBe( 'Section 1' );
-			expect( container.children[2].toString() ).toBe( 'widget2.1' );
-			expect( container.children[3].toString() ).toBe( 'widget2.2' );
-			expect( container.children[4].toString() ).toBe( 'div title="Section 1.1"' );
-			expect( container.children[4].children[0].toString() ).toBe( 'widget2.3.1' );
-			expect( container.children[5].toString() ).toBe( 'h1' );
-			expect( container.children[5].textContent ).toBe( 'Section 2' );
-			expect( container.children[6].toString() ).toBe( 'widget3' );
-			expect( container.children[7].toString() ).toBe( 'widget4' );
-			expect( container.children[8].toString() ).toBe( 'widget5' );
-			expect( container.children.length ).toBe( 9 );
+			expect( container.childNodes[0].toString() ).toBe( 'widget1' );
+			expect( container.childNodes[1].toString() ).toBe( 'h1' );
+			expect( container.childNodes[1].textContent ).toBe( 'Section 1' );
+			expect( container.childNodes[2].toString() ).toBe( 'widget2.1' );
+			expect( container.childNodes[3].toString() ).toBe( 'widget2.2' );
+			expect( container.childNodes[4].toString() ).toBe( 'div title="Section 1.1"' );
+			expect( container.childNodes[4].childNodes[0].toString() ).toBe( 'widget2.3.1' );
+			expect( container.childNodes[5].toString() ).toBe( 'h1' );
+			expect( container.childNodes[5].textContent ).toBe( 'Section 2' );
+			expect( container.childNodes[6].toString() ).toBe( 'widget3' );
+			expect( container.childNodes[7].toString() ).toBe( 'widget4' );
+			expect( container.childNodes[8].toString() ).toBe( 'widget5' );
+			expect( container.childNodes.length ).toBe( 9 );
 		} );
 	} );
 
@@ -1531,19 +1531,19 @@
 				"name": "widget5"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'widget1' );
-			expect( container.children[1].toString() ).toBe( 'div title="Section 1"' );
-			expect( container.children[1].children[0].toString() ).toBe( 'widget2.1' );
-			expect( container.children[1].children[1].toString() ).toBe( 'widget2.2' );
-			expect( container.children[1].children[2].toString() ).toBe( 'div title="Section 1.1"' );
-			expect( container.children[1].children[2].children[0].toString() ).toBe( 'widget2.3.1' );
-			expect( container.children[1].children.length ).toBe( 3 );
-			expect( container.children[2].toString() ).toBe( 'div title="Section 2"' );
-			expect( container.children[2].children[0].toString() ).toBe( 'widget3' );
-			expect( container.children[2].children.length ).toBe( 1 );
-			expect( container.children[3].toString() ).toBe( 'widget4' );
-			expect( container.children[4].toString() ).toBe( 'widget5' );
-			expect( container.children.length ).toBe( 5 );
+			expect( container.childNodes[0].toString() ).toBe( 'widget1' );
+			expect( container.childNodes[1].toString() ).toBe( 'div title="Section 1"' );
+			expect( container.childNodes[1].childNodes[0].toString() ).toBe( 'widget2.1' );
+			expect( container.childNodes[1].childNodes[1].toString() ).toBe( 'widget2.2' );
+			expect( container.childNodes[1].childNodes[2].toString() ).toBe( 'div title="Section 1.1"' );
+			expect( container.childNodes[1].childNodes[2].childNodes[0].toString() ).toBe( 'widget2.3.1' );
+			expect( container.childNodes[1].childNodes.length ).toBe( 3 );
+			expect( container.childNodes[2].toString() ).toBe( 'div title="Section 2"' );
+			expect( container.childNodes[2].childNodes[0].toString() ).toBe( 'widget3' );
+			expect( container.childNodes[2].childNodes.length ).toBe( 1 );
+			expect( container.childNodes[3].toString() ).toBe( 'widget4' );
+			expect( container.childNodes[4].toString() ).toBe( 'widget5' );
+			expect( container.childNodes.length ).toBe( 5 );
 		} );
 
 		it( "supports styleClass", function() {
@@ -1569,10 +1569,10 @@
 				"section": "Section 1"
 			}, container, mw );
 
-			expect( container.children[0].toString() ).toBe( 'div title="Section 1" class="theStyleClass"' );
-			expect( container.children[0].children[0].toString() ).toBe( 'widget1' );
-			expect( container.children[0].children.length ).toBe( 1 );
-			expect( container.children.length ).toBe( 1 );
+			expect( container.childNodes[0].toString() ).toBe( 'div title="Section 1" class="theStyleClass"' );
+			expect( container.childNodes[0].childNodes[0].toString() ).toBe( 'widget1' );
+			expect( container.childNodes[0].childNodes.length ).toBe( 1 );
+			expect( container.childNodes.length ).toBe( 1 );
 		} );
 	} );
 

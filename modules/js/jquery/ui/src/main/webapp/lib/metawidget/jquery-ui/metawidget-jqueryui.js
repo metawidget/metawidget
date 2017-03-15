@@ -130,7 +130,7 @@ var metawidget = metawidget || {};
 				$( widget ).slider( 'value', value );
 				isBindable = true;
 			} else if ( styleClass.indexOf( 'ui-spinner' ) !== -1 ) {
-				$( widget.children[0] ).spinner( 'value', value );
+				$( widget.childNodes[0] ).spinner( 'value', value );
 				isBindable = true;
 			}
 		}
@@ -167,7 +167,7 @@ var metawidget = metawidget || {};
 			if ( styleClass.indexOf( 'ui-slider' ) !== -1 ) {
 				toInspect[name] = $( widget ).slider( 'value' );
 			} else if ( styleClass.indexOf( 'ui-spinner' ) !== -1 ) {
-				toInspect[name] = $( widget.children[0] ).spinner( 'value' );
+				toInspect[name] = $( widget.childNodes[0] ).spinner( 'value' );
 			}
 		}
 	};
@@ -229,8 +229,8 @@ var metawidget = metawidget || {};
 
 		// New Tab
 
-		var ul = tabs.children[0];
-		var tabId = tabs.getAttribute( 'id' ) + ( ul.children.length + 1 );
+		var ul = tabs.childNodes[0];
+		var tabId = tabs.getAttribute( 'id' ) + ( ul.childNodes.length + 1 );
 		var li = metawidget.util.createElement( mw, 'li' );
 		var a = metawidget.util.createElement( mw, 'a' );
 		a.setAttribute( 'href', '#' + tabId );
@@ -296,13 +296,13 @@ var metawidget = metawidget || {};
 				return mw;
 			};
 
-			for ( var loop = 0; loop < element.children.length; ) {
-				if ( element.children[loop].nodeType !== 1 ) {
+			for ( var loop = 0; loop < element.childNodes.length; ) {
+				if ( element.childNodes[loop].nodeType !== 1 ) {
 					loop++;
 					continue;
 				}
 
-				var childNode = element.children[loop];
+				var childNode = element.childNodes[loop];
 				element.removeChild( childNode );
 				this._overriddenNodes.push( childNode );
 			}

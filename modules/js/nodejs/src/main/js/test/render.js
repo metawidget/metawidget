@@ -23,7 +23,7 @@ var simpleDocument = {
 			nodeType: 1,
 			tagName: elementName.toUpperCase(),
 			attributes: [],
-			children: [],
+			childNodes: [],
 			setAttribute: function( name, value ) {
 
 				for ( var loop = 0, length = this.attributes.length; loop < length; loop++ ) {
@@ -54,7 +54,7 @@ var simpleDocument = {
 			},
 			appendChild: function( childNode ) {
 
-				this.children.push( childNode );
+				this.childNodes.push( childNode );
 			},
 			cloneNode: function() {
 
@@ -64,8 +64,8 @@ var simpleDocument = {
 					var attribute = this.attributes[loop];
 					clone.setAttribute( attribute.nodeName, attribute.nodeValue );
 				}
-				for ( var loop = 0, length = this.children.length; loop < length; loop++ ) {
-					clone.appendChild( this.children[loop].cloneNode() );
+				for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
+					clone.appendChild( this.childNodes[loop].cloneNode() );
 				}
 				return clone;
 			},
@@ -103,8 +103,8 @@ var simpleDocument = {
 
 				toString += ">";
 
-				for ( var loop = 0, length = this.children.length; loop < length; loop++ ) {
-					toString += this.children[loop].toString();
+				for ( var loop = 0, length = this.childNodes.length; loop < length; loop++ ) {
+					toString += this.childNodes[loop].toString();
 				}
 
 				if ( this.textContent !== undefined ) {

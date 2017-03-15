@@ -47,16 +47,16 @@ var metawidget = metawidget || {};
 			var fieldset = metawidget.util.createElement( mw, 'fieldset' );
 			fieldset.setAttribute( 'data-role', 'controlgroup' );
 
-			while ( widget.children.length > 0 ) {
-				var label = widget.children[0];
+			while ( widget.childNodes.length > 0 ) {
+				var label = widget.childNodes[0];
 
 				if ( label.tagName !== 'LABEL' ) {
 					return widget;
 				}
 
-				var id = widget.getAttribute( 'id' ) + widget.children.length;
+				var id = widget.getAttribute( 'id' ) + widget.childNodes.length;
 				label.setAttribute( 'for', id );
-				var input = label.children[0];
+				var input = label.childNodes[0];
 				input.setAttribute( 'id', id );
 
 				fieldset.appendChild( input );
@@ -105,7 +105,7 @@ var metawidget = metawidget || {};
 			if ( widget.tagName === 'FIELDSET' && attributes.type === 'array' ) {
 
 				if ( value !== undefined ) {
-					var checkboxes = widget.children;
+					var checkboxes = widget.childNodes;
 					for ( var loop = 0, length = checkboxes.length; loop < length; loop++ ) {
 						var childNode = checkboxes[loop];
 						if ( childNode.type !== 'checkbox' ) {
@@ -133,7 +133,7 @@ var metawidget = metawidget || {};
 
 			if ( binding.widget.tagName === 'FIELDSET' && binding.attributes.type === 'array' ) {
 				var toReturn = [];
-				var checkboxes = binding.widget.children[0].children;
+				var checkboxes = binding.widget.childNodes[0].childNodes;
 				for ( var loop = 0, length = checkboxes.length; loop < length; loop++ ) {
 					var childNode = checkboxes[loop];
 					var checkbox = $( childNode ).find( '[type=checkbox]' )[0];
@@ -209,8 +209,8 @@ var metawidget = metawidget || {};
 				_superLayoutWidget.call( this, widget, elementName, attributes, container, mw );
 				if ( widget.overridden === undefined ) {
 
-					var children = container.children;
-					var containerNode = children[children.length - 1];
+					var childNodes = container.childNodes;
+					var containerNode = childNodes[childNodes.length - 1];
 
 					if ( containerNode === widget ) {
 
@@ -246,20 +246,20 @@ var metawidget = metawidget || {};
 				return mw;
 			};
 
-			for ( var loop = 0; loop < element.children.length; ) {
-				if ( element.children[loop].nodeType !== 1 ) {
+			for ( var loop = 0; loop < element.childNodes.length; ) {
+				if ( element.childNodes[loop].nodeType !== 1 ) {
 					loop++;
 					continue;
 				}
 
-				var childNode = element.children[loop];
+				var childNode = element.childNodes[loop];
 				element.removeChild( childNode );
 
 				// De-augment before pushing, so that the widget works
 				// seamlessly with binding/override matching
 
-				if ( childNode.getAttribute( 'class' ) !== null && childNode.getAttribute( 'class' ).indexOf( 'ui-' ) !== -1 && childNode.children.length === 1 ) {
-					childNode = childNode.children[0];
+				if ( childNode.getAttribute( 'class' ) !== null && childNode.getAttribute( 'class' ).indexOf( 'ui-' ) !== -1 && childNode.childNodes.length === 1 ) {
+					childNode = childNode.childNodes[0];
 				}
 
 				this._overriddenNodes.push( childNode );
