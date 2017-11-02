@@ -397,7 +397,7 @@ public class XmlSchemaGeneratorTask
 
 		if ( supportSetParameter ) {
 			String parameterPropertyBlock = generatePropertyBlock( "parameter", true, String.class, Object.class );
-			parameterPropertyBlock = parameterPropertyBlock.replace( "maxOccurs=\"unbounded\"", "<!--maxOccurs=\"unbounded\"-->" );
+			parameterPropertyBlock = parameterPropertyBlock.replace( "maxOccurs=\"unbounded\"", "" );
 			builder.append( parameterPropertyBlock );
 		}
 
