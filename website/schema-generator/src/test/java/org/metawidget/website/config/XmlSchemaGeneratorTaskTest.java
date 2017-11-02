@@ -222,7 +222,7 @@ public class XmlSchemaGeneratorTaskTest
 		assertTrue( schema.contains( "\t\t<xs:complexType>\r\n" ) );
 		assertTrue( schema.contains( "\t\t\t<xs:sequence>\r\n" ) );
 
-		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"parameter\" minOccurs=\"0\" <!--maxOccurs=\"unbounded\"-->>" ) );
+		assertTrue( schema.contains( "\t\t\t\t<xs:element name=\"parameter\" minOccurs=\"0\">" ) );
 		assertTrue( schema.contains( "\t\t\t\t\t<xs:complexType>" ) );
 		assertTrue( schema.contains( "\t\t\t\t\t\t<xs:sequence>" ) );
 		assertTrue( schema.contains( "\t\t\t\t\t\t\t<xs:element name=\"string\" type=\"xs:string\"/>" ) );
