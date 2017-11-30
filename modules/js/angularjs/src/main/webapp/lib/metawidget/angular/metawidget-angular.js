@@ -823,7 +823,7 @@ var metawidget = metawidget || {};
 			}
 
 			if ( type === 'boolean' ) {
-				parsedBinding.assign( scope, scope.mwSelectedItems[name] === 'true' );
+				parsedBinding.assign( scope, scope.mwSelectedItems[name] === 'true' || scope.mwSelectedItems[name] === true );
 				return;
 			}
 
