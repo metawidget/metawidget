@@ -817,7 +817,7 @@ var metawidget = metawidget || {};
 
 			var parsedBinding = $parse( binding );
 
-			if ( scope.mwSelectedItems[name] === '' ) {
+			if ( scope.mwSelectedItems[name] === '' || scope.mwSelectedItems[name] === null ) {
 				parsedBinding.assign( scope, undefined );
 				return;
 			}
