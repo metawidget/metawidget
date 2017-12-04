@@ -690,33 +690,40 @@ var metawidget = metawidget || {};
 
 					if ( attributes.type === 'boolean' || attributes.type === 'integer' || attributes.type === 'number' ) {
 
-						// Convert value to a string, and store within a temporary variable
-
-						widget.setAttribute( 'ng-model', 'mwSelectedItems.' + attributes.name );
-						scope.$parent.mwSelectedItems = scope.$parent.mwSelectedItems || {};
-						scope.$parent.mwSelectedItems[attributes.name] = $parse( binding )( scope.$parent );
-						if ( scope.$parent.mwSelectedItems[attributes.name] !== undefined ) {
-							scope.$parent.mwSelectedItems[attributes.name] += '';
+						if ( widget.hasAttribute( 'ng-options' )) {
+							
+							// ng-options, as of Angular 1.6, has its own type conversion
+							
 						} else {
-							scope.$parent.mwSelectedItems[attributes.name] = '';
-						}
-
-						// When temporary variable changes, convert it back to correct type
-
-						widget.setAttribute( 'ng-change', "mwChangeAsType('" + attributes.name + "','" + attributes.type + "','" + binding + "')" );
-						scope.$parent.mwChangeAsType = function( name, type, binding ) {
-
-							_changeAsType( scope.$parent, name, type, binding );
-						}
-
-						for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
-
-							var child = widget.childNodes[loop];
-
-							// Match each option based on the temporary string variable
-
-							if ( child.tagName === 'OPTION' && child.getAttribute( 'value' ) !== null && child.getAttribute( 'value' ) !== '' ) {
-								child.setAttribute( 'ng-selected', "mwSelectedItems." + attributes.name + "=='" + child.getAttribute( 'value' ) + "'" );
+													
+							// Convert value to a string, and store within a temporary variable
+	
+							widget.setAttribute( 'ng-model', 'mwSelectedItems.' + attributes.name );
+							scope.$parent.mwSelectedItems = scope.$parent.mwSelectedItems || {};
+							scope.$parent.mwSelectedItems[attributes.name] = $parse( binding )( scope.$parent );
+							if ( scope.$parent.mwSelectedItems[attributes.name] !== undefined ) {
+								scope.$parent.mwSelectedItems[attributes.name] += '';
+							} else {
+								scope.$parent.mwSelectedItems[attributes.name] = '';
+							}
+	
+							// When temporary variable changes, convert it back to correct type
+	
+							widget.setAttribute( 'ng-change', "mwChangeAsType('" + attributes.name + "','" + attributes.type + "','" + binding + "')" );
+							scope.$parent.mwChangeAsType = function( name, type, binding ) {
+	
+								_changeAsType( scope.$parent, name, type, binding );
+							}
+	
+							for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+	
+								var child = widget.childNodes[loop];
+	
+								// Match each option based on the temporary string variable
+	
+								if ( child.tagName === 'OPTION' && child.getAttribute( 'value' ) !== null && child.getAttribute( 'value' ) !== '' ) {
+									child.setAttribute( 'ng-selected', "mwSelectedItems." + attributes.name + "=='" + child.getAttribute( 'value' ) + "'" );
+								}
 							}
 						}
 					}
