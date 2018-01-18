@@ -540,7 +540,7 @@ var metawidget = metawidget || {};
 			// WidgetBuilders/WidgetProcessors/Layouts. This is because not
 			// everybody will need/want a Metawidget-level 'setReadOnly'
 
-			if ( mw.readOnly === true ) {
+			if ( metawidget.util.isTrueOrTrueString( mw.readOnly )) {
 				copiedAttributes.readOnly = 'true';
 			}
 
