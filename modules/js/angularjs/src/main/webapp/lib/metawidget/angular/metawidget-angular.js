@@ -568,7 +568,7 @@ var metawidget = metawidget || {};
 	/**
 	 * @class WidgetProcessor to add Angular bindings and validation.
 	 * 
-	 * @returns {metawidget.angular.AngularWidgetProcessor}
+	 * @returns {metawidget.angular.widgetprocessor.AngularWidgetProcessor}
 	 */
 
 	metawidget.angular.widgetprocessor.AngularWidgetProcessor = function( $parse ) {
