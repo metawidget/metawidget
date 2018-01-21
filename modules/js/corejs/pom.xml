@@ -59,6 +59,24 @@
 					</aggregations>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<target>
+						<concat destfile="${project.build.directory}/${project.build.finalName}/lib/metawidget/core/metawidget-core.min.js" append="true">
+							if ( typeof module !== 'undefined' &amp;&amp; typeof module.exports !== 'undefined' ) module.exports = metawidget;
+						</concat>
+					</target>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>				
+			</plugin>			
 			<!-- For JavaScriptTestCase -->
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>

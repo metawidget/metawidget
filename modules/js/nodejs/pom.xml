@@ -33,10 +33,6 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<target>
-						<concat destfile="target/classes/index.js">
-							<filelist dir="../corejs/target/metawidget-corejs/lib/metawidget/core" files="metawidget-core.min.js" />
-							<footer>module.exports = metawidget;</footer>
-						</concat>
 						<!-- Copy extra modules, to save needing multiple Node modules -->
 						<copy todir="target/classes/extras">
 							<filelist dir="../angularjs/target/metawidget-angularjs/lib/metawidget/angular" files="metawidget-angular.min.js" />
