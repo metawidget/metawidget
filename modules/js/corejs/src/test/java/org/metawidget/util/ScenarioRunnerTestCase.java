@@ -11,12 +11,16 @@
 
 package org.metawidget.util;
 
-import junit.framework.TestCase;
+import java.io.File;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import junit.framework.TestCase;
 
 /**
  * Utility class to load Selenium and wait for a test case to complete. Designed to
@@ -44,7 +48,14 @@ public abstract class ScenarioRunnerTestCase
 
 	protected final void runScenarioRunner( String url ) {
 
-		WebDriver driver = new FirefoxDriver();
+		File firefoxBinaryFile = new File( "../../../../repository/firefox-win32/firefox.exe" );
+		FirefoxBinary firefoxBinary = new FirefoxBinary( firefoxBinaryFile );
+
+		FirefoxProfile profile = new FirefoxProfile();
+		profile.setPreference( "browser.helperApps.alwaysAsk.force", false );
+		profile.setPreference( "browser.download.manager.showWhenStarting", false );
+
+		WebDriver driver = new FirefoxDriver( firefoxBinary, profile );
 
 		try {
 
@@ -66,6 +77,11 @@ public abstract class ScenarioRunnerTestCase
 
 		} finally {
 			driver.quit();
+			try {
+				Thread.sleep( 1000 );
+			} catch ( InterruptedException e ) {
+				throw new RuntimeException( e );
+			}
 		}
 	}
 

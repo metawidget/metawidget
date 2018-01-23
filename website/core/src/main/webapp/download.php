@@ -128,10 +128,9 @@
 		<h2 class="h2-underneath">Nightly Builds</h2>
 		
 		<p>
-			Snapshot releases are available at <a href="https://kennardconsulting.ci.cloudbees.com/job/Metawidget">https://kennardconsulting.ci.cloudbees.com/job/Metawidget</a>.
-			They are also deployed to <a href="http://repository.jboss.org/nexus/content/repositories/snapshots" target="_blank">http://repository.jboss.org/nexus/content/repositories/snapshots</a>.
+			Snapshot releases are deployed to <a href="http://repository.jboss.org/nexus/content/repositories/snapshots" target="_blank">http://repository.jboss.org/nexus/content/repositories/snapshots</a>.
 			These nightly releases are not stable, and should not be used in production environments.
-			Thanks to <a href="http://cloudbees.com">CloudBees</a> and <a href="http://jboss.org">JBoss</a> for hosting.
+			Thanks to <a href="http://jboss.org">JBoss</a> for hosting.
 		</p>
 
 		<h2 class="h2-underneath">Archived Releases</h2>

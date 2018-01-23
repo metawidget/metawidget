@@ -20,7 +20,7 @@
 		<module>faces/addressbook/richfaces</module>
 		<module>faces/addressbook2</module>
 		<module>faces/allwidgets</module>
-		<!-- Doesn't work on CloudBees: <module>faces/forge</module> -->
+		<module>faces/forge</module>
 		<module>faces/quirks</module>
 		<module>gwt/allwidgets</module>
 		<module>gwt/quirks</module>

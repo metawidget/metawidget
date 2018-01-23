@@ -23,6 +23,12 @@
 				<configuration>
 					<customRunnerTemplate>src/test/js/index.html</customRunnerTemplate>
 					<webDriverClassName>org.openqa.selenium.firefox.FirefoxDriver</webDriverClassName>
+					<webDriverCapabilities>
+						<capability>
+							<name>firefox_binary</name>
+							<value>${project.basedir}/../../../../../repository/firefox-win32/firefox.exe</value>
+						</capability>
+					</webDriverCapabilities>					
 				</configuration>
 				<executions>
 					<execution>

@@ -32,11 +32,13 @@ package org.metawidget.example.js.webcomponent;
 import static org.junit.Assert.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.*;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -327,7 +329,14 @@ public class AddressBookWebComponentTest {
 	@Before
 	public void before() {
 
-		mDriver = new FirefoxDriver();
+		File firefoxBinaryFile = new File( "../../../../repository/firefox-win32/firefox.exe" );
+		FirefoxBinary firefoxBinary = new FirefoxBinary( firefoxBinaryFile );
+
+		FirefoxProfile profile = new FirefoxProfile();
+		profile.setPreference( "browser.helperApps.alwaysAsk.force", false );
+		profile.setPreference( "browser.download.manager.showWhenStarting", false );
+
+		mDriver = new FirefoxDriver( firefoxBinary, profile );
 		mWait = new WebDriverWait( mDriver, 60 );
 	}
 
