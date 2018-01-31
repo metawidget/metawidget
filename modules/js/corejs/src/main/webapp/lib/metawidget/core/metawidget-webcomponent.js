@@ -21,31 +21,31 @@ var metawidget = metawidget || {};
 
 	'use strict';
 
-	/**
-	 * Use the value of the given HTML 5 attribute to lookup an object in the
-	 * global scope. This includes traversing simple namespace paths such as
-	 * 'foo.bar'
-	 */
+	if ( globalScope !== undefined && globalScope.document !== undefined && globalScope.document.registerElement !== undefined ) {
 
-	function _lookupObject( attributeName ) {
+		/**
+		 * Use the value of the given HTML 5 attribute to lookup an object in
+		 * the global scope. This includes traversing simple namespace paths
+		 * such as 'foo.bar'
+		 */
 
-		var attributeValue = this.getAttribute( attributeName );
+		function _lookupObject( attributeName ) {
 
-		if ( attributeValue === null ) {
-			return;
+			var attributeValue = this.getAttribute( attributeName );
+
+			if ( attributeValue === null ) {
+				return;
+			}
+
+			var typeAndNames = metawidget.util.splitPath( attributeValue );
+
+			if ( typeAndNames === undefined ) {
+				return;
+			}
+
+			var lookup = globalScope[typeAndNames.type];
+			return metawidget.util.traversePath( lookup, typeAndNames.names );
 		}
-
-		var typeAndNames = metawidget.util.splitPath( attributeValue );
-
-		if ( typeAndNames === undefined ) {
-			return;
-		}
-
-		var lookup = globalScope[typeAndNames.type];
-		return metawidget.util.traversePath( lookup, typeAndNames.names );
-	}
-
-	if ( globalScope.document !== undefined && globalScope.document.registerElement !== undefined ) {
 
 		var metawidgetPrototype = Object.create( HTMLElement.prototype );
 
