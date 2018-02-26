@@ -53,6 +53,8 @@ var metawidget = metawidget || {};
 	 * </li>
 	 * </ul>
 	 * 
+	 * @param mw
+	 *            optional Metawidget with an <tt>l10n</tt> property
 	 * @return the label string. Empty string if no such name. Null if name has
 	 *         been forced to blank (i.e. should be hidden)
 	 * 
@@ -75,7 +77,7 @@ var metawidget = metawidget || {};
 
 		var name = attributes.name;
 
-		if ( mw.l10n !== undefined && mw.l10n[name] !== undefined ) {
+		if ( mw !== undefined && mw.l10n !== undefined && mw.l10n[name] !== undefined ) {
 			return mw.l10n[name];
 		}
 
@@ -160,13 +162,16 @@ var metawidget = metawidget || {};
 	 * Clients can either initialize a property called <tt>l10n</tt> on the
 	 * Metawidget, or replace this whole method with their own localization
 	 * approach. In the latter case, <tt>mw.path</tt> may also prove useful.
+	 * 
+	 * @param mw
+	 *            optional Metawidget with an <tt>l10n</tt> property
 	 */
 
 	metawidget.util.getLocalizedString = function( value, mw ) {
 
 		var key = metawidget.util.camelCase( value );
 
-		if ( mw.l10n !== undefined && mw.l10n[key] !== undefined ) {
+		if ( mw !== undefined && mw.l10n !== undefined && mw.l10n[key] !== undefined ) {
 			return mw.l10n[key];
 		}
 

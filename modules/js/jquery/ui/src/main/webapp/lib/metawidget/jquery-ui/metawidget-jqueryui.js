@@ -435,3 +435,7 @@ var metawidget = metawidget || {};
 		}
 	} );
 } )();
+
+if ( typeof module !== 'undefined' && typeof module.exports !== 'undefined' ) {
+	module.exports = metawidget.jqueryui;
+}
