@@ -239,7 +239,7 @@ var metawidget = metawidget || {};
 		// Configure defaults
 
 		_pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-		_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor( scope.$parent ) ];
+		_pipeline.inspectionResultProcessors = [ new metawidget.angular.inspectionresultprocessor.AngularInspectionResultProcessor() ];
 		_pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(),
 				new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 		_pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.PlaceholderAttributeProcessor(),
@@ -475,10 +475,6 @@ var metawidget = metawidget || {};
 	/**
 	 * @class InspectionResultProcessor to evaluate Angular expressions.
 	 * 
-	 * @param scope
-	 *            parent scope of the Metawidget directive
-	 * @param buildWidgets
-	 *            a function to use to rebuild the widgets following a $watch
 	 * @returns {metawidget.angular.AngularInspectionResultProcessor}
 	 */
 
