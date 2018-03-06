@@ -97,7 +97,12 @@ metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor = function
 				for( var localPropertyName in vm.$parent.$data ) {					
 					this[localPropertyName] = vm.$parent.$data[localPropertyName];
 				}
-				return eval( expression );
+				
+				try {
+					return eval( expression );
+				} catch( e ) {
+					return undefined;
+				}
 				
 			} )();
 
@@ -143,12 +148,14 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 		} else if ( ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) || widget.tagName === 'BUTTON' ) {
 			widget.setAttribute( 'v-on:click', binding + '()' );
 
-		} else if ( widget.hasAttribute( 'v-model' ) === false && widget.hasAttribute( 'v-bind:value' ) === false ) {
-			var attributeName = 'v-model';
-			if ( attributes.type === 'number' || attributes.type === 'integer' ) {
-				attributeName += '.number';
+		} else if ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' ) {
+			if ( widget.hasAttribute( 'v-model' ) === false && widget.hasAttribute( 'v-bind:value' ) === false ) {
+				var attributeName = 'v-model';
+				if ( attributes.type === 'number' || attributes.type === 'integer' ) {
+					attributeName += '.number';
+				}
+				widget.setAttribute( attributeName, binding );
 			}
-			widget.setAttribute( attributeName, binding );
 		}
 		return widget;
 	}
@@ -160,7 +167,7 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 
 var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
-	props: [ 'value', 'read-only', 'config' ],
+	props: [ 'id', 'value', 'read-only', 'config' ],
 	created: function() {
 
 		// Create a top-level DIV
@@ -192,6 +199,10 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 		pipeline.configure( this.config );
 
+		//
+		// Public methods
+		//
+		
 		/**
 		 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 		 */
@@ -224,8 +235,16 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 		this.buildWidgets = function( inspectionResult ) {
 
+			// Defensive copy
+
 			this.overriddenNodes = [];
 
+			for ( var loop = 0, length = this._overriddenNodes.length; loop < length; loop++ ) {
+				this.overriddenNodes.push( this._overriddenNodes[loop].cloneNode( true ) );
+			}
+
+			// Inspect (if necessary)
+			
 			if ( inspectionResult !== undefined ) {
 				lastInspectionResult = inspectionResult;
 			} else if ( lastInspectionResult === undefined ) {
@@ -270,15 +289,44 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		this.$watch( 'config', function( newValue ) {
 
 			pipeline.configure( newValue );
+			this.invalidateInspection();
 			this.$forceUpdate();
 		} );
 	},
 	render: function( createElement ) {
 
+		if ( this._overriddenNodes === undefined ) {
+			this._overriddenNodes = [];
+			if ( this.$options.propsData.id !== undefined ) {
+
+				var element = document.getElementById( this.$options.propsData.id );
+
+				if ( element != null ) {				
+					while ( element.childNodes.length > 0 ) {
+						var childNode = element.childNodes[0];
+						element.removeChild( childNode );
+
+						if ( childNode.nodeType === 1 ) {
+							this._overriddenNodes.push( childNode );
+						}
+					}
+				}
+			}
+		}
+		
 		// Build the path to inspect...
 
 		this.toInspect = this.value;
 		this.path = 'value';
+
+		// Copy parent state down so that nested Metawidgets can use it
+		
+		for( var localPropertyName in this.$parent.$data ) {
+			if ( localPropertyName === 'readOnly' ) {
+				continue;
+			}
+			this[localPropertyName] = this.$parent.$data[localPropertyName];
+		}			
 
 		// ...and render the result
 

@@ -12,15 +12,15 @@
 			<div id="page-image">
 				<img src="media/addressbook.gif" alt=""/>
 			</div>
-		
+
 			<div id="content">
-		
-				<metawidget v-model="search" v-bind:config="metawidgetConfig.search">
+
+				<metawidget id="foo" v-model="search" v-bind:config="metawidgetConfig.search">
+					<facet name="footer">
+						<metawidget v-model="searchActions" v-bind:config="metawidgetConfig.buttons"></metawidget>
+					</facet>
 				</metawidget>
-				<facet name="footer">
-					<metawidget v-model="searchActions" v-bind:config="metawidgetConfig.buttons"></metawidget>
-				</facet>
-		
+
 				<table class="data-table">
 					<thead>
 						<tr>
@@ -30,7 +30,7 @@
 						</tr>
 					</thead>
 					<tbody>
-		
+
 						<tr v-for="contact in contacts">
 							<td class="column-half">
 								<a href v-on:click.prevent="loadContact( contact.id )">
@@ -47,23 +47,23 @@
 								<img src="media/business-small.gif" alt="Business Contact" ng-show="contact.type == 'business'"/>
 							</td>
 						</tr>
-		
+
 					</tbody>
 				</table>
-		
+
 			</div>
-	
+
 			<div id="dialog-position" v-if="contact">
 				<div id="dialog">
-			
+
 					<div id="dialog-heading">
 						{{dialogTitle}}
 					</div>
-			
+
 					<div id="dialog-content">
-			
-						<img id="dialog-image" ng-src="media/{{current.type}}.gif" alt=""/>
-			
+
+						<img id="dialog-image" v-bind:src="'media/' + contact.type + '.gif'" alt=""/>
+
 						<metawidget v-model="contact" v-bind:read-only="readOnly" v-bind:config="metawidgetConfig.form">
 							<table id="currentCommunications" class="data-table">
 								<thead>
@@ -93,7 +93,7 @@
 							</facet>
 						</metawidget>
 						<metawidget v-model="crudActions" v-bind:config="metawidgetConfig.buttons"></metawidget>
-			
+
 					</div>
 				</div>
 			</div>
