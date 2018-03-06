@@ -15,7 +15,7 @@
 
 			<div id="content">
 
-				<metawidget id="foo" v-model="search" v-bind:config="metawidgetConfig.search">
+				<metawidget id="searchMetawidget" v-model="search" v-bind:config="metawidgetConfig.search">
 					<facet name="footer">
 						<metawidget v-model="searchActions" v-bind:config="metawidgetConfig.buttons"></metawidget>
 					</facet>
@@ -64,7 +64,7 @@
 
 						<img id="dialog-image" v-bind:src="'media/' + contact.type + '.gif'" alt=""/>
 
-						<metawidget v-model="contact" v-bind:read-only="readOnly" v-bind:config="metawidgetConfig.form">
+						<metawidget id="contactMetawidget" v-model="contact" v-bind:read-only="readOnly" v-bind:config="metawidgetConfig.form">
 							<table id="currentCommunications" class="data-table">
 								<thead>
 									<tr>
@@ -88,8 +88,9 @@
 									</tr>
 								</tbody>
 							</table>
-							
+
 							<facet name="footer">
+								Foo!
 							</facet>
 						</metawidget>
 						<metawidget v-model="crudActions" v-bind:config="metawidgetConfig.buttons"></metawidget>
@@ -105,7 +106,5 @@
 		<script src="lib/metawidget/core/metawidget-core.min.js" type="text/javascript"></script>
 		<script src="lib/metawidget/vue/metawidget-vue.min.js" type="text/javascript"></script>
 		<script src="js/app.js" type="text/javascript"></script>
-		<!-- <script src="js/controllers.js" type="text/javascript"></script>
-		<script src="js/services.js" type="text/javascript"></script> -->
 	</body>
 </html>

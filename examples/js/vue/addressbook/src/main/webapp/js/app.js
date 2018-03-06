@@ -122,7 +122,7 @@
 						vm.contact = undefined;
 					},
 
-					"delete": function() {
+					deleteContact: function() {
 
 						for ( var loop = 0, length = vm.contacts.length; loop < length; loop++ ) {
 							if ( vm.contacts[loop].id === vm.contact.id ) {
@@ -262,7 +262,8 @@
 								save: {
 									hidden: "{{readOnly}}"
 								},
-								"delete": {
+								deleteContact: {
+									title: 'Delete',
 									hidden: "{{readOnly || !contact.id}}"
 								}
 							}
