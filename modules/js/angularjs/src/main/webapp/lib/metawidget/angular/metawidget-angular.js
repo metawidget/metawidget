@@ -664,6 +664,11 @@ var metawidget = metawidget || {};
 
 										child.setAttribute( 'ng-value', child.value );
 									}
+									
+									// Angular imposes its own name
+									
+									child.removeAttribute( 'name' );
+
 								} else if ( child.getAttribute( 'type' ) === 'checkbox' ) {
 									child.setAttribute( 'ng-checked', binding + ".indexOf('" + child.value + "')>=0" );
 									scope.mwUpdateSelection = _updateSelection;

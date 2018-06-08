@@ -231,6 +231,10 @@ var metawidget = metawidget || {};
 						if ( attributes.componentType !== undefined ) {
 							label.setAttribute( 'class', attributes.componentType );
 							option.setAttribute( 'type', attributes.componentType );
+							
+							if ( attributes.componentType === 'radio' && attributes.name !== undefined ) {
+								option.setAttribute( 'name', attributes.name );
+							}
 						} else {
 							label.setAttribute( 'class', 'checkbox' );
 							option.setAttribute( 'type', 'checkbox' );

@@ -164,12 +164,22 @@ var metawidget = metawidget || {};
 
 		/**
 		 * Clear all child elements from the Metawidget element.
+		 * <p>
+		 * This implementation uses plain JavaScript <tt>removeChild</tt>,
+		 * which has known problems (on some browsers) leaking event handlers.
+		 * This is not a problem for plain Metawidget, as it doesn't use event
+		 * handlers. However clients that introduce custom widgetprocessors that
+		 * use event handlers may wish to adopt a more robust technology for
+		 * tracking/clearing event handlers (such as JQuery.empty)
 		 */
 
 		this.clearWidgets = function() {
 
-			var clone = this.getElement().cloneNode( false );
-			this.getElement().parentNode.replaceChild( clone, this.getElement() );
+			var element = this.getElement();
+
+			while ( element.childNodes.length > 0 ) {
+				element.removeChild( element.childNodes[0] );
+			}
 		};
 
 		/**

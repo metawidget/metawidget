@@ -62,7 +62,7 @@ metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor = function
 		// For each property in the inspection result...
 
 		var vm = mw.getComponent();
-		
+
 		for ( var propertyName in inspectionResult ) {
 
 			if ( !inspectionResult.hasOwnProperty( propertyName ) ) {
@@ -91,19 +91,19 @@ metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor = function
 			// ...evaluate it...
 
 			expression = expression.slice( 2, expression.length - 2 );
-			
-			inspectionResult[propertyName] = (function() {
-				
-				for( var localPropertyName in vm.$parent.$data ) {					
+
+			inspectionResult[propertyName] = ( function() {
+
+				for ( var localPropertyName in vm.$parent.$data ) {
 					this[localPropertyName] = vm.$parent.$data[localPropertyName];
 				}
-				
+
 				try {
 					return eval( expression );
-				} catch( e ) {
+				} catch ( e ) {
 					return undefined;
 				}
-				
+
 			} )();
 
 			// ...and watch it for future changes
@@ -138,13 +138,13 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 	this.processWidget = function( widget, elementName, attributes, mw ) {
 
 		var binding = mw.path + '.' + attributes.name;
-		
+
 		if ( widget.tagName === 'OUTPUT' ) {
 			widget.setAttribute( 'v-text', binding );
-			
+
 		} else if ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'submit' ) {
 			widget.setAttribute( 'v-on:click', binding + '()' );
-			
+
 		} else if ( ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) || widget.tagName === 'BUTTON' ) {
 			widget.setAttribute( 'v-on:click', binding + '()' );
 
@@ -173,6 +173,10 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		// Create a top-level DIV
 
 		var element = document.createElement( 'div' );
+		
+		if ( this.$props.id !== undefined ) {
+			element.setAttribute( 'id', this.$props.id );
+		}
 
 		for ( var attributeName in this.$attrs ) {
 			element.setAttribute( attributeName, this.$attrs[attributeName] );
@@ -188,11 +192,11 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 			lastInspectionResult = undefined;
 		};
-		
+
 		// Configure defaults
 
 		pipeline.inspector = new metawidget.inspector.PropertyTypeInspector();
-		pipeline.inspectionResultProcessors = [ new metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor() ];		
+		pipeline.inspectionResultProcessors = [ new metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor() ];
 		pipeline.widgetBuilder = new metawidget.widgetbuilder.CompositeWidgetBuilder( [ new metawidget.widgetbuilder.OverriddenWidgetBuilder(), new metawidget.widgetbuilder.ReadOnlyWidgetBuilder(), new metawidget.widgetbuilder.HtmlWidgetBuilder() ] );
 		pipeline.widgetProcessors = [ new metawidget.widgetprocessor.IdProcessor(), new metawidget.widgetprocessor.RequiredAttributeProcessor(), new metawidget.widgetprocessor.PlaceholderAttributeProcessor(), new metawidget.widgetprocessor.DisabledAttributeProcessor(),
 				new metawidget.vue.widgetprocessor.VueWidgetProcessor() ];
@@ -202,7 +206,7 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		//
 		// Public methods
 		//
-		
+
 		/**
 		 * Useful for WidgetBuilders to perform nested inspections (eg. for Collections).
 		 */
@@ -222,12 +226,12 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		 */
 
 		var vm = this;
-		
+
 		this.getComponent = function() {
 
 			return vm;
 		};
-		
+
 		this.clearWidgets = function() {
 
 			element.innerHTML = '';
@@ -244,7 +248,7 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 			}
 
 			// Inspect (if necessary)
-			
+
 			if ( inspectionResult !== undefined ) {
 				lastInspectionResult = inspectionResult;
 			} else if ( lastInspectionResult === undefined ) {
@@ -261,7 +265,7 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 			}
 
 			this.clearWidgets();
-			
+
 			// Build widgets
 
 			pipeline.buildWidgets( lastInspectionResult, this );
@@ -295,13 +299,16 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 	},
 	render: function( createElement ) {
 
+		// Vue makes it difficult to access the original DOM elements associated with a
+		// component. Therefore we rely on there being an 'id' declared
+		
 		if ( this._overriddenNodes === undefined ) {
 			this._overriddenNodes = [];
 			if ( this.$options.propsData.id !== undefined ) {
 
 				var element = document.getElementById( this.$options.propsData.id );
 
-				if ( element != null ) {				
+				if ( element != null ) {
 					while ( element.childNodes.length > 0 ) {
 						var childNode = element.childNodes[0];
 						element.removeChild( childNode );
@@ -313,20 +320,20 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 				}
 			}
 		}
-		
+
 		// Build the path to inspect...
 
 		this.toInspect = this.value;
 		this.path = 'value';
 
 		// Copy parent state down so that nested Metawidgets can use it
-		
-		for( var localPropertyName in this.$parent.$data ) {
+
+		for ( var localPropertyName in this.$parent.$data ) {
 			if ( localPropertyName === 'readOnly' ) {
 				continue;
 			}
 			this[localPropertyName] = this.$parent.$data[localPropertyName];
-		}			
+		}
 
 		// ...and render the result
 

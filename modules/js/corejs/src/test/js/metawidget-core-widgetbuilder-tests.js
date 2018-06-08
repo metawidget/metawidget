@@ -369,12 +369,13 @@
 			select = widgetBuilder.buildWidget( "property", {
 				enum: [ "foo" ],
 				enumTitles: [ "Foo" ],
+				name: 'foo',
 				componentType: "radio"
 			}, mw );
 
 			expect( select.toString() ).toBe( 'div' );
 			expect( select.childNodes[0].toString() ).toBe( 'label class="radio"' );
-			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio"' );
+			expect( select.childNodes[0].childNodes[0].toString() ).toBe( 'input type="radio" name="foo"' );
 			expect( select.childNodes[0].childNodes[0].value ).toBe( 'foo' );
 			expect( select.childNodes[0].childNodes[1].toString() ).toBe( 'Foo' );
 			expect( select.childNodes.length ).toBe( 1 );
