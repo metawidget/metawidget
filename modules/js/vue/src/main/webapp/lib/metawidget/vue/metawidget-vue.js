@@ -137,7 +137,11 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 
 	this.processWidget = function( widget, elementName, attributes, mw ) {
 
-		var binding = mw.path + '.' + attributes.name;
+		var binding = mw.path;
+
+		if ( elementName !== 'entity' ) {
+			binding = metawidget.util.appendPathWithName( binding, attributes );
+		}
 
 		if ( widget.tagName === 'OUTPUT' ) {
 			widget.setAttribute( 'v-text', binding );
@@ -168,12 +172,63 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 	props: [ 'id', 'value', 'read-only', 'config' ],
-	created: function() {
+	beforeCreate: function() {
+
+		// At the earliest opportunity, grab our contents
+
+		this._overriddenNodes = [];
+		this._overriddenVNodes = [];
+
+		if ( this.$vnode.componentOptions.children !== undefined ) {
+
+			// Iterate our virtual DOM contents and create synthetic DOM nodes for them
+			
+			for ( var loop = 0, length = this.$vnode.componentOptions.children.length; loop < length; loop++ ) {
+			
+				var vnode = this.$vnode.componentOptions.children[loop];
+				var tagName;
+				var hasChildren = false;
+				
+				if ( vnode.componentOptions !== undefined ) {
+					tagName = vnode.componentOptions.tag;
+					hasChildren = ( vnode.componentOptions.children !== undefined );
+				} else if ( vnode.tag !== undefined ) {
+					tagName = vnode.tag;
+					hasChildren = ( vnode.children !== undefined );
+				} else {
+					continue;
+				}
+				
+				var childNode = document.createElement( tagName );
+				childNode.setAttribute( 'metawidget-overridden-node', this._overriddenNodes.length );
+				
+				if ( vnode.data !== undefined ) {				
+					if ( vnode.data.attrs !== undefined ) {
+						for( var attrName in vnode.data.attrs ) {
+							childNode.setAttribute( attrName, vnode.data.attrs[attrName] );
+						}
+					}
+					if ( vnode.data.model !== undefined ) {
+						childNode.setAttribute( 'id', metawidget.util.camelCase( vnode.data.model.expression.split( '.' ) ));
+					}
+				}
+				
+				if ( tagName === 'stub' && hasChildren ) {
+					var divNode = document.createElement( 'div' );
+					childNode.appendChild( divNode );
+				}
+				
+				this._overriddenNodes.push( childNode );
+				this._overriddenVNodes.push( vnode );
+			}
+		}
+	},
+	beforeMount: function() {
 
 		// Create a top-level DIV
 
 		var element = document.createElement( 'div' );
-		
+
 		if ( this.$props.id !== undefined ) {
 			element.setAttribute( 'id', this.$props.id );
 		}
@@ -266,11 +321,10 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 			this.clearWidgets();
 
-			// Build widgets
-
-			pipeline.buildWidgets( lastInspectionResult, this );
 			if ( this.inRenderFunction === undefined ) {
 				this.$forceUpdate();
+			} else {
+				pipeline.buildWidgets( lastInspectionResult, this );
 			}
 		};
 
@@ -299,50 +353,58 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 	},
 	render: function( createElement ) {
 
-		// Vue makes it difficult to access the original DOM elements associated with a
-		// component. Therefore we rely on there being an 'id' declared
-		
-		if ( this._overriddenNodes === undefined ) {
-			this._overriddenNodes = [];
-			if ( this.$options.propsData.id !== undefined ) {
+		// Build the path to inspect. This must be expressed from the
+		// context level, so that we can support Metawidgets pointed
+		// directly at a property (e.g. v-model="person.firstname")
 
-				var element = document.getElementById( this.$options.propsData.id );
-
-				if ( element != null ) {
-					while ( element.childNodes.length > 0 ) {
-						var childNode = element.childNodes[0];
-						element.removeChild( childNode );
-
-						if ( childNode.nodeType === 1 ) {
-							this._overriddenNodes.push( childNode );
-						}
-					}
-				}
-			}
+		if ( this.$vnode.data.model !== undefined ) {
+			this.path = this.$vnode.data.model.expression;
+			var splitPath = metawidget.util.splitPath( this.path );
+			this.toInspect = this.$vnode.context[splitPath.type];
+			this[splitPath.type] = this.toInspect;
 		}
 
-		// Build the path to inspect...
+		// Render the result
 
-		this.toInspect = this.value;
-		this.path = 'value';
-
-		// Copy parent state down so that nested Metawidgets can use it
-
-		for ( var localPropertyName in this.$parent.$data ) {
-			if ( localPropertyName === 'readOnly' ) {
-				continue;
-			}
-			this[localPropertyName] = this.$parent.$data[localPropertyName];
-		}
-
-		// ...and render the result
-
-		this.inRenderFunction = true;
+		this.inRenderFunction = true;		
 		this.buildWidgets();
 		var res = Vue.compile( this.getElement().outerHTML );
 		this.$options.staticRenderFns = res.staticRenderFns;
+		var rendered = res.render.call( this, createElement );
+
+		// Walk the virtual DOM and replace any overridden nodes
+		
+		var self = this;
+		
+		function replaceVNode( vnode ) {
+		
+			if ( vnode.componentOptions !== undefined && vnode.componentOptions.children !== undefined ) {
+				for( var loop = 0, length = vnode.componentOptions.children.length; loop < length; loop++ ) {
+					var toReplace = replaceVNode( vnode.componentOptions.children[loop] );
+					if ( toReplace !== undefined ) {
+						vnode.componentOptions.children[loop] = toReplace;
+					}
+				}
+			} else if ( vnode.children !== undefined ) {
+				for( var loop = 0, length = vnode.children.length; loop < length; loop++ ) {
+					var toReplace = replaceVNode( vnode.children[loop] );
+					if ( toReplace !== undefined ) {
+						vnode.children[loop] = toReplace;
+					}
+				}
+			}
+
+			if ( vnode.data !== undefined && vnode.data.attrs !== undefined ) {
+				var overriddenIndex = vnode.data.attrs['metawidget-overridden-node'];
+				if ( overriddenIndex !== undefined ) {
+					return self._overriddenVNodes[overriddenIndex];
+				}
+			}
+		}
+		
+		replaceVNode( rendered );
 		this.inRenderFunction = undefined;
-		return res.render.call( this, createElement );
+		return rendered;
 	}
 } ) );
 
