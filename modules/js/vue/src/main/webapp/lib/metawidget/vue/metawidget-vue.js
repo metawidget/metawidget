@@ -175,53 +175,84 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 	beforeCreate: function() {
 
 		// At the earliest opportunity, grab our contents
-
+		
 		this._overriddenNodes = [];
 		this._overriddenVNodes = [];
 
-		if ( this.$vnode.componentOptions.children !== undefined ) {
+		/**
+		 * Iterate our virtual DOM contents and create synthetic DOM nodes for them.
+		 */
 
-			// Iterate our virtual DOM contents and create synthetic DOM nodes for them
+		var self = this;
+		
+		function createSyntheticNodes( vnode ) {
+
+			var children;
 			
-			for ( var loop = 0, length = this.$vnode.componentOptions.children.length; loop < length; loop++ ) {
+			if ( vnode.componentOptions !== undefined ) {
+				children = vnode.componentOptions.children;
+			} else {
+				children = vnode.children;
+			}
+
+			if ( children === undefined ) {
+				return;
+			}
 			
-				var vnode = this.$vnode.componentOptions.children[loop];
+			for ( var loop = 0, length = children.length; loop < length; loop++ ) {
+
+				var childVNode = children[loop];
 				var tagName;
 				var hasChildren = false;
-				
-				if ( vnode.componentOptions !== undefined ) {
-					tagName = vnode.componentOptions.tag;
-					hasChildren = ( vnode.componentOptions.children !== undefined );
-				} else if ( vnode.tag !== undefined ) {
-					tagName = vnode.tag;
-					hasChildren = ( vnode.children !== undefined );
+
+				if ( childVNode.componentOptions !== undefined ) {
+					tagName = childVNode.componentOptions.tag;
+					hasChildren = ( childVNode.componentOptions.children !== undefined );
+				} else if ( childVNode.tag !== undefined ) {
+					tagName = childVNode.tag;
+					hasChildren = ( childVNode.children !== undefined );
 				} else {
 					continue;
 				}
-				
+
 				var childNode = document.createElement( tagName );
-				childNode.setAttribute( 'metawidget-overridden-node', this._overriddenNodes.length );
-				
-				if ( vnode.data !== undefined ) {				
-					if ( vnode.data.attrs !== undefined ) {
-						for( var attrName in vnode.data.attrs ) {
-							childNode.setAttribute( attrName, vnode.data.attrs[attrName] );
+
+				// Facets are a special case, since the facet tag itself disappears as
+				// part of layoutWidget
+
+				if ( tagName === 'facet' ) {
+					childNode.setAttribute( 'name', childVNode.data.attrs.name );
+					createSyntheticNodes( childVNode );
+					continue;
+				}
+
+				childNode.setAttribute( 'metawidget-overridden-node', self._overriddenNodes.length );
+
+				if ( childVNode.data !== undefined ) {				
+					if ( childVNode.data.attrs !== undefined ) {
+						for( var attrName in childVNode.data.attrs ) {
+							childNode.setAttribute( attrName, childVNode.data.attrs[attrName] );
 						}
 					}
-					if ( vnode.data.model !== undefined ) {
-						childNode.setAttribute( 'id', metawidget.util.camelCase( vnode.data.model.expression.split( '.' ) ));
+					if ( childVNode.data.model !== undefined ) {
+						childNode.setAttribute( 'id', metawidget.util.camelCase( childVNode.data.model.expression.split( '.' ) ));
 					}
 				}
+
+				// Stubs are a special case, since if they are empty they will disappear
+				// as part of layoutWidget
 				
 				if ( tagName === 'stub' && hasChildren ) {
 					var divNode = document.createElement( 'div' );
 					childNode.appendChild( divNode );
 				}
-				
-				this._overriddenNodes.push( childNode );
-				this._overriddenVNodes.push( vnode );
+
+				self._overriddenNodes.push( childNode );
+				self._overriddenVNodes.push( childVNode );
 			}
 		}
+		
+		createSyntheticNodes( this.$vnode );
 	},
 	beforeMount: function() {
 
@@ -324,7 +355,9 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 			if ( this.inRenderFunction === undefined ) {
 				
-				// TODO: this does not work properly when used with inspectors that lazy-load the schema
+				// TODO: this does not work properly when used with Metawidgets that update
+				// their contents (i.e. inspectors that lazy-load the schema). The old and new
+				// component trees clash and get inter-mixed
 				
 				this.$forceUpdate();
 			} else {
@@ -366,8 +399,14 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 		this.$watch( 'config', function( newValue ) {
 
+			// TODO: this is always necessary, since 'config' is always undefined the first
+			// time through 'mounted'. This seems wasteful?
+			
+			// TODO: this watcher never seems to fire for nested Metawidgets?
+			
 			pipeline.configure( newValue );
 			this.invalidateInspection();
+			this.$forceUpdate();
 		} );
 	},
 	render: function( createElement ) {
@@ -387,6 +426,7 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 		this.inRenderFunction = true;		
 		this.buildWidgets();
+		// TODO: if outerHTML contains a textarea, it does not appear in the output
 		var res = Vue.compile( this.getElement().outerHTML );
 		this.$options.staticRenderFns = res.staticRenderFns;
 		var rendered = res.render.call( this, createElement );

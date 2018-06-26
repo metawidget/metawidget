@@ -153,6 +153,12 @@
 						return;
 					}
 				}
+			},
+			removeCommunication: function( index ) {
+			
+				// TODO: this does not automatically update
+				
+				this.contact.communications.splice( index, 1 );
 			}
 		},
 		mounted: function() {

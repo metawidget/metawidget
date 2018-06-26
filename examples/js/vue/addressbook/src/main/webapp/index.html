@@ -16,8 +16,10 @@
 			<div id="content">
 
 				<metawidget id="searchMetawidget" v-model="search" v-bind:config="metawidgetConfig.search">
+					<facet name="footer">
+						<metawidget v-model="searchActions" v-bind:config="metawidgetConfig.buttons"></metawidget>
+					</facet>
 				</metawidget>
-				<metawidget v-model="searchActions" v-bind:config="metawidgetConfig.buttons"></metawidget>
 
 				<table class="data-table">
 					<thead>
@@ -29,6 +31,7 @@
 					</thead>
 					<tbody>
 
+						<!-- TODO: this needs to be filtered and sorted -->
 						<tr v-for="contact in contacts">
 							<td class="column-half">
 								<a href v-on:click.prevent="loadContact( contact.id )">
@@ -41,8 +44,8 @@
 								</span>
 							</td>
 							<td class="column-tiny">
-								<img src="media/personal-small.gif" alt="Personal Contact" ng-show="contact.type == 'personal'"/>
-								<img src="media/business-small.gif" alt="Business Contact" ng-show="contact.type == 'business'"/>
+								<img src="media/personal-small.gif" alt="Personal Contact" v-show="contact.type == 'personal'"/>
+								<img src="media/business-small.gif" alt="Business Contact" v-show="contact.type == 'business'"/>
 							</td>
 						</tr>
 
@@ -71,24 +74,26 @@
 										<th class="column-tiny"></th>
 									</tr>
 								</thead>
-								<tfoot ng-show="!readOnly">
+								<!-- TODO: this watcher for readOnly never fires -->
+								<tfoot v-show="!readOnly">
 									<tr>
-										<td class="column-half"><metawidget ng-model="communication.type" config="metawidgetConfig.simple"></metawidget></td>
-										<td class="column-half"><metawidget ng-model="communication.value" config="metawidgetConfig.simple"></metawidget></td>
-										<td class="column-tiny, table-buttons"><button ng-click="addCommunication()">Add</button></td>
+										<td class="column-half"><metawidget v-model="communication.type" v-bind:config="metawidgetConfig.simple"></metawidget></td>
+										<td class="column-half"><metawidget v-model="communication.value" v-bind:config="metawidgetConfig.simple"></metawidget></td>
+										<td class="column-tiny, table-buttons"><button v-on:click="addCommunication()">Add</button></td>
 									</tr>
 								</tfoot>
 								<tbody>
-									<tr v-for="communication in contact.communications">
+									<tr v-for="(communication, index) in contact.communications">
 										<td class="column-half">{{communication.type}}</td>
 										<td class="column-half">{{communication.value}}</td>
-										<td class="column-tiny, table-buttons"><button v-on:click="removeCommunication($index)">Delete</button></td>
+										<!-- TODO: this watcher for readOnly never fires -->
+										<td class="column-tiny, table-buttons" v-show="!readOnly"><button v-on:click="removeCommunication(index)">Delete</button></td>
 									</tr>
 								</tbody>
 							</table>
 						</metawidget>
+						<!-- TODO: this should be wrapped in a facet, but then the config never fires -->
 						<metawidget v-model="crudActions" v-bind:config="metawidgetConfig.buttons"></metawidget>
-
 					</div>
 				</div>
 			</div>
