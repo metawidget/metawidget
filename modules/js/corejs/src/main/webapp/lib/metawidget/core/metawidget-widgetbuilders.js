@@ -522,7 +522,7 @@ var metawidget = metawidget || {};
 					// Create footer (optional)
 					
 					var tfoot = metawidget.util.createElement( mw, 'tfoot' );
-					this.addFooterRow( tfoot, inspectionResultProperties, mw );
+					this.addFooterRow( tfoot, columnAttributes, mw );
 					
 					if ( tfoot.childNodes.length > 0 ) {
 						table.appendChild( tfoot );
@@ -618,21 +618,21 @@ var metawidget = metawidget || {};
 		 * Adds a row to the table body. Subclasses may override this method to
 		 * add additional columns, or suppress the row.
 		 * 
-		 * @param columnAttributesArray
+		 * @param columnAttributes
 		 *            array of column attributes. For example,
-		 *            columnAttributesArray[0] contains an object containing
-		 *            columnAttributes for the first column
+		 *            columnAttributes[0] contains an object containing
+		 *            attributes for the first column
 		 * @return the added row, or undefined if no row was added. This can be
 		 *         useful for subclasses
 		 */
 
-		this.addRow = function( tbody, value, row, columnAttributesArray, elementName, tableAttributes, mw ) {
+		this.addRow = function( tbody, value, row, columnAttributes, elementName, tableAttributes, mw ) {
 
 			var tr = metawidget.util.createElement( mw, 'tr' );
 			tbody.appendChild( tr );
 
-			for ( var loop = 0, length = columnAttributesArray.length; loop < length; loop++ ) {
-				this.addColumn( tr, value, row, columnAttributesArray[loop], elementName, tableAttributes, mw );
+			for ( var loop = 0, length = columnAttributes.length; loop < length; loop++ ) {
+				this.addColumn( tr, value, row, columnAttributes[loop], elementName, tableAttributes, mw );
 			}
 
 			return tr;
@@ -749,7 +749,7 @@ var metawidget = metawidget || {};
 			return td;
 		};
 		
-		this.addFooterRow = function( tfoot, inspectionResultProperties, mw ) {
+		this.addFooterRow = function( tfoot, columnAttributes, mw ) {
 			
 			// No footer by default
 		};
