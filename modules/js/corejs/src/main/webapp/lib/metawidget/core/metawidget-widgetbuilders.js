@@ -522,7 +522,7 @@ var metawidget = metawidget || {};
 					// Create footer (optional)
 					
 					var tfoot = metawidget.util.createElement( mw, 'tfoot' );
-					this.addFooterRow( tfoot, columnAttributes );
+					this.addFooterRow( tfoot, inspectionResultProperties, mw );
 					
 					if ( tfoot.childNodes.length > 0 ) {
 						table.appendChild( tfoot );
@@ -749,7 +749,7 @@ var metawidget = metawidget || {};
 			return td;
 		};
 		
-		this.addFooterRow = function( tfoot, columnAttributes ) {
+		this.addFooterRow = function( tfoot, inspectionResultProperties, mw ) {
 			
 			// No footer by default
 		};

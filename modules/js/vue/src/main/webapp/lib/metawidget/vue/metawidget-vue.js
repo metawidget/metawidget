@@ -171,7 +171,7 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 
 var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
-	props: [ 'id', 'value', 'read-only', 'config' ],
+	props: [ 'id', 'value', 'read-only', 'config', 'configs' ],
 	beforeCreate: function() {
 
 		// At the earliest opportunity, grab our contents
@@ -257,6 +257,7 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 				new metawidget.vue.widgetprocessor.VueWidgetProcessor() ];
 		pipeline.layout = new metawidget.layout.HeadingTagLayoutDecorator( new metawidget.layout.TableLayout() );
 		pipeline.configure( this.config );
+		pipeline.configure( this.configs );
 
 		//
 		// Public methods
@@ -322,6 +323,9 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 			this.clearWidgets();
 
 			if ( this.inRenderFunction === undefined ) {
+				
+				// TODO: this does not work properly when used with inspectors that lazy-load the schema
+				
 				this.$forceUpdate();
 			} else {
 				pipeline.buildWidgets( lastInspectionResult, this );
@@ -339,6 +343,22 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 				nestedMetawidget.setAttribute( 'read-only', 'true' );
 			}
 
+			// Duck-type our 'pipeline' as the 'config' of the nested
+			// Metawidget. This neatly passes everything down, including a
+			// decremented 'maximumInspectionDepth'
+
+			this._nestedMetawidgetConfigId = this._nestedMetawidgetConfigId || 0;
+			var configId = '_metawidgetConfig' + this._nestedMetawidgetConfigId++;
+			this[configId] = pipeline;
+
+			if ( config !== undefined ) {
+				var configId2 = '_metawidgetConfig' + this._nestedMetawidgetConfigId++;
+				this[configId2] = config;
+				nestedMetawidget.setAttribute( 'v-bind:configs', '[' + configId + ',' + configId2 + ']' );
+			} else {
+				nestedMetawidget.setAttribute( 'v-bind:config', configId );
+			}
+
 			return nestedMetawidget;
 		};
 
@@ -348,7 +368,6 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 			pipeline.configure( newValue );
 			this.invalidateInspection();
-			this.$forceUpdate();
 		} );
 	},
 	render: function( createElement ) {
@@ -376,21 +395,29 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		
 		var self = this;
 		
-		function replaceVNode( vnode ) {
+		function replaceVNode( children, index, toReplace ) {
+		
+			if ( toReplace === undefined ) {
+				return;
+			}
+		
+			if ( toReplace.tag === 'stub' ) {
+				children[index] = toReplace.children[0];
+				return;
+			}
+			
+			children[index] = toReplace;
+		}
+		
+		function findAndReplaceVNodes( vnode ) {
 		
 			if ( vnode.componentOptions !== undefined && vnode.componentOptions.children !== undefined ) {
 				for( var loop = 0, length = vnode.componentOptions.children.length; loop < length; loop++ ) {
-					var toReplace = replaceVNode( vnode.componentOptions.children[loop] );
-					if ( toReplace !== undefined ) {
-						vnode.componentOptions.children[loop] = toReplace;
-					}
+					replaceVNode( vnode.componentOptions.children, loop, findAndReplaceVNodes( vnode.componentOptions.children[loop] ));
 				}
 			} else if ( vnode.children !== undefined ) {
 				for( var loop = 0, length = vnode.children.length; loop < length; loop++ ) {
-					var toReplace = replaceVNode( vnode.children[loop] );
-					if ( toReplace !== undefined ) {
-						vnode.children[loop] = toReplace;
-					}
+					replaceVNode( vnode.children, loop, findAndReplaceVNodes( vnode.children[loop] ));
 				}
 			}
 
@@ -402,7 +429,7 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 			}
 		}
 		
-		replaceVNode( rendered );
+		findAndReplaceVNodes( rendered );
 		this.inRenderFunction = undefined;
 		return rendered;
 	}
