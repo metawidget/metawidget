@@ -264,7 +264,7 @@ var metawidget = metawidget || {};
 
 				if ( attributes.enumCategories !== undefined ) {
 
-					// optgroup-based					
+					// optgroup-based
 					
 					length = attributes.enumCategories.length;
 					
@@ -281,8 +281,8 @@ var metawidget = metawidget || {};
 						for ( var loop2 = 0, length2 = enumCategory.items.length; loop2 < length2; loop2++ ) {
 							option = metawidget.util.createElement( mw, 'option' );
 		
-							// HtmlUnit needs an 'option' to have a 'value', even if the
-							// same as the textContent
+							// HtmlUnit needs an 'option' to have a 'value',
+							// even if the same as the textContent
 		
 							option.value = enumCategory.items[loop2];
 		
@@ -311,8 +311,8 @@ var metawidget = metawidget || {};
 					for ( loop = 0; loop < length; loop++ ) {
 						option = metawidget.util.createElement( mw, 'option' );
 	
-						// HtmlUnit needs an 'option' to have a 'value', even if the
-						// same as the textContent
+						// HtmlUnit needs an 'option' to have a 'value', even if
+						// the same as the textContent
 	
 						option.value = attributes['enum'][loop];
 	
@@ -356,7 +356,8 @@ var metawidget = metawidget || {};
 				var number = metawidget.util.createElement( mw, 'input' );
 				number.setAttribute( 'type', 'number' );
 				
-				// Must explicitly allow 'any', or else only integers will validate
+				// Must explicitly allow 'any', or else only integers will
+				// validate
 				
 				if ( attributes.type === 'number' ) {
 					number.setAttribute( 'step', 'any' );
@@ -709,9 +710,7 @@ var metawidget = metawidget || {};
 					// Render simple types with a simple layout, to avoid a
 					// leading label
 
-					nestedMetawidget = mw.buildNestedMetawidget( attributes, {
-						layout: new metawidget.layout.SimpleLayout()
-					} );
+					nestedMetawidget = mw.buildNestedMetawidget( attributes, this.createSimpleNestedMetawidgetConfig() );
 				}
 
 				// Support SimpleBindingProcessor
@@ -748,6 +747,13 @@ var metawidget = metawidget || {};
 
 			return td;
 		};
+		
+		this.createSimpleNestedMetawidgetConfig = function() {
+			
+			return {
+				layout: new metawidget.layout.SimpleLayout()
+			}
+		}
 		
 		this.addFooterRow = function( tfoot, columnAttributes, mw ) {
 			
