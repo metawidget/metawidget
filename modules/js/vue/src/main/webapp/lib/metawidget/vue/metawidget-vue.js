@@ -152,7 +152,7 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 		} else if ( ( widget.tagName === 'INPUT' && widget.getAttribute( 'type' ) === 'button' ) || widget.tagName === 'BUTTON' ) {
 			widget.setAttribute( 'v-on:click', binding + '()' );
 
-		} else if ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' ) {
+		} else if ( widget.tagName === 'INPUT' || widget.tagName === 'SELECT' || widget.tagName === 'TEXTAREA' ) {
 			if ( widget.hasAttribute( 'v-model' ) === false && widget.hasAttribute( 'v-bind:value' ) === false ) {
 				var attributeName = 'v-model';
 				if ( attributes.type === 'number' || attributes.type === 'integer' ) {
@@ -161,6 +161,16 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 				widget.setAttribute( attributeName, binding );
 			}
 		}
+		
+		if ( widget.tagName === 'TABLE' ) {
+			
+			// Hack to workaround problem in Vue: it compiles tables with theads incorrectly, unless they contain some Vue functionality
+			
+			if ( widget.hasAttribute( 'v-bind:class' ) === false ) {
+				widget.setAttribute( 'v-bind:class', '{}' );
+			}
+		}
+		
 		return widget;
 	}
 }
@@ -171,89 +181,81 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 
 var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
-	props: [ 'id', 'value', 'read-only', 'config', 'configs' ],
+	props: [ 'id', 'value', 'readOnly', 'config', 'configs' ],
+	data: function() {
+		
+		// "Vue doesn't allow dynamically adding root-level reactive properties", so declare a
+		// generic one our WidgetBuilders can use if they need to
+		
+		return {
+			reactive: {}
+		}
+	},
 	beforeCreate: function() {
 
 		// At the earliest opportunity, grab our contents
-		
+
 		this._overriddenNodes = [];
 		this._overriddenVNodes = [];
 
-		/**
-		 * Iterate our virtual DOM contents and create synthetic DOM nodes for them.
-		 */
+		if ( this.$vnode.componentOptions.children !== undefined ) {
 
-		var self = this;
-		
-		function createSyntheticNodes( vnode ) {
-
-			var children;
+			// Iterate our virtual DOM contents and create synthetic DOM nodes for them
 			
-			if ( vnode.componentOptions !== undefined ) {
-				children = vnode.componentOptions.children;
-			} else {
-				children = vnode.children;
-			}
-
-			if ( children === undefined ) {
-				return;
-			}
+			for ( var loop = 0, length = this.$vnode.componentOptions.children.length; loop < length; loop++ ) {
 			
-			for ( var loop = 0, length = children.length; loop < length; loop++ ) {
-
-				var childVNode = children[loop];
+				var vnode = this.$vnode.componentOptions.children[loop];
 				var tagName;
 				var hasChildren = false;
-
-				if ( childVNode.componentOptions !== undefined ) {
-					tagName = childVNode.componentOptions.tag;
-					hasChildren = ( childVNode.componentOptions.children !== undefined );
-				} else if ( childVNode.tag !== undefined ) {
-					tagName = childVNode.tag;
-					hasChildren = ( childVNode.children !== undefined );
+				
+				if ( vnode.componentOptions !== undefined ) {
+					tagName = vnode.componentOptions.tag;
+					hasChildren = ( vnode.componentOptions.children !== undefined );
+				} else if ( vnode.tag !== undefined ) {
+					tagName = vnode.tag;
+					hasChildren = ( vnode.children !== undefined );
 				} else {
 					continue;
 				}
-
+				
 				var childNode = document.createElement( tagName );
-
-				// Facets are a special case, since the facet tag itself disappears as
-				// part of layoutWidget
-
-				if ( tagName === 'facet' ) {
-					childNode.setAttribute( 'name', childVNode.data.attrs.name );
-					createSyntheticNodes( childVNode );
-					continue;
-				}
-
-				childNode.setAttribute( 'metawidget-overridden-node', self._overriddenNodes.length );
-
-				if ( childVNode.data !== undefined ) {				
-					if ( childVNode.data.attrs !== undefined ) {
-						for( var attrName in childVNode.data.attrs ) {
-							childNode.setAttribute( attrName, childVNode.data.attrs[attrName] );
+				
+				if ( vnode.data !== undefined ) {				
+					if ( vnode.data.attrs !== undefined ) {
+						for( var attrName in vnode.data.attrs ) {
+							childNode.setAttribute( attrName, vnode.data.attrs[attrName] );
 						}
 					}
-					if ( childVNode.data.model !== undefined ) {
-						childNode.setAttribute( 'id', metawidget.util.camelCase( childVNode.data.model.expression.split( '.' ) ));
+					if ( vnode.data.model !== undefined ) {
+						childNode.setAttribute( 'id', metawidget.util.camelCase( vnode.data.model.expression.split( '.' ) ));
 					}
 				}
 
-				// Stubs are a special case, since if they are empty they will disappear
-				// as part of layoutWidget
+				// Facets and stubs are special
 				
-				if ( tagName === 'stub' && hasChildren ) {
+				if ( tagName === 'facet' ) {
 					var divNode = document.createElement( 'div' );
+					divNode.setAttribute( 'metawidget-overridden-node', this._overriddenNodes.length );
 					childNode.appendChild( divNode );
+				} else {				
+					childNode.setAttribute( 'metawidget-overridden-node', this._overriddenNodes.length );
+					
+					if ( tagName === 'stub' && hasChildren ) {
+						var divNode = document.createElement( 'div' );
+						childNode.appendChild( divNode );
+					}
 				}
-
-				self._overriddenNodes.push( childNode );
-				self._overriddenVNodes.push( childVNode );
+				
+				this._overriddenNodes.push( childNode );
+				this._overriddenVNodes.push( vnode );
 			}
 		}
-		
-		createSyntheticNodes( this.$vnode );
 	},
+	
+	/**
+	 * Use 'beforeMount' so that 'this.buildWidgets' is ready for 'render'
+	 */
+	 
 	beforeMount: function() {
 
 		// Create a top-level DIV
@@ -277,6 +279,7 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		this.invalidateInspection = function() {
 
 			lastInspectionResult = undefined;
+			this.lastRes = undefined;
 		};
 
 		// Configure defaults
@@ -326,6 +329,8 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 		this.buildWidgets = function( inspectionResult ) {
 
+			this.lastRes = undefined;
+			
 			// Defensive copy
 
 			this.overriddenNodes = [];
@@ -349,15 +354,27 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 				var splitPath = metawidget.util.splitPath( this.path );
 				lastInspectionResult = pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
+				
+				// Create the child 'just in time' if necessary, otherwise v-model balks
+				
+				if ( lastInspectionResult !== undefined && lastInspectionResult.properties !== undefined ) {
+					var typeAndNames = metawidget.util.splitPath( this.path );
+					if ( typeAndNames.names !== undefined ) {
+						var namesToParent = typeAndNames.names.slice( 0, typeAndNames.names.length - 1 );
+						var lastName = typeAndNames.names[typeAndNames.names.length - 1];
+						var parent = metawidget.util.traversePath( this.toInspect, namesToParent );
+						if ( parent[lastName] === undefined ) {
+							parent[lastName] = {};
+						}
+					}
+				}
 			}
 
 			this.clearWidgets();
 
 			if ( this.inRenderFunction === undefined ) {
 				
-				// TODO: this does not work properly when used with Metawidgets that update
-				// their contents (i.e. inspectors that lazy-load the schema). The old and new
-				// component trees clash and get inter-mixed
+				// TODO: this does not work properly when used with inspectors that lazy-load the schema
 				
 				this.$forceUpdate();
 			} else {
@@ -397,39 +414,92 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 
 		// Observe
 
+		var numberOfConfigChanges = 0;
+			
 		this.$watch( 'config', function( newValue ) {
 
-			// TODO: this is always necessary, since 'config' is always undefined the first
-			// time through 'mounted'. This seems wasteful?
+			// If v-bind:config is pointed at a function, it will fire repeatedly
 			
-			// TODO: this watcher never seems to fire for nested Metawidgets?
+			if ( numberOfConfigChanges++ > 10 ) {
+				throw new Error( "Metawidget config changed too many times" );
+			}
 			
 			pipeline.configure( newValue );
 			this.invalidateInspection();
-			this.$forceUpdate();
+		} );
+		
+		// We suppress re-render for every child change (see below), but
+		// still force it on a top-level change
+		
+		this.$watch( 'value', function( newValue, oldValue ) {
+			
+			if ( newValue !== oldValue || Array.isArray( newValue )) {
+				this.buildWidgets();
+			}
+		} );
+
+		this.$watch( 'readOnly', function( newValue, oldValue ) {
+			
+			if ( newValue !== oldValue || Array.isArray( newValue )) {
+				this.buildWidgets();
+			}
 		} );
 	},
 	render: function( createElement ) {
 
-		// Build the path to inspect. This must be expressed from the
-		// context level, so that we can support Metawidgets pointed
-		// directly at a property (e.g. v-model="person.firstname")
-
-		if ( this.$vnode.data.model !== undefined ) {
-			this.path = this.$vnode.data.model.expression;
-			var splitPath = metawidget.util.splitPath( this.path );
-			this.toInspect = this.$vnode.context[splitPath.type];
-			this[splitPath.type] = this.toInspect;
+		// Vue will call 'render' whenever any part of our reactive model changes, which will
+		// be every keypress on a child input box, or click on a select box. This is too often
+		// to be calling buildWidgets
+		
+		var rendered;
+		
+		if ( this.lastRes !== undefined ) {
+			rendered = this.lastRes.render.call( this, createElement );
+		} else {
+		
+			// Build the path to inspect. This must be expressed from the
+			// context level, so that we can support Metawidgets pointed
+			// directly at a property (e.g. v-model="person.firstname")
+	
+			if ( this.$vnode.data.model !== undefined ) {
+				this.path = this.$vnode.data.model.expression;
+				var splitPath = metawidget.util.splitPath( this.path );
+				this.toInspect = this.$vnode.context[splitPath.type];
+				
+				// Ideally we will be able to resolve the expression using $vnode.context. However this
+				// won't work for synthetic variables like those created by 'v-for'. For those, dummy
+				// up a path. This will only work if the value is an object
+				
+				if ( this.toInspect === undefined ) {
+					if ( splitPath.names === undefined ) {
+						this.toInspect = this.value;
+					} else {
+						var toInspect = {};
+						this.toInspect = toInspect;
+						
+						for( var loop = 0, length = splitPath.names.length; loop < length - 1; loop++ ) {
+							var newToInspect = {};
+							toInspect[splitPath.names[loop]] = newToInspect;
+							toInspect = newToInspect;
+						}
+						
+						toInspect[splitPath.names[splitPath.names.length - 1]] = this.value;
+					}
+				}
+				
+				this[splitPath.type] = this.toInspect;
+			}
+	
+			// Render the result
+	
+			this.inRenderFunction = true;
+			this.buildWidgets();
+			var res = Vue.compile( this.getElement().outerHTML );
+			this.lastRes = res;
+			this.$options.staticRenderFns = res.staticRenderFns;
+			rendered = res.render.call( this, createElement );
+			this.inRenderFunction = undefined;
 		}
-
-		// Render the result
-
-		this.inRenderFunction = true;		
-		this.buildWidgets();
-		// TODO: if outerHTML contains a textarea, it does not appear in the output
-		var res = Vue.compile( this.getElement().outerHTML );
-		this.$options.staticRenderFns = res.staticRenderFns;
-		var rendered = res.render.call( this, createElement );
 
 		// Walk the virtual DOM and replace any overridden nodes
 		
@@ -451,6 +521,10 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		
 		function findAndReplaceVNodes( vnode ) {
 		
+			if ( vnode === undefined ) {
+				return;
+			}
+			
 			if ( vnode.componentOptions !== undefined && vnode.componentOptions.children !== undefined ) {
 				for( var loop = 0, length = vnode.componentOptions.children.length; loop < length; loop++ ) {
 					replaceVNode( vnode.componentOptions.children, loop, findAndReplaceVNodes( vnode.componentOptions.children[loop] ));
@@ -470,7 +544,6 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 		}
 		
 		findAndReplaceVNodes( rendered );
-		this.inRenderFunction = undefined;
 		return rendered;
 	}
 } ) );
