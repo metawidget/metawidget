@@ -743,6 +743,10 @@ public abstract class UIMetawidget
 		// the attributes map as a storage area for special flags (eg.
 		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
 		// component!
+		
+		// AJAX
+		
+		nestedMetawidget.setBuildWidgetsOnAjaxRequest(mBuildWidgetsOnAjaxRequest);
 	}
 
 	@Override
