@@ -326,6 +326,7 @@ var metawidget = metawidget || {};
 		var _headerStyleClass = config !== undefined ? config.headerStyleClass : undefined;
 		var _footerStyleClass = config !== undefined ? config.footerStyleClass : undefined;
 		var _numberOfColumns = config !== undefined && config.numberOfColumns ? config.numberOfColumns : 1;
+		var _labelSuffix = config !== undefined && config.labelSuffix !== undefined ? config.labelSuffix : ':';
 
 		this.startContainerLayout = function( container, mw ) {
 
@@ -568,7 +569,7 @@ var metawidget = metawidget || {};
 				return labelString;
 			}
 
-			return labelString + ':';
+			return labelString + _labelSuffix;
 		};
 	};
 
