@@ -793,7 +793,7 @@
 						<tbody>
 							<tr>
 								<td><parameter>columnStyleClasses</parameter></td>
-								<td>Comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
+								<td>Array of CSS style classes to apply to table columns in order of: label, component, required</td>
 							</tr>
 							<tr>
 								<td><parameter>footerStyleClass</parameter></td>
