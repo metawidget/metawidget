@@ -435,7 +435,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>3.1.0.GA</version>
+				<version>5.3.5.Final</version>
 				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
@@ -459,7 +459,7 @@
 			<dependency>
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
-				<version>1.8.3</version>
+				<version>1.9.4</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
