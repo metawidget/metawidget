@@ -255,7 +255,7 @@ var metawidgetVue = Vue.component( 'metawidget', Vue.extend( {
 						}
 					}
 					if ( vnode.data.model !== undefined ) {
-						childNode.setAttribute( 'id', metawidget.util.camelCase( vnode.data.model.expression.split( '.' ) ) );
+						childNode.setAttribute( 'id', metawidget.util.camelCase( vnode.data.model.expression.replace( '$', '' ).split( '.' ) ) );
 					}
 				}
 

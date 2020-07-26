@@ -361,9 +361,9 @@ var metawidget = metawidget || {};
 
 			var id = metawidget.util.camelCase( splitPath );
 
-			// Strip array qualifiers
+			// Strip array qualifiers and other illegal characters
 
-			id = id.replace( /[\[\]]/g, '' );
+			id = id.replace( /[\[\]\$]/g, '' );
 
 			return id;
 		}
