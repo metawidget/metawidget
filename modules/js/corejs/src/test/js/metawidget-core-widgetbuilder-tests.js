@@ -842,7 +842,7 @@
 								type: 'string',
 								columnWidth: '10%',
 								columnAlign: 'right',
-								styleClass: 'theStyle'
+								columnStyleClass: 'theStyle'
 							},
 							baz: {
 								type: 'function'

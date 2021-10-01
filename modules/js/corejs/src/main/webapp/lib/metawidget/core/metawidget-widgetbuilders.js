@@ -606,8 +606,8 @@ var metawidget = metawidget || {};
 				th.setAttribute( 'style', style );
 			}
 
-			if ( attributes.styleClass !== undefined ) {
-				th.setAttribute( 'class', attributes.styleClass );
+			if ( attributes.columnStyleClass !== undefined ) {
+				th.setAttribute( 'class', attributes.columnStyleClass );
 			}
 
 			if ( attributes.type !== 'function' ) {
