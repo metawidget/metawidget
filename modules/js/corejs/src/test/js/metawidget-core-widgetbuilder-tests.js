@@ -898,7 +898,7 @@
 			expect( table.childNodes[1].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[1].childNodes[0].childNodes[0].toString() ).toBe( 'td' );
 			expect( table.childNodes[1].childNodes[0].childNodes[0].textContent ).toBe( 'FooValue' );
-			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td style="width:10%;text-align:right;"' );
+			expect( table.childNodes[1].childNodes[0].childNodes[1].toString() ).toBe( 'td style="width:10%;text-align:right;" class="theStyle"' );
 			expect( table.childNodes[1].childNodes[0].childNodes[1].textContent ).toBeUndefined();
 			expect( table.childNodes[1].childNodes[0].childNodes[2].toString() ).toBe( 'td' );
 			expect( table.childNodes[1].childNodes[0].childNodes[2].childNodes[0].toString() ).toBe( 'div' );

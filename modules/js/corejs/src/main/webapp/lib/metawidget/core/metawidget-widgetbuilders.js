@@ -672,6 +672,10 @@ var metawidget = metawidget || {};
 				td.setAttribute( 'style', style );
 			}
 
+			if ( columnAttributes.columnStyleClass !== undefined ) {
+				td.setAttribute( 'class', columnAttributes.columnStyleClass );
+			}
+			
 			// Render either nothing, a nested read-only Metawidget, or a
 			// toString()
 
