@@ -841,7 +841,8 @@
 							bar: {
 								type: 'string',
 								columnWidth: '10%',
-								columnAlign: 'right'
+								columnAlign: 'right',
+								styleClass: 'theStyle'
 							},
 							baz: {
 								type: 'function'
@@ -864,7 +865,7 @@
 			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
-			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th style="width:10%;text-align:right;"' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th style="width:10%;text-align:right;" class="theStyle"' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Bar' );
 			expect( table.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[2].textContent ).toBeUndefined();
@@ -888,7 +889,7 @@
 			expect( table.childNodes[0].childNodes[0].toString() ).toBe( 'tr' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[0].textContent ).toBe( 'Foo' );
-			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th style="width:10%;text-align:right;"' );
+			expect( table.childNodes[0].childNodes[0].childNodes[1].toString() ).toBe( 'th style="width:10%;text-align:right;" class="theStyle"' );
 			expect( table.childNodes[0].childNodes[0].childNodes[1].textContent ).toBe( 'Bar' );
 			expect( table.childNodes[0].childNodes[0].childNodes[2].toString() ).toBe( 'th' );
 			expect( table.childNodes[0].childNodes[0].childNodes[2].textContent ).toBeUndefined();

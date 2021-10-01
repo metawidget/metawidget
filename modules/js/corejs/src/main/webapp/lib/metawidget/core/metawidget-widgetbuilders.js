@@ -606,6 +606,10 @@ var metawidget = metawidget || {};
 				th.setAttribute( 'style', style );
 			}
 
+			if ( attributes.styleClass !== undefined ) {
+				th.setAttribute( 'class', attributes.styleClass );
+			}
+
 			if ( attributes.type !== 'function' ) {
 				th.textContent = metawidget.util.getLabelString( attributes, mw );
 			}
