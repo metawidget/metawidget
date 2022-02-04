@@ -10,3 +10,5 @@
 // for details.
 //
 // Author: Richard Kennard (http://kennardconsulting.com)
+
+/* eslint-disable */
