@@ -15,7 +15,7 @@
  * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
  */
 
-var metawidget = ( window !== undefined ? window.metawidget : undefined ) || metawidget || {};
+var metawidget = ( typeof window !== 'undefined' ? window.metawidget : undefined ) || metawidget || {};
 
 ( function( globalScope ) {
 

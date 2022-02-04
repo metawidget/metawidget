@@ -9,7 +9,7 @@
 // Commercial licenses are also available. See http://metawidget.org
 // for details.
 
-var metawidget = ( window !== undefined ? window.metawidget : undefined ) || metawidget || {};
+var metawidget = ( typeof window !== 'undefined' ? window.metawidget : undefined ) || metawidget || {};
 
 ( function() {
 
