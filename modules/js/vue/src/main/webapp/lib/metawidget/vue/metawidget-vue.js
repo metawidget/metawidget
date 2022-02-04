@@ -66,7 +66,7 @@ metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor = function
 
 		for ( var propertyName in inspectionResult ) {
 
-			if ( !inspectionResult.hasOwnProperty( propertyName ) ) {
+			if ( !Object.prototype.hasOwnProperty.call( inspectionResult, propertyName ) ) {
 				continue;
 			}
 
