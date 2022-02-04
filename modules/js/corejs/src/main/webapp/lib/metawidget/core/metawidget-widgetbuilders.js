@@ -763,7 +763,7 @@ var metawidget = metawidget || {};
 			}
 		}
 		
-		this.addFooterRow = function( tfoot, columnAttributes, mw ) {
+		this.addFooterRow = function( /* tfoot, columnAttributes, mw */ ) {
 			
 			// No footer by default
 		};

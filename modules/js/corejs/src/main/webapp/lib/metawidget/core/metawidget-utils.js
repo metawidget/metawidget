@@ -363,6 +363,7 @@ var metawidget = metawidget || {};
 
 			// Strip array qualifiers and other illegal characters
 
+			// eslint-disable-next-line
 			id = id.replace( /[\[\]\$]/g, '' );
 
 			return id;
@@ -426,6 +427,7 @@ var metawidget = metawidget || {};
 
 			// Match at every '.' and '[' boundary
 
+			// eslint-disable-next-line
 			var pathArray = path.match( /([^\.\[\]]*)/g );
 			splitPath.type = pathArray[0];
 
@@ -443,6 +445,7 @@ var metawidget = metawidget || {};
 
 				// Strip surrounding spaces and quotes (eg. foo[ 'bar' ])
 
+				// eslint-disable-next-line
 				var stripQuotes = pathArray[loop].match( /^(?:\s*(?:\'|\"))([^\']*)(?:(?:\'|\")\s*)$/ );
 
 				if ( stripQuotes !== null && stripQuotes[1] !== undefined ) {

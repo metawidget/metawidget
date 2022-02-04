@@ -384,7 +384,7 @@ var metawidget = metawidget || {};
 		if ( mw.nestedMetawidgets !== undefined ) {
 
 			for ( var loop = 0, length = mw.nestedMetawidgets.length; loop < length; loop++ ) {
-				var nestedDirty = this.save( mw.nestedMetawidgets[loop].getMetawidget() );
+				nestedDirty = this.save( mw.nestedMetawidgets[loop].getMetawidget() );
 				
 				if ( nestedDirty === true ) {
 					dirty = true;
@@ -424,7 +424,7 @@ var metawidget = metawidget || {};
 
 			// parseFloat can parse ints, but parseInt can't parse floats
 
-			var parsed = parseFloat( widget.value );
+			parsed = parseFloat( widget.value );
 
 			// Avoid pushing back 'NaN' (note: can't use Number.isNaN, is ES6 only)
 
@@ -489,7 +489,7 @@ var metawidget = metawidget || {};
 	 * framework has swapped out the widget.
 	 */
 
-	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.getWidgetFromBinding = function( binding, mw ) {
+	metawidget.widgetprocessor.SimpleBindingProcessor.prototype.getWidgetFromBinding = function( binding /*, mw */ ) {
 
 		return binding.widget;
 	};
