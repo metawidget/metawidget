@@ -161,7 +161,19 @@ metawidget.vue.widgetprocessor.VueWidgetProcessor = function() {
 				}
 				widget.setAttribute( attributeName, binding );
 			}
+			
+			// Special support for 'undefined' OPTIONS
 
+			if ( widget.tagName === 'SELECT' ) {
+				for ( var loop = 0, length = widget.childNodes.length; loop < length; loop++ ) {
+					var option = widget.childNodes[loop];
+	
+					if ( option.tagName === 'OPTION' && option.textContent === '' ) {
+						option.setAttribute( ':value', 'undefined' );
+					}
+				}
+			}
+			
 		} else if ( attributes['enum'] !== undefined && ( attributes.type === 'array' || attributes.componentType !== undefined ) && widget.tagName === 'DIV' ) {
 
 			// Special support for multi-selects and radio buttons
