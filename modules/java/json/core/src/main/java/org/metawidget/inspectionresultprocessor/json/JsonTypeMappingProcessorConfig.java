@@ -49,4 +49,17 @@ public class JsonTypeMappingProcessorConfig
 
 		setRemoveUnmappedTypes( true );
 	}
+	
+	//
+	// Public methods
+	//
+	
+	/**
+	 * Covariant return types.
+	 */
+	
+	public JsonTypeMappingProcessorConfig setTypeMapping( String from, String to ) {
+		
+		return (JsonTypeMappingProcessorConfig) super.setTypeMapping( from, to );
+	}
 }
