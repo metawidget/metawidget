@@ -188,6 +188,9 @@ var metawidget = ( typeof window !== 'undefined' ? window.metawidget : undefined
 		 * <p>
 		 * Subclasses should override this method to use their preferred widget
 		 * creation methodology.
+		 * <p>
+		 * @param config	optional config to override parts of the
+		 * 					internal, _pipeline config
 		 */
 
 		this.buildNestedMetawidget = function( attributes, config ) {
