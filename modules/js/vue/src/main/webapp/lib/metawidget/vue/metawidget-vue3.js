@@ -288,7 +288,7 @@ export default {
 
 		this.pathWatcher = this.$parent.$watch( this.path, function( newValue, oldValue ) {
 
-			if ( newValue !== oldValue || Array.isArray( newValue ) ) {
+			if (( typeof newValue === 'object' && newValue !== oldValue ) || Array.isArray( newValue ) ) {
 				that.buildWidgets();
 			}
 		} );
