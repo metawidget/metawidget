@@ -31,7 +31,13 @@ export default {
 		// generic one our WidgetBuilders can use if they need to
 
 		return {
-			reactive: {}
+			reactive: {},
+			
+			// Placeholders to suppress Vue warnings
+			
+			ownerDocument: undefined,
+			l10n: undefined,
+			value: undefined
 		}
 	},
 	beforeCreate: function() {
@@ -101,6 +107,8 @@ export default {
 
 	beforeMount: function() {
 
+		this.$nonreactive = {};
+		
 		// Create a top-level DIV
 
 		var element = document.createElement( 'div' );
@@ -122,7 +130,7 @@ export default {
 		this.invalidateInspection = function() {
 
 			lastInspectionResult = undefined;
-			this.lastRes = undefined;
+			this.$nonreactive.lastRes = undefined;
 		};
 
 		// Configure defaults
@@ -172,7 +180,7 @@ export default {
 
 		this.buildWidgets = function( inspectionResult ) {
 
-			this.lastRes = undefined;
+			this.$nonreactive.lastRes = undefined;
 
 			// Defensive copy
 
@@ -307,7 +315,7 @@ export default {
 		try {
 			this.pathWatcher();
 		} catch( e ) {
-			// TODO: fails sometimes?
+			// Fail gracefully
 		}
 	},
 	render: function() {
@@ -318,8 +326,8 @@ export default {
 
 		var rendered;
 
-		if ( this.lastRes !== undefined ) {
-			rendered = h( this.lastRes, this.$data, {} );
+		if ( this.$nonreactive.lastRes !== undefined ) {
+			rendered = h( this.$nonreactive.lastRes, this.$data, {} );
 		} else {
 
 			// Build the path to inspect. This must be expressed from the
@@ -375,7 +383,7 @@ export default {
 			this.buildWidgets();
 
 			var res = compile( this.getElement().outerHTML );
-			this.lastRes = res;
+			this.$nonreactive.lastRes = res;
 
 			// Clear _staticTrees to prevent corrupt re-render upon lazy-loaded schema. Note: this is an undocumented API, so may break in the future
 
@@ -385,7 +393,7 @@ export default {
 			this.inRenderFunction = undefined;
 		}
 
-		// TODO: walk the virtual DOM and replace any overridden nodes
+		// Walk the virtual DOM and replace any overridden nodes
 
 		/*var self = this;
 
@@ -429,5 +437,10 @@ export default {
 
 		findAndReplaceVNodes( rendered );*/
 		return rendered;
+	},
+	methods: {
+		onEndBuild() {
+			// Placeholder to suppress Vue warnings
+		}
 	}
 }

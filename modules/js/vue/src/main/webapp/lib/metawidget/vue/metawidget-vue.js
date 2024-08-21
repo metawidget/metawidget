@@ -47,8 +47,8 @@ metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor = function
 
 				// Clear all watches...
 
-				for ( var loop = 0, length = mw.vueInspectionResultProcessor.length; loop < length; loop++ ) {
-					mw.vueInspectionResultProcessor[loop]();
+				for ( var loop = 0, length = mw.$nonreactive.vueInspectionResultProcessor.length; loop < length; loop++ ) {
+					mw.$nonreactive.vueInspectionResultProcessor[loop]();
 				}
 
 				// ..and then reinspect
@@ -58,7 +58,7 @@ metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor = function
 			}
 		}
 
-		mw.vueInspectionResultProcessor = mw.vueInspectionResultProcessor || [];
+		mw.$nonreactive.vueInspectionResultProcessor = mw.$nonreactive.vueInspectionResultProcessor || [];
 
 		// For each property in the inspection result...
 
@@ -111,7 +111,7 @@ metawidget.vue.inspectionresultprocessor.VueInspectionResultProcessor = function
 
 			var watch = vm.$parent.$watch( expression, watchExpression );
 
-			mw.vueInspectionResultProcessor.push( watch );
+			mw.$nonreactive.vueInspectionResultProcessor.push( watch );
 		}
 
 		return inspectionResult;
