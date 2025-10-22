@@ -293,18 +293,21 @@ export default {
 		// still force it on a top-level change
 
 		const that = this;
-
-		this.pathWatcher = this.$parent.$watch( this.path, function( newValue, oldValue ) {
-
+		
+		function watchPath( newValue, oldValue ) {
 			if (( typeof newValue === 'object' && newValue !== oldValue ) || Array.isArray( newValue ) ) {
 				that.buildWidgets();
 			}
-		} );
+		}
+		
+		this.pathWatcher = this.$parent.$watch( this.path, watchPath );
+		if ( this.$parent.$parent !== null ) {
+			this.pathWatcher2 = this.$parent.$parent.$watch( this.path, watchPath );
+		}
 
 		this.$watch( 'readOnly', function( newValue, oldValue ) {
-
 			if ( newValue !== oldValue || Array.isArray( newValue ) ) {
-				this.buildWidgets();
+				that.buildWidgets();
 			}
 		} );
 	},
@@ -316,6 +319,14 @@ export default {
 			this.pathWatcher();
 		} catch( e ) {
 			// Fail gracefully
+		}
+		
+		if ( this.pathWatcher2 !== undefined ) {
+			try {
+				this.pathWatcher2();
+			} catch( e ) {
+				// Fail gracefully
+			}
 		}
 	},
 	render: function() {

@@ -23,7 +23,7 @@
 		</p>
 
 		<div class="video">
-			<iframe style="margin: auto" src="http://player.vimeo.com/video/30746629?title=0&amp;byline=0&amp;portrait=0" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+			<iframe style="margin: auto" src="https://www.youtube.com/embed/nwhwZ2J-Uaw" width="640" height="360" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 		</div>
 
 		<br/>
