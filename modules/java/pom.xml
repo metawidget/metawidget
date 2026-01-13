@@ -32,6 +32,7 @@
 		<module>jackson</module>
 		<module>jbpm</module>
 		<module>jpa</module>
+		<module>jakartajpa</module>
 		<module>json</module>
 		<module>jsp</module>
 		<module>miglayout</module>

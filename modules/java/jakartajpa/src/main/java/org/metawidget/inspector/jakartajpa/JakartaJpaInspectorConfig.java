@@ -1,0 +1,165 @@
+// Metawidget
+//
+// This file is dual licensed under both the LGPL
+// (http://www.gnu.org/licenses/lgpl-2.1.html) and the EPL
+// (http://www.eclipse.org/org/documents/epl-v10.php). As a
+// recipient of Metawidget, you may choose to receive it under either
+// the LGPL or the EPL.
+//
+// Commercial licenses are also available. See http://metawidget.org
+// for details.
+
+package org.metawidget.inspector.jakartajpa;
+
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.simple.ObjectUtils;
+
+/**
+ * Configures a JakartaJpaInspector prior to use. Once instantiated, Inspectors are immutable.
+ *
+ * @author <a href="http://kennardconsulting.com">Richard Kennard</a>
+ */
+
+public class JakartaJpaInspectorConfig
+	extends BaseObjectInspectorConfig {
+
+	//
+	// Private members
+	//
+
+	private boolean	mHideIds		= true;
+
+	private boolean	mHideVersions	= true;
+
+	private boolean	mHideTransients	= false;
+
+	//
+	// Public methods
+	//
+
+	/**
+	 * Sets whether the Inspector returns Id properties as <code>hidden="true"</code>. True by
+	 * default.
+	 * <p>
+	 * JPA recommends using synthetic ids, so generally they don't appear in the UI.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public JakartaJpaInspectorConfig setHideIds( boolean hideIds ) {
+
+		mHideIds = hideIds;
+
+		// Fluent interface
+
+		return this;
+	}
+
+	/**
+	 * Sets whether the Inspector returns Version properties as <code>hidden="true"</code>. True by
+	 * default.
+	 * <p>
+	 * JPA uses these as an optimisic locking mechanism, so generally they don't appear in the UI.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public JakartaJpaInspectorConfig setHideVersions( boolean hideVersions ) {
+
+		mHideVersions = hideVersions;
+
+		// Fluent interface
+
+		return this;
+	}
+
+	/**
+	 * Sets whether the Inspector returns Transient properties as <code>hidden="true"</code>. False
+	 * by default.
+	 * <p>
+	 * There is not a firm relationship between whether a field should be persisted by JPA, and
+	 * whether it should appear in the UI. Some architectures prefer Transient fields to be hidden
+	 * in the UI by default, but some prefer them to be visible. The latter applies both to
+	 * 'synthetic' fields such as <code>getAge</code> that calculates based off a persisted
+	 * <code>getDateOfBirth</code>, and also to overridden JPA fields (which generally must be
+	 * marked <code>Transient</code> in the subclass).
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public JakartaJpaInspectorConfig setHideTransients( boolean hideTransients ) {
+
+		mHideTransients = hideTransients;
+
+		// Fluent interface
+
+		return this;
+	}
+
+	/**
+	 * Overridden to return a JpaInspectorConfig, as part of a fluent interface.
+	 */
+
+	@Override
+	public JakartaJpaInspectorConfig setPropertyStyle( PropertyStyle propertyStyle ) {
+
+		return (JakartaJpaInspectorConfig) super.setPropertyStyle( propertyStyle );
+	}
+
+	@Override
+	public boolean equals( Object that ) {
+
+		if ( this == that ) {
+			return true;
+		}
+
+		if ( !ObjectUtils.nullSafeClassEquals( this, that ) ) {
+			return false;
+		}
+
+		if ( mHideIds != ( (JakartaJpaInspectorConfig) that ).mHideIds ) {
+			return false;
+		}
+
+		if ( mHideVersions != ( (JakartaJpaInspectorConfig) that ).mHideVersions ) {
+			return false;
+		}
+
+		if ( mHideTransients != ( (JakartaJpaInspectorConfig) that ).mHideTransients ) {
+			return false;
+		}
+
+		return super.equals( that );
+	}
+
+	@Override
+	public int hashCode() {
+
+		int hashCode = super.hashCode();
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideIds );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideVersions );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideTransients );
+
+		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected boolean isHideIds() {
+
+		return mHideIds;
+	}
+
+	protected boolean isHideVersions() {
+
+		return mHideVersions;
+	}
+
+	protected boolean isHideTransients() {
+
+		return mHideTransients;
+	}
+}
