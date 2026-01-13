@@ -1198,8 +1198,8 @@
 				<version>2.3.2</version>
 				<!-- Metawidget requires JDK 1.5+ -->
 				<configuration>
-					<source>25</source>
-					<target>25</target>
+					<source>1.5</source>
+					<target>1.5</target>
 				</configuration>
 			</plugin>
 			<plugin>
