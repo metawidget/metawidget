@@ -225,7 +225,7 @@ var metawidget = ( typeof window !== 'undefined' ? window.metawidget : undefined
 			// $compile seemed to trigger 'ng-click' listeners twice?
 
 			if ( widget.overridden === undefined ) {
-				$compile( widget )( scope.$parent );
+				$compile( widget )( mw.transcludedScope );
 			}
 		};
 
@@ -287,13 +287,26 @@ var metawidget = ( typeof window !== 'undefined' ? window.metawidget : undefined
 
 		this.buildWidgets = function( inspectionResult ) {
 
+			// Rebuild all widgets in a separate sub-scope so that, if we
+			// need to rebuild, all watchers and listeners will get cleaned
+			// up
+			//
+			// Note: clients can override this behaviour by setting 'transcludedScope'
+			// back to just scope.$parent
+			
+			if ( this.transcludedScope !== undefined && this.transcludedScope !== scope.$parent ) {
+				this.transcludedScope.$destroy();
+			}
+			
+			this.transcludedScope = scope.$parent.$new();
+			
 			// Rebuild the transcluded tree at the start of each build.
 			//
 			// Rebuilding only at the start of the <em>initial</em>
 			// build was sufficient for {{...}} expressions, but not
 			// 'ng-click' triggers.
 
-			var cloned = transclude( scope.$parent, function( clone ) {
+			var cloned = transclude( this.transcludedScope, function( clone ) {
 
 				return clone;
 			} );
